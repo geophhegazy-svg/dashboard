@@ -15,7 +15,7 @@ class MikrotikService
             'host' => env('MIKROTIK_HOST'),
             'user' => env('MIKROTIK_USER'),
             'pass' => env('MIKROTIK_PASSWORD'),
-            'port' => env('MIKROTIK_PORT', 8728),
+            'port' => (int) env('MIKROTIK_PORT', 8728),
         ])
     );
 }

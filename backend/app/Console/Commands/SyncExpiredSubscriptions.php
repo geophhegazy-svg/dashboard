@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Log;
 use App\Models\Subscription;
 use App\Models\HotspotSubscription;
 use App\Services\MikrotikService;
+use App\Models\Invoice;
+use App\Models\Payment;
 
 class SyncExpiredSubscriptions extends Command
 {
@@ -46,6 +48,27 @@ class SyncExpiredSubscriptions extends Command
                         $sub->pppoe_username
                     );
                 }
+                $invoice = Invoice::create([
+                    'tenant_id'       => $sub->tenant_id,
+                    'customer_id'     => $sub->customer_id,
+                    'subscription_id' => $sub->id,
+                    'invoice_number'  => 'INV-' . now()->format('YmdHis') . '-' . $sub->id,
+                    'amount'          => $sub->monthly_price,
+                    'due_date'        => $sub->end_date,
+                    'status'          => 'paid',
+                    'paid_at'         => now(),
+                    'notes'           => 'Auto renewal from wallet',
+                ]);
+
+                Payment::create([
+                    'tenant_id'        => $sub->tenant_id,
+                    'invoice_id'       => $invoice->id,
+                    'amount'           => $sub->monthly_price,
+                    'payment_date'     => now(),
+                    'payment_method'   => 'wallet',
+                    'reference_number' => null,
+                    'notes'            => 'Automatic payment from wallet',
+                ]);
 
                 Log::info(
                     "AUTO RENEW PPPoE {$sub->id}"
@@ -101,6 +124,27 @@ class SyncExpiredSubscriptions extends Command
                 $mikrotik->enableHotspot(
                     $sub->hotspot_username
                 );
+                $invoice = Invoice::create([
+                    'tenant_id'               => $sub->tenant_id,
+                    'customer_id'             => $sub->customer_id,
+                    'hotspot_subscription_id' => $sub->id,
+                    'invoice_number'          => 'INV-' . now()->format('YmdHis') . '-H' . $sub->id,
+                    'amount'                  => $sub->monthly_price,
+                    'due_date'                => $sub->end_date,
+                    'status'                  => 'paid',
+                    'paid_at'                 => now(),
+                    'notes'                   => 'Auto renewal from wallet',
+                ]);
+
+                Payment::create([
+                    'tenant_id'        => $sub->tenant_id,
+                    'invoice_id'       => $invoice->id,
+                    'amount'           => $sub->monthly_price,
+                    'payment_date'     => now(),
+                    'payment_method'   => 'wallet',
+                    'reference_number' => null,
+                    'notes'            => 'Automatic payment from wallet',
+                ]);
 
                 Log::info(
                     "AUTO RENEW HOTSPOT {$sub->id}"

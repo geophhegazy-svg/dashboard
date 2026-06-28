@@ -8,6 +8,7 @@ use App\Http\Requests\StorePaymentRequest;
 use App\Http\Resources\PaymentResource;
 use App\Models\Subscription;
 use App\Models\HotspotSubscription;
+use App\Models\Invoice;
 
 class PaymentController extends Controller
 {
@@ -29,6 +30,9 @@ class PaymentController extends Controller
         }
         $invoice = Invoice::findOrFail(
             $request->invoice_id
+        );
+        $payment = Payment::create(
+            $request->validated()
         );
 
         if ($invoice->status === 'paid') {
