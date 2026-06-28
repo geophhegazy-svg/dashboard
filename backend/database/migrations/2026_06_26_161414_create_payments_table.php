@@ -13,7 +13,7 @@ return new class extends Migration {
             $table->foreignId('invoice_id')->constrained()->cascadeOnDelete();
             $table->decimal('amount', 10, 2);
             $table->date('payment_date');
-            $table->enum('payment_method', ['cash', 'bank_transfer', 'vodafone_cash', 'instapay', 'card']);
+            $table->enum('payment_method', ['cash', 'bank_transfer', 'vodafone_cash', 'instapay', 'card', 'wallet',]);
             $table->string('reference_number')->nullable();
             $table->text('notes')->nullable();
             $table->timestamps();

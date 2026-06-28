@@ -7,18 +7,45 @@ use Illuminate\Support\Facades\Log;
 use App\Models\Subscription;
 use App\Models\HotspotSubscription;
 use App\Services\MikrotikService;
+use App\Services\SubscriptionRenewalService;
 use App\Models\Invoice;
 use App\Models\Payment;
+use Illuminate\Support\Facades\DB;
 
 class SyncExpiredSubscriptions extends Command
 {
     protected $signature = 'subscriptions:sync';
     protected $description = 'Disable expired subscriptions on MikroTik';
-    public function handle(MikrotikService $mikrotik)
+    public function handle(
+        MikrotikService $mikrotik,
+        SubscriptionRenewalService $renewal)
     {
         Log::info('SYNC JOB RUNNING: ' . now());
 
         $today = now()->toDateString();
+        $notificationService = app(\App\Services\NotificationService::class);
+
+        $activeSubs = Subscription::where('status', 'active')->get();
+
+        foreach ($activeSubs as $sub) {
+
+            $daysLeft = \Carbon\Carbon::today()->diffInDays(
+                \Carbon\Carbon::parse($sub->end_date),
+                false
+            );
+
+            if ($daysLeft == 7) {
+                $notificationService->createReminder($sub, 7);
+            }
+
+            if ($daysLeft == 3) {
+                $notificationService->createReminder($sub, 3);
+            }
+
+            if ($daysLeft == 1) {
+                $notificationService->createReminder($sub, 1);
+            }
+        }
 
         /*
 |--------------------------------------------------
@@ -33,46 +60,9 @@ class SyncExpiredSubscriptions extends Command
             // تجديد تلقائي من المحفظة
             if ($sub->wallet_balance >= $sub->monthly_price) {
 
-                $sub->wallet_balance -= $sub->monthly_price;
+                $renewal->renewPppoe($sub, $mikrotik);
 
-                $sub->end_date = \Carbon\Carbon::parse(
-                    $sub->end_date
-                )->addMonth();
-
-                $sub->status = 'active';
-
-                $sub->save();
-
-                if ($sub->pppoe_username) {
-                    $mikrotik->enablePppoe(
-                        $sub->pppoe_username
-                    );
-                }
-                $invoice = Invoice::create([
-                    'tenant_id'       => $sub->tenant_id,
-                    'customer_id'     => $sub->customer_id,
-                    'subscription_id' => $sub->id,
-                    'invoice_number'  => 'INV-' . now()->format('YmdHis') . '-' . $sub->id,
-                    'amount'          => $sub->monthly_price,
-                    'due_date'        => $sub->end_date,
-                    'status'          => 'paid',
-                    'paid_at'         => now(),
-                    'notes'           => 'Auto renewal from wallet',
-                ]);
-
-                Payment::create([
-                    'tenant_id'        => $sub->tenant_id,
-                    'invoice_id'       => $invoice->id,
-                    'amount'           => $sub->monthly_price,
-                    'payment_date'     => now(),
-                    'payment_method'   => 'wallet',
-                    'reference_number' => null,
-                    'notes'            => 'Automatic payment from wallet',
-                ]);
-
-                Log::info(
-                    "AUTO RENEW PPPoE {$sub->id}"
-                );
+                Log::info("AUTO RENEW PPPoE {$sub->id}");
 
                 continue;
             }
@@ -88,6 +78,15 @@ class SyncExpiredSubscriptions extends Command
 
                 $sub->update([
                     'status' => 'expired'
+                ]);
+                \App\Models\Notification::create([
+                    'tenant_id'    => $sub->tenant_id,
+                    'customer_id'  => $sub->customer_id,
+                    'type'         => 'subscription_expired',
+                    'title'        => 'انتهاء الاشتراك',
+                    'message'      => 'انتهى اشتراكك وتم إيقاف الخدمة لعدم وجود رصيد كافٍ بالمحفظة.',
+                    'reminder_day' => null,
+                    'sent_at'      => now(),
                 ]);
 
                 Log::info(
@@ -111,44 +110,9 @@ class SyncExpiredSubscriptions extends Command
 
             if ($sub->wallet_balance >= $sub->monthly_price) {
 
-                $sub->wallet_balance -= $sub->monthly_price;
+                $renewal->renewPppoe($sub, $mikrotik);
 
-                $sub->end_date = \Carbon\Carbon::parse(
-                    $sub->end_date
-                )->addMonth();
-
-                $sub->status = 'active';
-
-                $sub->save();
-
-                $mikrotik->enableHotspot(
-                    $sub->hotspot_username
-                );
-                $invoice = Invoice::create([
-                    'tenant_id'               => $sub->tenant_id,
-                    'customer_id'             => $sub->customer_id,
-                    'hotspot_subscription_id' => $sub->id,
-                    'invoice_number'          => 'INV-' . now()->format('YmdHis') . '-H' . $sub->id,
-                    'amount'                  => $sub->monthly_price,
-                    'due_date'                => $sub->end_date,
-                    'status'                  => 'paid',
-                    'paid_at'                 => now(),
-                    'notes'                   => 'Auto renewal from wallet',
-                ]);
-
-                Payment::create([
-                    'tenant_id'        => $sub->tenant_id,
-                    'invoice_id'       => $invoice->id,
-                    'amount'           => $sub->monthly_price,
-                    'payment_date'     => now(),
-                    'payment_method'   => 'wallet',
-                    'reference_number' => null,
-                    'notes'            => 'Automatic payment from wallet',
-                ]);
-
-                Log::info(
-                    "AUTO RENEW HOTSPOT {$sub->id}"
-                );
+                Log::info("AUTO RENEW PPPoE {$sub->id}");
 
                 continue;
             }
@@ -161,6 +125,15 @@ class SyncExpiredSubscriptions extends Command
 
                 $sub->update([
                     'status' => 'expired'
+                ]);
+                \App\Models\Notification::create([
+                    'tenant_id'    => $sub->tenant_id,
+                    'customer_id'  => $sub->customer_id,
+                    'type'         => 'subscription_expired',
+                    'title'        => 'انتهاء الاشتراك',
+                    'message'      => 'انتهى اشتراكك وتم إيقاف الخدمة لعدم وجود رصيد كافٍ بالمحفظة.',
+                    'reminder_day' => null,
+                    'sent_at'      => now(),
                 ]);
 
                 Log::info(
