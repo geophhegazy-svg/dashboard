@@ -1,0 +1,55 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    container_name: egyptnet_app
+    working_dir: /var/www
+    volumes:
+      - ./backend:/var/www
+    networks:
+      - egyptnet
+
+  nginx:
+    image: nginx:alpine
+    container_name: egyptnet_nginx
+    ports:
+      - "8000:80"
+    volumes:
+      - ./backend:/var/www
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
+    networks:
+      - egyptnet
+
+  mysql:
+    image: mysql:8
+    container_name: egyptnet_mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: egyptnet
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: egyptnet
+      MYSQL_PASSWORD: secret
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - egyptnet
+
+  redis:
+    image: redis:alpine
+    container_name: egyptnet_redis
+    ports:
+      - "6379:6379"
+    networks:
+      - egyptnet
+
+volumes:
+  mysql_data:
+
+networks:
+  egyptnet:
+
