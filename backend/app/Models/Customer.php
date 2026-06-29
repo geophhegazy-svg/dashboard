@@ -30,4 +30,8 @@ class Customer extends Authenticatable
     protected $casts = [
         'password' => 'hashed',
     ];
+    public function subscriptions()
+    {
+        return $this->hasMany(Subscription::class);
+    }
 }

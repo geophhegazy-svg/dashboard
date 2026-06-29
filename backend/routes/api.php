@@ -20,7 +20,9 @@ use App\Http\Controllers\Api\HotspotSubscriptionController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\ActivityLogController;
 use App\Http\Controllers\Api\CustomerAuthController;
-
+use App\Http\Controllers\Api\CustomerSubscriptionController;
+use App\Http\Controllers\Api\CustomerInvoiceController;
+use App\Http\Controllers\Api\CustomerWalletController;
 
 
 
@@ -170,11 +172,27 @@ Route::prefix('customer')->group(function () {
     Route::middleware('auth:sanctum')->group(function () {
 
         Route::get('/me', [CustomerAuthController::class, 'me']);
+
+        Route::get(
+            '/subscription',
+            [CustomerSubscriptionController::class, 'current']
+        );
     });
 });
-Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/me', [AuthController::class, 'me']);
-    Route::post('/logout', [AuthController::class, 'logout']);
+Route::prefix('customer')->group(function () {
 
+    Route::post('/login', [CustomerAuthController::class, 'login']);
 
+    Route::middleware('auth:sanctum')->group(function () {
+
+        Route::get('/me', [CustomerAuthController::class, 'me']);
+
+        Route::get('/subscription', [CustomerSubscriptionController::class, 'current']);
+
+        Route::get('/wallet', [CustomerWalletController::class, 'show']);
+
+        Route::get('/invoices', [CustomerInvoiceController::class, 'index']);
+
+        Route::get('/invoices/{invoice}', [CustomerInvoiceController::class, 'show']);
+    });
 });
