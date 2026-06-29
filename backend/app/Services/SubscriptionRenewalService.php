@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Subscription;
 use App\Models\Invoice;
 use App\Models\Payment;
+use App\Services\ActivityLogService;
 
 
 class SubscriptionRenewalService
@@ -22,6 +23,13 @@ class SubscriptionRenewalService
             $sub->status = 'active';
 
             $sub->save();
+            ActivityLogService::log(
+                tenantId: $sub->tenant_id,
+                userId: null,
+                module: 'wallet',
+                action: 'deduct',
+                description: "Wallet deducted {$sub->monthly_price} EGP. Remaining balance: {$sub->wallet_balance} EGP."
+            );
 
             $invoice = Invoice::create([
                 'tenant_id'       => $sub->tenant_id,
@@ -55,12 +63,33 @@ class SubscriptionRenewalService
                 'reminder_day' => null,
                 'sent_at'      => now(),
             ]);
+            // Activity Log
+            ActivityLogService::log(
+                tenantId: $sub->tenant_id,
+                userId: null,
+                module: 'subscription',
+                action: 'renewed',
+                description: "Subscription #{$sub->id} renewed automatically. Invoice #{$invoice->invoice_number}"
+            );
         });
 
         // بعد نجاح الـ Transaction فقط
         if ($sub->pppoe_username) {
             $mikrotik->enablePppoe($sub->pppoe_username);
         }
+        ActivityLogService::log(
+
+            tenantId: $sub->tenant_id,
+
+            userId: null,
+
+            module: 'subscription',
+
+            action: 'renewed',
+
+            description: "Subscription #{$sub->id} renewed automatically from wallet."
+
+        );
 
         return true;
     }

@@ -8,6 +8,8 @@ use App\Models\Subscription;
 use App\Models\Invoice;
 use App\Models\Payment;
 use App\Models\Package;
+use App\Models\HotspotSubscription;
+use App\Models\Ticket;
 
 class DashboardController extends Controller
 {

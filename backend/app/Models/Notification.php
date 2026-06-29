@@ -12,6 +12,8 @@ class Notification extends Model
 
         'customer_id',
 
+        'subscription_id',
+
         'type',
 
         'reminder_day',

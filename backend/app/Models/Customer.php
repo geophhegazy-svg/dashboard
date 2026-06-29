@@ -3,37 +3,31 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
-class Customer extends Model
+
+class Customer extends Authenticatable
 {
+    use HasApiTokens, Notifiable;
+
     protected $fillable = [
         'tenant_id',
         'name',
         'phone',
         'email',
         'address',
-        'national_id',
+        'password',
         'status',
-        'notes',
-    ]; //
-    public function invoices()
-    {
-        return $this->hasMany(Invoice::class);
-    }
-    public function subscriptions()
-    {
-        return $this->hasMany(Subscription::class);
-    }
-    public function devices()
-    {
-        return $this->hasMany(Device::class);
-    }
-    public function payments()
-    {
-        return $this->hasManyThrough(
-            Payment::class,
-            Invoice::class
-        );
-    }
-    
+    ];
+
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
+    protected $casts = [
+        'password' => 'hashed',
+    ];
 }

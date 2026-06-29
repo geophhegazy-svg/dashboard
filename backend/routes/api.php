@@ -17,6 +17,9 @@ use App\Http\Controllers\Api\DeviceAssignmentController;
 use App\Http\Controllers\Api\ReportController;
 use App\Http\Controllers\Api\MikrotikController;
 use App\Http\Controllers\Api\HotspotSubscriptionController;
+use App\Http\Controllers\Api\NotificationController;
+use App\Http\Controllers\Api\ActivityLogController;
+use App\Http\Controllers\Api\CustomerAuthController;
 
 
 
@@ -145,7 +148,21 @@ Route::get(
     '/dashboard/stats',
     [MikrotikController::class, 'dashboardStats']
 );
+Route::apiResource('notifications', NotificationController::class);
+
+Route::post(
+    'notifications/{notification}/read',
+    [NotificationController::class, 'markAsRead']
+);
+
+Route::post(
+    'notifications/read-all',
+    [NotificationController::class, 'markAllAsRead']
+);
 Route::post('/login', [AuthController::class, 'login']);
+Route::apiResource('activity-logs', ActivityLogController::class)
+    ->only(['index', 'show']);
+Route::post('/customer/login', [CustomerAuthController::class, 'login']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me', [AuthController::class, 'me']);
     Route::post('/logout', [AuthController::class, 'logout']);
