@@ -31,4 +31,10 @@ class CustomerAuthController extends Controller
             'customer' => $customer,
         ]);
     }
+    public function me(Request $request)
+    {
+        return response()->json(
+            $request->user()
+        );
+    }
 }

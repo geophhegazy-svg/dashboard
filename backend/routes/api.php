@@ -23,6 +23,7 @@ use App\Http\Controllers\Api\CustomerAuthController;
 
 
 
+
 Route::get('/mikrotik/test', [MikrotikController::class, 'test']);
 Route::apiResource(
     'device-assignments',
@@ -162,7 +163,15 @@ Route::post(
 Route::post('/login', [AuthController::class, 'login']);
 Route::apiResource('activity-logs', ActivityLogController::class)
     ->only(['index', 'show']);
-Route::post('/customer/login', [CustomerAuthController::class, 'login']);
+Route::prefix('customer')->group(function () {
+
+    Route::post('/login', [CustomerAuthController::class, 'login']);
+
+    Route::middleware('auth:sanctum')->group(function () {
+
+        Route::get('/me', [CustomerAuthController::class, 'me']);
+    });
+});
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me', [AuthController::class, 'me']);
     Route::post('/logout', [AuthController::class, 'logout']);
