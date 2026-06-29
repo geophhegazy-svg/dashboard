@@ -41,6 +41,8 @@ use App\Http\Controllers\Api\CustomerInvoiceController;
 use App\Http\Controllers\Api\CustomerWalletController;
 use App\Http\Controllers\Api\CustomerNotificationController;
 
+
+use App\Http\Controllers\Api\CustomerTicketController;
 /*
 |--------------------------------------------------------------------------
 | Public Routes
@@ -263,5 +265,23 @@ Route::prefix('customer')
             [CustomerNotificationController::class, 'markAllAsRead']
         );
     Route::get('/dashboard', [CustomerDashboardController::class, 'index']);
-    
+    Route::get(
+        '/tickets',
+        [CustomerTicketController::class, 'index']
+    );
+
+    Route::post(
+        '/tickets',
+        [CustomerTicketController::class, 'store']
+    );
+
+    Route::get(
+        '/tickets/{ticket}',
+        [CustomerTicketController::class, 'show']
+    );
+
+    Route::post(
+        '/tickets/{ticket}/close',
+        [CustomerTicketController::class, 'close']
+    );
     });
