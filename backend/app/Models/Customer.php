@@ -34,4 +34,12 @@ class Customer extends Authenticatable
     {
         return $this->hasMany(Subscription::class);
     }
+    public function walletTransactions()
+    {
+        return $this->hasMany(WalletTransaction::class);
+    }
+    public function notifications()
+    {
+        return $this->hasMany(\App\Models\Notification::class);
+    }
 }
