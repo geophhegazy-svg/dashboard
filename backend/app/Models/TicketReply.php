@@ -1,0 +1,37 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class TicketReply extends Model
+{
+    protected $fillable = [
+        'ticket_id',
+        'customer_id',
+        'user_id',
+        'message',
+        'is_staff',
+        'sent_at'
+    ];
+
+    protected $casts = [
+        'sent_at' => 'datetime',
+        'is_staff' => 'boolean',
+    ];
+
+    public function ticket()
+    {
+        return $this->belongsTo(Ticket::class);
+    }
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+}

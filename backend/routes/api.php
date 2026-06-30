@@ -73,6 +73,16 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me', [AuthController::class, 'me']);
     Route::post('/logout', [AuthController::class, 'logout']);
 
+    Route::post(
+        '/tickets/{ticket}/reply',
+        [TicketController::class, 'reply']
+    );
+
+    Route::get(
+        '/tickets/{ticket}/messages',
+        [TicketController::class, 'messages']
+    );
+    
     /*
     |------------------------------------------------------
     | Dashboard
@@ -104,7 +114,65 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('inventories', InventoryController::class);
     Route::apiResource('device-assignments', DeviceAssignmentController::class);
 
+    /*
+|--------------------------------------------------------------------------
+| Support Center
+|--------------------------------------------------------------------------
+*/
+
     Route::apiResource('tickets', TicketController::class);
+
+    Route::prefix('tickets')->group(function () {
+
+        /*
+    |--------------------------------------------------------------------------
+    | Conversation
+    |--------------------------------------------------------------------------
+    */
+
+        Route::get(
+            '/{ticket}/messages',
+            [TicketController::class, 'messages']
+        );
+
+        Route::post(
+            '/{ticket}/reply',
+            [TicketController::class, 'reply']
+        );
+
+        /*
+    |--------------------------------------------------------------------------
+    | Assignment
+    |--------------------------------------------------------------------------
+    */
+
+        Route::post(
+            '/{ticket}/assign',
+            [TicketController::class, 'assign']
+        );
+
+        /*
+    |--------------------------------------------------------------------------
+    | Status
+    |--------------------------------------------------------------------------
+    */
+
+        Route::post(
+            '/{ticket}/status',
+            [TicketController::class, 'changeStatus']
+        );
+
+        /*
+    |--------------------------------------------------------------------------
+    | Dashboard
+    |--------------------------------------------------------------------------
+    */
+
+        Route::get(
+            '/dashboard/statistics',
+            [TicketController::class, 'dashboard']
+        );
+    });
 
     Route::apiResource('notifications', NotificationController::class);
 
@@ -242,46 +310,132 @@ Route::prefix('customer')
     ->middleware('auth:sanctum')
     ->group(function () {
 
+        /*
+        |------------------------------------------------------
+        | Authentication
+        |------------------------------------------------------
+        */
+
         Route::get('/me', [CustomerAuthController::class, 'me']);
+        Route::post('/logout', [CustomerAuthController::class, 'logout']);
+        Route::put('/profile', [CustomerAuthController::class, 'updateProfile']);
+        Route::post('/change-password', [CustomerAuthController::class, 'changePassword']);
+
+        /*
+        |------------------------------------------------------
+        | Dashboard
+        |------------------------------------------------------
+        */
 
         Route::get('/dashboard', [CustomerDashboardController::class, 'index']);
 
-        Route::get('/subscription', [CustomerSubscriptionController::class, 'current']);
+        /*
+        |------------------------------------------------------
+        | Subscription
+        |------------------------------------------------------
+        */
 
-        Route::get('/wallet', [CustomerWalletController::class, 'show']);
+        Route::get('/subscription', [
+            CustomerSubscriptionController::class,
+            'current'
+        ]);
 
-        Route::get('/invoices', [CustomerInvoiceController::class, 'index']);
-        Route::get('/invoices/{invoice}', [CustomerInvoiceController::class, 'show']);
+        Route::post('/subscription/renew', [
+            CustomerSubscriptionController::class,
+            'renew'
+        ]);
 
-        Route::get('/notifications', [CustomerNotificationController::class, 'index']);
+        /*
+        |------------------------------------------------------
+        | Wallet
+        |------------------------------------------------------
+        */
 
-        Route::post(
-            '/notifications/{id}/read',
-            [CustomerNotificationController::class, 'markAsRead']
+        Route::get('/wallet', [
+            CustomerWalletController::class,
+            'show'
+        ]);
+
+        Route::get('/wallet/transactions', [
+            CustomerWalletController::class,
+            'transactions'
+        ]);
+
+        /*
+        |------------------------------------------------------
+        | Invoices
+        |------------------------------------------------------
+        */
+
+        Route::get('/invoices', [
+            CustomerInvoiceController::class,
+            'index'
+        ]);
+
+        Route::get('/invoices/{invoice}', [
+            CustomerInvoiceController::class,
+            'show'
+        ]);
+
+        /*
+        |------------------------------------------------------
+        | Notifications
+        |------------------------------------------------------
+        */
+
+        Route::get('/notifications', [
+            CustomerNotificationController::class,
+            'index'
+        ]);
+
+        Route::post('/notifications/{id}/read', [
+            CustomerNotificationController::class,
+            'markAsRead'
+        ]);
+
+        Route::post('/notifications/read-all', [
+            CustomerNotificationController::class,
+            'markAllAsRead'
+        ]);
+
+        /*
+        |------------------------------------------------------
+        | Tickets
+        |------------------------------------------------------
+        */
+
+        Route::get('/tickets/dashboard', [
+            CustomerTicketController::class,
+            'dashboard'
+        ]);
+
+        Route::get('/tickets', [
+            CustomerTicketController::class,
+            'index'
+        ]);
+
+        Route::post('/tickets', [
+            CustomerTicketController::class,
+            'store'
+        ]);
+
+        Route::get('/tickets/{ticket}', [
+            CustomerTicketController::class,
+            'show'
+        ]);
+
+        Route::get(
+            '/tickets/{ticket}/messages',
+            [CustomerTicketController::class, 'messages']
         );
 
-        Route::post(
-            '/notifications/read-all',
-            [CustomerNotificationController::class, 'markAllAsRead']
-        );
-    Route::get('/dashboard', [CustomerDashboardController::class, 'index']);
-    Route::get(
-        '/tickets',
-        [CustomerTicketController::class, 'index']
-    );
+        Route::post('/tickets/{ticket}/reply', [
+            CustomerTicketController::class,
+            'reply'
+        ]);
 
-    Route::post(
-        '/tickets',
-        [CustomerTicketController::class, 'store']
-    );
-
-    Route::get(
-        '/tickets/{ticket}',
-        [CustomerTicketController::class, 'show']
-    );
-
-    Route::post(
-        '/tickets/{ticket}/close',
-        [CustomerTicketController::class, 'close']
-    );
+        Route::post('/tickets/{ticket}/close', [
+            CustomerTicketController::class,
+            'close'
+        ]);
     });
