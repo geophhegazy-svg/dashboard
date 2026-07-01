@@ -8,25 +8,25 @@ use RouterOS\Query;
 
 class MikrotikConnection
 {
-    protected Client $client;
-
-    public function __construct()
-    {
-        $this->client = new Client(
-            new Config([
-                'host' => env('MIKROTIK_HOST'),
-                'user' => env('MIKROTIK_USER'),
-                'pass' => env('MIKROTIK_PASSWORD'),
-                'port' => (int) env('MIKROTIK_PORT', 8728),
-            ])
-        );
-    }
+    protected ?Client $client = null;
 
     /**
      * Return MikroTik Client instance.
      */
     public function client(): Client
     {
+        if ($this->client === null) {
+
+            $this->client = new Client(
+                new Config([
+                    'host' => config('mikrotik.host'),
+                    'user' => config('mikrotik.user'),
+                    'pass' => config('mikrotik.password'),
+                    'port' => config('mikrotik.port'),
+                ])
+            );
+        }
+
         return $this->client;
     }
 
@@ -43,15 +43,17 @@ class MikrotikConnection
             return $value;
         }
 
-        $encodings = [
-            'Windows-1256',
-            'ISO-8859-6',
-            'CP1252',
-            'ISO-8859-1',
-        ];
+        foreach (
+            [
+                'Windows-1256',
+                'ISO-8859-6',
+                'CP1252',
+                'ISO-8859-1',
+            ] as $encoding
+        ) {
 
-        foreach ($encodings as $encoding) {
             try {
+
                 $converted = @mb_convert_encoding(
                     $value,
                     'UTF-8',
@@ -64,8 +66,7 @@ class MikrotikConnection
                 ) {
                     return $converted;
                 }
-            } catch (\Throwable $e) {
-                // Ignore and continue
+            } catch (\Throwable) {
             }
         }
 
@@ -84,8 +85,10 @@ class MikrotikConnection
         foreach ($data as $key => $value) {
 
             if (is_array($value)) {
+
                 $data[$key] = $this->cleanArray($value);
             } elseif (is_string($value)) {
+
                 $data[$key] = $this->cleanString($value);
             }
         }
@@ -94,14 +97,14 @@ class MikrotikConnection
     }
 
     /**
-     * Execute RouterOS query and return cleaned result.
+     * Execute RouterOS query.
      */
     public function execute(Query $query): array
     {
-        $result = $this->client()
-            ->query($query)
-            ->read();
-
-        return $this->cleanArray($result);
+        return $this->cleanArray(
+            $this->client()
+                ->query($query)
+                ->read()
+        );
     }
 }

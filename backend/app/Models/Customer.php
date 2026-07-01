@@ -6,10 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 
 class Customer extends Authenticatable
 {
+    use HasFactory;
     use HasApiTokens, Notifiable;
 
     protected $fillable = [

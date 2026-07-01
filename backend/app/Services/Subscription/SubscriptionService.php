@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Subscription;
 
 use App\Models\Subscription;
-use App\Services\Network\MikrotikService;
+use App\Contracts\MikrotikServiceInterface;
 use Illuminate\Support\Facades\DB;
 use App\Events\SubscriptionActivated;
 use App\Events\SubscriptionSuspended;
@@ -16,7 +16,7 @@ use App\Enums\SubscriptionStatus;
 class SubscriptionService
 {
     public function __construct(
-        private readonly MikrotikService $mikrotikService
+        private readonly MikrotikServiceInterface $mikrotikService
     ) {}
 
     /**
