@@ -3,40 +3,35 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use RouterOS\Client;
-use RouterOS\Config;
-use RouterOS\Query;
 use Illuminate\Http\Request;
 use App\Models\Customer;
 use App\Models\Subscription;
 use App\Models\HotspotSubscription;
 use App\Models\Invoice;
+use App\Services\MikrotikService;
 
 class MikrotikController extends Controller
 {
-    private function client()
+    protected MikrotikService $mikrotik;
+
+    public function __construct(MikrotikService $mikrotik)
     {
-        return new Client(
-            new Config([
-                'host' => '2.2.2.2',
-                'user' => 'hegazy',
-                'pass' => 'Gedo2010',
-                'port' => 8728,
-            ])
-        );
+        $this->mikrotik = $mikrotik;
     }
-    
+
+    /*
+    |--------------------------------------------------------------------------
+    | PPPoE
+    |--------------------------------------------------------------------------
+    */
 
     public function pppoeUsers()
     {
-        $query = new Query('/ppp/secret/print');
-
-        $users = $this->client()
-            ->query($query)
-            ->read();
-
-        return response()->json($users);
+        return response()->json(
+            $this->mikrotik->getPppoeUsers()
+        );
     }
+
     public function createPppoeUser(Request $request)
     {
         $request->validate([
@@ -45,190 +40,125 @@ class MikrotikController extends Controller
             'profile'  => 'required',
         ]);
 
-        $query = new Query('/ppp/secret/add');
-
-        $query->equal('name', $request->username);
-        $query->equal('password', $request->password);
-        $query->equal('profile', $request->profile);
-        $query->equal('service', 'pppoe');
-
-        $this->client()
-            ->query($query)
-            ->read();
+        $this->mikrotik->createPppoe(
+            $request->username,
+            $request->password,
+            $request->profile
+        );
 
         return response()->json([
             'message' => 'PPPoE user created successfully'
         ]);
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Hotspot
+    |--------------------------------------------------------------------------
+    */
+
     public function hotspotUsers()
     {
-        $query = new Query('/ip/hotspot/user/print');
-
-        $users = $this->client()
-            ->query($query)
-            ->read();
-
-        foreach ($users as &$user) {
-
-            foreach ($user as $key => $value) {
-
-                if (is_string($value)) {
-
-                    $converted = @iconv(
-                        'Windows-1256',
-                        'UTF-8//IGNORE',
-                        $value
-                    );
-
-                    if ($converted !== false) {
-                        $user[$key] = $converted;
-                    }
-                }
-            }
-        }
-
-
-        foreach ($users as $index => $user) {
-
-            foreach ($user as $key => $value) {
-
-                if (!is_string($value)) {
-                    continue;
-                }
-
-                if (!mb_check_encoding($value, 'UTF-8')) {
-
-                    dd([
-                        'index' => $index,
-                        'field' => $key,
-                        'value' => $value,
-                    ]);
-                }
-            }
-        }
+        $users = $this->mikrotik->getHotspotUsers();
 
         return response()->json([
             'success' => true,
             'count'   => count($users),
-            'data'    => $users
+            'data'    => $users,
         ]);
     }
+
+    public function activeUsers()
+    {
+        return response()->json(
+            $this->mikrotik->getActiveHotspotUsers()
+        );
+    }
+
     public function createHotspotUser(Request $request)
     {
         $request->validate([
             'username' => 'required',
             'password' => 'required',
-            'profile'  => 'nullable'
+            'profile'  => 'nullable',
         ]);
 
-        $client = $this->client();
-
-        $query = (new \RouterOS\Query('/ip/hotspot/user/add'))
-            ->equal('name', $request->username)
-            ->equal('password', $request->password)
-            ->equal(
-                'profile',
-                $request->profile ?? 'default'
-            );
-
-        $client->query($query)->read();
+        $this->mikrotik->createHotspot(
+            $request->username,
+            $request->password,
+            $request->profile ?? 'default'
+        );
 
         return response()->json([
             'message' => 'Hotspot user created'
         ]);
     }
+
     public function deleteHotspotUser($username)
     {
-        $client = $this->client();
+        if (!$this->mikrotik->deleteHotspot($username)) {
 
-        $find = (new \RouterOS\Query('/ip/hotspot/user/print'))
-            ->where('name', $username);
-
-        $user = $client->query($find)->read();
-
-        if (!count($user)) {
             return response()->json([
                 'message' => 'User not found'
             ], 404);
         }
-
-        $remove = (new \RouterOS\Query('/ip/hotspot/user/remove'))
-            ->equal('.id', $user[0]['.id']);
-
-        $client->query($remove)->read();
 
         return response()->json([
             'message' => 'User deleted'
         ]);
     }
-    public function activeUsers()
-    {
-        $query = new Query('/ip/hotspot/active/print');
 
-        $users = $this->client()
-            ->query($query)
-            ->read();
-
-        return response()->json(
-            json_decode(
-                json_encode($users, JSON_INVALID_UTF8_IGNORE),
-                true
-            )
-        );
-    }
     public function suspendHotspotUser($username)
     {
-        $client = $this->client();
+        if (!$this->mikrotik->disableHotspot($username)) {
 
-        $find = (new Query('/ip/hotspot/user/print'))
-            ->where('name', $username);
-
-        $user = $client->query($find)->read();
-
-        if (!count($user)) {
             return response()->json([
                 'message' => 'User not found'
             ], 404);
         }
-
-        $disable = (new Query('/ip/hotspot/user/set'))
-            ->equal('.id', $user[0]['.id'])
-            ->equal('disabled', 'yes');
-
-        $client->query($disable)->read();
 
         return response()->json([
             'message' => 'Hotspot user suspended'
         ]);
     }
+
     public function activateHotspotUser($username)
     {
-        $client = $this->client();
+        if (!$this->mikrotik->enableHotspot($username)) {
 
-        $find = (new Query('/ip/hotspot/user/print'))
-            ->where('name', $username);
-
-        $user = $client->query($find)->read();
-
-        if (!count($user)) {
             return response()->json([
                 'message' => 'User not found'
             ], 404);
         }
 
-        $enable = (new Query('/ip/hotspot/user/set'))
-            ->equal('.id', $user[0]['.id'])
-            ->equal('disabled', 'no');
-
-        $client->query($enable)->read();
-
         return response()->json([
             'message' => 'Hotspot user activated'
         ]);
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | DHCP
+    |--------------------------------------------------------------------------
+    */
+
+    public function dhcpLeases()
+    {
+        return response()->json(
+            $this->mikrotik->getDhcpLeases()
+        );
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Dashboard
+    |--------------------------------------------------------------------------
+    */
+
     public function dashboardStats()
     {
-        $stats = [
+        return response()->json([
+
             'customers' => Customer::count(),
 
             'active_pppoe' => Subscription::where(
@@ -257,8 +187,6 @@ class MikrotikController extends Controller
             )
                 ->whereMonth('paid_at', now()->month)
                 ->sum('amount'),
-        ];
-
-        return response()->json($stats);
+        ]);
     }
 }

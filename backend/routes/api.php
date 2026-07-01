@@ -43,6 +43,10 @@ use App\Http\Controllers\Api\CustomerNotificationController;
 
 
 use App\Http\Controllers\Api\CustomerTicketController;
+
+use App\Http\Controllers\Api\Network\DhcpLeaseController;
+
+
 /*
 |--------------------------------------------------------------------------
 | Public Routes
@@ -114,6 +118,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('inventories', InventoryController::class);
     Route::apiResource('device-assignments', DeviceAssignmentController::class);
 
+    
     /*
 |--------------------------------------------------------------------------
 | Support Center
@@ -439,3 +444,14 @@ Route::prefix('customer')
             'close'
         ]);
     });
+// Route::middleware('auth:sanctum')->prefix('network')->group(function () {
+
+//     Route::get('/dhcp/leases', [DhcpLeaseController::class, 'index']);
+// });
+Route::middleware('auth:sanctum')->group(function () {
+
+    Route::get(
+        '/network/dhcp/leases',
+        [MikrotikController::class, 'dhcpLeases']
+    );
+});
