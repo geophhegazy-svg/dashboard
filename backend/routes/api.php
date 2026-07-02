@@ -210,6 +210,11 @@ Route::middleware('auth:sanctum')->group(function () {
         [SubscriptionController::class, 'suspend']
     );
 
+    Route::post(
+        '/subscriptions/{subscription}/renew',
+        [SubscriptionController::class, 'renew']
+    );
+
     /*
     |------------------------------------------------------
     | Hotspot Subscription Actions

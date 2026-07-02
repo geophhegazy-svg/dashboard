@@ -9,6 +9,8 @@ use App\Models\Subscription;
 use App\Services\Subscription\SubscriptionService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use App\Http\Resources\SubscriptionResource;
+use App\Support\ApiResponse;
 
 class SubscriptionController extends Controller
 {
@@ -23,10 +25,12 @@ class SubscriptionController extends Controller
     {
         $this->subscriptionService->activate($subscription);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Subscription activated successfully',
-        ]);
+        $subscription->refresh();
+
+        return ApiResponse::success(
+            new SubscriptionResource($subscription),
+            'Subscription activated successfully'
+        );
     }
 
     /**
@@ -36,24 +40,62 @@ class SubscriptionController extends Controller
     {
         $this->subscriptionService->suspend($subscription);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Subscription suspended successfully',
-        ]);
+        $subscription->refresh();
+
+        return ApiResponse::success(
+            new SubscriptionResource($subscription),
+            'Subscription suspended successfully'
+        );
     }
 
     /**
      * Renew subscription
      */
-    public function renew(Request $request, Subscription $subscription): JsonResponse
-    {
+    public function renew(
+        Request $request,
+        Subscription $subscription
+    ): JsonResponse {
+
         $days = (int) $request->input('days', 30);
 
-        $this->subscriptionService->renew($subscription, $days);
+        $this->subscriptionService->renew(
+            $subscription,
+            $days
+        );
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Subscription renewed successfully',
-        ]);
+        $subscription->refresh();
+
+        return ApiResponse::success(
+            new SubscriptionResource($subscription),
+            'Subscription renewed successfully'
+        );
+    }
+
+    public function restore(
+        Subscription $subscription
+    ): JsonResponse {
+
+        $this->subscriptionService->restore($subscription);
+
+        $subscription->refresh();
+
+        return ApiResponse::success(
+            new SubscriptionResource($subscription),
+            'Subscription restored successfully'
+        );
+    }
+
+    public function expire(
+        Subscription $subscription
+    ): JsonResponse {
+
+        $this->subscriptionService->expire($subscription);
+
+        $subscription->refresh();
+
+        return ApiResponse::success(
+            new SubscriptionResource($subscription),
+            'Subscription expired successfully'
+        );
     }
 }
