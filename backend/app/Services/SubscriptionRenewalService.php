@@ -6,12 +6,13 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Invoice;
 use App\Models\Payment;
 use App\Models\Subscription;
+use App\Contracts\MikrotikServiceInterface;
 
 class SubscriptionRenewalService
 {
     public function renewPppoe(
         Subscription $sub,
-        MikrotikService $mikrotik
+        MikrotikServiceInterface $mikrotik
     ): bool {
 
         DB::transaction(function () use ($sub) {
@@ -51,17 +52,10 @@ class SubscriptionRenewalService
             */
 
             WalletService::deduct(
-
                 subscription: $sub,
-
                 amount: $sub->monthly_price,
-
-                type: 'renewal',
-
                 description: "Automatic subscription renewal. Invoice {$invoice->invoice_number}",
-
                 reference: $invoice->invoice_number
-
             );
 
             /*

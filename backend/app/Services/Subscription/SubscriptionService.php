@@ -71,7 +71,7 @@ class SubscriptionService
             );
 
             $subscription->update([
-                'expires_at' => now()->addDays($days),
+                'end_date' => now()->addDays($days),
             ]);
 
             $this->enablePppoeIfExists($subscription);

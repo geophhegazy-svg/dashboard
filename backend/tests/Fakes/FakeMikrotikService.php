@@ -13,15 +13,33 @@ class FakeMikrotikService implements MikrotikServiceInterface
 
     public array $disabledUsers = [];
 
+    public bool $failOnEnable = false;
+
+    public bool $failOnDisable = false;
+
     public function enablePppoe(string $username): bool
+
     {
+
+        if ($this->failOnEnable) {
+
+            throw new \RuntimeException('Fake MikroTik failure');
+        }
+
         $this->enabledUsers[] = $username;
 
         return true;
     }
 
     public function disablePppoe(string $username): bool
+
     {
+
+        if ($this->failOnDisable) {
+
+            throw new \RuntimeException('Fake MikroTik failure');
+        }
+
         $this->disabledUsers[] = $username;
 
         return true;

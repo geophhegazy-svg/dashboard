@@ -1,109 +1,128 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
 use App\Models\Subscription;
 use App\Models\WalletTransaction;
 use App\Services\ActivityLogService;
+use Illuminate\Support\Facades\DB;
+use InvalidArgumentException;
+use RuntimeException;
 
 class WalletService
 {
-    public static function deduct(
-        Subscription $subscription,
-        float $amount,
-        string $type,
-        string $description,
-        ?string $reference = null
-    ) {
-
-        $before = $subscription->wallet_balance;
-
-        $after = $before - $amount;
-
-        $subscription->update([
-            'wallet_balance' => $after
-        ]);
-
-        WalletTransaction::create([
-
-            'tenant_id' => $subscription->tenant_id,
-
-            'customer_id' => $subscription->customer_id,
-
-            'amount' => -$amount,
-
-            'balance_before' => $before,
-
-            'balance_after' => $after,
-
-            'type' => $type,
-
-            'reference' => $reference,
-
-            'description' => $description
-
-        ]);
-        ActivityLogService::log(
-
-            tenantId: $subscription->tenant_id,
-
-            userId: null,
-
-            module: 'wallet',
-
-            action: 'deduct',
-
-            description: $description
-
-        );
-    }
-
     public static function deposit(
         Subscription $subscription,
         float $amount,
         string $description,
         ?string $reference = null
-    ) {
+    ): void {
 
-        $before = $subscription->wallet_balance;
+        if ($amount <= 0) {
+            throw new InvalidArgumentException('Amount must be greater than zero.');
+        }
 
-        $after = $before + $amount;
+        $subscription = DB::transaction(function () use (
+            $subscription,
+            $amount,
+            $description,
+            $reference
+        ) {
 
-        $subscription->update([
-            'wallet_balance' => $after
-        ]);
+            $subscription = Subscription::query()
+                ->lockForUpdate()
+                ->findOrFail($subscription->id);
 
-        WalletTransaction::create([
+            $before = $subscription->wallet_balance;
+            $after = $before + $amount;
 
-            'tenant_id' => $subscription->tenant_id,
+            $subscription->update([
+                'wallet_balance' => $after,
+            ]);
 
-            'customer_id' => $subscription->customer_id,
+            WalletTransaction::create([
+                'tenant_id'      => $subscription->tenant_id,
+                'customer_id'    => $subscription->customer_id,
+                'amount'         => $amount,
+                'balance_before' => $before,
+                'balance_after'  => $after,
+                'type'           => 'deposit',
+                'reference'      => $reference,
+                'description'    => $description,
+            ]);
 
-            'amount' => $amount,
+            return $subscription;
+        });
 
-            'balance_before' => $before,
+        DB::afterCommit(function () use ($subscription, $description) {
+            ActivityLogService::log(
+                tenantId: $subscription->tenant_id,
+                userId: null,
+                module: 'wallet',
+                action: 'deposit',
+                description: $description
+            );
+        });
+    }
 
-            'balance_after' => $after,
+    public static function deduct(
+        Subscription $subscription,
+        float $amount,
+        string $description,
+        ?string $reference = null
+    ): void {
 
-            'type' => 'deposit',
+        if ($amount <= 0) {
+            throw new InvalidArgumentException('Amount must be greater than zero.');
+        }
 
-            'reference' => $reference,
+        $subscription = DB::transaction(function () use (
+            $subscription,
+            $amount,
+            $description,
+            $reference
+        ) {
 
-            'description' => $description
+            $subscription = Subscription::query()
+                ->lockForUpdate()
+                ->findOrFail($subscription->id);
 
-        ]);
-        ActivityLogService::log(
+            $before = $subscription->wallet_balance;
 
-            tenantId: $subscription->tenant_id,
+            if ($before < $amount) {
+                throw new RuntimeException('Insufficient wallet balance.');
+            }
 
-            userId: null,
+            $after = $before - $amount;
 
-            module: 'wallet',
+            $subscription->update([
+                'wallet_balance' => $after,
+            ]);
 
-            action: 'deposit',
+            WalletTransaction::create([
+                'tenant_id'      => $subscription->tenant_id,
+                'customer_id'    => $subscription->customer_id,
+                'amount'         => $amount,
+                'balance_before' => $before,
+                'balance_after'  => $after,
+                'type'           => 'deduct',
+                'reference'      => $reference,
+                'description'    => $description,
+            ]);
 
-            description: $description
+            return $subscription;
+        });
 
-        );
+        DB::afterCommit(function () use ($subscription, $description) {
+            ActivityLogService::log(
+                tenantId: $subscription->tenant_id,
+                userId: null,
+                module: 'wallet',
+                action: 'deduct',
+                description: $description
+            );
+        });
     }
 }

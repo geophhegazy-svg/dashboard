@@ -7,8 +7,7 @@ namespace App\Services\Network;
 use App\Contracts\MikrotikServiceInterface;
 use RouterOS\Query;
 
-class MikrotikService extends BaseMikrotikService implements MikrotikServiceInterface
-{
+class MikrotikService implements MikrotikServiceInterface{
     /*
     |--------------------------------------------------------------------------
     | Generic Update Helpers (NEW)
@@ -53,6 +52,15 @@ class MikrotikService extends BaseMikrotikService implements MikrotikServiceInte
         $this->execute($query);
 
         return true;
+    }
+
+    public function __construct(
+        private readonly MikrotikConnection $connection
+    ) {}
+
+    protected function execute(Query $query): array
+    {
+        return $this->connection->execute($query);
     }
 
     /*

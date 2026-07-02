@@ -23,6 +23,11 @@ class Subscription extends Model
         'wallet_balance',
     ];
 
+    protected $casts = [
+        'start_date' => 'datetime',
+        'end_date'   => 'datetime',
+    ];
+
     public function tenant()
     {
         return $this->belongsTo(Tenant::class);
