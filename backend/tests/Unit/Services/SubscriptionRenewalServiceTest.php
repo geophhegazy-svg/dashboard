@@ -12,19 +12,25 @@ use App\Services\SubscriptionRenewalService;
 use App\Models\Invoice;
 use App\Models\Payment;
 use App\Models\Notification;
+use App\Models\ActivityLog;
 
 
 class SubscriptionRenewalServiceTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_subscription_can_be_renewed(): void
+    private function createSubscription(): Subscription
     {
-        $subscription = Subscription::factory()->create([
+        return Subscription::factory()->create([
             'wallet_balance' => 1000,
             'monthly_price' => 350,
             'pppoe_username' => 'test-user',
         ]);
+    }
+
+    public function test_subscription_can_be_renewed(): void
+    {
+        $subscription = $this->createSubscription();
 
         $mikrotik = $this->createMock(MikrotikServiceInterface::class);
 
@@ -46,11 +52,7 @@ class SubscriptionRenewalServiceTest extends TestCase
 
     public function test_renewal_creates_invoice(): void
     {
-        $subscription = Subscription::factory()->create([
-            'wallet_balance' => 1000,
-            'monthly_price' => 350,
-            'pppoe_username' => 'test-user',
-        ]);
+        $subscription = $this->createSubscription();
 
         $mikrotik = $this->createMock(MikrotikServiceInterface::class);
 
@@ -78,11 +80,7 @@ class SubscriptionRenewalServiceTest extends TestCase
 
     public function test_renewal_creates_payment(): void
     {
-        $subscription = Subscription::factory()->create([
-            'wallet_balance' => 1000,
-            'monthly_price' => 350,
-            'pppoe_username' => 'test-user',
-        ]);
+        $subscription = $this->createSubscription();
 
         $mikrotik = $this->createMock(MikrotikServiceInterface::class);
 
@@ -114,11 +112,7 @@ class SubscriptionRenewalServiceTest extends TestCase
 
     public function test_renewal_creates_notification(): void
     {
-        $subscription = Subscription::factory()->create([
-            'wallet_balance' => 1000,
-            'monthly_price' => 350,
-            'pppoe_username' => 'test-user',
-        ]);
+        $subscription = $this->createSubscription();
 
         $mikrotik = $this->createMock(MikrotikServiceInterface::class);
 
@@ -143,6 +137,38 @@ class SubscriptionRenewalServiceTest extends TestCase
         $this->assertStringContainsString(
             (string) $subscription->monthly_price,
             $notification->message
+        );
+    }
+
+    public function test_renewal_creates_activity_log(): void
+    {
+        $subscription = $this->createSubscription();
+
+        $mikrotik = $this->createMock(MikrotikServiceInterface::class);
+
+        $mikrotik
+            ->expects($this->once())
+            ->method('enablePppoe');
+
+        $service = new SubscriptionRenewalService();
+
+        $service->renewPppoe($subscription, $mikrotik);
+
+        $this->assertDatabaseHas('activity_logs', [
+            'tenant_id'   => $subscription->tenant_id,
+            'module'      => 'subscription',
+            'action'      => 'renewed',
+        ]);
+
+        $log = ActivityLog::where('tenant_id', $subscription->tenant_id)
+            ->latest()
+            ->first();
+
+        $this->assertNotNull($log);
+
+        $this->assertStringContainsString(
+            (string) $subscription->id,
+            $log->description
         );
     }
 }

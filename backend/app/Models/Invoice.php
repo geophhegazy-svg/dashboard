@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\HotspotSubscription;
 
 class Invoice extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'tenant_id',
         'customer_id',
@@ -39,11 +41,12 @@ class Invoice extends Model
     {
         return $this->belongsTo(Subscription::class);
     }
+
     public function payments()
     {
         return $this->hasMany(Payment::class);
     }
-    
+
     public function hotspotSubscription()
     {
         return $this->belongsTo(

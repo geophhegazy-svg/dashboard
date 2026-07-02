@@ -10,6 +10,7 @@ use App\Models\Invoice;
 use App\Models\Package;
 use App\Models\Payment;
 use App\Models\Subscription;
+use App\Enums\SubscriptionStatus;
 
 class DashboardService
 {
@@ -36,15 +37,15 @@ class DashboardService
     {
         return [
             'active' => Customer::whereHas('subscriptions', function ($query) {
-                $query->where('status', 'active');
+                $query->where('status', SubscriptionStatus::ACTIVE->value);
             })->count(),
 
             'expired' => Customer::whereHas('subscriptions', function ($query) {
-                $query->where('status', 'expired');
+                $query->where('status', SubscriptionStatus::EXPIRED->value);
             })->count(),
 
             'suspended' => Customer::whereHas('subscriptions', function ($query) {
-                $query->where('status', 'suspended');
+                $query->where('status', SubscriptionStatus::SUSPENDED->value);
             })->count(),
         ];
     }
@@ -53,15 +54,37 @@ class DashboardService
     {
         return [
             'pppoe' => [
-                'active' => Subscription::where('status', 'active')->count(),
-                'expired' => Subscription::where('status', 'expired')->count(),
-                'suspended' => Subscription::where('status', 'suspended')->count(),
+                'active' => Subscription::where(
+                    'status',
+                    SubscriptionStatus::ACTIVE->value
+                )->count(),
+
+                'expired' => Subscription::where(
+                    'status',
+                    SubscriptionStatus::EXPIRED->value
+                )->count(),
+
+                'suspended' => Subscription::where(
+                    'status',
+                    SubscriptionStatus::SUSPENDED->value
+                )->count(),
             ],
 
             'hotspot' => [
-                'active' => HotspotSubscription::where('status', 'active')->count(),
-                'expired' => HotspotSubscription::where('status', 'expired')->count(),
-                'suspended' => HotspotSubscription::where('status', 'suspended')->count(),
+                'active' => HotspotSubscription::where(
+                    'status',
+                    SubscriptionStatus::ACTIVE->value
+                )->count(),
+
+                'expired' => HotspotSubscription::where(
+                    'status',
+                    SubscriptionStatus::EXPIRED->value
+                )->count(),
+
+                'suspended' => HotspotSubscription::where(
+                    'status',
+                    SubscriptionStatus::SUSPENDED->value
+                )->count(),
             ],
         ];
     }
