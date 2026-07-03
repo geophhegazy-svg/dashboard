@@ -6,99 +6,43 @@ use App\Models\Payment;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePaymentRequest;
 use App\Http\Resources\PaymentResource;
-use App\Models\Subscription;
-use App\Models\HotspotSubscription;
-use App\Models\Invoice;
+use App\Services\Payment\PaymentService;
+
 
 class PaymentController extends Controller
 {
+    public function __construct(
+        private readonly PaymentService $paymentService
+    ) {}
     public function index()
     {
+        $this->authorize('viewAny', Payment::class);
         return PaymentResource::collection(Payment::latest()->paginate());
     }
     public function store(StorePaymentRequest $request)
     {
-        $invoice = \App\Models\Invoice::findOrFail(
-            $request->invoice_id
-        );
+        $this->authorize('create', Payment::class);
 
-        if ($invoice->status === 'paid') {
-
-            return response()->json([
-                'message' => 'Invoice already paid'
-            ], 422);
-        }
-        $invoice = Invoice::findOrFail(
-            $request->invoice_id
-        );
-        $payment = Payment::create(
+        $payment = $this->paymentService->create(
             $request->validated()
         );
 
-        if ($invoice->status === 'paid') {
-
-            return response()->json([
-                'message' => 'Invoice already paid'
-            ], 422);
-        }
-
-        $totalPaidBefore = $invoice->payments()->sum('amount');
-
-        $remaining =
-            $invoice->amount - $totalPaidBefore;
-
-        $payment = Payment::create(
-            $request->validated()
-        );
-
-        $totalPaidAfter =
-            $totalPaidBefore + $payment->amount;
-
-        if ($totalPaidAfter >= $invoice->amount) {
-
-            $invoice->update([
-                'status'  => 'paid',
-                'paid_at' => now(),
-            ]);
-
-            $extraCredit =
-                max(
-                    0,
-                    $totalPaidAfter - $invoice->amount
-                );
-
-            if ($extraCredit > 0) {
-
-                if ($invoice->subscription) {
-
-                    $invoice->subscription->increment(
-                        'wallet_balance',
-                        $extraCredit
-                    );
-                }
-
-                if ($invoice->hotspotSubscription) {
-
-                    $invoice->hotspotSubscription->increment(
-                        'wallet_balance',
-                        $extraCredit
-                    );
-                }
-            }
-        }
         return new PaymentResource($payment);
     }
     public function show(Payment $payment)
     {
+        $this->authorize('view', $payment);
         return new PaymentResource($payment);
     }
     public function update(StorePaymentRequest $request, Payment $payment)
     {
+        $this->authorize('update', $payment);
         $payment->update($request->validated());
         return new PaymentResource($payment);
     }
     public function destroy(Payment $payment)
     {
+        $this->authorize('delete', $payment);
         $payment->delete();
         return response()->json(['message' => 'Payment deleted successfully']);
     }

@@ -1,51 +1,71 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Api;
 
-use App\Models\Customer;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Resources\CustomerResource;
+use App\Models\Customer;
+use App\Services\Customer\CustomerService;
+use Illuminate\Http\JsonResponse;
 
 class CustomerController extends Controller
 {
+    public function __construct(
+        private readonly CustomerService $customerService
+    ) {}
+
     public function index()
     {
+        $this->authorize('viewAny', Customer::class);
+
         return CustomerResource::collection(
-            Customer::latest()->paginate()
+            $this->customerService->paginate()
         );
     }
 
-    public function store(StoreCustomerRequest $request)
+    public function store(StoreCustomerRequest $request): CustomerResource
     {
-        $customer = Customer::create(
-            $request->validated()
+        $this->authorize('create', Customer::class);
+
+        return new CustomerResource(
+            $this->customerService->create(
+                $request->validated()
+            )
         );
+    }
+
+    public function show(Customer $customer): CustomerResource
+    {
+        $this->authorize('view', $customer);
 
         return new CustomerResource($customer);
     }
 
-    public function show(Customer $customer)
-    {
-        return new CustomerResource($customer);
-    }
+    public function update(
+        StoreCustomerRequest $request,
+        Customer $customer
+    ): CustomerResource {
+        $this->authorize('update', $customer);
 
-    public function update(StoreCustomerRequest $request, Customer $customer)
-    {
-        $customer->update(
-            $request->validated()
+        return new CustomerResource(
+            $this->customerService->update(
+                $customer,
+                $request->validated()
+            )
         );
-
-        return new CustomerResource($customer);
     }
 
-    public function destroy(Customer $customer)
+    public function destroy(Customer $customer): JsonResponse
     {
-        $customer->delete();
+        $this->authorize('delete', $customer);
+
+        $this->customerService->delete($customer);
 
         return response()->json([
-            'message' => 'Customer deleted successfully'
+            'message' => 'Customer deleted successfully',
         ]);
     }
 }

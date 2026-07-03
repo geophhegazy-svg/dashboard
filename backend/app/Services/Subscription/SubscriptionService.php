@@ -11,6 +11,7 @@ use App\Events\SubscriptionActivated;
 use App\Events\SubscriptionSuspended;
 use App\Events\SubscriptionRenewed;
 use App\Enums\SubscriptionStatus;
+use Illuminate\Validation\ValidationException;
 
 
 class SubscriptionService
@@ -166,5 +167,69 @@ class SubscriptionService
         $this->mikrotikService->disablePppoe(
             $subscription->pppoe_username
         );
+    }
+
+    /**
+     * Return available PPPoE users that are not linked
+     * to any subscription.
+     */
+    public function availablePppoeUsers(): array
+    {
+        $users = $this->mikrotikService->getPppoeUsers();
+
+        $linkedUsers = Subscription::query()
+            ->whereNotNull('pppoe_username')
+            ->pluck('pppoe_username')
+            ->toArray();
+
+        return array_values(array_filter(
+            $users,
+            function ($user) use ($linkedUsers) {
+
+                $username = $user['name'] ?? null;
+
+                return $username &&
+                    !in_array($username, $linkedUsers, true);
+            }
+        ));
+    }
+
+    /**
+     * Link MikroTik PPPoE account to subscription.
+     */
+    public function linkPppoe(
+        Subscription $subscription,
+        string $username
+    ): Subscription {
+
+        $exists = $this->mikrotikService
+            ->findPppoe($username);
+
+        if (!$exists) {
+            throw ValidationException::withMessages([
+                'username' => [
+                    'PPPoE user does not exist on MikroTik.'
+                ],
+            ]);
+        }
+
+        $alreadyLinked = Subscription::query()
+            ->where('pppoe_username', $username)
+            ->whereKeyNot($subscription->id)
+            ->exists();
+
+        if ($alreadyLinked) {
+            throw ValidationException::withMessages([
+                'username' => [
+                    'PPPoE user is already linked to another subscription.'
+                ],
+            ]);
+        }
+
+        $subscription->update([
+            'pppoe_username' => $username,
+        ]);
+
+        return $subscription->fresh();
     }
 }

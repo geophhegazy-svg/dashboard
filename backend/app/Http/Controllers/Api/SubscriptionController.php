@@ -23,6 +23,7 @@ class SubscriptionController extends Controller
      */
     public function activate(Subscription $subscription): JsonResponse
     {
+        $this->authorize('activate', $subscription);
         $this->subscriptionService->activate($subscription);
 
         $subscription->refresh();
@@ -38,6 +39,7 @@ class SubscriptionController extends Controller
      */
     public function suspend(Subscription $subscription): JsonResponse
     {
+        $this->authorize('suspend', $subscription);
         $this->subscriptionService->suspend($subscription);
 
         $subscription->refresh();
@@ -55,6 +57,7 @@ class SubscriptionController extends Controller
         Request $request,
         Subscription $subscription
     ): JsonResponse {
+        $this->authorize('renew', $subscription);
 
         $days = (int) $request->input('days', 30);
 
@@ -74,6 +77,8 @@ class SubscriptionController extends Controller
     public function restore(
         Subscription $subscription
     ): JsonResponse {
+        $this->authorize('restore', $subscription);
+        
 
         $this->subscriptionService->restore($subscription);
 
@@ -88,6 +93,7 @@ class SubscriptionController extends Controller
     public function expire(
         Subscription $subscription
     ): JsonResponse {
+        $this->authorize('expire', $subscription);
 
         $this->subscriptionService->expire($subscription);
 

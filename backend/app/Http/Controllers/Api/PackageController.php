@@ -1,51 +1,64 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Api;
 
-use App\Models\Package;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePackageRequest;
 use App\Http\Resources\PackageResource;
+use App\Models\Package;
+use App\Services\Package\PackageService;
+use Illuminate\Http\JsonResponse;
 
 class PackageController extends Controller
 {
+    public function __construct(
+        private readonly PackageService $packageService
+    ) {}
+
     public function index()
     {
         return PackageResource::collection(
-            Package::latest()->paginate()
+            $this->packageService->paginate()
         );
     }
 
-    public function store(StorePackageRequest $request)
-    {
-        $package = Package::create(
-            $request->validated()
+    public function store(
+        StorePackageRequest $request
+    ): PackageResource {
+        return new PackageResource(
+            $this->packageService->create(
+                $request->validated()
+            )
         );
+    }
 
+    public function show(
+        Package $package
+    ): PackageResource {
         return new PackageResource($package);
     }
 
-    public function show(Package $package)
-    {
-        return new PackageResource($package);
-    }
-
-    public function update(StorePackageRequest $request, Package $package)
-    {
-        $package->update(
-            $request->validated()
+    public function update(
+        StorePackageRequest $request,
+        Package $package
+    ): PackageResource {
+        return new PackageResource(
+            $this->packageService->update(
+                $package,
+                $request->validated()
+            )
         );
-
-        return new PackageResource($package);
     }
 
-    public function destroy(Package $package)
-    {
-        $package->delete();
+    public function destroy(
+        Package $package
+    ): JsonResponse {
+        $this->packageService->delete($package);
 
         return response()->json([
-            'message' => 'Package deleted successfully'
+            'message' => 'Package deleted successfully',
         ]);
     }
 }

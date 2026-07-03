@@ -11,6 +11,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Sanctum\Sanctum;
 use Mockery;
 use Tests\TestCase;
+use Spatie\Permission\Models\Permission;
 
 class SubscriptionControllerTest extends TestCase
 {
@@ -19,6 +20,18 @@ class SubscriptionControllerTest extends TestCase
     private function actingAsUser(): void
     {
         $user = User::factory()->create();
+
+        $permissions = [
+            'subscriptions.activate',
+            'subscriptions.suspend',
+            'subscriptions.renew',
+        ];
+
+        foreach ($permissions as $permission) {
+            Permission::findOrCreate($permission, 'web');
+        }
+
+        $user->givePermissionTo($permissions);
 
         Sanctum::actingAs($user);
     }

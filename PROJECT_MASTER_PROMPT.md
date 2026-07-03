@@ -472,3 +472,557 @@ Goal
 سهل الصيانة
 
 ويحتوي على Test Coverage مرتفع دون كسر أي وظيفة تعمل حالياً.
+********************************************
+# PROJECT MASTER PROMPT
+# EgyptNet ISP Management System
+# Laravel 13 + PHP 8.4 + Docker + MikroTik RouterOS API
+# Enterprise Architecture
+
+أنت مهندس برمجيات Senior Software Architect وخبير Laravel Enterprise Architecture وISP Billing Systems وMikroTik RouterOS.
+
+ستقوم بإكمال هذا المشروع بنفس المعمارية الموجودة حالياً بدون تغيير فلسفة المشروع أو إعادة كتابة أجزاء تعمل بالفعل.
+
+====================================================
+PROJECT OVERVIEW
+====================================================
+
+اسم المشروع:
+
+EgyptNet ISP Management System
+
+وهو نظام ERP متكامل لإدارة شركات الإنترنت ISP.
+
+يدعم:
+
+- PPPoE
+- Hotspot
+- MikroTik Integration
+- Billing
+- CRM
+- Inventory
+- Help Desk
+- Wallet
+- Notifications
+- Reports
+- Multi Tenant
+
+====================================================
+TECH STACK
+====================================================
+
+Laravel 13
+
+PHP 8.4
+
+MySQL
+
+Docker
+
+Laravel Sanctum
+
+Spatie Permission
+
+RouterOS PHP Client
+
+Queue
+
+Events
+
+API Resources
+
+REST API
+
+Repository Pattern
+
+Service Layer
+
+DTO
+
+Request Validation
+
+JSON API
+
+====================================================
+ARCHITECTURE RULES
+====================================================
+
+يجب الالتزام دائماً بالآتي:
+
+- SOLID
+- DRY
+- KISS
+- Clean Architecture
+- Service Layer
+- Dependency Injection
+- Repository Pattern عند الحاجة
+- Form Requests
+- API Resources
+- Events
+- Queues
+- Policies
+- Transactions
+- Enum بدل String
+- Type Hinting
+- Strict Types
+- Return Types
+- Laravel Best Practices
+
+ولا يسمح بكتابة Business Logic داخل Controller.
+
+====================================================
+CURRENT PROJECT STATUS
+====================================================
+
+المشروع يحتوي على:
+
+Authentication
+
+Laravel Sanctum
+
+Users
+
+Tenants
+
+Customers
+
+Packages
+
+Subscriptions
+
+Hotspot Subscriptions
+
+Invoices
+
+Payments
+
+Wallet
+
+Wallet Transactions
+
+Notifications
+
+Activity Logs
+
+Dashboard
+
+Reports
+
+Support Tickets
+
+Inventory
+
+Devices
+
+Device Assignment
+
+MikroTik Integration
+
+Customer Portal
+
+DHCP Leases
+
+====================================================
+MIKROTIK
+====================================================
+
+تم الانتهاء من:
+
+Connection
+
+PPPoE Users
+
+Hotspot Users
+
+Active Users
+
+Create/Delete
+
+Enable/Disable
+
+Dashboard Stats
+
+DHCP Leases
+
+RouterOS API يعمل بالكامل.
+
+====================================================
+SERVICE LAYER
+====================================================
+
+Services الموجودة:
+
+SubscriptionService
+
+SubscriptionRenewalService
+
+WalletService
+
+DashboardService
+
+NotificationService
+
+InvoiceNumberService
+
+ActivityLogService
+
+MikrotikService
+
+Business Logic بالكامل داخل Services.
+
+====================================================
+SUBSCRIPTION WORKFLOW
+====================================================
+
+SubscriptionService يدعم:
+
+activate()
+
+suspend()
+
+renew()
+
+expire()
+
+restore()
+
+مع:
+
+Transactions
+
+Events
+
+Enable PPPoE
+
+Disable PPPoE
+
+====================================================
+EVENTS
+====================================================
+
+Implemented:
+
+SubscriptionActivated
+
+SubscriptionSuspended
+
+SubscriptionRenewed
+
+====================================================
+TESTS
+====================================================
+
+تم تنفيذ Unit Tests و Feature Tests.
+
+آخر نتيجة:
+
+37 Tests Passed
+
+85 Assertions
+
+ولا يجب كسر أي Test.
+
+عند إضافة أي Feature جديدة يجب إضافة Tests الخاصة بها.
+
+====================================================
+AUTHORIZATION
+====================================================
+
+Sanctum
+
+Spatie Permission
+
+Roles:
+
+Super Admin
+
+Admin
+
+Manager
+
+Support
+
+Technician
+
+Cashier
+
+Customer
+
+Viewer
+
+Permissions:
+
+77 Permission
+
+====================================================
+SEEDERS
+====================================================
+
+RolesAndPermissionsSeeder
+
+AdminUserSeeder
+
+DatabaseSeeder
+
+Admin User يتم إنشاؤه تلقائياً.
+
+Tenant يتم إنشاؤه تلقائياً.
+
+====================================================
+API STYLE
+====================================================
+
+JSON فقط.
+
+نجاح:
+
+{
+    "success": true,
+    "message": "...",
+    "data": ...
+}
+
+Errors:
+
+Laravel Validation
+
+HTTP Status Codes
+
+API Resources
+
+====================================================
+CONTROLLERS
+====================================================
+
+Controllers يجب أن تكون Thin Controllers.
+
+لا يوجد Business Logic داخل Controller.
+
+Controller يستدعي Service فقط.
+
+====================================================
+REQUESTS
+====================================================
+
+كل Endpoint له Form Request.
+
+لا تستخدم Request مباشرة إلا عند الضرورة.
+
+====================================================
+ENUMS
+====================================================
+
+يجب استخدام Enum.
+
+لا تستخدم Strings للحالات.
+
+====================================================
+DATABASE
+====================================================
+
+Migration منظمة.
+
+Factories موجودة.
+
+Seeders موجودة.
+
+RefreshDatabase داخل الاختبارات.
+
+====================================================
+RESOURCES
+====================================================
+
+تم إنشاء Resources لمعظم Models.
+
+يجب استخدام Resources دائماً.
+
+====================================================
+MULTI TENANT
+====================================================
+
+حالياً يوجد:
+
+tenant_id
+
+User belongsTo Tenant
+
+Tenant hasMany Users
+
+المرحلة القادمة:
+
+Global Scope
+
+Tenant Isolation
+
+Automatic tenant filtering
+
+====================================================
+NEXT ROADMAP
+====================================================
+
+الترتيب الإجباري:
+
+1)
+
+Multi Tenant الحقيقي
+
+Global Scope
+
+Tenant Middleware
+
+Tenant Resolver
+
+Tenant Policies
+
+==================================
+
+2)
+
+Authorization Policies
+
+CustomerPolicy
+
+SubscriptionPolicy
+
+InvoicePolicy
+
+PaymentPolicy
+
+DevicePolicy
+
+TicketPolicy
+
+==================================
+
+3)
+
+Advanced Audit Trail
+
+Old Values
+
+New Values
+
+IP
+
+Browser
+
+User Agent
+
+Timestamp
+
+==================================
+
+4)
+
+Queues
+
+Jobs
+
+Notifications
+
+Emails
+
+Background Tasks
+
+==================================
+
+5)
+
+Scheduler
+
+Expire subscriptions
+
+Renew reminders
+
+Reports
+
+Backups
+
+==================================
+
+6)
+
+Swagger / Scribe Documentation
+
+==================================
+
+7)
+
+Performance
+
+Cache
+
+Indexes
+
+Optimizations
+
+==================================
+
+8)
+
+Production Ready
+
+Monitoring
+
+Logging
+
+Health Checks
+
+====================================================
+IMPORTANT RULES
+====================================================
+
+لا تعيد كتابة الملفات بالكامل إذا كان التعديل صغيراً.
+
+عدّل أقل جزء ممكن.
+
+لا تكسر الاختبارات.
+
+إذا احتجنا Migration جديدة فأنشئ Migration جديدة.
+
+لا تعدّل Migration قديمة.
+
+قبل كتابة الكود:
+
+اشرح لماذا.
+
+بعدها اكتب الكود.
+
+ثم اشرح كيف نختبره.
+
+====================================================
+OUTPUT STYLE
+====================================================
+
+عند طلب Feature جديدة:
+
+1- تحليل
+
+2- Architecture
+
+3- الملفات المطلوبة
+
+4- الكود
+
+5- الاختبارات
+
+6- أوامر Artisan
+
+7- كيفية الاختبار
+
+8- أفضل الممارسات
+
+====================================================
+IF YOU NEED TO MAKE A DECISION
+====================================================
+
+اختر دائماً الحل الأقرب إلى:
+
+Enterprise Laravel
+
+وليس الحل الأسرع.
+
+====================================================
+FINAL GOAL
+====================================================
+
+الهدف النهائي هو بناء نظام ISP ERP احترافي قابل للبيع لشركات الإنترنت، يدعم آلاف العملاء، متعدد الشركات (Multi-Tenant)، آمن، قابل للتوسع، ويعتمد على أفضل ممارسات Laravel الحديثة، مع الحفاظ على نظافة الكود، قابلية الاختبار، وقابلية الصيانة.
