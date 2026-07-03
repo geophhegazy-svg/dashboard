@@ -19,15 +19,20 @@ class PackageService
         return Package::create($data);
     }
 
-    public function update(Package $package, array $data): Package
-    {
+    public function update(
+        Package $package,
+        array $data
+    ): Package {
+
         $package->update($data);
 
-        return $package->refresh();
+        return $package->fresh();
     }
 
-    public function delete(Package $package): bool
-    {
-        return (bool) $package->delete();
+    public function delete(
+        Package $package
+    ): void {
+
+        $package->delete();
     }
 }

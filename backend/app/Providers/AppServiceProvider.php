@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 use App\Contracts\MikrotikServiceInterface;
 use App\Services\Network\MikrotikService;
+use App\Services\Customer\CustomerService;
 
 use App\Models\ActivityLog;
 use App\Models\Customer;
@@ -41,6 +42,17 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             MikrotikServiceInterface::class,
             MikrotikService::class
+        );
+
+        $this->app->bind(
+            \App\Contracts\Repositories\SubscriptionRepositoryInterface::class,
+            \App\Repositories\Eloquent\SubscriptionRepository::class
+        );
+
+        $this->app->singleton(CustomerService::class);
+
+        $this->app->singleton(
+            \App\Services\Package\PackageService::class
         );
     }
 

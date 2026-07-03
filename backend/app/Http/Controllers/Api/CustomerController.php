@@ -11,6 +11,8 @@ use App\Models\Customer;
 use App\Services\Customer\CustomerService;
 use Illuminate\Http\JsonResponse;
 
+
+
 class CustomerController extends Controller
 {
     public function __construct(
@@ -26,15 +28,15 @@ class CustomerController extends Controller
         );
     }
 
-    public function store(StoreCustomerRequest $request): CustomerResource
+    public function store(StoreCustomerRequest $request)
     {
         $this->authorize('create', Customer::class);
 
-        return new CustomerResource(
-            $this->customerService->create(
-                $request->validated()
-            )
+        $customer = $this->customerService->create(
+            $request->validated()
         );
+
+        return new CustomerResource($customer);
     }
 
     public function show(Customer $customer): CustomerResource
@@ -47,25 +49,25 @@ class CustomerController extends Controller
     public function update(
         StoreCustomerRequest $request,
         Customer $customer
-    ): CustomerResource {
+    ) {
         $this->authorize('update', $customer);
 
-        return new CustomerResource(
-            $this->customerService->update(
-                $customer,
-                $request->validated()
-            )
+        $customer = $this->customerService->update(
+            $customer,
+            $request->validated()
         );
+
+        return new CustomerResource($customer);
     }
 
-    public function destroy(Customer $customer): JsonResponse
+    public function destroy(Customer $customer)
     {
         $this->authorize('delete', $customer);
 
         $this->customerService->delete($customer);
 
         return response()->json([
-            'message' => 'Customer deleted successfully',
+            'message' => 'Customer deleted successfully'
         ]);
     }
 }

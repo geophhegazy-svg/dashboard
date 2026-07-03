@@ -5,15 +5,9 @@ declare(strict_types=1);
 namespace App\Services\Customer;
 
 use App\Models\Customer;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class CustomerService
 {
-    public function paginate(): LengthAwarePaginator
-    {
-        return Customer::latest()->paginate();
-    }
-
     public function create(array $data): Customer
     {
         return Customer::create($data);
@@ -28,6 +22,6 @@ class CustomerService
 
     public function delete(Customer $customer): bool
     {
-        return (bool) $customer->delete();
+        return $customer->delete();
     }
 }

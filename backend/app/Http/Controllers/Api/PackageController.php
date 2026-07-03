@@ -11,6 +11,7 @@ use App\Models\Package;
 use App\Services\Package\PackageService;
 use Illuminate\Http\JsonResponse;
 
+
 class PackageController extends Controller
 {
     public function __construct(
@@ -19,19 +20,22 @@ class PackageController extends Controller
 
     public function index()
     {
+        $this->authorize('viewAny', Package::class);
+
         return PackageResource::collection(
             $this->packageService->paginate()
         );
     }
 
-    public function store(
-        StorePackageRequest $request
-    ): PackageResource {
-        return new PackageResource(
-            $this->packageService->create(
-                $request->validated()
-            )
+    public function store(StorePackageRequest $request)
+    {
+        $this->authorize('create', Package::class);
+
+        $package = $this->packageService->create(
+            $request->validated()
         );
+
+        return new PackageResource($package);
     }
 
     public function show(
@@ -43,22 +47,25 @@ class PackageController extends Controller
     public function update(
         StorePackageRequest $request,
         Package $package
-    ): PackageResource {
-        return new PackageResource(
-            $this->packageService->update(
-                $package,
-                $request->validated()
-            )
+    ) {
+        $this->authorize('update', $package);
+
+        $package = $this->packageService->update(
+            $package,
+            $request->validated()
         );
+
+        return new PackageResource($package);
     }
 
-    public function destroy(
-        Package $package
-    ): JsonResponse {
+    public function destroy(Package $package)
+    {
+        $this->authorize('delete', $package);
+
         $this->packageService->delete($package);
 
         return response()->json([
-            'message' => 'Package deleted successfully',
+            'message' => 'Package deleted successfully'
         ]);
     }
 }

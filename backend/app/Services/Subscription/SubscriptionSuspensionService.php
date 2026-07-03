@@ -1,0 +1,23 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Services\Subscription;
+
+use App\Actions\Subscription\SuspendSubscriptionAction;
+use App\Models\Subscription;
+
+class SubscriptionSuspensionService
+{
+    public function __construct(
+        private readonly SuspendSubscriptionAction $action,
+    ) {}
+
+    public function suspend(
+        Subscription $subscription
+    ): bool {
+
+        return $this->action
+            ->execute($subscription);
+    }
+}
