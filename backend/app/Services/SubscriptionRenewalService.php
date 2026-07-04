@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\DB;
+use App\Models\HotspotSubscription;
 use App\Models\Invoice;
 use App\Models\Payment;
 use App\Models\Subscription;
@@ -15,6 +16,49 @@ class SubscriptionRenewalService
         MikrotikServiceInterface $mikrotik
     ): bool {
 
+        $this->processRenewal($sub);
+
+        /*
+        |--------------------------------------------------------------------------
+        | تفعيل المستخدم فى MikroTik (PPPoE) بعد نجاح العملية
+        |--------------------------------------------------------------------------
+        */
+
+        if ($sub->pppoe_username) {
+            $mikrotik->enablePppoe($sub->pppoe_username);
+        }
+
+        return true;
+    }
+
+    public function renewHotspot(
+        HotspotSubscription $sub,
+        MikrotikServiceInterface $mikrotik
+    ): bool {
+
+        $this->processRenewal($sub);
+
+        /*
+        |--------------------------------------------------------------------------
+        | تفعيل المستخدم فى MikroTik (Hotspot) بعد نجاح العملية
+        |--------------------------------------------------------------------------
+        */
+
+        if ($sub->hotspot_username) {
+            $mikrotik->enableHotspot($sub->hotspot_username);
+        }
+
+        return true;
+    }
+
+    /**
+     * منطق الفوترة المشترك بين تجديد PPPoE وتجديد Hotspot:
+     * إنشاء فاتورة + خصم من المحفظة + تسجيل عملية دفع + إشعار + Activity Log.
+     *
+     * @param Subscription|HotspotSubscription $sub
+     */
+    private function processRenewal($sub): void
+    {
         DB::transaction(function () use ($sub) {
 
             /*
@@ -125,18 +169,5 @@ class SubscriptionRenewalService
 
             );
         });
-
-        /*
-        |--------------------------------------------------------------------------
-        | 6- تفعيل المستخدم فى MikroTik بعد نجاح العملية
-        |--------------------------------------------------------------------------
-        */
-
-        if ($sub->pppoe_username) {
-
-            $mikrotik->enablePppoe($sub->pppoe_username);
-        }
-
-        return true;
     }
 }
