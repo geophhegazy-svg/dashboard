@@ -8,15 +8,42 @@ use App\Models\Customer;
 use App\Models\Subscription;
 use App\Models\HotspotSubscription;
 use App\Models\Invoice;
-use App\Services\MikrotikService;
+use App\Services\Network\MikrotikConnection;
+use App\Contracts\MikrotikServiceInterface;
 
 class MikrotikController extends Controller
 {
-    protected MikrotikService $mikrotik;
+    protected MikrotikServiceInterface $mikrotik;
+    protected MikrotikConnection $connection;
 
-    public function __construct(MikrotikService $mikrotik)
+    public function __construct(MikrotikServiceInterface $mikrotik, MikrotikConnection $connection)
     {
         $this->mikrotik = $mikrotik;
+        $this->connection = $connection;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Health Check
+    |--------------------------------------------------------------------------
+    */
+
+    public function test()
+    {
+        try {
+            $this->connection->client();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Connected to MikroTik router successfully.',
+            ]);
+        } catch (\Throwable $e) {
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Unable to connect to MikroTik router.',
+            ], 503);
+        }
     }
 
     /*
