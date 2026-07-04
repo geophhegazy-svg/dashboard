@@ -9,5 +9,5 @@ Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
 Schedule::command('subscriptions:sync')
-    // ->dailyAt('00:05');
-    ->everyMinute();
+    ->dailyAt('00:05');
+    // ->everyMinute();
