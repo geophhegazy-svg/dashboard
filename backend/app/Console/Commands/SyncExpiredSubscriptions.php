@@ -6,7 +6,8 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 use App\Models\Subscription;
 use App\Models\HotspotSubscription;
-use App\Services\MikrotikService;
+use App\Services\Network\MikrotikService;
+use App\Contracts\MikrotikServiceInterface;
 use App\Services\SubscriptionRenewalService;
 use App\Models\Invoice;
 use App\Models\Payment;
@@ -17,9 +18,9 @@ class SyncExpiredSubscriptions extends Command
     protected $signature = 'subscriptions:sync';
     protected $description = 'Disable expired subscriptions on MikroTik';
     public function handle(
-        MikrotikService $mikrotik,
-        SubscriptionRenewalService $renewal)
-    {
+        MikrotikServiceInterface $mikrotik,
+        SubscriptionRenewalService $renewal
+    ) {
         Log::info('SYNC JOB RUNNING: ' . now());
 
         $today = now()->toDateString();
@@ -110,18 +111,20 @@ class SyncExpiredSubscriptions extends Command
 
             if ($sub->wallet_balance >= $sub->monthly_price) {
 
-                $renewal->renewPppoe($sub, $mikrotik);
+                $renewal->renewHotspot($sub, $mikrotik);
 
-                Log::info("AUTO RENEW PPPoE {$sub->id}");
+                Log::info("AUTO RENEW HOTSPOT {$sub->id}");
 
                 continue;
             }
 
             if ($sub->status !== 'expired') {
 
-                $mikrotik->disableHotspot(
-                    $sub->hotspot_username
-                );
+                if ($sub->hotspot_username) {
+                    $mikrotik->disableHotspot(
+                        $sub->hotspot_username
+                    );
+                }
 
                 $sub->update([
                     'status' => 'expired'
