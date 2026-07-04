@@ -18,6 +18,11 @@ class Package extends Model
         'status',
         'description',
         'mikrotik_profile',
+        'billing_cycle',
+        'billing_interval',
+        'grace_days',
+        'auto_suspend',
+        'auto_expire',
     ];
 
     public function tenant()

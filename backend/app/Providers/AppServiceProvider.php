@@ -4,33 +4,18 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Gate;
+
 use App\Contracts\MikrotikServiceInterface;
 use App\Services\Network\MikrotikService;
+
+use App\Contracts\Repositories\BillingRepositoryInterface;
+use App\Repositories\Eloquent\BillingRepository;
+
+use App\Contracts\Repositories\SubscriptionRepositoryInterface;
+use App\Repositories\Eloquent\SubscriptionRepository;
+
 use App\Services\Customer\CustomerService;
-
-use App\Models\ActivityLog;
-use App\Models\Customer;
-use App\Models\Device;
-use App\Models\Inventory;
-use App\Models\Invoice;
-use App\Models\Package;
-use App\Models\Payment;
-use App\Models\Subscription;
-use App\Models\Tenant;
-use App\Models\Ticket;
-use App\Models\User;
-
-use App\Policies\ActivityLogPolicy;
-use App\Policies\CustomerPolicy;
-use App\Policies\DevicePolicy;
-use App\Policies\InventoryPolicy;
-use App\Policies\InvoicePolicy;
-use App\Policies\PackagePolicy;
-use App\Policies\PaymentPolicy;
-use App\Policies\SubscriptionPolicy;
-use App\Policies\TenantPolicy;
-use App\Policies\TicketPolicy;
-use App\Policies\UserPolicy;
+use App\Services\Package\PackageService;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -39,9 +24,22 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        // MikroTik
         $this->app->bind(
             MikrotikServiceInterface::class,
             MikrotikService::class
+        );
+
+        // Billing Repository
+        $this->app->bind(
+            BillingRepositoryInterface::class,
+            BillingRepository::class
+        );
+
+        // Subscription Repository
+        $this->app->bind(
+            SubscriptionRepositoryInterface::class,
+            SubscriptionRepository::class
         );
 
         $this->app->bind(
@@ -49,11 +47,35 @@ class AppServiceProvider extends ServiceProvider
             \App\Repositories\Eloquent\SubscriptionRepository::class
         );
 
+        $this->app->bind(
+            \App\Contracts\Repositories\CustomerRepositoryInterface::class,
+            \App\Repositories\Eloquent\CustomerRepository::class
+        );
+
+        $this->app->bind(
+            \App\Contracts\Repositories\PackageRepositoryInterface::class,
+            \App\Repositories\Eloquent\PackageRepository::class
+        );
+
+        $this->app->bind(
+            \App\Contracts\Repositories\InvoiceRepositoryInterface::class,
+            \App\Repositories\Eloquent\InvoiceRepository::class
+        );
+
+        $this->app->bind(
+            \App\Contracts\Repositories\PaymentRepositoryInterface::class,
+            \App\Repositories\Eloquent\PaymentRepository::class
+        );
+
+        $this->app->bind(
+            \App\Contracts\Repositories\WalletRepositoryInterface::class,
+            \App\Repositories\Eloquent\WalletRepository::class
+        );
+
+        // Services
         $this->app->singleton(CustomerService::class);
 
-        $this->app->singleton(
-            \App\Services\Package\PackageService::class
-        );
+        $this->app->singleton(PackageService::class);
     }
 
     /**
@@ -61,7 +83,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Gate::before(function ($user, string $ability) {
+        Gate::before(function ($user) {
             return $user->hasRole('Super Admin') ? true : null;
         });
 

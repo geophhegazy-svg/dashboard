@@ -7,6 +7,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Services\Subscription\SubscriptionService;
 use App\Models\Subscription;
+use App\Contracts\Repositories\SubscriptionRepositoryInterface;
 
 class ExpireSubscriptionsCommand extends Command
 {
@@ -21,7 +22,8 @@ class ExpireSubscriptionsCommand extends Command
     protected $description = 'Expire subscriptions that reached their end date';
 
     public function __construct(
-        private readonly SubscriptionService $subscriptionService
+        private readonly SubscriptionService $subscriptionService,
+        private readonly SubscriptionRepositoryInterface $subscriptions,
     ) {
         parent::__construct();
     }
@@ -31,10 +33,8 @@ class ExpireSubscriptionsCommand extends Command
      */
     public function handle(): int
     {
-        $subscriptions = Subscription::query()
-            ->whereDate('end_date', '<=', today())
-            ->where('status', '!=', 'expired')
-            ->get();
+        $subscriptions = $this->subscriptions
+            ->expiringSubscriptions();
 
         if ($subscriptions->isEmpty()) {
 

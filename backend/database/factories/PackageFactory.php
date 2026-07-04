@@ -31,6 +31,16 @@ class PackageFactory extends Factory
             'description' => fake()->sentence(),
 
             'mikrotik_profile' => 'default',
+
+            'billing_cycle'    => 'month',
+
+            'billing_interval' => 1,
+            
+            'grace_days'       => 0,
+            
+            'auto_suspend'     => true,
+            
+            'auto_expire'      => true,
         ];
     }
 }

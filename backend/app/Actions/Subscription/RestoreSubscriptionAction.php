@@ -6,31 +6,32 @@ namespace App\Actions\Subscription;
 
 use App\Contracts\MikrotikServiceInterface;
 use App\Enums\SubscriptionStatus;
+use App\Events\SubscriptionRestored;
 use App\Models\Subscription;
-use App\Events\SubscriptionSuspended;
 use Illuminate\Support\Facades\DB;
 
-class SuspendSubscriptionAction
+class RestoreSubscriptionAction
 {
     public function __construct(
-        private readonly MikrotikServiceInterface $mikrotikService
+        private readonly MikrotikServiceInterface $mikrotikService,
     ) {}
 
-    public function execute(Subscription $subscription): bool
-    {
+    public function execute(
+        Subscription $subscription
+    ): bool {
+
         return DB::transaction(function () use ($subscription) {
 
             $subscription->update([
-                'status' => SubscriptionStatus::SUSPENDED->value,
+                'status' => SubscriptionStatus::ACTIVE->value,
             ]);
 
             if ($subscription->pppoe_username) {
-                $this->mikrotikService->disablePppoe(
-                    $subscription->pppoe_username
-                );
+                $this->mikrotikService
+                    ->enablePppoe($subscription->pppoe_username);
             }
 
-            SubscriptionSuspended::dispatch($subscription);
+            SubscriptionRestored::dispatch($subscription);
 
             return true;
         });
