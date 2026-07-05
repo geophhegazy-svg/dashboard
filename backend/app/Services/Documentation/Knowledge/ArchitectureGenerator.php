@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Documentation\Knowledge;
 
-class ArchitectureGenerator
+class ArchitectureGenerator implements KnowledgeGeneratorInterface
 {
     public function generate(): string
     {
@@ -57,5 +57,10 @@ class ArchitectureGenerator
             '│   └── Wallet',
 
         ]);
+    }
+
+    public function filename(): string
+    {
+        return 'ARCHITECTURE.md';
     }
 }

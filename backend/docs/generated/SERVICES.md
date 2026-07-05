@@ -7,6 +7,8 @@
 - AutomaticBillingService
 - BillingCycleService
 - BillingEngine
+- BusinessRuleExtractor
+- BusinessRulesGenerator
 - ClassDocumentationGenerator
 - ClassFinder
 - ClassReflector
@@ -22,6 +24,8 @@
 - InvoiceNumberService
 - InvoiceService
 - KnowledgeExporter
+- KnowledgeGeneratorManager
+- KnowledgeGeneratorRegistry
 - MarkdownBuilder
 - MetadataExtractor
 - MethodReflector

@@ -6,7 +6,7 @@ namespace App\Services\Documentation\Knowledge;
 
 use App\Services\Documentation\Scanner\ProjectScanner;
 
-class AIContextGenerator
+class AIContextGenerator implements KnowledgeGeneratorInterface
 {
     public function __construct(
         protected ProjectScanner $scanner = new ProjectScanner()
@@ -115,5 +115,10 @@ class AIContextGenerator
             'Services: ' . count($this->scanner->services()),
 
         ]);
+    }
+
+    public function filename(): string
+    {
+        return 'AI_CONTEXT.md';
     }
 }

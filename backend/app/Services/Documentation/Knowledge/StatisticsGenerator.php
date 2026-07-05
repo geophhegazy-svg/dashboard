@@ -6,7 +6,7 @@ namespace App\Services\Documentation\Knowledge;
 
 use App\Services\Documentation\Scanner\ProjectScanner;
 
-class StatisticsGenerator
+class StatisticsGenerator implements KnowledgeGeneratorInterface
 {
     public function __construct(
         protected ProjectScanner $scanner = new ProjectScanner()
@@ -23,5 +23,10 @@ class StatisticsGenerator
             "Models: {$models}",
             "Services: {$services}",
         ]);
+    }
+
+    public function filename(): string
+    {
+        return 'STATISTICS.md';
     }
 }

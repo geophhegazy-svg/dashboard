@@ -6,7 +6,7 @@ namespace App\Services\Documentation\Knowledge;
 
 use App\Services\Documentation\Scanner\ProjectScanner;
 
-class ProjectSummaryGenerator
+class ProjectSummaryGenerator implements KnowledgeGeneratorInterface
 {
     public function __construct(
         protected ProjectScanner $scanner = new ProjectScanner()
@@ -32,5 +32,10 @@ class ProjectSummaryGenerator
             "- Models: {$models}",
             "- Services: {$services}",
         ]);
+    }
+
+    public function filename(): string
+    {
+        return 'PROJECT_SUMMARY.md';
     }
 }
