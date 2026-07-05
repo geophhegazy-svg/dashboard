@@ -1,4 +1,29 @@
-# Services
+# Modules
+
+## Models
+
+Total: 16
+
+- ActivityLog
+- Customer
+- Device
+- DeviceAssignment
+- HotspotSubscription
+- Inventory
+- Invoice
+- Notification
+- Package
+- Payment
+- Subscription
+- Tenant
+- Ticket
+- TicketReply
+- User
+- WalletTransaction
+
+## Services
+
+Total: 80
 
 - AIContextGenerator
 - AbstractHandoverSection
@@ -80,3 +105,57 @@
 - TodoGenerator
 - TodoKnowledgeGenerator
 - WalletService
+
+## Controllers
+
+Total: 27
+
+- ActivityLogController
+- AuthController
+- Controller
+- CustomerAuthController
+- CustomerController
+- CustomerDashboardController
+- CustomerInvoiceController
+- CustomerNotificationController
+- CustomerSubscriptionController
+- CustomerTicketController
+- CustomerWalletController
+- DashboardController
+- DeviceAssignmentController
+- DeviceController
+- DhcpLeaseController
+- HotspotSubscriptionController
+- InventoryController
+- InvoiceController
+- MikrotikController
+- NotificationController
+- PackageController
+- PaymentController
+- ReportController
+- SubscriptionController
+- TenantController
+- TicketController
+- UserController
+
+## Repositories
+
+Total: 7
+
+- BillingRepository
+- CustomerRepository
+- InvoiceRepository
+- PackageRepository
+- PaymentRepository
+- SubscriptionRepository
+- WalletRepository
+
+## Actions
+
+Total: 5
+
+- ActivateSubscriptionAction
+- ExpireSubscriptionAction
+- RenewSubscriptionAction
+- RestoreSubscriptionAction
+- SuspendSubscriptionAction

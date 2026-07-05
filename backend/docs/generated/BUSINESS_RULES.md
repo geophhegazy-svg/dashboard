@@ -261,6 +261,78 @@ App\Services\Dashboard
 
 ---
 
+## DatabaseExtractor
+
+**Namespace**
+App\Services\Documentation\Knowledge
+
+**Dependencies**
+- None
+
+**Methods**
+- extract(0 params) : array
+
+---
+
+## DatabaseKnowledgeGenerator
+
+**Namespace**
+App\Services\Documentation\Knowledge
+
+**Dependencies**
+- App\Services\Documentation\Knowledge\DatabaseExtractor
+
+**Methods**
+- __construct(1 params) : mixed
+- filename(0 params) : string
+- generate(0 params) : string
+
+---
+
+## DependencyGraphExtractor
+
+**Namespace**
+App\Services\Documentation\Knowledge
+
+**Dependencies**
+- App\Services\Documentation\Scanner\ProjectScanner
+
+**Methods**
+- __construct(1 params) : mixed
+- extract(0 params) : array
+
+---
+
+## DependencyGraphKnowledgeGenerator
+
+**Namespace**
+App\Services\Documentation\Knowledge
+
+**Dependencies**
+- App\Services\Documentation\Knowledge\DependencyGraphExtractor
+
+**Methods**
+- __construct(1 params) : mixed
+- filename(0 params) : string
+- generate(0 params) : string
+
+---
+
+## DocumentationDirectoryManager
+
+**Namespace**
+App\Services\Documentation\Filesystem
+
+**Dependencies**
+- None
+
+**Methods**
+- generatedPath(0 params) : string
+- ensureExists(0 params) : void
+- file(1 params) : string
+
+---
+
 ## DocumentationGeneratorManager
 
 **Namespace**
@@ -433,6 +505,20 @@ App\Services\Documentation\Knowledge
 
 ---
 
+## KnowledgeIndexGenerator
+
+**Namespace**
+App\Services\Documentation\Knowledge
+
+**Dependencies**
+- None
+
+**Methods**
+- filename(0 params) : string
+- generate(0 params) : string
+
+---
+
 ## MarkdownBuilder
 
 **Namespace**
@@ -453,6 +539,20 @@ App\Services\Documentation\Builder
 - separator(0 params) : self
 - newline(0 params) : self
 - render(0 params) : string
+
+---
+
+## MarkdownExporter
+
+**Namespace**
+App\Services\Documentation
+
+**Dependencies**
+- App\Services\Documentation\Filesystem\DocumentationDirectoryManager
+
+**Methods**
+- __construct(1 params) : mixed
+- export(2 params) : void
 
 ---
 
@@ -479,6 +579,34 @@ App\Services\Documentation\Reflection
 
 **Methods**
 - reflect(1 params) : array
+
+---
+
+## MigrationExtractor
+
+**Namespace**
+App\Services\Documentation\Knowledge
+
+**Dependencies**
+- None
+
+**Methods**
+- extract(0 params) : array
+
+---
+
+## MigrationsKnowledgeGenerator
+
+**Namespace**
+App\Services\Documentation\Knowledge
+
+**Dependencies**
+- App\Services\Documentation\Knowledge\MigrationExtractor
+
+**Methods**
+- __construct(1 params) : mixed
+- filename(0 params) : string
+- generate(0 params) : string
 
 ---
 
@@ -541,6 +669,35 @@ App\Services\Documentation\Generators
 
 ---
 
+## ModelRelationExtractor
+
+**Namespace**
+App\Services\Documentation\Knowledge
+
+**Dependencies**
+- App\Services\Documentation\Scanner\ProjectScanner
+
+**Methods**
+- __construct(1 params) : mixed
+- extract(0 params) : array
+
+---
+
+## ModelRelationsKnowledgeGenerator
+
+**Namespace**
+App\Services\Documentation\Knowledge
+
+**Dependencies**
+- App\Services\Documentation\Knowledge\ModelRelationExtractor
+
+**Methods**
+- __construct(1 params) : mixed
+- filename(0 params) : string
+- generate(0 params) : string
+
+---
+
 ## ModelsKnowledgeGenerator
 
 **Namespace**
@@ -566,6 +723,35 @@ App\Services\Documentation\Sections
 - None
 
 **Methods**
+- generate(0 params) : string
+
+---
+
+## ModuleExtractor
+
+**Namespace**
+App\Services\Documentation\Knowledge
+
+**Dependencies**
+- App\Services\Documentation\Scanner\ProjectScanner
+
+**Methods**
+- __construct(1 params) : mixed
+- extract(0 params) : array
+
+---
+
+## ModulesKnowledgeGenerator
+
+**Namespace**
+App\Services\Documentation\Knowledge
+
+**Dependencies**
+- App\Services\Documentation\Scanner\ProjectScanner
+
+**Methods**
+- __construct(1 params) : mixed
+- filename(0 params) : string
 - generate(0 params) : string
 
 ---
@@ -646,6 +832,35 @@ App\Services\Documentation\Scanner
 
 ---
 
+## ProjectStateExtractor
+
+**Namespace**
+App\Services\Documentation\Knowledge
+
+**Dependencies**
+- App\Services\Documentation\Scanner\ProjectScanner
+
+**Methods**
+- __construct(1 params) : mixed
+- extract(0 params) : array
+
+---
+
+## ProjectStateKnowledgeGenerator
+
+**Namespace**
+App\Services\Documentation\Knowledge
+
+**Dependencies**
+- App\Services\Documentation\Knowledge\ProjectStateExtractor
+
+**Methods**
+- __construct(1 params) : mixed
+- filename(0 params) : string
+- generate(0 params) : string
+
+---
+
 ## ProjectSummaryGenerator
 
 **Namespace**
@@ -706,7 +921,7 @@ App\Services\Documentation\Generators
 
 ---
 
-## RoutesKnowledgeGenerator
+## RouteExtractor
 
 **Namespace**
 App\Services\Documentation\Knowledge
@@ -715,6 +930,20 @@ App\Services\Documentation\Knowledge
 - None
 
 **Methods**
+- extract(0 params) : array
+
+---
+
+## RoutesKnowledgeGenerator
+
+**Namespace**
+App\Services\Documentation\Knowledge
+
+**Dependencies**
+- App\Services\Documentation\Knowledge\RouteExtractor
+
+**Methods**
+- __construct(1 params) : mixed
 - filename(0 params) : string
 - generate(0 params) : string
 
@@ -733,6 +962,35 @@ App\Services\Documentation\Generators
 - generate(0 params) : string
 - priority(0 params) : int
 - filename(0 params) : string
+
+---
+
+## ServiceUsageExtractor
+
+**Namespace**
+App\Services\Documentation\Knowledge
+
+**Dependencies**
+- App\Services\Documentation\Scanner\ProjectScanner
+
+**Methods**
+- __construct(1 params) : mixed
+- extract(0 params) : array
+
+---
+
+## ServiceUsageKnowledgeGenerator
+
+**Namespace**
+App\Services\Documentation\Knowledge
+
+**Dependencies**
+- App\Services\Documentation\Knowledge\ServiceUsageExtractor
+
+**Methods**
+- __construct(1 params) : mixed
+- filename(0 params) : string
+- generate(0 params) : string
 
 ---
 
@@ -872,6 +1130,47 @@ App\Services\Subscription
 **Methods**
 - __construct(1 params) : mixed
 - suspend(1 params) : bool
+
+---
+
+## TestCoverageExtractor
+
+**Namespace**
+App\Services\Documentation\Knowledge
+
+**Dependencies**
+- None
+
+**Methods**
+- extract(0 params) : array
+
+---
+
+## TodoGenerator
+
+**Namespace**
+App\Services\Documentation\Knowledge
+
+**Dependencies**
+- None
+
+**Methods**
+- extract(0 params) : array
+
+---
+
+## TodoKnowledgeGenerator
+
+**Namespace**
+App\Services\Documentation\Knowledge
+
+**Dependencies**
+- App\Services\Documentation\Knowledge\TodoGenerator
+
+**Methods**
+- __construct(1 params) : mixed
+- filename(0 params) : string
+- generate(0 params) : string
 
 ---
 

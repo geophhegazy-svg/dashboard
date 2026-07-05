@@ -440,6 +440,134 @@ App\Services\Dashboard
 
 ---
 
+## DatabaseExtractor
+
+**Namespace**
+
+```
+App\Services\Documentation\Knowledge
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Knowledge/DatabaseExtractor.php
+```
+
+**Methods**
+
+- extract() : array
+
+---
+
+## DatabaseKnowledgeGenerator
+
+**Namespace**
+
+```
+App\Services\Documentation\Knowledge
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Knowledge/DatabaseKnowledgeGenerator.php
+```
+
+**Constructor Dependencies**
+
+- DatabaseExtractor $extractor
+
+**Properties**
+
+- $extractor : App\Services\Documentation\Knowledge\DatabaseExtractor
+
+**Methods**
+
+- filename() : string
+- generate() : string
+
+---
+
+## DependencyGraphExtractor
+
+**Namespace**
+
+```
+App\Services\Documentation\Knowledge
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Knowledge/DependencyGraphExtractor.php
+```
+
+**Constructor Dependencies**
+
+- ProjectScanner $scanner
+
+**Properties**
+
+- $scanner : App\Services\Documentation\Scanner\ProjectScanner
+
+**Methods**
+
+- extract() : array
+
+---
+
+## DependencyGraphKnowledgeGenerator
+
+**Namespace**
+
+```
+App\Services\Documentation\Knowledge
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Knowledge/DependencyGraphKnowledgeGenerator.php
+```
+
+**Constructor Dependencies**
+
+- DependencyGraphExtractor $extractor
+
+**Properties**
+
+- $extractor : App\Services\Documentation\Knowledge\DependencyGraphExtractor
+
+**Methods**
+
+- filename() : string
+- generate() : string
+
+---
+
+## DocumentationDirectoryManager
+
+**Namespace**
+
+```
+App\Services\Documentation\Filesystem
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Filesystem/DocumentationDirectoryManager.php
+```
+
+**Methods**
+
+- generatedPath() : string
+- ensureExists() : void
+- file() : string
+
+---
+
 ## DocumentationGeneratorManager
 
 **Namespace**
@@ -744,6 +872,27 @@ App\Services\Documentation\Knowledge
 
 ---
 
+## KnowledgeIndexGenerator
+
+**Namespace**
+
+```
+App\Services\Documentation\Knowledge
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Knowledge/KnowledgeIndexGenerator.php
+```
+
+**Methods**
+
+- filename() : string
+- generate() : string
+
+---
+
 ## MarkdownBuilder
 
 **Namespace**
@@ -775,6 +924,34 @@ App\Services\Documentation\Builder
 - separator() : self
 - newline() : self
 - render() : string
+
+---
+
+## MarkdownExporter
+
+**Namespace**
+
+```
+App\Services\Documentation
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/MarkdownExporter.php
+```
+
+**Constructor Dependencies**
+
+- DocumentationDirectoryManager $directories
+
+**Properties**
+
+- $directories : App\Services\Documentation\Filesystem\DocumentationDirectoryManager
+
+**Methods**
+
+- export() : void
 
 ---
 
@@ -815,6 +992,55 @@ App\Services\Documentation\Reflection
 **Methods**
 
 - reflect() : array
+
+---
+
+## MigrationExtractor
+
+**Namespace**
+
+```
+App\Services\Documentation\Knowledge
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Knowledge/MigrationExtractor.php
+```
+
+**Methods**
+
+- extract() : array
+
+---
+
+## MigrationsKnowledgeGenerator
+
+**Namespace**
+
+```
+App\Services\Documentation\Knowledge
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Knowledge/MigrationsKnowledgeGenerator.php
+```
+
+**Constructor Dependencies**
+
+- MigrationExtractor $extractor
+
+**Properties**
+
+- $extractor : App\Services\Documentation\Knowledge\MigrationExtractor
+
+**Methods**
+
+- filename() : string
+- generate() : string
 
 ---
 
@@ -916,6 +1142,63 @@ App\Services\Documentation\Generators
 
 ---
 
+## ModelRelationExtractor
+
+**Namespace**
+
+```
+App\Services\Documentation\Knowledge
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Knowledge/ModelRelationExtractor.php
+```
+
+**Constructor Dependencies**
+
+- ProjectScanner $scanner
+
+**Properties**
+
+- $scanner : App\Services\Documentation\Scanner\ProjectScanner
+
+**Methods**
+
+- extract() : array
+
+---
+
+## ModelRelationsKnowledgeGenerator
+
+**Namespace**
+
+```
+App\Services\Documentation\Knowledge
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Knowledge/ModelRelationsKnowledgeGenerator.php
+```
+
+**Constructor Dependencies**
+
+- ModelRelationExtractor $extractor
+
+**Properties**
+
+- $extractor : App\Services\Documentation\Knowledge\ModelRelationExtractor
+
+**Methods**
+
+- filename() : string
+- generate() : string
+
+---
+
 ## ModelsKnowledgeGenerator
 
 **Namespace**
@@ -963,6 +1246,63 @@ App\Services\Documentation\Sections
 
 **Methods**
 
+- generate() : string
+
+---
+
+## ModuleExtractor
+
+**Namespace**
+
+```
+App\Services\Documentation\Knowledge
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Knowledge/ModuleExtractor.php
+```
+
+**Constructor Dependencies**
+
+- ProjectScanner $scanner
+
+**Properties**
+
+- $scanner : App\Services\Documentation\Scanner\ProjectScanner
+
+**Methods**
+
+- extract() : array
+
+---
+
+## ModulesKnowledgeGenerator
+
+**Namespace**
+
+```
+App\Services\Documentation\Knowledge
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Knowledge/ModulesKnowledgeGenerator.php
+```
+
+**Constructor Dependencies**
+
+- ProjectScanner $scanner
+
+**Properties**
+
+- $scanner : App\Services\Documentation\Scanner\ProjectScanner
+
+**Methods**
+
+- filename() : string
 - generate() : string
 
 ---
@@ -1087,6 +1427,63 @@ App\Services\Documentation\Scanner
 
 ---
 
+## ProjectStateExtractor
+
+**Namespace**
+
+```
+App\Services\Documentation\Knowledge
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Knowledge/ProjectStateExtractor.php
+```
+
+**Constructor Dependencies**
+
+- ProjectScanner $scanner
+
+**Properties**
+
+- $scanner : App\Services\Documentation\Scanner\ProjectScanner
+
+**Methods**
+
+- extract() : array
+
+---
+
+## ProjectStateKnowledgeGenerator
+
+**Namespace**
+
+```
+App\Services\Documentation\Knowledge
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Knowledge/ProjectStateKnowledgeGenerator.php
+```
+
+**Constructor Dependencies**
+
+- ProjectStateExtractor $extractor
+
+**Properties**
+
+- $extractor : App\Services\Documentation\Knowledge\ProjectStateExtractor
+
+**Methods**
+
+- filename() : string
+- generate() : string
+
+---
+
 ## ProjectSummaryGenerator
 
 **Namespace**
@@ -1198,6 +1595,26 @@ App\Services\Documentation\Generators
 
 ---
 
+## RouteExtractor
+
+**Namespace**
+
+```
+App\Services\Documentation\Knowledge
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Knowledge/RouteExtractor.php
+```
+
+**Methods**
+
+- extract() : array
+
+---
+
 ## RoutesKnowledgeGenerator
 
 **Namespace**
@@ -1211,6 +1628,14 @@ App\Services\Documentation\Knowledge
 ```
 /var/www/app/Services/Documentation/Knowledge/RoutesKnowledgeGenerator.php
 ```
+
+**Constructor Dependencies**
+
+- RouteExtractor $extractor
+
+**Properties**
+
+- $extractor : App\Services\Documentation\Knowledge\RouteExtractor
 
 **Methods**
 
@@ -1246,6 +1671,63 @@ App\Services\Documentation\Generators
 - generate() : string
 - priority() : int
 - filename() : string
+
+---
+
+## ServiceUsageExtractor
+
+**Namespace**
+
+```
+App\Services\Documentation\Knowledge
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Knowledge/ServiceUsageExtractor.php
+```
+
+**Constructor Dependencies**
+
+- ProjectScanner $scanner
+
+**Properties**
+
+- $scanner : App\Services\Documentation\Scanner\ProjectScanner
+
+**Methods**
+
+- extract() : array
+
+---
+
+## ServiceUsageKnowledgeGenerator
+
+**Namespace**
+
+```
+App\Services\Documentation\Knowledge
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Knowledge/ServiceUsageKnowledgeGenerator.php
+```
+
+**Constructor Dependencies**
+
+- ServiceUsageExtractor $extractor
+
+**Properties**
+
+- $extractor : App\Services\Documentation\Knowledge\ServiceUsageExtractor
+
+**Methods**
+
+- filename() : string
+- generate() : string
 
 ---
 
@@ -1497,6 +1979,75 @@ App\Services\Subscription
 **Methods**
 
 - suspend() : bool
+
+---
+
+## TestCoverageExtractor
+
+**Namespace**
+
+```
+App\Services\Documentation\Knowledge
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Knowledge/TestCoverageExtractor.php
+```
+
+**Methods**
+
+- extract() : array
+
+---
+
+## TodoGenerator
+
+**Namespace**
+
+```
+App\Services\Documentation\Knowledge
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Knowledge/TodoGenerator.php
+```
+
+**Methods**
+
+- extract() : array
+
+---
+
+## TodoKnowledgeGenerator
+
+**Namespace**
+
+```
+App\Services\Documentation\Knowledge
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Knowledge/TodoKnowledgeGenerator.php
+```
+
+**Constructor Dependencies**
+
+- TodoGenerator $extractor
+
+**Properties**
+
+- $extractor : App\Services\Documentation\Knowledge\TodoGenerator
+
+**Methods**
+
+- filename() : string
+- generate() : string
 
 ---
 

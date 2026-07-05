@@ -57,7 +57,43 @@ class KnowledgeGeneratorRegistry
         );
 
         $this->register(
+            new ServiceUsageKnowledgeGenerator()
+        );
+
+        $this->register(
+            new ModelRelationsKnowledgeGenerator()
+        );
+
+        $this->register(
+            new DependencyGraphKnowledgeGenerator()
+        );
+
+        $this->register(
+            new DatabaseKnowledgeGenerator()
+        );
+
+        $this->register(
+            new MigrationsKnowledgeGenerator()
+        );
+
+        $this->register(
+            new ModulesKnowledgeGenerator()
+        );
+
+        $this->register(
+            new ProjectStateKnowledgeGenerator()
+        );
+
+        $this->register(
             new HandoverDocumentGenerator()
+        );
+
+        $this->register(
+            new TodoKnowledgeGenerator()
+        );
+
+        $this->register(
+            new KnowledgeIndexGenerator()
         );
     }
 

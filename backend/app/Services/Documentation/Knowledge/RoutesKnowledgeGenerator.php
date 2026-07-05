@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Services\Documentation\Knowledge;
 
-use Illuminate\Support\Facades\Route;
-
 class RoutesKnowledgeGenerator implements KnowledgeGeneratorInterface
 {
+    public function __construct(
+        protected RouteExtractor $extractor = new RouteExtractor()
+    ) {}
+
     public function filename(): string
     {
         return 'ROUTES_FULL.md';
@@ -15,45 +17,22 @@ class RoutesKnowledgeGenerator implements KnowledgeGeneratorInterface
 
     public function generate(): string
     {
+        $routes = $this->extractor->extract();
+
         $markdown = [];
 
         $markdown[] = '# Routes';
         $markdown[] = '';
 
-        foreach (Route::getRoutes() as $route) {
+        foreach ($routes as $route) {
 
-            $markdown[] = '---';
+            $markdown[] = '## ' . $route['uri'];
             $markdown[] = '';
 
-            $markdown[] = '## ' . $route->uri();
-            $markdown[] = '';
-
-            $markdown[] = '**Methods**';
-            $markdown[] = '';
-
-            foreach ($route->methods() as $method) {
-                $markdown[] = '- ' . $method;
-            }
-
-            $markdown[] = '';
-
-            $markdown[] = '**Name**';
-            $markdown[] = '';
-            $markdown[] = $route->getName() ?: '-';
-            $markdown[] = '';
-
-            $markdown[] = '**Action**';
-            $markdown[] = '';
-            $markdown[] = $route->getActionName();
-            $markdown[] = '';
-
-            $markdown[] = '**Middleware**';
-            $markdown[] = '';
-
-            foreach ($route->gatherMiddleware() as $middleware) {
-                $markdown[] = '- ' . $middleware;
-            }
-
+            $markdown[] = '- Method: ' . $route['method'];
+            $markdown[] = '- Name: ' . $route['name'];
+            $markdown[] = '- Action: ' . $route['action'];
+            $markdown[] = '- Middleware: ' . $route['middleware'];
             $markdown[] = '';
         }
 
