@@ -1,6 +1,7 @@
 # Services
 
 - AIContextGenerator
+- AbstractHandoverSection
 - ActionDocumentationGenerator
 - ActivityLogService
 - ArchitectureGenerator
@@ -14,12 +15,15 @@
 - ClassReflector
 - ConstructorReflector
 - ControllerDocumentationGenerator
+- ControllersKnowledgeGenerator
 - CustomerService
 - DashboardService
 - DocumentationGeneratorManager
 - DocumentationGeneratorRegistry
 - DocumentationWriter
+- ExecutiveSummarySection
 - FileScanner
+- HandoverDocumentGenerator
 - InvoiceGenerator
 - InvoiceNumberService
 - InvoiceService
@@ -32,6 +36,7 @@
 - MikrotikConnection
 - MikrotikService
 - ModelDocumentationGenerator
+- ModelsKnowledgeGenerator
 - ModelsSection
 - NotificationService
 - PackageService
@@ -42,7 +47,9 @@
 - PropertyReflector
 - ReflectionEngine
 - RepositoryDocumentationGenerator
+- RoutesKnowledgeGenerator
 - ServiceDocumentationGenerator
+- ServicesKnowledgeGenerator
 - ServicesSection
 - StatisticsGenerator
 - SubscriptionActivationService

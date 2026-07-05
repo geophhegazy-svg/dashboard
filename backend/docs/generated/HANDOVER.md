@@ -1,0 +1,7576 @@
+# PROJECT HANDOVER DOCUMENT
+
+## 1. Executive Summary
+
+# Project Summary
+
+Project: EgyptNet ISP Management System
+
+Technology
+- Laravel 13
+- PHP 8.4
+- Docker
+- MikroTik RouterOS
+
+Statistics
+- Models: 16
+- Services: 59
+
+
+---
+
+# Project Architecture
+
+app/
+├── Console
+├── Contracts
+├── Events
+├── Http
+├── Jobs
+├── Listeners
+├── Models
+├── Policies
+├── Providers
+├── Repositories
+├── Services
+│   ├── Billing
+│   ├── Customer
+│   ├── Dashboard
+│   ├── Documentation
+│   ├── Invoice
+│   ├── Network
+│   ├── Payment
+│   ├── Subscription
+│   └── Wallet
+
+---
+
+# Project Statistics
+
+Models: 16
+Services: 59
+
+---
+
+# AI Context
+
+Project Name
+EgyptNet ISP Management System
+
+Technology Stack
+- Laravel 13
+- PHP 8.4
+- Docker
+- MySQL
+- MikroTik RouterOS API
+
+Architecture
+- Enterprise Architecture
+- Service Layer
+- Repository Pattern
+- Documentation Engine
+- Reflection Engine
+
+Implemented Modules
+- Customers
+- Packages
+- Subscriptions
+- Billing
+- Invoices
+- Payments
+- Wallet
+- Dashboard
+- Notifications
+- Inventory
+- Tickets
+
+Documentation
+- ProjectScanner
+- ReflectionEngine
+- MarkdownBuilder
+- DocumentationWriter
+- DocumentationGenerators
+
+Development Rules
+- Never bypass the Service Layer.
+- Reuse existing services whenever possible.
+- Keep Enterprise Architecture intact.
+- Keep tests passing.
+- Update generated documentation after structural changes.
+
+Current Statistics
+Models: 16
+Services: 59
+
+---
+
+# Business Rules
+
+## AIContextGenerator
+
+**Namespace**
+App\Services\Documentation\Knowledge
+
+**Dependencies**
+- App\Services\Documentation\Scanner\ProjectScanner
+
+**Methods**
+- __construct(1 params) : mixed
+- generate(0 params) : string
+- filename(0 params) : string
+
+---
+
+## AbstractHandoverSection
+
+**Namespace**
+App\Services\Documentation\Handover
+
+**Dependencies**
+- None
+
+**Methods**
+
+---
+
+## ActionDocumentationGenerator
+
+**Namespace**
+App\Services\Documentation\Generators
+
+**Dependencies**
+- App\Services\Documentation\Scanner\ProjectScanner
+
+**Methods**
+- __construct(1 params) : mixed
+- priority(0 params) : int
+- generate(0 params) : string
+- filename(0 params) : string
+
+---
+
+## ActivityLogService
+
+**Namespace**
+App\Services
+
+**Dependencies**
+- None
+
+**Methods**
+- log(5 params) : void
+
+---
+
+## ArchitectureGenerator
+
+**Namespace**
+App\Services\Documentation\Knowledge
+
+**Dependencies**
+- None
+
+**Methods**
+- generate(0 params) : string
+- filename(0 params) : string
+
+---
+
+## AutomaticBillingService
+
+**Namespace**
+App\Services\Billing
+
+**Dependencies**
+- App\Services\Billing\BillingEngine
+- App\Services\Subscription\SubscriptionRenewalService
+- App\Services\InvoiceService
+- App\Services\NotificationService
+
+**Methods**
+- __construct(4 params) : mixed
+- run(1 params) : void
+- processSubscription(1 params) : void
+
+---
+
+## BillingCycleService
+
+**Namespace**
+App\Services\Billing
+
+**Dependencies**
+- None
+
+**Methods**
+- calculateNextBillingDate(2 params) : Carbon\Carbon
+- calculateGraceDate(2 params) : Carbon\Carbon
+- isDue(1 params) : bool
+- isExpired(1 params) : bool
+
+---
+
+## BillingEngine
+
+**Namespace**
+App\Services\Billing
+
+**Dependencies**
+- None
+
+**Methods**
+- status(2 params) : App\Enums\BillingStatus
+- nextDueDate(2 params) : Carbon\Carbon
+
+---
+
+## BusinessRuleExtractor
+
+**Namespace**
+App\Services\Documentation\Knowledge
+
+**Dependencies**
+- None
+
+**Methods**
+- extract(1 params) : array
+
+---
+
+## BusinessRulesGenerator
+
+**Namespace**
+App\Services\Documentation\Knowledge
+
+**Dependencies**
+- App\Services\Documentation\Scanner\ProjectScanner
+- App\Services\Documentation\Knowledge\BusinessRuleExtractor
+
+**Methods**
+- __construct(2 params) : mixed
+- filename(0 params) : string
+- generate(0 params) : string
+
+---
+
+## ClassDocumentationGenerator
+
+**Namespace**
+App\Services\Documentation\Generators
+
+**Dependencies**
+- App\Services\Documentation\Scanner\ProjectScanner
+
+**Methods**
+- __construct(1 params) : mixed
+- generate(0 params) : string
+
+---
+
+## ClassFinder
+
+**Namespace**
+App\Services\Documentation\Scanner
+
+**Dependencies**
+- None
+
+**Methods**
+- find(1 params) : ?string
+- findMany(1 params) : array
+
+---
+
+## ClassReflector
+
+**Namespace**
+App\Services\Documentation\Reflection
+
+**Dependencies**
+- None
+
+**Methods**
+- methods(1 params) : array
+
+---
+
+## ConstructorReflector
+
+**Namespace**
+App\Services\Documentation\Reflection
+
+**Dependencies**
+- None
+
+**Methods**
+- reflect(1 params) : array
+
+---
+
+## ControllerDocumentationGenerator
+
+**Namespace**
+App\Services\Documentation\Generators
+
+**Dependencies**
+- App\Services\Documentation\Scanner\ProjectScanner
+
+**Methods**
+- __construct(1 params) : mixed
+- priority(0 params) : int
+- generate(0 params) : string
+- filename(0 params) : string
+
+---
+
+## ControllersKnowledgeGenerator
+
+**Namespace**
+App\Services\Documentation\Knowledge
+
+**Dependencies**
+- App\Services\Documentation\Scanner\ProjectScanner
+- App\Services\Documentation\Reflection\ReflectionEngine
+
+**Methods**
+- __construct(2 params) : mixed
+- filename(0 params) : string
+- generate(0 params) : string
+
+---
+
+## CustomerService
+
+**Namespace**
+App\Services\Customer
+
+**Dependencies**
+- None
+
+**Methods**
+- create(1 params) : App\Models\Customer
+- update(2 params) : App\Models\Customer
+- delete(1 params) : bool
+
+---
+
+## DashboardService
+
+**Namespace**
+App\Services\Dashboard
+
+**Dependencies**
+- None
+
+**Methods**
+- getDashboardData(0 params) : array
+
+---
+
+## DocumentationGeneratorManager
+
+**Namespace**
+App\Services\Documentation\Manager
+
+**Dependencies**
+- App\Services\Documentation\Registry\DocumentationGeneratorRegistry
+- App\Services\Documentation\Writer\DocumentationWriter
+
+**Methods**
+- __construct(2 params) : mixed
+- generate(0 params) : void
+
+---
+
+## DocumentationGeneratorRegistry
+
+**Namespace**
+App\Services\Documentation\Registry
+
+**Dependencies**
+- None
+
+**Methods**
+- register(1 params) : self
+- all(0 params) : array
+
+---
+
+## DocumentationWriter
+
+**Namespace**
+App\Services\Documentation\Writer
+
+**Dependencies**
+- None
+
+**Methods**
+- __construct(1 params) : mixed
+- write(2 params) : void
+- exists(1 params) : bool
+- read(1 params) : string
+- delete(1 params) : void
+
+---
+
+## ExecutiveSummarySection
+
+**Namespace**
+App\Services\Documentation\Handover
+
+**Dependencies**
+- None
+
+**Methods**
+- generate(0 params) : string
+
+---
+
+## FileScanner
+
+**Namespace**
+App\Services\Documentation\Scanner
+
+**Dependencies**
+- None
+
+**Methods**
+- scan(1 params) : array
+
+---
+
+## HandoverDocumentGenerator
+
+**Namespace**
+App\Services\Documentation\Knowledge
+
+**Dependencies**
+- None
+
+**Methods**
+- filename(0 params) : string
+- generate(0 params) : string
+
+---
+
+## InvoiceGenerator
+
+**Namespace**
+App\Services\Billing
+
+**Dependencies**
+- App\Services\InvoiceNumberService
+
+**Methods**
+- __construct(1 params) : mixed
+- generate(1 params) : App\Models\Invoice
+
+---
+
+## InvoiceNumberService
+
+**Namespace**
+App\Services
+
+**Dependencies**
+- None
+
+**Methods**
+- generate(0 params) : string
+
+---
+
+## InvoiceService
+
+**Namespace**
+App\Services\Invoice
+
+**Dependencies**
+- None
+
+**Methods**
+- create(1 params) : App\Models\Invoice
+- update(2 params) : App\Models\Invoice
+- delete(1 params) : bool
+
+---
+
+## KnowledgeExporter
+
+**Namespace**
+App\Services\Documentation\Knowledge
+
+**Dependencies**
+- App\Services\Documentation\Writer\DocumentationWriter
+
+**Methods**
+- __construct(1 params) : mixed
+- export(0 params) : void
+
+---
+
+## KnowledgeGeneratorManager
+
+**Namespace**
+App\Services\Documentation\Knowledge
+
+**Dependencies**
+- App\Services\Documentation\Knowledge\KnowledgeGeneratorRegistry
+- App\Services\Documentation\Writer\DocumentationWriter
+
+**Methods**
+- __construct(2 params) : mixed
+- generate(0 params) : void
+
+---
+
+## KnowledgeGeneratorRegistry
+
+**Namespace**
+App\Services\Documentation\Knowledge
+
+**Dependencies**
+- App\Services\Documentation\Scanner\ProjectScanner
+
+**Methods**
+- __construct(1 params) : mixed
+- register(1 params) : self
+- generators(0 params) : array
+
+---
+
+## MarkdownBuilder
+
+**Namespace**
+App\Services\Documentation\Builder
+
+**Dependencies**
+- None
+
+**Methods**
+- title(1 params) : self
+- h2(1 params) : self
+- h3(1 params) : self
+- text(1 params) : self
+- bullet(1 params) : self
+- numbered(2 params) : self
+- code(2 params) : self
+- table(2 params) : self
+- separator(0 params) : self
+- newline(0 params) : self
+- render(0 params) : string
+
+---
+
+## MetadataExtractor
+
+**Namespace**
+App\Services\Documentation\Scanner
+
+**Dependencies**
+- None
+
+**Methods**
+- extract(1 params) : array
+
+---
+
+## MethodReflector
+
+**Namespace**
+App\Services\Documentation\Reflection
+
+**Dependencies**
+- None
+
+**Methods**
+- reflect(1 params) : array
+
+---
+
+## MikrotikConnection
+
+**Namespace**
+App\Services\Network
+
+**Dependencies**
+- None
+
+**Methods**
+- client(0 params) : RouterOS\Client
+- execute(1 params) : array
+
+---
+
+## MikrotikService
+
+**Namespace**
+App\Services\Network
+
+**Dependencies**
+- App\Services\Network\MikrotikConnection
+
+**Methods**
+- __construct(1 params) : mixed
+- getPppoeUsers(0 params) : array
+- createPppoe(3 params) : mixed
+- findPppoe(1 params) : mixed
+- deletePppoe(1 params) : bool
+- enablePppoe(1 params) : bool
+- disablePppoe(1 params) : bool
+- getHotspotUsers(0 params) : array
+- getActiveHotspotUsers(0 params) : array
+- createHotspot(3 params) : mixed
+- findHotspot(1 params) : mixed
+- deleteHotspot(1 params) : bool
+- enableHotspot(1 params) : bool
+- disableHotspot(1 params) : bool
+- getDhcpLeases(0 params) : array
+- run(1 params) : array
+- raw(1 params) : array
+
+---
+
+## ModelDocumentationGenerator
+
+**Namespace**
+App\Services\Documentation\Generators
+
+**Dependencies**
+- App\Services\Documentation\Scanner\ProjectScanner
+
+**Methods**
+- __construct(1 params) : mixed
+- generate(0 params) : string
+- priority(0 params) : int
+- filename(0 params) : string
+
+---
+
+## ModelsKnowledgeGenerator
+
+**Namespace**
+App\Services\Documentation\Knowledge
+
+**Dependencies**
+- App\Services\Documentation\Scanner\ProjectScanner
+- App\Services\Documentation\Reflection\ReflectionEngine
+
+**Methods**
+- __construct(2 params) : mixed
+- filename(0 params) : string
+- generate(0 params) : string
+
+---
+
+## ModelsSection
+
+**Namespace**
+App\Services\Documentation\Sections
+
+**Dependencies**
+- None
+
+**Methods**
+- generate(0 params) : string
+
+---
+
+## NotificationService
+
+**Namespace**
+App\Services
+
+**Dependencies**
+- None
+
+**Methods**
+- createReminder(2 params) : mixed
+
+---
+
+## PackageService
+
+**Namespace**
+App\Services\Package
+
+**Dependencies**
+- None
+
+**Methods**
+- paginate(0 params) : Illuminate\Contracts\Pagination\LengthAwarePaginator
+- create(1 params) : App\Models\Package
+- update(2 params) : App\Models\Package
+- delete(1 params) : void
+
+---
+
+## PaymentService
+
+**Namespace**
+App\Services\Payment
+
+**Dependencies**
+- None
+
+**Methods**
+- create(1 params) : App\Models\Payment
+
+---
+
+## ProjectBibleService
+
+**Namespace**
+App\Services\Documentation
+
+**Dependencies**
+- None
+
+**Methods**
+- generate(0 params) : string
+
+---
+
+## ProjectScanner
+
+**Namespace**
+App\Services\Documentation\Scanner
+
+**Dependencies**
+- App\Services\Documentation\Scanner\FileScanner
+- App\Services\Documentation\Scanner\ClassFinder
+- App\Services\Documentation\Scanner\MetadataExtractor
+
+**Methods**
+- __construct(3 params) : mixed
+- models(0 params) : array
+- services(0 params) : array
+- controllers(0 params) : array
+- repositories(0 params) : array
+- actions(0 params) : array
+- all(0 params) : array
+
+---
+
+## ProjectSummaryGenerator
+
+**Namespace**
+App\Services\Documentation\Knowledge
+
+**Dependencies**
+- App\Services\Documentation\Scanner\ProjectScanner
+
+**Methods**
+- __construct(1 params) : mixed
+- generate(0 params) : string
+- filename(0 params) : string
+
+---
+
+## PropertyReflector
+
+**Namespace**
+App\Services\Documentation\Reflection
+
+**Dependencies**
+- None
+
+**Methods**
+- reflect(1 params) : array
+
+---
+
+## ReflectionEngine
+
+**Namespace**
+App\Services\Documentation\Reflection
+
+**Dependencies**
+- App\Services\Documentation\Reflection\MethodReflector
+- App\Services\Documentation\Reflection\PropertyReflector
+- App\Services\Documentation\Reflection\ConstructorReflector
+
+**Methods**
+- __construct(3 params) : mixed
+- reflect(1 params) : array
+
+---
+
+## RepositoryDocumentationGenerator
+
+**Namespace**
+App\Services\Documentation\Generators
+
+**Dependencies**
+- App\Services\Documentation\Scanner\ProjectScanner
+
+**Methods**
+- __construct(1 params) : mixed
+- priority(0 params) : int
+- generate(0 params) : string
+- filename(0 params) : string
+
+---
+
+## RoutesKnowledgeGenerator
+
+**Namespace**
+App\Services\Documentation\Knowledge
+
+**Dependencies**
+- None
+
+**Methods**
+- filename(0 params) : string
+- generate(0 params) : string
+
+---
+
+## ServiceDocumentationGenerator
+
+**Namespace**
+App\Services\Documentation\Generators
+
+**Dependencies**
+- App\Services\Documentation\Scanner\ProjectScanner
+
+**Methods**
+- __construct(1 params) : mixed
+- generate(0 params) : string
+- priority(0 params) : int
+- filename(0 params) : string
+
+---
+
+## ServicesKnowledgeGenerator
+
+**Namespace**
+App\Services\Documentation\Knowledge
+
+**Dependencies**
+- App\Services\Documentation\Scanner\ProjectScanner
+- App\Services\Documentation\Reflection\ReflectionEngine
+
+**Methods**
+- __construct(2 params) : mixed
+- filename(0 params) : string
+- generate(0 params) : string
+
+---
+
+## ServicesSection
+
+**Namespace**
+App\Services\Documentation\Sections
+
+**Dependencies**
+- None
+
+**Methods**
+- generate(0 params) : string
+
+---
+
+## StatisticsGenerator
+
+**Namespace**
+App\Services\Documentation\Knowledge
+
+**Dependencies**
+- App\Services\Documentation\Scanner\ProjectScanner
+
+**Methods**
+- __construct(1 params) : mixed
+- generate(0 params) : string
+- filename(0 params) : string
+
+---
+
+## SubscriptionActivationService
+
+**Namespace**
+App\Services\Subscription
+
+**Dependencies**
+- App\Contracts\MikrotikServiceInterface
+
+**Methods**
+- __construct(1 params) : mixed
+- activate(1 params) : bool
+
+---
+
+## SubscriptionActivityService
+
+**Namespace**
+App\Services\Activity
+
+**Dependencies**
+- None
+
+**Methods**
+- log(4 params) : App\Models\ActivityLog
+
+---
+
+## SubscriptionExpirationService
+
+**Namespace**
+App\Services\Subscription
+
+**Dependencies**
+- App\Actions\Subscription\ExpireSubscriptionAction
+
+**Methods**
+- __construct(1 params) : mixed
+- expire(1 params) : bool
+
+---
+
+## SubscriptionRenewalService
+
+**Namespace**
+App\Services
+
+**Dependencies**
+- None
+
+**Methods**
+- renewPppoe(2 params) : bool
+- renewHotspot(2 params) : bool
+
+---
+
+## SubscriptionService
+
+**Namespace**
+App\Services\Subscription
+
+**Dependencies**
+- App\Contracts\Repositories\SubscriptionRepositoryInterface
+- App\Contracts\MikrotikServiceInterface
+- App\Actions\Subscription\ActivateSubscriptionAction
+- App\Actions\Subscription\SuspendSubscriptionAction
+- App\Actions\Subscription\ExpireSubscriptionAction
+- App\Actions\Subscription\RenewSubscriptionAction
+- App\Actions\Subscription\RestoreSubscriptionAction
+
+**Methods**
+- __construct(7 params) : mixed
+- activate(1 params) : bool
+- suspend(1 params) : bool
+- expire(1 params) : bool
+- renew(2 params) : bool
+- restore(1 params) : bool
+- availablePppoeUsers(0 params) : array
+- linkPppoe(2 params) : App\Models\Subscription
+
+---
+
+## SubscriptionSuspensionService
+
+**Namespace**
+App\Services\Subscription
+
+**Dependencies**
+- App\Actions\Subscription\SuspendSubscriptionAction
+
+**Methods**
+- __construct(1 params) : mixed
+- suspend(1 params) : bool
+
+---
+
+## WalletService
+
+**Namespace**
+App\Services
+
+**Dependencies**
+- None
+
+**Methods**
+- deposit(4 params) : void
+- deduct(4 params) : void
+
+---
+
+---
+
+# Models
+
+---
+
+## ActivityLog
+
+**Namespace**
+
+```
+App\Models
+```
+
+**File**
+
+```
+/var/www/app/Models/ActivityLog.php
+```
+
+**Properties**
+
+- $fillable : mixed
+- $appends : mixed
+- $connection : mixed
+- $table : mixed
+- $primaryKey : mixed
+- $keyType : mixed
+- $incrementing : mixed
+- $with : mixed
+- $withCount : mixed
+- $preventsLazyLoading : mixed
+- $perPage : mixed
+- $exists : mixed
+- $wasRecentlyCreated : mixed
+- $escapeWhenCastingToString : mixed
+- $resolver : mixed
+- $dispatcher : mixed
+- $booting : mixed
+- $booted : mixed
+- $bootedCallbacks : mixed
+- $traitInitializers : mixed
+- $globalScopes : mixed
+- $ignoreOnTouch : mixed
+- $modelsShouldPreventLazyLoading : mixed
+- $modelsShouldAutomaticallyEagerLoadRelationships : mixed
+- $lazyLoadingViolationCallback : mixed
+- $modelsShouldPreventSilentlyDiscardingAttributes : mixed
+- $discardedAttributeViolationCallback : mixed
+- $modelsShouldPreventAccessingMissingAttributes : mixed
+- $missingAttributeViolationCallback : mixed
+- $isBroadcasting : mixed
+- $builder : string
+- $collectionClass : string
+- $isSoftDeletable : array
+- $isPrunable : array
+- $isMassPrunable : array
+- $classAttributes : array
+- $attributes : mixed
+- $original : mixed
+- $changes : mixed
+- $previous : mixed
+- $casts : mixed
+- $classCastCache : mixed
+- $attributeCastCache : mixed
+- $primitiveCastTypes : mixed
+- $dateFormat : mixed
+- $snakeAttributes : mixed
+- $mutatorCache : mixed
+- $attributeMutatorCache : mixed
+- $getAttributeMutatorCache : mixed
+- $setAttributeMutatorCache : mixed
+- $castTypeCache : mixed
+- $encrypter : mixed
+- $dispatchesEvents : mixed
+- $observables : mixed
+- $relations : mixed
+- $touches : mixed
+- $relationAutoloadCallback : mixed
+- $relationAutoloadContext : mixed
+- $manyMethods : mixed
+- $relationResolvers : mixed
+- $timestamps : mixed
+- $ignoreTimestampsOn : mixed
+- $usesUniqueIds : mixed
+- $hidden : mixed
+- $visible : mixed
+- $guarded : mixed
+- $unguarded : mixed
+- $guardableColumns : mixed
+- $recursionCache : mixed
+- $resolvedCollectionClasses : array
+
+**Methods**
+
+- getIconAttribute()
+- getColorAttribute()
+- getTitleAttribute()
+- tenant()
+- user()
+
+---
+
+## Customer
+
+**Namespace**
+
+```
+App\Models
+```
+
+**File**
+
+```
+/var/www/app/Models/Customer.php
+```
+
+**Properties**
+
+- $fillable : mixed
+- $hidden : mixed
+- $casts : mixed
+- $connection : mixed
+- $table : mixed
+- $primaryKey : mixed
+- $keyType : mixed
+- $incrementing : mixed
+- $with : mixed
+- $withCount : mixed
+- $preventsLazyLoading : mixed
+- $perPage : mixed
+- $exists : mixed
+- $wasRecentlyCreated : mixed
+- $escapeWhenCastingToString : mixed
+- $resolver : mixed
+- $dispatcher : mixed
+- $booting : mixed
+- $booted : mixed
+- $bootedCallbacks : mixed
+- $traitInitializers : mixed
+- $globalScopes : mixed
+- $ignoreOnTouch : mixed
+- $modelsShouldPreventLazyLoading : mixed
+- $modelsShouldAutomaticallyEagerLoadRelationships : mixed
+- $lazyLoadingViolationCallback : mixed
+- $modelsShouldPreventSilentlyDiscardingAttributes : mixed
+- $discardedAttributeViolationCallback : mixed
+- $modelsShouldPreventAccessingMissingAttributes : mixed
+- $missingAttributeViolationCallback : mixed
+- $isBroadcasting : mixed
+- $builder : string
+- $collectionClass : string
+- $isSoftDeletable : array
+- $isPrunable : array
+- $isMassPrunable : array
+- $classAttributes : array
+- $attributes : mixed
+- $original : mixed
+- $changes : mixed
+- $previous : mixed
+- $classCastCache : mixed
+- $attributeCastCache : mixed
+- $primitiveCastTypes : mixed
+- $dateFormat : mixed
+- $appends : mixed
+- $snakeAttributes : mixed
+- $mutatorCache : mixed
+- $attributeMutatorCache : mixed
+- $getAttributeMutatorCache : mixed
+- $setAttributeMutatorCache : mixed
+- $castTypeCache : mixed
+- $encrypter : mixed
+- $dispatchesEvents : mixed
+- $observables : mixed
+- $relations : mixed
+- $touches : mixed
+- $relationAutoloadCallback : mixed
+- $relationAutoloadContext : mixed
+- $manyMethods : mixed
+- $relationResolvers : mixed
+- $timestamps : mixed
+- $ignoreTimestampsOn : mixed
+- $usesUniqueIds : mixed
+- $visible : mixed
+- $guarded : mixed
+- $unguarded : mixed
+- $guardableColumns : mixed
+- $recursionCache : mixed
+- $resolvedCollectionClasses : array
+- $authPasswordName : mixed
+- $rememberTokenName : mixed
+- $accessToken : mixed
+
+**Methods**
+
+- subscriptions()
+- walletTransactions()
+- notifications()
+- factory()
+- tokens()
+- tokenCan()
+- tokenCant()
+- createToken()
+- generateTokenString()
+- currentAccessToken()
+- withAccessToken()
+- readNotifications()
+- unreadNotifications()
+- notify()
+- notifyNow()
+- routeNotificationFor()
+
+---
+
+## Device
+
+**Namespace**
+
+```
+App\Models
+```
+
+**File**
+
+```
+/var/www/app/Models/Device.php
+```
+
+**Properties**
+
+- $fillable : mixed
+- $connection : mixed
+- $table : mixed
+- $primaryKey : mixed
+- $keyType : mixed
+- $incrementing : mixed
+- $with : mixed
+- $withCount : mixed
+- $preventsLazyLoading : mixed
+- $perPage : mixed
+- $exists : mixed
+- $wasRecentlyCreated : mixed
+- $escapeWhenCastingToString : mixed
+- $resolver : mixed
+- $dispatcher : mixed
+- $booting : mixed
+- $booted : mixed
+- $bootedCallbacks : mixed
+- $traitInitializers : mixed
+- $globalScopes : mixed
+- $ignoreOnTouch : mixed
+- $modelsShouldPreventLazyLoading : mixed
+- $modelsShouldAutomaticallyEagerLoadRelationships : mixed
+- $lazyLoadingViolationCallback : mixed
+- $modelsShouldPreventSilentlyDiscardingAttributes : mixed
+- $discardedAttributeViolationCallback : mixed
+- $modelsShouldPreventAccessingMissingAttributes : mixed
+- $missingAttributeViolationCallback : mixed
+- $isBroadcasting : mixed
+- $builder : string
+- $collectionClass : string
+- $isSoftDeletable : array
+- $isPrunable : array
+- $isMassPrunable : array
+- $classAttributes : array
+- $attributes : mixed
+- $original : mixed
+- $changes : mixed
+- $previous : mixed
+- $casts : mixed
+- $classCastCache : mixed
+- $attributeCastCache : mixed
+- $primitiveCastTypes : mixed
+- $dateFormat : mixed
+- $appends : mixed
+- $snakeAttributes : mixed
+- $mutatorCache : mixed
+- $attributeMutatorCache : mixed
+- $getAttributeMutatorCache : mixed
+- $setAttributeMutatorCache : mixed
+- $castTypeCache : mixed
+- $encrypter : mixed
+- $dispatchesEvents : mixed
+- $observables : mixed
+- $relations : mixed
+- $touches : mixed
+- $relationAutoloadCallback : mixed
+- $relationAutoloadContext : mixed
+- $manyMethods : mixed
+- $relationResolvers : mixed
+- $timestamps : mixed
+- $ignoreTimestampsOn : mixed
+- $usesUniqueIds : mixed
+- $hidden : mixed
+- $visible : mixed
+- $guarded : mixed
+- $unguarded : mixed
+- $guardableColumns : mixed
+- $recursionCache : mixed
+- $resolvedCollectionClasses : array
+
+**Methods**
+
+- tenant()
+- customer()
+
+---
+
+## DeviceAssignment
+
+**Namespace**
+
+```
+App\Models
+```
+
+**File**
+
+```
+/var/www/app/Models/DeviceAssignment.php
+```
+
+**Properties**
+
+- $fillable : mixed
+- $casts : mixed
+- $connection : mixed
+- $table : mixed
+- $primaryKey : mixed
+- $keyType : mixed
+- $incrementing : mixed
+- $with : mixed
+- $withCount : mixed
+- $preventsLazyLoading : mixed
+- $perPage : mixed
+- $exists : mixed
+- $wasRecentlyCreated : mixed
+- $escapeWhenCastingToString : mixed
+- $resolver : mixed
+- $dispatcher : mixed
+- $booting : mixed
+- $booted : mixed
+- $bootedCallbacks : mixed
+- $traitInitializers : mixed
+- $globalScopes : mixed
+- $ignoreOnTouch : mixed
+- $modelsShouldPreventLazyLoading : mixed
+- $modelsShouldAutomaticallyEagerLoadRelationships : mixed
+- $lazyLoadingViolationCallback : mixed
+- $modelsShouldPreventSilentlyDiscardingAttributes : mixed
+- $discardedAttributeViolationCallback : mixed
+- $modelsShouldPreventAccessingMissingAttributes : mixed
+- $missingAttributeViolationCallback : mixed
+- $isBroadcasting : mixed
+- $builder : string
+- $collectionClass : string
+- $isSoftDeletable : array
+- $isPrunable : array
+- $isMassPrunable : array
+- $classAttributes : array
+- $attributes : mixed
+- $original : mixed
+- $changes : mixed
+- $previous : mixed
+- $classCastCache : mixed
+- $attributeCastCache : mixed
+- $primitiveCastTypes : mixed
+- $dateFormat : mixed
+- $appends : mixed
+- $snakeAttributes : mixed
+- $mutatorCache : mixed
+- $attributeMutatorCache : mixed
+- $getAttributeMutatorCache : mixed
+- $setAttributeMutatorCache : mixed
+- $castTypeCache : mixed
+- $encrypter : mixed
+- $dispatchesEvents : mixed
+- $observables : mixed
+- $relations : mixed
+- $touches : mixed
+- $relationAutoloadCallback : mixed
+- $relationAutoloadContext : mixed
+- $manyMethods : mixed
+- $relationResolvers : mixed
+- $timestamps : mixed
+- $ignoreTimestampsOn : mixed
+- $usesUniqueIds : mixed
+- $hidden : mixed
+- $visible : mixed
+- $guarded : mixed
+- $unguarded : mixed
+- $guardableColumns : mixed
+- $recursionCache : mixed
+- $resolvedCollectionClasses : array
+
+**Methods**
+
+- tenant()
+- customer()
+- device()
+
+---
+
+## HotspotSubscription
+
+**Namespace**
+
+```
+App\Models
+```
+
+**File**
+
+```
+/var/www/app/Models/HotspotSubscription.php
+```
+
+**Properties**
+
+- $fillable : mixed
+- $casts : mixed
+- $connection : mixed
+- $table : mixed
+- $primaryKey : mixed
+- $keyType : mixed
+- $incrementing : mixed
+- $with : mixed
+- $withCount : mixed
+- $preventsLazyLoading : mixed
+- $perPage : mixed
+- $exists : mixed
+- $wasRecentlyCreated : mixed
+- $escapeWhenCastingToString : mixed
+- $resolver : mixed
+- $dispatcher : mixed
+- $booting : mixed
+- $booted : mixed
+- $bootedCallbacks : mixed
+- $traitInitializers : mixed
+- $globalScopes : mixed
+- $ignoreOnTouch : mixed
+- $modelsShouldPreventLazyLoading : mixed
+- $modelsShouldAutomaticallyEagerLoadRelationships : mixed
+- $lazyLoadingViolationCallback : mixed
+- $modelsShouldPreventSilentlyDiscardingAttributes : mixed
+- $discardedAttributeViolationCallback : mixed
+- $modelsShouldPreventAccessingMissingAttributes : mixed
+- $missingAttributeViolationCallback : mixed
+- $isBroadcasting : mixed
+- $builder : string
+- $collectionClass : string
+- $isSoftDeletable : array
+- $isPrunable : array
+- $isMassPrunable : array
+- $classAttributes : array
+- $attributes : mixed
+- $original : mixed
+- $changes : mixed
+- $previous : mixed
+- $classCastCache : mixed
+- $attributeCastCache : mixed
+- $primitiveCastTypes : mixed
+- $dateFormat : mixed
+- $appends : mixed
+- $snakeAttributes : mixed
+- $mutatorCache : mixed
+- $attributeMutatorCache : mixed
+- $getAttributeMutatorCache : mixed
+- $setAttributeMutatorCache : mixed
+- $castTypeCache : mixed
+- $encrypter : mixed
+- $dispatchesEvents : mixed
+- $observables : mixed
+- $relations : mixed
+- $touches : mixed
+- $relationAutoloadCallback : mixed
+- $relationAutoloadContext : mixed
+- $manyMethods : mixed
+- $relationResolvers : mixed
+- $timestamps : mixed
+- $ignoreTimestampsOn : mixed
+- $usesUniqueIds : mixed
+- $hidden : mixed
+- $visible : mixed
+- $guarded : mixed
+- $unguarded : mixed
+- $guardableColumns : mixed
+- $recursionCache : mixed
+- $resolvedCollectionClasses : array
+
+**Methods**
+
+- tenant()
+- customer()
+- package()
+- invoices()
+
+---
+
+## Inventory
+
+**Namespace**
+
+```
+App\Models
+```
+
+**File**
+
+```
+/var/www/app/Models/Inventory.php
+```
+
+**Properties**
+
+- $fillable : mixed
+- $connection : mixed
+- $table : mixed
+- $primaryKey : mixed
+- $keyType : mixed
+- $incrementing : mixed
+- $with : mixed
+- $withCount : mixed
+- $preventsLazyLoading : mixed
+- $perPage : mixed
+- $exists : mixed
+- $wasRecentlyCreated : mixed
+- $escapeWhenCastingToString : mixed
+- $resolver : mixed
+- $dispatcher : mixed
+- $booting : mixed
+- $booted : mixed
+- $bootedCallbacks : mixed
+- $traitInitializers : mixed
+- $globalScopes : mixed
+- $ignoreOnTouch : mixed
+- $modelsShouldPreventLazyLoading : mixed
+- $modelsShouldAutomaticallyEagerLoadRelationships : mixed
+- $lazyLoadingViolationCallback : mixed
+- $modelsShouldPreventSilentlyDiscardingAttributes : mixed
+- $discardedAttributeViolationCallback : mixed
+- $modelsShouldPreventAccessingMissingAttributes : mixed
+- $missingAttributeViolationCallback : mixed
+- $isBroadcasting : mixed
+- $builder : string
+- $collectionClass : string
+- $isSoftDeletable : array
+- $isPrunable : array
+- $isMassPrunable : array
+- $classAttributes : array
+- $attributes : mixed
+- $original : mixed
+- $changes : mixed
+- $previous : mixed
+- $casts : mixed
+- $classCastCache : mixed
+- $attributeCastCache : mixed
+- $primitiveCastTypes : mixed
+- $dateFormat : mixed
+- $appends : mixed
+- $snakeAttributes : mixed
+- $mutatorCache : mixed
+- $attributeMutatorCache : mixed
+- $getAttributeMutatorCache : mixed
+- $setAttributeMutatorCache : mixed
+- $castTypeCache : mixed
+- $encrypter : mixed
+- $dispatchesEvents : mixed
+- $observables : mixed
+- $relations : mixed
+- $touches : mixed
+- $relationAutoloadCallback : mixed
+- $relationAutoloadContext : mixed
+- $manyMethods : mixed
+- $relationResolvers : mixed
+- $timestamps : mixed
+- $ignoreTimestampsOn : mixed
+- $usesUniqueIds : mixed
+- $hidden : mixed
+- $visible : mixed
+- $guarded : mixed
+- $unguarded : mixed
+- $guardableColumns : mixed
+- $recursionCache : mixed
+- $resolvedCollectionClasses : array
+
+**Methods**
+
+- tenant()
+- isLowStock()
+
+---
+
+## Invoice
+
+**Namespace**
+
+```
+App\Models
+```
+
+**File**
+
+```
+/var/www/app/Models/Invoice.php
+```
+
+**Properties**
+
+- $fillable : mixed
+- $casts : mixed
+- $connection : mixed
+- $table : mixed
+- $primaryKey : mixed
+- $keyType : mixed
+- $incrementing : mixed
+- $with : mixed
+- $withCount : mixed
+- $preventsLazyLoading : mixed
+- $perPage : mixed
+- $exists : mixed
+- $wasRecentlyCreated : mixed
+- $escapeWhenCastingToString : mixed
+- $resolver : mixed
+- $dispatcher : mixed
+- $booting : mixed
+- $booted : mixed
+- $bootedCallbacks : mixed
+- $traitInitializers : mixed
+- $globalScopes : mixed
+- $ignoreOnTouch : mixed
+- $modelsShouldPreventLazyLoading : mixed
+- $modelsShouldAutomaticallyEagerLoadRelationships : mixed
+- $lazyLoadingViolationCallback : mixed
+- $modelsShouldPreventSilentlyDiscardingAttributes : mixed
+- $discardedAttributeViolationCallback : mixed
+- $modelsShouldPreventAccessingMissingAttributes : mixed
+- $missingAttributeViolationCallback : mixed
+- $isBroadcasting : mixed
+- $builder : string
+- $collectionClass : string
+- $isSoftDeletable : array
+- $isPrunable : array
+- $isMassPrunable : array
+- $classAttributes : array
+- $attributes : mixed
+- $original : mixed
+- $changes : mixed
+- $previous : mixed
+- $classCastCache : mixed
+- $attributeCastCache : mixed
+- $primitiveCastTypes : mixed
+- $dateFormat : mixed
+- $appends : mixed
+- $snakeAttributes : mixed
+- $mutatorCache : mixed
+- $attributeMutatorCache : mixed
+- $getAttributeMutatorCache : mixed
+- $setAttributeMutatorCache : mixed
+- $castTypeCache : mixed
+- $encrypter : mixed
+- $dispatchesEvents : mixed
+- $observables : mixed
+- $relations : mixed
+- $touches : mixed
+- $relationAutoloadCallback : mixed
+- $relationAutoloadContext : mixed
+- $manyMethods : mixed
+- $relationResolvers : mixed
+- $timestamps : mixed
+- $ignoreTimestampsOn : mixed
+- $usesUniqueIds : mixed
+- $hidden : mixed
+- $visible : mixed
+- $guarded : mixed
+- $unguarded : mixed
+- $guardableColumns : mixed
+- $recursionCache : mixed
+- $resolvedCollectionClasses : array
+
+**Methods**
+
+- tenant()
+- customer()
+- subscription()
+- payments()
+- hotspotSubscription()
+- factory()
+
+---
+
+## Notification
+
+**Namespace**
+
+```
+App\Models
+```
+
+**File**
+
+```
+/var/www/app/Models/Notification.php
+```
+
+**Properties**
+
+- $fillable : mixed
+- $casts : mixed
+- $connection : mixed
+- $table : mixed
+- $primaryKey : mixed
+- $keyType : mixed
+- $incrementing : mixed
+- $with : mixed
+- $withCount : mixed
+- $preventsLazyLoading : mixed
+- $perPage : mixed
+- $exists : mixed
+- $wasRecentlyCreated : mixed
+- $escapeWhenCastingToString : mixed
+- $resolver : mixed
+- $dispatcher : mixed
+- $booting : mixed
+- $booted : mixed
+- $bootedCallbacks : mixed
+- $traitInitializers : mixed
+- $globalScopes : mixed
+- $ignoreOnTouch : mixed
+- $modelsShouldPreventLazyLoading : mixed
+- $modelsShouldAutomaticallyEagerLoadRelationships : mixed
+- $lazyLoadingViolationCallback : mixed
+- $modelsShouldPreventSilentlyDiscardingAttributes : mixed
+- $discardedAttributeViolationCallback : mixed
+- $modelsShouldPreventAccessingMissingAttributes : mixed
+- $missingAttributeViolationCallback : mixed
+- $isBroadcasting : mixed
+- $builder : string
+- $collectionClass : string
+- $isSoftDeletable : array
+- $isPrunable : array
+- $isMassPrunable : array
+- $classAttributes : array
+- $attributes : mixed
+- $original : mixed
+- $changes : mixed
+- $previous : mixed
+- $classCastCache : mixed
+- $attributeCastCache : mixed
+- $primitiveCastTypes : mixed
+- $dateFormat : mixed
+- $appends : mixed
+- $snakeAttributes : mixed
+- $mutatorCache : mixed
+- $attributeMutatorCache : mixed
+- $getAttributeMutatorCache : mixed
+- $setAttributeMutatorCache : mixed
+- $castTypeCache : mixed
+- $encrypter : mixed
+- $dispatchesEvents : mixed
+- $observables : mixed
+- $relations : mixed
+- $touches : mixed
+- $relationAutoloadCallback : mixed
+- $relationAutoloadContext : mixed
+- $manyMethods : mixed
+- $relationResolvers : mixed
+- $timestamps : mixed
+- $ignoreTimestampsOn : mixed
+- $usesUniqueIds : mixed
+- $hidden : mixed
+- $visible : mixed
+- $guarded : mixed
+- $unguarded : mixed
+- $guardableColumns : mixed
+- $recursionCache : mixed
+- $resolvedCollectionClasses : array
+
+---
+
+## Package
+
+**Namespace**
+
+```
+App\Models
+```
+
+**File**
+
+```
+/var/www/app/Models/Package.php
+```
+
+**Properties**
+
+- $fillable : mixed
+- $connection : mixed
+- $table : mixed
+- $primaryKey : mixed
+- $keyType : mixed
+- $incrementing : mixed
+- $with : mixed
+- $withCount : mixed
+- $preventsLazyLoading : mixed
+- $perPage : mixed
+- $exists : mixed
+- $wasRecentlyCreated : mixed
+- $escapeWhenCastingToString : mixed
+- $resolver : mixed
+- $dispatcher : mixed
+- $booting : mixed
+- $booted : mixed
+- $bootedCallbacks : mixed
+- $traitInitializers : mixed
+- $globalScopes : mixed
+- $ignoreOnTouch : mixed
+- $modelsShouldPreventLazyLoading : mixed
+- $modelsShouldAutomaticallyEagerLoadRelationships : mixed
+- $lazyLoadingViolationCallback : mixed
+- $modelsShouldPreventSilentlyDiscardingAttributes : mixed
+- $discardedAttributeViolationCallback : mixed
+- $modelsShouldPreventAccessingMissingAttributes : mixed
+- $missingAttributeViolationCallback : mixed
+- $isBroadcasting : mixed
+- $builder : string
+- $collectionClass : string
+- $isSoftDeletable : array
+- $isPrunable : array
+- $isMassPrunable : array
+- $classAttributes : array
+- $attributes : mixed
+- $original : mixed
+- $changes : mixed
+- $previous : mixed
+- $casts : mixed
+- $classCastCache : mixed
+- $attributeCastCache : mixed
+- $primitiveCastTypes : mixed
+- $dateFormat : mixed
+- $appends : mixed
+- $snakeAttributes : mixed
+- $mutatorCache : mixed
+- $attributeMutatorCache : mixed
+- $getAttributeMutatorCache : mixed
+- $setAttributeMutatorCache : mixed
+- $castTypeCache : mixed
+- $encrypter : mixed
+- $dispatchesEvents : mixed
+- $observables : mixed
+- $relations : mixed
+- $touches : mixed
+- $relationAutoloadCallback : mixed
+- $relationAutoloadContext : mixed
+- $manyMethods : mixed
+- $relationResolvers : mixed
+- $timestamps : mixed
+- $ignoreTimestampsOn : mixed
+- $usesUniqueIds : mixed
+- $hidden : mixed
+- $visible : mixed
+- $guarded : mixed
+- $unguarded : mixed
+- $guardableColumns : mixed
+- $recursionCache : mixed
+- $resolvedCollectionClasses : array
+
+**Methods**
+
+- tenant()
+- factory()
+
+---
+
+## Payment
+
+**Namespace**
+
+```
+App\Models
+```
+
+**File**
+
+```
+/var/www/app/Models/Payment.php
+```
+
+**Properties**
+
+- $fillable : mixed
+- $casts : mixed
+- $connection : mixed
+- $table : mixed
+- $primaryKey : mixed
+- $keyType : mixed
+- $incrementing : mixed
+- $with : mixed
+- $withCount : mixed
+- $preventsLazyLoading : mixed
+- $perPage : mixed
+- $exists : mixed
+- $wasRecentlyCreated : mixed
+- $escapeWhenCastingToString : mixed
+- $resolver : mixed
+- $dispatcher : mixed
+- $booting : mixed
+- $booted : mixed
+- $bootedCallbacks : mixed
+- $traitInitializers : mixed
+- $globalScopes : mixed
+- $ignoreOnTouch : mixed
+- $modelsShouldPreventLazyLoading : mixed
+- $modelsShouldAutomaticallyEagerLoadRelationships : mixed
+- $lazyLoadingViolationCallback : mixed
+- $modelsShouldPreventSilentlyDiscardingAttributes : mixed
+- $discardedAttributeViolationCallback : mixed
+- $modelsShouldPreventAccessingMissingAttributes : mixed
+- $missingAttributeViolationCallback : mixed
+- $isBroadcasting : mixed
+- $builder : string
+- $collectionClass : string
+- $isSoftDeletable : array
+- $isPrunable : array
+- $isMassPrunable : array
+- $classAttributes : array
+- $attributes : mixed
+- $original : mixed
+- $changes : mixed
+- $previous : mixed
+- $classCastCache : mixed
+- $attributeCastCache : mixed
+- $primitiveCastTypes : mixed
+- $dateFormat : mixed
+- $appends : mixed
+- $snakeAttributes : mixed
+- $mutatorCache : mixed
+- $attributeMutatorCache : mixed
+- $getAttributeMutatorCache : mixed
+- $setAttributeMutatorCache : mixed
+- $castTypeCache : mixed
+- $encrypter : mixed
+- $dispatchesEvents : mixed
+- $observables : mixed
+- $relations : mixed
+- $touches : mixed
+- $relationAutoloadCallback : mixed
+- $relationAutoloadContext : mixed
+- $manyMethods : mixed
+- $relationResolvers : mixed
+- $timestamps : mixed
+- $ignoreTimestampsOn : mixed
+- $usesUniqueIds : mixed
+- $hidden : mixed
+- $visible : mixed
+- $guarded : mixed
+- $unguarded : mixed
+- $guardableColumns : mixed
+- $recursionCache : mixed
+- $resolvedCollectionClasses : array
+
+**Methods**
+
+- tenant()
+- invoice()
+- factory()
+
+---
+
+## Subscription
+
+**Namespace**
+
+```
+App\Models
+```
+
+**File**
+
+```
+/var/www/app/Models/Subscription.php
+```
+
+**Properties**
+
+- $fillable : mixed
+- $casts : mixed
+- $connection : mixed
+- $table : mixed
+- $primaryKey : mixed
+- $keyType : mixed
+- $incrementing : mixed
+- $with : mixed
+- $withCount : mixed
+- $preventsLazyLoading : mixed
+- $perPage : mixed
+- $exists : mixed
+- $wasRecentlyCreated : mixed
+- $escapeWhenCastingToString : mixed
+- $resolver : mixed
+- $dispatcher : mixed
+- $booting : mixed
+- $booted : mixed
+- $bootedCallbacks : mixed
+- $traitInitializers : mixed
+- $globalScopes : mixed
+- $ignoreOnTouch : mixed
+- $modelsShouldPreventLazyLoading : mixed
+- $modelsShouldAutomaticallyEagerLoadRelationships : mixed
+- $lazyLoadingViolationCallback : mixed
+- $modelsShouldPreventSilentlyDiscardingAttributes : mixed
+- $discardedAttributeViolationCallback : mixed
+- $modelsShouldPreventAccessingMissingAttributes : mixed
+- $missingAttributeViolationCallback : mixed
+- $isBroadcasting : mixed
+- $builder : string
+- $collectionClass : string
+- $isSoftDeletable : array
+- $isPrunable : array
+- $isMassPrunable : array
+- $classAttributes : array
+- $attributes : mixed
+- $original : mixed
+- $changes : mixed
+- $previous : mixed
+- $classCastCache : mixed
+- $attributeCastCache : mixed
+- $primitiveCastTypes : mixed
+- $dateFormat : mixed
+- $appends : mixed
+- $snakeAttributes : mixed
+- $mutatorCache : mixed
+- $attributeMutatorCache : mixed
+- $getAttributeMutatorCache : mixed
+- $setAttributeMutatorCache : mixed
+- $castTypeCache : mixed
+- $encrypter : mixed
+- $dispatchesEvents : mixed
+- $observables : mixed
+- $relations : mixed
+- $touches : mixed
+- $relationAutoloadCallback : mixed
+- $relationAutoloadContext : mixed
+- $manyMethods : mixed
+- $relationResolvers : mixed
+- $timestamps : mixed
+- $ignoreTimestampsOn : mixed
+- $usesUniqueIds : mixed
+- $hidden : mixed
+- $visible : mixed
+- $guarded : mixed
+- $unguarded : mixed
+- $guardableColumns : mixed
+- $recursionCache : mixed
+- $resolvedCollectionClasses : array
+
+**Methods**
+
+- tenant()
+- customer()
+- package()
+- invoices()
+- payments()
+- notifications()
+- activityLogs()
+- factory()
+
+---
+
+## Tenant
+
+**Namespace**
+
+```
+App\Models
+```
+
+**File**
+
+```
+/var/www/app/Models/Tenant.php
+```
+
+**Properties**
+
+- $fillable : mixed
+- $connection : mixed
+- $table : mixed
+- $primaryKey : mixed
+- $keyType : mixed
+- $incrementing : mixed
+- $with : mixed
+- $withCount : mixed
+- $preventsLazyLoading : mixed
+- $perPage : mixed
+- $exists : mixed
+- $wasRecentlyCreated : mixed
+- $escapeWhenCastingToString : mixed
+- $resolver : mixed
+- $dispatcher : mixed
+- $booting : mixed
+- $booted : mixed
+- $bootedCallbacks : mixed
+- $traitInitializers : mixed
+- $globalScopes : mixed
+- $ignoreOnTouch : mixed
+- $modelsShouldPreventLazyLoading : mixed
+- $modelsShouldAutomaticallyEagerLoadRelationships : mixed
+- $lazyLoadingViolationCallback : mixed
+- $modelsShouldPreventSilentlyDiscardingAttributes : mixed
+- $discardedAttributeViolationCallback : mixed
+- $modelsShouldPreventAccessingMissingAttributes : mixed
+- $missingAttributeViolationCallback : mixed
+- $isBroadcasting : mixed
+- $builder : string
+- $collectionClass : string
+- $isSoftDeletable : array
+- $isPrunable : array
+- $isMassPrunable : array
+- $classAttributes : array
+- $attributes : mixed
+- $original : mixed
+- $changes : mixed
+- $previous : mixed
+- $casts : mixed
+- $classCastCache : mixed
+- $attributeCastCache : mixed
+- $primitiveCastTypes : mixed
+- $dateFormat : mixed
+- $appends : mixed
+- $snakeAttributes : mixed
+- $mutatorCache : mixed
+- $attributeMutatorCache : mixed
+- $getAttributeMutatorCache : mixed
+- $setAttributeMutatorCache : mixed
+- $castTypeCache : mixed
+- $encrypter : mixed
+- $dispatchesEvents : mixed
+- $observables : mixed
+- $relations : mixed
+- $touches : mixed
+- $relationAutoloadCallback : mixed
+- $relationAutoloadContext : mixed
+- $manyMethods : mixed
+- $relationResolvers : mixed
+- $timestamps : mixed
+- $ignoreTimestampsOn : mixed
+- $usesUniqueIds : mixed
+- $hidden : mixed
+- $visible : mixed
+- $guarded : mixed
+- $unguarded : mixed
+- $guardableColumns : mixed
+- $recursionCache : mixed
+- $resolvedCollectionClasses : array
+
+**Methods**
+
+- users()
+- factory()
+
+---
+
+## Ticket
+
+**Namespace**
+
+```
+App\Models
+```
+
+**File**
+
+```
+/var/www/app/Models/Ticket.php
+```
+
+**Properties**
+
+- $fillable : mixed
+- $casts : mixed
+- $connection : mixed
+- $table : mixed
+- $primaryKey : mixed
+- $keyType : mixed
+- $incrementing : mixed
+- $with : mixed
+- $withCount : mixed
+- $preventsLazyLoading : mixed
+- $perPage : mixed
+- $exists : mixed
+- $wasRecentlyCreated : mixed
+- $escapeWhenCastingToString : mixed
+- $resolver : mixed
+- $dispatcher : mixed
+- $booting : mixed
+- $booted : mixed
+- $bootedCallbacks : mixed
+- $traitInitializers : mixed
+- $globalScopes : mixed
+- $ignoreOnTouch : mixed
+- $modelsShouldPreventLazyLoading : mixed
+- $modelsShouldAutomaticallyEagerLoadRelationships : mixed
+- $lazyLoadingViolationCallback : mixed
+- $modelsShouldPreventSilentlyDiscardingAttributes : mixed
+- $discardedAttributeViolationCallback : mixed
+- $modelsShouldPreventAccessingMissingAttributes : mixed
+- $missingAttributeViolationCallback : mixed
+- $isBroadcasting : mixed
+- $builder : string
+- $collectionClass : string
+- $isSoftDeletable : array
+- $isPrunable : array
+- $isMassPrunable : array
+- $classAttributes : array
+- $attributes : mixed
+- $original : mixed
+- $changes : mixed
+- $previous : mixed
+- $classCastCache : mixed
+- $attributeCastCache : mixed
+- $primitiveCastTypes : mixed
+- $dateFormat : mixed
+- $appends : mixed
+- $snakeAttributes : mixed
+- $mutatorCache : mixed
+- $attributeMutatorCache : mixed
+- $getAttributeMutatorCache : mixed
+- $setAttributeMutatorCache : mixed
+- $castTypeCache : mixed
+- $encrypter : mixed
+- $dispatchesEvents : mixed
+- $observables : mixed
+- $relations : mixed
+- $touches : mixed
+- $relationAutoloadCallback : mixed
+- $relationAutoloadContext : mixed
+- $manyMethods : mixed
+- $relationResolvers : mixed
+- $timestamps : mixed
+- $ignoreTimestampsOn : mixed
+- $usesUniqueIds : mixed
+- $hidden : mixed
+- $visible : mixed
+- $guarded : mixed
+- $unguarded : mixed
+- $guardableColumns : mixed
+- $recursionCache : mixed
+- $resolvedCollectionClasses : array
+
+**Methods**
+
+- tenant()
+- customer()
+- user()
+- replies()
+
+---
+
+## TicketReply
+
+**Namespace**
+
+```
+App\Models
+```
+
+**File**
+
+```
+/var/www/app/Models/TicketReply.php
+```
+
+**Properties**
+
+- $fillable : mixed
+- $casts : mixed
+- $connection : mixed
+- $table : mixed
+- $primaryKey : mixed
+- $keyType : mixed
+- $incrementing : mixed
+- $with : mixed
+- $withCount : mixed
+- $preventsLazyLoading : mixed
+- $perPage : mixed
+- $exists : mixed
+- $wasRecentlyCreated : mixed
+- $escapeWhenCastingToString : mixed
+- $resolver : mixed
+- $dispatcher : mixed
+- $booting : mixed
+- $booted : mixed
+- $bootedCallbacks : mixed
+- $traitInitializers : mixed
+- $globalScopes : mixed
+- $ignoreOnTouch : mixed
+- $modelsShouldPreventLazyLoading : mixed
+- $modelsShouldAutomaticallyEagerLoadRelationships : mixed
+- $lazyLoadingViolationCallback : mixed
+- $modelsShouldPreventSilentlyDiscardingAttributes : mixed
+- $discardedAttributeViolationCallback : mixed
+- $modelsShouldPreventAccessingMissingAttributes : mixed
+- $missingAttributeViolationCallback : mixed
+- $isBroadcasting : mixed
+- $builder : string
+- $collectionClass : string
+- $isSoftDeletable : array
+- $isPrunable : array
+- $isMassPrunable : array
+- $classAttributes : array
+- $attributes : mixed
+- $original : mixed
+- $changes : mixed
+- $previous : mixed
+- $classCastCache : mixed
+- $attributeCastCache : mixed
+- $primitiveCastTypes : mixed
+- $dateFormat : mixed
+- $appends : mixed
+- $snakeAttributes : mixed
+- $mutatorCache : mixed
+- $attributeMutatorCache : mixed
+- $getAttributeMutatorCache : mixed
+- $setAttributeMutatorCache : mixed
+- $castTypeCache : mixed
+- $encrypter : mixed
+- $dispatchesEvents : mixed
+- $observables : mixed
+- $relations : mixed
+- $touches : mixed
+- $relationAutoloadCallback : mixed
+- $relationAutoloadContext : mixed
+- $manyMethods : mixed
+- $relationResolvers : mixed
+- $timestamps : mixed
+- $ignoreTimestampsOn : mixed
+- $usesUniqueIds : mixed
+- $hidden : mixed
+- $visible : mixed
+- $guarded : mixed
+- $unguarded : mixed
+- $guardableColumns : mixed
+- $recursionCache : mixed
+- $resolvedCollectionClasses : array
+
+**Methods**
+
+- ticket()
+- customer()
+- user()
+
+---
+
+## User
+
+**Namespace**
+
+```
+App\Models
+```
+
+**File**
+
+```
+/var/www/app/Models/User.php
+```
+
+**Properties**
+
+- $fillable : mixed
+- $connection : mixed
+- $table : mixed
+- $primaryKey : mixed
+- $keyType : mixed
+- $incrementing : mixed
+- $with : mixed
+- $withCount : mixed
+- $preventsLazyLoading : mixed
+- $perPage : mixed
+- $exists : mixed
+- $wasRecentlyCreated : mixed
+- $escapeWhenCastingToString : mixed
+- $resolver : mixed
+- $dispatcher : mixed
+- $booting : mixed
+- $booted : mixed
+- $bootedCallbacks : mixed
+- $traitInitializers : mixed
+- $globalScopes : mixed
+- $ignoreOnTouch : mixed
+- $modelsShouldPreventLazyLoading : mixed
+- $modelsShouldAutomaticallyEagerLoadRelationships : mixed
+- $lazyLoadingViolationCallback : mixed
+- $modelsShouldPreventSilentlyDiscardingAttributes : mixed
+- $discardedAttributeViolationCallback : mixed
+- $modelsShouldPreventAccessingMissingAttributes : mixed
+- $missingAttributeViolationCallback : mixed
+- $isBroadcasting : mixed
+- $builder : string
+- $collectionClass : string
+- $isSoftDeletable : array
+- $isPrunable : array
+- $isMassPrunable : array
+- $classAttributes : array
+- $attributes : mixed
+- $original : mixed
+- $changes : mixed
+- $previous : mixed
+- $casts : mixed
+- $classCastCache : mixed
+- $attributeCastCache : mixed
+- $primitiveCastTypes : mixed
+- $dateFormat : mixed
+- $appends : mixed
+- $snakeAttributes : mixed
+- $mutatorCache : mixed
+- $attributeMutatorCache : mixed
+- $getAttributeMutatorCache : mixed
+- $setAttributeMutatorCache : mixed
+- $castTypeCache : mixed
+- $encrypter : mixed
+- $dispatchesEvents : mixed
+- $observables : mixed
+- $relations : mixed
+- $touches : mixed
+- $relationAutoloadCallback : mixed
+- $relationAutoloadContext : mixed
+- $manyMethods : mixed
+- $relationResolvers : mixed
+- $timestamps : mixed
+- $ignoreTimestampsOn : mixed
+- $usesUniqueIds : mixed
+- $hidden : mixed
+- $visible : mixed
+- $guarded : mixed
+- $unguarded : mixed
+- $guardableColumns : mixed
+- $recursionCache : mixed
+- $resolvedCollectionClasses : array
+- $authPasswordName : mixed
+- $rememberTokenName : mixed
+- $accessToken : mixed
+- $roleClass : ?string
+- $permissionClass : ?string
+- $wildcardClass : ?string
+- $wildcardPermissionsIndex : array
+
+**Methods**
+
+- tenant()
+- tokens()
+- tokenCan()
+- tokenCant()
+- createToken()
+- generateTokenString()
+- currentAccessToken()
+- withAccessToken()
+- factory()
+- notifications()
+- readNotifications()
+- unreadNotifications()
+- notify()
+- notifyNow()
+- routeNotificationFor()
+- bootHasRoles()
+- getRoleClass()
+- roles()
+- scopeRole()
+- scopeWithoutRole()
+- teams()
+- scopeTeam()
+- scopeWithoutTeam()
+- assignRole()
+- removeRole()
+- syncRoles()
+- hasRole()
+- hasAnyRole()
+- hasAllRoles()
+- hasExactRoles()
+- getDirectPermissions()
+- getRoleNames()
+- bootHasPermissions()
+- getPermissionClass()
+- getWildcardClass()
+- permissions()
+- scopePermission()
+- scopeWithoutPermission()
+- filterPermission()
+- hasPermissionTo()
+- checkPermissionTo()
+- hasAnyPermission()
+- hasAllPermissions()
+- hasDirectPermission()
+- getPermissionsViaRoles()
+- getAllPermissions()
+- givePermissionTo()
+- forgetWildcardPermissionIndex()
+- syncPermissions()
+- revokePermissionTo()
+- getPermissionNames()
+- forgetCachedPermissions()
+- hasAllDirectPermissions()
+- hasAnyDirectPermission()
+
+---
+
+## WalletTransaction
+
+**Namespace**
+
+```
+App\Models
+```
+
+**File**
+
+```
+/var/www/app/Models/WalletTransaction.php
+```
+
+**Properties**
+
+- $fillable : mixed
+- $connection : mixed
+- $table : mixed
+- $primaryKey : mixed
+- $keyType : mixed
+- $incrementing : mixed
+- $with : mixed
+- $withCount : mixed
+- $preventsLazyLoading : mixed
+- $perPage : mixed
+- $exists : mixed
+- $wasRecentlyCreated : mixed
+- $escapeWhenCastingToString : mixed
+- $resolver : mixed
+- $dispatcher : mixed
+- $booting : mixed
+- $booted : mixed
+- $bootedCallbacks : mixed
+- $traitInitializers : mixed
+- $globalScopes : mixed
+- $ignoreOnTouch : mixed
+- $modelsShouldPreventLazyLoading : mixed
+- $modelsShouldAutomaticallyEagerLoadRelationships : mixed
+- $lazyLoadingViolationCallback : mixed
+- $modelsShouldPreventSilentlyDiscardingAttributes : mixed
+- $discardedAttributeViolationCallback : mixed
+- $modelsShouldPreventAccessingMissingAttributes : mixed
+- $missingAttributeViolationCallback : mixed
+- $isBroadcasting : mixed
+- $builder : string
+- $collectionClass : string
+- $isSoftDeletable : array
+- $isPrunable : array
+- $isMassPrunable : array
+- $classAttributes : array
+- $attributes : mixed
+- $original : mixed
+- $changes : mixed
+- $previous : mixed
+- $casts : mixed
+- $classCastCache : mixed
+- $attributeCastCache : mixed
+- $primitiveCastTypes : mixed
+- $dateFormat : mixed
+- $appends : mixed
+- $snakeAttributes : mixed
+- $mutatorCache : mixed
+- $attributeMutatorCache : mixed
+- $getAttributeMutatorCache : mixed
+- $setAttributeMutatorCache : mixed
+- $castTypeCache : mixed
+- $encrypter : mixed
+- $dispatchesEvents : mixed
+- $observables : mixed
+- $relations : mixed
+- $touches : mixed
+- $relationAutoloadCallback : mixed
+- $relationAutoloadContext : mixed
+- $manyMethods : mixed
+- $relationResolvers : mixed
+- $timestamps : mixed
+- $ignoreTimestampsOn : mixed
+- $usesUniqueIds : mixed
+- $hidden : mixed
+- $visible : mixed
+- $guarded : mixed
+- $unguarded : mixed
+- $guardableColumns : mixed
+- $recursionCache : mixed
+- $resolvedCollectionClasses : array
+
+**Methods**
+
+- customer()
+
+---
+
+# Services
+
+---
+
+## AIContextGenerator
+
+**Namespace**
+
+```
+App\Services\Documentation\Knowledge
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Knowledge/AIContextGenerator.php
+```
+
+**Constructor Dependencies**
+
+- ProjectScanner $scanner
+
+**Properties**
+
+- $scanner : App\Services\Documentation\Scanner\ProjectScanner
+
+**Methods**
+
+- generate() : string
+- filename() : string
+
+---
+
+## AbstractHandoverSection
+
+**Namespace**
+
+```
+App\Services\Documentation\Handover
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Handover/AbstractHandoverSection.php
+```
+
+---
+
+## ActionDocumentationGenerator
+
+**Namespace**
+
+```
+App\Services\Documentation\Generators
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Generators/ActionDocumentationGenerator.php
+```
+
+**Constructor Dependencies**
+
+- ProjectScanner $scanner
+
+**Properties**
+
+- $scanner : App\Services\Documentation\Scanner\ProjectScanner
+
+**Methods**
+
+- priority() : int
+- generate() : string
+- filename() : string
+
+---
+
+## ActivityLogService
+
+**Namespace**
+
+```
+App\Services
+```
+
+**File**
+
+```
+/var/www/app/Services/ActivityLogService.php
+```
+
+**Methods**
+
+- log() : void
+
+---
+
+## ArchitectureGenerator
+
+**Namespace**
+
+```
+App\Services\Documentation\Knowledge
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Knowledge/ArchitectureGenerator.php
+```
+
+**Methods**
+
+- generate() : string
+- filename() : string
+
+---
+
+## AutomaticBillingService
+
+**Namespace**
+
+```
+App\Services\Billing
+```
+
+**File**
+
+```
+/var/www/app/Services/Billing/AutomaticBillingService.php
+```
+
+**Constructor Dependencies**
+
+- BillingEngine $billingEngine
+- SubscriptionRenewalService $renewalService
+- InvoiceService $invoiceService
+- NotificationService $notificationService
+
+**Properties**
+
+- $billingEngine : App\Services\Billing\BillingEngine
+- $renewalService : App\Services\Subscription\SubscriptionRenewalService
+- $invoiceService : App\Services\InvoiceService
+- $notificationService : App\Services\NotificationService
+
+**Methods**
+
+- run() : void
+- processSubscription() : void
+
+---
+
+## BillingCycleService
+
+**Namespace**
+
+```
+App\Services\Billing
+```
+
+**File**
+
+```
+/var/www/app/Services/Billing/BillingCycleService.php
+```
+
+**Methods**
+
+- calculateNextBillingDate() : Carbon\Carbon
+- calculateGraceDate() : Carbon\Carbon
+- isDue() : bool
+- isExpired() : bool
+
+---
+
+## BillingEngine
+
+**Namespace**
+
+```
+App\Services\Billing
+```
+
+**File**
+
+```
+/var/www/app/Services/Billing/BillingEngine.php
+```
+
+**Methods**
+
+- status() : App\Enums\BillingStatus
+- nextDueDate() : Carbon\Carbon
+
+---
+
+## BusinessRuleExtractor
+
+**Namespace**
+
+```
+App\Services\Documentation\Knowledge
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Knowledge/BusinessRuleExtractor.php
+```
+
+**Methods**
+
+- extract() : array
+
+---
+
+## BusinessRulesGenerator
+
+**Namespace**
+
+```
+App\Services\Documentation\Knowledge
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Knowledge/BusinessRulesGenerator.php
+```
+
+**Constructor Dependencies**
+
+- ProjectScanner $scanner
+- BusinessRuleExtractor $extractor
+
+**Properties**
+
+- $scanner : App\Services\Documentation\Scanner\ProjectScanner
+- $extractor : App\Services\Documentation\Knowledge\BusinessRuleExtractor
+
+**Methods**
+
+- filename() : string
+- generate() : string
+
+---
+
+## ClassDocumentationGenerator
+
+**Namespace**
+
+```
+App\Services\Documentation\Generators
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Generators/ClassDocumentationGenerator.php
+```
+
+**Constructor Dependencies**
+
+- ProjectScanner $scanner
+
+**Properties**
+
+- $scanner : App\Services\Documentation\Scanner\ProjectScanner
+
+**Methods**
+
+- generate() : string
+
+---
+
+## ClassFinder
+
+**Namespace**
+
+```
+App\Services\Documentation\Scanner
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Scanner/ClassFinder.php
+```
+
+**Methods**
+
+- find() : ?string
+- findMany() : array
+
+---
+
+## ClassReflector
+
+**Namespace**
+
+```
+App\Services\Documentation\Reflection
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Reflection/ClassReflector.php
+```
+
+**Methods**
+
+- methods() : array
+
+---
+
+## ConstructorReflector
+
+**Namespace**
+
+```
+App\Services\Documentation\Reflection
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Reflection/ConstructorReflector.php
+```
+
+**Methods**
+
+- reflect() : array
+
+---
+
+## ControllerDocumentationGenerator
+
+**Namespace**
+
+```
+App\Services\Documentation\Generators
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Generators/ControllerDocumentationGenerator.php
+```
+
+**Constructor Dependencies**
+
+- ProjectScanner $scanner
+
+**Properties**
+
+- $scanner : App\Services\Documentation\Scanner\ProjectScanner
+
+**Methods**
+
+- priority() : int
+- generate() : string
+- filename() : string
+
+---
+
+## ControllersKnowledgeGenerator
+
+**Namespace**
+
+```
+App\Services\Documentation\Knowledge
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Knowledge/ControllersKnowledgeGenerator.php
+```
+
+**Constructor Dependencies**
+
+- ProjectScanner $scanner
+- ReflectionEngine $reflection
+
+**Properties**
+
+- $scanner : App\Services\Documentation\Scanner\ProjectScanner
+- $reflection : ?App\Services\Documentation\Reflection\ReflectionEngine
+
+**Methods**
+
+- filename() : string
+- generate() : string
+
+---
+
+## CustomerService
+
+**Namespace**
+
+```
+App\Services\Customer
+```
+
+**File**
+
+```
+/var/www/app/Services/Customer/CustomerService.php
+```
+
+**Methods**
+
+- create() : App\Models\Customer
+- update() : App\Models\Customer
+- delete() : bool
+
+---
+
+## DashboardService
+
+**Namespace**
+
+```
+App\Services\Dashboard
+```
+
+**File**
+
+```
+/var/www/app/Services/Dashboard/DashboardService.php
+```
+
+**Methods**
+
+- getDashboardData() : array
+
+---
+
+## DocumentationGeneratorManager
+
+**Namespace**
+
+```
+App\Services\Documentation\Manager
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Manager/DocumentationGeneratorManager.php
+```
+
+**Constructor Dependencies**
+
+- DocumentationGeneratorRegistry $registry
+- DocumentationWriter $writer
+
+**Properties**
+
+- $registry : App\Services\Documentation\Registry\DocumentationGeneratorRegistry
+- $writer : App\Services\Documentation\Writer\DocumentationWriter
+
+**Methods**
+
+- generate() : void
+
+---
+
+## DocumentationGeneratorRegistry
+
+**Namespace**
+
+```
+App\Services\Documentation\Registry
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Registry/DocumentationGeneratorRegistry.php
+```
+
+**Properties**
+
+- $generators : array
+
+**Methods**
+
+- register() : self
+- all() : array
+
+---
+
+## DocumentationWriter
+
+**Namespace**
+
+```
+App\Services\Documentation\Writer
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Writer/DocumentationWriter.php
+```
+
+**Constructor Dependencies**
+
+- ?string $basePath
+
+**Properties**
+
+- $basePath : string
+
+**Methods**
+
+- write() : void
+- exists() : bool
+- read() : string
+- delete() : void
+
+---
+
+## ExecutiveSummarySection
+
+**Namespace**
+
+```
+App\Services\Documentation\Handover
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Handover/ExecutiveSummarySection.php
+```
+
+**Methods**
+
+- generate() : string
+
+---
+
+## FileScanner
+
+**Namespace**
+
+```
+App\Services\Documentation\Scanner
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Scanner/FileScanner.php
+```
+
+**Methods**
+
+- scan() : array
+
+---
+
+## HandoverDocumentGenerator
+
+**Namespace**
+
+```
+App\Services\Documentation\Knowledge
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Knowledge/HandoverDocumentGenerator.php
+```
+
+**Methods**
+
+- filename() : string
+- generate() : string
+
+---
+
+## InvoiceGenerator
+
+**Namespace**
+
+```
+App\Services\Billing
+```
+
+**File**
+
+```
+/var/www/app/Services/Billing/InvoiceGenerator.php
+```
+
+**Constructor Dependencies**
+
+- InvoiceNumberService $invoiceNumberService
+
+**Properties**
+
+- $invoiceNumberService : App\Services\InvoiceNumberService
+
+**Methods**
+
+- generate() : App\Models\Invoice
+
+---
+
+## InvoiceNumberService
+
+**Namespace**
+
+```
+App\Services
+```
+
+**File**
+
+```
+/var/www/app/Services/InvoiceNumberService.php
+```
+
+**Methods**
+
+- generate() : string
+
+---
+
+## InvoiceService
+
+**Namespace**
+
+```
+App\Services\Invoice
+```
+
+**File**
+
+```
+/var/www/app/Services/Invoice/InvoiceService.php
+```
+
+**Methods**
+
+- create() : App\Models\Invoice
+- update() : App\Models\Invoice
+- delete() : bool
+
+---
+
+## KnowledgeExporter
+
+**Namespace**
+
+```
+App\Services\Documentation\Knowledge
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Knowledge/KnowledgeExporter.php
+```
+
+**Constructor Dependencies**
+
+- DocumentationWriter $writer
+
+**Properties**
+
+- $writer : App\Services\Documentation\Writer\DocumentationWriter
+
+**Methods**
+
+- export() : void
+
+---
+
+## KnowledgeGeneratorManager
+
+**Namespace**
+
+```
+App\Services\Documentation\Knowledge
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Knowledge/KnowledgeGeneratorManager.php
+```
+
+**Constructor Dependencies**
+
+- KnowledgeGeneratorRegistry $registry
+- DocumentationWriter $writer
+
+**Properties**
+
+- $registry : App\Services\Documentation\Knowledge\KnowledgeGeneratorRegistry
+- $writer : App\Services\Documentation\Writer\DocumentationWriter
+
+**Methods**
+
+- generate() : void
+
+---
+
+## KnowledgeGeneratorRegistry
+
+**Namespace**
+
+```
+App\Services\Documentation\Knowledge
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Knowledge/KnowledgeGeneratorRegistry.php
+```
+
+**Constructor Dependencies**
+
+- ProjectScanner $scanner
+
+**Properties**
+
+- $generators : array
+
+**Methods**
+
+- register() : self
+- generators() : array
+
+---
+
+## MarkdownBuilder
+
+**Namespace**
+
+```
+App\Services\Documentation\Builder
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Builder/MarkdownBuilder.php
+```
+
+**Properties**
+
+- $lines : array
+
+**Methods**
+
+- title() : self
+- h2() : self
+- h3() : self
+- text() : self
+- bullet() : self
+- numbered() : self
+- code() : self
+- table() : self
+- separator() : self
+- newline() : self
+- render() : string
+
+---
+
+## MetadataExtractor
+
+**Namespace**
+
+```
+App\Services\Documentation\Scanner
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Scanner/MetadataExtractor.php
+```
+
+**Methods**
+
+- extract() : array
+
+---
+
+## MethodReflector
+
+**Namespace**
+
+```
+App\Services\Documentation\Reflection
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Reflection/MethodReflector.php
+```
+
+**Methods**
+
+- reflect() : array
+
+---
+
+## MikrotikConnection
+
+**Namespace**
+
+```
+App\Services\Network
+```
+
+**File**
+
+```
+/var/www/app/Services/Network/MikrotikConnection.php
+```
+
+**Properties**
+
+- $client : ?RouterOS\Client
+
+**Methods**
+
+- client() : RouterOS\Client
+- execute() : array
+
+---
+
+## MikrotikService
+
+**Namespace**
+
+```
+App\Services\Network
+```
+
+**File**
+
+```
+/var/www/app/Services/Network/MikrotikService.php
+```
+
+**Constructor Dependencies**
+
+- MikrotikConnection $connection
+
+**Properties**
+
+- $connection : App\Services\Network\MikrotikConnection
+
+**Methods**
+
+- getPppoeUsers() : array
+- createPppoe() : mixed
+- findPppoe() : mixed
+- deletePppoe() : bool
+- enablePppoe() : bool
+- disablePppoe() : bool
+- getHotspotUsers() : array
+- getActiveHotspotUsers() : array
+- createHotspot() : mixed
+- findHotspot() : mixed
+- deleteHotspot() : bool
+- enableHotspot() : bool
+- disableHotspot() : bool
+- getDhcpLeases() : array
+- run() : array
+- raw() : array
+
+---
+
+## ModelDocumentationGenerator
+
+**Namespace**
+
+```
+App\Services\Documentation\Generators
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Generators/ModelDocumentationGenerator.php
+```
+
+**Constructor Dependencies**
+
+- ProjectScanner $scanner
+
+**Properties**
+
+- $scanner : App\Services\Documentation\Scanner\ProjectScanner
+
+**Methods**
+
+- generate() : string
+- priority() : int
+- filename() : string
+
+---
+
+## ModelsKnowledgeGenerator
+
+**Namespace**
+
+```
+App\Services\Documentation\Knowledge
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Knowledge/ModelsKnowledgeGenerator.php
+```
+
+**Constructor Dependencies**
+
+- ProjectScanner $scanner
+- ReflectionEngine $reflection
+
+**Properties**
+
+- $scanner : App\Services\Documentation\Scanner\ProjectScanner
+- $reflection : ?App\Services\Documentation\Reflection\ReflectionEngine
+
+**Methods**
+
+- filename() : string
+- generate() : string
+
+---
+
+## ModelsSection
+
+**Namespace**
+
+```
+App\Services\Documentation\Sections
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Sections/ModelsSection.php
+```
+
+**Methods**
+
+- generate() : string
+
+---
+
+## NotificationService
+
+**Namespace**
+
+```
+App\Services
+```
+
+**File**
+
+```
+/var/www/app/Services/NotificationService.php
+```
+
+**Methods**
+
+- createReminder() : mixed
+
+---
+
+## PackageService
+
+**Namespace**
+
+```
+App\Services\Package
+```
+
+**File**
+
+```
+/var/www/app/Services/Package/PackageService.php
+```
+
+**Methods**
+
+- paginate() : Illuminate\Contracts\Pagination\LengthAwarePaginator
+- create() : App\Models\Package
+- update() : App\Models\Package
+- delete() : void
+
+---
+
+## PaymentService
+
+**Namespace**
+
+```
+App\Services\Payment
+```
+
+**File**
+
+```
+/var/www/app/Services/Payment/PaymentService.php
+```
+
+**Methods**
+
+- create() : App\Models\Payment
+
+---
+
+## ProjectBibleService
+
+**Namespace**
+
+```
+App\Services\Documentation
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/ProjectBibleService.php
+```
+
+**Methods**
+
+- generate() : string
+
+---
+
+## ProjectScanner
+
+**Namespace**
+
+```
+App\Services\Documentation\Scanner
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Scanner/ProjectScanner.php
+```
+
+**Constructor Dependencies**
+
+- FileScanner $files
+- ClassFinder $finder
+- MetadataExtractor $extractor
+
+**Properties**
+
+- $files : App\Services\Documentation\Scanner\FileScanner
+- $finder : App\Services\Documentation\Scanner\ClassFinder
+- $extractor : App\Services\Documentation\Scanner\MetadataExtractor
+
+**Methods**
+
+- models() : array
+- services() : array
+- controllers() : array
+- repositories() : array
+- actions() : array
+- all() : array
+
+---
+
+## ProjectSummaryGenerator
+
+**Namespace**
+
+```
+App\Services\Documentation\Knowledge
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Knowledge/ProjectSummaryGenerator.php
+```
+
+**Constructor Dependencies**
+
+- ProjectScanner $scanner
+
+**Properties**
+
+- $scanner : App\Services\Documentation\Scanner\ProjectScanner
+
+**Methods**
+
+- generate() : string
+- filename() : string
+
+---
+
+## PropertyReflector
+
+**Namespace**
+
+```
+App\Services\Documentation\Reflection
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Reflection/PropertyReflector.php
+```
+
+**Methods**
+
+- reflect() : array
+
+---
+
+## ReflectionEngine
+
+**Namespace**
+
+```
+App\Services\Documentation\Reflection
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Reflection/ReflectionEngine.php
+```
+
+**Constructor Dependencies**
+
+- MethodReflector $methods
+- PropertyReflector $properties
+- ConstructorReflector $constructor
+
+**Properties**
+
+- $methods : App\Services\Documentation\Reflection\MethodReflector
+- $properties : App\Services\Documentation\Reflection\PropertyReflector
+- $constructor : App\Services\Documentation\Reflection\ConstructorReflector
+
+**Methods**
+
+- reflect() : array
+
+---
+
+## RepositoryDocumentationGenerator
+
+**Namespace**
+
+```
+App\Services\Documentation\Generators
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Generators/RepositoryDocumentationGenerator.php
+```
+
+**Constructor Dependencies**
+
+- ProjectScanner $scanner
+
+**Properties**
+
+- $scanner : App\Services\Documentation\Scanner\ProjectScanner
+
+**Methods**
+
+- priority() : int
+- generate() : string
+- filename() : string
+
+---
+
+## RoutesKnowledgeGenerator
+
+**Namespace**
+
+```
+App\Services\Documentation\Knowledge
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Knowledge/RoutesKnowledgeGenerator.php
+```
+
+**Methods**
+
+- filename() : string
+- generate() : string
+
+---
+
+## ServiceDocumentationGenerator
+
+**Namespace**
+
+```
+App\Services\Documentation\Generators
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Generators/ServiceDocumentationGenerator.php
+```
+
+**Constructor Dependencies**
+
+- ProjectScanner $scanner
+
+**Properties**
+
+- $scanner : App\Services\Documentation\Scanner\ProjectScanner
+
+**Methods**
+
+- generate() : string
+- priority() : int
+- filename() : string
+
+---
+
+## ServicesKnowledgeGenerator
+
+**Namespace**
+
+```
+App\Services\Documentation\Knowledge
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Knowledge/ServicesKnowledgeGenerator.php
+```
+
+**Constructor Dependencies**
+
+- ProjectScanner $scanner
+- ReflectionEngine $reflection
+
+**Properties**
+
+- $scanner : App\Services\Documentation\Scanner\ProjectScanner
+- $reflection : ?App\Services\Documentation\Reflection\ReflectionEngine
+
+**Methods**
+
+- filename() : string
+- generate() : string
+
+---
+
+## ServicesSection
+
+**Namespace**
+
+```
+App\Services\Documentation\Sections
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Sections/ServicesSection.php
+```
+
+**Methods**
+
+- generate() : string
+
+---
+
+## StatisticsGenerator
+
+**Namespace**
+
+```
+App\Services\Documentation\Knowledge
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Knowledge/StatisticsGenerator.php
+```
+
+**Constructor Dependencies**
+
+- ProjectScanner $scanner
+
+**Properties**
+
+- $scanner : App\Services\Documentation\Scanner\ProjectScanner
+
+**Methods**
+
+- generate() : string
+- filename() : string
+
+---
+
+## SubscriptionActivationService
+
+**Namespace**
+
+```
+App\Services\Subscription
+```
+
+**File**
+
+```
+/var/www/app/Services/Subscription/SubscriptionActivationService.php
+```
+
+**Constructor Dependencies**
+
+- MikrotikServiceInterface $mikrotikService
+
+**Properties**
+
+- $mikrotikService : App\Contracts\MikrotikServiceInterface
+
+**Methods**
+
+- activate() : bool
+
+---
+
+## SubscriptionActivityService
+
+**Namespace**
+
+```
+App\Services\Activity
+```
+
+**File**
+
+```
+/var/www/app/Services/Activity/SubscriptionActivityService.php
+```
+
+**Methods**
+
+- log() : App\Models\ActivityLog
+
+---
+
+## SubscriptionExpirationService
+
+**Namespace**
+
+```
+App\Services\Subscription
+```
+
+**File**
+
+```
+/var/www/app/Services/Subscription/SubscriptionExpirationService.php
+```
+
+**Constructor Dependencies**
+
+- ExpireSubscriptionAction $action
+
+**Properties**
+
+- $action : App\Actions\Subscription\ExpireSubscriptionAction
+
+**Methods**
+
+- expire() : bool
+
+---
+
+## SubscriptionRenewalService
+
+**Namespace**
+
+```
+App\Services
+```
+
+**File**
+
+```
+/var/www/app/Services/SubscriptionRenewalService.php
+```
+
+**Methods**
+
+- renewPppoe() : bool
+- renewHotspot() : bool
+
+---
+
+## SubscriptionService
+
+**Namespace**
+
+```
+App\Services\Subscription
+```
+
+**File**
+
+```
+/var/www/app/Services/Subscription/SubscriptionService.php
+```
+
+**Constructor Dependencies**
+
+- SubscriptionRepositoryInterface $subscriptionRepository
+- MikrotikServiceInterface $mikrotikService
+- ActivateSubscriptionAction $activateAction
+- SuspendSubscriptionAction $suspendAction
+- ExpireSubscriptionAction $expireAction
+- RenewSubscriptionAction $renewAction
+- RestoreSubscriptionAction $restoreAction
+
+**Properties**
+
+- $subscriptionRepository : App\Contracts\Repositories\SubscriptionRepositoryInterface
+- $mikrotikService : App\Contracts\MikrotikServiceInterface
+- $activateAction : App\Actions\Subscription\ActivateSubscriptionAction
+- $suspendAction : App\Actions\Subscription\SuspendSubscriptionAction
+- $expireAction : App\Actions\Subscription\ExpireSubscriptionAction
+- $renewAction : App\Actions\Subscription\RenewSubscriptionAction
+- $restoreAction : App\Actions\Subscription\RestoreSubscriptionAction
+
+**Methods**
+
+- activate() : bool
+- suspend() : bool
+- expire() : bool
+- renew() : bool
+- restore() : bool
+- availablePppoeUsers() : array
+- linkPppoe() : App\Models\Subscription
+
+---
+
+## SubscriptionSuspensionService
+
+**Namespace**
+
+```
+App\Services\Subscription
+```
+
+**File**
+
+```
+/var/www/app/Services/Subscription/SubscriptionSuspensionService.php
+```
+
+**Constructor Dependencies**
+
+- SuspendSubscriptionAction $action
+
+**Properties**
+
+- $action : App\Actions\Subscription\SuspendSubscriptionAction
+
+**Methods**
+
+- suspend() : bool
+
+---
+
+## WalletService
+
+**Namespace**
+
+```
+App\Services
+```
+
+**File**
+
+```
+/var/www/app/Services/WalletService.php
+```
+
+**Methods**
+
+- deposit() : void
+- deduct() : void
+
+---
+
+# Controllers
+
+---
+
+## ActivityLogController
+
+**Namespace**
+
+```
+App\Http\Controllers\Api
+```
+
+**File**
+
+```
+/var/www/app/Http/Controllers/Api/ActivityLogController.php
+```
+
+**Public Methods**
+
+- index()
+- show()
+
+---
+
+## AuthController
+
+**Namespace**
+
+```
+App\Http\Controllers\Api
+```
+
+**File**
+
+```
+/var/www/app/Http/Controllers/Api/AuthController.php
+```
+
+**Public Methods**
+
+- login()
+- me()
+- logout()
+
+---
+
+## Controller
+
+**Namespace**
+
+```
+App\Http\Controllers
+```
+
+**File**
+
+```
+/var/www/app/Http/Controllers/Controller.php
+```
+
+**Public Methods**
+
+- authorize()
+- authorizeForUser()
+- authorizeResource()
+
+---
+
+## CustomerAuthController
+
+**Namespace**
+
+```
+App\Http\Controllers\Api
+```
+
+**File**
+
+```
+/var/www/app/Http/Controllers/Api/CustomerAuthController.php
+```
+
+**Public Methods**
+
+- login()
+- me()
+
+---
+
+## CustomerController
+
+**Namespace**
+
+```
+App\Http\Controllers\Api
+```
+
+**File**
+
+```
+/var/www/app/Http/Controllers/Api/CustomerController.php
+```
+
+**Dependencies**
+
+- CustomerService $customerService
+
+**Public Methods**
+
+- index()
+- store()
+- show()
+- update()
+- destroy()
+
+---
+
+## CustomerDashboardController
+
+**Namespace**
+
+```
+App\Http\Controllers\Api
+```
+
+**File**
+
+```
+/var/www/app/Http/Controllers/Api/CustomerDashboardController.php
+```
+
+**Public Methods**
+
+- index()
+
+---
+
+## CustomerInvoiceController
+
+**Namespace**
+
+```
+App\Http\Controllers\Api
+```
+
+**File**
+
+```
+/var/www/app/Http/Controllers/Api/CustomerInvoiceController.php
+```
+
+**Public Methods**
+
+- index()
+- show()
+
+---
+
+## CustomerNotificationController
+
+**Namespace**
+
+```
+App\Http\Controllers\Api
+```
+
+**File**
+
+```
+/var/www/app/Http/Controllers/Api/CustomerNotificationController.php
+```
+
+**Public Methods**
+
+- index()
+- markAsRead()
+- markAllAsRead()
+
+---
+
+## CustomerSubscriptionController
+
+**Namespace**
+
+```
+App\Http\Controllers\Api
+```
+
+**File**
+
+```
+/var/www/app/Http/Controllers/Api/CustomerSubscriptionController.php
+```
+
+**Public Methods**
+
+- current()
+
+---
+
+## CustomerTicketController
+
+**Namespace**
+
+```
+App\Http\Controllers\Api
+```
+
+**File**
+
+```
+/var/www/app/Http/Controllers/Api/CustomerTicketController.php
+```
+
+**Public Methods**
+
+- index()
+- dashboard()
+- show()
+- messages()
+- store()
+- reply()
+- close()
+
+---
+
+## CustomerWalletController
+
+**Namespace**
+
+```
+App\Http\Controllers\Api
+```
+
+**File**
+
+```
+/var/www/app/Http/Controllers/Api/CustomerWalletController.php
+```
+
+**Public Methods**
+
+- show()
+
+---
+
+## DashboardController
+
+**Namespace**
+
+```
+App\Http\Controllers\Api
+```
+
+**File**
+
+```
+/var/www/app/Http/Controllers/Api/DashboardController.php
+```
+
+**Dependencies**
+
+- DashboardService $dashboardService
+
+**Public Methods**
+
+- index()
+
+---
+
+## DeviceAssignmentController
+
+**Namespace**
+
+```
+App\Http\Controllers\Api
+```
+
+**File**
+
+```
+/var/www/app/Http/Controllers/Api/DeviceAssignmentController.php
+```
+
+**Public Methods**
+
+- index()
+- store()
+- returnDevice()
+- show()
+- update()
+- destroy()
+
+---
+
+## DeviceController
+
+**Namespace**
+
+```
+App\Http\Controllers\Api
+```
+
+**File**
+
+```
+/var/www/app/Http/Controllers/Api/DeviceController.php
+```
+
+**Public Methods**
+
+- index()
+- store()
+- show()
+- update()
+- destroy()
+
+---
+
+## DhcpLeaseController
+
+**Namespace**
+
+```
+App\Http\Controllers\Api\Network
+```
+
+**File**
+
+```
+/var/www/app/Http/Controllers/Api/Network/DhcpLeaseController.php
+```
+
+**Public Methods**
+
+- index()
+
+---
+
+## HotspotSubscriptionController
+
+**Namespace**
+
+```
+App\Http\Controllers\Api
+```
+
+**File**
+
+```
+/var/www/app/Http/Controllers/Api/HotspotSubscriptionController.php
+```
+
+**Public Methods**
+
+- index()
+- store()
+- show()
+- destroy()
+- suspend()
+- activate()
+
+---
+
+## InventoryController
+
+**Namespace**
+
+```
+App\Http\Controllers\Api
+```
+
+**File**
+
+```
+/var/www/app/Http/Controllers/Api/InventoryController.php
+```
+
+**Public Methods**
+
+- index()
+- store()
+- show()
+- update()
+- destroy()
+
+---
+
+## InvoiceController
+
+**Namespace**
+
+```
+App\Http\Controllers\Api
+```
+
+**File**
+
+```
+/var/www/app/Http/Controllers/Api/InvoiceController.php
+```
+
+**Dependencies**
+
+- InvoiceService $invoiceService
+
+**Public Methods**
+
+- index()
+- store()
+- show()
+- update()
+- destroy()
+
+---
+
+## MikrotikController
+
+**Namespace**
+
+```
+App\Http\Controllers\Api
+```
+
+**File**
+
+```
+/var/www/app/Http/Controllers/Api/MikrotikController.php
+```
+
+**Dependencies**
+
+- MikrotikServiceInterface $mikrotik
+- MikrotikConnection $connection
+
+**Public Methods**
+
+- test()
+- pppoeUsers()
+- createPppoeUser()
+- hotspotUsers()
+- activeUsers()
+- createHotspotUser()
+- deleteHotspotUser()
+- suspendHotspotUser()
+- activateHotspotUser()
+- dhcpLeases()
+- dashboardStats()
+
+---
+
+## NotificationController
+
+**Namespace**
+
+```
+App\Http\Controllers\Api
+```
+
+**File**
+
+```
+/var/www/app/Http/Controllers/Api/NotificationController.php
+```
+
+**Public Methods**
+
+- index()
+- show()
+- markAsRead()
+- markAllAsRead()
+- destroy()
+
+---
+
+## PackageController
+
+**Namespace**
+
+```
+App\Http\Controllers\Api
+```
+
+**File**
+
+```
+/var/www/app/Http/Controllers/Api/PackageController.php
+```
+
+**Dependencies**
+
+- PackageService $packageService
+
+**Public Methods**
+
+- index()
+- store()
+- show()
+- update()
+- destroy()
+
+---
+
+## PaymentController
+
+**Namespace**
+
+```
+App\Http\Controllers\Api
+```
+
+**File**
+
+```
+/var/www/app/Http/Controllers/Api/PaymentController.php
+```
+
+**Dependencies**
+
+- PaymentService $paymentService
+
+**Public Methods**
+
+- index()
+- store()
+- show()
+- update()
+- destroy()
+
+---
+
+## ReportController
+
+**Namespace**
+
+```
+App\Http\Controllers\Api
+```
+
+**File**
+
+```
+/var/www/app/Http/Controllers/Api/ReportController.php
+```
+
+**Public Methods**
+
+- dashboard()
+- revenue()
+- invoices()
+- inventory()
+- tickets()
+
+---
+
+## SubscriptionController
+
+**Namespace**
+
+```
+App\Http\Controllers\Api
+```
+
+**File**
+
+```
+/var/www/app/Http/Controllers/Api/SubscriptionController.php
+```
+
+**Dependencies**
+
+- SubscriptionService $subscriptionService
+
+**Public Methods**
+
+- activate()
+- suspend()
+- renew()
+- restore()
+- expire()
+
+---
+
+## TenantController
+
+**Namespace**
+
+```
+App\Http\Controllers\Api
+```
+
+**File**
+
+```
+/var/www/app/Http/Controllers/Api/TenantController.php
+```
+
+**Public Methods**
+
+- index()
+- store()
+- show()
+- update()
+- destroy()
+
+---
+
+## TicketController
+
+**Namespace**
+
+```
+App\Http\Controllers\Api
+```
+
+**File**
+
+```
+/var/www/app/Http/Controllers/Api/TicketController.php
+```
+
+**Public Methods**
+
+- index()
+- store()
+- show()
+- update()
+- destroy()
+- dashboard()
+- messages()
+- reply()
+- changeStatus()
+- assign()
+
+---
+
+## UserController
+
+**Namespace**
+
+```
+App\Http\Controllers\Api
+```
+
+**File**
+
+```
+/var/www/app/Http/Controllers/Api/UserController.php
+```
+
+**Public Methods**
+
+- index()
+- store()
+- show()
+- destroy()
+
+---
+
+# Routes
+
+---
+
+## sanctum/csrf-cookie
+
+**Methods**
+
+- GET
+- HEAD
+
+**Name**
+
+sanctum.csrf-cookie
+
+**Action**
+
+Laravel\Sanctum\Http\Controllers\CsrfCookieController@show
+
+**Middleware**
+
+- web
+
+---
+
+## api/login
+
+**Methods**
+
+- POST
+
+**Name**
+
+-
+
+**Action**
+
+App\Http\Controllers\Api\AuthController@login
+
+**Middleware**
+
+- api
+
+---
+
+## api/customer/login
+
+**Methods**
+
+- POST
+
+**Name**
+
+-
+
+**Action**
+
+App\Http\Controllers\Api\CustomerAuthController@login
+
+**Middleware**
+
+- api
+
+---
+
+## api/me
+
+**Methods**
+
+- GET
+- HEAD
+
+**Name**
+
+-
+
+**Action**
+
+App\Http\Controllers\Api\AuthController@me
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/logout
+
+**Methods**
+
+- POST
+
+**Name**
+
+-
+
+**Action**
+
+App\Http\Controllers\Api\AuthController@logout
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/tickets/{ticket}/reply
+
+**Methods**
+
+- POST
+
+**Name**
+
+-
+
+**Action**
+
+App\Http\Controllers\Api\TicketController@reply
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/tickets/{ticket}/messages
+
+**Methods**
+
+- GET
+- HEAD
+
+**Name**
+
+-
+
+**Action**
+
+App\Http\Controllers\Api\TicketController@messages
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/dashboard
+
+**Methods**
+
+- GET
+- HEAD
+
+**Name**
+
+-
+
+**Action**
+
+App\Http\Controllers\Api\DashboardController@index
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/dashboard/stats
+
+**Methods**
+
+- GET
+- HEAD
+
+**Name**
+
+-
+
+**Action**
+
+App\Http\Controllers\Api\MikrotikController@dashboardStats
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/users
+
+**Methods**
+
+- GET
+- HEAD
+
+**Name**
+
+users.index
+
+**Action**
+
+App\Http\Controllers\Api\UserController@index
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/users
+
+**Methods**
+
+- POST
+
+**Name**
+
+users.store
+
+**Action**
+
+App\Http\Controllers\Api\UserController@store
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/users/{user}
+
+**Methods**
+
+- GET
+- HEAD
+
+**Name**
+
+users.show
+
+**Action**
+
+App\Http\Controllers\Api\UserController@show
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/users/{user}
+
+**Methods**
+
+- PUT
+- PATCH
+
+**Name**
+
+users.update
+
+**Action**
+
+App\Http\Controllers\Api\UserController@update
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/users/{user}
+
+**Methods**
+
+- DELETE
+
+**Name**
+
+users.destroy
+
+**Action**
+
+App\Http\Controllers\Api\UserController@destroy
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/tenants
+
+**Methods**
+
+- GET
+- HEAD
+
+**Name**
+
+tenants.index
+
+**Action**
+
+App\Http\Controllers\Api\TenantController@index
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/tenants
+
+**Methods**
+
+- POST
+
+**Name**
+
+tenants.store
+
+**Action**
+
+App\Http\Controllers\Api\TenantController@store
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/tenants/{tenant}
+
+**Methods**
+
+- GET
+- HEAD
+
+**Name**
+
+tenants.show
+
+**Action**
+
+App\Http\Controllers\Api\TenantController@show
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/tenants/{tenant}
+
+**Methods**
+
+- PUT
+- PATCH
+
+**Name**
+
+tenants.update
+
+**Action**
+
+App\Http\Controllers\Api\TenantController@update
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/tenants/{tenant}
+
+**Methods**
+
+- DELETE
+
+**Name**
+
+tenants.destroy
+
+**Action**
+
+App\Http\Controllers\Api\TenantController@destroy
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/customers
+
+**Methods**
+
+- GET
+- HEAD
+
+**Name**
+
+customers.index
+
+**Action**
+
+App\Http\Controllers\Api\CustomerController@index
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/customers
+
+**Methods**
+
+- POST
+
+**Name**
+
+customers.store
+
+**Action**
+
+App\Http\Controllers\Api\CustomerController@store
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/customers/{customer}
+
+**Methods**
+
+- GET
+- HEAD
+
+**Name**
+
+customers.show
+
+**Action**
+
+App\Http\Controllers\Api\CustomerController@show
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/customers/{customer}
+
+**Methods**
+
+- PUT
+- PATCH
+
+**Name**
+
+customers.update
+
+**Action**
+
+App\Http\Controllers\Api\CustomerController@update
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/customers/{customer}
+
+**Methods**
+
+- DELETE
+
+**Name**
+
+customers.destroy
+
+**Action**
+
+App\Http\Controllers\Api\CustomerController@destroy
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/packages
+
+**Methods**
+
+- GET
+- HEAD
+
+**Name**
+
+packages.index
+
+**Action**
+
+App\Http\Controllers\Api\PackageController@index
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/packages
+
+**Methods**
+
+- POST
+
+**Name**
+
+packages.store
+
+**Action**
+
+App\Http\Controllers\Api\PackageController@store
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/packages/{package}
+
+**Methods**
+
+- GET
+- HEAD
+
+**Name**
+
+packages.show
+
+**Action**
+
+App\Http\Controllers\Api\PackageController@show
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/packages/{package}
+
+**Methods**
+
+- PUT
+- PATCH
+
+**Name**
+
+packages.update
+
+**Action**
+
+App\Http\Controllers\Api\PackageController@update
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/packages/{package}
+
+**Methods**
+
+- DELETE
+
+**Name**
+
+packages.destroy
+
+**Action**
+
+App\Http\Controllers\Api\PackageController@destroy
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/subscriptions
+
+**Methods**
+
+- GET
+- HEAD
+
+**Name**
+
+subscriptions.index
+
+**Action**
+
+App\Http\Controllers\Api\SubscriptionController@index
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/subscriptions
+
+**Methods**
+
+- POST
+
+**Name**
+
+subscriptions.store
+
+**Action**
+
+App\Http\Controllers\Api\SubscriptionController@store
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/subscriptions/{subscription}
+
+**Methods**
+
+- GET
+- HEAD
+
+**Name**
+
+subscriptions.show
+
+**Action**
+
+App\Http\Controllers\Api\SubscriptionController@show
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/subscriptions/{subscription}
+
+**Methods**
+
+- PUT
+- PATCH
+
+**Name**
+
+subscriptions.update
+
+**Action**
+
+App\Http\Controllers\Api\SubscriptionController@update
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/subscriptions/{subscription}
+
+**Methods**
+
+- DELETE
+
+**Name**
+
+subscriptions.destroy
+
+**Action**
+
+App\Http\Controllers\Api\SubscriptionController@destroy
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/hotspot-subscriptions
+
+**Methods**
+
+- GET
+- HEAD
+
+**Name**
+
+hotspot-subscriptions.index
+
+**Action**
+
+App\Http\Controllers\Api\HotspotSubscriptionController@index
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/hotspot-subscriptions
+
+**Methods**
+
+- POST
+
+**Name**
+
+hotspot-subscriptions.store
+
+**Action**
+
+App\Http\Controllers\Api\HotspotSubscriptionController@store
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/hotspot-subscriptions/{hotspot_subscription}
+
+**Methods**
+
+- GET
+- HEAD
+
+**Name**
+
+hotspot-subscriptions.show
+
+**Action**
+
+App\Http\Controllers\Api\HotspotSubscriptionController@show
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/hotspot-subscriptions/{hotspot_subscription}
+
+**Methods**
+
+- PUT
+- PATCH
+
+**Name**
+
+hotspot-subscriptions.update
+
+**Action**
+
+App\Http\Controllers\Api\HotspotSubscriptionController@update
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/hotspot-subscriptions/{hotspot_subscription}
+
+**Methods**
+
+- DELETE
+
+**Name**
+
+hotspot-subscriptions.destroy
+
+**Action**
+
+App\Http\Controllers\Api\HotspotSubscriptionController@destroy
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/invoices
+
+**Methods**
+
+- GET
+- HEAD
+
+**Name**
+
+invoices.index
+
+**Action**
+
+App\Http\Controllers\Api\InvoiceController@index
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/invoices
+
+**Methods**
+
+- POST
+
+**Name**
+
+invoices.store
+
+**Action**
+
+App\Http\Controllers\Api\InvoiceController@store
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/invoices/{invoice}
+
+**Methods**
+
+- GET
+- HEAD
+
+**Name**
+
+invoices.show
+
+**Action**
+
+App\Http\Controllers\Api\InvoiceController@show
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/invoices/{invoice}
+
+**Methods**
+
+- PUT
+- PATCH
+
+**Name**
+
+invoices.update
+
+**Action**
+
+App\Http\Controllers\Api\InvoiceController@update
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/invoices/{invoice}
+
+**Methods**
+
+- DELETE
+
+**Name**
+
+invoices.destroy
+
+**Action**
+
+App\Http\Controllers\Api\InvoiceController@destroy
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/payments
+
+**Methods**
+
+- GET
+- HEAD
+
+**Name**
+
+payments.index
+
+**Action**
+
+App\Http\Controllers\Api\PaymentController@index
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/payments
+
+**Methods**
+
+- POST
+
+**Name**
+
+payments.store
+
+**Action**
+
+App\Http\Controllers\Api\PaymentController@store
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/payments/{payment}
+
+**Methods**
+
+- GET
+- HEAD
+
+**Name**
+
+payments.show
+
+**Action**
+
+App\Http\Controllers\Api\PaymentController@show
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/payments/{payment}
+
+**Methods**
+
+- PUT
+- PATCH
+
+**Name**
+
+payments.update
+
+**Action**
+
+App\Http\Controllers\Api\PaymentController@update
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/payments/{payment}
+
+**Methods**
+
+- DELETE
+
+**Name**
+
+payments.destroy
+
+**Action**
+
+App\Http\Controllers\Api\PaymentController@destroy
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/devices
+
+**Methods**
+
+- GET
+- HEAD
+
+**Name**
+
+devices.index
+
+**Action**
+
+App\Http\Controllers\Api\DeviceController@index
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/devices
+
+**Methods**
+
+- POST
+
+**Name**
+
+devices.store
+
+**Action**
+
+App\Http\Controllers\Api\DeviceController@store
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/devices/{device}
+
+**Methods**
+
+- GET
+- HEAD
+
+**Name**
+
+devices.show
+
+**Action**
+
+App\Http\Controllers\Api\DeviceController@show
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/devices/{device}
+
+**Methods**
+
+- PUT
+- PATCH
+
+**Name**
+
+devices.update
+
+**Action**
+
+App\Http\Controllers\Api\DeviceController@update
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/devices/{device}
+
+**Methods**
+
+- DELETE
+
+**Name**
+
+devices.destroy
+
+**Action**
+
+App\Http\Controllers\Api\DeviceController@destroy
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/inventories
+
+**Methods**
+
+- GET
+- HEAD
+
+**Name**
+
+inventories.index
+
+**Action**
+
+App\Http\Controllers\Api\InventoryController@index
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/inventories
+
+**Methods**
+
+- POST
+
+**Name**
+
+inventories.store
+
+**Action**
+
+App\Http\Controllers\Api\InventoryController@store
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/inventories/{inventory}
+
+**Methods**
+
+- GET
+- HEAD
+
+**Name**
+
+inventories.show
+
+**Action**
+
+App\Http\Controllers\Api\InventoryController@show
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/inventories/{inventory}
+
+**Methods**
+
+- PUT
+- PATCH
+
+**Name**
+
+inventories.update
+
+**Action**
+
+App\Http\Controllers\Api\InventoryController@update
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/inventories/{inventory}
+
+**Methods**
+
+- DELETE
+
+**Name**
+
+inventories.destroy
+
+**Action**
+
+App\Http\Controllers\Api\InventoryController@destroy
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/device-assignments
+
+**Methods**
+
+- GET
+- HEAD
+
+**Name**
+
+device-assignments.index
+
+**Action**
+
+App\Http\Controllers\Api\DeviceAssignmentController@index
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/device-assignments
+
+**Methods**
+
+- POST
+
+**Name**
+
+device-assignments.store
+
+**Action**
+
+App\Http\Controllers\Api\DeviceAssignmentController@store
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/device-assignments/{device_assignment}
+
+**Methods**
+
+- GET
+- HEAD
+
+**Name**
+
+device-assignments.show
+
+**Action**
+
+App\Http\Controllers\Api\DeviceAssignmentController@show
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/device-assignments/{device_assignment}
+
+**Methods**
+
+- PUT
+- PATCH
+
+**Name**
+
+device-assignments.update
+
+**Action**
+
+App\Http\Controllers\Api\DeviceAssignmentController@update
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/device-assignments/{device_assignment}
+
+**Methods**
+
+- DELETE
+
+**Name**
+
+device-assignments.destroy
+
+**Action**
+
+App\Http\Controllers\Api\DeviceAssignmentController@destroy
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/tickets
+
+**Methods**
+
+- GET
+- HEAD
+
+**Name**
+
+tickets.index
+
+**Action**
+
+App\Http\Controllers\Api\TicketController@index
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/tickets
+
+**Methods**
+
+- POST
+
+**Name**
+
+tickets.store
+
+**Action**
+
+App\Http\Controllers\Api\TicketController@store
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/tickets/{ticket}
+
+**Methods**
+
+- GET
+- HEAD
+
+**Name**
+
+tickets.show
+
+**Action**
+
+App\Http\Controllers\Api\TicketController@show
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/tickets/{ticket}
+
+**Methods**
+
+- PUT
+- PATCH
+
+**Name**
+
+tickets.update
+
+**Action**
+
+App\Http\Controllers\Api\TicketController@update
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/tickets/{ticket}
+
+**Methods**
+
+- DELETE
+
+**Name**
+
+tickets.destroy
+
+**Action**
+
+App\Http\Controllers\Api\TicketController@destroy
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/tickets/{ticket}/assign
+
+**Methods**
+
+- POST
+
+**Name**
+
+-
+
+**Action**
+
+App\Http\Controllers\Api\TicketController@assign
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/tickets/{ticket}/status
+
+**Methods**
+
+- POST
+
+**Name**
+
+-
+
+**Action**
+
+App\Http\Controllers\Api\TicketController@changeStatus
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/tickets/dashboard/statistics
+
+**Methods**
+
+- GET
+- HEAD
+
+**Name**
+
+-
+
+**Action**
+
+App\Http\Controllers\Api\TicketController@dashboard
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/notifications
+
+**Methods**
+
+- GET
+- HEAD
+
+**Name**
+
+notifications.index
+
+**Action**
+
+App\Http\Controllers\Api\NotificationController@index
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/notifications
+
+**Methods**
+
+- POST
+
+**Name**
+
+notifications.store
+
+**Action**
+
+App\Http\Controllers\Api\NotificationController@store
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/notifications/{notification}
+
+**Methods**
+
+- GET
+- HEAD
+
+**Name**
+
+notifications.show
+
+**Action**
+
+App\Http\Controllers\Api\NotificationController@show
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/notifications/{notification}
+
+**Methods**
+
+- PUT
+- PATCH
+
+**Name**
+
+notifications.update
+
+**Action**
+
+App\Http\Controllers\Api\NotificationController@update
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/notifications/{notification}
+
+**Methods**
+
+- DELETE
+
+**Name**
+
+notifications.destroy
+
+**Action**
+
+App\Http\Controllers\Api\NotificationController@destroy
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/activity-logs
+
+**Methods**
+
+- GET
+- HEAD
+
+**Name**
+
+activity-logs.index
+
+**Action**
+
+App\Http\Controllers\Api\ActivityLogController@index
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/activity-logs/{activity_log}
+
+**Methods**
+
+- GET
+- HEAD
+
+**Name**
+
+activity-logs.show
+
+**Action**
+
+App\Http\Controllers\Api\ActivityLogController@show
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/subscriptions/available-pppoe-users
+
+**Methods**
+
+- GET
+- HEAD
+
+**Name**
+
+-
+
+**Action**
+
+App\Http\Controllers\Api\SubscriptionController@availablePppoeUsers
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/subscriptions/{subscription}/link-pppoe
+
+**Methods**
+
+- POST
+
+**Name**
+
+-
+
+**Action**
+
+App\Http\Controllers\Api\SubscriptionController@linkPppoe
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/subscriptions/{subscription}/activate
+
+**Methods**
+
+- POST
+
+**Name**
+
+-
+
+**Action**
+
+App\Http\Controllers\Api\SubscriptionController@activate
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/subscriptions/{subscription}/suspend
+
+**Methods**
+
+- POST
+
+**Name**
+
+-
+
+**Action**
+
+App\Http\Controllers\Api\SubscriptionController@suspend
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/subscriptions/{subscription}/renew
+
+**Methods**
+
+- POST
+
+**Name**
+
+-
+
+**Action**
+
+App\Http\Controllers\Api\SubscriptionController@renew
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/hotspot-subscriptions/{hotspotSubscription}/activate
+
+**Methods**
+
+- POST
+
+**Name**
+
+-
+
+**Action**
+
+App\Http\Controllers\Api\HotspotSubscriptionController@activate
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/hotspot-subscriptions/{hotspotSubscription}/suspend
+
+**Methods**
+
+- POST
+
+**Name**
+
+-
+
+**Action**
+
+App\Http\Controllers\Api\HotspotSubscriptionController@suspend
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/device-assignments/{device_assignment}/return
+
+**Methods**
+
+- POST
+
+**Name**
+
+-
+
+**Action**
+
+App\Http\Controllers\Api\DeviceAssignmentController@returnDevice
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/notifications/{notification}/read
+
+**Methods**
+
+- POST
+
+**Name**
+
+-
+
+**Action**
+
+App\Http\Controllers\Api\NotificationController@markAsRead
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/notifications/read-all
+
+**Methods**
+
+- POST
+
+**Name**
+
+-
+
+**Action**
+
+App\Http\Controllers\Api\NotificationController@markAllAsRead
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/reports/dashboard
+
+**Methods**
+
+- GET
+- HEAD
+
+**Name**
+
+-
+
+**Action**
+
+App\Http\Controllers\Api\ReportController@dashboard
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/reports/revenue
+
+**Methods**
+
+- GET
+- HEAD
+
+**Name**
+
+-
+
+**Action**
+
+App\Http\Controllers\Api\ReportController@revenue
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/reports/invoices
+
+**Methods**
+
+- GET
+- HEAD
+
+**Name**
+
+-
+
+**Action**
+
+App\Http\Controllers\Api\ReportController@invoices
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/reports/inventory
+
+**Methods**
+
+- GET
+- HEAD
+
+**Name**
+
+-
+
+**Action**
+
+App\Http\Controllers\Api\ReportController@inventory
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/reports/tickets
+
+**Methods**
+
+- GET
+- HEAD
+
+**Name**
+
+-
+
+**Action**
+
+App\Http\Controllers\Api\ReportController@tickets
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/mikrotik/test
+
+**Methods**
+
+- GET
+- HEAD
+
+**Name**
+
+-
+
+**Action**
+
+App\Http\Controllers\Api\MikrotikController@test
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/mikrotik/dashboard-stats
+
+**Methods**
+
+- GET
+- HEAD
+
+**Name**
+
+-
+
+**Action**
+
+App\Http\Controllers\Api\MikrotikController@dashboardStats
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/mikrotik/pppoe-users
+
+**Methods**
+
+- GET
+- HEAD
+
+**Name**
+
+-
+
+**Action**
+
+App\Http\Controllers\Api\MikrotikController@pppoeUsers
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/mikrotik/pppoe-users
+
+**Methods**
+
+- POST
+
+**Name**
+
+-
+
+**Action**
+
+App\Http\Controllers\Api\MikrotikController@createPppoeUser
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/mikrotik/hotspot-users
+
+**Methods**
+
+- GET
+- HEAD
+
+**Name**
+
+-
+
+**Action**
+
+App\Http\Controllers\Api\MikrotikController@hotspotUsers
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/mikrotik/hotspot-users/active
+
+**Methods**
+
+- GET
+- HEAD
+
+**Name**
+
+-
+
+**Action**
+
+App\Http\Controllers\Api\MikrotikController@activeUsers
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/mikrotik/hotspot-users
+
+**Methods**
+
+- POST
+
+**Name**
+
+-
+
+**Action**
+
+App\Http\Controllers\Api\MikrotikController@createHotspotUser
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/mikrotik/hotspot-users/{username}
+
+**Methods**
+
+- DELETE
+
+**Name**
+
+-
+
+**Action**
+
+App\Http\Controllers\Api\MikrotikController@deleteHotspotUser
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/mikrotik/hotspot-users/{username}/activate
+
+**Methods**
+
+- POST
+
+**Name**
+
+-
+
+**Action**
+
+App\Http\Controllers\Api\MikrotikController@activateHotspotUser
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/mikrotik/hotspot-users/{username}/suspend
+
+**Methods**
+
+- POST
+
+**Name**
+
+-
+
+**Action**
+
+App\Http\Controllers\Api\MikrotikController@suspendHotspotUser
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/customer/me
+
+**Methods**
+
+- GET
+- HEAD
+
+**Name**
+
+-
+
+**Action**
+
+App\Http\Controllers\Api\CustomerAuthController@me
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/customer/logout
+
+**Methods**
+
+- POST
+
+**Name**
+
+-
+
+**Action**
+
+App\Http\Controllers\Api\CustomerAuthController@logout
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/customer/profile
+
+**Methods**
+
+- PUT
+
+**Name**
+
+-
+
+**Action**
+
+App\Http\Controllers\Api\CustomerAuthController@updateProfile
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/customer/change-password
+
+**Methods**
+
+- POST
+
+**Name**
+
+-
+
+**Action**
+
+App\Http\Controllers\Api\CustomerAuthController@changePassword
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/customer/dashboard
+
+**Methods**
+
+- GET
+- HEAD
+
+**Name**
+
+-
+
+**Action**
+
+App\Http\Controllers\Api\CustomerDashboardController@index
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/customer/subscription
+
+**Methods**
+
+- GET
+- HEAD
+
+**Name**
+
+-
+
+**Action**
+
+App\Http\Controllers\Api\CustomerSubscriptionController@current
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/customer/subscription/renew
+
+**Methods**
+
+- POST
+
+**Name**
+
+-
+
+**Action**
+
+App\Http\Controllers\Api\CustomerSubscriptionController@renew
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/customer/wallet
+
+**Methods**
+
+- GET
+- HEAD
+
+**Name**
+
+-
+
+**Action**
+
+App\Http\Controllers\Api\CustomerWalletController@show
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/customer/wallet/transactions
+
+**Methods**
+
+- GET
+- HEAD
+
+**Name**
+
+-
+
+**Action**
+
+App\Http\Controllers\Api\CustomerWalletController@transactions
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/customer/invoices
+
+**Methods**
+
+- GET
+- HEAD
+
+**Name**
+
+-
+
+**Action**
+
+App\Http\Controllers\Api\CustomerInvoiceController@index
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/customer/invoices/{invoice}
+
+**Methods**
+
+- GET
+- HEAD
+
+**Name**
+
+-
+
+**Action**
+
+App\Http\Controllers\Api\CustomerInvoiceController@show
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/customer/notifications
+
+**Methods**
+
+- GET
+- HEAD
+
+**Name**
+
+-
+
+**Action**
+
+App\Http\Controllers\Api\CustomerNotificationController@index
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/customer/notifications/{id}/read
+
+**Methods**
+
+- POST
+
+**Name**
+
+-
+
+**Action**
+
+App\Http\Controllers\Api\CustomerNotificationController@markAsRead
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/customer/notifications/read-all
+
+**Methods**
+
+- POST
+
+**Name**
+
+-
+
+**Action**
+
+App\Http\Controllers\Api\CustomerNotificationController@markAllAsRead
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/customer/tickets/dashboard
+
+**Methods**
+
+- GET
+- HEAD
+
+**Name**
+
+-
+
+**Action**
+
+App\Http\Controllers\Api\CustomerTicketController@dashboard
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/customer/tickets
+
+**Methods**
+
+- GET
+- HEAD
+
+**Name**
+
+-
+
+**Action**
+
+App\Http\Controllers\Api\CustomerTicketController@index
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/customer/tickets
+
+**Methods**
+
+- POST
+
+**Name**
+
+-
+
+**Action**
+
+App\Http\Controllers\Api\CustomerTicketController@store
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/customer/tickets/{ticket}
+
+**Methods**
+
+- GET
+- HEAD
+
+**Name**
+
+-
+
+**Action**
+
+App\Http\Controllers\Api\CustomerTicketController@show
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/customer/tickets/{ticket}/messages
+
+**Methods**
+
+- GET
+- HEAD
+
+**Name**
+
+-
+
+**Action**
+
+App\Http\Controllers\Api\CustomerTicketController@messages
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/customer/tickets/{ticket}/reply
+
+**Methods**
+
+- POST
+
+**Name**
+
+-
+
+**Action**
+
+App\Http\Controllers\Api\CustomerTicketController@reply
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/customer/tickets/{ticket}/close
+
+**Methods**
+
+- POST
+
+**Name**
+
+-
+
+**Action**
+
+App\Http\Controllers\Api\CustomerTicketController@close
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## api/network/dhcp/leases
+
+**Methods**
+
+- GET
+- HEAD
+
+**Name**
+
+-
+
+**Action**
+
+App\Http\Controllers\Api\MikrotikController@dhcpLeases
+
+**Middleware**
+
+- api
+- auth:sanctum
+
+---
+
+## /
+
+**Methods**
+
+- GET
+- HEAD
+
+**Name**
+
+-
+
+**Action**
+
+Closure
+
+**Middleware**
+
+- web
+
+---
+
+## broadcasting/auth
+
+**Methods**
+
+- GET
+- POST
+- HEAD
+
+**Name**
+
+-
+
+**Action**
+
+\Illuminate\Broadcasting\BroadcastController@authenticate
+
+**Middleware**
+
+- web
+
+---
+
+## storage/{path}
+
+**Methods**
+
+- GET
+- HEAD
+
+**Name**
+
+storage.local
+
+**Action**
+
+Closure
+
+**Middleware**
+
+
+---
+
+## storage/{path}
+
+**Methods**
+
+- PUT
+
+**Name**
+
+storage.local.upload
+
+**Action**
+
+Closure
+
+**Middleware**

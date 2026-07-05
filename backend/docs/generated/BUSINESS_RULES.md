@@ -15,6 +15,18 @@ App\Services\Documentation\Knowledge
 
 ---
 
+## AbstractHandoverSection
+
+**Namespace**
+App\Services\Documentation\Handover
+
+**Dependencies**
+- None
+
+**Methods**
+
+---
+
 ## ActionDocumentationGenerator
 
 **Namespace**
@@ -205,6 +217,22 @@ App\Services\Documentation\Generators
 
 ---
 
+## ControllersKnowledgeGenerator
+
+**Namespace**
+App\Services\Documentation\Knowledge
+
+**Dependencies**
+- App\Services\Documentation\Scanner\ProjectScanner
+- App\Services\Documentation\Reflection\ReflectionEngine
+
+**Methods**
+- __construct(2 params) : mixed
+- filename(0 params) : string
+- generate(0 params) : string
+
+---
+
 ## CustomerService
 
 **Namespace**
@@ -279,6 +307,19 @@ App\Services\Documentation\Writer
 
 ---
 
+## ExecutiveSummarySection
+
+**Namespace**
+App\Services\Documentation\Handover
+
+**Dependencies**
+- None
+
+**Methods**
+- generate(0 params) : string
+
+---
+
 ## FileScanner
 
 **Namespace**
@@ -289,6 +330,20 @@ App\Services\Documentation\Scanner
 
 **Methods**
 - scan(1 params) : array
+
+---
+
+## HandoverDocumentGenerator
+
+**Namespace**
+App\Services\Documentation\Knowledge
+
+**Dependencies**
+- None
+
+**Methods**
+- filename(0 params) : string
+- generate(0 params) : string
 
 ---
 
@@ -340,9 +395,10 @@ App\Services\Invoice
 App\Services\Documentation\Knowledge
 
 **Dependencies**
-- None
+- App\Services\Documentation\Writer\DocumentationWriter
 
 **Methods**
+- __construct(1 params) : mixed
 - export(0 params) : void
 
 ---
@@ -368,9 +424,11 @@ App\Services\Documentation\Knowledge
 App\Services\Documentation\Knowledge
 
 **Dependencies**
-- None
+- App\Services\Documentation\Scanner\ProjectScanner
 
 **Methods**
+- __construct(1 params) : mixed
+- register(1 params) : self
 - generators(0 params) : array
 
 ---
@@ -480,6 +538,22 @@ App\Services\Documentation\Generators
 - generate(0 params) : string
 - priority(0 params) : int
 - filename(0 params) : string
+
+---
+
+## ModelsKnowledgeGenerator
+
+**Namespace**
+App\Services\Documentation\Knowledge
+
+**Dependencies**
+- App\Services\Documentation\Scanner\ProjectScanner
+- App\Services\Documentation\Reflection\ReflectionEngine
+
+**Methods**
+- __construct(2 params) : mixed
+- filename(0 params) : string
+- generate(0 params) : string
 
 ---
 
@@ -632,6 +706,20 @@ App\Services\Documentation\Generators
 
 ---
 
+## RoutesKnowledgeGenerator
+
+**Namespace**
+App\Services\Documentation\Knowledge
+
+**Dependencies**
+- None
+
+**Methods**
+- filename(0 params) : string
+- generate(0 params) : string
+
+---
+
 ## ServiceDocumentationGenerator
 
 **Namespace**
@@ -645,6 +733,22 @@ App\Services\Documentation\Generators
 - generate(0 params) : string
 - priority(0 params) : int
 - filename(0 params) : string
+
+---
+
+## ServicesKnowledgeGenerator
+
+**Namespace**
+App\Services\Documentation\Knowledge
+
+**Dependencies**
+- App\Services\Documentation\Scanner\ProjectScanner
+- App\Services\Documentation\Reflection\ReflectionEngine
+
+**Methods**
+- __construct(2 params) : mixed
+- filename(0 params) : string
+- generate(0 params) : string
 
 ---
 

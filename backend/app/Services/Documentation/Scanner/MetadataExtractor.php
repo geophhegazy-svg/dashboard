@@ -20,12 +20,25 @@ class MetadataExtractor
 
         sort($methods);
 
+        $file = $reflection->getFileName();
+
         return [
-            'name'       => $reflection->getShortName(),
-            'class'      => $reflection->getName(),
-            'namespace'  => $reflection->getNamespaceName(),
-            'file'       => $reflection->getFileName(),
-            'methods'    => $methods,
+
+            'name' => $reflection->getShortName(),
+
+            'class' => $reflection->getName(),
+
+            'namespace' => $reflection->getNamespaceName(),
+
+            // الاسم الجديد الموحد
+            'path' => $file,
+
+            // للإبقاء على التوافق مع الكود القديم
+            'file' => $file,
+
+            'filename' => basename($file),
+
+            'methods' => $methods,
         ];
     }
 }
