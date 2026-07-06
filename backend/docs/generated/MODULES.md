@@ -23,7 +23,7 @@ Total: 16
 
 ## Services
 
-Total: 81
+Total: 82
 
 - AIContextGenerator
 - AbstractHandoverSection
@@ -99,6 +99,7 @@ Total: 81
 - SubscriptionActivationService
 - SubscriptionActivityService
 - SubscriptionExpirationService
+- SubscriptionLifecycleService
 - SubscriptionRenewalService
 - SubscriptionService
 - SubscriptionSuspensionService

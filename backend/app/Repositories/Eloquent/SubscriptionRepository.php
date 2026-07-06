@@ -7,6 +7,7 @@ namespace App\Repositories\Eloquent;
 use App\Contracts\Repositories\SubscriptionRepositoryInterface;
 use App\Models\Subscription;
 use Illuminate\Database\Eloquent\Collection;
+use App\Enums\SubscriptionStatus;
 
 class SubscriptionRepository implements SubscriptionRepositoryInterface
 {
@@ -56,7 +57,7 @@ class SubscriptionRepository implements SubscriptionRepositoryInterface
     public function expiringSubscriptions(): Collection
     {
         return Subscription::query()
-            ->where('status', 'active')
+            ->where('status', SubscriptionStatus::ACTIVE->value)
             ->whereDate('end_date', '<=', now())
             ->get();
     }

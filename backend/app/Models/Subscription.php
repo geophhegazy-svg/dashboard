@@ -7,6 +7,7 @@ namespace App\Models;
 use App\Enums\SubscriptionStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use LogicException;
 
 class Subscription extends Model
 {
@@ -76,27 +77,51 @@ class Subscription extends Model
 
     /*
     |--------------------------------------------------------------------------
-    | Business Methods
+    | State Transitions
     |--------------------------------------------------------------------------
     */
 
     public function activate(): void
     {
+        if (! $this->canActivate()) {
+            throw new LogicException(
+                "Subscription cannot be activated from [{$this->status->value}] state."
+            );
+        }
+
         $this->status = SubscriptionStatus::ACTIVE;
     }
 
     public function suspend(): void
     {
+        if (! $this->canSuspend()) {
+            throw new LogicException(
+                "Subscription cannot be suspended from [{$this->status->value}] state."
+            );
+        }
+
         $this->status = SubscriptionStatus::SUSPENDED;
     }
 
     public function expire(): void
     {
+        if (! $this->status->canExpire()) {
+            throw new LogicException(
+                "Subscription cannot expire from [{$this->status->value}] state."
+            );
+        }
+
         $this->status = SubscriptionStatus::EXPIRED;
     }
 
     public function restore(): void
     {
+        if (! $this->status->canRestore()) {
+            throw new LogicException(
+                "Subscription cannot be restored from [{$this->status->value}] state."
+            );
+        }
+
         $this->status = SubscriptionStatus::ACTIVE;
     }
 
@@ -108,7 +133,7 @@ class Subscription extends Model
 
     public function isActive(): bool
     {
-        return $this->status === SubscriptionStatus::ACTIVE;
+        return $this->status->isActive();
     }
 
     public function canActivate(): bool

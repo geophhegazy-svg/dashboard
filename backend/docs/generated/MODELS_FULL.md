@@ -1061,6 +1061,14 @@ App\Models
 - payments()
 - notifications()
 - activityLogs()
+- activate()
+- suspend()
+- expire()
+- restore()
+- isActive()
+- canActivate()
+- canSuspend()
+- canRenew()
 - factory()
 
 ---

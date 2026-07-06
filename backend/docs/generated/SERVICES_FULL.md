@@ -1901,6 +1901,46 @@ App\Services\Subscription
 
 ---
 
+## SubscriptionLifecycleService
+
+**Namespace**
+
+```
+App\Services\Subscription
+```
+
+**File**
+
+```
+/var/www/app/Services/Subscription/SubscriptionLifecycleService.php
+```
+
+**Constructor Dependencies**
+
+- ActivateSubscriptionAction $activateAction
+- SuspendSubscriptionAction $suspendAction
+- ExpireSubscriptionAction $expireAction
+- RenewSubscriptionAction $renewAction
+- RestoreSubscriptionAction $restoreAction
+
+**Properties**
+
+- $activateAction : App\Actions\Subscription\ActivateSubscriptionAction
+- $suspendAction : App\Actions\Subscription\SuspendSubscriptionAction
+- $expireAction : App\Actions\Subscription\ExpireSubscriptionAction
+- $renewAction : App\Actions\Subscription\RenewSubscriptionAction
+- $restoreAction : App\Actions\Subscription\RestoreSubscriptionAction
+
+**Methods**
+
+- activate() : bool
+- suspend() : bool
+- expire() : bool
+- renew() : bool
+- restore() : bool
+
+---
+
 ## SubscriptionRenewalService
 
 **Namespace**

@@ -1093,6 +1093,28 @@ App\Services\Subscription
 
 ---
 
+## SubscriptionLifecycleService
+
+**Namespace**
+App\Services\Subscription
+
+**Dependencies**
+- App\Actions\Subscription\ActivateSubscriptionAction
+- App\Actions\Subscription\SuspendSubscriptionAction
+- App\Actions\Subscription\ExpireSubscriptionAction
+- App\Actions\Subscription\RenewSubscriptionAction
+- App\Actions\Subscription\RestoreSubscriptionAction
+
+**Methods**
+- __construct(5 params) : mixed
+- activate(1 params) : bool
+- suspend(1 params) : bool
+- expire(1 params) : bool
+- renew(2 params) : bool
+- restore(1 params) : bool
+
+---
+
 ## SubscriptionRenewalService
 
 **Namespace**

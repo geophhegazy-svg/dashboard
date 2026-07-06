@@ -106,6 +106,7 @@
 - App\Services\Subscription\SubscriptionActivationService
 - App\Services\Activity\SubscriptionActivityService
 - App\Services\Subscription\SubscriptionExpirationService
+- App\Services\Subscription\SubscriptionLifecycleService
 - App\Services\SubscriptionRenewalService
 - App\Services\Subscription\SubscriptionService
 - App\Services\Subscription\SubscriptionSuspensionService

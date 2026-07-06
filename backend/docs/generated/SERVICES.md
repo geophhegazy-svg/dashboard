@@ -74,6 +74,7 @@
 - SubscriptionActivationService
 - SubscriptionActivityService
 - SubscriptionExpirationService
+- SubscriptionLifecycleService
 - SubscriptionRenewalService
 - SubscriptionService
 - SubscriptionSuspensionService

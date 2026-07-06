@@ -26,7 +26,7 @@ class ActivateSubscriptionAction
                 'status' => SubscriptionStatus::ACTIVE->value,
             ]);
 
-            if ($subscription->pppoe_username) {
+            if (! empty($subscription->pppoe_username)) {
                 $this->mikrotikService->enablePppoe(
                     $subscription->pppoe_username
                 );

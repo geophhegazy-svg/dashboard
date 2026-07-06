@@ -10,6 +10,7 @@ use App\Services\Subscription\SubscriptionService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use App\Events\SubscriptionActivated;
+use App\Enums\SubscriptionStatus;
 
 class SubscriptionServiceTest extends TestCase
 {
@@ -151,7 +152,10 @@ class SubscriptionServiceTest extends TestCase
 
         $subscription->refresh();
 
-        $this->assertEquals('active', $subscription->status);
+        $this->assertEquals(
+            \App\Enums\SubscriptionStatus::ACTIVE,
+            $subscription->status
+        );
 
         $this->assertContains(
             'customer1',
@@ -244,11 +248,10 @@ class SubscriptionServiceTest extends TestCase
         $subscription->refresh();
 
         $this->assertEquals(
-            'suspended',
+            \App\Enums\SubscriptionStatus::SUSPENDED,
             $subscription->status
         );
     }
-
     public function test_suspend_dispatches_event(): void
     {
         Event::fake();

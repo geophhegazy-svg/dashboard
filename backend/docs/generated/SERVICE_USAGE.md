@@ -1007,6 +1007,23 @@ App\Services\Subscription\SubscriptionExpirationService
 - __construct
 - expire
 
+## SubscriptionLifecycleService
+
+**Class**
+
+```
+App\Services\Subscription\SubscriptionLifecycleService
+```
+
+**Public Methods**
+
+- __construct
+- activate
+- expire
+- renew
+- restore
+- suspend
+
 ## SubscriptionRenewalService
 
 **Class**

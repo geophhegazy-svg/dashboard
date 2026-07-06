@@ -14,7 +14,7 @@ Technology
 
 Statistics
 - Models: 16
-- Services: 81
+- Services: 82
 
 
 ---
@@ -48,7 +48,7 @@ app/
 # Project Statistics
 
 Models: 16
-Services: 81
+Services: 82
 
 ---
 
@@ -100,7 +100,7 @@ Development Rules
 
 Current Statistics
 Models: 16
-Services: 81
+Services: 82
 
 ---
 
@@ -1196,6 +1196,28 @@ App\Services\Subscription
 **Methods**
 - __construct(1 params) : mixed
 - expire(1 params) : bool
+
+---
+
+## SubscriptionLifecycleService
+
+**Namespace**
+App\Services\Subscription
+
+**Dependencies**
+- App\Actions\Subscription\ActivateSubscriptionAction
+- App\Actions\Subscription\SuspendSubscriptionAction
+- App\Actions\Subscription\ExpireSubscriptionAction
+- App\Actions\Subscription\RenewSubscriptionAction
+- App\Actions\Subscription\RestoreSubscriptionAction
+
+**Methods**
+- __construct(5 params) : mixed
+- activate(1 params) : bool
+- suspend(1 params) : bool
+- expire(1 params) : bool
+- renew(2 params) : bool
+- restore(1 params) : bool
 
 ---
 
@@ -2373,6 +2395,14 @@ App\Models
 - payments()
 - notifications()
 - activityLogs()
+- activate()
+- suspend()
+- expire()
+- restore()
+- isActive()
+- canActivate()
+- canSuspend()
+- canRenew()
 - factory()
 
 ---
@@ -4808,6 +4838,46 @@ App\Services\Subscription
 **Methods**
 
 - expire() : bool
+
+---
+
+## SubscriptionLifecycleService
+
+**Namespace**
+
+```
+App\Services\Subscription
+```
+
+**File**
+
+```
+/var/www/app/Services/Subscription/SubscriptionLifecycleService.php
+```
+
+**Constructor Dependencies**
+
+- ActivateSubscriptionAction $activateAction
+- SuspendSubscriptionAction $suspendAction
+- ExpireSubscriptionAction $expireAction
+- RenewSubscriptionAction $renewAction
+- RestoreSubscriptionAction $restoreAction
+
+**Properties**
+
+- $activateAction : App\Actions\Subscription\ActivateSubscriptionAction
+- $suspendAction : App\Actions\Subscription\SuspendSubscriptionAction
+- $expireAction : App\Actions\Subscription\ExpireSubscriptionAction
+- $renewAction : App\Actions\Subscription\RenewSubscriptionAction
+- $restoreAction : App\Actions\Subscription\RestoreSubscriptionAction
+
+**Methods**
+
+- activate() : bool
+- suspend() : bool
+- expire() : bool
+- renew() : bool
+- restore() : bool
 
 ---
 
