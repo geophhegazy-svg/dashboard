@@ -1,20 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
+use App\Enums\SubscriptionStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Tenant;
-use App\Models\Customer;
-use App\Models\Package;
-use App\Models\Invoice;
-use App\Models\Payment;
-use App\Models\Notification;
-use App\Models\ActivityLog;
 
 class Subscription extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'tenant_id',
         'customer_id',
@@ -33,7 +30,14 @@ class Subscription extends Model
     protected $casts = [
         'start_date' => 'datetime',
         'end_date'   => 'datetime',
+        'status'     => SubscriptionStatus::class,
     ];
+
+    /*
+    |--------------------------------------------------------------------------
+    | Relationships
+    |--------------------------------------------------------------------------
+    */
 
     public function tenant()
     {
@@ -49,6 +53,7 @@ class Subscription extends Model
     {
         return $this->belongsTo(Package::class);
     }
+
     public function invoices()
     {
         return $this->hasMany(Invoice::class);
@@ -67,5 +72,57 @@ class Subscription extends Model
     public function activityLogs()
     {
         return $this->morphMany(ActivityLog::class, 'subject');
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Business Methods
+    |--------------------------------------------------------------------------
+    */
+
+    public function activate(): void
+    {
+        $this->status = SubscriptionStatus::ACTIVE;
+    }
+
+    public function suspend(): void
+    {
+        $this->status = SubscriptionStatus::SUSPENDED;
+    }
+
+    public function expire(): void
+    {
+        $this->status = SubscriptionStatus::EXPIRED;
+    }
+
+    public function restore(): void
+    {
+        $this->status = SubscriptionStatus::ACTIVE;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | State Helpers
+    |--------------------------------------------------------------------------
+    */
+
+    public function isActive(): bool
+    {
+        return $this->status === SubscriptionStatus::ACTIVE;
+    }
+
+    public function canActivate(): bool
+    {
+        return $this->status->canActivate();
+    }
+
+    public function canSuspend(): bool
+    {
+        return $this->status->canSuspend();
+    }
+
+    public function canRenew(): bool
+    {
+        return $this->status->canRenew();
     }
 }

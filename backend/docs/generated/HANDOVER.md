@@ -14,7 +14,7 @@ Technology
 
 Statistics
 - Models: 16
-- Services: 80
+- Services: 81
 
 
 ---
@@ -48,7 +48,7 @@ app/
 # Project Statistics
 
 Models: 16
-Services: 80
+Services: 81
 
 ---
 
@@ -100,7 +100,7 @@ Development Rules
 
 Current Statistics
 Models: 16
-Services: 80
+Services: 81
 
 ---
 
@@ -159,6 +159,21 @@ App\Services
 
 **Methods**
 - log(5 params) : void
+
+---
+
+## ApiDocumentationGenerator
+
+**Namespace**
+App\Services\Documentation\Generators
+
+**Dependencies**
+- None
+
+**Methods**
+- priority(0 params) : int
+- filename(0 params) : string
+- generate(0 params) : string
 
 ---
 
@@ -468,6 +483,19 @@ App\Services\Documentation\Registry
 
 ---
 
+## DocumentationIndexGenerator
+
+**Namespace**
+App\Services\Documentation\Index
+
+**Dependencies**
+- None
+
+**Methods**
+- generate(1 params) : string
+
+---
+
 ## DocumentationWriter
 
 **Namespace**
@@ -645,20 +673,6 @@ App\Services\Documentation\Builder
 - separator(0 params) : self
 - newline(0 params) : self
 - render(0 params) : string
-
----
-
-## MarkdownExporter
-
-**Namespace**
-App\Services\Documentation
-
-**Dependencies**
-- App\Services\Documentation\Filesystem\DocumentationDirectoryManager
-
-**Methods**
-- __construct(1 params) : mixed
-- export(2 params) : void
 
 ---
 
@@ -2993,6 +3007,28 @@ App\Services
 
 ---
 
+## ApiDocumentationGenerator
+
+**Namespace**
+
+```
+App\Services\Documentation\Generators
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Generators/ApiDocumentationGenerator.php
+```
+
+**Methods**
+
+- priority() : int
+- filename() : string
+- generate() : string
+
+---
+
 ## ArchitectureGenerator
 
 **Namespace**
@@ -3519,6 +3555,26 @@ App\Services\Documentation\Registry
 
 ---
 
+## DocumentationIndexGenerator
+
+**Namespace**
+
+```
+App\Services\Documentation\Index
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Index/DocumentationIndexGenerator.php
+```
+
+**Methods**
+
+- generate() : string
+
+---
+
 ## DocumentationWriter
 
 **Namespace**
@@ -3820,34 +3876,6 @@ App\Services\Documentation\Builder
 - separator() : self
 - newline() : self
 - render() : string
-
----
-
-## MarkdownExporter
-
-**Namespace**
-
-```
-App\Services\Documentation
-```
-
-**File**
-
-```
-/var/www/app/Services/Documentation/MarkdownExporter.php
-```
-
-**Constructor Dependencies**
-
-- DocumentationDirectoryManager $directories
-
-**Properties**
-
-- $directories : App\Services\Documentation\Filesystem\DocumentationDirectoryManager
-
-**Methods**
-
-- export() : void
 
 ---
 

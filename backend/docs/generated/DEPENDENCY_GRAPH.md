@@ -36,6 +36,7 @@
 - App\Services\Documentation\Handover\AbstractHandoverSection
 - App\Services\Documentation\Generators\ActionDocumentationGenerator
 - App\Services\ActivityLogService
+- App\Services\Documentation\Generators\ApiDocumentationGenerator
 - App\Services\Documentation\Knowledge\ArchitectureGenerator
 - App\Services\Billing\AutomaticBillingService
 - App\Services\Billing\BillingCycleService
@@ -57,6 +58,7 @@
 - App\Services\Documentation\Filesystem\DocumentationDirectoryManager
 - App\Services\Documentation\Manager\DocumentationGeneratorManager
 - App\Services\Documentation\Registry\DocumentationGeneratorRegistry
+- App\Services\Documentation\Index\DocumentationIndexGenerator
 - App\Services\Documentation\Writer\DocumentationWriter
 - App\Services\Documentation\Handover\ExecutiveSummarySection
 - App\Services\Documentation\Scanner\FileScanner
@@ -69,7 +71,6 @@
 - App\Services\Documentation\Knowledge\KnowledgeGeneratorRegistry
 - App\Services\Documentation\Knowledge\KnowledgeIndexGenerator
 - App\Services\Documentation\Builder\MarkdownBuilder
-- App\Services\Documentation\MarkdownExporter
 - App\Services\Documentation\Scanner\MetadataExtractor
 - App\Services\Documentation\Reflection\MethodReflector
 - App\Services\Documentation\Knowledge\MigrationExtractor

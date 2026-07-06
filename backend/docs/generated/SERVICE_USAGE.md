@@ -53,6 +53,20 @@ App\Services\ActivityLogService
 
 - log
 
+## ApiDocumentationGenerator
+
+**Class**
+
+```
+App\Services\Documentation\Generators\ApiDocumentationGenerator
+```
+
+**Public Methods**
+
+- filename
+- generate
+- priority
+
 ## ArchitectureGenerator
 
 **Class**
@@ -332,6 +346,18 @@ App\Services\Documentation\Registry\DocumentationGeneratorRegistry
 - all
 - register
 
+## DocumentationIndexGenerator
+
+**Class**
+
+```
+App\Services\Documentation\Index\DocumentationIndexGenerator
+```
+
+**Public Methods**
+
+- generate
+
 ## DocumentationWriter
 
 **Class**
@@ -498,19 +524,6 @@ App\Services\Documentation\Builder\MarkdownBuilder
 - table
 - text
 - title
-
-## MarkdownExporter
-
-**Class**
-
-```
-App\Services\Documentation\MarkdownExporter
-```
-
-**Public Methods**
-
-- __construct
-- export
 
 ## MetadataExtractor
 

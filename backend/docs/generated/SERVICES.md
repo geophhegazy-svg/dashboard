@@ -4,6 +4,7 @@
 - AbstractHandoverSection
 - ActionDocumentationGenerator
 - ActivityLogService
+- ApiDocumentationGenerator
 - ArchitectureGenerator
 - AutomaticBillingService
 - BillingCycleService
@@ -25,6 +26,7 @@
 - DocumentationDirectoryManager
 - DocumentationGeneratorManager
 - DocumentationGeneratorRegistry
+- DocumentationIndexGenerator
 - DocumentationWriter
 - ExecutiveSummarySection
 - FileScanner
@@ -37,7 +39,6 @@
 - KnowledgeGeneratorRegistry
 - KnowledgeIndexGenerator
 - MarkdownBuilder
-- MarkdownExporter
 - MetadataExtractor
 - MethodReflector
 - MigrationExtractor

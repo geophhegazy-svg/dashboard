@@ -56,6 +56,21 @@ App\Services
 
 ---
 
+## ApiDocumentationGenerator
+
+**Namespace**
+App\Services\Documentation\Generators
+
+**Dependencies**
+- None
+
+**Methods**
+- priority(0 params) : int
+- filename(0 params) : string
+- generate(0 params) : string
+
+---
+
 ## ArchitectureGenerator
 
 **Namespace**
@@ -362,6 +377,19 @@ App\Services\Documentation\Registry
 
 ---
 
+## DocumentationIndexGenerator
+
+**Namespace**
+App\Services\Documentation\Index
+
+**Dependencies**
+- None
+
+**Methods**
+- generate(1 params) : string
+
+---
+
 ## DocumentationWriter
 
 **Namespace**
@@ -539,20 +567,6 @@ App\Services\Documentation\Builder
 - separator(0 params) : self
 - newline(0 params) : self
 - render(0 params) : string
-
----
-
-## MarkdownExporter
-
-**Namespace**
-App\Services\Documentation
-
-**Dependencies**
-- App\Services\Documentation\Filesystem\DocumentationDirectoryManager
-
-**Methods**
-- __construct(1 params) : mixed
-- export(2 params) : void
 
 ---
 

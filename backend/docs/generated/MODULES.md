@@ -23,12 +23,13 @@ Total: 16
 
 ## Services
 
-Total: 80
+Total: 81
 
 - AIContextGenerator
 - AbstractHandoverSection
 - ActionDocumentationGenerator
 - ActivityLogService
+- ApiDocumentationGenerator
 - ArchitectureGenerator
 - AutomaticBillingService
 - BillingCycleService
@@ -50,6 +51,7 @@ Total: 80
 - DocumentationDirectoryManager
 - DocumentationGeneratorManager
 - DocumentationGeneratorRegistry
+- DocumentationIndexGenerator
 - DocumentationWriter
 - ExecutiveSummarySection
 - FileScanner
@@ -62,7 +64,6 @@ Total: 80
 - KnowledgeGeneratorRegistry
 - KnowledgeIndexGenerator
 - MarkdownBuilder
-- MarkdownExporter
 - MetadataExtractor
 - MethodReflector
 - MigrationExtractor

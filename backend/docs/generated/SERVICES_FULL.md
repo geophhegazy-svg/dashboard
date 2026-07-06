@@ -97,6 +97,28 @@ App\Services
 
 ---
 
+## ApiDocumentationGenerator
+
+**Namespace**
+
+```
+App\Services\Documentation\Generators
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Generators/ApiDocumentationGenerator.php
+```
+
+**Methods**
+
+- priority() : int
+- filename() : string
+- generate() : string
+
+---
+
 ## ArchitectureGenerator
 
 **Namespace**
@@ -623,6 +645,26 @@ App\Services\Documentation\Registry
 
 ---
 
+## DocumentationIndexGenerator
+
+**Namespace**
+
+```
+App\Services\Documentation\Index
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Index/DocumentationIndexGenerator.php
+```
+
+**Methods**
+
+- generate() : string
+
+---
+
 ## DocumentationWriter
 
 **Namespace**
@@ -924,34 +966,6 @@ App\Services\Documentation\Builder
 - separator() : self
 - newline() : self
 - render() : string
-
----
-
-## MarkdownExporter
-
-**Namespace**
-
-```
-App\Services\Documentation
-```
-
-**File**
-
-```
-/var/www/app/Services/Documentation/MarkdownExporter.php
-```
-
-**Constructor Dependencies**
-
-- DocumentationDirectoryManager $directories
-
-**Properties**
-
-- $directories : App\Services\Documentation\Filesystem\DocumentationDirectoryManager
-
-**Methods**
-
-- export() : void
 
 ---
 
