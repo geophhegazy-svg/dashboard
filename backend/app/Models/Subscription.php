@@ -150,4 +150,44 @@ class Subscription extends Model
     {
         return $this->status->canRenew();
     }
+
+    public function canExpire(): bool
+    {
+        return $this->status->canExpire();
+    }
+
+    public function canRestore(): bool
+    {
+        return $this->status->canRestore();
+    }
+
+    public function isSuspended(): bool
+    {
+        return $this->status->isSuspended();
+    }
+
+    public function isExpired(): bool
+    {
+        return $this->status->isExpired();
+    }
+
+    public function isGrace(): bool
+    {
+        return $this->status->isGrace();
+    }
+
+    public function isPending(): bool
+    {
+        return $this->status->isPending();
+    }
+
+    public function isDraft(): bool
+    {
+        return $this->status->isDraft();
+    }
+
+    public function isClosed(): bool
+    {
+        return $this->status->isClosed();
+    }
 }

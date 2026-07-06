@@ -432,7 +432,7 @@
 
 ## migrations
 
-**Rows:** 32
+**Rows:** 31
 
 ### Columns
 
@@ -442,7 +442,7 @@
 
 ## migrations
 
-**Rows:** 32
+**Rows:** 31
 
 ### Columns
 
@@ -472,7 +472,7 @@
 
 ## model_has_roles
 
-**Rows:** 0
+**Rows:** 1
 
 ### Columns
 
@@ -482,7 +482,7 @@
 
 ## model_has_roles
 
-**Rows:** 0
+**Rows:** 1
 
 ### Columns
 
@@ -540,11 +540,6 @@
 - download_speed (int)
 - upload_speed (int) default=0
 - price (decimal)
-- billing_cycle (varchar) default=month
-- billing_interval (smallint) default=1
-- grace_days (smallint) default=0
-- auto_suspend (tinyint) default=1
-- auto_expire (tinyint) default=1
 - quota_gb (int) nullable
 - mikrotik_profile (varchar) nullable
 - status (enum) default=active
@@ -564,11 +559,6 @@
 - download_speed (int)
 - upload_speed (int) default=0
 - price (decimal)
-- billing_cycle (varchar) default=month
-- billing_interval (smallint) default=1
-- grace_days (smallint) default=0
-- auto_suspend (tinyint) default=1
-- auto_expire (tinyint) default=1
 - quota_gb (int) nullable
 - mikrotik_profile (varchar) nullable
 - status (enum) default=active
@@ -732,7 +722,7 @@
 
 ## sessions
 
-**Rows:** 0
+**Rows:** 1
 
 ### Columns
 
@@ -745,7 +735,7 @@
 
 ## sessions
 
-**Rows:** 0
+**Rows:** 1
 
 ### Columns
 
@@ -802,7 +792,7 @@
 
 ## tenants
 
-**Rows:** 0
+**Rows:** 1
 
 ### Columns
 
@@ -819,7 +809,7 @@
 
 ## tenants
 
-**Rows:** 0
+**Rows:** 1
 
 ### Columns
 
@@ -910,7 +900,7 @@
 
 ## users
 
-**Rows:** 0
+**Rows:** 1
 
 ### Columns
 
@@ -926,7 +916,7 @@
 
 ## users
 
-**Rows:** 0
+**Rows:** 1
 
 ### Columns
 

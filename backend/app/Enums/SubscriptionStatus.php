@@ -28,9 +28,44 @@ enum SubscriptionStatus: string
     |--------------------------------------------------------------------------
     */
 
+    public function isDraft(): bool
+    {
+        return $this === self::DRAFT;
+    }
+
+    public function isPending(): bool
+    {
+        return $this === self::PENDING;
+    }
+
     public function isActive(): bool
     {
         return $this === self::ACTIVE;
+    }
+
+    public function isGrace(): bool
+    {
+        return $this === self::GRACE;
+    }
+
+    public function isSuspended(): bool
+    {
+        return $this === self::SUSPENDED;
+    }
+
+    public function isExpired(): bool
+    {
+        return $this === self::EXPIRED;
+    }
+
+    public function isCancelled(): bool
+    {
+        return $this === self::CANCELLED;
+    }
+
+    public function isTerminated(): bool
+    {
+        return $this === self::TERMINATED;
     }
 
     public function isClosed(): bool

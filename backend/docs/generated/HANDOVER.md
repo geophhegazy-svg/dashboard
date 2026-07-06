@@ -2403,6 +2403,14 @@ App\Models
 - canActivate()
 - canSuspend()
 - canRenew()
+- canExpire()
+- canRestore()
+- isSuspended()
+- isExpired()
+- isGrace()
+- isPending()
+- isDraft()
+- isClosed()
 - factory()
 
 ---

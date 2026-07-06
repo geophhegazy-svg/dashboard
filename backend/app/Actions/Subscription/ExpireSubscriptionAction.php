@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Actions\Subscription;
 
 use App\Contracts\MikrotikServiceInterface;
-use App\Enums\SubscriptionStatus;
 use App\Models\Subscription;
 use App\Events\SubscriptionExpired;
 use Illuminate\Support\Facades\DB;
@@ -20,9 +19,8 @@ class ExpireSubscriptionAction
     {
         return DB::transaction(function () use ($subscription) {
 
-            $subscription->update([
-                'status' => SubscriptionStatus::EXPIRED->value,
-            ]);
+            $subscription->expire();
+            $subscription->save();
 
             if ($subscription->pppoe_username) {
                 $this->mikrotikService->disablePppoe(
