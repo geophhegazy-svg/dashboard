@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Actions\Subscription;
 
 use App\Contracts\MikrotikServiceInterface;
-use App\Enums\SubscriptionStatus;
 use App\Events\SubscriptionRestored;
 use App\Models\Subscription;
 use Illuminate\Support\Facades\DB;
@@ -22,15 +21,30 @@ class RestoreSubscriptionAction
 
         return DB::transaction(function () use ($subscription) {
 
-            $subscription->update([
-                'status' => SubscriptionStatus::ACTIVE->value,
-            ]);
+            /*
+            |--------------------------------------------------------------------------
+            | Change Subscription State
+            |--------------------------------------------------------------------------
+            */
+            $subscription->restore();
+            $subscription->save();
 
-            if ($subscription->pppoe_username) {
-                $this->mikrotikService
-                    ->enablePppoe($subscription->pppoe_username);
+            /*
+            |--------------------------------------------------------------------------
+            | Enable PPPoE on MikroTik
+            |--------------------------------------------------------------------------
+            */
+            if (! empty($subscription->pppoe_username)) {
+                $this->mikrotikService->enablePppoe(
+                    $subscription->pppoe_username
+                );
             }
 
+            /*
+            |--------------------------------------------------------------------------
+            | Dispatch Domain Event
+            |--------------------------------------------------------------------------
+            */
             SubscriptionRestored::dispatch($subscription);
 
             return true;

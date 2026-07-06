@@ -20,20 +20,33 @@ class RenewSubscriptionAction
         Subscription $subscription,
         int $days = 30
     ): bool {
-
         return DB::transaction(function () use ($subscription, $days) {
 
-            $subscription->update([
-                'status'   => SubscriptionStatus::ACTIVE->value,
-                'end_date' => now()->addDays($days),
-            ]);
+            /*
+            |--------------------------------------------------------------------------
+            | Renew Subscription
+            |--------------------------------------------------------------------------
+            */
+            $subscription->status = SubscriptionStatus::ACTIVE;
+            $subscription->end_date = now()->addDays($days);
+            $subscription->save();
 
-            if ($subscription->pppoe_username) {
+            /*
+            |--------------------------------------------------------------------------
+            | Enable PPPoE on MikroTik
+            |--------------------------------------------------------------------------
+            */
+            if (! empty($subscription->pppoe_username)) {
                 $this->mikrotikService->enablePppoe(
                     $subscription->pppoe_username
                 );
             }
 
+            /*
+            |--------------------------------------------------------------------------
+            | Dispatch Domain Event
+            |--------------------------------------------------------------------------
+            */
             SubscriptionRenewed::dispatch($subscription);
 
             return true;

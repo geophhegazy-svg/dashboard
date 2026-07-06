@@ -1065,6 +1065,7 @@ App\Models
 - suspend()
 - expire()
 - restore()
+- renew()
 - isActive()
 - canActivate()
 - canSuspend()

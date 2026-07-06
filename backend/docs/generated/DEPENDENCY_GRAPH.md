@@ -36,6 +36,7 @@
 - App\Services\Documentation\Handover\AbstractHandoverSection
 - App\Services\Documentation\Generators\ActionDocumentationGenerator
 - App\Services\ActivityLogService
+- App\Services\Documentation\Exports\AiStartPromptExport
 - App\Services\Documentation\Generators\ApiDocumentationGenerator
 - App\Services\Documentation\Knowledge\ArchitectureGenerator
 - App\Services\Billing\AutomaticBillingService
@@ -61,6 +62,7 @@
 - App\Services\Documentation\Index\DocumentationIndexGenerator
 - App\Services\Documentation\Writer\DocumentationWriter
 - App\Services\Documentation\Handover\ExecutiveSummarySection
+- App\Services\Documentation\Exports\ExportRegistry
 - App\Services\Documentation\Scanner\FileScanner
 - App\Services\Documentation\Knowledge\HandoverDocumentGenerator
 - App\Services\Billing\InvoiceGenerator

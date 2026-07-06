@@ -56,6 +56,21 @@ App\Services
 
 ---
 
+## AiStartPromptExport
+
+**Namespace**
+App\Services\Documentation\Exports
+
+**Dependencies**
+- None
+
+**Methods**
+- filename(0 params) : string
+- content(0 params) : string
+- isAiExport(0 params) : bool
+
+---
+
 ## ApiDocumentationGenerator
 
 **Namespace**
@@ -417,6 +432,21 @@ App\Services\Documentation\Handover
 
 **Methods**
 - generate(0 params) : string
+
+---
+
+## ExportRegistry
+
+**Namespace**
+App\Services\Documentation\Exports
+
+**Dependencies**
+- None
+
+**Methods**
+- __construct(0 params) : mixed
+- register(1 params) : self
+- exports(0 params) : array
 
 ---
 

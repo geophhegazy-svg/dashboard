@@ -105,7 +105,7 @@ class Subscription extends Model
 
     public function expire(): void
     {
-        if (! $this->status->canExpire()) {
+        if (! $this->canExpire()) {
             throw new LogicException(
                 "Subscription cannot expire from [{$this->status->value}] state."
             );
@@ -116,13 +116,25 @@ class Subscription extends Model
 
     public function restore(): void
     {
-        if (! $this->status->canRestore()) {
+        if (! $this->canRestore()) {
             throw new LogicException(
                 "Subscription cannot be restored from [{$this->status->value}] state."
             );
         }
 
         $this->status = SubscriptionStatus::ACTIVE;
+    }
+
+    public function renew(int $days = 30): void
+    {
+        if (! $this->canRenew()) {
+            throw new LogicException(
+                "Subscription cannot be renewed from [{$this->status->value}] state."
+            );
+        }
+
+        $this->status = SubscriptionStatus::ACTIVE;
+        $this->end_date = now()->addDays($days);
     }
 
     /*

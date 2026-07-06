@@ -23,12 +23,13 @@ Total: 16
 
 ## Services
 
-Total: 82
+Total: 84
 
 - AIContextGenerator
 - AbstractHandoverSection
 - ActionDocumentationGenerator
 - ActivityLogService
+- AiStartPromptExport
 - ApiDocumentationGenerator
 - ArchitectureGenerator
 - AutomaticBillingService
@@ -54,6 +55,7 @@ Total: 82
 - DocumentationIndexGenerator
 - DocumentationWriter
 - ExecutiveSummarySection
+- ExportRegistry
 - FileScanner
 - HandoverDocumentGenerator
 - InvoiceGenerator

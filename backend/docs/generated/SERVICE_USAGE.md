@@ -53,6 +53,20 @@ App\Services\ActivityLogService
 
 - log
 
+## AiStartPromptExport
+
+**Class**
+
+```
+App\Services\Documentation\Exports\AiStartPromptExport
+```
+
+**Public Methods**
+
+- content
+- filename
+- isAiExport
+
 ## ApiDocumentationGenerator
 
 **Class**
@@ -385,6 +399,20 @@ App\Services\Documentation\Handover\ExecutiveSummarySection
 **Public Methods**
 
 - generate
+
+## ExportRegistry
+
+**Class**
+
+```
+App\Services\Documentation\Exports\ExportRegistry
+```
+
+**Public Methods**
+
+- __construct
+- exports
+- register
 
 ## FileScanner
 

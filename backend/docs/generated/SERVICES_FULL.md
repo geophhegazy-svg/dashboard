@@ -97,6 +97,28 @@ App\Services
 
 ---
 
+## AiStartPromptExport
+
+**Namespace**
+
+```
+App\Services\Documentation\Exports
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Exports/AiStartPromptExport.php
+```
+
+**Methods**
+
+- filename() : string
+- content() : string
+- isAiExport() : bool
+
+---
+
 ## ApiDocumentationGenerator
 
 **Namespace**
@@ -713,6 +735,31 @@ App\Services\Documentation\Handover
 **Methods**
 
 - generate() : string
+
+---
+
+## ExportRegistry
+
+**Namespace**
+
+```
+App\Services\Documentation\Exports
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Exports/ExportRegistry.php
+```
+
+**Properties**
+
+- $exports : array
+
+**Methods**
+
+- register() : self
+- exports() : array
 
 ---
 

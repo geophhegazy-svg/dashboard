@@ -14,7 +14,7 @@ Technology
 
 Statistics
 - Models: 16
-- Services: 82
+- Services: 84
 
 
 ---
@@ -48,7 +48,7 @@ app/
 # Project Statistics
 
 Models: 16
-Services: 82
+Services: 84
 
 ---
 
@@ -100,7 +100,7 @@ Development Rules
 
 Current Statistics
 Models: 16
-Services: 82
+Services: 84
 
 ---
 
@@ -159,6 +159,21 @@ App\Services
 
 **Methods**
 - log(5 params) : void
+
+---
+
+## AiStartPromptExport
+
+**Namespace**
+App\Services\Documentation\Exports
+
+**Dependencies**
+- None
+
+**Methods**
+- filename(0 params) : string
+- content(0 params) : string
+- isAiExport(0 params) : bool
 
 ---
 
@@ -523,6 +538,21 @@ App\Services\Documentation\Handover
 
 **Methods**
 - generate(0 params) : string
+
+---
+
+## ExportRegistry
+
+**Namespace**
+App\Services\Documentation\Exports
+
+**Dependencies**
+- None
+
+**Methods**
+- __construct(0 params) : mixed
+- register(1 params) : self
+- exports(0 params) : array
 
 ---
 
@@ -2399,6 +2429,7 @@ App\Models
 - suspend()
 - expire()
 - restore()
+- renew()
 - isActive()
 - canActivate()
 - canSuspend()
@@ -3045,6 +3076,28 @@ App\Services
 
 ---
 
+## AiStartPromptExport
+
+**Namespace**
+
+```
+App\Services\Documentation\Exports
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Exports/AiStartPromptExport.php
+```
+
+**Methods**
+
+- filename() : string
+- content() : string
+- isAiExport() : bool
+
+---
+
 ## ApiDocumentationGenerator
 
 **Namespace**
@@ -3661,6 +3714,31 @@ App\Services\Documentation\Handover
 **Methods**
 
 - generate() : string
+
+---
+
+## ExportRegistry
+
+**Namespace**
+
+```
+App\Services\Documentation\Exports
+```
+
+**File**
+
+```
+/var/www/app/Services/Documentation/Exports/ExportRegistry.php
+```
+
+**Properties**
+
+- $exports : array
+
+**Methods**
+
+- register() : self
+- exports() : array
 
 ---
 
