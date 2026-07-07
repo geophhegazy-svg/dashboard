@@ -12,6 +12,6 @@ class StoreTicketRequest extends FormRequest
     }
     public function rules(): array
     {
-        return ['tenant_id' => ['required', 'exists:tenants,id'], 'customer_id' => ['required', 'exists:customers,id'], 'user_id' => ['nullable', 'exists:users,id'], 'ticket_number' => ['required', 'string', 'max:50', 'unique:tickets,ticket_number'], 'subject' => ['required', 'string', 'max:255'], 'description' => ['required', 'string'], 'priority' => ['required', 'in:low,medium,high,critical'], 'status' => ['required', 'in:open,in_progress,resolved,closed'], 'opened_at' => ['nullable', 'date'], 'closed_at' => ['nullable', 'date'], 'notes' => ['nullable', 'string'],];
+        return ['customer_id' => ['required', 'exists:customers,id'], 'user_id' => ['nullable', 'exists:users,id'], 'ticket_number' => ['required', 'string', 'max:50', 'unique:tickets,ticket_number'], 'subject' => ['required', 'string', 'max:255'], 'description' => ['required', 'string'], 'priority' => ['required', 'in:low,medium,high,critical'], 'status' => ['required', 'in:open,in_progress,resolved,closed'], 'opened_at' => ['nullable', 'date'], 'closed_at' => ['nullable', 'date'], 'notes' => ['nullable', 'string'],];
     }
 }

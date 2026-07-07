@@ -8,13 +8,16 @@ use App\Http\Resources\TicketResource;
 use App\Http\Resources\TicketReplyResource;
 use Illuminate\Http\Request;
 use App\Models\Ticket;
-use App\Models\TicketReply;
 use App\Models\User;
-use App\Services\ActivityLogService;
+use App\Services\Ticket\TicketService;
 
 
 class TicketController extends Controller
 {
+    public function __construct(
+        private readonly TicketService $ticketService
+    ) {}
+
     public function index()
     {
         return TicketResource::collection(
@@ -26,14 +29,9 @@ class TicketController extends Controller
 
     public function store(StoreTicketRequest $request)
     {
-        $ticket = Ticket::create($request->validated());
-
-        ActivityLogService::log(
-            tenantId: $ticket->tenant_id,
-            userId: auth()->id(),
-            module: 'ticket',
-            action: 'created',
-            description: "Created ticket {$ticket->ticket_number}"
+        $ticket = $this->ticketService->createFromAdmin(
+            $request->validated(),
+            auth()->id()
         );
 
         return new TicketResource($ticket);
@@ -53,30 +51,18 @@ class TicketController extends Controller
 
     public function update(StoreTicketRequest $request, Ticket $ticket)
     {
-        $ticket->update($request->validated());
-
-        ActivityLogService::log(
-            tenantId: $ticket->tenant_id,
-            userId: auth()->id(),
-            module: 'ticket',
-            action: 'updated',
-            description: "Updated ticket {$ticket->ticket_number}"
+        $ticket = $this->ticketService->updateFromAdmin(
+            $ticket,
+            $request->validated(),
+            auth()->id()
         );
 
-        return new TicketResource($ticket->fresh());
+        return new TicketResource($ticket);
     }
 
     public function destroy(Ticket $ticket)
     {
-        ActivityLogService::log(
-            tenantId: $ticket->tenant_id,
-            userId: auth()->id(),
-            module: 'ticket',
-            action: 'deleted',
-            description: "Deleted ticket {$ticket->ticket_number}"
-        );
-
-        $ticket->delete();
+        $this->ticketService->delete($ticket, auth()->id());
 
         return response()->json([
             'message' => 'Ticket deleted successfully'
@@ -91,19 +77,9 @@ class TicketController extends Controller
 
     public function dashboard()
     {
-        return response()->json([
-
-            'total' => Ticket::count(),
-
-            'open' => Ticket::where('status', 'open')->count(),
-
-            'closed' => Ticket::where('status', 'closed')->count(),
-
-            'high_priority' => Ticket::where('priority', 'high')->count(),
-
-            'today' => Ticket::whereDate('created_at', today())->count(),
-
-        ]);
+        return response()->json(
+            $this->ticketService->adminDashboardStats()
+        );
     }
 
     /*
@@ -154,42 +130,17 @@ class TicketController extends Controller
             'message' => 'required|string'
         ]);
 
-        if ($ticket->status == 'closed') {
-
+        try {
+            $reply = $this->ticketService->replyAsStaff(
+                $ticket,
+                auth()->id(),
+                $request->message
+            );
+        } catch (\RuntimeException $e) {
             return response()->json([
-                'message' => 'Ticket is already closed.'
+                'message' => $e->getMessage()
             ], 422);
         }
-
-        $reply = TicketReply::create([
-
-            'ticket_id' => $ticket->id,
-
-            'customer_id' => null,
-
-            'user_id' => auth()->id(),
-
-            'message' => $request->message,
-
-            'is_staff' => true,
-
-            'sent_at' => now(),
-
-        ]);
-
-        ActivityLogService::log(
-
-            tenantId: $ticket->tenant_id,
-
-            userId: auth()->id(),
-
-            module: 'ticket',
-
-            action: 'reply',
-
-            description: "Staff replied to {$ticket->ticket_number}"
-
-        );
 
         return response()->json([
 
@@ -213,27 +164,10 @@ class TicketController extends Controller
             'status' => 'required|in:open,in_progress,resolved,closed'
         ]);
 
-        $ticket->status = $request->status;
-
-        if ($request->status == 'closed') {
-
-            $ticket->closed_at = now();
-        }
-
-        $ticket->save();
-
-        ActivityLogService::log(
-
-            tenantId: $ticket->tenant_id,
-
-            userId: auth()->id(),
-
-            module: 'ticket',
-
-            action: 'status',
-
-            description: "Changed {$ticket->ticket_number} status to {$ticket->status}"
-
+        $ticket = $this->ticketService->changeStatus(
+            $ticket,
+            $request->status,
+            auth()->id()
         );
 
         return new TicketResource($ticket);
@@ -255,31 +189,17 @@ class TicketController extends Controller
 
         $user = User::findOrFail($request->user_id);
 
-        $ticket->update([
-
-            'user_id' => $user->id
-
-        ]);
-
-        ActivityLogService::log(
-
-            tenantId: $ticket->tenant_id,
-
-            userId: auth()->id(),
-
-            module: 'ticket',
-
-            action: 'assigned',
-
-            description: "Assigned {$ticket->ticket_number} to {$user->name}"
-
+        $ticket = $this->ticketService->assign(
+            $ticket,
+            $user,
+            auth()->id()
         );
 
         return response()->json([
 
             'message' => 'Ticket assigned successfully',
 
-            'data' => new TicketResource($ticket->fresh())
+            'data' => new TicketResource($ticket)
 
         ]);
     }

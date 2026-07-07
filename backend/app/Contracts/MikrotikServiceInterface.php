@@ -1,74 +1,75 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Contracts;
 
-use RouterOS\Query;
+use App\Models\NetworkDevice;
 
 interface MikrotikServiceInterface
 {
-    /*
-    |--------------------------------------------------------------------------
-    | PPPoE
-    |--------------------------------------------------------------------------
-    */
+    /**
+     * الاتصال بجهاز MikroTik
+     */
+    public function connect(string $ip, string $username, string $password, int $port = 8728): bool;
 
-    public function getPppoeUsers(): array;
+    /**
+     * إنشاء مستخدم PPPoE جديد
+     */
+    public function createUser(string $username, string $password, string $profile, array $options = []): bool;
 
-    public function createPppoe(
-        string $username,
-        string $password,
-        string $profile = 'default'
-    );
+    /**
+     * تعطيل مستخدم
+     */
+    public function disableUser(string $username): bool;
 
-    public function findPppoe(string $username);
+    /**
+     * تفعيل مستخدم
+     */
+    public function enableUser(string $username): bool;
 
-    public function deletePppoe(string $username): bool;
+    /**
+     * حذف مستخدم
+     */
+    public function deleteUser(string $username): bool;
 
-    public function enablePppoe(string $username): bool;
+    /**
+     * جلب جميع مستخدمي PPPoE من MikroTik
+     */
+    public function getAllUsers(): array;
 
-    public function disablePppoe(string $username): bool;
+    /**
+     * جلب الجلسات النشطة
+     */
+    public function getActiveSessions(): array;
 
-    /*
-    |--------------------------------------------------------------------------
-    | Hotspot
-    |--------------------------------------------------------------------------
-    */
+    /**
+     * تحديث حدود السرعة (Queue)
+     */
+    public function updateUserQueue(string $username, int $download, int $upload): bool;
 
+    /**
+     * الحصول على إحصائيات الجهاز
+     */
+    public function getDeviceStats(): array;
+
+    /**
+     * Ping للجهاز
+     */
+    public function ping(string $ip): bool;
+
+    /**
+     * فصل مستخدم عن الجلسة النشطة
+     */
+    public function disconnectUser(string $username): bool;
+
+    /**
+     * تحديث حالة الجهاز في قاعدة البيانات
+     */
+    public function updateDeviceStatus(NetworkDevice $device): void;
+
+    // ========== دوال Hotspot ==========
     public function getHotspotUsers(): array;
-
-    public function getActiveHotspotUsers(): array;
-
-    public function createHotspot(
-        string $username,
-        string $password,
-        string $profile = 'default'
-    );
-
-    public function findHotspot(string $username);
-
-    public function deleteHotspot(string $username): bool;
-
-    public function enableHotspot(string $username): bool;
-
-    public function disableHotspot(string $username): bool;
-
-    /*
-    |--------------------------------------------------------------------------
-    | DHCP
-    |--------------------------------------------------------------------------
-    */
-
-    public function getDhcpLeases(): array;
-
-    /*
-    |--------------------------------------------------------------------------
-    | Generic
-    |--------------------------------------------------------------------------
-    */
-
-    public function run(Query $query): array;
-
-    public function raw(string $command): array;
+    public function getHotspotActiveSessions(): array;
+    public function createHotspotUser(string $username, string $password, string $profile, array $options = []): bool;
+    public function disableHotspotUser(string $username): bool;
+    public function enableHotspotUser(string $username): bool;
 }

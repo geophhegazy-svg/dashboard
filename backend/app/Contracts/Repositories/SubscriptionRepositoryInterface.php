@@ -1,39 +1,20 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Contracts\Repositories;
 
 use App\Models\Subscription;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 interface SubscriptionRepositoryInterface
 {
-
-    public function usernameExists(
-        string $username,
-        int $ignoreId = 0
-    ): bool;
-
-    public function updatePppoe(
-        Subscription $subscription,
-        string $username
-    ): bool;
-    
-    public function find(int $id): ?Subscription;
-
-    public function all(): Collection;
-
-    public function save(Subscription $subscription): bool;
-
-    public function delete(Subscription $subscription): bool;
-
-    public function linkedPppoeUsers(): array;
-
-    public function pppoeAlreadyLinked(
-        string $username,
-        ?int $exceptId = null
-    ): bool;
-
-    public function expiringSubscriptions(): Collection;
+    public function getAll(array $filters = [], int $perPage = 15): LengthAwarePaginator;
+    public function findById(int $id): ?Subscription;
+    public function getByCustomerId(int $customerId): array;
+    public function getActiveSubscriptions(): array;
+    public function getExpiredSubscriptions(): array;
+    public function create(array $data): Subscription;
+    public function update(int $id, array $data): Subscription;
+    public function delete(int $id): bool;
+    public function renew(int $id, int $months): Subscription;
+    public function cancel(int $id): bool;
 }

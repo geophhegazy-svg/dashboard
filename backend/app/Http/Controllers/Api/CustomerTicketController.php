@@ -4,15 +4,18 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use App\Models\Ticket;
 use App\Models\TicketReply;
 use App\Http\Resources\TicketResource;
 use App\Http\Resources\TicketReplyResource;
-use App\Services\ActivityLogService;
+use App\Services\Ticket\TicketService;
 
 class CustomerTicketController extends Controller
 {
+    public function __construct(
+        private readonly TicketService $ticketService
+    ) {}
+
     public function index(Request $request)
     {
         return TicketResource::collection(
@@ -26,37 +29,9 @@ class CustomerTicketController extends Controller
 
     public function dashboard(Request $request)
     {
-        $customer = $request->user();
-
-        $tickets = Ticket::where('customer_id', $customer->id);
-
-        $lastTicket = (clone $tickets)->latest()->first();
-
-        return response()->json([
-
-            'statistics' => [
-
-                'total' => (clone $tickets)->count(),
-
-                'open' => (clone $tickets)
-                    ->where('status', 'open')
-                    ->count(),
-
-                'closed' => (clone $tickets)
-                    ->where('status', 'closed')
-                    ->count(),
-
-                'high_priority' => (clone $tickets)
-                    ->where('priority', 'high')
-                    ->count(),
-
-            ],
-
-            'last_ticket' => $lastTicket
-                ? new TicketResource($lastTicket)
-                : null,
-
-        ]);
+        return response()->json(
+            $this->ticketService->customerDashboardStats($request->user())
+        );
     }
 
     public function show(Request $request, Ticket $ticket)
@@ -121,50 +96,9 @@ class CustomerTicketController extends Controller
 
         ]);
 
-        $customer = $request->user();
-
-        $ticket = Ticket::create([
-
-            'tenant_id'     => $customer->tenant_id,
-
-            'customer_id'   => $customer->id,
-
-            'user_id'       => null,
-
-            'ticket_number' =>
-            'TKT-' .
-                now()->format('YmdHis') .
-                '-' .
-                $customer->id,
-
-            'subject'       => $request->subject,
-
-            'description'   => $request->description,
-
-            'priority'      => $request->priority ?? 'medium',
-
-            'status'        => 'open',
-
-            'opened_at'     => now(),
-
-            'closed_at'     => null,
-
-            'notes'         => null,
-
-        ]);
-
-        ActivityLogService::log(
-
-            tenantId: $customer->tenant_id,
-
-            userId: null,
-
-            module: 'ticket',
-
-            action: 'created',
-
-            description: "Customer {$customer->name} created ticket {$ticket->ticket_number}"
-
+        $ticket = $this->ticketService->createFromCustomer(
+            $request->user(),
+            $request->only(['subject', 'description', 'priority'])
         );
 
         return response()->json([
@@ -183,53 +117,23 @@ class CustomerTicketController extends Controller
             403
         );
 
-        if ($ticket->status === 'closed') {
-
-            return response()->json([
-                'message' => 'Cannot reply to closed ticket.'
-            ], 422);
-        }
-
         $request->validate([
 
             'message' => 'required|string'
 
         ]);
 
-        Log::info('Incoming message', [
-            'message' => $request->message,
-            'hex' => bin2hex($request->message),
-        ]);
-
-        $reply = TicketReply::create([
-
-            'ticket_id'   => $ticket->id,
-
-            'customer_id' => $request->user()->id,
-
-            'user_id'     => null,
-
-            'message'     => $request->message,
-
-            'is_staff'    => false,
-
-            'sent_at'     => now(),
-
-        ]);
-
-        ActivityLogService::log(
-
-            tenantId: $ticket->tenant_id,
-
-            userId: null,
-
-            module: 'ticket',
-
-            action: 'reply',
-
-            description: "Customer replied to ticket {$ticket->ticket_number}"
-
-        );
+        try {
+            $reply = $this->ticketService->replyAsCustomer(
+                $ticket,
+                $request->user(),
+                $request->message
+            );
+        } catch (\RuntimeException $e) {
+            return response()->json([
+                'message' => $e->getMessage()
+            ], 422);
+        }
 
         return response()->json([
 
@@ -247,42 +151,19 @@ class CustomerTicketController extends Controller
             403
         );
 
-        if ($ticket->status === 'closed') {
-
+        try {
+            $ticket = $this->ticketService->closeByCustomer($ticket);
+        } catch (\RuntimeException $e) {
             return response()->json([
-
-                'message' => 'Ticket already closed.'
-
+                'message' => $e->getMessage()
             ], 422);
         }
-
-        $ticket->update([
-
-            'status' => 'closed',
-
-            'closed_at' => now()
-
-        ]);
-
-        ActivityLogService::log(
-
-            tenantId: $ticket->tenant_id,
-
-            userId: null,
-
-            module: 'ticket',
-
-            action: 'closed',
-
-            description: "Customer closed ticket {$ticket->ticket_number}"
-
-        );
 
         return response()->json([
 
             'message' => 'Ticket closed successfully',
 
-            'data' => new TicketResource($ticket->fresh())
+            'data' => new TicketResource($ticket)
 
         ]);
     }
