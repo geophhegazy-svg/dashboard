@@ -6,9 +6,11 @@ namespace App\Models;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -41,6 +43,26 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Tenant::class);
     }
+
+    /**
+     * فلتر اختياري (مش تلقائي) — استخدمه بس لما تحب تجيب موظفين شركة
+     * اليوزر المسجل دخوله دلوقتي بس، مثال:
+     * User::forCurrentTenant()->get();
+     *
+     * ما بيتفعّلش لوحده عشان ميعملش مشاكل وقت تسجيل الدخول نفسه.
+     */
+    public function scopeForCurrentTenant(Builder $query): Builder
+    {
+        $user = Auth::user();
+
+        if ($user instanceof self && method_exists($user, 'hasRole') && $user->hasRole('Super Admin')) {
+            return $query;
+        }
+
+        if ($user instanceof self && $user->tenant_id) {
+            return $query->where('tenant_id', $user->tenant_id);
+        }
+
+        return $query;
+    }
 }
-
-

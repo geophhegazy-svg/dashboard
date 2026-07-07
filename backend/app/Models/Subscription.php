@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\SubscriptionStatus;
+use App\Traits\BelongsToTenant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use LogicException;
@@ -12,6 +13,7 @@ use LogicException;
 class Subscription extends Model
 {
     use HasFactory;
+    use BelongsToTenant;
 
     protected $fillable = [
         'tenant_id',
@@ -105,7 +107,7 @@ class Subscription extends Model
 
     public function expire(): void
     {
-        if (! $this->canExpire()) {
+        if (! $this->status->canExpire()) {
             throw new LogicException(
                 "Subscription cannot expire from [{$this->status->value}] state."
             );
@@ -116,25 +118,13 @@ class Subscription extends Model
 
     public function restore(): void
     {
-        if (! $this->canRestore()) {
+        if (! $this->status->canRestore()) {
             throw new LogicException(
                 "Subscription cannot be restored from [{$this->status->value}] state."
             );
         }
 
         $this->status = SubscriptionStatus::ACTIVE;
-    }
-
-    public function renew(int $days = 30): void
-    {
-        if (! $this->canRenew()) {
-            throw new LogicException(
-                "Subscription cannot be renewed from [{$this->status->value}] state."
-            );
-        }
-
-        $this->status = SubscriptionStatus::ACTIVE;
-        $this->end_date = now()->addDays($days);
     }
 
     /*
@@ -161,45 +151,5 @@ class Subscription extends Model
     public function canRenew(): bool
     {
         return $this->status->canRenew();
-    }
-
-    public function canExpire(): bool
-    {
-        return $this->status->canExpire();
-    }
-
-    public function canRestore(): bool
-    {
-        return $this->status->canRestore();
-    }
-
-    public function isSuspended(): bool
-    {
-        return $this->status->isSuspended();
-    }
-
-    public function isExpired(): bool
-    {
-        return $this->status->isExpired();
-    }
-
-    public function isGrace(): bool
-    {
-        return $this->status->isGrace();
-    }
-
-    public function isPending(): bool
-    {
-        return $this->status->isPending();
-    }
-
-    public function isDraft(): bool
-    {
-        return $this->status->isDraft();
-    }
-
-    public function isClosed(): bool
-    {
-        return $this->status->isClosed();
     }
 }

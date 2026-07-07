@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\BelongsToTenant;
 
 class Inventory extends Model
 {
+    use BelongsToTenant;
+
     protected $fillable = ['tenant_id', 'device_type', 'brand', 'model', 'quantity', 'minimum_quantity', 'notes',];
     public function tenant()
     {
