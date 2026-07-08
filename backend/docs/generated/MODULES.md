@@ -2,8 +2,9 @@
 
 ## Models
 
-Total: 19
+Total: 20
 
+- Account
 - ActivityLog
 - Customer
 - Device

@@ -1,5 +1,45 @@
 # Database
 
+## accounts
+
+**Rows:** 0
+
+### Columns
+
+- id (bigint)
+- tenant_id (bigint)
+- parent_id (bigint) nullable
+- code (varchar)
+- name (varchar)
+- type (enum)
+- nature (enum)
+- level (tinyint) default=1
+- is_system (tinyint) default=0
+- is_active (tinyint) default=1
+- description (text) nullable
+- created_at (timestamp) nullable
+- updated_at (timestamp) nullable
+
+## accounts
+
+**Rows:** 0
+
+### Columns
+
+- id (bigint)
+- tenant_id (bigint)
+- parent_id (bigint) nullable
+- code (varchar)
+- name (varchar)
+- type (enum)
+- nature (enum)
+- level (tinyint) default=1
+- is_system (tinyint) default=0
+- is_active (tinyint) default=1
+- description (text) nullable
+- created_at (timestamp) nullable
+- updated_at (timestamp) nullable
+
 ## activity_log
 
 **Rows:** 0
@@ -488,7 +528,7 @@
 
 ## migrations
 
-**Rows:** 41
+**Rows:** 42
 
 ### Columns
 
@@ -498,7 +538,7 @@
 
 ## migrations
 
-**Rows:** 41
+**Rows:** 42
 
 ### Columns
 

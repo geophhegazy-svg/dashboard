@@ -180,14 +180,12 @@ App\Services\Billing
 
 - BillingEngine $billingEngine
 - SubscriptionRenewalService $renewalService
-- InvoiceService $invoiceService
 - NotificationService $notificationService
 
 **Properties**
 
 - $billingEngine : App\Services\Billing\BillingEngine
-- $renewalService : App\Services\Subscription\SubscriptionRenewalService
-- $invoiceService : App\Services\InvoiceService
+- $renewalService : App\Services\SubscriptionRenewalService
 - $notificationService : App\Services\NotificationService
 
 **Methods**
@@ -1422,7 +1420,10 @@ App\Services
 
 **Methods**
 
-- createReminder() : mixed
+- create() : App\Models\Notification
+- createReminder() : App\Models\Notification
+- billingFailed() : App\Models\Notification
+- subscriptionRenewed() : App\Models\Notification
 
 ---
 

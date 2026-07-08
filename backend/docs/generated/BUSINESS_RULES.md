@@ -107,12 +107,11 @@ App\Services\Billing
 
 **Dependencies**
 - App\Services\Billing\BillingEngine
-- App\Services\Subscription\SubscriptionRenewalService
-- App\Services\InvoiceService
+- App\Services\SubscriptionRenewalService
 - App\Services\NotificationService
 
 **Methods**
-- __construct(4 params) : mixed
+- __construct(3 params) : mixed
 - run(1 params) : void
 - processSubscription(1 params) : void
 
@@ -835,7 +834,10 @@ App\Services
 - None
 
 **Methods**
-- createReminder(2 params) : mixed
+- create(1 params) : App\Models\Notification
+- createReminder(2 params) : App\Models\Notification
+- billingFailed(1 params) : App\Models\Notification
+- subscriptionRenewed(1 params) : App\Models\Notification
 
 ---
 

@@ -13,7 +13,7 @@ Technology
 - MikroTik RouterOS
 
 Statistics
-- Models: 19
+- Models: 20
 - Services: 88
 
 
@@ -47,7 +47,7 @@ app/
 
 # Project Statistics
 
-Models: 19
+Models: 20
 Services: 88
 
 ---
@@ -99,7 +99,7 @@ Development Rules
 - Update generated documentation after structural changes.
 
 Current Statistics
-Models: 19
+Models: 20
 Services: 88
 
 ---
@@ -213,12 +213,11 @@ App\Services\Billing
 
 **Dependencies**
 - App\Services\Billing\BillingEngine
-- App\Services\Subscription\SubscriptionRenewalService
-- App\Services\InvoiceService
+- App\Services\SubscriptionRenewalService
 - App\Services\NotificationService
 
 **Methods**
-- __construct(4 params) : mixed
+- __construct(3 params) : mixed
 - run(1 params) : void
 - processSubscription(1 params) : void
 
@@ -941,7 +940,10 @@ App\Services
 - None
 
 **Methods**
-- createReminder(2 params) : mixed
+- create(1 params) : App\Models\Notification
+- createReminder(2 params) : App\Models\Notification
+- billingFailed(1 params) : App\Models\Notification
+- subscriptionRenewed(1 params) : App\Models\Notification
 
 ---
 
@@ -1439,6 +1441,101 @@ App\Services
 ---
 
 # Models
+
+---
+
+## Account
+
+**Namespace**
+
+```
+App\Models
+```
+
+**File**
+
+```
+/var/www/app/Models/Account.php
+```
+
+**Properties**
+
+- $fillable : mixed
+- $casts : mixed
+- $connection : mixed
+- $table : mixed
+- $primaryKey : mixed
+- $keyType : mixed
+- $incrementing : mixed
+- $with : mixed
+- $withCount : mixed
+- $preventsLazyLoading : mixed
+- $perPage : mixed
+- $exists : mixed
+- $wasRecentlyCreated : mixed
+- $escapeWhenCastingToString : mixed
+- $resolver : mixed
+- $dispatcher : mixed
+- $booting : mixed
+- $booted : mixed
+- $bootedCallbacks : mixed
+- $traitInitializers : mixed
+- $globalScopes : mixed
+- $ignoreOnTouch : mixed
+- $modelsShouldPreventLazyLoading : mixed
+- $modelsShouldAutomaticallyEagerLoadRelationships : mixed
+- $lazyLoadingViolationCallback : mixed
+- $modelsShouldPreventSilentlyDiscardingAttributes : mixed
+- $discardedAttributeViolationCallback : mixed
+- $modelsShouldPreventAccessingMissingAttributes : mixed
+- $missingAttributeViolationCallback : mixed
+- $isBroadcasting : mixed
+- $builder : string
+- $collectionClass : string
+- $isSoftDeletable : array
+- $isPrunable : array
+- $isMassPrunable : array
+- $classAttributes : array
+- $attributes : mixed
+- $original : mixed
+- $changes : mixed
+- $previous : mixed
+- $classCastCache : mixed
+- $attributeCastCache : mixed
+- $primitiveCastTypes : mixed
+- $dateFormat : mixed
+- $appends : mixed
+- $snakeAttributes : mixed
+- $mutatorCache : mixed
+- $attributeMutatorCache : mixed
+- $getAttributeMutatorCache : mixed
+- $setAttributeMutatorCache : mixed
+- $castTypeCache : mixed
+- $encrypter : mixed
+- $dispatchesEvents : mixed
+- $observables : mixed
+- $relations : mixed
+- $touches : mixed
+- $relationAutoloadCallback : mixed
+- $relationAutoloadContext : mixed
+- $manyMethods : mixed
+- $relationResolvers : mixed
+- $timestamps : mixed
+- $ignoreTimestampsOn : mixed
+- $usesUniqueIds : mixed
+- $hidden : mixed
+- $visible : mixed
+- $guarded : mixed
+- $unguarded : mixed
+- $guardableColumns : mixed
+- $recursionCache : mixed
+- $resolvedCollectionClasses : array
+
+**Methods**
+
+- parent()
+- children()
+- factory()
 
 ---
 
@@ -3580,14 +3677,12 @@ App\Services\Billing
 
 - BillingEngine $billingEngine
 - SubscriptionRenewalService $renewalService
-- InvoiceService $invoiceService
 - NotificationService $notificationService
 
 **Properties**
 
 - $billingEngine : App\Services\Billing\BillingEngine
-- $renewalService : App\Services\Subscription\SubscriptionRenewalService
-- $invoiceService : App\Services\InvoiceService
+- $renewalService : App\Services\SubscriptionRenewalService
 - $notificationService : App\Services\NotificationService
 
 **Methods**
@@ -4822,7 +4917,10 @@ App\Services
 
 **Methods**
 
-- createReminder() : mixed
+- create() : App\Models\Notification
+- createReminder() : App\Models\Notification
+- billingFailed() : App\Models\Notification
+- subscriptionRenewed() : App\Models\Notification
 
 ---
 

@@ -1,5 +1,13 @@
 # Model Relations
 
+## Account
+
+**Class**
+
+```
+App\Models\Account
+```
+
 ## ActivityLog
 
 **Class**

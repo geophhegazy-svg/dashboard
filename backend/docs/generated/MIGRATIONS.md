@@ -327,3 +327,11 @@
 ```
 /var/www/database/migrations/2026_07_08_101912_add_session_expiry_to_hotspot_users.php
 ```
+
+## 2026_07_08_101912_create_accounts_table.php
+
+**File**
+
+```
+/var/www/database/migrations/2026_07_08_101912_create_accounts_table.php
+```

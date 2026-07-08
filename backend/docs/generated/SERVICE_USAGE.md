@@ -773,7 +773,10 @@ App\Services\NotificationService
 
 **Public Methods**
 
+- billingFailed
+- create
 - createReminder
+- subscriptionRenewed
 
 ## PackageService
 

@@ -124,6 +124,7 @@
 
 ## Models
 
+- App\Models\Account
 - App\Models\ActivityLog
 - App\Models\Customer
 - App\Models\Device
