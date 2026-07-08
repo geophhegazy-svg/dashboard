@@ -106,8 +106,9 @@ class SyncMikroTik extends Command
                     'last_sync_at' => now(),
                 ]);
             } else {
-                // 🔥 إنشاء مستخدم PPPoE جديد بدون ربط بعميل
+                // إنشاء مستخدم PPPoE جديد، مربوط بشركة (tenant) الجهاز نفسه
                 PPPoEUser::create([
+                    'tenant_id' => $device->tenant_id,
                     'username' => $mikrotikUser['name'],
                     'password' => $mikrotikUser['password'] ?? '********',
                     'mikrotik_device_id' => $device->id,

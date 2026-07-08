@@ -5,14 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\BelongsToTenant;
 
 class PPPoEUser extends Model
 {
     use HasFactory, SoftDeletes;
+    use BelongsToTenant;
 
     protected $table = 'pppoe_users';
 
     protected $fillable = [
+        'tenant_id',
         'customer_id',
         'username',
         'password',

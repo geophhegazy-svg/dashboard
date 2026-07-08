@@ -44,7 +44,6 @@ use App\Http\Controllers\Api\CustomerNotificationController;
 
 use App\Http\Controllers\Api\CustomerTicketController;
 
-use App\Http\Controllers\Api\Network\DhcpLeaseController;
 
 
 /*
@@ -451,8 +450,7 @@ Route::prefix('customer')
     });
 // Route::middleware('auth:sanctum')->prefix('network')->group(function () {
 
-//     Route::get('/dhcp/leases', [DhcpLeaseController::class, 'index']);
-// });
+
 Route::middleware('auth:sanctum')->group(function () {
 
     Route::get(
