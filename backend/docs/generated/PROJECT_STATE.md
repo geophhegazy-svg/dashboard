@@ -2,15 +2,15 @@
 
 ## Models
 
-16
+19
 
 ## Services
 
-84
+88
 
 ## Controllers
 
-27
+28
 
 ## Repositories
 
@@ -22,4 +22,4 @@
 
 ## Generated At
 
-2026-07-06 22:30:54
+2026-07-08 16:45:31

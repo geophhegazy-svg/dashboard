@@ -40,6 +40,14 @@ App\Models\DeviceAssignment
 App\Models\HotspotSubscription
 ```
 
+## HotspotUser
+
+**Class**
+
+```
+App\Models\HotspotUser
+```
+
 ## Inventory
 
 **Class**
@@ -56,12 +64,28 @@ App\Models\Inventory
 App\Models\Invoice
 ```
 
+## NetworkDevice
+
+**Class**
+
+```
+App\Models\NetworkDevice
+```
+
 ## Notification
 
 **Class**
 
 ```
 App\Models\Notification
+```
+
+## PPPoEUser
+
+**Class**
+
+```
+App\Models\PPPoEUser
 ```
 
 ## Package

@@ -44,7 +44,7 @@ class SuspendSubscriptionAction
             |--------------------------------------------------------------------------
             */
             if (! empty($subscription->pppoe_username)) {
-                $this->mikrotikService->disablePppoe(
+                $this->mikrotikService->disableUser(
                     $subscription->pppoe_username
                 );
             }

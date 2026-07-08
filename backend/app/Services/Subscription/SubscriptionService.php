@@ -6,25 +6,48 @@ use App\Contracts\Repositories\SubscriptionRepositoryInterface;
 use App\Models\Customer;
 use App\Models\Package;
 use App\Models\Subscription;
-use App\Services\Network\MikroTikService;
+use App\Services\Network\MikrotikService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use App\Actions\Subscription\ActivateSubscriptionAction;
+use App\Actions\Subscription\SuspendSubscriptionAction;
+use App\Actions\Subscription\ExpireSubscriptionAction;
+use App\Actions\Subscription\RestoreSubscriptionAction;
+use App\Actions\Subscription\RenewSubscriptionAction;
 
 class SubscriptionService
 {
+    protected ActivateSubscriptionAction $activateAction;
+    protected SuspendSubscriptionAction $suspendAction;
+    protected ExpireSubscriptionAction $expireAction;
+    protected RestoreSubscriptionAction $restoreAction;
+    protected RenewSubscriptionAction $renewAction;
+
     protected SubscriptionRepositoryInterface $subscriptionRepository;
-    protected MikroTikService $mikrotikService;
+    protected MikrotikService $mikrotikService;
 
     /**
      * حقن التبعيات عبر الـ Constructor
      */
     public function __construct(
         SubscriptionRepositoryInterface $subscriptionRepository,
-        MikroTikService $mikrotikService
+        MikrotikService $mikrotikService,
+
+        ActivateSubscriptionAction $activateAction,
+        SuspendSubscriptionAction $suspendAction,
+        ExpireSubscriptionAction $expireAction,
+        RestoreSubscriptionAction $restoreAction,
+        RenewSubscriptionAction $renewAction,
     ) {
         $this->subscriptionRepository = $subscriptionRepository;
         $this->mikrotikService = $mikrotikService;
+
+        $this->activateAction = $activateAction;
+        $this->suspendAction = $suspendAction;
+        $this->expireAction = $expireAction;
+        $this->restoreAction = $restoreAction;
+        $this->renewAction = $renewAction;
     }
 
     /**
@@ -402,5 +425,35 @@ class SubscriptionService
     public function searchSubscriptions(string $searchTerm, int $perPage = 15)
     {
         return $this->subscriptionRepository->getAll(['search' => $searchTerm], $perPage);
+    }
+
+    public function activate(Subscription $subscription): bool
+    {
+        return $this->activateAction->execute($subscription);
+    }
+
+    public function suspend(Subscription $subscription): bool
+    {
+        return $this->suspendAction->execute($subscription);
+    }
+
+    public function expire(Subscription $subscription): bool
+    {
+        return $this->expireAction->execute($subscription);
+    }
+
+    public function restore(Subscription $subscription): bool
+    {
+        return $this->restoreAction->execute($subscription);
+    }
+
+    public function renew(
+        Subscription $subscription,
+        int $days = 30
+    ): bool {
+        return $this->renewAction->execute(
+            $subscription,
+            $days
+        );
     }
 }

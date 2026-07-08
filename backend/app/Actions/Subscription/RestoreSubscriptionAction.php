@@ -35,7 +35,7 @@ class RestoreSubscriptionAction
             |--------------------------------------------------------------------------
             */
             if (! empty($subscription->pppoe_username)) {
-                $this->mikrotikService->enablePppoe(
+                $this->mikrotikService->enableUser(
                     $subscription->pppoe_username
                 );
             }

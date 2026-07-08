@@ -8,7 +8,7 @@ use RouterOS\Client;
 use RouterOS\Query;
 use Illuminate\Support\Facades\Log;
 
-class MikroTikService implements MikrotikServiceInterface
+class MikrotikService implements MikrotikServiceInterface
 {
     protected $client;
     protected $device;

@@ -495,6 +495,125 @@ App\Models
 
 ---
 
+## HotspotUser
+
+**Namespace**
+
+```
+App\Models
+```
+
+**File**
+
+```
+/var/www/app/Models/HotspotUser.php
+```
+
+**Properties**
+
+- $table : mixed
+- $fillable : mixed
+- $casts : mixed
+- $hidden : mixed
+- $connection : mixed
+- $primaryKey : mixed
+- $keyType : mixed
+- $incrementing : mixed
+- $with : mixed
+- $withCount : mixed
+- $preventsLazyLoading : mixed
+- $perPage : mixed
+- $exists : mixed
+- $wasRecentlyCreated : mixed
+- $escapeWhenCastingToString : mixed
+- $resolver : mixed
+- $dispatcher : mixed
+- $booting : mixed
+- $booted : mixed
+- $bootedCallbacks : mixed
+- $traitInitializers : mixed
+- $globalScopes : mixed
+- $ignoreOnTouch : mixed
+- $modelsShouldPreventLazyLoading : mixed
+- $modelsShouldAutomaticallyEagerLoadRelationships : mixed
+- $lazyLoadingViolationCallback : mixed
+- $modelsShouldPreventSilentlyDiscardingAttributes : mixed
+- $discardedAttributeViolationCallback : mixed
+- $modelsShouldPreventAccessingMissingAttributes : mixed
+- $missingAttributeViolationCallback : mixed
+- $isBroadcasting : mixed
+- $builder : string
+- $collectionClass : string
+- $isSoftDeletable : array
+- $isPrunable : array
+- $isMassPrunable : array
+- $classAttributes : array
+- $attributes : mixed
+- $original : mixed
+- $changes : mixed
+- $previous : mixed
+- $classCastCache : mixed
+- $attributeCastCache : mixed
+- $primitiveCastTypes : mixed
+- $dateFormat : mixed
+- $appends : mixed
+- $snakeAttributes : mixed
+- $mutatorCache : mixed
+- $attributeMutatorCache : mixed
+- $getAttributeMutatorCache : mixed
+- $setAttributeMutatorCache : mixed
+- $castTypeCache : mixed
+- $encrypter : mixed
+- $dispatchesEvents : mixed
+- $observables : mixed
+- $relations : mixed
+- $touches : mixed
+- $relationAutoloadCallback : mixed
+- $relationAutoloadContext : mixed
+- $manyMethods : mixed
+- $relationResolvers : mixed
+- $timestamps : mixed
+- $ignoreTimestampsOn : mixed
+- $usesUniqueIds : mixed
+- $visible : mixed
+- $guarded : mixed
+- $unguarded : mixed
+- $guardableColumns : mixed
+- $recursionCache : mixed
+- $resolvedCollectionClasses : array
+- $forceDeleting : mixed
+
+**Methods**
+
+- customer()
+- device()
+- scopeActive()
+- scopeOnline()
+- scopeExpired()
+- isActive()
+- isOnline()
+- getUptimeFormatted()
+- getTrafficFormatted()
+- forceDelete()
+- forceDestroy()
+- factory()
+- bootSoftDeletes()
+- initializeSoftDeletes()
+- forceDeleteQuietly()
+- restore()
+- restoreQuietly()
+- trashed()
+- softDeleted()
+- restoring()
+- restored()
+- forceDeleting()
+- forceDeleted()
+- isForceDeleting()
+- getDeletedAtColumn()
+- getQualifiedDeletedAtColumn()
+
+---
+
 ## Inventory
 
 **Namespace**
@@ -687,6 +806,122 @@ App\Models
 
 ---
 
+## NetworkDevice
+
+**Namespace**
+
+```
+App\Models
+```
+
+**File**
+
+```
+/var/www/app/Models/NetworkDevice.php
+```
+
+**Properties**
+
+- $fillable : mixed
+- $casts : mixed
+- $hidden : mixed
+- $connection : mixed
+- $table : mixed
+- $primaryKey : mixed
+- $keyType : mixed
+- $incrementing : mixed
+- $with : mixed
+- $withCount : mixed
+- $preventsLazyLoading : mixed
+- $perPage : mixed
+- $exists : mixed
+- $wasRecentlyCreated : mixed
+- $escapeWhenCastingToString : mixed
+- $resolver : mixed
+- $dispatcher : mixed
+- $booting : mixed
+- $booted : mixed
+- $bootedCallbacks : mixed
+- $traitInitializers : mixed
+- $globalScopes : mixed
+- $ignoreOnTouch : mixed
+- $modelsShouldPreventLazyLoading : mixed
+- $modelsShouldAutomaticallyEagerLoadRelationships : mixed
+- $lazyLoadingViolationCallback : mixed
+- $modelsShouldPreventSilentlyDiscardingAttributes : mixed
+- $discardedAttributeViolationCallback : mixed
+- $modelsShouldPreventAccessingMissingAttributes : mixed
+- $missingAttributeViolationCallback : mixed
+- $isBroadcasting : mixed
+- $builder : string
+- $collectionClass : string
+- $isSoftDeletable : array
+- $isPrunable : array
+- $isMassPrunable : array
+- $classAttributes : array
+- $attributes : mixed
+- $original : mixed
+- $changes : mixed
+- $previous : mixed
+- $classCastCache : mixed
+- $attributeCastCache : mixed
+- $primitiveCastTypes : mixed
+- $dateFormat : mixed
+- $appends : mixed
+- $snakeAttributes : mixed
+- $mutatorCache : mixed
+- $attributeMutatorCache : mixed
+- $getAttributeMutatorCache : mixed
+- $setAttributeMutatorCache : mixed
+- $castTypeCache : mixed
+- $encrypter : mixed
+- $dispatchesEvents : mixed
+- $observables : mixed
+- $relations : mixed
+- $touches : mixed
+- $relationAutoloadCallback : mixed
+- $relationAutoloadContext : mixed
+- $manyMethods : mixed
+- $relationResolvers : mixed
+- $timestamps : mixed
+- $ignoreTimestampsOn : mixed
+- $usesUniqueIds : mixed
+- $visible : mixed
+- $guarded : mixed
+- $unguarded : mixed
+- $guardableColumns : mixed
+- $recursionCache : mixed
+- $resolvedCollectionClasses : array
+- $forceDeleting : mixed
+
+**Methods**
+
+- pppoeUsers()
+- isOnline()
+- updateOnlineStatus()
+- scopeActive()
+- scopeOnline()
+- scopeMikrotik()
+- forceDelete()
+- forceDestroy()
+- factory()
+- bootSoftDeletes()
+- initializeSoftDeletes()
+- forceDeleteQuietly()
+- restore()
+- restoreQuietly()
+- trashed()
+- softDeleted()
+- restoring()
+- restored()
+- forceDeleting()
+- forceDeleted()
+- isForceDeleting()
+- getDeletedAtColumn()
+- getQualifiedDeletedAtColumn()
+
+---
+
 ## Notification
 
 **Namespace**
@@ -773,6 +1008,124 @@ App\Models
 - $guardableColumns : mixed
 - $recursionCache : mixed
 - $resolvedCollectionClasses : array
+
+---
+
+## PPPoEUser
+
+**Namespace**
+
+```
+App\Models
+```
+
+**File**
+
+```
+/var/www/app/Models/PPPoEUser.php
+```
+
+**Properties**
+
+- $table : mixed
+- $fillable : mixed
+- $casts : mixed
+- $hidden : mixed
+- $connection : mixed
+- $primaryKey : mixed
+- $keyType : mixed
+- $incrementing : mixed
+- $with : mixed
+- $withCount : mixed
+- $preventsLazyLoading : mixed
+- $perPage : mixed
+- $exists : mixed
+- $wasRecentlyCreated : mixed
+- $escapeWhenCastingToString : mixed
+- $resolver : mixed
+- $dispatcher : mixed
+- $booting : mixed
+- $booted : mixed
+- $bootedCallbacks : mixed
+- $traitInitializers : mixed
+- $globalScopes : mixed
+- $ignoreOnTouch : mixed
+- $modelsShouldPreventLazyLoading : mixed
+- $modelsShouldAutomaticallyEagerLoadRelationships : mixed
+- $lazyLoadingViolationCallback : mixed
+- $modelsShouldPreventSilentlyDiscardingAttributes : mixed
+- $discardedAttributeViolationCallback : mixed
+- $modelsShouldPreventAccessingMissingAttributes : mixed
+- $missingAttributeViolationCallback : mixed
+- $isBroadcasting : mixed
+- $builder : string
+- $collectionClass : string
+- $isSoftDeletable : array
+- $isPrunable : array
+- $isMassPrunable : array
+- $classAttributes : array
+- $attributes : mixed
+- $original : mixed
+- $changes : mixed
+- $previous : mixed
+- $classCastCache : mixed
+- $attributeCastCache : mixed
+- $primitiveCastTypes : mixed
+- $dateFormat : mixed
+- $appends : mixed
+- $snakeAttributes : mixed
+- $mutatorCache : mixed
+- $attributeMutatorCache : mixed
+- $getAttributeMutatorCache : mixed
+- $setAttributeMutatorCache : mixed
+- $castTypeCache : mixed
+- $encrypter : mixed
+- $dispatchesEvents : mixed
+- $observables : mixed
+- $relations : mixed
+- $touches : mixed
+- $relationAutoloadCallback : mixed
+- $relationAutoloadContext : mixed
+- $manyMethods : mixed
+- $relationResolvers : mixed
+- $timestamps : mixed
+- $ignoreTimestampsOn : mixed
+- $usesUniqueIds : mixed
+- $visible : mixed
+- $guarded : mixed
+- $unguarded : mixed
+- $guardableColumns : mixed
+- $recursionCache : mixed
+- $resolvedCollectionClasses : array
+- $forceDeleting : mixed
+
+**Methods**
+
+- customer()
+- device()
+- isActive()
+- isOnline()
+- updateOnlineStatus()
+- scopeActive()
+- scopeOnline()
+- scopeDisabled()
+- forceDelete()
+- forceDestroy()
+- factory()
+- bootSoftDeletes()
+- initializeSoftDeletes()
+- forceDeleteQuietly()
+- restore()
+- restoreQuietly()
+- trashed()
+- softDeleted()
+- restoring()
+- restored()
+- forceDeleting()
+- forceDeleted()
+- isForceDeleting()
+- getDeletedAtColumn()
+- getQualifiedDeletedAtColumn()
 
 ---
 
@@ -1065,19 +1418,10 @@ App\Models
 - suspend()
 - expire()
 - restore()
-- renew()
 - isActive()
 - canActivate()
 - canSuspend()
 - canRenew()
-- canExpire()
-- canRestore()
-- isSuspended()
-- isExpired()
-- isGrace()
-- isPending()
-- isDraft()
-- isClosed()
 - factory()
 
 ---
@@ -1464,6 +1808,7 @@ App\Models
 **Methods**
 
 - tenant()
+- scopeForCurrentTenant()
 - tokens()
 - tokenCan()
 - tokenCant()

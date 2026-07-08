@@ -130,6 +130,10 @@ App\Http\Controllers\Api
 /var/www/app/Http/Controllers/Api/CustomerDashboardController.php
 ```
 
+**Dependencies**
+
+- CustomerDashboardService $dashboardService
+
 **Public Methods**
 
 - index()
@@ -213,6 +217,10 @@ App\Http\Controllers\Api
 /var/www/app/Http/Controllers/Api/CustomerTicketController.php
 ```
 
+**Dependencies**
+
+- TicketService $ticketService
+
 **Public Methods**
 
 - index()
@@ -269,6 +277,26 @@ App\Http\Controllers\Api
 
 ---
 
+## DashboardController
+
+**Namespace**
+
+```
+App\Http\Controllers
+```
+
+**File**
+
+```
+/var/www/app/Http/Controllers/DashboardController.php
+```
+
+**Public Methods**
+
+- index()
+
+---
+
 ## DeviceAssignmentController
 
 **Namespace**
@@ -318,23 +346,24 @@ App\Http\Controllers\Api
 
 ---
 
-## DhcpLeaseController
+## HotspotController
 
 **Namespace**
 
 ```
-App\Http\Controllers\Api\Network
+App\Http\Controllers\Api
 ```
 
 **File**
 
 ```
-/var/www/app/Http/Controllers/Api/Network/DhcpLeaseController.php
+/var/www/app/Http/Controllers/Api/HotspotController.php
 ```
 
 **Public Methods**
 
-- index()
+- onlineUsers()
+- stats()
 
 ---
 
@@ -619,6 +648,10 @@ App\Http\Controllers\Api
 ```
 /var/www/app/Http/Controllers/Api/TicketController.php
 ```
+
+**Dependencies**
+
+- TicketService $ticketService
 
 **Public Methods**
 

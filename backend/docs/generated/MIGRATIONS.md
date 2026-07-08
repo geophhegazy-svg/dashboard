@@ -255,3 +255,75 @@
 ```
 /var/www/database/migrations/2026_07_03_202959_add_billing_fields_to_packages_table.php
 ```
+
+## 2026_07_07_124200_create_network_devices_table.php
+
+**File**
+
+```
+/var/www/database/migrations/2026_07_07_124200_create_network_devices_table.php
+```
+
+## 2026_07_07_131516_create_pppoe_users_table.php
+
+**File**
+
+```
+/var/www/database/migrations/2026_07_07_131516_create_pppoe_users_table.php
+```
+
+## 2026_07_07_132058_add_username_to_customers_table.php
+
+**File**
+
+```
+/var/www/database/migrations/2026_07_07_132058_add_username_to_customers_table.php
+```
+
+## 2026_07_07_133156_create_hotspot_users_table.php
+
+**File**
+
+```
+/var/www/database/migrations/2026_07_07_133156_create_hotspot_users_table.php
+```
+
+## 2026_07_07_140818_fix_hotspot_profile_encoding.php
+
+**File**
+
+```
+/var/www/database/migrations/2026_07_07_140818_fix_hotspot_profile_encoding.php
+```
+
+## 2026_07_07_171730_change_uptime_column_type.php
+
+**File**
+
+```
+/var/www/database/migrations/2026_07_07_171730_change_uptime_column_type.php
+```
+
+## 2026_07_07_173600_modify_hotspot_profile_length.php
+
+**File**
+
+```
+/var/www/database/migrations/2026_07_07_173600_modify_hotspot_profile_length.php
+```
+
+## 2026_07_07_192610_add_tenant_id_to_network_tables.php
+
+**File**
+
+```
+/var/www/database/migrations/2026_07_07_192610_add_tenant_id_to_network_tables.php
+```
+
+## 2026_07_08_101912_add_session_expiry_to_hotspot_users.php
+
+**File**
+
+```
+/var/www/database/migrations/2026_07_08_101912_add_session_expiry_to_hotspot_users.php
+```

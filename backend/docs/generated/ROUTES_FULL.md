@@ -10,56 +10,56 @@
 ## api/login
 
 - Method: POST
-- Name: -
+- Name: generated::WZGPNqFTuHqZifDC
 - Action: App\Http\Controllers\Api\AuthController@login
 - Middleware: api
 
 ## api/customer/login
 
 - Method: POST
-- Name: -
+- Name: generated::fJhmESJ286OK29I4
 - Action: App\Http\Controllers\Api\CustomerAuthController@login
 - Middleware: api
 
 ## api/me
 
 - Method: GET|HEAD
-- Name: -
+- Name: generated::6fLLvvIBLgF0wpZP
 - Action: App\Http\Controllers\Api\AuthController@me
 - Middleware: api, auth:sanctum
 
 ## api/logout
 
 - Method: POST
-- Name: -
+- Name: generated::xHViytP4z1LyuMv4
 - Action: App\Http\Controllers\Api\AuthController@logout
 - Middleware: api, auth:sanctum
 
 ## api/tickets/{ticket}/reply
 
 - Method: POST
-- Name: -
+- Name: generated::yUDI8V4apeX8popJ
 - Action: App\Http\Controllers\Api\TicketController@reply
 - Middleware: api, auth:sanctum
 
 ## api/tickets/{ticket}/messages
 
 - Method: GET|HEAD
-- Name: -
+- Name: generated::bUZZz7ph1KkplHOa
 - Action: App\Http\Controllers\Api\TicketController@messages
 - Middleware: api, auth:sanctum
 
 ## api/dashboard
 
 - Method: GET|HEAD
-- Name: -
+- Name: generated::Ww2h2bugmGvNZBZZ
 - Action: App\Http\Controllers\Api\DashboardController@index
 - Middleware: api, auth:sanctum
 
 ## api/dashboard/stats
 
 - Method: GET|HEAD
-- Name: -
+- Name: generated::4zP7Iqq7F206i6NH
 - Action: App\Http\Controllers\Api\MikrotikController@dashboardStats
 - Middleware: api, auth:sanctum
 
@@ -486,21 +486,21 @@
 ## api/tickets/{ticket}/assign
 
 - Method: POST
-- Name: -
+- Name: generated::yMCwqKM1mpvWwTj3
 - Action: App\Http\Controllers\Api\TicketController@assign
 - Middleware: api, auth:sanctum
 
 ## api/tickets/{ticket}/status
 
 - Method: POST
-- Name: -
+- Name: generated::UFCj0vMNpps9vFrP
 - Action: App\Http\Controllers\Api\TicketController@changeStatus
 - Middleware: api, auth:sanctum
 
 ## api/tickets/dashboard/statistics
 
 - Method: GET|HEAD
-- Name: -
+- Name: generated::QzKn9ecpkYouvO0m
 - Action: App\Http\Controllers\Api\TicketController@dashboard
 - Middleware: api, auth:sanctum
 
@@ -556,343 +556,364 @@
 ## api/subscriptions/available-pppoe-users
 
 - Method: GET|HEAD
-- Name: -
+- Name: generated::JUKpm9S7kfcAYT3u
 - Action: App\Http\Controllers\Api\SubscriptionController@availablePppoeUsers
 - Middleware: api, auth:sanctum
 
 ## api/subscriptions/{subscription}/link-pppoe
 
 - Method: POST
-- Name: -
+- Name: generated::cOazQCZMfcT9m2wt
 - Action: App\Http\Controllers\Api\SubscriptionController@linkPppoe
 - Middleware: api, auth:sanctum
 
 ## api/subscriptions/{subscription}/activate
 
 - Method: POST
-- Name: -
+- Name: generated::qUBKKPYPUsCzv5KB
 - Action: App\Http\Controllers\Api\SubscriptionController@activate
 - Middleware: api, auth:sanctum
 
 ## api/subscriptions/{subscription}/suspend
 
 - Method: POST
-- Name: -
+- Name: generated::8nQ57nTUq3yMtnJN
 - Action: App\Http\Controllers\Api\SubscriptionController@suspend
 - Middleware: api, auth:sanctum
 
 ## api/subscriptions/{subscription}/renew
 
 - Method: POST
-- Name: -
+- Name: generated::Ll3b71bDJnKxoa91
 - Action: App\Http\Controllers\Api\SubscriptionController@renew
 - Middleware: api, auth:sanctum
 
 ## api/hotspot-subscriptions/{hotspotSubscription}/activate
 
 - Method: POST
-- Name: -
+- Name: generated::CX1AEnsmX4RSlf7Q
 - Action: App\Http\Controllers\Api\HotspotSubscriptionController@activate
 - Middleware: api, auth:sanctum
 
 ## api/hotspot-subscriptions/{hotspotSubscription}/suspend
 
 - Method: POST
-- Name: -
+- Name: generated::qW6hLzAYpxiCi28n
 - Action: App\Http\Controllers\Api\HotspotSubscriptionController@suspend
 - Middleware: api, auth:sanctum
 
 ## api/device-assignments/{device_assignment}/return
 
 - Method: POST
-- Name: -
+- Name: generated::dEI30Y7F4UGs5qfz
 - Action: App\Http\Controllers\Api\DeviceAssignmentController@returnDevice
 - Middleware: api, auth:sanctum
 
 ## api/notifications/{notification}/read
 
 - Method: POST
-- Name: -
+- Name: generated::S4NeKjvHu0lts9B6
 - Action: App\Http\Controllers\Api\NotificationController@markAsRead
 - Middleware: api, auth:sanctum
 
 ## api/notifications/read-all
 
 - Method: POST
-- Name: -
+- Name: generated::1jAMNnIrujukrhpW
 - Action: App\Http\Controllers\Api\NotificationController@markAllAsRead
 - Middleware: api, auth:sanctum
 
 ## api/reports/dashboard
 
 - Method: GET|HEAD
-- Name: -
+- Name: generated::XYT0dFGwVbSdtfMN
 - Action: App\Http\Controllers\Api\ReportController@dashboard
 - Middleware: api, auth:sanctum
 
 ## api/reports/revenue
 
 - Method: GET|HEAD
-- Name: -
+- Name: generated::xfB6UkqgzoIChdwZ
 - Action: App\Http\Controllers\Api\ReportController@revenue
 - Middleware: api, auth:sanctum
 
 ## api/reports/invoices
 
 - Method: GET|HEAD
-- Name: -
+- Name: generated::SJukSA1wnyp4ApRG
 - Action: App\Http\Controllers\Api\ReportController@invoices
 - Middleware: api, auth:sanctum
 
 ## api/reports/inventory
 
 - Method: GET|HEAD
-- Name: -
+- Name: generated::GjL6YK9LoSmmgD1T
 - Action: App\Http\Controllers\Api\ReportController@inventory
 - Middleware: api, auth:sanctum
 
 ## api/reports/tickets
 
 - Method: GET|HEAD
-- Name: -
+- Name: generated::h2mo2eFXcVeGxFcM
 - Action: App\Http\Controllers\Api\ReportController@tickets
 - Middleware: api, auth:sanctum
 
 ## api/mikrotik/test
 
 - Method: GET|HEAD
-- Name: -
+- Name: generated::Danx9QiYBlAruRPo
 - Action: App\Http\Controllers\Api\MikrotikController@test
 - Middleware: api, auth:sanctum
 
 ## api/mikrotik/dashboard-stats
 
 - Method: GET|HEAD
-- Name: -
+- Name: generated::PHvFv4sI5j69UksE
 - Action: App\Http\Controllers\Api\MikrotikController@dashboardStats
 - Middleware: api, auth:sanctum
 
 ## api/mikrotik/pppoe-users
 
 - Method: GET|HEAD
-- Name: -
+- Name: generated::AcNIS5heHQILq6Oh
 - Action: App\Http\Controllers\Api\MikrotikController@pppoeUsers
 - Middleware: api, auth:sanctum
 
 ## api/mikrotik/pppoe-users
 
 - Method: POST
-- Name: -
+- Name: generated::d557l0BTuAaQOYvb
 - Action: App\Http\Controllers\Api\MikrotikController@createPppoeUser
 - Middleware: api, auth:sanctum
 
 ## api/mikrotik/hotspot-users
 
 - Method: GET|HEAD
-- Name: -
+- Name: generated::p5JlQCFJ6yRo78zK
 - Action: App\Http\Controllers\Api\MikrotikController@hotspotUsers
 - Middleware: api, auth:sanctum
 
 ## api/mikrotik/hotspot-users/active
 
 - Method: GET|HEAD
-- Name: -
+- Name: generated::mdnnaS1nF4XD0jgG
 - Action: App\Http\Controllers\Api\MikrotikController@activeUsers
 - Middleware: api, auth:sanctum
 
 ## api/mikrotik/hotspot-users
 
 - Method: POST
-- Name: -
+- Name: generated::GpTIKttwHxOaBoK7
 - Action: App\Http\Controllers\Api\MikrotikController@createHotspotUser
 - Middleware: api, auth:sanctum
 
 ## api/mikrotik/hotspot-users/{username}
 
 - Method: DELETE
-- Name: -
+- Name: generated::4GdeluGb1yTit909
 - Action: App\Http\Controllers\Api\MikrotikController@deleteHotspotUser
 - Middleware: api, auth:sanctum
 
 ## api/mikrotik/hotspot-users/{username}/activate
 
 - Method: POST
-- Name: -
+- Name: generated::XCPoTGyYD5Z6GpHi
 - Action: App\Http\Controllers\Api\MikrotikController@activateHotspotUser
 - Middleware: api, auth:sanctum
 
 ## api/mikrotik/hotspot-users/{username}/suspend
 
 - Method: POST
-- Name: -
+- Name: generated::A8eBxGkhYgYcktak
 - Action: App\Http\Controllers\Api\MikrotikController@suspendHotspotUser
 - Middleware: api, auth:sanctum
 
 ## api/customer/me
 
 - Method: GET|HEAD
-- Name: -
+- Name: generated::L98Ze7RbowGW58xc
 - Action: App\Http\Controllers\Api\CustomerAuthController@me
 - Middleware: api, auth:sanctum
 
 ## api/customer/logout
 
 - Method: POST
-- Name: -
+- Name: generated::u8ouNSmiP5FXeY1e
 - Action: App\Http\Controllers\Api\CustomerAuthController@logout
 - Middleware: api, auth:sanctum
 
 ## api/customer/profile
 
 - Method: PUT
-- Name: -
+- Name: generated::kFasEvdfYutvW5BZ
 - Action: App\Http\Controllers\Api\CustomerAuthController@updateProfile
 - Middleware: api, auth:sanctum
 
 ## api/customer/change-password
 
 - Method: POST
-- Name: -
+- Name: generated::AyD6wYOzUd9iptcu
 - Action: App\Http\Controllers\Api\CustomerAuthController@changePassword
 - Middleware: api, auth:sanctum
 
 ## api/customer/dashboard
 
 - Method: GET|HEAD
-- Name: -
+- Name: generated::z3k7tVj4yYBzPhhQ
 - Action: App\Http\Controllers\Api\CustomerDashboardController@index
 - Middleware: api, auth:sanctum
 
 ## api/customer/subscription
 
 - Method: GET|HEAD
-- Name: -
+- Name: generated::ouJJ0HKbcZSfaFon
 - Action: App\Http\Controllers\Api\CustomerSubscriptionController@current
 - Middleware: api, auth:sanctum
 
 ## api/customer/subscription/renew
 
 - Method: POST
-- Name: -
+- Name: generated::JSSD8AtAxQRl7vBH
 - Action: App\Http\Controllers\Api\CustomerSubscriptionController@renew
 - Middleware: api, auth:sanctum
 
 ## api/customer/wallet
 
 - Method: GET|HEAD
-- Name: -
+- Name: generated::NOFH1RytgGTAs46D
 - Action: App\Http\Controllers\Api\CustomerWalletController@show
 - Middleware: api, auth:sanctum
 
 ## api/customer/wallet/transactions
 
 - Method: GET|HEAD
-- Name: -
+- Name: generated::FNCRdlhT7nkRUALH
 - Action: App\Http\Controllers\Api\CustomerWalletController@transactions
 - Middleware: api, auth:sanctum
 
 ## api/customer/invoices
 
 - Method: GET|HEAD
-- Name: -
+- Name: generated::CFWSYmCHKDtVXZR5
 - Action: App\Http\Controllers\Api\CustomerInvoiceController@index
 - Middleware: api, auth:sanctum
 
 ## api/customer/invoices/{invoice}
 
 - Method: GET|HEAD
-- Name: -
+- Name: generated::v5V2LmqpkRP94ekM
 - Action: App\Http\Controllers\Api\CustomerInvoiceController@show
 - Middleware: api, auth:sanctum
 
 ## api/customer/notifications
 
 - Method: GET|HEAD
-- Name: -
+- Name: generated::Gs9peBfMks2cNRxF
 - Action: App\Http\Controllers\Api\CustomerNotificationController@index
 - Middleware: api, auth:sanctum
 
 ## api/customer/notifications/{id}/read
 
 - Method: POST
-- Name: -
+- Name: generated::CHmgCa5M04xV3Ap4
 - Action: App\Http\Controllers\Api\CustomerNotificationController@markAsRead
 - Middleware: api, auth:sanctum
 
 ## api/customer/notifications/read-all
 
 - Method: POST
-- Name: -
+- Name: generated::sr863w9HLnUaBntK
 - Action: App\Http\Controllers\Api\CustomerNotificationController@markAllAsRead
 - Middleware: api, auth:sanctum
 
 ## api/customer/tickets/dashboard
 
 - Method: GET|HEAD
-- Name: -
+- Name: generated::1MQdd6xVLdEQvFGj
 - Action: App\Http\Controllers\Api\CustomerTicketController@dashboard
 - Middleware: api, auth:sanctum
 
 ## api/customer/tickets
 
 - Method: GET|HEAD
-- Name: -
+- Name: generated::4YHOKIoa13MyfeeF
 - Action: App\Http\Controllers\Api\CustomerTicketController@index
 - Middleware: api, auth:sanctum
 
 ## api/customer/tickets
 
 - Method: POST
-- Name: -
+- Name: generated::THz6ubynz3XdmObC
 - Action: App\Http\Controllers\Api\CustomerTicketController@store
 - Middleware: api, auth:sanctum
 
 ## api/customer/tickets/{ticket}
 
 - Method: GET|HEAD
-- Name: -
+- Name: generated::IetEBWPcFE5PE9hq
 - Action: App\Http\Controllers\Api\CustomerTicketController@show
 - Middleware: api, auth:sanctum
 
 ## api/customer/tickets/{ticket}/messages
 
 - Method: GET|HEAD
-- Name: -
+- Name: generated::TLWwenZmh41TTRht
 - Action: App\Http\Controllers\Api\CustomerTicketController@messages
 - Middleware: api, auth:sanctum
 
 ## api/customer/tickets/{ticket}/reply
 
 - Method: POST
-- Name: -
+- Name: generated::jofGkfOKSMs4efnS
 - Action: App\Http\Controllers\Api\CustomerTicketController@reply
 - Middleware: api, auth:sanctum
 
 ## api/customer/tickets/{ticket}/close
 
 - Method: POST
-- Name: -
+- Name: generated::LLKmVyZuMTCPDyrl
 - Action: App\Http\Controllers\Api\CustomerTicketController@close
 - Middleware: api, auth:sanctum
 
 ## api/network/dhcp/leases
 
 - Method: GET|HEAD
-- Name: -
+- Name: generated::sxhCUkw2nNEePJ93
 - Action: App\Http\Controllers\Api\MikrotikController@dhcpLeases
 - Middleware: api, auth:sanctum
+
+## api/hotspot/online
+
+- Method: GET|HEAD
+- Name: generated::oOA9tBztXGL42vLi
+- Action: App\Http\Controllers\Api\HotspotController@onlineUsers
+- Middleware: api
+
+## api/hotspot/stats
+
+- Method: GET|HEAD
+- Name: generated::vXYRSFjDvSgVCaqN
+- Action: App\Http\Controllers\Api\HotspotController@stats
+- Middleware: api
 
 ## /
 
 - Method: GET|HEAD
-- Name: -
+- Name: generated::XKttrL4yTn6aXQzQ
 - Action: Closure
+- Middleware: web
+
+## dashboard
+
+- Method: GET|HEAD
+- Name: dashboard
+- Action: App\Http\Controllers\DashboardController@index
 - Middleware: web
 
 ## broadcasting/auth
 
 - Method: GET|POST|HEAD
-- Name: -
+- Name: generated::X3tJ2N4d8kasoDB9
 - Action: \Illuminate\Broadcasting\BroadcastController@authenticate
 - Middleware: web
 

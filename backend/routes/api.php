@@ -44,6 +44,8 @@ use App\Http\Controllers\Api\CustomerNotificationController;
 
 use App\Http\Controllers\Api\CustomerTicketController;
 
+use App\Http\Controllers\Api\HotspotController;
+
 
 
 /*
@@ -457,4 +459,8 @@ Route::middleware('auth:sanctum')->group(function () {
         '/network/dhcp/leases',
         [MikrotikController::class, 'dhcpLeases']
     );
+});
+Route::prefix('hotspot')->group(function () {
+    Route::get('online', [HotspotController::class, 'onlineUsers']);
+    Route::get('stats', [HotspotController::class, 'stats']);
 });

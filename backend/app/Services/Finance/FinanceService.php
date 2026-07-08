@@ -4,25 +4,27 @@ declare(strict_types=1);
 
 namespace App\Services\Finance;
 
+use App\Contracts\FinanceServiceInterface;
 use App\Data\Finance\FinanceTransactionData;
 
-class FinanceService
+
+class FinanceService implements FinanceServiceInterface
 {
     /**
      * Record a financial transaction.
      *
-     * This is currently a placeholder service that acts as the
-     * single entry point for all financial operations.
+     * Version 1.0 is intentionally lightweight.
+     * It provides a stable entry point for all
+     * financial operations without persisting data.
      *
-     * Future versions will persist transactions, dispatch events,
-     * and integrate with the Accounting Engine.
+     * Future versions will:
+     * - Store financial transactions
+     * - Dispatch domain events
+     * - Generate journal entries
+     * - Integrate with the Accounting Engine
      */
     public function record(FinanceTransactionData $transaction): void
     {
         // Intentionally left blank.
-        //
-        // Version 1.0 does not persist financial transactions.
-        // The purpose of this service is to provide a stable API
-        // for future Accounting integration.
     }
 }

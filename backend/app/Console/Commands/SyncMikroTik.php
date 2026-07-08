@@ -4,7 +4,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Services\Network\MikroTikService;  // 🔥 تغيير الـ Namespace
+use App\Services\Network\MikrotikService;  // 🔥 تغيير الـ Namespace
 use App\Models\Customer;
 use App\Models\PPPoEUser;
 use App\Models\NetworkDevice;
@@ -17,7 +17,7 @@ class SyncMikroTik extends Command
 
     protected $mikrotikService;
 
-    public function __construct(MikroTikService $mikrotikService)
+    public function __construct(MikrotikService $mikrotikService)
     {
         parent::__construct();
         $this->mikrotikService = $mikrotikService;

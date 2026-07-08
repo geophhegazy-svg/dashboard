@@ -14,9 +14,10 @@
 - App\Http\Controllers\Api\CustomerTicketController
 - App\Http\Controllers\Api\CustomerWalletController
 - App\Http\Controllers\Api\DashboardController
+- App\Http\Controllers\DashboardController
 - App\Http\Controllers\Api\DeviceAssignmentController
 - App\Http\Controllers\Api\DeviceController
-- App\Http\Controllers\Api\Network\DhcpLeaseController
+- App\Http\Controllers\Api\HotspotController
 - App\Http\Controllers\Api\HotspotSubscriptionController
 - App\Http\Controllers\Api\InventoryController
 - App\Http\Controllers\Api\InvoiceController
@@ -50,6 +51,7 @@
 - App\Services\Documentation\Reflection\ConstructorReflector
 - App\Services\Documentation\Generators\ControllerDocumentationGenerator
 - App\Services\Documentation\Knowledge\ControllersKnowledgeGenerator
+- App\Services\Dashboard\CustomerDashboardService
 - App\Services\Customer\CustomerService
 - App\Services\Dashboard\DashboardService
 - App\Services\Documentation\Knowledge\DatabaseExtractor
@@ -64,6 +66,7 @@
 - App\Services\Documentation\Handover\ExecutiveSummarySection
 - App\Services\Documentation\Exports\ExportRegistry
 - App\Services\Documentation\Scanner\FileScanner
+- App\Services\Finance\FinanceService
 - App\Services\Documentation\Knowledge\HandoverDocumentGenerator
 - App\Services\Billing\InvoiceGenerator
 - App\Services\InvoiceNumberService
@@ -112,7 +115,9 @@
 - App\Services\SubscriptionRenewalService
 - App\Services\Subscription\SubscriptionService
 - App\Services\Subscription\SubscriptionSuspensionService
+- App\Services\TelegramNotificationService
 - App\Services\Documentation\Knowledge\TestCoverageExtractor
+- App\Services\Ticket\TicketService
 - App\Services\Documentation\Knowledge\TodoGenerator
 - App\Services\Documentation\Knowledge\TodoKnowledgeGenerator
 - App\Services\WalletService
@@ -124,9 +129,12 @@
 - App\Models\Device
 - App\Models\DeviceAssignment
 - App\Models\HotspotSubscription
+- App\Models\HotspotUser
 - App\Models\Inventory
 - App\Models\Invoice
+- App\Models\NetworkDevice
 - App\Models\Notification
+- App\Models\PPPoEUser
 - App\Models\Package
 - App\Models\Payment
 - App\Models\Subscription

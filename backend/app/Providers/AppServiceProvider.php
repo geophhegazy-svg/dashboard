@@ -4,9 +4,11 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use App\Contracts\MikrotikServiceInterface;
-use App\Services\Network\MikroTikService;
+use App\Services\Network\MikrotikService;
 use App\Contracts\Repositories\SubscriptionRepositoryInterface;
 use App\Repositories\SubscriptionRepository;
+use App\Contracts\FinanceServiceInterface;
+use App\Services\Finance\FinanceService;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -14,12 +16,17 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(
             MikrotikServiceInterface::class,
-            MikroTikService::class
+            MikrotikService::class
         );
 
         $this->app->bind(
             SubscriptionRepositoryInterface::class,
             SubscriptionRepository::class
+        );
+
+        $this->app->singleton(
+            FinanceServiceInterface::class,
+            FinanceService::class
         );
     }
 

@@ -2,16 +2,19 @@
 
 ## Models
 
-Total: 16
+Total: 19
 
 - ActivityLog
 - Customer
 - Device
 - DeviceAssignment
 - HotspotSubscription
+- HotspotUser
 - Inventory
 - Invoice
+- NetworkDevice
 - Notification
+- PPPoEUser
 - Package
 - Payment
 - Subscription
@@ -23,7 +26,7 @@ Total: 16
 
 ## Services
 
-Total: 84
+Total: 88
 
 - AIContextGenerator
 - AbstractHandoverSection
@@ -43,6 +46,7 @@ Total: 84
 - ConstructorReflector
 - ControllerDocumentationGenerator
 - ControllersKnowledgeGenerator
+- CustomerDashboardService
 - CustomerService
 - DashboardService
 - DatabaseExtractor
@@ -57,6 +61,7 @@ Total: 84
 - ExecutiveSummarySection
 - ExportRegistry
 - FileScanner
+- FinanceService
 - HandoverDocumentGenerator
 - InvoiceGenerator
 - InvoiceNumberService
@@ -105,14 +110,16 @@ Total: 84
 - SubscriptionRenewalService
 - SubscriptionService
 - SubscriptionSuspensionService
+- TelegramNotificationService
 - TestCoverageExtractor
+- TicketService
 - TodoGenerator
 - TodoKnowledgeGenerator
 - WalletService
 
 ## Controllers
 
-Total: 27
+Total: 28
 
 - ActivityLogController
 - AuthController
@@ -126,9 +133,10 @@ Total: 27
 - CustomerTicketController
 - CustomerWalletController
 - DashboardController
+- DashboardController
 - DeviceAssignmentController
 - DeviceController
-- DhcpLeaseController
+- HotspotController
 - HotspotSubscriptionController
 - InventoryController
 - InvoiceController

@@ -44,6 +44,11 @@ class Kernel extends ConsoleKernel
         // تنظيف الجلسات القديمة كل ساعة
         $schedule->command('mikrotik:cleanup')
             ->hourly();
+
+        // إرسال تقرير يومي الساعة 9 صباحاً
+        $schedule->command('report:daily')
+            ->dailyAt('09:00')
+            ->appendOutputTo(storage_path('logs/daily-report.log'));
     }
 
     /**
@@ -55,4 +60,6 @@ class Kernel extends ConsoleKernel
 
         require base_path('routes/console.php');
     }
+
+    
 }

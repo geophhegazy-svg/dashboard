@@ -13,8 +13,8 @@ Technology
 - MikroTik RouterOS
 
 Statistics
-- Models: 16
-- Services: 84
+- Models: 19
+- Services: 88
 
 
 ---
@@ -47,8 +47,8 @@ app/
 
 # Project Statistics
 
-Models: 16
-Services: 84
+Models: 19
+Services: 88
 
 ---
 
@@ -99,8 +99,8 @@ Development Rules
 - Update generated documentation after structural changes.
 
 Current Statistics
-Models: 16
-Services: 84
+Models: 19
+Services: 88
 
 ---
 
@@ -369,6 +369,19 @@ App\Services\Documentation\Knowledge
 
 ---
 
+## CustomerDashboardService
+
+**Namespace**
+App\Services\Dashboard
+
+**Dependencies**
+- None
+
+**Methods**
+- getDashboardData(1 params) : array
+
+---
+
 ## CustomerService
 
 **Namespace**
@@ -566,6 +579,19 @@ App\Services\Documentation\Scanner
 
 **Methods**
 - scan(1 params) : array
+
+---
+
+## FinanceService
+
+**Namespace**
+App\Services\Finance
+
+**Dependencies**
+- None
+
+**Methods**
+- record(1 params) : void
 
 ---
 
@@ -780,26 +806,26 @@ App\Services\Network
 App\Services\Network
 
 **Dependencies**
-- App\Services\Network\MikrotikConnection
+- None
 
 **Methods**
-- __construct(1 params) : mixed
-- getPppoeUsers(0 params) : array
-- createPppoe(3 params) : mixed
-- findPppoe(1 params) : mixed
-- deletePppoe(1 params) : bool
-- enablePppoe(1 params) : bool
-- disablePppoe(1 params) : bool
+- connect(4 params) : bool
+- createUser(4 params) : bool
+- disableUser(1 params) : bool
+- enableUser(1 params) : bool
+- deleteUser(1 params) : bool
+- getAllUsers(0 params) : array
+- getActiveSessions(0 params) : array
+- updateUserQueue(3 params) : bool
+- getDeviceStats(0 params) : array
+- ping(1 params) : bool
+- disconnectUser(1 params) : bool
+- updateDeviceStatus(1 params) : void
 - getHotspotUsers(0 params) : array
-- getActiveHotspotUsers(0 params) : array
-- createHotspot(3 params) : mixed
-- findHotspot(1 params) : mixed
-- deleteHotspot(1 params) : bool
-- enableHotspot(1 params) : bool
-- disableHotspot(1 params) : bool
-- getDhcpLeases(0 params) : array
-- run(1 params) : array
-- raw(1 params) : array
+- getHotspotActiveSessions(0 params) : array
+- createHotspotUser(4 params) : bool
+- disableHotspotUser(1 params) : bool
+- enableHotspotUser(1 params) : bool
 
 ---
 
@@ -1257,11 +1283,12 @@ App\Services\Subscription
 App\Services
 
 **Dependencies**
-- None
+- App\Contracts\MikrotikServiceInterface
 
 **Methods**
-- renewPppoe(2 params) : bool
-- renewHotspot(2 params) : bool
+- __construct(1 params) : mixed
+- renewPppoe(1 params) : bool
+- renewHotspot(1 params) : bool
 
 ---
 
@@ -1272,22 +1299,33 @@ App\Services\Subscription
 
 **Dependencies**
 - App\Contracts\Repositories\SubscriptionRepositoryInterface
-- App\Contracts\MikrotikServiceInterface
+- App\Services\Network\MikrotikService
 - App\Actions\Subscription\ActivateSubscriptionAction
 - App\Actions\Subscription\SuspendSubscriptionAction
 - App\Actions\Subscription\ExpireSubscriptionAction
-- App\Actions\Subscription\RenewSubscriptionAction
 - App\Actions\Subscription\RestoreSubscriptionAction
+- App\Actions\Subscription\RenewSubscriptionAction
 
 **Methods**
 - __construct(7 params) : mixed
+- getAllSubscriptions(2 params) : mixed
+- getSubscriptionById(1 params) : ?App\Models\Subscription
+- getCustomerSubscriptions(1 params) : array
+- getActiveSubscriptions(0 params) : array
+- getExpiredSubscriptions(0 params) : array
+- createSubscription(1 params) : App\Models\Subscription
+- updateSubscription(2 params) : App\Models\Subscription
+- renewSubscription(2 params) : App\Models\Subscription
+- cancelSubscription(1 params) : bool
+- getSubscriptionStats(0 params) : array
+- getExpiringSubscriptions(1 params) : array
+- autoExpireSubscriptions(0 params) : int
+- searchSubscriptions(2 params) : mixed
 - activate(1 params) : bool
 - suspend(1 params) : bool
 - expire(1 params) : bool
-- renew(2 params) : bool
 - restore(1 params) : bool
-- availablePppoeUsers(0 params) : array
-- linkPppoe(2 params) : App\Models\Subscription
+- renew(2 params) : bool
 
 ---
 
@@ -1305,6 +1343,21 @@ App\Services\Subscription
 
 ---
 
+## TelegramNotificationService
+
+**Namespace**
+App\Services
+
+**Dependencies**
+- None
+
+**Methods**
+- __construct(0 params) : mixed
+- sendMessage(1 params) : mixed
+- sendDeviceAlert(1 params) : mixed
+
+---
+
 ## TestCoverageExtractor
 
 **Namespace**
@@ -1315,6 +1368,29 @@ App\Services\Documentation\Knowledge
 
 **Methods**
 - extract(0 params) : array
+
+---
+
+## TicketService
+
+**Namespace**
+App\Services\Ticket
+
+**Dependencies**
+- None
+
+**Methods**
+- createFromAdmin(2 params) : App\Models\Ticket
+- createFromCustomer(2 params) : App\Models\Ticket
+- updateFromAdmin(3 params) : App\Models\Ticket
+- delete(2 params) : void
+- replyAsStaff(3 params) : App\Models\TicketReply
+- replyAsCustomer(3 params) : App\Models\TicketReply
+- changeStatus(3 params) : App\Models\Ticket
+- closeByCustomer(1 params) : App\Models\Ticket
+- assign(3 params) : App\Models\Ticket
+- adminDashboardStats(0 params) : array
+- customerDashboardStats(1 params) : array
 
 ---
 
@@ -1859,6 +1935,125 @@ App\Models
 
 ---
 
+## HotspotUser
+
+**Namespace**
+
+```
+App\Models
+```
+
+**File**
+
+```
+/var/www/app/Models/HotspotUser.php
+```
+
+**Properties**
+
+- $table : mixed
+- $fillable : mixed
+- $casts : mixed
+- $hidden : mixed
+- $connection : mixed
+- $primaryKey : mixed
+- $keyType : mixed
+- $incrementing : mixed
+- $with : mixed
+- $withCount : mixed
+- $preventsLazyLoading : mixed
+- $perPage : mixed
+- $exists : mixed
+- $wasRecentlyCreated : mixed
+- $escapeWhenCastingToString : mixed
+- $resolver : mixed
+- $dispatcher : mixed
+- $booting : mixed
+- $booted : mixed
+- $bootedCallbacks : mixed
+- $traitInitializers : mixed
+- $globalScopes : mixed
+- $ignoreOnTouch : mixed
+- $modelsShouldPreventLazyLoading : mixed
+- $modelsShouldAutomaticallyEagerLoadRelationships : mixed
+- $lazyLoadingViolationCallback : mixed
+- $modelsShouldPreventSilentlyDiscardingAttributes : mixed
+- $discardedAttributeViolationCallback : mixed
+- $modelsShouldPreventAccessingMissingAttributes : mixed
+- $missingAttributeViolationCallback : mixed
+- $isBroadcasting : mixed
+- $builder : string
+- $collectionClass : string
+- $isSoftDeletable : array
+- $isPrunable : array
+- $isMassPrunable : array
+- $classAttributes : array
+- $attributes : mixed
+- $original : mixed
+- $changes : mixed
+- $previous : mixed
+- $classCastCache : mixed
+- $attributeCastCache : mixed
+- $primitiveCastTypes : mixed
+- $dateFormat : mixed
+- $appends : mixed
+- $snakeAttributes : mixed
+- $mutatorCache : mixed
+- $attributeMutatorCache : mixed
+- $getAttributeMutatorCache : mixed
+- $setAttributeMutatorCache : mixed
+- $castTypeCache : mixed
+- $encrypter : mixed
+- $dispatchesEvents : mixed
+- $observables : mixed
+- $relations : mixed
+- $touches : mixed
+- $relationAutoloadCallback : mixed
+- $relationAutoloadContext : mixed
+- $manyMethods : mixed
+- $relationResolvers : mixed
+- $timestamps : mixed
+- $ignoreTimestampsOn : mixed
+- $usesUniqueIds : mixed
+- $visible : mixed
+- $guarded : mixed
+- $unguarded : mixed
+- $guardableColumns : mixed
+- $recursionCache : mixed
+- $resolvedCollectionClasses : array
+- $forceDeleting : mixed
+
+**Methods**
+
+- customer()
+- device()
+- scopeActive()
+- scopeOnline()
+- scopeExpired()
+- isActive()
+- isOnline()
+- getUptimeFormatted()
+- getTrafficFormatted()
+- forceDelete()
+- forceDestroy()
+- factory()
+- bootSoftDeletes()
+- initializeSoftDeletes()
+- forceDeleteQuietly()
+- restore()
+- restoreQuietly()
+- trashed()
+- softDeleted()
+- restoring()
+- restored()
+- forceDeleting()
+- forceDeleted()
+- isForceDeleting()
+- getDeletedAtColumn()
+- getQualifiedDeletedAtColumn()
+
+---
+
 ## Inventory
 
 **Namespace**
@@ -2051,6 +2246,122 @@ App\Models
 
 ---
 
+## NetworkDevice
+
+**Namespace**
+
+```
+App\Models
+```
+
+**File**
+
+```
+/var/www/app/Models/NetworkDevice.php
+```
+
+**Properties**
+
+- $fillable : mixed
+- $casts : mixed
+- $hidden : mixed
+- $connection : mixed
+- $table : mixed
+- $primaryKey : mixed
+- $keyType : mixed
+- $incrementing : mixed
+- $with : mixed
+- $withCount : mixed
+- $preventsLazyLoading : mixed
+- $perPage : mixed
+- $exists : mixed
+- $wasRecentlyCreated : mixed
+- $escapeWhenCastingToString : mixed
+- $resolver : mixed
+- $dispatcher : mixed
+- $booting : mixed
+- $booted : mixed
+- $bootedCallbacks : mixed
+- $traitInitializers : mixed
+- $globalScopes : mixed
+- $ignoreOnTouch : mixed
+- $modelsShouldPreventLazyLoading : mixed
+- $modelsShouldAutomaticallyEagerLoadRelationships : mixed
+- $lazyLoadingViolationCallback : mixed
+- $modelsShouldPreventSilentlyDiscardingAttributes : mixed
+- $discardedAttributeViolationCallback : mixed
+- $modelsShouldPreventAccessingMissingAttributes : mixed
+- $missingAttributeViolationCallback : mixed
+- $isBroadcasting : mixed
+- $builder : string
+- $collectionClass : string
+- $isSoftDeletable : array
+- $isPrunable : array
+- $isMassPrunable : array
+- $classAttributes : array
+- $attributes : mixed
+- $original : mixed
+- $changes : mixed
+- $previous : mixed
+- $classCastCache : mixed
+- $attributeCastCache : mixed
+- $primitiveCastTypes : mixed
+- $dateFormat : mixed
+- $appends : mixed
+- $snakeAttributes : mixed
+- $mutatorCache : mixed
+- $attributeMutatorCache : mixed
+- $getAttributeMutatorCache : mixed
+- $setAttributeMutatorCache : mixed
+- $castTypeCache : mixed
+- $encrypter : mixed
+- $dispatchesEvents : mixed
+- $observables : mixed
+- $relations : mixed
+- $touches : mixed
+- $relationAutoloadCallback : mixed
+- $relationAutoloadContext : mixed
+- $manyMethods : mixed
+- $relationResolvers : mixed
+- $timestamps : mixed
+- $ignoreTimestampsOn : mixed
+- $usesUniqueIds : mixed
+- $visible : mixed
+- $guarded : mixed
+- $unguarded : mixed
+- $guardableColumns : mixed
+- $recursionCache : mixed
+- $resolvedCollectionClasses : array
+- $forceDeleting : mixed
+
+**Methods**
+
+- pppoeUsers()
+- isOnline()
+- updateOnlineStatus()
+- scopeActive()
+- scopeOnline()
+- scopeMikrotik()
+- forceDelete()
+- forceDestroy()
+- factory()
+- bootSoftDeletes()
+- initializeSoftDeletes()
+- forceDeleteQuietly()
+- restore()
+- restoreQuietly()
+- trashed()
+- softDeleted()
+- restoring()
+- restored()
+- forceDeleting()
+- forceDeleted()
+- isForceDeleting()
+- getDeletedAtColumn()
+- getQualifiedDeletedAtColumn()
+
+---
+
 ## Notification
 
 **Namespace**
@@ -2137,6 +2448,124 @@ App\Models
 - $guardableColumns : mixed
 - $recursionCache : mixed
 - $resolvedCollectionClasses : array
+
+---
+
+## PPPoEUser
+
+**Namespace**
+
+```
+App\Models
+```
+
+**File**
+
+```
+/var/www/app/Models/PPPoEUser.php
+```
+
+**Properties**
+
+- $table : mixed
+- $fillable : mixed
+- $casts : mixed
+- $hidden : mixed
+- $connection : mixed
+- $primaryKey : mixed
+- $keyType : mixed
+- $incrementing : mixed
+- $with : mixed
+- $withCount : mixed
+- $preventsLazyLoading : mixed
+- $perPage : mixed
+- $exists : mixed
+- $wasRecentlyCreated : mixed
+- $escapeWhenCastingToString : mixed
+- $resolver : mixed
+- $dispatcher : mixed
+- $booting : mixed
+- $booted : mixed
+- $bootedCallbacks : mixed
+- $traitInitializers : mixed
+- $globalScopes : mixed
+- $ignoreOnTouch : mixed
+- $modelsShouldPreventLazyLoading : mixed
+- $modelsShouldAutomaticallyEagerLoadRelationships : mixed
+- $lazyLoadingViolationCallback : mixed
+- $modelsShouldPreventSilentlyDiscardingAttributes : mixed
+- $discardedAttributeViolationCallback : mixed
+- $modelsShouldPreventAccessingMissingAttributes : mixed
+- $missingAttributeViolationCallback : mixed
+- $isBroadcasting : mixed
+- $builder : string
+- $collectionClass : string
+- $isSoftDeletable : array
+- $isPrunable : array
+- $isMassPrunable : array
+- $classAttributes : array
+- $attributes : mixed
+- $original : mixed
+- $changes : mixed
+- $previous : mixed
+- $classCastCache : mixed
+- $attributeCastCache : mixed
+- $primitiveCastTypes : mixed
+- $dateFormat : mixed
+- $appends : mixed
+- $snakeAttributes : mixed
+- $mutatorCache : mixed
+- $attributeMutatorCache : mixed
+- $getAttributeMutatorCache : mixed
+- $setAttributeMutatorCache : mixed
+- $castTypeCache : mixed
+- $encrypter : mixed
+- $dispatchesEvents : mixed
+- $observables : mixed
+- $relations : mixed
+- $touches : mixed
+- $relationAutoloadCallback : mixed
+- $relationAutoloadContext : mixed
+- $manyMethods : mixed
+- $relationResolvers : mixed
+- $timestamps : mixed
+- $ignoreTimestampsOn : mixed
+- $usesUniqueIds : mixed
+- $visible : mixed
+- $guarded : mixed
+- $unguarded : mixed
+- $guardableColumns : mixed
+- $recursionCache : mixed
+- $resolvedCollectionClasses : array
+- $forceDeleting : mixed
+
+**Methods**
+
+- customer()
+- device()
+- isActive()
+- isOnline()
+- updateOnlineStatus()
+- scopeActive()
+- scopeOnline()
+- scopeDisabled()
+- forceDelete()
+- forceDestroy()
+- factory()
+- bootSoftDeletes()
+- initializeSoftDeletes()
+- forceDeleteQuietly()
+- restore()
+- restoreQuietly()
+- trashed()
+- softDeleted()
+- restoring()
+- restored()
+- forceDeleting()
+- forceDeleted()
+- isForceDeleting()
+- getDeletedAtColumn()
+- getQualifiedDeletedAtColumn()
 
 ---
 
@@ -2429,19 +2858,10 @@ App\Models
 - suspend()
 - expire()
 - restore()
-- renew()
 - isActive()
 - canActivate()
 - canSuspend()
 - canRenew()
-- canExpire()
-- canRestore()
-- isSuspended()
-- isExpired()
-- isGrace()
-- isPending()
-- isDraft()
-- isClosed()
 - factory()
 
 ---
@@ -2828,6 +3248,7 @@ App\Models
 **Methods**
 
 - tenant()
+- scopeForCurrentTenant()
 - tokens()
 - tokenCan()
 - tokenCant()
@@ -3421,6 +3842,26 @@ App\Services\Documentation\Knowledge
 
 ---
 
+## CustomerDashboardService
+
+**Namespace**
+
+```
+App\Services\Dashboard
+```
+
+**File**
+
+```
+/var/www/app/Services/Dashboard/CustomerDashboardService.php
+```
+
+**Methods**
+
+- getDashboardData() : array
+
+---
+
 ## CustomerService
 
 **Namespace**
@@ -3759,6 +4200,26 @@ App\Services\Documentation\Scanner
 **Methods**
 
 - scan() : array
+
+---
+
+## FinanceService
+
+**Namespace**
+
+```
+App\Services\Finance
+```
+
+**File**
+
+```
+/var/www/app/Services/Finance/FinanceService.php
+```
+
+**Methods**
+
+- record() : void
 
 ---
 
@@ -4123,32 +4584,30 @@ App\Services\Network
 /var/www/app/Services/Network/MikrotikService.php
 ```
 
-**Constructor Dependencies**
-
-- MikrotikConnection $connection
-
 **Properties**
 
-- $connection : App\Services\Network\MikrotikConnection
+- $client : mixed
+- $device : mixed
 
 **Methods**
 
-- getPppoeUsers() : array
-- createPppoe() : mixed
-- findPppoe() : mixed
-- deletePppoe() : bool
-- enablePppoe() : bool
-- disablePppoe() : bool
+- connect() : bool
+- createUser() : bool
+- disableUser() : bool
+- enableUser() : bool
+- deleteUser() : bool
+- getAllUsers() : array
+- getActiveSessions() : array
+- updateUserQueue() : bool
+- getDeviceStats() : array
+- ping() : bool
+- disconnectUser() : bool
+- updateDeviceStatus() : void
 - getHotspotUsers() : array
-- getActiveHotspotUsers() : array
-- createHotspot() : mixed
-- findHotspot() : mixed
-- deleteHotspot() : bool
-- enableHotspot() : bool
-- disableHotspot() : bool
-- getDhcpLeases() : array
-- run() : array
-- raw() : array
+- getHotspotActiveSessions() : array
+- createHotspotUser() : bool
+- disableHotspotUser() : bool
+- enableHotspotUser() : bool
 
 ---
 
@@ -4981,6 +5440,14 @@ App\Services
 /var/www/app/Services/SubscriptionRenewalService.php
 ```
 
+**Constructor Dependencies**
+
+- MikrotikServiceInterface $mikrotik
+
+**Properties**
+
+- $mikrotik : App\Contracts\MikrotikServiceInterface
+
 **Methods**
 
 - renewPppoe() : bool
@@ -5005,32 +5472,43 @@ App\Services\Subscription
 **Constructor Dependencies**
 
 - SubscriptionRepositoryInterface $subscriptionRepository
-- MikrotikServiceInterface $mikrotikService
+- MikrotikService $mikrotikService
 - ActivateSubscriptionAction $activateAction
 - SuspendSubscriptionAction $suspendAction
 - ExpireSubscriptionAction $expireAction
-- RenewSubscriptionAction $renewAction
 - RestoreSubscriptionAction $restoreAction
+- RenewSubscriptionAction $renewAction
 
 **Properties**
 
-- $subscriptionRepository : App\Contracts\Repositories\SubscriptionRepositoryInterface
-- $mikrotikService : App\Contracts\MikrotikServiceInterface
 - $activateAction : App\Actions\Subscription\ActivateSubscriptionAction
 - $suspendAction : App\Actions\Subscription\SuspendSubscriptionAction
 - $expireAction : App\Actions\Subscription\ExpireSubscriptionAction
-- $renewAction : App\Actions\Subscription\RenewSubscriptionAction
 - $restoreAction : App\Actions\Subscription\RestoreSubscriptionAction
+- $renewAction : App\Actions\Subscription\RenewSubscriptionAction
+- $subscriptionRepository : App\Contracts\Repositories\SubscriptionRepositoryInterface
+- $mikrotikService : App\Services\Network\MikrotikService
 
 **Methods**
 
+- getAllSubscriptions() : mixed
+- getSubscriptionById() : ?App\Models\Subscription
+- getCustomerSubscriptions() : array
+- getActiveSubscriptions() : array
+- getExpiredSubscriptions() : array
+- createSubscription() : App\Models\Subscription
+- updateSubscription() : App\Models\Subscription
+- renewSubscription() : App\Models\Subscription
+- cancelSubscription() : bool
+- getSubscriptionStats() : array
+- getExpiringSubscriptions() : array
+- autoExpireSubscriptions() : int
+- searchSubscriptions() : mixed
 - activate() : bool
 - suspend() : bool
 - expire() : bool
-- renew() : bool
 - restore() : bool
-- availablePppoeUsers() : array
-- linkPppoe() : App\Models\Subscription
+- renew() : bool
 
 ---
 
@@ -5062,6 +5540,32 @@ App\Services\Subscription
 
 ---
 
+## TelegramNotificationService
+
+**Namespace**
+
+```
+App\Services
+```
+
+**File**
+
+```
+/var/www/app/Services/TelegramNotificationService.php
+```
+
+**Properties**
+
+- $botToken : mixed
+- $chatId : mixed
+
+**Methods**
+
+- sendMessage() : mixed
+- sendDeviceAlert() : mixed
+
+---
+
 ## TestCoverageExtractor
 
 **Namespace**
@@ -5079,6 +5583,36 @@ App\Services\Documentation\Knowledge
 **Methods**
 
 - extract() : array
+
+---
+
+## TicketService
+
+**Namespace**
+
+```
+App\Services\Ticket
+```
+
+**File**
+
+```
+/var/www/app/Services/Ticket/TicketService.php
+```
+
+**Methods**
+
+- createFromAdmin() : App\Models\Ticket
+- createFromCustomer() : App\Models\Ticket
+- updateFromAdmin() : App\Models\Ticket
+- delete() : void
+- replyAsStaff() : App\Models\TicketReply
+- replyAsCustomer() : App\Models\TicketReply
+- changeStatus() : App\Models\Ticket
+- closeByCustomer() : App\Models\Ticket
+- assign() : App\Models\Ticket
+- adminDashboardStats() : array
+- customerDashboardStats() : array
 
 ---
 
@@ -5284,6 +5818,10 @@ App\Http\Controllers\Api
 /var/www/app/Http/Controllers/Api/CustomerDashboardController.php
 ```
 
+**Dependencies**
+
+- CustomerDashboardService $dashboardService
+
 **Public Methods**
 
 - index()
@@ -5367,6 +5905,10 @@ App\Http\Controllers\Api
 /var/www/app/Http/Controllers/Api/CustomerTicketController.php
 ```
 
+**Dependencies**
+
+- TicketService $ticketService
+
 **Public Methods**
 
 - index()
@@ -5423,6 +5965,26 @@ App\Http\Controllers\Api
 
 ---
 
+## DashboardController
+
+**Namespace**
+
+```
+App\Http\Controllers
+```
+
+**File**
+
+```
+/var/www/app/Http/Controllers/DashboardController.php
+```
+
+**Public Methods**
+
+- index()
+
+---
+
 ## DeviceAssignmentController
 
 **Namespace**
@@ -5472,23 +6034,24 @@ App\Http\Controllers\Api
 
 ---
 
-## DhcpLeaseController
+## HotspotController
 
 **Namespace**
 
 ```
-App\Http\Controllers\Api\Network
+App\Http\Controllers\Api
 ```
 
 **File**
 
 ```
-/var/www/app/Http/Controllers/Api/Network/DhcpLeaseController.php
+/var/www/app/Http/Controllers/Api/HotspotController.php
 ```
 
 **Public Methods**
 
-- index()
+- onlineUsers()
+- stats()
 
 ---
 
@@ -5774,6 +6337,10 @@ App\Http\Controllers\Api
 /var/www/app/Http/Controllers/Api/TicketController.php
 ```
 
+**Dependencies**
+
+- TicketService $ticketService
+
 **Public Methods**
 
 - index()
@@ -5824,56 +6391,56 @@ App\Http\Controllers\Api
 ## api/login
 
 - Method: POST
-- Name: -
+- Name: generated::WZGPNqFTuHqZifDC
 - Action: App\Http\Controllers\Api\AuthController@login
 - Middleware: api
 
 ## api/customer/login
 
 - Method: POST
-- Name: -
+- Name: generated::fJhmESJ286OK29I4
 - Action: App\Http\Controllers\Api\CustomerAuthController@login
 - Middleware: api
 
 ## api/me
 
 - Method: GET|HEAD
-- Name: -
+- Name: generated::6fLLvvIBLgF0wpZP
 - Action: App\Http\Controllers\Api\AuthController@me
 - Middleware: api, auth:sanctum
 
 ## api/logout
 
 - Method: POST
-- Name: -
+- Name: generated::xHViytP4z1LyuMv4
 - Action: App\Http\Controllers\Api\AuthController@logout
 - Middleware: api, auth:sanctum
 
 ## api/tickets/{ticket}/reply
 
 - Method: POST
-- Name: -
+- Name: generated::yUDI8V4apeX8popJ
 - Action: App\Http\Controllers\Api\TicketController@reply
 - Middleware: api, auth:sanctum
 
 ## api/tickets/{ticket}/messages
 
 - Method: GET|HEAD
-- Name: -
+- Name: generated::bUZZz7ph1KkplHOa
 - Action: App\Http\Controllers\Api\TicketController@messages
 - Middleware: api, auth:sanctum
 
 ## api/dashboard
 
 - Method: GET|HEAD
-- Name: -
+- Name: generated::Ww2h2bugmGvNZBZZ
 - Action: App\Http\Controllers\Api\DashboardController@index
 - Middleware: api, auth:sanctum
 
 ## api/dashboard/stats
 
 - Method: GET|HEAD
-- Name: -
+- Name: generated::4zP7Iqq7F206i6NH
 - Action: App\Http\Controllers\Api\MikrotikController@dashboardStats
 - Middleware: api, auth:sanctum
 
@@ -6300,21 +6867,21 @@ App\Http\Controllers\Api
 ## api/tickets/{ticket}/assign
 
 - Method: POST
-- Name: -
+- Name: generated::yMCwqKM1mpvWwTj3
 - Action: App\Http\Controllers\Api\TicketController@assign
 - Middleware: api, auth:sanctum
 
 ## api/tickets/{ticket}/status
 
 - Method: POST
-- Name: -
+- Name: generated::UFCj0vMNpps9vFrP
 - Action: App\Http\Controllers\Api\TicketController@changeStatus
 - Middleware: api, auth:sanctum
 
 ## api/tickets/dashboard/statistics
 
 - Method: GET|HEAD
-- Name: -
+- Name: generated::QzKn9ecpkYouvO0m
 - Action: App\Http\Controllers\Api\TicketController@dashboard
 - Middleware: api, auth:sanctum
 
@@ -6370,343 +6937,364 @@ App\Http\Controllers\Api
 ## api/subscriptions/available-pppoe-users
 
 - Method: GET|HEAD
-- Name: -
+- Name: generated::JUKpm9S7kfcAYT3u
 - Action: App\Http\Controllers\Api\SubscriptionController@availablePppoeUsers
 - Middleware: api, auth:sanctum
 
 ## api/subscriptions/{subscription}/link-pppoe
 
 - Method: POST
-- Name: -
+- Name: generated::cOazQCZMfcT9m2wt
 - Action: App\Http\Controllers\Api\SubscriptionController@linkPppoe
 - Middleware: api, auth:sanctum
 
 ## api/subscriptions/{subscription}/activate
 
 - Method: POST
-- Name: -
+- Name: generated::qUBKKPYPUsCzv5KB
 - Action: App\Http\Controllers\Api\SubscriptionController@activate
 - Middleware: api, auth:sanctum
 
 ## api/subscriptions/{subscription}/suspend
 
 - Method: POST
-- Name: -
+- Name: generated::8nQ57nTUq3yMtnJN
 - Action: App\Http\Controllers\Api\SubscriptionController@suspend
 - Middleware: api, auth:sanctum
 
 ## api/subscriptions/{subscription}/renew
 
 - Method: POST
-- Name: -
+- Name: generated::Ll3b71bDJnKxoa91
 - Action: App\Http\Controllers\Api\SubscriptionController@renew
 - Middleware: api, auth:sanctum
 
 ## api/hotspot-subscriptions/{hotspotSubscription}/activate
 
 - Method: POST
-- Name: -
+- Name: generated::CX1AEnsmX4RSlf7Q
 - Action: App\Http\Controllers\Api\HotspotSubscriptionController@activate
 - Middleware: api, auth:sanctum
 
 ## api/hotspot-subscriptions/{hotspotSubscription}/suspend
 
 - Method: POST
-- Name: -
+- Name: generated::qW6hLzAYpxiCi28n
 - Action: App\Http\Controllers\Api\HotspotSubscriptionController@suspend
 - Middleware: api, auth:sanctum
 
 ## api/device-assignments/{device_assignment}/return
 
 - Method: POST
-- Name: -
+- Name: generated::dEI30Y7F4UGs5qfz
 - Action: App\Http\Controllers\Api\DeviceAssignmentController@returnDevice
 - Middleware: api, auth:sanctum
 
 ## api/notifications/{notification}/read
 
 - Method: POST
-- Name: -
+- Name: generated::S4NeKjvHu0lts9B6
 - Action: App\Http\Controllers\Api\NotificationController@markAsRead
 - Middleware: api, auth:sanctum
 
 ## api/notifications/read-all
 
 - Method: POST
-- Name: -
+- Name: generated::1jAMNnIrujukrhpW
 - Action: App\Http\Controllers\Api\NotificationController@markAllAsRead
 - Middleware: api, auth:sanctum
 
 ## api/reports/dashboard
 
 - Method: GET|HEAD
-- Name: -
+- Name: generated::XYT0dFGwVbSdtfMN
 - Action: App\Http\Controllers\Api\ReportController@dashboard
 - Middleware: api, auth:sanctum
 
 ## api/reports/revenue
 
 - Method: GET|HEAD
-- Name: -
+- Name: generated::xfB6UkqgzoIChdwZ
 - Action: App\Http\Controllers\Api\ReportController@revenue
 - Middleware: api, auth:sanctum
 
 ## api/reports/invoices
 
 - Method: GET|HEAD
-- Name: -
+- Name: generated::SJukSA1wnyp4ApRG
 - Action: App\Http\Controllers\Api\ReportController@invoices
 - Middleware: api, auth:sanctum
 
 ## api/reports/inventory
 
 - Method: GET|HEAD
-- Name: -
+- Name: generated::GjL6YK9LoSmmgD1T
 - Action: App\Http\Controllers\Api\ReportController@inventory
 - Middleware: api, auth:sanctum
 
 ## api/reports/tickets
 
 - Method: GET|HEAD
-- Name: -
+- Name: generated::h2mo2eFXcVeGxFcM
 - Action: App\Http\Controllers\Api\ReportController@tickets
 - Middleware: api, auth:sanctum
 
 ## api/mikrotik/test
 
 - Method: GET|HEAD
-- Name: -
+- Name: generated::Danx9QiYBlAruRPo
 - Action: App\Http\Controllers\Api\MikrotikController@test
 - Middleware: api, auth:sanctum
 
 ## api/mikrotik/dashboard-stats
 
 - Method: GET|HEAD
-- Name: -
+- Name: generated::PHvFv4sI5j69UksE
 - Action: App\Http\Controllers\Api\MikrotikController@dashboardStats
 - Middleware: api, auth:sanctum
 
 ## api/mikrotik/pppoe-users
 
 - Method: GET|HEAD
-- Name: -
+- Name: generated::AcNIS5heHQILq6Oh
 - Action: App\Http\Controllers\Api\MikrotikController@pppoeUsers
 - Middleware: api, auth:sanctum
 
 ## api/mikrotik/pppoe-users
 
 - Method: POST
-- Name: -
+- Name: generated::d557l0BTuAaQOYvb
 - Action: App\Http\Controllers\Api\MikrotikController@createPppoeUser
 - Middleware: api, auth:sanctum
 
 ## api/mikrotik/hotspot-users
 
 - Method: GET|HEAD
-- Name: -
+- Name: generated::p5JlQCFJ6yRo78zK
 - Action: App\Http\Controllers\Api\MikrotikController@hotspotUsers
 - Middleware: api, auth:sanctum
 
 ## api/mikrotik/hotspot-users/active
 
 - Method: GET|HEAD
-- Name: -
+- Name: generated::mdnnaS1nF4XD0jgG
 - Action: App\Http\Controllers\Api\MikrotikController@activeUsers
 - Middleware: api, auth:sanctum
 
 ## api/mikrotik/hotspot-users
 
 - Method: POST
-- Name: -
+- Name: generated::GpTIKttwHxOaBoK7
 - Action: App\Http\Controllers\Api\MikrotikController@createHotspotUser
 - Middleware: api, auth:sanctum
 
 ## api/mikrotik/hotspot-users/{username}
 
 - Method: DELETE
-- Name: -
+- Name: generated::4GdeluGb1yTit909
 - Action: App\Http\Controllers\Api\MikrotikController@deleteHotspotUser
 - Middleware: api, auth:sanctum
 
 ## api/mikrotik/hotspot-users/{username}/activate
 
 - Method: POST
-- Name: -
+- Name: generated::XCPoTGyYD5Z6GpHi
 - Action: App\Http\Controllers\Api\MikrotikController@activateHotspotUser
 - Middleware: api, auth:sanctum
 
 ## api/mikrotik/hotspot-users/{username}/suspend
 
 - Method: POST
-- Name: -
+- Name: generated::A8eBxGkhYgYcktak
 - Action: App\Http\Controllers\Api\MikrotikController@suspendHotspotUser
 - Middleware: api, auth:sanctum
 
 ## api/customer/me
 
 - Method: GET|HEAD
-- Name: -
+- Name: generated::L98Ze7RbowGW58xc
 - Action: App\Http\Controllers\Api\CustomerAuthController@me
 - Middleware: api, auth:sanctum
 
 ## api/customer/logout
 
 - Method: POST
-- Name: -
+- Name: generated::u8ouNSmiP5FXeY1e
 - Action: App\Http\Controllers\Api\CustomerAuthController@logout
 - Middleware: api, auth:sanctum
 
 ## api/customer/profile
 
 - Method: PUT
-- Name: -
+- Name: generated::kFasEvdfYutvW5BZ
 - Action: App\Http\Controllers\Api\CustomerAuthController@updateProfile
 - Middleware: api, auth:sanctum
 
 ## api/customer/change-password
 
 - Method: POST
-- Name: -
+- Name: generated::AyD6wYOzUd9iptcu
 - Action: App\Http\Controllers\Api\CustomerAuthController@changePassword
 - Middleware: api, auth:sanctum
 
 ## api/customer/dashboard
 
 - Method: GET|HEAD
-- Name: -
+- Name: generated::z3k7tVj4yYBzPhhQ
 - Action: App\Http\Controllers\Api\CustomerDashboardController@index
 - Middleware: api, auth:sanctum
 
 ## api/customer/subscription
 
 - Method: GET|HEAD
-- Name: -
+- Name: generated::ouJJ0HKbcZSfaFon
 - Action: App\Http\Controllers\Api\CustomerSubscriptionController@current
 - Middleware: api, auth:sanctum
 
 ## api/customer/subscription/renew
 
 - Method: POST
-- Name: -
+- Name: generated::JSSD8AtAxQRl7vBH
 - Action: App\Http\Controllers\Api\CustomerSubscriptionController@renew
 - Middleware: api, auth:sanctum
 
 ## api/customer/wallet
 
 - Method: GET|HEAD
-- Name: -
+- Name: generated::NOFH1RytgGTAs46D
 - Action: App\Http\Controllers\Api\CustomerWalletController@show
 - Middleware: api, auth:sanctum
 
 ## api/customer/wallet/transactions
 
 - Method: GET|HEAD
-- Name: -
+- Name: generated::FNCRdlhT7nkRUALH
 - Action: App\Http\Controllers\Api\CustomerWalletController@transactions
 - Middleware: api, auth:sanctum
 
 ## api/customer/invoices
 
 - Method: GET|HEAD
-- Name: -
+- Name: generated::CFWSYmCHKDtVXZR5
 - Action: App\Http\Controllers\Api\CustomerInvoiceController@index
 - Middleware: api, auth:sanctum
 
 ## api/customer/invoices/{invoice}
 
 - Method: GET|HEAD
-- Name: -
+- Name: generated::v5V2LmqpkRP94ekM
 - Action: App\Http\Controllers\Api\CustomerInvoiceController@show
 - Middleware: api, auth:sanctum
 
 ## api/customer/notifications
 
 - Method: GET|HEAD
-- Name: -
+- Name: generated::Gs9peBfMks2cNRxF
 - Action: App\Http\Controllers\Api\CustomerNotificationController@index
 - Middleware: api, auth:sanctum
 
 ## api/customer/notifications/{id}/read
 
 - Method: POST
-- Name: -
+- Name: generated::CHmgCa5M04xV3Ap4
 - Action: App\Http\Controllers\Api\CustomerNotificationController@markAsRead
 - Middleware: api, auth:sanctum
 
 ## api/customer/notifications/read-all
 
 - Method: POST
-- Name: -
+- Name: generated::sr863w9HLnUaBntK
 - Action: App\Http\Controllers\Api\CustomerNotificationController@markAllAsRead
 - Middleware: api, auth:sanctum
 
 ## api/customer/tickets/dashboard
 
 - Method: GET|HEAD
-- Name: -
+- Name: generated::1MQdd6xVLdEQvFGj
 - Action: App\Http\Controllers\Api\CustomerTicketController@dashboard
 - Middleware: api, auth:sanctum
 
 ## api/customer/tickets
 
 - Method: GET|HEAD
-- Name: -
+- Name: generated::4YHOKIoa13MyfeeF
 - Action: App\Http\Controllers\Api\CustomerTicketController@index
 - Middleware: api, auth:sanctum
 
 ## api/customer/tickets
 
 - Method: POST
-- Name: -
+- Name: generated::THz6ubynz3XdmObC
 - Action: App\Http\Controllers\Api\CustomerTicketController@store
 - Middleware: api, auth:sanctum
 
 ## api/customer/tickets/{ticket}
 
 - Method: GET|HEAD
-- Name: -
+- Name: generated::IetEBWPcFE5PE9hq
 - Action: App\Http\Controllers\Api\CustomerTicketController@show
 - Middleware: api, auth:sanctum
 
 ## api/customer/tickets/{ticket}/messages
 
 - Method: GET|HEAD
-- Name: -
+- Name: generated::TLWwenZmh41TTRht
 - Action: App\Http\Controllers\Api\CustomerTicketController@messages
 - Middleware: api, auth:sanctum
 
 ## api/customer/tickets/{ticket}/reply
 
 - Method: POST
-- Name: -
+- Name: generated::jofGkfOKSMs4efnS
 - Action: App\Http\Controllers\Api\CustomerTicketController@reply
 - Middleware: api, auth:sanctum
 
 ## api/customer/tickets/{ticket}/close
 
 - Method: POST
-- Name: -
+- Name: generated::LLKmVyZuMTCPDyrl
 - Action: App\Http\Controllers\Api\CustomerTicketController@close
 - Middleware: api, auth:sanctum
 
 ## api/network/dhcp/leases
 
 - Method: GET|HEAD
-- Name: -
+- Name: generated::sxhCUkw2nNEePJ93
 - Action: App\Http\Controllers\Api\MikrotikController@dhcpLeases
 - Middleware: api, auth:sanctum
+
+## api/hotspot/online
+
+- Method: GET|HEAD
+- Name: generated::oOA9tBztXGL42vLi
+- Action: App\Http\Controllers\Api\HotspotController@onlineUsers
+- Middleware: api
+
+## api/hotspot/stats
+
+- Method: GET|HEAD
+- Name: generated::vXYRSFjDvSgVCaqN
+- Action: App\Http\Controllers\Api\HotspotController@stats
+- Middleware: api
 
 ## /
 
 - Method: GET|HEAD
-- Name: -
+- Name: generated::XKttrL4yTn6aXQzQ
 - Action: Closure
+- Middleware: web
+
+## dashboard
+
+- Method: GET|HEAD
+- Name: dashboard
+- Action: App\Http\Controllers\DashboardController@index
 - Middleware: web
 
 ## broadcasting/auth
 
 - Method: GET|POST|HEAD
-- Name: -
+- Name: generated::X3tJ2N4d8kasoDB9
 - Action: \Illuminate\Broadcasting\BroadcastController@authenticate
 - Middleware: web
 

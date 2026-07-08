@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Fakes;
 
 use App\Contracts\MikrotikServiceInterface;
-use RouterOS\Query;
+use App\Models\NetworkDevice;
 
 class FakeMikrotikService implements MikrotikServiceInterface
 {
@@ -17,26 +17,27 @@ class FakeMikrotikService implements MikrotikServiceInterface
 
     public bool $failOnDisable = false;
 
-    public function enablePppoe(string $username): bool
-
-    {
-
-        if ($this->failOnEnable) {
-
-            throw new \RuntimeException('Fake MikroTik failure');
-        }
-
-        $this->enabledUsers[] = $username;
-
+    public function connect(
+        string $ip,
+        string $username,
+        string $password,
+        int $port = 8728
+    ): bool {
         return true;
     }
 
-    public function disablePppoe(string $username): bool
+    public function createUser(
+        string $username,
+        string $password,
+        string $profile,
+        array $options = []
+    ): bool {
+        return true;
+    }
 
+    public function disableUser(string $username): bool
     {
-
         if ($this->failOnDisable) {
-
             throw new \RuntimeException('Fake MikroTik failure');
         }
 
@@ -45,85 +46,92 @@ class FakeMikrotikService implements MikrotikServiceInterface
         return true;
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Unused Methods
-    |--------------------------------------------------------------------------
-    */
-
-    public function getPppoeUsers(): array
+    public function enableUser(string $username): bool
     {
-        return [];
+        if ($this->failOnEnable) {
+            throw new \RuntimeException('Fake MikroTik failure');
+        }
+
+        $this->enabledUsers[] = $username;
+
+        return true;
     }
 
-    public function createPppoe(
-        string $username,
-        string $password,
-        string $profile = 'default'
-    ) {
-        return [];
-    }
-
-    public function findPppoe(string $username)
-    {
-        return null;
-    }
-
-    public function deletePppoe(string $username): bool
+    public function deleteUser(string $username): bool
     {
         return true;
     }
+
+    public function getAllUsers(): array
+    {
+        return [];
+    }
+
+    public function getActiveSessions(): array
+    {
+        return [];
+    }
+
+    public function updateUserQueue(
+        string $username,
+        int $download,
+        int $upload
+    ): bool {
+        return true;
+    }
+
+    public function getDeviceStats(): array
+    {
+        return [];
+    }
+
+    public function ping(string $ip): bool
+    {
+        return true;
+    }
+
+    public function disconnectUser(string $username): bool
+    {
+        return true;
+    }
+
+    public function updateDeviceStatus(NetworkDevice $device): void
+    {
+        // Fake
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Hotspot
+    |--------------------------------------------------------------------------
+    */
 
     public function getHotspotUsers(): array
     {
         return [];
     }
 
-    public function getActiveHotspotUsers(): array
+    public function getHotspotActiveSessions(): array
     {
         return [];
     }
 
-    public function createHotspot(
+    public function createHotspotUser(
         string $username,
         string $password,
-        string $profile = 'default'
-    ) {
-        return [];
+        string $profile,
+        array $options = []
+    ): bool {
+        return true;
     }
 
-    public function findHotspot(string $username)
-    {
-        return null;
-    }
-
-    public function deleteHotspot(string $username): bool
+    public function disableHotspotUser(string $username): bool
     {
         return true;
     }
 
-    public function enableHotspot(string $username): bool
+    public function enableHotspotUser(string $username): bool
     {
         return true;
-    }
-
-    public function disableHotspot(string $username): bool
-    {
-        return true;
-    }
-
-    public function getDhcpLeases(): array
-    {
-        return [];
-    }
-
-    public function run(Query $query): array
-    {
-        return [];
-    }
-
-    public function raw(string $command): array
-    {
-        return [];
     }
 }

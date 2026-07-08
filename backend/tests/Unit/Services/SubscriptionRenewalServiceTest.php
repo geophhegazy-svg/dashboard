@@ -36,12 +36,12 @@ class SubscriptionRenewalServiceTest extends TestCase
 
         $mikrotik
             ->expects($this->once())
-            ->method('enablePppoe')
+            ->method('enableUser')
             ->with('test-user');
 
-        $service = new SubscriptionRenewalService();
+        $service = new SubscriptionRenewalService($mikrotik);
 
-        $result = $service->renewPppoe($subscription, $mikrotik);
+        $result = $service->renewPppoe($subscription);
 
         $this->assertTrue($result);
 
@@ -58,11 +58,11 @@ class SubscriptionRenewalServiceTest extends TestCase
 
         $mikrotik
             ->expects($this->once())
-            ->method('enablePppoe');
+            ->method('enableUser');
 
-        $service = new SubscriptionRenewalService();
+        $service = new SubscriptionRenewalService($mikrotik);
 
-        $service->renewPppoe($subscription, $mikrotik);
+        $service->renewPppoe($subscription);
 
         $this->assertDatabaseHas('invoices', [
             'subscription_id' => $subscription->id,
@@ -86,11 +86,11 @@ class SubscriptionRenewalServiceTest extends TestCase
 
         $mikrotik
             ->expects($this->once())
-            ->method('enablePppoe');
+            ->method('enableUser');
 
-        $service = new SubscriptionRenewalService();
+        $service = new SubscriptionRenewalService($mikrotik);
 
-        $service->renewPppoe($subscription, $mikrotik);
+        $service->renewPppoe($subscription);
 
         $invoice = Invoice::where('subscription_id', $subscription->id)->first();
 
@@ -118,11 +118,11 @@ class SubscriptionRenewalServiceTest extends TestCase
 
         $mikrotik
             ->expects($this->once())
-            ->method('enablePppoe');
+            ->method('enableUser');
 
-        $service = new SubscriptionRenewalService();
+        $service = new SubscriptionRenewalService($mikrotik);
 
-        $service->renewPppoe($subscription, $mikrotik);
+        $service->renewPppoe($subscription);
 
         $this->assertDatabaseHas('notifications', [
             'tenant_id'   => $subscription->tenant_id,
@@ -148,11 +148,11 @@ class SubscriptionRenewalServiceTest extends TestCase
 
         $mikrotik
             ->expects($this->once())
-            ->method('enablePppoe');
+            ->method('enableUser');
 
-        $service = new SubscriptionRenewalService();
+        $service = new SubscriptionRenewalService($mikrotik);
 
-        $service->renewPppoe($subscription, $mikrotik);
+        $service->renewPppoe($subscription);
 
         $this->assertDatabaseHas('activity_logs', [
             'tenant_id'   => $subscription->tenant_id,

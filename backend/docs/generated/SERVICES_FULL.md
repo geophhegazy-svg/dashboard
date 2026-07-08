@@ -442,6 +442,26 @@ App\Services\Documentation\Knowledge
 
 ---
 
+## CustomerDashboardService
+
+**Namespace**
+
+```
+App\Services\Dashboard
+```
+
+**File**
+
+```
+/var/www/app/Services/Dashboard/CustomerDashboardService.php
+```
+
+**Methods**
+
+- getDashboardData() : array
+
+---
+
 ## CustomerService
 
 **Namespace**
@@ -780,6 +800,26 @@ App\Services\Documentation\Scanner
 **Methods**
 
 - scan() : array
+
+---
+
+## FinanceService
+
+**Namespace**
+
+```
+App\Services\Finance
+```
+
+**File**
+
+```
+/var/www/app/Services/Finance/FinanceService.php
+```
+
+**Methods**
+
+- record() : void
 
 ---
 
@@ -1144,32 +1184,30 @@ App\Services\Network
 /var/www/app/Services/Network/MikrotikService.php
 ```
 
-**Constructor Dependencies**
-
-- MikrotikConnection $connection
-
 **Properties**
 
-- $connection : App\Services\Network\MikrotikConnection
+- $client : mixed
+- $device : mixed
 
 **Methods**
 
-- getPppoeUsers() : array
-- createPppoe() : mixed
-- findPppoe() : mixed
-- deletePppoe() : bool
-- enablePppoe() : bool
-- disablePppoe() : bool
+- connect() : bool
+- createUser() : bool
+- disableUser() : bool
+- enableUser() : bool
+- deleteUser() : bool
+- getAllUsers() : array
+- getActiveSessions() : array
+- updateUserQueue() : bool
+- getDeviceStats() : array
+- ping() : bool
+- disconnectUser() : bool
+- updateDeviceStatus() : void
 - getHotspotUsers() : array
-- getActiveHotspotUsers() : array
-- createHotspot() : mixed
-- findHotspot() : mixed
-- deleteHotspot() : bool
-- enableHotspot() : bool
-- disableHotspot() : bool
-- getDhcpLeases() : array
-- run() : array
-- raw() : array
+- getHotspotActiveSessions() : array
+- createHotspotUser() : bool
+- disableHotspotUser() : bool
+- enableHotspotUser() : bool
 
 ---
 
@@ -2002,6 +2040,14 @@ App\Services
 /var/www/app/Services/SubscriptionRenewalService.php
 ```
 
+**Constructor Dependencies**
+
+- MikrotikServiceInterface $mikrotik
+
+**Properties**
+
+- $mikrotik : App\Contracts\MikrotikServiceInterface
+
 **Methods**
 
 - renewPppoe() : bool
@@ -2026,32 +2072,43 @@ App\Services\Subscription
 **Constructor Dependencies**
 
 - SubscriptionRepositoryInterface $subscriptionRepository
-- MikrotikServiceInterface $mikrotikService
+- MikrotikService $mikrotikService
 - ActivateSubscriptionAction $activateAction
 - SuspendSubscriptionAction $suspendAction
 - ExpireSubscriptionAction $expireAction
-- RenewSubscriptionAction $renewAction
 - RestoreSubscriptionAction $restoreAction
+- RenewSubscriptionAction $renewAction
 
 **Properties**
 
-- $subscriptionRepository : App\Contracts\Repositories\SubscriptionRepositoryInterface
-- $mikrotikService : App\Contracts\MikrotikServiceInterface
 - $activateAction : App\Actions\Subscription\ActivateSubscriptionAction
 - $suspendAction : App\Actions\Subscription\SuspendSubscriptionAction
 - $expireAction : App\Actions\Subscription\ExpireSubscriptionAction
-- $renewAction : App\Actions\Subscription\RenewSubscriptionAction
 - $restoreAction : App\Actions\Subscription\RestoreSubscriptionAction
+- $renewAction : App\Actions\Subscription\RenewSubscriptionAction
+- $subscriptionRepository : App\Contracts\Repositories\SubscriptionRepositoryInterface
+- $mikrotikService : App\Services\Network\MikrotikService
 
 **Methods**
 
+- getAllSubscriptions() : mixed
+- getSubscriptionById() : ?App\Models\Subscription
+- getCustomerSubscriptions() : array
+- getActiveSubscriptions() : array
+- getExpiredSubscriptions() : array
+- createSubscription() : App\Models\Subscription
+- updateSubscription() : App\Models\Subscription
+- renewSubscription() : App\Models\Subscription
+- cancelSubscription() : bool
+- getSubscriptionStats() : array
+- getExpiringSubscriptions() : array
+- autoExpireSubscriptions() : int
+- searchSubscriptions() : mixed
 - activate() : bool
 - suspend() : bool
 - expire() : bool
-- renew() : bool
 - restore() : bool
-- availablePppoeUsers() : array
-- linkPppoe() : App\Models\Subscription
+- renew() : bool
 
 ---
 
@@ -2083,6 +2140,32 @@ App\Services\Subscription
 
 ---
 
+## TelegramNotificationService
+
+**Namespace**
+
+```
+App\Services
+```
+
+**File**
+
+```
+/var/www/app/Services/TelegramNotificationService.php
+```
+
+**Properties**
+
+- $botToken : mixed
+- $chatId : mixed
+
+**Methods**
+
+- sendMessage() : mixed
+- sendDeviceAlert() : mixed
+
+---
+
 ## TestCoverageExtractor
 
 **Namespace**
@@ -2100,6 +2183,36 @@ App\Services\Documentation\Knowledge
 **Methods**
 
 - extract() : array
+
+---
+
+## TicketService
+
+**Namespace**
+
+```
+App\Services\Ticket
+```
+
+**File**
+
+```
+/var/www/app/Services/Ticket/TicketService.php
+```
+
+**Methods**
+
+- createFromAdmin() : App\Models\Ticket
+- createFromCustomer() : App\Models\Ticket
+- updateFromAdmin() : App\Models\Ticket
+- delete() : void
+- replyAsStaff() : App\Models\TicketReply
+- replyAsCustomer() : App\Models\TicketReply
+- changeStatus() : App\Models\Ticket
+- closeByCustomer() : App\Models\Ticket
+- assign() : App\Models\Ticket
+- adminDashboardStats() : array
+- customerDashboardStats() : array
 
 ---
 

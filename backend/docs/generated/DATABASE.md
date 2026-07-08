@@ -120,6 +120,7 @@
 - tenant_id (bigint)
 - name (varchar)
 - phone (varchar)
+- username (varchar) nullable
 - email (varchar) nullable
 - password (varchar) nullable
 - address (varchar) nullable
@@ -140,6 +141,7 @@
 - tenant_id (bigint)
 - name (varchar)
 - phone (varchar)
+- username (varchar) nullable
 - email (varchar) nullable
 - password (varchar) nullable
 - address (varchar) nullable
@@ -294,6 +296,60 @@
 - created_at (timestamp) nullable
 - updated_at (timestamp) nullable
 
+## hotspot_users
+
+**Rows:** 0
+
+### Columns
+
+- id (bigint)
+- tenant_id (bigint) nullable
+- customer_id (bigint) nullable
+- username (varchar)
+- password (varchar) nullable
+- mikrotik_device_id (bigint) nullable
+- profile (varchar) nullable
+- status (enum) default=active
+- is_online (tinyint) default=0
+- uptime (varchar) default=0
+- bytes_in (bigint) default=0
+- bytes_out (bigint) default=0
+- last_login_at (timestamp) nullable
+- session_expiry (timestamp) nullable
+- expiry_date (timestamp) nullable
+- last_sync_at (timestamp) nullable
+- notes (text) nullable
+- created_at (timestamp) nullable
+- updated_at (timestamp) nullable
+- deleted_at (timestamp) nullable
+
+## hotspot_users
+
+**Rows:** 0
+
+### Columns
+
+- id (bigint)
+- tenant_id (bigint) nullable
+- customer_id (bigint) nullable
+- username (varchar)
+- password (varchar) nullable
+- mikrotik_device_id (bigint) nullable
+- profile (varchar) nullable
+- status (enum) default=active
+- is_online (tinyint) default=0
+- uptime (varchar) default=0
+- bytes_in (bigint) default=0
+- bytes_out (bigint) default=0
+- last_login_at (timestamp) nullable
+- session_expiry (timestamp) nullable
+- expiry_date (timestamp) nullable
+- last_sync_at (timestamp) nullable
+- notes (text) nullable
+- created_at (timestamp) nullable
+- updated_at (timestamp) nullable
+- deleted_at (timestamp) nullable
+
 ## inventories
 
 **Rows:** 0
@@ -432,7 +488,7 @@
 
 ## migrations
 
-**Rows:** 31
+**Rows:** 41
 
 ### Columns
 
@@ -442,7 +498,7 @@
 
 ## migrations
 
-**Rows:** 31
+**Rows:** 41
 
 ### Columns
 
@@ -472,7 +528,7 @@
 
 ## model_has_roles
 
-**Rows:** 1
+**Rows:** 0
 
 ### Columns
 
@@ -482,7 +538,7 @@
 
 ## model_has_roles
 
-**Rows:** 1
+**Rows:** 0
 
 ### Columns
 
@@ -490,6 +546,54 @@
 - model_type (varchar)
 - model_id (bigint)
 
+## network_devices
+
+**Rows:** 0
+
+### Columns
+
+- id (bigint)
+- tenant_id (bigint) nullable
+- name (varchar)
+- ip_address (varchar)
+- username (varchar) nullable
+- password (varchar) nullable
+- type (varchar) default=mikrotik
+- port (int) default=8728
+- status (enum) default=active
+- is_online (tinyint) default=0
+- last_ping_at (timestamp) nullable
+- last_sync_at (timestamp) nullable
+- last_error (text) nullable
+- notes (text) nullable
+- created_at (timestamp) nullable
+- updated_at (timestamp) nullable
+- deleted_at (timestamp) nullable
+
+## network_devices
+
+**Rows:** 0
+
+### Columns
+
+- id (bigint)
+- tenant_id (bigint) nullable
+- name (varchar)
+- ip_address (varchar)
+- username (varchar) nullable
+- password (varchar) nullable
+- type (varchar) default=mikrotik
+- port (int) default=8728
+- status (enum) default=active
+- is_online (tinyint) default=0
+- last_ping_at (timestamp) nullable
+- last_sync_at (timestamp) nullable
+- last_error (text) nullable
+- notes (text) nullable
+- created_at (timestamp) nullable
+- updated_at (timestamp) nullable
+- deleted_at (timestamp) nullable
+
 ## notifications
 
 **Rows:** 0
@@ -540,6 +644,11 @@
 - download_speed (int)
 - upload_speed (int) default=0
 - price (decimal)
+- billing_cycle (varchar) default=month
+- billing_interval (smallint) default=1
+- grace_days (smallint) default=0
+- auto_suspend (tinyint) default=1
+- auto_expire (tinyint) default=1
 - quota_gb (int) nullable
 - mikrotik_profile (varchar) nullable
 - status (enum) default=active
@@ -559,6 +668,11 @@
 - download_speed (int)
 - upload_speed (int) default=0
 - price (decimal)
+- billing_cycle (varchar) default=month
+- billing_interval (smallint) default=1
+- grace_days (smallint) default=0
+- auto_suspend (tinyint) default=1
+- auto_expire (tinyint) default=1
 - quota_gb (int) nullable
 - mikrotik_profile (varchar) nullable
 - status (enum) default=active
@@ -677,6 +791,52 @@
 - expires_at (timestamp) nullable
 - created_at (timestamp) nullable
 - updated_at (timestamp) nullable
+
+## pppoe_users
+
+**Rows:** 0
+
+### Columns
+
+- id (bigint)
+- tenant_id (bigint) nullable
+- customer_id (bigint) nullable
+- username (varchar)
+- password (varchar) nullable
+- mikrotik_device_id (bigint) nullable
+- profile (varchar) nullable
+- queue (varchar) nullable
+- status (enum) default=active
+- is_online (tinyint) default=0
+- last_login_at (timestamp) nullable
+- last_sync_at (timestamp) nullable
+- notes (text) nullable
+- created_at (timestamp) nullable
+- updated_at (timestamp) nullable
+- deleted_at (timestamp) nullable
+
+## pppoe_users
+
+**Rows:** 0
+
+### Columns
+
+- id (bigint)
+- tenant_id (bigint) nullable
+- customer_id (bigint) nullable
+- username (varchar)
+- password (varchar) nullable
+- mikrotik_device_id (bigint) nullable
+- profile (varchar) nullable
+- queue (varchar) nullable
+- status (enum) default=active
+- is_online (tinyint) default=0
+- last_login_at (timestamp) nullable
+- last_sync_at (timestamp) nullable
+- notes (text) nullable
+- created_at (timestamp) nullable
+- updated_at (timestamp) nullable
+- deleted_at (timestamp) nullable
 
 ## role_has_permissions
 
@@ -722,7 +882,7 @@
 
 ## sessions
 
-**Rows:** 1
+**Rows:** 0
 
 ### Columns
 
@@ -735,7 +895,7 @@
 
 ## sessions
 
-**Rows:** 1
+**Rows:** 0
 
 ### Columns
 
@@ -792,7 +952,7 @@
 
 ## tenants
 
-**Rows:** 1
+**Rows:** 0
 
 ### Columns
 
@@ -809,7 +969,7 @@
 
 ## tenants
 
-**Rows:** 1
+**Rows:** 0
 
 ### Columns
 
@@ -900,7 +1060,7 @@
 
 ## users
 
-**Rows:** 1
+**Rows:** 0
 
 ### Columns
 
@@ -916,7 +1076,7 @@
 
 ## users
 
-**Rows:** 1
+**Rows:** 0
 
 ### Columns
 

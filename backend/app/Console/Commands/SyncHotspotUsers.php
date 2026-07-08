@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Services\Network\MikroTikService;
+use App\Services\Network\MikrotikService;
 use App\Models\HotspotUser;
 use App\Models\Customer;
 use App\Models\NetworkDevice;
@@ -20,7 +20,7 @@ class SyncHotspotUsers extends Command
         \App\Console\Commands\SyncHotspotUsers::class,
     ];
 
-    public function __construct(MikroTikService $mikrotikService)
+    public function __construct(MikrotikService $mikrotikService)
     {
         parent::__construct();
         $this->mikrotikService = $mikrotikService;
@@ -94,29 +94,79 @@ class SyncHotspotUsers extends Command
 
     protected function syncUsers($hotspotUsers, $device)
     {
+        $addedCount = 0;
+        $updatedCount = 0;
+        $failedCount = 0;
+
         foreach ($hotspotUsers as $hotspotUser) {
             $username = $hotspotUser['name'];
 
-            // 🔥 تخطي المستخدم default-trial إذا كان موجوداً
-            if ($username === 'default-trial') {
-                // تحديثه بدلاً من إضافته
-                $existing = HotspotUser::where('username', $username)->first();
-                if ($existing) {
-                    $existing->update([
+            // تنظيف البيانات
+            $profile = $hotspotUser['profile'] ?? null;
+            if ($profile) {
+                $profile = mb_convert_encoding($profile, 'UTF-8', 'auto');
+                $profile = preg_replace('/[^\x{0600}-\x{06FF}\x{0750}-\x{077F}\x{08A0}-\x{08FF}\x{FB50}-\x{FDFF}\x{FE70}-\x{FEFF}a-zA-Z0-9\s\-_]/u', '', $profile);
+            }
+
+            try {
+                // التحقق من وجود المستخدم
+                $existingUser = HotspotUser::where('username', $username)->first();
+
+                if ($existingUser) {
+                    // تحديث المستخدم الموجود
+                    $existingUser->update([
+                        'customer_id' => Customer::where('username', $username)->first()?->id,
+                        'password' => $hotspotUser['password'] ?? $existingUser->password,
+                        'mikrotik_device_id' => $device->id,
+                        'profile' => $profile ?? $existingUser->profile,
                         'status' => $hotspotUser['disabled'] ? 'disabled' : 'active',
                         'last_sync_at' => now(),
                     ]);
+                    $updatedCount++;
                     $this->line("🔄 تم تحديث المستخدم: {$username}");
+                } else {
+                    // إضافة مستخدم جديد
+                    HotspotUser::create([
+                        'username' => $username,
+                        'customer_id' => Customer::where('username', $username)->first()?->id,
+                        'password' => $hotspotUser['password'] ?? '********',
+                        'mikrotik_device_id' => $device->id,
+                        'profile' => $profile ?? null,
+                        'status' => $hotspotUser['disabled'] ? 'disabled' : 'active',
+                        'last_sync_at' => now(),
+                    ]);
+                    $addedCount++;
+                    $this->info("📝 تم إضافة مستخدم Hotspot جديد: {$username}");
                 }
-                continue;
+            } catch (\Exception $e) {
+                $failedCount++;
+                $this->error("❌ فشل معالجة المستخدم: {$username} - " . $e->getMessage());
+                \Illuminate\Support\Facades\Log::error("Hotspot Sync Error: " . $e->getMessage(), [
+                    'username' => $username,
+                    'profile' => $profile,
+                ]);
             }
-
-            // ... باقي الكود ...
         }
+
+        $this->info("📊 ملخص المزامنة:");
+        $this->info("   ✅ تمت الإضافة: {$addedCount}");
+        $this->info("   🔄 تم التحديث: {$updatedCount}");
+        $this->info("   ❌ فشل: {$failedCount}");
     }
 
     protected function updateActiveSessions($sessions, $device)
     {
+
+        // إضافة وقت انتهاء الجلسة
+        $sessionTimeout = now()->addMinutes(5); // 5 دقائق
+
+        HotspotUser::where('mikrotik_device_id', $device->id)
+            ->whereIn('username', $activeUsernames)
+            ->update([
+                'is_online' => true,
+                'last_login_at' => now(),
+                'session_expiry' => $sessionTimeout, // إضافة عمود جديد
+            ]);
         // تحديث المستخدمين المتصلين
         $activeUsernames = array_column($sessions, 'name');
 
@@ -147,7 +197,7 @@ class SyncHotspotUsers extends Command
             ->whereNotIn('username', $activeUsernames)
             ->update([
                 'is_online' => false,
-            ]);
+            
     }
 
     /**

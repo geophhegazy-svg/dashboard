@@ -263,6 +263,19 @@ App\Services\Documentation\Knowledge
 
 ---
 
+## CustomerDashboardService
+
+**Namespace**
+App\Services\Dashboard
+
+**Dependencies**
+- None
+
+**Methods**
+- getDashboardData(1 params) : array
+
+---
+
 ## CustomerService
 
 **Namespace**
@@ -460,6 +473,19 @@ App\Services\Documentation\Scanner
 
 **Methods**
 - scan(1 params) : array
+
+---
+
+## FinanceService
+
+**Namespace**
+App\Services\Finance
+
+**Dependencies**
+- None
+
+**Methods**
+- record(1 params) : void
 
 ---
 
@@ -674,26 +700,26 @@ App\Services\Network
 App\Services\Network
 
 **Dependencies**
-- App\Services\Network\MikrotikConnection
+- None
 
 **Methods**
-- __construct(1 params) : mixed
-- getPppoeUsers(0 params) : array
-- createPppoe(3 params) : mixed
-- findPppoe(1 params) : mixed
-- deletePppoe(1 params) : bool
-- enablePppoe(1 params) : bool
-- disablePppoe(1 params) : bool
+- connect(4 params) : bool
+- createUser(4 params) : bool
+- disableUser(1 params) : bool
+- enableUser(1 params) : bool
+- deleteUser(1 params) : bool
+- getAllUsers(0 params) : array
+- getActiveSessions(0 params) : array
+- updateUserQueue(3 params) : bool
+- getDeviceStats(0 params) : array
+- ping(1 params) : bool
+- disconnectUser(1 params) : bool
+- updateDeviceStatus(1 params) : void
 - getHotspotUsers(0 params) : array
-- getActiveHotspotUsers(0 params) : array
-- createHotspot(3 params) : mixed
-- findHotspot(1 params) : mixed
-- deleteHotspot(1 params) : bool
-- enableHotspot(1 params) : bool
-- disableHotspot(1 params) : bool
-- getDhcpLeases(0 params) : array
-- run(1 params) : array
-- raw(1 params) : array
+- getHotspotActiveSessions(0 params) : array
+- createHotspotUser(4 params) : bool
+- disableHotspotUser(1 params) : bool
+- enableHotspotUser(1 params) : bool
 
 ---
 
@@ -1151,11 +1177,12 @@ App\Services\Subscription
 App\Services
 
 **Dependencies**
-- None
+- App\Contracts\MikrotikServiceInterface
 
 **Methods**
-- renewPppoe(2 params) : bool
-- renewHotspot(2 params) : bool
+- __construct(1 params) : mixed
+- renewPppoe(1 params) : bool
+- renewHotspot(1 params) : bool
 
 ---
 
@@ -1166,22 +1193,33 @@ App\Services\Subscription
 
 **Dependencies**
 - App\Contracts\Repositories\SubscriptionRepositoryInterface
-- App\Contracts\MikrotikServiceInterface
+- App\Services\Network\MikrotikService
 - App\Actions\Subscription\ActivateSubscriptionAction
 - App\Actions\Subscription\SuspendSubscriptionAction
 - App\Actions\Subscription\ExpireSubscriptionAction
-- App\Actions\Subscription\RenewSubscriptionAction
 - App\Actions\Subscription\RestoreSubscriptionAction
+- App\Actions\Subscription\RenewSubscriptionAction
 
 **Methods**
 - __construct(7 params) : mixed
+- getAllSubscriptions(2 params) : mixed
+- getSubscriptionById(1 params) : ?App\Models\Subscription
+- getCustomerSubscriptions(1 params) : array
+- getActiveSubscriptions(0 params) : array
+- getExpiredSubscriptions(0 params) : array
+- createSubscription(1 params) : App\Models\Subscription
+- updateSubscription(2 params) : App\Models\Subscription
+- renewSubscription(2 params) : App\Models\Subscription
+- cancelSubscription(1 params) : bool
+- getSubscriptionStats(0 params) : array
+- getExpiringSubscriptions(1 params) : array
+- autoExpireSubscriptions(0 params) : int
+- searchSubscriptions(2 params) : mixed
 - activate(1 params) : bool
 - suspend(1 params) : bool
 - expire(1 params) : bool
-- renew(2 params) : bool
 - restore(1 params) : bool
-- availablePppoeUsers(0 params) : array
-- linkPppoe(2 params) : App\Models\Subscription
+- renew(2 params) : bool
 
 ---
 
@@ -1199,6 +1237,21 @@ App\Services\Subscription
 
 ---
 
+## TelegramNotificationService
+
+**Namespace**
+App\Services
+
+**Dependencies**
+- None
+
+**Methods**
+- __construct(0 params) : mixed
+- sendMessage(1 params) : mixed
+- sendDeviceAlert(1 params) : mixed
+
+---
+
 ## TestCoverageExtractor
 
 **Namespace**
@@ -1209,6 +1262,29 @@ App\Services\Documentation\Knowledge
 
 **Methods**
 - extract(0 params) : array
+
+---
+
+## TicketService
+
+**Namespace**
+App\Services\Ticket
+
+**Dependencies**
+- None
+
+**Methods**
+- createFromAdmin(2 params) : App\Models\Ticket
+- createFromCustomer(2 params) : App\Models\Ticket
+- updateFromAdmin(3 params) : App\Models\Ticket
+- delete(2 params) : void
+- replyAsStaff(3 params) : App\Models\TicketReply
+- replyAsCustomer(3 params) : App\Models\TicketReply
+- changeStatus(3 params) : App\Models\Ticket
+- closeByCustomer(1 params) : App\Models\Ticket
+- assign(3 params) : App\Models\Ticket
+- adminDashboardStats(0 params) : array
+- customerDashboardStats(1 params) : array
 
 ---
 

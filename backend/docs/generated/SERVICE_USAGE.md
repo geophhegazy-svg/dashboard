@@ -241,6 +241,18 @@ App\Services\Documentation\Knowledge\ControllersKnowledgeGenerator
 - filename
 - generate
 
+## CustomerDashboardService
+
+**Class**
+
+```
+App\Services\Dashboard\CustomerDashboardService
+```
+
+**Public Methods**
+
+- getDashboardData
+
 ## CustomerService
 
 **Class**
@@ -425,6 +437,18 @@ App\Services\Documentation\Scanner\FileScanner
 **Public Methods**
 
 - scan
+
+## FinanceService
+
+**Class**
+
+```
+App\Services\Finance\FinanceService
+```
+
+**Public Methods**
+
+- record
 
 ## HandoverDocumentGenerator
 
@@ -626,23 +650,23 @@ App\Services\Network\MikrotikService
 
 **Public Methods**
 
-- __construct
-- createHotspot
-- createPppoe
-- deleteHotspot
-- deletePppoe
-- disableHotspot
-- disablePppoe
-- enableHotspot
-- enablePppoe
-- findHotspot
-- findPppoe
-- getActiveHotspotUsers
-- getDhcpLeases
+- connect
+- createHotspotUser
+- createUser
+- deleteUser
+- disableHotspotUser
+- disableUser
+- disconnectUser
+- enableHotspotUser
+- enableUser
+- getActiveSessions
+- getAllUsers
+- getDeviceStats
+- getHotspotActiveSessions
 - getHotspotUsers
-- getPppoeUsers
-- raw
-- run
+- ping
+- updateDeviceStatus
+- updateUserQueue
 
 ## ModelDocumentationGenerator
 
@@ -1062,6 +1086,7 @@ App\Services\SubscriptionRenewalService
 
 **Public Methods**
 
+- __construct
 - renewHotspot
 - renewPppoe
 
@@ -1077,12 +1102,23 @@ App\Services\Subscription\SubscriptionService
 
 - __construct
 - activate
-- availablePppoeUsers
+- autoExpireSubscriptions
+- cancelSubscription
+- createSubscription
 - expire
-- linkPppoe
+- getActiveSubscriptions
+- getAllSubscriptions
+- getCustomerSubscriptions
+- getExpiredSubscriptions
+- getExpiringSubscriptions
+- getSubscriptionById
+- getSubscriptionStats
 - renew
+- renewSubscription
 - restore
+- searchSubscriptions
 - suspend
+- updateSubscription
 
 ## SubscriptionSuspensionService
 
@@ -1097,6 +1133,20 @@ App\Services\Subscription\SubscriptionSuspensionService
 - __construct
 - suspend
 
+## TelegramNotificationService
+
+**Class**
+
+```
+App\Services\TelegramNotificationService
+```
+
+**Public Methods**
+
+- __construct
+- sendDeviceAlert
+- sendMessage
+
 ## TestCoverageExtractor
 
 **Class**
@@ -1108,6 +1158,28 @@ App\Services\Documentation\Knowledge\TestCoverageExtractor
 **Public Methods**
 
 - extract
+
+## TicketService
+
+**Class**
+
+```
+App\Services\Ticket\TicketService
+```
+
+**Public Methods**
+
+- adminDashboardStats
+- assign
+- changeStatus
+- closeByCustomer
+- createFromAdmin
+- createFromCustomer
+- customerDashboardStats
+- delete
+- replyAsCustomer
+- replyAsStaff
+- updateFromAdmin
 
 ## TodoGenerator
 
