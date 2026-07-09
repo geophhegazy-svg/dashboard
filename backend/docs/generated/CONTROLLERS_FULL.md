@@ -267,33 +267,10 @@ App\Http\Controllers\Api
 /var/www/app/Http/Controllers/Api/DashboardController.php
 ```
 
-**Dependencies**
-
-- DashboardService $dashboardService
-
 **Public Methods**
 
 - index()
-
----
-
-## DashboardController
-
-**Namespace**
-
-```
-App\Http\Controllers
-```
-
-**File**
-
-```
-/var/www/app/Http/Controllers/DashboardController.php
-```
-
-**Public Methods**
-
-- index()
+- stats()
 
 ---
 

@@ -1239,6 +1239,25 @@ App\Services\Subscription
 
 ---
 
+## TaskService
+
+**Namespace**
+App\Services\Task
+
+**Dependencies**
+- None
+
+**Methods**
+- create(1 params) : App\Models\Task
+- update(2 params) : App\Models\Task
+- complete(1 params) : App\Models\Task
+- cancel(1 params) : App\Models\Task
+- reopen(1 params) : App\Models\Task
+- assign(2 params) : App\Models\Task
+- delete(1 params) : bool
+
+---
+
 ## TelegramNotificationService
 
 **Namespace**

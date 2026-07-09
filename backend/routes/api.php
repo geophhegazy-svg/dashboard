@@ -48,6 +48,7 @@ use App\Http\Controllers\Api\HotspotController;
 
 
 
+
 /*
 |--------------------------------------------------------------------------
 | Public Routes
@@ -87,7 +88,7 @@ Route::middleware('auth:sanctum')->group(function () {
         '/tickets/{ticket}/messages',
         [TicketController::class, 'messages']
     );
-    
+
     /*
     |------------------------------------------------------
     | Dashboard
@@ -119,7 +120,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('inventories', InventoryController::class);
     Route::apiResource('device-assignments', DeviceAssignmentController::class);
 
-    
+
     /*
 |--------------------------------------------------------------------------
 | Support Center
@@ -464,3 +465,5 @@ Route::prefix('hotspot')->group(function () {
     Route::get('online', [HotspotController::class, 'onlineUsers']);
     Route::get('stats', [HotspotController::class, 'stats']);
 });
+
+Route::get('/dashboard/stats', [DashboardController::class, 'stats']);

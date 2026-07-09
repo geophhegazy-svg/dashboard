@@ -13,8 +13,8 @@ Technology
 - MikroTik RouterOS
 
 Statistics
-- Models: 22
-- Services: 88
+- Models: 23
+- Services: 89
 
 
 ---
@@ -47,8 +47,8 @@ app/
 
 # Project Statistics
 
-Models: 22
-Services: 88
+Models: 23
+Services: 89
 
 ---
 
@@ -99,8 +99,8 @@ Development Rules
 - Update generated documentation after structural changes.
 
 Current Statistics
-Models: 22
-Services: 88
+Models: 23
+Services: 89
 
 ---
 
@@ -1342,6 +1342,25 @@ App\Services\Subscription
 **Methods**
 - __construct(1 params) : mixed
 - suspend(1 params) : bool
+
+---
+
+## TaskService
+
+**Namespace**
+App\Services\Task
+
+**Dependencies**
+- None
+
+**Methods**
+- create(1 params) : App\Models\Task
+- update(2 params) : App\Models\Task
+- complete(1 params) : App\Models\Task
+- cancel(1 params) : App\Models\Task
+- reopen(1 params) : App\Models\Task
+- assign(2 params) : App\Models\Task
+- delete(1 params) : bool
 
 ---
 
@@ -3153,6 +3172,100 @@ App\Models
 - canSuspend()
 - canRenew()
 - factory()
+
+---
+
+## Task
+
+**Namespace**
+
+```
+App\Models
+```
+
+**File**
+
+```
+/var/www/app/Models/Task.php
+```
+
+**Properties**
+
+- $fillable : mixed
+- $casts : mixed
+- $connection : mixed
+- $table : mixed
+- $primaryKey : mixed
+- $keyType : mixed
+- $incrementing : mixed
+- $with : mixed
+- $withCount : mixed
+- $preventsLazyLoading : mixed
+- $perPage : mixed
+- $exists : mixed
+- $wasRecentlyCreated : mixed
+- $escapeWhenCastingToString : mixed
+- $resolver : mixed
+- $dispatcher : mixed
+- $booting : mixed
+- $booted : mixed
+- $bootedCallbacks : mixed
+- $traitInitializers : mixed
+- $globalScopes : mixed
+- $ignoreOnTouch : mixed
+- $modelsShouldPreventLazyLoading : mixed
+- $modelsShouldAutomaticallyEagerLoadRelationships : mixed
+- $lazyLoadingViolationCallback : mixed
+- $modelsShouldPreventSilentlyDiscardingAttributes : mixed
+- $discardedAttributeViolationCallback : mixed
+- $modelsShouldPreventAccessingMissingAttributes : mixed
+- $missingAttributeViolationCallback : mixed
+- $isBroadcasting : mixed
+- $builder : string
+- $collectionClass : string
+- $isSoftDeletable : array
+- $isPrunable : array
+- $isMassPrunable : array
+- $classAttributes : array
+- $attributes : mixed
+- $original : mixed
+- $changes : mixed
+- $previous : mixed
+- $classCastCache : mixed
+- $attributeCastCache : mixed
+- $primitiveCastTypes : mixed
+- $dateFormat : mixed
+- $appends : mixed
+- $snakeAttributes : mixed
+- $mutatorCache : mixed
+- $attributeMutatorCache : mixed
+- $getAttributeMutatorCache : mixed
+- $setAttributeMutatorCache : mixed
+- $castTypeCache : mixed
+- $encrypter : mixed
+- $dispatchesEvents : mixed
+- $observables : mixed
+- $relations : mixed
+- $touches : mixed
+- $relationAutoloadCallback : mixed
+- $relationAutoloadContext : mixed
+- $manyMethods : mixed
+- $relationResolvers : mixed
+- $timestamps : mixed
+- $ignoreTimestampsOn : mixed
+- $usesUniqueIds : mixed
+- $hidden : mixed
+- $visible : mixed
+- $guarded : mixed
+- $unguarded : mixed
+- $guardableColumns : mixed
+- $recursionCache : mixed
+- $resolvedCollectionClasses : array
+
+**Methods**
+
+- tenant()
+- user()
 
 ---
 
@@ -5831,6 +5944,32 @@ App\Services\Subscription
 
 ---
 
+## TaskService
+
+**Namespace**
+
+```
+App\Services\Task
+```
+
+**File**
+
+```
+/var/www/app/Services/Task/TaskService.php
+```
+
+**Methods**
+
+- create() : App\Models\Task
+- update() : App\Models\Task
+- complete() : App\Models\Task
+- cancel() : App\Models\Task
+- reopen() : App\Models\Task
+- assign() : App\Models\Task
+- delete() : bool
+
+---
+
 ## TelegramNotificationService
 
 **Namespace**
@@ -6246,33 +6385,10 @@ App\Http\Controllers\Api
 /var/www/app/Http/Controllers/Api/DashboardController.php
 ```
 
-**Dependencies**
-
-- DashboardService $dashboardService
-
 **Public Methods**
 
 - index()
-
----
-
-## DashboardController
-
-**Namespace**
-
-```
-App\Http\Controllers
-```
-
-**File**
-
-```
-/var/www/app/Http/Controllers/DashboardController.php
-```
-
-**Public Methods**
-
-- index()
+- stats()
 
 ---
 
@@ -6732,8 +6848,8 @@ App\Http\Controllers\Api
 
 - Method: GET|HEAD
 - Name: -
-- Action: App\Http\Controllers\Api\MikrotikController@dashboardStats
-- Middleware: api, auth:sanctum
+- Action: App\Http\Controllers\Api\DashboardController@stats
+- Middleware: api
 
 ## api/users
 
@@ -7579,7 +7695,7 @@ App\Http\Controllers\Api
 
 - Method: GET|HEAD
 - Name: dashboard
-- Action: App\Http\Controllers\DashboardController@index
+- Action: App\Http\Controllers\Api\DashboardController@index
 - Middleware: web
 
 ## broadcasting/auth

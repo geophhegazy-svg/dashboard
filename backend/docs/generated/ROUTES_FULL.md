@@ -60,8 +60,8 @@
 
 - Method: GET|HEAD
 - Name: -
-- Action: App\Http\Controllers\Api\MikrotikController@dashboardStats
-- Middleware: api, auth:sanctum
+- Action: App\Http\Controllers\Api\DashboardController@stats
+- Middleware: api
 
 ## api/users
 
@@ -907,7 +907,7 @@
 
 - Method: GET|HEAD
 - Name: dashboard
-- Action: App\Http\Controllers\DashboardController@index
+- Action: App\Http\Controllers\Api\DashboardController@index
 - Middleware: web
 
 ## broadcasting/auth

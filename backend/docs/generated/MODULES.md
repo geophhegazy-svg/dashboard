@@ -2,7 +2,7 @@
 
 ## Models
 
-Total: 22
+Total: 23
 
 - Account
 - ActivityLog
@@ -21,6 +21,7 @@ Total: 22
 - Package
 - Payment
 - Subscription
+- Task
 - Tenant
 - Ticket
 - TicketReply
@@ -29,7 +30,7 @@ Total: 22
 
 ## Services
 
-Total: 88
+Total: 89
 
 - AIContextGenerator
 - AbstractHandoverSection
@@ -113,6 +114,7 @@ Total: 88
 - SubscriptionRenewalService
 - SubscriptionService
 - SubscriptionSuspensionService
+- TaskService
 - TelegramNotificationService
 - TestCoverageExtractor
 - TicketService
@@ -122,7 +124,7 @@ Total: 88
 
 ## Controllers
 
-Total: 28
+Total: 27
 
 - ActivityLogController
 - AuthController
@@ -135,7 +137,6 @@ Total: 28
 - CustomerSubscriptionController
 - CustomerTicketController
 - CustomerWalletController
-- DashboardController
 - DashboardController
 - DeviceAssignmentController
 - DeviceController
@@ -155,7 +156,7 @@ Total: 28
 
 ## Repositories
 
-Total: 8
+Total: 9
 
 - AccountRepository
 - BillingRepository
@@ -164,6 +165,7 @@ Total: 8
 - PackageRepository
 - PaymentRepository
 - SubscriptionRepository
+- TaskRepository
 - WalletRepository
 
 ## Actions

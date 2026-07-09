@@ -2141,6 +2141,32 @@ App\Services\Subscription
 
 ---
 
+## TaskService
+
+**Namespace**
+
+```
+App\Services\Task
+```
+
+**File**
+
+```
+/var/www/app/Services/Task/TaskService.php
+```
+
+**Methods**
+
+- create() : App\Models\Task
+- update() : App\Models\Task
+- complete() : App\Models\Task
+- cancel() : App\Models\Task
+- reopen() : App\Models\Task
+- assign() : App\Models\Task
+- delete() : bool
+
+---
+
 ## TelegramNotificationService
 
 **Namespace**

@@ -14,7 +14,6 @@
 - App\Http\Controllers\Api\CustomerTicketController
 - App\Http\Controllers\Api\CustomerWalletController
 - App\Http\Controllers\Api\DashboardController
-- App\Http\Controllers\DashboardController
 - App\Http\Controllers\Api\DeviceAssignmentController
 - App\Http\Controllers\Api\DeviceController
 - App\Http\Controllers\Api\HotspotController
@@ -115,6 +114,7 @@
 - App\Services\SubscriptionRenewalService
 - App\Services\Subscription\SubscriptionService
 - App\Services\Subscription\SubscriptionSuspensionService
+- App\Services\Task\TaskService
 - App\Services\TelegramNotificationService
 - App\Services\Documentation\Knowledge\TestCoverageExtractor
 - App\Services\Ticket\TicketService
@@ -141,6 +141,7 @@
 - App\Models\Package
 - App\Models\Payment
 - App\Models\Subscription
+- App\Models\Task
 - App\Models\Tenant
 - App\Models\Ticket
 - App\Models\TicketReply

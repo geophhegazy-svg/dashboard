@@ -11,6 +11,8 @@ use App\Contracts\FinanceServiceInterface;
 use App\Services\Finance\FinanceService;
 use App\Contracts\Repositories\AccountRepositoryInterface;
 use App\Repositories\AccountRepository;
+use App\Contracts\Repositories\TaskRepositoryInterface;
+use App\Repositories\Eloquent\TaskRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -20,7 +22,7 @@ class AppServiceProvider extends ServiceProvider
             AccountRepositoryInterface::class,
             AccountRepository::class
         );
-        
+
         $this->app->bind(
             MikrotikServiceInterface::class,
             MikrotikService::class
@@ -34,6 +36,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(
             FinanceServiceInterface::class,
             FinanceService::class
+        );
+
+        $this->app->bind(
+            TaskRepositoryInterface::class,
+            TaskRepository::class
         );
     }
 

@@ -351,3 +351,35 @@
 ```
 /var/www/database/migrations/2026_07_08_223758_create_journal_entry_lines_table.php
 ```
+
+## 2026_07_09_000001_create_tasks_table.php
+
+**File**
+
+```
+/var/www/database/migrations/2026_07_09_000001_create_tasks_table.php
+```
+
+## 2026_07_09_180938_create_reports_table.php
+
+**File**
+
+```
+/var/www/database/migrations/2026_07_09_180938_create_reports_table.php
+```
+
+## 2026_07_09_180959_create_report_exports_table.php
+
+**File**
+
+```
+/var/www/database/migrations/2026_07_09_180959_create_report_exports_table.php
+```
+
+## 2026_07_09_181014_create_scheduled_reports_table.php
+
+**File**
+
+```
+/var/www/database/migrations/2026_07_09_181014_create_scheduled_reports_table.php
+```

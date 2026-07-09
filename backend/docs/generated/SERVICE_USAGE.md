@@ -1136,6 +1136,24 @@ App\Services\Subscription\SubscriptionSuspensionService
 - __construct
 - suspend
 
+## TaskService
+
+**Class**
+
+```
+App\Services\Task\TaskService
+```
+
+**Public Methods**
+
+- assign
+- cancel
+- complete
+- create
+- delete
+- reopen
+- update
+
 ## TelegramNotificationService
 
 **Class**

@@ -136,6 +136,14 @@ App\Models\Payment
 App\Models\Subscription
 ```
 
+## Task
+
+**Class**
+
+```
+App\Models\Task
+```
+
 ## Tenant
 
 **Class**
