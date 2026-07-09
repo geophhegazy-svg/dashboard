@@ -6,9 +6,9 @@ namespace App\Reports\Export;
 
 use App\Reports\DTO\ExportResult;
 use App\Reports\DTO\ReportResult;
-use App\Reports\Export\Contracts\ExporterInterface;
 
-class CsvExporter implements ExporterInterface
+
+class CsvExporter extends AbstractExporter
 {
     public function name(): string
     {
@@ -29,15 +29,15 @@ class CsvExporter implements ExporterInterface
 
         rewind($stream);
 
-        $csv = stream_get_contents($stream);
+        $content = stream_get_contents($stream);
 
         fclose($stream);
 
-        return new ExportResult(
-            filename: $report->name . '.csv',
+        return $this->createResult(
+            report: $report,
+            extension: 'csv',
             mimeType: 'text/csv',
-            content: $csv ?: '',
-            size: strlen($csv ?: ''),
+            content: $content,
         );
     }
 }
