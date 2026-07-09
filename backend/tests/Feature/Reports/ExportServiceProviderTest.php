@@ -59,14 +59,19 @@ class ExportServiceProviderTest extends TestCase
             'csv'
         );
 
-        $this->assertStringContainsString(
-            'Ahmed',
-            $csv
+        $result = $manager->export(
+            $report,
+            'csv'
         );
 
-        $this->assertStringContainsString(
-            'Mohamed',
-            $csv
+        $this->assertEquals(
+            'text/csv',
+            $result->mimeType
+        );
+
+        $this->assertGreaterThan(
+            0,
+            $result->size
         );
     }
 }

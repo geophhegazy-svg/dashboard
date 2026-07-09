@@ -4,28 +4,28 @@ declare(strict_types=1);
 
 namespace App\Reports\Export;
 
-use RuntimeException;
+use App\Reports\DTO\ExportResult;
 use App\Reports\DTO\ReportResult;
-use App\Reports\Export\Contracts\Exporter;
+use App\Reports\Export\Contracts\ExporterInterface;
+use RuntimeException;
 
 class ExportManager
 {
     /**
-     * @var array<string, Exporter>
+     * @var array<string, ExporterInterface>
      */
     private array $exporters = [];
 
     public function register(
-        Exporter $exporter
+        ExporterInterface $exporter
     ): void {
-
-        $this->exporters[$exporter->extension()] = $exporter;
+        $this->exporters[$exporter->name()] = $exporter;
     }
 
     public function export(
         ReportResult $report,
         string $format
-    ): string {
+    ): ExportResult {
 
         if (! isset($this->exporters[$format])) {
             throw new RuntimeException(
@@ -40,7 +40,6 @@ class ExportManager
     public function has(
         string $format
     ): bool {
-
         return isset(
             $this->exporters[$format]
         );

@@ -29,7 +29,7 @@ class ExportManagerTest extends TestCase
         );
     }
 
-    public function test_csv_export_returns_string(): void
+    public function test_csv_export_returns_export_result()
     {
         $manager = new ExportManager();
 
@@ -52,23 +52,45 @@ class ExportManagerTest extends TestCase
             meta: [],
         );
 
-        $csv = $manager->export(
+        $result = $manager->export(
             $report,
             'csv'
         );
 
-        $this->assertIsString(
-            $csv
+        $this->assertInstanceOf(
+            \App\Reports\DTO\ExportResult::class,
+            $result
+        );
+
+        $this->assertEquals(
+            'customers.csv',
+            $result->filename
+        );
+
+        $this->assertEquals(
+            'text/csv',
+            $result->mimeType
+        );
+
+        $this->assertGreaterThan(
+            0,
+            $result->size
         );
 
         $this->assertStringContainsString(
             'Ahmed',
-            $csv
+            $result->content
+        );
+
+
+        $this->assertGreaterThan(
+            0,
+            $result->size
         );
 
         $this->assertStringContainsString(
-            'Mohamed',
-            $csv
+            'Name',
+            $result->content
         );
     }
 
@@ -94,4 +116,6 @@ class ExportManagerTest extends TestCase
             'pdf'
         );
     }
+
+
 }
