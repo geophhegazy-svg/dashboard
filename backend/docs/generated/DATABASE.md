@@ -526,9 +526,77 @@
 - available_at (int)
 - created_at (int)
 
+## journal_entries
+
+**Rows:** 0
+
+### Columns
+
+- id (bigint)
+- tenant_id (bigint)
+- entry_number (varchar)
+- entry_date (date)
+- reference (varchar) nullable
+- description (text) nullable
+- status (enum) default=draft
+- created_by (bigint) nullable
+- approved_by (bigint) nullable
+- approved_at (timestamp) nullable
+- created_at (timestamp) nullable
+- updated_at (timestamp) nullable
+
+## journal_entries
+
+**Rows:** 0
+
+### Columns
+
+- id (bigint)
+- tenant_id (bigint)
+- entry_number (varchar)
+- entry_date (date)
+- reference (varchar) nullable
+- description (text) nullable
+- status (enum) default=draft
+- created_by (bigint) nullable
+- approved_by (bigint) nullable
+- approved_at (timestamp) nullable
+- created_at (timestamp) nullable
+- updated_at (timestamp) nullable
+
+## journal_entry_lines
+
+**Rows:** 0
+
+### Columns
+
+- id (bigint)
+- journal_entry_id (bigint)
+- account_id (bigint)
+- description (varchar) nullable
+- debit (decimal) default=0.00
+- credit (decimal) default=0.00
+- created_at (timestamp) nullable
+- updated_at (timestamp) nullable
+
+## journal_entry_lines
+
+**Rows:** 0
+
+### Columns
+
+- id (bigint)
+- journal_entry_id (bigint)
+- account_id (bigint)
+- description (varchar) nullable
+- debit (decimal) default=0.00
+- credit (decimal) default=0.00
+- created_at (timestamp) nullable
+- updated_at (timestamp) nullable
+
 ## migrations
 
-**Rows:** 42
+**Rows:** 44
 
 ### Columns
 
@@ -538,7 +606,7 @@
 
 ## migrations
 
-**Rows:** 42
+**Rows:** 44
 
 ### Columns
 

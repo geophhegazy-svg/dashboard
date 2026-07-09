@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+
 class Account extends Model
 {
     use HasFactory;
@@ -47,5 +48,10 @@ class Account extends Model
             self::class,
             'parent_id'
         )->orderBy('code');
+    }
+
+    public function journalEntryLines(): HasMany
+    {
+        return $this->hasMany(JournalEntryLine::class);
     }
 }

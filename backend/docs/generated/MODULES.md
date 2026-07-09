@@ -2,7 +2,7 @@
 
 ## Models
 
-Total: 20
+Total: 22
 
 - Account
 - ActivityLog
@@ -13,6 +13,8 @@ Total: 20
 - HotspotUser
 - Inventory
 - Invoice
+- JournalEntry
+- JournalEntryLine
 - NetworkDevice
 - Notification
 - PPPoEUser
@@ -153,8 +155,9 @@ Total: 28
 
 ## Repositories
 
-Total: 7
+Total: 8
 
+- AccountRepository
 - BillingRepository
 - CustomerRepository
 - InvoiceRepository

@@ -133,6 +133,8 @@
 - App\Models\HotspotUser
 - App\Models\Inventory
 - App\Models\Invoice
+- App\Models\JournalEntry
+- App\Models\JournalEntryLine
 - App\Models\NetworkDevice
 - App\Models\Notification
 - App\Models\PPPoEUser

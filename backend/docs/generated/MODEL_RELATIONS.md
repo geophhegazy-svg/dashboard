@@ -72,6 +72,22 @@ App\Models\Inventory
 App\Models\Invoice
 ```
 
+## JournalEntry
+
+**Class**
+
+```
+App\Models\JournalEntry
+```
+
+## JournalEntryLine
+
+**Class**
+
+```
+App\Models\JournalEntryLine
+```
+
 ## NetworkDevice
 
 **Class**

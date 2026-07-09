@@ -335,3 +335,19 @@
 ```
 /var/www/database/migrations/2026_07_08_101912_create_accounts_table.php
 ```
+
+## 2026_07_08_223702_create_journal_entries_table.php
+
+**File**
+
+```
+/var/www/database/migrations/2026_07_08_223702_create_journal_entries_table.php
+```
+
+## 2026_07_08_223758_create_journal_entry_lines_table.php
+
+**File**
+
+```
+/var/www/database/migrations/2026_07_08_223758_create_journal_entry_lines_table.php
+```

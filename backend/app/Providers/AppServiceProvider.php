@@ -9,11 +9,18 @@ use App\Contracts\Repositories\SubscriptionRepositoryInterface;
 use App\Repositories\SubscriptionRepository;
 use App\Contracts\FinanceServiceInterface;
 use App\Services\Finance\FinanceService;
+use App\Contracts\Repositories\AccountRepositoryInterface;
+use App\Repositories\AccountRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
+        $this->app->bind(
+            AccountRepositoryInterface::class,
+            AccountRepository::class
+        );
+        
         $this->app->bind(
             MikrotikServiceInterface::class,
             MikrotikService::class
