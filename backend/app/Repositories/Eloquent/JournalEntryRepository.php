@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Repositories;
+namespace App\Repositories\Eloquent;
 
 use App\Contracts\Repositories\JournalEntryRepositoryInterface;
 use App\Models\JournalEntry;
@@ -40,5 +40,10 @@ class JournalEntryRepository implements JournalEntryRepositoryInterface
     public function delete(JournalEntry $entry): bool
     {
         return (bool) $entry->delete();
+    }
+
+    public function findWithLines(int $id): ?JournalEntry
+    {
+        return JournalEntry::with('lines.account')->find($id);
     }
 }

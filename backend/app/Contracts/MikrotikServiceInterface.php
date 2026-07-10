@@ -47,6 +47,12 @@ interface MikrotikServiceInterface
     public function updateUserQueue(string $username, int $download, int $upload): bool;
 
     /**
+     * جلب القراءة التراكمية لاستهلاك كل Queue (اسم الـ Queue = اسم مستخدم PPPoE).
+     * كل عنصر: ['name' => ..., 'bytes_download' => ..., 'bytes_upload' => ...]
+     */
+    public function getQueueUsage(): array;
+
+    /**
      * الحصول على إحصائيات الجهاز
      */
     public function getDeviceStats(): array;

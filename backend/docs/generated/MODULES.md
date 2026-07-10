@@ -2,7 +2,7 @@
 
 ## Models
 
-Total: 26
+Total: 27
 
 - Account
 - ActivityLog
@@ -28,6 +28,7 @@ Total: 26
 - Tenant
 - Ticket
 - TicketReply
+- UsageSnapshot
 - User
 - WalletTransaction
 
@@ -132,7 +133,7 @@ Total: 94
 
 ## Controllers
 
-Total: 30
+Total: 33
 
 - ActivityLogController
 - AuthController
@@ -145,9 +146,11 @@ Total: 30
 - CustomerSubscriptionController
 - CustomerTicketController
 - CustomerWalletController
+- DHCPController
 - DashboardController
 - DeviceAssignmentController
 - DeviceController
+- FirewallController
 - HotspotController
 - HotspotSubscriptionController
 - InventoryController
@@ -157,6 +160,7 @@ Total: 30
 - NotificationController
 - PackageController
 - PaymentController
+- QueueController
 - ReportController
 - ScheduledReportController
 - SubscriptionController

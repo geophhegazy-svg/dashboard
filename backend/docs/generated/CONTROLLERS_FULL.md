@@ -253,6 +253,35 @@ App\Http\Controllers\Api
 
 ---
 
+## DHCPController
+
+**Namespace**
+
+```
+App\Http\Controllers
+```
+
+**File**
+
+```
+/var/www/app/Http/Controllers/DHCPController.php
+```
+
+**Dependencies**
+
+- MikroTikAdvancedService $mikrotikService
+
+**Public Methods**
+
+- index()
+- create()
+- store()
+- edit()
+- update()
+- destroy()
+
+---
+
 ## DashboardController
 
 **Namespace**
@@ -318,6 +347,35 @@ App\Http\Controllers\Api
 - index()
 - store()
 - show()
+- update()
+- destroy()
+
+---
+
+## FirewallController
+
+**Namespace**
+
+```
+App\Http\Controllers
+```
+
+**File**
+
+```
+/var/www/app/Http/Controllers/FirewallController.php
+```
+
+**Dependencies**
+
+- MikroTikAdvancedService $mikrotikService
+
+**Public Methods**
+
+- index()
+- create()
+- store()
+- edit()
 - update()
 - destroy()
 
@@ -567,6 +625,36 @@ App\Http\Controllers\Api
 - store()
 - show()
 - update()
+- destroy()
+
+---
+
+## QueueController
+
+**Namespace**
+
+```
+App\Http\Controllers
+```
+
+**File**
+
+```
+/var/www/app/Http/Controllers/QueueController.php
+```
+
+**Dependencies**
+
+- MikroTikAdvancedService $mikrotikService
+
+**Public Methods**
+
+- index()
+- create()
+- store()
+- edit()
+- update()
+- toggle()
 - destroy()
 
 ---

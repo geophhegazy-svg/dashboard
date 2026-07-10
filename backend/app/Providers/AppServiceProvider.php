@@ -17,10 +17,10 @@ use App\Contracts\Repositories\ReportExportRepositoryInterface;
 use App\Contracts\Repositories\ScheduledReportRepositoryInterface;
 
 use App\Repositories\AccountRepository;
-use App\Repositories\SubscriptionRepository;
-use App\Repositories\ReportRepository;
-use App\Repositories\ReportExportRepository;
-use App\Repositories\ScheduledReportRepository;
+use App\Repositories\Eloquent\SubscriptionRepository;
+use App\Repositories\Eloquent\ReportRepository;
+use App\Repositories\Eloquent\ReportExportRepository;
+use App\Repositories\Eloquent\ScheduledReportRepository;
 use App\Repositories\Eloquent\TaskRepository;
 
 use App\Services\Finance\FinanceService;

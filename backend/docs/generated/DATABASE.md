@@ -596,7 +596,7 @@
 
 ## migrations
 
-**Rows:** 48
+**Rows:** 49
 
 ### Columns
 
@@ -606,7 +606,7 @@
 
 ## migrations
 
-**Rows:** 48
+**Rows:** 49
 
 ### Columns
 
@@ -1315,6 +1315,23 @@
 - opened_at (timestamp) nullable
 - closed_at (timestamp) nullable
 - notes (text) nullable
+- created_at (timestamp) nullable
+- updated_at (timestamp) nullable
+
+## usage_snapshots
+
+**Rows:** 0
+
+### Columns
+
+- id (bigint)
+- tenant_id (bigint) nullable
+- customer_id (bigint) nullable
+- connection_type (varchar)
+- username (varchar)
+- bytes_download (bigint) default=0
+- bytes_upload (bigint) default=0
+- recorded_at (timestamp)
 - created_at (timestamp) nullable
 - updated_at (timestamp) nullable
 

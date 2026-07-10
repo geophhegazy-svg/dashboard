@@ -650,6 +650,8 @@ App\Services\Network\MikroTikAdvancedService
 - getFirewallRules
 - getNATRules
 - getSimpleQueues
+- updateDHCPLease
+- updateFirewallRule
 - updateSimpleQueue
 
 ## MikrotikConnection
@@ -689,6 +691,7 @@ App\Services\Network\MikrotikService
 - getDeviceStats
 - getHotspotActiveSessions
 - getHotspotUsers
+- getQueueUsage
 - ping
 - updateDeviceStatus
 - updateUserQueue

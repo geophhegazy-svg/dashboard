@@ -10,4 +10,8 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 Schedule::command('subscriptions:sync')
     ->dailyAt('00:05');
-    // ->everyMinute();
+// ->everyMinute();
+
+Schedule::command('usage:sync')
+    ->everyFifteenMinutes()
+    ->withoutOverlapping();

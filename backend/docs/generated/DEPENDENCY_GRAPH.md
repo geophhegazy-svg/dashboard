@@ -13,9 +13,11 @@
 - App\Http\Controllers\Api\CustomerSubscriptionController
 - App\Http\Controllers\Api\CustomerTicketController
 - App\Http\Controllers\Api\CustomerWalletController
+- App\Http\Controllers\DHCPController
 - App\Http\Controllers\Api\DashboardController
 - App\Http\Controllers\Api\DeviceAssignmentController
 - App\Http\Controllers\Api\DeviceController
+- App\Http\Controllers\FirewallController
 - App\Http\Controllers\Api\HotspotController
 - App\Http\Controllers\Api\HotspotSubscriptionController
 - App\Http\Controllers\Api\InventoryController
@@ -25,6 +27,7 @@
 - App\Http\Controllers\Api\NotificationController
 - App\Http\Controllers\Api\PackageController
 - App\Http\Controllers\Api\PaymentController
+- App\Http\Controllers\QueueController
 - App\Http\Controllers\Api\ReportController
 - App\Http\Controllers\Api\ScheduledReportController
 - App\Http\Controllers\Api\SubscriptionController
@@ -156,5 +159,6 @@
 - App\Models\Tenant
 - App\Models\Ticket
 - App\Models\TicketReply
+- App\Models\UsageSnapshot
 - App\Models\User
 - App\Models\WalletTransaction

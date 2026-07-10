@@ -20,4 +20,6 @@ interface JournalEntryRepositoryInterface
     public function update(JournalEntry $entry, array $data): JournalEntry;
 
     public function delete(JournalEntry $entry): bool;
+
+    public function findWithLines(int $id): ?JournalEntry;
 }

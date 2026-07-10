@@ -17,4 +17,8 @@ interface JournalEntryLineRepositoryInterface
     public function createMany(JournalEntry $entry, array $lines): Collection;
 
     public function deleteByJournalEntry(JournalEntry $entry): bool;
+
+    public function find(int $id): ?JournalEntryLine;
+
+    public function delete(JournalEntryLine $line): bool;
 }

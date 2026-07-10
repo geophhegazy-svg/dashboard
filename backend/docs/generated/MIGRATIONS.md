@@ -383,3 +383,11 @@
 ```
 /var/www/database/migrations/2026_07_09_181014_create_scheduled_reports_table.php
 ```
+
+## 2026_07_10_095801_create_usage_snapshots_table.php
+
+**File**
+
+```
+/var/www/database/migrations/2026_07_10_095801_create_usage_snapshots_table.php
+```

@@ -191,6 +191,36 @@ class MikrotikService implements MikrotikServiceInterface
     }
 
     /**
+     * جلب القراءة التراكمية لاستهلاك كل الـ Queues (اسم الـ Queue = اسم مستخدم PPPoE).
+     * حقل 'bytes' في RouterOS بييجي كنص بالصيغة "download/upload".
+     */
+    public function getQueueUsage(): array
+    {
+        try {
+            $query = (new Query('/queue/simple/print'));
+            $response = $this->client->query($query)->read();
+
+            $usage = [];
+
+            foreach ($response as $item) {
+
+                $bytes = explode('/', $item['bytes'] ?? '0/0');
+
+                $usage[] = [
+                    'name' => $item['name'] ?? null,
+                    'bytes_download' => (int) ($bytes[0] ?? 0),
+                    'bytes_upload' => (int) ($bytes[1] ?? 0),
+                ];
+            }
+
+            return $usage;
+        } catch (\Exception $e) {
+            Log::error("MikroTik Get Queue Usage Error: " . $e->getMessage());
+            return [];
+        }
+    }
+
+    /**
      * الحصول على إحصائيات الجهاز
      */
     public function getDeviceStats(): array

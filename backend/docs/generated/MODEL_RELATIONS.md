@@ -192,6 +192,14 @@ App\Models\Ticket
 App\Models\TicketReply
 ```
 
+## UsageSnapshot
+
+**Class**
+
+```
+App\Models\UsageSnapshot
+```
+
 ## User
 
 **Class**

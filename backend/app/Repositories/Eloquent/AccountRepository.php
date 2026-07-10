@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Repositories;
+namespace App\Repositories\Eloquent;
 
 use App\Contracts\Repositories\AccountRepositoryInterface;
 use App\Models\Account;

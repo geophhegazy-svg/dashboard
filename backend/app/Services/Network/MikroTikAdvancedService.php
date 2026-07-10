@@ -10,6 +10,49 @@ class MikroTikAdvancedService
 {
     protected $client;
 
+    /**
+     * تحويل النص إلى UTF-8 مع دعم اللغة العربية
+     */
+    protected function convertToUtf8($text)
+    {
+        if ($text === null || $text === '') {
+            return $text;
+        }
+
+        // استخدام iconv للتحويل
+        $converted = @iconv('Windows-1256', 'UTF-8//IGNORE//TRANSLIT', $text);
+        if ($converted !== false && $converted !== '') {
+            return $converted;
+        }
+
+        // محاولة مع ISO-8859-6
+        $converted = @iconv('ISO-8859-6', 'UTF-8//IGNORE//TRANSLIT', $text);
+        if ($converted !== false && $converted !== '') {
+            return $converted;
+        }
+
+        // استخدام mb_convert_encoding مع تحويل الأخطاء
+        return mb_convert_encoding($text, 'UTF-8', 'auto');
+    }
+
+    /**
+     * تنظيف مصفوفة من النصوص وتحويلها إلى UTF-8
+     */
+    protected function cleanArrayUtf8($array)
+    {
+        if (!is_array($array)) {
+            return $this->convertToUtf8($array);
+        }
+
+        $cleaned = [];
+        foreach ($array as $key => $value) {
+            $cleaned[$key] = is_array($value)
+                ? $this->cleanArrayUtf8($value)
+                : $this->convertToUtf8($value);
+        }
+        return $cleaned;
+    }
+
     public function connect(string $ip, string $username, string $password, int $port = 8728): bool
     {
         try {
@@ -53,6 +96,7 @@ class MikroTikAdvancedService
                     'bytes_in' => $item['bytes-in'] ?? 0,
                     'bytes_out' => $item['bytes-out'] ?? 0,
                     'total_bytes' => ($item['bytes-in'] ?? 0) + ($item['bytes-out'] ?? 0),
+                    'comment' => $this->convertToUtf8($item['comment'] ?? null),  // 🔥 تحويل التعليق
                 ];
             }
 
@@ -106,6 +150,10 @@ class MikroTikAdvancedService
 
             if (isset($data['priority'])) {
                 $query->equal('priority', $data['priority']);
+            }
+
+            if (isset($data['comment'])) {
+                $query->equal('comment', $data['comment']);
             }
 
             $this->client->query($query)->read();
@@ -188,7 +236,7 @@ class MikroTikAdvancedService
                     'dst_address' => $item['dst-address'] ?? null,
                     'protocol' => $item['protocol'] ?? null,
                     'port' => $item['dst-port'] ?? null,
-                    'comment' => $item['comment'] ?? null,
+                    'comment' => $this->convertToUtf8($item['comment'] ?? null),  // 🔥 تحويل التعليق
                     'disabled' => isset($item['disabled']) && $item['disabled'] === 'true',
                 ];
             }
@@ -255,6 +303,61 @@ class MikroTikAdvancedService
         }
     }
 
+    /**
+     * تحديث عقد DHCP
+     */
+    public function updateDHCPLease(string $id, array $data): bool
+    {
+        try {
+            $query = (new Query('/ip/dhcp-server/lease/set'))
+                ->equal('.id', $id);
+
+            if (isset($data['address'])) {
+                $query->equal('address', $data['address']);
+            }
+
+            if (isset($data['mac_address'])) {
+                $query->equal('mac-address', $data['mac_address']);
+            }
+
+            if (isset($data['hostname'])) {
+                $query->equal('host-name', $data['hostname']);
+            }
+
+            if (isset($data['comment'])) {
+                $query->equal('comment', $data['comment']);
+            }
+
+            $this->client->query($query)->read();
+            return true;
+        } catch (\Exception $e) {
+            Log::error("MikroTik Update DHCP Lease Error: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * تحديث قاعدة Firewall
+     */
+    public function updateFirewallRule(string $id, array $data): bool
+    {
+        try {
+            $query = (new Query('/ip/firewall/filter/set'))->equal('.id', $id);
+            foreach ($data as $key => $value) {
+                $mikroKey = str_replace('_', '-', $key);
+                if ($key === 'src_address') $mikroKey = 'src-address';
+                if ($key === 'dst_address') $mikroKey = 'dst-address';
+                if ($key === 'dst_port') $mikroKey = 'dst-port';
+                $query->equal($mikroKey, $value);
+            }
+            $this->client->query($query)->read();
+            return true;
+        } catch (\Exception $e) {
+            Log::error("MikroTik Update Firewall Rule Error: " . $e->getMessage());
+            return false;
+        }
+    }
+
     // ========== إدارة الـ NAT ==========
 
     /**
@@ -306,11 +409,12 @@ class MikroTikAdvancedService
                     'id' => $item['.id'] ?? null,
                     'address' => $item['address'] ?? null,
                     'mac_address' => $item['mac-address'] ?? null,
-                    'hostname' => $item['host-name'] ?? null,
+                    'hostname' => $this->convertToUtf8($item['host-name'] ?? null),  // 🔥 تحويل اسم المضيف
                     'client_id' => $item['client-id'] ?? null,
                     'status' => $item['status'] ?? null,
                     'server' => $item['server'] ?? null,
                     'expires_after' => $item['expires-after'] ?? null,
+                    'comment' => $this->convertToUtf8($item['comment'] ?? null),  // 🔥 تحويل التعليق
                 ];
             }
 

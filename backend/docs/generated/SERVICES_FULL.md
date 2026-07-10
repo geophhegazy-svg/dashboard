@@ -1173,6 +1173,8 @@ App\Services\Network
 - getFirewallRules() : array
 - createFirewallRule() : bool
 - deleteFirewallRule() : bool
+- updateDHCPLease() : bool
+- updateFirewallRule() : bool
 - getNATRules() : array
 - getDHCPLeases() : array
 - addDHCPLease() : bool
@@ -1234,6 +1236,7 @@ App\Services\Network
 - getAllUsers() : array
 - getActiveSessions() : array
 - updateUserQueue() : bool
+- getQueueUsage() : array
 - getDeviceStats() : array
 - ping() : bool
 - disconnectUser() : bool

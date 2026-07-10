@@ -80,6 +80,11 @@ class FakeMikrotikService implements MikrotikServiceInterface
         return true;
     }
 
+    public function getQueueUsage(): array
+    {
+        return [];
+    }
+
     public function getDeviceStats(): array
     {
         return [];
