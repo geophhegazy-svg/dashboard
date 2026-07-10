@@ -2,7 +2,7 @@
 
 ## Models
 
-Total: 23
+Total: 26
 
 - Account
 - ActivityLog
@@ -20,6 +20,9 @@ Total: 23
 - PPPoEUser
 - Package
 - Payment
+- Report
+- ReportExport
+- ScheduledReport
 - Subscription
 - Task
 - Tenant
@@ -30,7 +33,7 @@ Total: 23
 
 ## Services
 
-Total: 89
+Total: 94
 
 - AIContextGenerator
 - AbstractHandoverSection
@@ -79,6 +82,7 @@ Total: 89
 - MethodReflector
 - MigrationExtractor
 - MigrationsKnowledgeGenerator
+- MikroTikAdvancedService
 - MikrotikConnection
 - MikrotikService
 - ModelDocumentationGenerator
@@ -98,9 +102,13 @@ Total: 89
 - ProjectSummaryGenerator
 - PropertyReflector
 - ReflectionEngine
+- ReportExecutionService
+- ReportExportService
+- ReportService
 - RepositoryDocumentationGenerator
 - RouteExtractor
 - RoutesKnowledgeGenerator
+- ScheduledReportService
 - ServiceDocumentationGenerator
 - ServiceUsageExtractor
 - ServiceUsageKnowledgeGenerator
@@ -124,7 +132,7 @@ Total: 89
 
 ## Controllers
 
-Total: 27
+Total: 30
 
 - ActivityLogController
 - AuthController
@@ -144,19 +152,22 @@ Total: 27
 - HotspotSubscriptionController
 - InventoryController
 - InvoiceController
+- MikroTikAdvancedController
 - MikrotikController
 - NotificationController
 - PackageController
 - PaymentController
 - ReportController
+- ScheduledReportController
 - SubscriptionController
+- TaskController
 - TenantController
 - TicketController
 - UserController
 
 ## Repositories
 
-Total: 9
+Total: 12
 
 - AccountRepository
 - BillingRepository
@@ -164,6 +175,9 @@ Total: 9
 - InvoiceRepository
 - PackageRepository
 - PaymentRepository
+- ReportExportRepository
+- ReportRepository
+- ScheduledReportRepository
 - SubscriptionRepository
 - TaskRepository
 - WalletRepository

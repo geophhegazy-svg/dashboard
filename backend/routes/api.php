@@ -45,8 +45,9 @@ use App\Http\Controllers\Api\CustomerNotificationController;
 use App\Http\Controllers\Api\CustomerTicketController;
 
 use App\Http\Controllers\Api\HotspotController;
-
-
+use App\Http\Controllers\TaskController;
+use App\Http\Controllers\Api\MikroTikAdvancedController;
+use App\Http\Controllers\Api\ScheduledReportController;
 
 
 /*
@@ -69,6 +70,20 @@ Route::prefix('customer')->group(function () {
 */
 
 Route::middleware('auth:sanctum')->group(function () {
+    Route::apiResource(
+        'scheduled-reports',
+        ScheduledReportController::class
+    );
+
+    Route::patch(
+        'scheduled-reports/{scheduledReport}/activate',
+        [ScheduledReportController::class, 'activate']
+    );
+
+    Route::patch(
+        'scheduled-reports/{scheduledReport}/deactivate',
+        [ScheduledReportController::class, 'deactivate']
+    );
 
     /*
     |------------------------------------------------------
@@ -467,3 +482,34 @@ Route::prefix('hotspot')->group(function () {
 });
 
 Route::get('/dashboard/stats', [DashboardController::class, 'stats']);
+Route::apiResource('tasks', TaskController::class);
+/*
+|--------------------------------------------------------------------------
+| MikroTik Advanced Routes
+|--------------------------------------------------------------------------
+*/
+
+Route::prefix('mikrotik/advanced')->middleware('auth:sanctum')->group(function () {
+
+    // Queues
+    Route::get('/queues', [MikroTikAdvancedController::class, 'getQueues']);
+    Route::post('/queues', [MikroTikAdvancedController::class, 'createQueue']);
+    Route::put('/queues/{name}', [MikroTikAdvancedController::class, 'updateQueue']);
+    Route::delete('/queues/{name}', [MikroTikAdvancedController::class, 'deleteQueue']);
+    Route::post('/queues/{name}/toggle', [MikroTikAdvancedController::class, 'toggleQueue']);
+
+    // Firewall
+    Route::get('/firewall', [MikroTikAdvancedController::class, 'getFirewallRules']);
+    Route::post('/firewall', [MikroTikAdvancedController::class, 'createFirewallRule']);
+    Route::delete('/firewall/{id}', [MikroTikAdvancedController::class, 'deleteFirewallRule']);
+
+    // NAT
+    Route::get('/nat', [MikroTikAdvancedController::class, 'getNATRules']);
+
+    // DHCP
+    Route::get('/dhcp', [MikroTikAdvancedController::class, 'getDHCPLeases']);
+    Route::post('/dhcp', [MikroTikAdvancedController::class, 'addDHCPLease']);
+    Route::delete('/dhcp/{id}', [MikroTikAdvancedController::class, 'deleteDHCPLease']);
+});
+
+

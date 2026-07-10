@@ -137,7 +137,7 @@ class MikrotikController extends Controller
 
     public function suspendHotspotUser($username)
     {
-        if (!$this->mikrotik->disableHotspot($username)) {
+        if (!$this->mikrotik->disableHotspotUser($username)) {
 
             return response()->json([
                 'message' => 'User not found'
@@ -151,7 +151,7 @@ class MikrotikController extends Controller
 
     public function activateHotspotUser($username)
     {
-        if (!$this->mikrotik->enableHotspot($username)) {
+        if (!$this->mikrotik->enableHotspotUser($username)) {
 
             return response()->json([
                 'message' => 'User not found'

@@ -72,7 +72,7 @@ class SyncExpiredSubscriptions extends Command
             if ($sub->status !== 'expired') {
 
                 if ($sub->pppoe_username) {
-                    $mikrotik->disablePppoe(
+                    $mikrotik->disableUser(
                         $sub->pppoe_username
                     );
                 }
@@ -121,7 +121,7 @@ class SyncExpiredSubscriptions extends Command
             if ($sub->status !== 'expired') {
 
                 if ($sub->hotspot_username) {
-                    $mikrotik->disableHotspot(
+                    $mikrotik->disableHotspotUser(
                         $sub->hotspot_username
                     );
                 }

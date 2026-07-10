@@ -1,18 +1,30 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Contracts\MikrotikServiceInterface;
-use App\Services\Network\MikrotikService;
-use App\Contracts\Repositories\SubscriptionRepositoryInterface;
-use App\Repositories\SubscriptionRepository;
+
 use App\Contracts\FinanceServiceInterface;
-use App\Services\Finance\FinanceService;
+use App\Contracts\MikrotikServiceInterface;
+
 use App\Contracts\Repositories\AccountRepositoryInterface;
-use App\Repositories\AccountRepository;
+use App\Contracts\Repositories\SubscriptionRepositoryInterface;
 use App\Contracts\Repositories\TaskRepositoryInterface;
+use App\Contracts\Repositories\ReportRepositoryInterface;
+use App\Contracts\Repositories\ReportExportRepositoryInterface;
+use App\Contracts\Repositories\ScheduledReportRepositoryInterface;
+
+use App\Repositories\AccountRepository;
+use App\Repositories\SubscriptionRepository;
+use App\Repositories\ReportRepository;
+use App\Repositories\ReportExportRepository;
+use App\Repositories\ScheduledReportRepository;
 use App\Repositories\Eloquent\TaskRepository;
+
+use App\Services\Finance\FinanceService;
+use App\Services\Network\MikrotikService;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -41,6 +53,21 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             TaskRepositoryInterface::class,
             TaskRepository::class
+        );
+
+        $this->app->bind(
+            ReportRepositoryInterface::class,
+            ReportRepository::class
+        );
+
+        $this->app->bind(
+            ReportExportRepositoryInterface::class,
+            ReportExportRepository::class
+        );
+
+        $this->app->bind(
+            ScheduledReportRepositoryInterface::class,
+            ScheduledReportRepository::class
         );
     }
 

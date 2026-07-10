@@ -679,6 +679,32 @@ App\Services\Documentation\Knowledge
 
 ---
 
+## MikroTikAdvancedService
+
+**Namespace**
+App\Services\Network
+
+**Dependencies**
+- None
+
+**Methods**
+- connect(4 params) : bool
+- getSimpleQueues(0 params) : array
+- createSimpleQueue(5 params) : bool
+- updateSimpleQueue(2 params) : bool
+- deleteSimpleQueue(1 params) : bool
+- disableSimpleQueue(1 params) : bool
+- enableSimpleQueue(1 params) : bool
+- getFirewallRules(0 params) : array
+- createFirewallRule(1 params) : bool
+- deleteFirewallRule(1 params) : bool
+- getNATRules(0 params) : array
+- getDHCPLeases(0 params) : array
+- addDHCPLease(3 params) : bool
+- deleteDHCPLease(1 params) : bool
+
+---
+
 ## MikrotikConnection
 
 **Namespace**
@@ -977,6 +1003,57 @@ App\Services\Documentation\Reflection
 
 ---
 
+## ReportExecutionService
+
+**Namespace**
+App\Services\Reports
+
+**Dependencies**
+- App\Reports\Manager\ReportManager
+- App\Reports\Export\ExportManager
+- App\Repositories\Contracts\ReportRepositoryInterface
+- App\Repositories\Contracts\ReportExportRepositoryInterface
+
+**Methods**
+- __construct(4 params) : mixed
+- run(3 params) : App\Reports\DTO\ExportResult
+
+---
+
+## ReportExportService
+
+**Namespace**
+App\Services\Reports
+
+**Dependencies**
+- App\Contracts\Repositories\ReportExportRepositoryInterface
+
+**Methods**
+- __construct(1 params) : mixed
+- paginate(0 params) : Illuminate\Contracts\Pagination\LengthAwarePaginator
+- create(1 params) : App\Models\ReportExport
+- find(1 params) : ?App\Models\ReportExport
+
+---
+
+## ReportService
+
+**Namespace**
+App\Services\Reports
+
+**Dependencies**
+- App\Contracts\Repositories\ReportRepositoryInterface
+
+**Methods**
+- __construct(1 params) : mixed
+- paginate(0 params) : Illuminate\Contracts\Pagination\LengthAwarePaginator
+- create(1 params) : App\Models\Report
+- update(2 params) : App\Models\Report
+- delete(1 params) : bool
+- find(1 params) : ?App\Models\Report
+
+---
+
 ## RepositoryDocumentationGenerator
 
 **Namespace**
@@ -1018,6 +1095,26 @@ App\Services\Documentation\Knowledge
 - __construct(1 params) : mixed
 - filename(0 params) : string
 - generate(0 params) : string
+
+---
+
+## ScheduledReportService
+
+**Namespace**
+App\Services\Reports
+
+**Dependencies**
+- None
+
+**Methods**
+- paginate(0 params) : Illuminate\Contracts\Pagination\LengthAwarePaginator
+- create(1 params) : App\Models\ScheduledReport
+- update(2 params) : App\Models\ScheduledReport
+- delete(1 params) : void
+- activate(1 params) : App\Models\ScheduledReport
+- deactivate(1 params) : App\Models\ScheduledReport
+- updateLastRun(1 params) : App\Models\ScheduledReport
+- updateNextRun(2 params) : App\Models\ScheduledReport
 
 ---
 
@@ -1248,13 +1345,14 @@ App\Services\Task
 - None
 
 **Methods**
+- paginate(0 params) : Illuminate\Contracts\Pagination\LengthAwarePaginator
 - create(1 params) : App\Models\Task
 - update(2 params) : App\Models\Task
 - complete(1 params) : App\Models\Task
 - cancel(1 params) : App\Models\Task
 - reopen(1 params) : App\Models\Task
-- assign(2 params) : App\Models\Task
-- delete(1 params) : bool
+- start(1 params) : App\Models\Task
+- delete(1 params) : void
 
 ---
 

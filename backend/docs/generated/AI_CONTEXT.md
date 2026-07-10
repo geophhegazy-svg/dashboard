@@ -45,5 +45,5 @@ Development Rules
 - Update generated documentation after structural changes.
 
 Current Statistics
-Models: 23
-Services: 89
+Models: 26
+Services: 94

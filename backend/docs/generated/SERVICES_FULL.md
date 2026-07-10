@@ -1143,6 +1143,43 @@ App\Services\Documentation\Knowledge
 
 ---
 
+## MikroTikAdvancedService
+
+**Namespace**
+
+```
+App\Services\Network
+```
+
+**File**
+
+```
+/var/www/app/Services/Network/MikroTikAdvancedService.php
+```
+
+**Properties**
+
+- $client : mixed
+
+**Methods**
+
+- connect() : bool
+- getSimpleQueues() : array
+- createSimpleQueue() : bool
+- updateSimpleQueue() : bool
+- deleteSimpleQueue() : bool
+- disableSimpleQueue() : bool
+- enableSimpleQueue() : bool
+- getFirewallRules() : array
+- createFirewallRule() : bool
+- deleteFirewallRule() : bool
+- getNATRules() : array
+- getDHCPLeases() : array
+- addDHCPLease() : bool
+- deleteDHCPLease() : bool
+
+---
+
 ## MikrotikConnection
 
 **Namespace**
@@ -1665,6 +1702,102 @@ App\Services\Documentation\Reflection
 
 ---
 
+## ReportExecutionService
+
+**Namespace**
+
+```
+App\Services\Reports
+```
+
+**File**
+
+```
+/var/www/app/Services/Reports/ReportExecutionService.php
+```
+
+**Constructor Dependencies**
+
+- ReportManager $reportManager
+- ExportManager $exportManager
+- ReportRepositoryInterface $reportRepository
+- ReportExportRepositoryInterface $reportExportRepository
+
+**Properties**
+
+- $reportManager : App\Reports\Manager\ReportManager
+- $exportManager : App\Reports\Export\ExportManager
+- $reportRepository : App\Repositories\Contracts\ReportRepositoryInterface
+- $reportExportRepository : App\Repositories\Contracts\ReportExportRepositoryInterface
+
+**Methods**
+
+- run() : App\Reports\DTO\ExportResult
+
+---
+
+## ReportExportService
+
+**Namespace**
+
+```
+App\Services\Reports
+```
+
+**File**
+
+```
+/var/www/app/Services/Reports/ReportExportService.php
+```
+
+**Constructor Dependencies**
+
+- ReportExportRepositoryInterface $exports
+
+**Properties**
+
+- $exports : App\Contracts\Repositories\ReportExportRepositoryInterface
+
+**Methods**
+
+- paginate() : Illuminate\Contracts\Pagination\LengthAwarePaginator
+- create() : App\Models\ReportExport
+- find() : ?App\Models\ReportExport
+
+---
+
+## ReportService
+
+**Namespace**
+
+```
+App\Services\Reports
+```
+
+**File**
+
+```
+/var/www/app/Services/Reports/ReportService.php
+```
+
+**Constructor Dependencies**
+
+- ReportRepositoryInterface $reports
+
+**Properties**
+
+- $reports : App\Contracts\Repositories\ReportRepositoryInterface
+
+**Methods**
+
+- paginate() : Illuminate\Contracts\Pagination\LengthAwarePaginator
+- create() : App\Models\Report
+- update() : App\Models\Report
+- delete() : bool
+- find() : ?App\Models\Report
+
+---
+
 ## RepositoryDocumentationGenerator
 
 **Namespace**
@@ -1741,6 +1874,33 @@ App\Services\Documentation\Knowledge
 
 - filename() : string
 - generate() : string
+
+---
+
+## ScheduledReportService
+
+**Namespace**
+
+```
+App\Services\Reports
+```
+
+**File**
+
+```
+/var/www/app/Services/Reports/ScheduledReportService.php
+```
+
+**Methods**
+
+- paginate() : Illuminate\Contracts\Pagination\LengthAwarePaginator
+- create() : App\Models\ScheduledReport
+- update() : App\Models\ScheduledReport
+- delete() : void
+- activate() : App\Models\ScheduledReport
+- deactivate() : App\Models\ScheduledReport
+- updateLastRun() : App\Models\ScheduledReport
+- updateNextRun() : App\Models\ScheduledReport
 
 ---
 
@@ -2157,13 +2317,14 @@ App\Services\Task
 
 **Methods**
 
+- paginate() : Illuminate\Contracts\Pagination\LengthAwarePaginator
 - create() : App\Models\Task
 - update() : App\Models\Task
 - complete() : App\Models\Task
 - cancel() : App\Models\Task
 - reopen() : App\Models\Task
-- assign() : App\Models\Task
-- delete() : bool
+- start() : App\Models\Task
+- delete() : void
 
 ---
 

@@ -13,8 +13,8 @@ Technology
 - MikroTik RouterOS
 
 Statistics
-- Models: 23
-- Services: 89
+- Models: 26
+- Services: 94
 
 
 ---
@@ -47,8 +47,8 @@ app/
 
 # Project Statistics
 
-Models: 23
-Services: 89
+Models: 26
+Services: 94
 
 ---
 
@@ -99,8 +99,8 @@ Development Rules
 - Update generated documentation after structural changes.
 
 Current Statistics
-Models: 23
-Services: 89
+Models: 26
+Services: 94
 
 ---
 
@@ -785,6 +785,32 @@ App\Services\Documentation\Knowledge
 
 ---
 
+## MikroTikAdvancedService
+
+**Namespace**
+App\Services\Network
+
+**Dependencies**
+- None
+
+**Methods**
+- connect(4 params) : bool
+- getSimpleQueues(0 params) : array
+- createSimpleQueue(5 params) : bool
+- updateSimpleQueue(2 params) : bool
+- deleteSimpleQueue(1 params) : bool
+- disableSimpleQueue(1 params) : bool
+- enableSimpleQueue(1 params) : bool
+- getFirewallRules(0 params) : array
+- createFirewallRule(1 params) : bool
+- deleteFirewallRule(1 params) : bool
+- getNATRules(0 params) : array
+- getDHCPLeases(0 params) : array
+- addDHCPLease(3 params) : bool
+- deleteDHCPLease(1 params) : bool
+
+---
+
 ## MikrotikConnection
 
 **Namespace**
@@ -1083,6 +1109,57 @@ App\Services\Documentation\Reflection
 
 ---
 
+## ReportExecutionService
+
+**Namespace**
+App\Services\Reports
+
+**Dependencies**
+- App\Reports\Manager\ReportManager
+- App\Reports\Export\ExportManager
+- App\Repositories\Contracts\ReportRepositoryInterface
+- App\Repositories\Contracts\ReportExportRepositoryInterface
+
+**Methods**
+- __construct(4 params) : mixed
+- run(3 params) : App\Reports\DTO\ExportResult
+
+---
+
+## ReportExportService
+
+**Namespace**
+App\Services\Reports
+
+**Dependencies**
+- App\Contracts\Repositories\ReportExportRepositoryInterface
+
+**Methods**
+- __construct(1 params) : mixed
+- paginate(0 params) : Illuminate\Contracts\Pagination\LengthAwarePaginator
+- create(1 params) : App\Models\ReportExport
+- find(1 params) : ?App\Models\ReportExport
+
+---
+
+## ReportService
+
+**Namespace**
+App\Services\Reports
+
+**Dependencies**
+- App\Contracts\Repositories\ReportRepositoryInterface
+
+**Methods**
+- __construct(1 params) : mixed
+- paginate(0 params) : Illuminate\Contracts\Pagination\LengthAwarePaginator
+- create(1 params) : App\Models\Report
+- update(2 params) : App\Models\Report
+- delete(1 params) : bool
+- find(1 params) : ?App\Models\Report
+
+---
+
 ## RepositoryDocumentationGenerator
 
 **Namespace**
@@ -1124,6 +1201,26 @@ App\Services\Documentation\Knowledge
 - __construct(1 params) : mixed
 - filename(0 params) : string
 - generate(0 params) : string
+
+---
+
+## ScheduledReportService
+
+**Namespace**
+App\Services\Reports
+
+**Dependencies**
+- None
+
+**Methods**
+- paginate(0 params) : Illuminate\Contracts\Pagination\LengthAwarePaginator
+- create(1 params) : App\Models\ScheduledReport
+- update(2 params) : App\Models\ScheduledReport
+- delete(1 params) : void
+- activate(1 params) : App\Models\ScheduledReport
+- deactivate(1 params) : App\Models\ScheduledReport
+- updateLastRun(1 params) : App\Models\ScheduledReport
+- updateNextRun(2 params) : App\Models\ScheduledReport
 
 ---
 
@@ -1354,13 +1451,14 @@ App\Services\Task
 - None
 
 **Methods**
+- paginate(0 params) : Illuminate\Contracts\Pagination\LengthAwarePaginator
 - create(1 params) : App\Models\Task
 - update(2 params) : App\Models\Task
 - complete(1 params) : App\Models\Task
 - cancel(1 params) : App\Models\Task
 - reopen(1 params) : App\Models\Task
-- assign(2 params) : App\Models\Task
-- delete(1 params) : bool
+- start(1 params) : App\Models\Task
+- delete(1 params) : void
 
 ---
 
@@ -3067,6 +3165,288 @@ App\Models
 
 ---
 
+## Report
+
+**Namespace**
+
+```
+App\Models
+```
+
+**File**
+
+```
+/var/www/app/Models/Report.php
+```
+
+**Properties**
+
+- $fillable : mixed
+- $connection : mixed
+- $table : mixed
+- $primaryKey : mixed
+- $keyType : mixed
+- $incrementing : mixed
+- $with : mixed
+- $withCount : mixed
+- $preventsLazyLoading : mixed
+- $perPage : mixed
+- $exists : mixed
+- $wasRecentlyCreated : mixed
+- $escapeWhenCastingToString : mixed
+- $resolver : mixed
+- $dispatcher : mixed
+- $booting : mixed
+- $booted : mixed
+- $bootedCallbacks : mixed
+- $traitInitializers : mixed
+- $globalScopes : mixed
+- $ignoreOnTouch : mixed
+- $modelsShouldPreventLazyLoading : mixed
+- $modelsShouldAutomaticallyEagerLoadRelationships : mixed
+- $lazyLoadingViolationCallback : mixed
+- $modelsShouldPreventSilentlyDiscardingAttributes : mixed
+- $discardedAttributeViolationCallback : mixed
+- $modelsShouldPreventAccessingMissingAttributes : mixed
+- $missingAttributeViolationCallback : mixed
+- $isBroadcasting : mixed
+- $builder : string
+- $collectionClass : string
+- $isSoftDeletable : array
+- $isPrunable : array
+- $isMassPrunable : array
+- $classAttributes : array
+- $attributes : mixed
+- $original : mixed
+- $changes : mixed
+- $previous : mixed
+- $casts : mixed
+- $classCastCache : mixed
+- $attributeCastCache : mixed
+- $primitiveCastTypes : mixed
+- $dateFormat : mixed
+- $appends : mixed
+- $snakeAttributes : mixed
+- $mutatorCache : mixed
+- $attributeMutatorCache : mixed
+- $getAttributeMutatorCache : mixed
+- $setAttributeMutatorCache : mixed
+- $castTypeCache : mixed
+- $encrypter : mixed
+- $dispatchesEvents : mixed
+- $observables : mixed
+- $relations : mixed
+- $touches : mixed
+- $relationAutoloadCallback : mixed
+- $relationAutoloadContext : mixed
+- $manyMethods : mixed
+- $relationResolvers : mixed
+- $timestamps : mixed
+- $ignoreTimestampsOn : mixed
+- $usesUniqueIds : mixed
+- $hidden : mixed
+- $visible : mixed
+- $guarded : mixed
+- $unguarded : mixed
+- $guardableColumns : mixed
+- $recursionCache : mixed
+- $resolvedCollectionClasses : array
+
+**Methods**
+
+- exports()
+- user()
+
+---
+
+## ReportExport
+
+**Namespace**
+
+```
+App\Models
+```
+
+**File**
+
+```
+/var/www/app/Models/ReportExport.php
+```
+
+**Properties**
+
+- $fillable : mixed
+- $connection : mixed
+- $table : mixed
+- $primaryKey : mixed
+- $keyType : mixed
+- $incrementing : mixed
+- $with : mixed
+- $withCount : mixed
+- $preventsLazyLoading : mixed
+- $perPage : mixed
+- $exists : mixed
+- $wasRecentlyCreated : mixed
+- $escapeWhenCastingToString : mixed
+- $resolver : mixed
+- $dispatcher : mixed
+- $booting : mixed
+- $booted : mixed
+- $bootedCallbacks : mixed
+- $traitInitializers : mixed
+- $globalScopes : mixed
+- $ignoreOnTouch : mixed
+- $modelsShouldPreventLazyLoading : mixed
+- $modelsShouldAutomaticallyEagerLoadRelationships : mixed
+- $lazyLoadingViolationCallback : mixed
+- $modelsShouldPreventSilentlyDiscardingAttributes : mixed
+- $discardedAttributeViolationCallback : mixed
+- $modelsShouldPreventAccessingMissingAttributes : mixed
+- $missingAttributeViolationCallback : mixed
+- $isBroadcasting : mixed
+- $builder : string
+- $collectionClass : string
+- $isSoftDeletable : array
+- $isPrunable : array
+- $isMassPrunable : array
+- $classAttributes : array
+- $attributes : mixed
+- $original : mixed
+- $changes : mixed
+- $previous : mixed
+- $casts : mixed
+- $classCastCache : mixed
+- $attributeCastCache : mixed
+- $primitiveCastTypes : mixed
+- $dateFormat : mixed
+- $appends : mixed
+- $snakeAttributes : mixed
+- $mutatorCache : mixed
+- $attributeMutatorCache : mixed
+- $getAttributeMutatorCache : mixed
+- $setAttributeMutatorCache : mixed
+- $castTypeCache : mixed
+- $encrypter : mixed
+- $dispatchesEvents : mixed
+- $observables : mixed
+- $relations : mixed
+- $touches : mixed
+- $relationAutoloadCallback : mixed
+- $relationAutoloadContext : mixed
+- $manyMethods : mixed
+- $relationResolvers : mixed
+- $timestamps : mixed
+- $ignoreTimestampsOn : mixed
+- $usesUniqueIds : mixed
+- $hidden : mixed
+- $visible : mixed
+- $guarded : mixed
+- $unguarded : mixed
+- $guardableColumns : mixed
+- $recursionCache : mixed
+- $resolvedCollectionClasses : array
+
+**Methods**
+
+- report()
+- user()
+
+---
+
+## ScheduledReport
+
+**Namespace**
+
+```
+App\Models
+```
+
+**File**
+
+```
+/var/www/app/Models/ScheduledReport.php
+```
+
+**Properties**
+
+- $fillable : mixed
+- $connection : mixed
+- $table : mixed
+- $primaryKey : mixed
+- $keyType : mixed
+- $incrementing : mixed
+- $with : mixed
+- $withCount : mixed
+- $preventsLazyLoading : mixed
+- $perPage : mixed
+- $exists : mixed
+- $wasRecentlyCreated : mixed
+- $escapeWhenCastingToString : mixed
+- $resolver : mixed
+- $dispatcher : mixed
+- $booting : mixed
+- $booted : mixed
+- $bootedCallbacks : mixed
+- $traitInitializers : mixed
+- $globalScopes : mixed
+- $ignoreOnTouch : mixed
+- $modelsShouldPreventLazyLoading : mixed
+- $modelsShouldAutomaticallyEagerLoadRelationships : mixed
+- $lazyLoadingViolationCallback : mixed
+- $modelsShouldPreventSilentlyDiscardingAttributes : mixed
+- $discardedAttributeViolationCallback : mixed
+- $modelsShouldPreventAccessingMissingAttributes : mixed
+- $missingAttributeViolationCallback : mixed
+- $isBroadcasting : mixed
+- $builder : string
+- $collectionClass : string
+- $isSoftDeletable : array
+- $isPrunable : array
+- $isMassPrunable : array
+- $classAttributes : array
+- $attributes : mixed
+- $original : mixed
+- $changes : mixed
+- $previous : mixed
+- $casts : mixed
+- $classCastCache : mixed
+- $attributeCastCache : mixed
+- $primitiveCastTypes : mixed
+- $dateFormat : mixed
+- $appends : mixed
+- $snakeAttributes : mixed
+- $mutatorCache : mixed
+- $attributeMutatorCache : mixed
+- $getAttributeMutatorCache : mixed
+- $setAttributeMutatorCache : mixed
+- $castTypeCache : mixed
+- $encrypter : mixed
+- $dispatchesEvents : mixed
+- $observables : mixed
+- $relations : mixed
+- $touches : mixed
+- $relationAutoloadCallback : mixed
+- $relationAutoloadContext : mixed
+- $manyMethods : mixed
+- $relationResolvers : mixed
+- $timestamps : mixed
+- $ignoreTimestampsOn : mixed
+- $usesUniqueIds : mixed
+- $hidden : mixed
+- $visible : mixed
+- $guarded : mixed
+- $unguarded : mixed
+- $guardableColumns : mixed
+- $recursionCache : mixed
+- $resolvedCollectionClasses : array
+
+**Methods**
+
+- user()
+- factory()
+
+---
+
 ## Subscription
 
 **Namespace**
@@ -3266,6 +3646,7 @@ App\Models
 
 - tenant()
 - user()
+- factory()
 
 ---
 
@@ -4946,6 +5327,43 @@ App\Services\Documentation\Knowledge
 
 ---
 
+## MikroTikAdvancedService
+
+**Namespace**
+
+```
+App\Services\Network
+```
+
+**File**
+
+```
+/var/www/app/Services/Network/MikroTikAdvancedService.php
+```
+
+**Properties**
+
+- $client : mixed
+
+**Methods**
+
+- connect() : bool
+- getSimpleQueues() : array
+- createSimpleQueue() : bool
+- updateSimpleQueue() : bool
+- deleteSimpleQueue() : bool
+- disableSimpleQueue() : bool
+- enableSimpleQueue() : bool
+- getFirewallRules() : array
+- createFirewallRule() : bool
+- deleteFirewallRule() : bool
+- getNATRules() : array
+- getDHCPLeases() : array
+- addDHCPLease() : bool
+- deleteDHCPLease() : bool
+
+---
+
 ## MikrotikConnection
 
 **Namespace**
@@ -5468,6 +5886,102 @@ App\Services\Documentation\Reflection
 
 ---
 
+## ReportExecutionService
+
+**Namespace**
+
+```
+App\Services\Reports
+```
+
+**File**
+
+```
+/var/www/app/Services/Reports/ReportExecutionService.php
+```
+
+**Constructor Dependencies**
+
+- ReportManager $reportManager
+- ExportManager $exportManager
+- ReportRepositoryInterface $reportRepository
+- ReportExportRepositoryInterface $reportExportRepository
+
+**Properties**
+
+- $reportManager : App\Reports\Manager\ReportManager
+- $exportManager : App\Reports\Export\ExportManager
+- $reportRepository : App\Repositories\Contracts\ReportRepositoryInterface
+- $reportExportRepository : App\Repositories\Contracts\ReportExportRepositoryInterface
+
+**Methods**
+
+- run() : App\Reports\DTO\ExportResult
+
+---
+
+## ReportExportService
+
+**Namespace**
+
+```
+App\Services\Reports
+```
+
+**File**
+
+```
+/var/www/app/Services/Reports/ReportExportService.php
+```
+
+**Constructor Dependencies**
+
+- ReportExportRepositoryInterface $exports
+
+**Properties**
+
+- $exports : App\Contracts\Repositories\ReportExportRepositoryInterface
+
+**Methods**
+
+- paginate() : Illuminate\Contracts\Pagination\LengthAwarePaginator
+- create() : App\Models\ReportExport
+- find() : ?App\Models\ReportExport
+
+---
+
+## ReportService
+
+**Namespace**
+
+```
+App\Services\Reports
+```
+
+**File**
+
+```
+/var/www/app/Services/Reports/ReportService.php
+```
+
+**Constructor Dependencies**
+
+- ReportRepositoryInterface $reports
+
+**Properties**
+
+- $reports : App\Contracts\Repositories\ReportRepositoryInterface
+
+**Methods**
+
+- paginate() : Illuminate\Contracts\Pagination\LengthAwarePaginator
+- create() : App\Models\Report
+- update() : App\Models\Report
+- delete() : bool
+- find() : ?App\Models\Report
+
+---
+
 ## RepositoryDocumentationGenerator
 
 **Namespace**
@@ -5544,6 +6058,33 @@ App\Services\Documentation\Knowledge
 
 - filename() : string
 - generate() : string
+
+---
+
+## ScheduledReportService
+
+**Namespace**
+
+```
+App\Services\Reports
+```
+
+**File**
+
+```
+/var/www/app/Services/Reports/ScheduledReportService.php
+```
+
+**Methods**
+
+- paginate() : Illuminate\Contracts\Pagination\LengthAwarePaginator
+- create() : App\Models\ScheduledReport
+- update() : App\Models\ScheduledReport
+- delete() : void
+- activate() : App\Models\ScheduledReport
+- deactivate() : App\Models\ScheduledReport
+- updateLastRun() : App\Models\ScheduledReport
+- updateNextRun() : App\Models\ScheduledReport
 
 ---
 
@@ -5960,13 +6501,14 @@ App\Services\Task
 
 **Methods**
 
+- paginate() : Illuminate\Contracts\Pagination\LengthAwarePaginator
 - create() : App\Models\Task
 - update() : App\Models\Task
 - complete() : App\Models\Task
 - cancel() : App\Models\Task
 - reopen() : App\Models\Task
-- assign() : App\Models\Task
-- delete() : bool
+- start() : App\Models\Task
+- delete() : void
 
 ---
 
@@ -6539,6 +7081,41 @@ App\Http\Controllers\Api
 
 ---
 
+## MikroTikAdvancedController
+
+**Namespace**
+
+```
+App\Http\Controllers\Api
+```
+
+**File**
+
+```
+/var/www/app/Http/Controllers/Api/MikroTikAdvancedController.php
+```
+
+**Dependencies**
+
+- MikroTikAdvancedService $mikrotikService
+
+**Public Methods**
+
+- getQueues()
+- createQueue()
+- updateQueue()
+- deleteQueue()
+- toggleQueue()
+- getFirewallRules()
+- createFirewallRule()
+- deleteFirewallRule()
+- getNATRules()
+- getDHCPLeases()
+- addDHCPLease()
+- deleteDHCPLease()
+
+---
+
 ## MikrotikController
 
 **Namespace**
@@ -6678,6 +7255,36 @@ App\Http\Controllers\Api
 
 ---
 
+## ScheduledReportController
+
+**Namespace**
+
+```
+App\Http\Controllers\Api
+```
+
+**File**
+
+```
+/var/www/app/Http/Controllers/Api/ScheduledReportController.php
+```
+
+**Dependencies**
+
+- ScheduledReportService $service
+
+**Public Methods**
+
+- index()
+- store()
+- show()
+- update()
+- destroy()
+- activate()
+- deactivate()
+
+---
+
 ## SubscriptionController
 
 **Namespace**
@@ -6703,6 +7310,33 @@ App\Http\Controllers\Api
 - renew()
 - restore()
 - expire()
+
+---
+
+## TaskController
+
+**Namespace**
+
+```
+App\Http\Controllers
+```
+
+**File**
+
+```
+/var/www/app/Http/Controllers/TaskController.php
+```
+
+**Dependencies**
+
+- TaskService $service
+
+**Public Methods**
+
+- index()
+- store()
+- update()
+- destroy()
 
 ---
 
@@ -6808,6 +7442,55 @@ App\Http\Controllers\Api
 - Name: -
 - Action: App\Http\Controllers\Api\CustomerAuthController@login
 - Middleware: api
+
+## api/scheduled-reports
+
+- Method: GET|HEAD
+- Name: scheduled-reports.index
+- Action: App\Http\Controllers\Api\ScheduledReportController@index
+- Middleware: api, auth:sanctum
+
+## api/scheduled-reports
+
+- Method: POST
+- Name: scheduled-reports.store
+- Action: App\Http\Controllers\Api\ScheduledReportController@store
+- Middleware: api, auth:sanctum
+
+## api/scheduled-reports/{scheduled_report}
+
+- Method: GET|HEAD
+- Name: scheduled-reports.show
+- Action: App\Http\Controllers\Api\ScheduledReportController@show
+- Middleware: api, auth:sanctum
+
+## api/scheduled-reports/{scheduled_report}
+
+- Method: PUT|PATCH
+- Name: scheduled-reports.update
+- Action: App\Http\Controllers\Api\ScheduledReportController@update
+- Middleware: api, auth:sanctum
+
+## api/scheduled-reports/{scheduled_report}
+
+- Method: DELETE
+- Name: scheduled-reports.destroy
+- Action: App\Http\Controllers\Api\ScheduledReportController@destroy
+- Middleware: api, auth:sanctum
+
+## api/scheduled-reports/{scheduledReport}/activate
+
+- Method: PATCH
+- Name: -
+- Action: App\Http\Controllers\Api\ScheduledReportController@activate
+- Middleware: api, auth:sanctum
+
+## api/scheduled-reports/{scheduledReport}/deactivate
+
+- Method: PATCH
+- Name: -
+- Action: App\Http\Controllers\Api\ScheduledReportController@deactivate
+- Middleware: api, auth:sanctum
 
 ## api/me
 
@@ -7683,6 +8366,125 @@ App\Http\Controllers\Api
 - Name: -
 - Action: App\Http\Controllers\Api\HotspotController@stats
 - Middleware: api
+
+## api/tasks
+
+- Method: GET|HEAD
+- Name: tasks.index
+- Action: App\Http\Controllers\TaskController@index
+- Middleware: api
+
+## api/tasks
+
+- Method: POST
+- Name: tasks.store
+- Action: App\Http\Controllers\TaskController@store
+- Middleware: api
+
+## api/tasks/{task}
+
+- Method: GET|HEAD
+- Name: tasks.show
+- Action: App\Http\Controllers\TaskController@show
+- Middleware: api
+
+## api/tasks/{task}
+
+- Method: PUT|PATCH
+- Name: tasks.update
+- Action: App\Http\Controllers\TaskController@update
+- Middleware: api
+
+## api/tasks/{task}
+
+- Method: DELETE
+- Name: tasks.destroy
+- Action: App\Http\Controllers\TaskController@destroy
+- Middleware: api
+
+## api/mikrotik/advanced/queues
+
+- Method: GET|HEAD
+- Name: -
+- Action: App\Http\Controllers\Api\MikroTikAdvancedController@getQueues
+- Middleware: api, auth:sanctum
+
+## api/mikrotik/advanced/queues
+
+- Method: POST
+- Name: -
+- Action: App\Http\Controllers\Api\MikroTikAdvancedController@createQueue
+- Middleware: api, auth:sanctum
+
+## api/mikrotik/advanced/queues/{name}
+
+- Method: PUT
+- Name: -
+- Action: App\Http\Controllers\Api\MikroTikAdvancedController@updateQueue
+- Middleware: api, auth:sanctum
+
+## api/mikrotik/advanced/queues/{name}
+
+- Method: DELETE
+- Name: -
+- Action: App\Http\Controllers\Api\MikroTikAdvancedController@deleteQueue
+- Middleware: api, auth:sanctum
+
+## api/mikrotik/advanced/queues/{name}/toggle
+
+- Method: POST
+- Name: -
+- Action: App\Http\Controllers\Api\MikroTikAdvancedController@toggleQueue
+- Middleware: api, auth:sanctum
+
+## api/mikrotik/advanced/firewall
+
+- Method: GET|HEAD
+- Name: -
+- Action: App\Http\Controllers\Api\MikroTikAdvancedController@getFirewallRules
+- Middleware: api, auth:sanctum
+
+## api/mikrotik/advanced/firewall
+
+- Method: POST
+- Name: -
+- Action: App\Http\Controllers\Api\MikroTikAdvancedController@createFirewallRule
+- Middleware: api, auth:sanctum
+
+## api/mikrotik/advanced/firewall/{id}
+
+- Method: DELETE
+- Name: -
+- Action: App\Http\Controllers\Api\MikroTikAdvancedController@deleteFirewallRule
+- Middleware: api, auth:sanctum
+
+## api/mikrotik/advanced/nat
+
+- Method: GET|HEAD
+- Name: -
+- Action: App\Http\Controllers\Api\MikroTikAdvancedController@getNATRules
+- Middleware: api, auth:sanctum
+
+## api/mikrotik/advanced/dhcp
+
+- Method: GET|HEAD
+- Name: -
+- Action: App\Http\Controllers\Api\MikroTikAdvancedController@getDHCPLeases
+- Middleware: api, auth:sanctum
+
+## api/mikrotik/advanced/dhcp
+
+- Method: POST
+- Name: -
+- Action: App\Http\Controllers\Api\MikroTikAdvancedController@addDHCPLease
+- Middleware: api, auth:sanctum
+
+## api/mikrotik/advanced/dhcp/{id}
+
+- Method: DELETE
+- Name: -
+- Action: App\Http\Controllers\Api\MikroTikAdvancedController@deleteDHCPLease
+- Middleware: api, auth:sanctum
 
 ## /
 

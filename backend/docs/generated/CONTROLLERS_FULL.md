@@ -421,6 +421,41 @@ App\Http\Controllers\Api
 
 ---
 
+## MikroTikAdvancedController
+
+**Namespace**
+
+```
+App\Http\Controllers\Api
+```
+
+**File**
+
+```
+/var/www/app/Http/Controllers/Api/MikroTikAdvancedController.php
+```
+
+**Dependencies**
+
+- MikroTikAdvancedService $mikrotikService
+
+**Public Methods**
+
+- getQueues()
+- createQueue()
+- updateQueue()
+- deleteQueue()
+- toggleQueue()
+- getFirewallRules()
+- createFirewallRule()
+- deleteFirewallRule()
+- getNATRules()
+- getDHCPLeases()
+- addDHCPLease()
+- deleteDHCPLease()
+
+---
+
 ## MikrotikController
 
 **Namespace**
@@ -560,6 +595,36 @@ App\Http\Controllers\Api
 
 ---
 
+## ScheduledReportController
+
+**Namespace**
+
+```
+App\Http\Controllers\Api
+```
+
+**File**
+
+```
+/var/www/app/Http/Controllers/Api/ScheduledReportController.php
+```
+
+**Dependencies**
+
+- ScheduledReportService $service
+
+**Public Methods**
+
+- index()
+- store()
+- show()
+- update()
+- destroy()
+- activate()
+- deactivate()
+
+---
+
 ## SubscriptionController
 
 **Namespace**
@@ -585,6 +650,33 @@ App\Http\Controllers\Api
 - renew()
 - restore()
 - expire()
+
+---
+
+## TaskController
+
+**Namespace**
+
+```
+App\Http\Controllers
+```
+
+**File**
+
+```
+/var/www/app/Http/Controllers/TaskController.php
+```
+
+**Dependencies**
+
+- TaskService $service
+
+**Public Methods**
+
+- index()
+- store()
+- update()
+- destroy()
 
 ---
 

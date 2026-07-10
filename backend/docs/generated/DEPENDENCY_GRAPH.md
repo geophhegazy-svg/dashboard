@@ -20,12 +20,15 @@
 - App\Http\Controllers\Api\HotspotSubscriptionController
 - App\Http\Controllers\Api\InventoryController
 - App\Http\Controllers\Api\InvoiceController
+- App\Http\Controllers\Api\MikroTikAdvancedController
 - App\Http\Controllers\Api\MikrotikController
 - App\Http\Controllers\Api\NotificationController
 - App\Http\Controllers\Api\PackageController
 - App\Http\Controllers\Api\PaymentController
 - App\Http\Controllers\Api\ReportController
+- App\Http\Controllers\Api\ScheduledReportController
 - App\Http\Controllers\Api\SubscriptionController
+- App\Http\Controllers\TaskController
 - App\Http\Controllers\Api\TenantController
 - App\Http\Controllers\Api\TicketController
 - App\Http\Controllers\Api\UserController
@@ -79,6 +82,7 @@
 - App\Services\Documentation\Reflection\MethodReflector
 - App\Services\Documentation\Knowledge\MigrationExtractor
 - App\Services\Documentation\Knowledge\MigrationsKnowledgeGenerator
+- App\Services\Network\MikroTikAdvancedService
 - App\Services\Network\MikrotikConnection
 - App\Services\Network\MikrotikService
 - App\Services\Documentation\Generators\ModelDocumentationGenerator
@@ -98,9 +102,13 @@
 - App\Services\Documentation\Knowledge\ProjectSummaryGenerator
 - App\Services\Documentation\Reflection\PropertyReflector
 - App\Services\Documentation\Reflection\ReflectionEngine
+- App\Services\Reports\ReportExecutionService
+- App\Services\Reports\ReportExportService
+- App\Services\Reports\ReportService
 - App\Services\Documentation\Generators\RepositoryDocumentationGenerator
 - App\Services\Documentation\Knowledge\RouteExtractor
 - App\Services\Documentation\Knowledge\RoutesKnowledgeGenerator
+- App\Services\Reports\ScheduledReportService
 - App\Services\Documentation\Generators\ServiceDocumentationGenerator
 - App\Services\Documentation\Knowledge\ServiceUsageExtractor
 - App\Services\Documentation\Knowledge\ServiceUsageKnowledgeGenerator
@@ -140,6 +148,9 @@
 - App\Models\PPPoEUser
 - App\Models\Package
 - App\Models\Payment
+- App\Models\Report
+- App\Models\ReportExport
+- App\Models\ScheduledReport
 - App\Models\Subscription
 - App\Models\Task
 - App\Models\Tenant

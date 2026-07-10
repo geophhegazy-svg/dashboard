@@ -128,6 +128,30 @@ App\Models\Package
 App\Models\Payment
 ```
 
+## Report
+
+**Class**
+
+```
+App\Models\Report
+```
+
+## ReportExport
+
+**Class**
+
+```
+App\Models\ReportExport
+```
+
+## ScheduledReport
+
+**Class**
+
+```
+App\Models\ScheduledReport
+```
+
 ## Subscription
 
 **Class**

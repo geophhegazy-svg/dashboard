@@ -21,6 +21,55 @@
 - Action: App\Http\Controllers\Api\CustomerAuthController@login
 - Middleware: api
 
+## api/scheduled-reports
+
+- Method: GET|HEAD
+- Name: scheduled-reports.index
+- Action: App\Http\Controllers\Api\ScheduledReportController@index
+- Middleware: api, auth:sanctum
+
+## api/scheduled-reports
+
+- Method: POST
+- Name: scheduled-reports.store
+- Action: App\Http\Controllers\Api\ScheduledReportController@store
+- Middleware: api, auth:sanctum
+
+## api/scheduled-reports/{scheduled_report}
+
+- Method: GET|HEAD
+- Name: scheduled-reports.show
+- Action: App\Http\Controllers\Api\ScheduledReportController@show
+- Middleware: api, auth:sanctum
+
+## api/scheduled-reports/{scheduled_report}
+
+- Method: PUT|PATCH
+- Name: scheduled-reports.update
+- Action: App\Http\Controllers\Api\ScheduledReportController@update
+- Middleware: api, auth:sanctum
+
+## api/scheduled-reports/{scheduled_report}
+
+- Method: DELETE
+- Name: scheduled-reports.destroy
+- Action: App\Http\Controllers\Api\ScheduledReportController@destroy
+- Middleware: api, auth:sanctum
+
+## api/scheduled-reports/{scheduledReport}/activate
+
+- Method: PATCH
+- Name: -
+- Action: App\Http\Controllers\Api\ScheduledReportController@activate
+- Middleware: api, auth:sanctum
+
+## api/scheduled-reports/{scheduledReport}/deactivate
+
+- Method: PATCH
+- Name: -
+- Action: App\Http\Controllers\Api\ScheduledReportController@deactivate
+- Middleware: api, auth:sanctum
+
 ## api/me
 
 - Method: GET|HEAD
@@ -895,6 +944,125 @@
 - Name: -
 - Action: App\Http\Controllers\Api\HotspotController@stats
 - Middleware: api
+
+## api/tasks
+
+- Method: GET|HEAD
+- Name: tasks.index
+- Action: App\Http\Controllers\TaskController@index
+- Middleware: api
+
+## api/tasks
+
+- Method: POST
+- Name: tasks.store
+- Action: App\Http\Controllers\TaskController@store
+- Middleware: api
+
+## api/tasks/{task}
+
+- Method: GET|HEAD
+- Name: tasks.show
+- Action: App\Http\Controllers\TaskController@show
+- Middleware: api
+
+## api/tasks/{task}
+
+- Method: PUT|PATCH
+- Name: tasks.update
+- Action: App\Http\Controllers\TaskController@update
+- Middleware: api
+
+## api/tasks/{task}
+
+- Method: DELETE
+- Name: tasks.destroy
+- Action: App\Http\Controllers\TaskController@destroy
+- Middleware: api
+
+## api/mikrotik/advanced/queues
+
+- Method: GET|HEAD
+- Name: -
+- Action: App\Http\Controllers\Api\MikroTikAdvancedController@getQueues
+- Middleware: api, auth:sanctum
+
+## api/mikrotik/advanced/queues
+
+- Method: POST
+- Name: -
+- Action: App\Http\Controllers\Api\MikroTikAdvancedController@createQueue
+- Middleware: api, auth:sanctum
+
+## api/mikrotik/advanced/queues/{name}
+
+- Method: PUT
+- Name: -
+- Action: App\Http\Controllers\Api\MikroTikAdvancedController@updateQueue
+- Middleware: api, auth:sanctum
+
+## api/mikrotik/advanced/queues/{name}
+
+- Method: DELETE
+- Name: -
+- Action: App\Http\Controllers\Api\MikroTikAdvancedController@deleteQueue
+- Middleware: api, auth:sanctum
+
+## api/mikrotik/advanced/queues/{name}/toggle
+
+- Method: POST
+- Name: -
+- Action: App\Http\Controllers\Api\MikroTikAdvancedController@toggleQueue
+- Middleware: api, auth:sanctum
+
+## api/mikrotik/advanced/firewall
+
+- Method: GET|HEAD
+- Name: -
+- Action: App\Http\Controllers\Api\MikroTikAdvancedController@getFirewallRules
+- Middleware: api, auth:sanctum
+
+## api/mikrotik/advanced/firewall
+
+- Method: POST
+- Name: -
+- Action: App\Http\Controllers\Api\MikroTikAdvancedController@createFirewallRule
+- Middleware: api, auth:sanctum
+
+## api/mikrotik/advanced/firewall/{id}
+
+- Method: DELETE
+- Name: -
+- Action: App\Http\Controllers\Api\MikroTikAdvancedController@deleteFirewallRule
+- Middleware: api, auth:sanctum
+
+## api/mikrotik/advanced/nat
+
+- Method: GET|HEAD
+- Name: -
+- Action: App\Http\Controllers\Api\MikroTikAdvancedController@getNATRules
+- Middleware: api, auth:sanctum
+
+## api/mikrotik/advanced/dhcp
+
+- Method: GET|HEAD
+- Name: -
+- Action: App\Http\Controllers\Api\MikroTikAdvancedController@getDHCPLeases
+- Middleware: api, auth:sanctum
+
+## api/mikrotik/advanced/dhcp
+
+- Method: POST
+- Name: -
+- Action: App\Http\Controllers\Api\MikroTikAdvancedController@addDHCPLease
+- Middleware: api, auth:sanctum
+
+## api/mikrotik/advanced/dhcp/{id}
+
+- Method: DELETE
+- Name: -
+- Action: App\Http\Controllers\Api\MikroTikAdvancedController@deleteDHCPLease
+- Middleware: api, auth:sanctum
 
 ## /
 

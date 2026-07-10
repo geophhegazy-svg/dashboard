@@ -953,6 +953,51 @@
 ### Columns
 
 - id (bigint)
+- report_id (bigint)
+- format (varchar)
+- filename (varchar)
+- disk (varchar) default=local
+- path (varchar)
+- mime_type (varchar)
+- size (bigint) default=0
+- exported_by (bigint) nullable
+- exported_at (timestamp) nullable
+- created_at (timestamp) nullable
+- updated_at (timestamp) nullable
+
+## report_exports
+
+**Rows:** 0
+
+### Columns
+
+- id (bigint)
+- report_id (bigint)
+- format (varchar)
+- filename (varchar)
+- disk (varchar) default=local
+- path (varchar)
+- mime_type (varchar)
+- size (bigint) default=0
+- exported_by (bigint) nullable
+- exported_at (timestamp) nullable
+- created_at (timestamp) nullable
+- updated_at (timestamp) nullable
+
+## reports
+
+**Rows:** 0
+
+### Columns
+
+- id (bigint)
+- name (varchar)
+- title (varchar)
+- type (varchar) default=manual
+- filters (json) nullable
+- status (varchar) default=completed
+- generated_by (bigint) nullable
+- generated_at (timestamp) nullable
 - created_at (timestamp) nullable
 - updated_at (timestamp) nullable
 
@@ -1022,6 +1067,36 @@
 ### Columns
 
 - id (bigint)
+- name (varchar)
+- report_name (varchar)
+- frequency (varchar)
+- format (varchar) default=csv
+- filters (json) nullable
+- email (varchar) nullable
+- is_active (tinyint) default=1
+- last_run_at (timestamp) nullable
+- next_run_at (timestamp) nullable
+- created_by (bigint) nullable
+- created_at (timestamp) nullable
+- updated_at (timestamp) nullable
+
+## scheduled_reports
+
+**Rows:** 0
+
+### Columns
+
+- id (bigint)
+- name (varchar)
+- report_name (varchar)
+- frequency (varchar)
+- format (varchar) default=csv
+- filters (json) nullable
+- email (varchar) nullable
+- is_active (tinyint) default=1
+- last_run_at (timestamp) nullable
+- next_run_at (timestamp) nullable
+- created_by (bigint) nullable
 - created_at (timestamp) nullable
 - updated_at (timestamp) nullable
 
@@ -1092,6 +1167,26 @@
 - pppoe_username (varchar) nullable
 - pppoe_password (varchar) nullable
 - mikrotik_profile (varchar) nullable
+- created_at (timestamp) nullable
+- updated_at (timestamp) nullable
+
+## tasks
+
+**Rows:** 0
+
+### Columns
+
+- id (bigint)
+- tenant_id (bigint)
+- user_id (bigint) nullable
+- title (varchar)
+- description (text) nullable
+- priority (enum) default=medium
+- status (enum) default=pending
+- started_at (timestamp) nullable
+- completed_at (timestamp) nullable
+- cancelled_at (timestamp) nullable
+- meta (json) nullable
 - created_at (timestamp) nullable
 - updated_at (timestamp) nullable
 

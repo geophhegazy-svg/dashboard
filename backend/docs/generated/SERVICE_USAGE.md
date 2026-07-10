@@ -627,6 +627,31 @@ App\Services\Documentation\Knowledge\MigrationsKnowledgeGenerator
 - filename
 - generate
 
+## MikroTikAdvancedService
+
+**Class**
+
+```
+App\Services\Network\MikroTikAdvancedService
+```
+
+**Public Methods**
+
+- addDHCPLease
+- connect
+- createFirewallRule
+- createSimpleQueue
+- deleteDHCPLease
+- deleteFirewallRule
+- deleteSimpleQueue
+- disableSimpleQueue
+- enableSimpleQueue
+- getDHCPLeases
+- getFirewallRules
+- getNATRules
+- getSimpleQueues
+- updateSimpleQueue
+
 ## MikrotikConnection
 
 **Class**
@@ -901,6 +926,51 @@ App\Services\Documentation\Reflection\ReflectionEngine
 - __construct
 - reflect
 
+## ReportExecutionService
+
+**Class**
+
+```
+App\Services\Reports\ReportExecutionService
+```
+
+**Public Methods**
+
+- __construct
+- run
+
+## ReportExportService
+
+**Class**
+
+```
+App\Services\Reports\ReportExportService
+```
+
+**Public Methods**
+
+- __construct
+- create
+- find
+- paginate
+
+## ReportService
+
+**Class**
+
+```
+App\Services\Reports\ReportService
+```
+
+**Public Methods**
+
+- __construct
+- create
+- delete
+- find
+- paginate
+- update
+
 ## RepositoryDocumentationGenerator
 
 **Class**
@@ -941,6 +1011,25 @@ App\Services\Documentation\Knowledge\RoutesKnowledgeGenerator
 - __construct
 - filename
 - generate
+
+## ScheduledReportService
+
+**Class**
+
+```
+App\Services\Reports\ScheduledReportService
+```
+
+**Public Methods**
+
+- activate
+- create
+- deactivate
+- delete
+- paginate
+- update
+- updateLastRun
+- updateNextRun
 
 ## ServiceDocumentationGenerator
 
@@ -1146,12 +1235,13 @@ App\Services\Task\TaskService
 
 **Public Methods**
 
-- assign
 - cancel
 - complete
 - create
 - delete
+- paginate
 - reopen
+- start
 - update
 
 ## TelegramNotificationService
