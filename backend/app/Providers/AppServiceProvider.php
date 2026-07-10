@@ -26,6 +26,14 @@ use App\Repositories\Eloquent\TaskRepository;
 use App\Services\Finance\FinanceService;
 use App\Services\Network\MikrotikService;
 
+use App\Contracts\Repositories\JournalEntryRepositoryInterface;
+use App\Contracts\Repositories\JournalEntryLineRepositoryInterface;
+
+use App\Repositories\JournalEntryRepository;
+use App\Repositories\JournalEntryLineRepository;
+
+
+
 class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
@@ -68,6 +76,16 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             ScheduledReportRepositoryInterface::class,
             ScheduledReportRepository::class
+        );
+
+        $this->app->bind(
+            JournalEntryRepositoryInterface::class,
+            JournalEntryRepository::class
+        );
+
+        $this->app->bind(
+            JournalEntryLineRepositoryInterface::class,
+            JournalEntryLineRepository::class
         );
     }
 

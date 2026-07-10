@@ -167,12 +167,14 @@ Total: 30
 
 ## Repositories
 
-Total: 12
+Total: 14
 
 - AccountRepository
 - BillingRepository
 - CustomerRepository
 - InvoiceRepository
+- JournalEntryLineRepository
+- JournalEntryRepository
 - PackageRepository
 - PaymentRepository
 - ReportExportRepository

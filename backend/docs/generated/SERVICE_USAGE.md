@@ -937,7 +937,7 @@ App\Services\Reports\ReportExecutionService
 **Public Methods**
 
 - __construct
-- run
+- execute
 
 ## ReportExportService
 

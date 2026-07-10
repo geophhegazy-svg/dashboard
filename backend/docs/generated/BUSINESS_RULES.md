@@ -1011,12 +1011,12 @@ App\Services\Reports
 **Dependencies**
 - App\Reports\Manager\ReportManager
 - App\Reports\Export\ExportManager
-- App\Repositories\Contracts\ReportRepositoryInterface
-- App\Repositories\Contracts\ReportExportRepositoryInterface
+- App\Contracts\Repositories\ReportRepositoryInterface
+- App\Contracts\Repositories\ReportExportRepositoryInterface
 
 **Methods**
 - __construct(4 params) : mixed
-- run(3 params) : App\Reports\DTO\ExportResult
+- execute(3 params) : App\Reports\DTO\ExportResult
 
 ---
 

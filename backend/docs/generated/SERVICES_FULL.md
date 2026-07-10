@@ -1727,12 +1727,12 @@ App\Services\Reports
 
 - $reportManager : App\Reports\Manager\ReportManager
 - $exportManager : App\Reports\Export\ExportManager
-- $reportRepository : App\Repositories\Contracts\ReportRepositoryInterface
-- $reportExportRepository : App\Repositories\Contracts\ReportExportRepositoryInterface
+- $reportRepository : App\Contracts\Repositories\ReportRepositoryInterface
+- $reportExportRepository : App\Contracts\Repositories\ReportExportRepositoryInterface
 
 **Methods**
 
-- run() : App\Reports\DTO\ExportResult
+- execute() : App\Reports\DTO\ExportResult
 
 ---
 

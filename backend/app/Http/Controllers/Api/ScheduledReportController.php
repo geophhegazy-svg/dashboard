@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ScheduledReport\StoreScheduledReportRequest;
-use App\Http\Requests\ScheduledReport\UpdateScheduledReportRequest;
+use App\Http\Requests\Reports\StoreScheduledReportRequest;
+use App\Http\Requests\Reports\UpdateScheduledReportRequest;
 use App\Http\Resources\ScheduledReportResource;
 use App\Models\ScheduledReport;
 use App\Services\Reports\ScheduledReportService;

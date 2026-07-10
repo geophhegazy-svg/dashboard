@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Services\Reports;
 
-use Illuminate\Support\Facades\DB;
-use App\Reports\DTO\ExportResult;
-use App\Reports\Manager\ReportManager;
+use App\Contracts\Repositories\ReportExportRepositoryInterface;
+use App\Contracts\Repositories\ReportRepositoryInterface;
 use App\Reports\Export\ExportManager;
-use App\Repositories\Contracts\ReportRepositoryInterface;
-use App\Repositories\Contracts\ReportExportRepositoryInterface;
+use App\Reports\Manager\ReportManager;
+use App\Reports\DTO\ExportResult;
+use App\Reports\DTO\ReportResult;
 
 class ReportExecutionService
 {
@@ -20,45 +20,56 @@ class ReportExecutionService
         private readonly ReportExportRepositoryInterface $reportExportRepository,
     ) {}
 
-    public function run(
+    /**
+     * Execute a report and export it.
+     */
+    public function execute(
         string $reportName,
-        array $filters = [],
-        string $format = 'csv'
+        string $format = 'csv',
+        array $filters = []
     ): ExportResult {
-
-        return DB::transaction(function () use (
+        // Execute report
+        $report = $this->reportManager->run(
             $reportName,
-            $filters,
-            $format
-        ) {
+            $filters
+        );
 
-            $report = $this->reportManager->run(
-                $reportName,
-                $filters
-            );
+        // Export result
+        $export = $this->exportManager->export(
+            $format,
+            $report
+        );
 
-            $export = $this->exportManager->export(
-                $report,
-                $format
-            );
+        // Persist execution history
+        $this->storeExecution(
+            reportName: $reportName,
+            format: $format,
+            report: $report,
+            export: $export,
+            filters: $filters,
+        );
 
-            $savedReport = $this->reportRepository->create([
-                'name' => $report->name,
-                'title' => $report->title,
-                'description' => null,
-                'type' => $format,
-                'enabled' => true,
-            ]);
+        return $export;
+    }
 
-            $this->reportExportRepository->create([
-                'report_id' => $savedReport->id,
-                'filename' => $export->filename,
-                'mime_type' => $export->mimeType,
-                'size' => $export->size,
-                'status' => 'completed',
-            ]);
-
-            return $export;
-        });
+    /**
+     * Save export history.
+     */
+    protected function storeExecution(
+        string $reportName,
+        string $format,
+        ReportResult $report,
+        ExportResult $export,
+        array $filters = []
+    ): void {
+        $this->reportExportRepository->create([
+            'report_name'   => $reportName,
+            'format'        => $format,
+            'file_name'     => $export->fileName,
+            'mime_type'     => $export->mimeType,
+            'records_count' => count($report->rows),
+            'filters'       => $filters,
+            'exported_at'   => now(),
+        ]);
     }
 }

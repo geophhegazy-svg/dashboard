@@ -4,65 +4,50 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
+use App\Reports\Export\CsvExporter;
+use App\Reports\Export\ExcelExporter;
+use App\Reports\Export\ExportManager;
+use App\Reports\Manager\ReportManager;
 use App\Reports\Registry\ReportRegistry;
 use App\Reports\Reports\CustomerReport;
-use App\Reports\Reports\SubscriptionReport;
 use App\Reports\Reports\InvoiceReport;
 use App\Reports\Reports\PaymentReport;
+use App\Reports\Reports\SubscriptionReport;
 use App\Reports\Reports\WalletReport;
+use Illuminate\Support\ServiceProvider;
 
 class ReportsServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        $this->app->singleton(
-            ReportRegistry::class,
-            function () {
+        $this->app->singleton(ReportRegistry::class, function () {
 
-                $registry = new ReportRegistry();
+            $registry = new ReportRegistry();
 
-                $registry->register(
-                    new CustomerReport()
-                );
+            $registry->register(new CustomerReport());
+            $registry->register(new SubscriptionReport());
+            $registry->register(new InvoiceReport());
+            $registry->register(new PaymentReport());
+            $registry->register(new WalletReport());
 
-                $registry->register(
-                    new SubscriptionReport()
-                );
+            return $registry;
+        });
 
-                $registry->register(
-                    new InvoiceReport()
-                );
+        $this->app->singleton(ReportManager::class, function ($app) {
 
-                $registry->register(
-                    new PaymentReport()
-                );
+            return new ReportManager(
+                $app->make(ReportRegistry::class)
+            );
+        });
 
-                $registry->register(
-                    new WalletReport()
-                );
+        $this->app->singleton(ExportManager::class, function () {
 
-                return $registry;
-            }
-        );
+            $manager = new ExportManager();
 
-        $this->app->singleton(
-            \App\Reports\Export\ExportManager::class,
-            function () {
+            $manager->register(new CsvExporter());
+            $manager->register(new ExcelExporter());
 
-                $manager = new \App\Reports\Export\ExportManager();
-
-                $manager->register(
-                    new \App\Reports\Export\CsvExporter()
-                );
-
-                return $manager;
-            }
-        );
-    }
-
-    public function boot(): void
-    {
-        //
+            return $manager;
+        });
     }
 }

@@ -4,42 +4,19 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Reports;
 
-use Illuminate\Foundation\Http\FormRequest;
-
-class UpdateScheduledReportRequest extends FormRequest
+class UpdateScheduledReportRequest extends StoreScheduledReportRequest
 {
-    public function authorize(): bool
-    {
-        return true;
-    }
-
+    /**
+     * @return array<string, mixed>
+     */
     public function rules(): array
     {
-        return [
-            'report_name' => [
-                'sometimes',
-                'string',
-                'max:100',
-            ],
+        $rules = parent::rules();
 
-            'frequency' => [
-                'sometimes',
-                'in:daily,weekly,monthly',
-            ],
+        foreach ($rules as $field => $rule) {
+            array_unshift($rules[$field], 'sometimes');
+        }
 
-            'format' => [
-                'sometimes',
-                'in:csv,xlsx,pdf',
-            ],
-
-            'email' => [
-                'sometimes',
-                'email',
-            ],
-
-            'enabled' => [
-                'boolean',
-            ],
-        ];
+        return $rules;
     }
 }
