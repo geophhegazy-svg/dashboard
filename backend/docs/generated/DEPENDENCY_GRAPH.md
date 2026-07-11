@@ -90,8 +90,18 @@
 - App\Services\Documentation\Knowledge\MigrationExtractor
 - App\Services\Documentation\Knowledge\MigrationsKnowledgeGenerator
 - App\Services\Network\MikroTikAdvancedService
+- App\Services\Network\Providers\MikroTik\MikroTikConnectionService
+- App\Services\Network\Providers\MikroTik\MikroTikDhcpService
+- App\Services\Network\Providers\MikroTik\MikroTikFirewallService
+- App\Services\Network\Providers\MikroTik\MikroTikHotspotService
+- App\Services\Network\Providers\MikroTik\MikroTikMonitoringService
+- App\Services\Network\Providers\MikroTik\MikroTikPppoeService
+- App\Services\Network\Providers\MikroTik\MikroTikProvider
+- App\Services\Network\Providers\MikroTik\MikroTikQueryService
+- App\Services\Network\Providers\MikroTik\MikroTikQueueService
 - App\Services\Network\MikrotikConnection
 - App\Services\Network\MikrotikService
+- App\Services\Network\MikrotikServiceAdapter
 - App\Services\Documentation\Generators\ModelDocumentationGenerator
 - App\Services\Documentation\Knowledge\ModelRelationExtractor
 - App\Services\Documentation\Knowledge\ModelRelationsKnowledgeGenerator
@@ -99,6 +109,8 @@
 - App\Services\Documentation\Sections\ModelsSection
 - App\Services\Documentation\Knowledge\ModuleExtractor
 - App\Services\Documentation\Knowledge\ModulesKnowledgeGenerator
+- App\Services\Network\NetworkManager
+- App\Services\Network\NetworkProviderResolver
 - App\Services\Notification\NotificationService
 - App\Services\Package\PackageService
 - App\Services\Payment\PaymentService
@@ -114,6 +126,7 @@
 - App\Services\Reports\ReportService
 - App\Services\Documentation\Generators\RepositoryDocumentationGenerator
 - App\Services\Documentation\Knowledge\RouteExtractor
+- App\Services\Network\RouterConnectionService
 - App\Services\Documentation\Knowledge\RoutesKnowledgeGenerator
 - App\Services\Reports\ScheduledReportService
 - App\Services\Documentation\Generators\ServiceDocumentationGenerator

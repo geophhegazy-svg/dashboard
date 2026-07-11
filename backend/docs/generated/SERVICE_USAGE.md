@@ -704,6 +704,206 @@ App\Services\Network\MikroTikAdvancedService
 - updateFirewallRule
 - updateSimpleQueue
 
+## MikroTikConnectionService
+
+**Class**
+
+```
+App\Services\Network\Providers\MikroTik\MikroTikConnectionService
+```
+
+**Public Methods**
+
+- client
+- connect
+- disconnect
+- isConnected
+- ping
+
+## MikroTikDhcpService
+
+**Class**
+
+```
+App\Services\Network\Providers\MikroTik\MikroTikDhcpService
+```
+
+**Public Methods**
+
+- __construct
+- activeClients
+- create
+- delete
+- find
+- findByMac
+- getLeases
+- makeStatic
+- removeStatic
+- search
+- statistics
+- update
+
+## MikroTikFirewallService
+
+**Class**
+
+```
+App\Services\Network\Providers\MikroTik\MikroTikFirewallService
+```
+
+**Public Methods**
+
+- __construct
+- create
+- createNat
+- delete
+- deleteNat
+- disable
+- enable
+- find
+- findNat
+- getNatRules
+- getRules
+- search
+- statistics
+- update
+- updateNat
+
+## MikroTikHotspotService
+
+**Class**
+
+```
+App\Services\Network\Providers\MikroTik\MikroTikHotspotService
+```
+
+**Public Methods**
+
+- __construct
+- createUser
+- deleteUser
+- disableUser
+- disconnectUser
+- enableUser
+- findUser
+- getActiveSession
+- getActiveSessions
+- getUsers
+- search
+- statistics
+- status
+- updatePassword
+- updateProfile
+- updateUser
+
+## MikroTikMonitoringService
+
+**Class**
+
+```
+App\Services\Network\Providers\MikroTik\MikroTikMonitoringService
+```
+
+**Public Methods**
+
+- __construct
+- getIdentity
+- getInterfaceTraffic
+- getInterfaces
+- getSystemResource
+- healthCheck
+- ping
+- summary
+
+## MikroTikPppoeService
+
+**Class**
+
+```
+App\Services\Network\Providers\MikroTik\MikroTikPppoeService
+```
+
+**Public Methods**
+
+- __construct
+- createUser
+- deleteUser
+- disableUser
+- disconnectUser
+- enableUser
+- getActiveSession
+- getActiveSessions
+- getAllUsers
+- getUser
+- searchUsers
+- status
+- updatePassword
+- updateProfile
+- updateUser
+
+## MikroTikProvider
+
+**Class**
+
+```
+App\Services\Network\Providers\MikroTik\MikroTikProvider
+```
+
+**Public Methods**
+
+- __construct
+- capabilities
+- connect
+- dhcp
+- disconnect
+- firewall
+- hotspot
+- isConnected
+- monitoring
+- name
+- pppoe
+- queue
+
+## MikroTikQueryService
+
+**Class**
+
+```
+App\Services\Network\Providers\MikroTik\MikroTikQueryService
+```
+
+**Public Methods**
+
+- __construct
+- execute
+- first
+- write
+
+## MikroTikQueueService
+
+**Class**
+
+```
+App\Services\Network\Providers\MikroTik\MikroTikQueueService
+```
+
+**Public Methods**
+
+- __construct
+- create
+- delete
+- disable
+- enable
+- find
+- getAll
+- getUsage
+- getUserQueue
+- resetCounters
+- search
+- statistics
+- update
+- updateSpeed
+
 ## MikrotikConnection
 
 **Class**
@@ -727,6 +927,36 @@ App\Services\Network\MikrotikService
 
 **Public Methods**
 
+- connect
+- createHotspotUser
+- createUser
+- deleteUser
+- disableHotspotUser
+- disableUser
+- disconnectUser
+- enableHotspotUser
+- enableUser
+- getActiveSessions
+- getAllUsers
+- getDeviceStats
+- getHotspotActiveSessions
+- getHotspotUsers
+- getQueueUsage
+- ping
+- updateDeviceStatus
+- updateUserQueue
+
+## MikrotikServiceAdapter
+
+**Class**
+
+```
+App\Services\Network\MikrotikServiceAdapter
+```
+
+**Public Methods**
+
+- __construct
 - connect
 - createHotspotUser
 - createUser
@@ -840,6 +1070,40 @@ App\Services\Documentation\Knowledge\ModulesKnowledgeGenerator
 - __construct
 - filename
 - generate
+
+## NetworkManager
+
+**Class**
+
+```
+App\Services\Network\NetworkManager
+```
+
+**Public Methods**
+
+- __construct
+- capabilities
+- connect
+- connected
+- device
+- disconnect
+- provider
+- providerName
+
+## NetworkProviderResolver
+
+**Class**
+
+```
+App\Services\Network\NetworkProviderResolver
+```
+
+**Public Methods**
+
+- available
+- register
+- resolve
+- resolveByName
 
 ## NotificationService
 
@@ -1050,6 +1314,21 @@ App\Services\Documentation\Knowledge\RouteExtractor
 **Public Methods**
 
 - extract
+
+## RouterConnectionService
+
+**Class**
+
+```
+App\Services\Network\RouterConnectionService
+```
+
+**Public Methods**
+
+- __construct
+- connect
+- connectByDeviceId
+- service
 
 ## RoutesKnowledgeGenerator
 

@@ -14,7 +14,7 @@ Technology
 
 Statistics
 - Models: 27
-- Services: 99
+- Services: 112
 
 
 ---
@@ -48,7 +48,7 @@ app/
 # Project Statistics
 
 Models: 27
-Services: 99
+Services: 112
 
 ---
 
@@ -100,7 +100,7 @@ Development Rules
 
 Current Statistics
 Models: 27
-Services: 99
+Services: 112
 
 ---
 
@@ -868,6 +868,221 @@ App\Services\Network
 
 ---
 
+## MikroTikConnectionService
+
+**Namespace**
+App\Services\Network\Providers\MikroTik
+
+**Dependencies**
+- None
+
+**Methods**
+- connect(4 params) : bool
+- client(0 params) : ?RouterOS\Client
+- isConnected(0 params) : bool
+- disconnect(0 params) : void
+- ping(0 params) : bool
+
+---
+
+## MikroTikDhcpService
+
+**Namespace**
+App\Services\Network\Providers\MikroTik
+
+**Dependencies**
+- App\Services\Network\Providers\MikroTik\MikroTikQueryService
+
+**Methods**
+- __construct(1 params) : mixed
+- getLeases(0 params) : array
+- find(1 params) : ?array
+- findByMac(1 params) : ?array
+- create(4 params) : bool
+- update(2 params) : bool
+- delete(1 params) : bool
+- makeStatic(1 params) : bool
+- removeStatic(1 params) : bool
+- search(1 params) : array
+- statistics(0 params) : array
+- activeClients(0 params) : array
+
+---
+
+## MikroTikFirewallService
+
+**Namespace**
+App\Services\Network\Providers\MikroTik
+
+**Dependencies**
+- App\Services\Network\Providers\MikroTik\MikroTikQueryService
+
+**Methods**
+- __construct(1 params) : mixed
+- getRules(0 params) : array
+- find(1 params) : ?array
+- create(1 params) : bool
+- update(2 params) : bool
+- delete(1 params) : bool
+- disable(1 params) : bool
+- enable(1 params) : bool
+- getNatRules(0 params) : array
+- findNat(1 params) : ?array
+- createNat(1 params) : bool
+- updateNat(2 params) : bool
+- deleteNat(1 params) : bool
+- search(1 params) : array
+- statistics(0 params) : array
+
+---
+
+## MikroTikHotspotService
+
+**Namespace**
+App\Services\Network\Providers\MikroTik
+
+**Dependencies**
+- App\Services\Network\Providers\MikroTik\MikroTikQueryService
+
+**Methods**
+- __construct(1 params) : mixed
+- getUsers(0 params) : array
+- findUser(1 params) : ?array
+- getActiveSessions(0 params) : array
+- getActiveSession(1 params) : ?array
+- createUser(4 params) : bool
+- disableUser(1 params) : bool
+- enableUser(1 params) : bool
+- deleteUser(1 params) : bool
+- disconnectUser(1 params) : bool
+- status(1 params) : array
+- updateUser(2 params) : bool
+- updateProfile(2 params) : bool
+- updatePassword(2 params) : bool
+- search(1 params) : array
+- statistics(0 params) : array
+
+---
+
+## MikroTikMonitoringService
+
+**Namespace**
+App\Services\Network\Providers\MikroTik
+
+**Dependencies**
+- App\Services\Network\Providers\MikroTik\MikroTikQueryService
+
+**Methods**
+- __construct(1 params) : mixed
+- getSystemResource(0 params) : array
+- getIdentity(0 params) : array
+- getInterfaces(0 params) : array
+- getInterfaceTraffic(0 params) : array
+- ping(2 params) : bool
+- healthCheck(0 params) : array
+- summary(0 params) : array
+
+---
+
+## MikroTikPppoeService
+
+**Namespace**
+App\Services\Network\Providers\MikroTik
+
+**Dependencies**
+- App\Services\Network\Providers\MikroTik\MikroTikQueryService
+
+**Methods**
+- __construct(1 params) : mixed
+- getAllUsers(0 params) : array
+- getUser(1 params) : ?array
+- createUser(4 params) : bool
+- updateUser(2 params) : bool
+- disableUser(1 params) : bool
+- enableUser(1 params) : bool
+- deleteUser(1 params) : bool
+- getActiveSessions(0 params) : array
+- getActiveSession(1 params) : ?array
+- disconnectUser(1 params) : bool
+- updateProfile(2 params) : bool
+- updatePassword(2 params) : bool
+- searchUsers(1 params) : array
+- status(1 params) : array
+
+---
+
+## MikroTikProvider
+
+**Namespace**
+App\Services\Network\Providers\MikroTik
+
+**Dependencies**
+- App\Services\Network\Providers\MikroTik\MikroTikConnectionService
+- App\Services\Network\Providers\MikroTik\MikroTikPppoeService
+- App\Services\Network\Providers\MikroTik\MikroTikQueueService
+- App\Services\Network\Providers\MikroTik\MikroTikHotspotService
+- App\Services\Network\Providers\MikroTik\MikroTikFirewallService
+- App\Services\Network\Providers\MikroTik\MikroTikDhcpService
+- App\Services\Network\Providers\MikroTik\MikroTikMonitoringService
+
+**Methods**
+- __construct(7 params) : mixed
+- connect(4 params) : bool
+- disconnect(0 params) : void
+- isConnected(0 params) : bool
+- name(0 params) : string
+- capabilities(0 params) : array
+- pppoe(0 params) : App\Services\Network\Providers\MikroTik\MikroTikPppoeService
+- queue(0 params) : App\Services\Network\Providers\MikroTik\MikroTikQueueService
+- hotspot(0 params) : App\Services\Network\Providers\MikroTik\MikroTikHotspotService
+- firewall(0 params) : App\Services\Network\Providers\MikroTik\MikroTikFirewallService
+- dhcp(0 params) : App\Services\Network\Providers\MikroTik\MikroTikDhcpService
+- monitoring(0 params) : App\Services\Network\Providers\MikroTik\MikroTikMonitoringService
+
+---
+
+## MikroTikQueryService
+
+**Namespace**
+App\Services\Network\Providers\MikroTik
+
+**Dependencies**
+- App\Services\Network\Providers\MikroTik\MikroTikConnectionService
+
+**Methods**
+- __construct(1 params) : mixed
+- execute(1 params) : array
+- first(1 params) : ?array
+- write(1 params) : bool
+
+---
+
+## MikroTikQueueService
+
+**Namespace**
+App\Services\Network\Providers\MikroTik
+
+**Dependencies**
+- App\Services\Network\Providers\MikroTik\MikroTikQueryService
+
+**Methods**
+- __construct(1 params) : mixed
+- getAll(0 params) : array
+- find(1 params) : ?array
+- create(6 params) : bool
+- update(2 params) : bool
+- delete(1 params) : bool
+- disable(1 params) : bool
+- enable(1 params) : bool
+- getUsage(0 params) : array
+- getUserQueue(1 params) : ?array
+- updateSpeed(3 params) : bool
+- resetCounters(1 params) : bool
+- search(1 params) : array
+- statistics(1 params) : array
+
+---
+
 ## MikrotikConnection
 
 **Namespace**
@@ -891,6 +1106,37 @@ App\Services\Network
 - None
 
 **Methods**
+- connect(4 params) : bool
+- createUser(4 params) : bool
+- disableUser(1 params) : bool
+- enableUser(1 params) : bool
+- deleteUser(1 params) : bool
+- getAllUsers(0 params) : array
+- getActiveSessions(0 params) : array
+- updateUserQueue(3 params) : bool
+- getQueueUsage(0 params) : array
+- getDeviceStats(0 params) : array
+- ping(1 params) : bool
+- disconnectUser(1 params) : bool
+- updateDeviceStatus(1 params) : void
+- getHotspotUsers(0 params) : array
+- getHotspotActiveSessions(0 params) : array
+- createHotspotUser(4 params) : bool
+- disableHotspotUser(1 params) : bool
+- enableHotspotUser(1 params) : bool
+
+---
+
+## MikrotikServiceAdapter
+
+**Namespace**
+App\Services\Network
+
+**Dependencies**
+- App\Services\Network\Providers\MikroTik\MikroTikProvider
+
+**Methods**
+- __construct(1 params) : mixed
 - connect(4 params) : bool
 - createUser(4 params) : bool
 - disableUser(1 params) : bool
@@ -1012,6 +1258,42 @@ App\Services\Documentation\Knowledge
 - __construct(1 params) : mixed
 - filename(0 params) : string
 - generate(0 params) : string
+
+---
+
+## NetworkManager
+
+**Namespace**
+App\Services\Network
+
+**Dependencies**
+- App\Services\Network\NetworkProviderResolver
+
+**Methods**
+- __construct(1 params) : mixed
+- connect(1 params) : bool
+- disconnect(0 params) : void
+- provider(0 params) : ?App\Contracts\Network\NetworkProviderInterface
+- device(0 params) : ?App\Models\NetworkDevice
+- connected(0 params) : bool
+- providerName(0 params) : ?string
+- capabilities(0 params) : array
+
+---
+
+## NetworkProviderResolver
+
+**Namespace**
+App\Services\Network
+
+**Dependencies**
+- None
+
+**Methods**
+- resolve(1 params) : App\Contracts\Network\NetworkProviderInterface
+- resolveByName(1 params) : App\Contracts\Network\NetworkProviderInterface
+- register(2 params) : void
+- available(0 params) : array
 
 ---
 
@@ -1244,6 +1526,22 @@ App\Services\Documentation\Knowledge
 
 **Methods**
 - extract(0 params) : array
+
+---
+
+## RouterConnectionService
+
+**Namespace**
+App\Services\Network
+
+**Dependencies**
+- App\Services\Network\MikroTikAdvancedService
+
+**Methods**
+- __construct(1 params) : mixed
+- connectByDeviceId(1 params) : App\Models\NetworkDevice
+- connect(1 params) : App\Models\NetworkDevice
+- service(0 params) : App\Services\Network\MikroTikAdvancedService
 
 ---
 
@@ -5629,6 +5927,350 @@ App\Services\Network
 
 ---
 
+## MikroTikConnectionService
+
+**Namespace**
+
+```
+App\Services\Network\Providers\MikroTik
+```
+
+**File**
+
+```
+/var/www/app/Services/Network/Providers/MikroTik/MikroTikConnectionService.php
+```
+
+**Properties**
+
+- $client : ?RouterOS\Client
+
+**Methods**
+
+- connect() : bool
+- client() : ?RouterOS\Client
+- isConnected() : bool
+- disconnect() : void
+- ping() : bool
+
+---
+
+## MikroTikDhcpService
+
+**Namespace**
+
+```
+App\Services\Network\Providers\MikroTik
+```
+
+**File**
+
+```
+/var/www/app/Services/Network/Providers/MikroTik/MikroTikDhcpService.php
+```
+
+**Constructor Dependencies**
+
+- MikroTikQueryService $query
+
+**Properties**
+
+- $query : App\Services\Network\Providers\MikroTik\MikroTikQueryService
+
+**Methods**
+
+- getLeases() : array
+- find() : ?array
+- findByMac() : ?array
+- create() : bool
+- update() : bool
+- delete() : bool
+- makeStatic() : bool
+- removeStatic() : bool
+- search() : array
+- statistics() : array
+- activeClients() : array
+
+---
+
+## MikroTikFirewallService
+
+**Namespace**
+
+```
+App\Services\Network\Providers\MikroTik
+```
+
+**File**
+
+```
+/var/www/app/Services/Network/Providers/MikroTik/MikroTikFirewallService.php
+```
+
+**Constructor Dependencies**
+
+- MikroTikQueryService $query
+
+**Properties**
+
+- $query : App\Services\Network\Providers\MikroTik\MikroTikQueryService
+
+**Methods**
+
+- getRules() : array
+- find() : ?array
+- create() : bool
+- update() : bool
+- delete() : bool
+- disable() : bool
+- enable() : bool
+- getNatRules() : array
+- findNat() : ?array
+- createNat() : bool
+- updateNat() : bool
+- deleteNat() : bool
+- search() : array
+- statistics() : array
+
+---
+
+## MikroTikHotspotService
+
+**Namespace**
+
+```
+App\Services\Network\Providers\MikroTik
+```
+
+**File**
+
+```
+/var/www/app/Services/Network/Providers/MikroTik/MikroTikHotspotService.php
+```
+
+**Constructor Dependencies**
+
+- MikroTikQueryService $query
+
+**Properties**
+
+- $query : App\Services\Network\Providers\MikroTik\MikroTikQueryService
+
+**Methods**
+
+- getUsers() : array
+- findUser() : ?array
+- getActiveSessions() : array
+- getActiveSession() : ?array
+- createUser() : bool
+- disableUser() : bool
+- enableUser() : bool
+- deleteUser() : bool
+- disconnectUser() : bool
+- status() : array
+- updateUser() : bool
+- updateProfile() : bool
+- updatePassword() : bool
+- search() : array
+- statistics() : array
+
+---
+
+## MikroTikMonitoringService
+
+**Namespace**
+
+```
+App\Services\Network\Providers\MikroTik
+```
+
+**File**
+
+```
+/var/www/app/Services/Network/Providers/MikroTik/MikroTikMonitoringService.php
+```
+
+**Constructor Dependencies**
+
+- MikroTikQueryService $query
+
+**Properties**
+
+- $query : App\Services\Network\Providers\MikroTik\MikroTikQueryService
+
+**Methods**
+
+- getSystemResource() : array
+- getIdentity() : array
+- getInterfaces() : array
+- getInterfaceTraffic() : array
+- ping() : bool
+- healthCheck() : array
+- summary() : array
+
+---
+
+## MikroTikPppoeService
+
+**Namespace**
+
+```
+App\Services\Network\Providers\MikroTik
+```
+
+**File**
+
+```
+/var/www/app/Services/Network/Providers/MikroTik/MikroTikPppoeService.php
+```
+
+**Constructor Dependencies**
+
+- MikroTikQueryService $query
+
+**Properties**
+
+- $query : App\Services\Network\Providers\MikroTik\MikroTikQueryService
+
+**Methods**
+
+- getAllUsers() : array
+- getUser() : ?array
+- createUser() : bool
+- updateUser() : bool
+- disableUser() : bool
+- enableUser() : bool
+- deleteUser() : bool
+- getActiveSessions() : array
+- getActiveSession() : ?array
+- disconnectUser() : bool
+- updateProfile() : bool
+- updatePassword() : bool
+- searchUsers() : array
+- status() : array
+
+---
+
+## MikroTikProvider
+
+**Namespace**
+
+```
+App\Services\Network\Providers\MikroTik
+```
+
+**File**
+
+```
+/var/www/app/Services/Network/Providers/MikroTik/MikroTikProvider.php
+```
+
+**Constructor Dependencies**
+
+- MikroTikConnectionService $connection
+- MikroTikPppoeService $pppoe
+- MikroTikQueueService $queue
+- MikroTikHotspotService $hotspot
+- MikroTikFirewallService $firewall
+- MikroTikDhcpService $dhcp
+- MikroTikMonitoringService $monitoring
+
+**Properties**
+
+- $connection : App\Services\Network\Providers\MikroTik\MikroTikConnectionService
+- $pppoe : App\Services\Network\Providers\MikroTik\MikroTikPppoeService
+- $queue : App\Services\Network\Providers\MikroTik\MikroTikQueueService
+- $hotspot : App\Services\Network\Providers\MikroTik\MikroTikHotspotService
+- $firewall : App\Services\Network\Providers\MikroTik\MikroTikFirewallService
+- $dhcp : App\Services\Network\Providers\MikroTik\MikroTikDhcpService
+- $monitoring : App\Services\Network\Providers\MikroTik\MikroTikMonitoringService
+
+**Methods**
+
+- connect() : bool
+- disconnect() : void
+- isConnected() : bool
+- name() : string
+- capabilities() : array
+- pppoe() : App\Services\Network\Providers\MikroTik\MikroTikPppoeService
+- queue() : App\Services\Network\Providers\MikroTik\MikroTikQueueService
+- hotspot() : App\Services\Network\Providers\MikroTik\MikroTikHotspotService
+- firewall() : App\Services\Network\Providers\MikroTik\MikroTikFirewallService
+- dhcp() : App\Services\Network\Providers\MikroTik\MikroTikDhcpService
+- monitoring() : App\Services\Network\Providers\MikroTik\MikroTikMonitoringService
+
+---
+
+## MikroTikQueryService
+
+**Namespace**
+
+```
+App\Services\Network\Providers\MikroTik
+```
+
+**File**
+
+```
+/var/www/app/Services/Network/Providers/MikroTik/MikroTikQueryService.php
+```
+
+**Constructor Dependencies**
+
+- MikroTikConnectionService $connection
+
+**Properties**
+
+- $connection : App\Services\Network\Providers\MikroTik\MikroTikConnectionService
+
+**Methods**
+
+- execute() : array
+- first() : ?array
+- write() : bool
+
+---
+
+## MikroTikQueueService
+
+**Namespace**
+
+```
+App\Services\Network\Providers\MikroTik
+```
+
+**File**
+
+```
+/var/www/app/Services/Network/Providers/MikroTik/MikroTikQueueService.php
+```
+
+**Constructor Dependencies**
+
+- MikroTikQueryService $query
+
+**Properties**
+
+- $query : App\Services\Network\Providers\MikroTik\MikroTikQueryService
+
+**Methods**
+
+- getAll() : array
+- find() : ?array
+- create() : bool
+- update() : bool
+- delete() : bool
+- disable() : bool
+- enable() : bool
+- getUsage() : array
+- getUserQueue() : ?array
+- updateSpeed() : bool
+- resetCounters() : bool
+- search() : array
+- statistics() : array
+
+---
+
 ## MikrotikConnection
 
 **Namespace**
@@ -5672,6 +6314,51 @@ App\Services\Network
 
 - $client : mixed
 - $device : mixed
+
+**Methods**
+
+- connect() : bool
+- createUser() : bool
+- disableUser() : bool
+- enableUser() : bool
+- deleteUser() : bool
+- getAllUsers() : array
+- getActiveSessions() : array
+- updateUserQueue() : bool
+- getQueueUsage() : array
+- getDeviceStats() : array
+- ping() : bool
+- disconnectUser() : bool
+- updateDeviceStatus() : void
+- getHotspotUsers() : array
+- getHotspotActiveSessions() : array
+- createHotspotUser() : bool
+- disableHotspotUser() : bool
+- enableHotspotUser() : bool
+
+---
+
+## MikrotikServiceAdapter
+
+**Namespace**
+
+```
+App\Services\Network
+```
+
+**File**
+
+```
+/var/www/app/Services/Network/MikrotikServiceAdapter.php
+```
+
+**Constructor Dependencies**
+
+- MikroTikProvider $provider
+
+**Properties**
+
+- $provider : App\Services\Network\Providers\MikroTik\MikroTikProvider
 
 **Methods**
 
@@ -5888,6 +6575,69 @@ App\Services\Documentation\Knowledge
 
 - filename() : string
 - generate() : string
+
+---
+
+## NetworkManager
+
+**Namespace**
+
+```
+App\Services\Network
+```
+
+**File**
+
+```
+/var/www/app/Services/Network/NetworkManager.php
+```
+
+**Constructor Dependencies**
+
+- NetworkProviderResolver $resolver
+
+**Properties**
+
+- $device : ?App\Models\NetworkDevice
+- $provider : ?App\Contracts\Network\NetworkProviderInterface
+- $resolver : App\Services\Network\NetworkProviderResolver
+
+**Methods**
+
+- connect() : bool
+- disconnect() : void
+- provider() : ?App\Contracts\Network\NetworkProviderInterface
+- device() : ?App\Models\NetworkDevice
+- connected() : bool
+- providerName() : ?string
+- capabilities() : array
+
+---
+
+## NetworkProviderResolver
+
+**Namespace**
+
+```
+App\Services\Network
+```
+
+**File**
+
+```
+/var/www/app/Services/Network/NetworkProviderResolver.php
+```
+
+**Properties**
+
+- $providers : array
+
+**Methods**
+
+- resolve() : App\Contracts\Network\NetworkProviderInterface
+- resolveByName() : App\Contracts\Network\NetworkProviderInterface
+- register() : void
+- available() : array
 
 ---
 
@@ -6295,6 +7045,36 @@ App\Services\Documentation\Knowledge
 **Methods**
 
 - extract() : array
+
+---
+
+## RouterConnectionService
+
+**Namespace**
+
+```
+App\Services\Network
+```
+
+**File**
+
+```
+/var/www/app/Services/Network/RouterConnectionService.php
+```
+
+**Constructor Dependencies**
+
+- MikroTikAdvancedService $mikrotik
+
+**Properties**
+
+- $mikrotik : App\Services\Network\MikroTikAdvancedService
+
+**Methods**
+
+- connectByDeviceId() : App\Models\NetworkDevice
+- connect() : App\Models\NetworkDevice
+- service() : App\Services\Network\MikroTikAdvancedService
 
 ---
 

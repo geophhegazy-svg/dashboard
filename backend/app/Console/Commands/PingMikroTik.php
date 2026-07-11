@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Models\NetworkDevice;
-use App\Services\TelegramNotificationService;  // 🔥 إضافة الـ use
+use App\Services\Notification\TelegramNotificationService;
 use Illuminate\Support\Facades\Log;
 
 class PingMikroTik extends Command
@@ -28,9 +28,11 @@ class PingMikroTik extends Command
         foreach ($devices as $device) {
             $this->line("📡 فحص الجهاز: {$device->name} ({$device->ip_address})");
 
+            // 🔥 حفظ الحالة السابقة قبل التحديث
             $wasOnline = $device->is_online;
             $isOnline = $this->ping($device->ip_address);
 
+            // تحديث الحالة في قاعدة البيانات
             $device->update([
                 'is_online' => $isOnline,
                 'last_ping_at' => now(),
@@ -40,7 +42,7 @@ class PingMikroTik extends Command
             $statusText = $isOnline ? 'Online' : 'Offline';
             $this->line("{$statusIcon} {$device->name} - {$statusText}");
 
-            // 🔴 تنبيه الانقطاع
+            // 🔴 تنبيه الانقطاع (Offline)
             if (!$isOnline && $wasOnline) {
                 $this->warn("🚨 تنبيه: الجهاز {$device->name} أصبح غير متصل!");
                 Log::warning("MikroTik Device Offline: {$device->name} ({$device->ip_address})");
@@ -51,9 +53,11 @@ class PingMikroTik extends Command
                 $message .= "📊 <b>الحالة:</b> 🔴 OFFLINE\n";
                 $message .= "⏰ <b>الوقت:</b> " . now()->format('Y-m-d H:i:s');
                 $telegram->sendMessage($message);
+                
+                $this->info("📨 تم إرسال تنبيه الانقطاع");
             }
 
-            // 🟢 تنبيه العودة
+            // 🟢 تنبيه العودة (Online)
             if ($isOnline && !$wasOnline) {
                 $this->info("✅ الجهاز {$device->name} عاد للاتصال!");
                 
@@ -63,9 +67,11 @@ class PingMikroTik extends Command
                 $message .= "📊 <b>الحالة:</b> 🟢 ONLINE\n";
                 $message .= "⏰ <b>الوقت:</b> " . now()->format('Y-m-d H:i:s');
                 $telegram->sendMessage($message);
+                
+                $this->info("📨 تم إرسال تنبيه العودة");
             }
 
-            // ⚠️ تنبيه استمرار الانقطاع
+            // ⚠️ تنبيه استمرار الانقطاع (كل 5 دقائق)
             if (!$isOnline && !$wasOnline) {
                 $this->warn("⚠️ الجهاز {$device->name} لا يزال غير متصل!");
 
@@ -76,10 +82,12 @@ class PingMikroTik extends Command
                     $message .= "📊 <b>الحالة:</b> 🔴 OFFLINE (مستمر)\n";
                     $message .= "⏰ <b>الوقت:</b> " . now()->format('Y-m-d H:i:s');
                     $telegram->sendMessage($message);
+                    
+                    $this->info("📨 تم إرسال تنبيه استمرار الانقطاع");
                 }
             }
 
-            // 🟢 تأكيد الاتصال
+            // 🟢 تأكيد الاتصال (كل 10 دقائق)
             if ($isOnline && $wasOnline) {
                 if ($device->last_ping_at && $device->last_ping_at->diffInMinutes(now()) > 10) {
                     $message = "🟢 <b>تأكيد اتصال الجهاز</b>\n\n";
@@ -88,6 +96,8 @@ class PingMikroTik extends Command
                     $message .= "📊 <b>الحالة:</b> 🟢 ONLINE\n";
                     $message .= "⏰ <b>الوقت:</b> " . now()->format('Y-m-d H:i:s');
                     $telegram->sendMessage($message);
+                    
+                    $this->info("📨 تم إرسال تأكيد الاتصال");
                 }
             }
         }

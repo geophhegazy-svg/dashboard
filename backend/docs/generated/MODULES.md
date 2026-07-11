@@ -34,7 +34,7 @@ Total: 27
 
 ## Services
 
-Total: 99
+Total: 112
 
 - AIContextGenerator
 - AbstractHandoverSection
@@ -88,8 +88,18 @@ Total: 99
 - MigrationExtractor
 - MigrationsKnowledgeGenerator
 - MikroTikAdvancedService
+- MikroTikConnectionService
+- MikroTikDhcpService
+- MikroTikFirewallService
+- MikroTikHotspotService
+- MikroTikMonitoringService
+- MikroTikPppoeService
+- MikroTikProvider
+- MikroTikQueryService
+- MikroTikQueueService
 - MikrotikConnection
 - MikrotikService
+- MikrotikServiceAdapter
 - ModelDocumentationGenerator
 - ModelRelationExtractor
 - ModelRelationsKnowledgeGenerator
@@ -97,6 +107,8 @@ Total: 99
 - ModelsSection
 - ModuleExtractor
 - ModulesKnowledgeGenerator
+- NetworkManager
+- NetworkProviderResolver
 - NotificationService
 - PackageService
 - PaymentService
@@ -112,6 +124,7 @@ Total: 99
 - ReportService
 - RepositoryDocumentationGenerator
 - RouteExtractor
+- RouterConnectionService
 - RoutesKnowledgeGenerator
 - ScheduledReportService
 - ServiceDocumentationGenerator
@@ -176,13 +189,14 @@ Total: 33
 
 ## Repositories
 
-Total: 14
+Total: 15
 
 - AccountRepository
 - BillingRepository
 - CustomerRepository
 - InvoiceRepository
 - JournalEntryLineRepository
+- JournalEntryRepository
 - JournalEntryRepository
 - PackageRepository
 - PaymentRepository

@@ -87,6 +87,7 @@ class MikroTikAdvancedService
             $queues = [];
             foreach ($response as $item) {
                 $queues[] = [
+                    'id' => $item['.id'] ?? null,
                     'name' => $item['name'] ?? null,
                     'target' => $item['target'] ?? null,
                     'max_limit' => $item['max-limit'] ?? null,
@@ -134,7 +135,7 @@ class MikroTikAdvancedService
     /**
      * تحديث Queue
      */
-    public function updateSimpleQueue(string $name, array $data): bool
+    public function updateSimpleQueue(string $id, array $data): bool
     {
         try {
             $query = (new Query('/queue/simple/set'))
