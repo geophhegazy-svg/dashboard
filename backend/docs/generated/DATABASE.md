@@ -539,6 +539,8 @@
 - reference (varchar) nullable
 - description (text) nullable
 - status (enum) default=draft
+- posted_at (timestamp) nullable
+- posted_by (bigint) nullable
 - created_by (bigint) nullable
 - approved_by (bigint) nullable
 - approved_at (timestamp) nullable
@@ -558,6 +560,8 @@
 - reference (varchar) nullable
 - description (text) nullable
 - status (enum) default=draft
+- posted_at (timestamp) nullable
+- posted_by (bigint) nullable
 - created_by (bigint) nullable
 - approved_by (bigint) nullable
 - approved_at (timestamp) nullable
@@ -596,7 +600,7 @@
 
 ## migrations
 
-**Rows:** 49
+**Rows:** 50
 
 ### Columns
 
@@ -606,7 +610,7 @@
 
 ## migrations
 
-**Rows:** 49
+**Rows:** 50
 
 ### Columns
 
@@ -1315,6 +1319,23 @@
 - opened_at (timestamp) nullable
 - closed_at (timestamp) nullable
 - notes (text) nullable
+- created_at (timestamp) nullable
+- updated_at (timestamp) nullable
+
+## usage_snapshots
+
+**Rows:** 0
+
+### Columns
+
+- id (bigint)
+- tenant_id (bigint) nullable
+- customer_id (bigint) nullable
+- connection_type (varchar)
+- username (varchar)
+- bytes_download (bigint) default=0
+- bytes_upload (bigint) default=0
+- recorded_at (timestamp)
 - created_at (timestamp) nullable
 - updated_at (timestamp) nullable
 

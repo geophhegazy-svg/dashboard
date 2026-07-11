@@ -258,13 +258,13 @@ App\Http\Controllers\Api
 **Namespace**
 
 ```
-App\Http\Controllers
+App\Http\Controllers\Api\Network
 ```
 
 **File**
 
 ```
-/var/www/app/Http/Controllers/DHCPController.php
+/var/www/app/Http/Controllers/Api/Network/DHCPController.php
 ```
 
 **Dependencies**
@@ -357,13 +357,13 @@ App\Http\Controllers\Api
 **Namespace**
 
 ```
-App\Http\Controllers
+App\Http\Controllers\Api\Network
 ```
 
 **File**
 
 ```
-/var/www/app/Http/Controllers/FirewallController.php
+/var/www/app/Http/Controllers/Api/Network/FirewallController.php
 ```
 
 **Dependencies**
@@ -634,13 +634,13 @@ App\Http\Controllers\Api
 **Namespace**
 
 ```
-App\Http\Controllers
+App\Http\Controllers\Api\Network
 ```
 
 **File**
 
 ```
-/var/www/app/Http/Controllers/QueueController.php
+/var/www/app/Http/Controllers/Api/Network/QueueController.php
 ```
 
 **Dependencies**
@@ -746,13 +746,13 @@ App\Http\Controllers\Api
 **Namespace**
 
 ```
-App\Http\Controllers
+app\Http\Controllers\Api\Task
 ```
 
 **File**
 
 ```
-/var/www/app/Http/Controllers/TaskController.php
+/var/www/app/Http/Controllers/Api/Task/TaskController.php
 ```
 
 **Dependencies**

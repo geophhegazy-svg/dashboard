@@ -2,14 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Services;
+namespace App\Services\Wallet;
 
 use App\Models\Subscription;
 use App\Models\WalletTransaction;
-use App\Services\ActivityLogService;
+use App\Services\Activity\ActivityLogService;
 use Illuminate\Support\Facades\DB;
 use InvalidArgumentException;
 use RuntimeException;
+
 
 class WalletService
 {

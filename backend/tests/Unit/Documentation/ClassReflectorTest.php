@@ -14,7 +14,7 @@ class ClassReflectorTest extends TestCase
         $reflector = new ClassReflector();
 
         $methods = $reflector->methods(
-            \App\Services\InvoiceNumberService::class
+            \App\Services\Invoice\InvoiceNumberService::class
         );
 
         $this->assertNotEmpty($methods);

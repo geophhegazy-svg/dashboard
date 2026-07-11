@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Services;
 
 use App\Models\Invoice;
-use App\Services\InvoiceNumberService;
+use App\Services\Invoice\InvoiceNumberService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 

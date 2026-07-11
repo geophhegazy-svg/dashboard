@@ -8,7 +8,7 @@ use App\Models\Customer;
 use App\Models\Ticket;
 use App\Models\TicketReply;
 use App\Models\User;
-use App\Services\ActivityLogService;
+use App\Services\Activity\ActivityLogService;
 use Illuminate\Support\Facades\DB;
 
 class TicketService

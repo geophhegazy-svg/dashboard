@@ -46,13 +46,13 @@
 
                     <div class="col-md-6 mb-3">
                         <label for="src_address" class="form-label">عنوان المصدر (src-address)</label>
-                        <input type="text" class="form-control" id="src_address" name="src_address" 
+                        <input type="text" class="form-control" id="src_address" name="src_address"
                                value="{{ $rule['src_address'] ?? '' }}" placeholder="مثال: 192.168.1.0/24">
                     </div>
 
                     <div class="col-md-6 mb-3">
                         <label for="dst_address" class="form-label">عنوان الوجهة (dst-address)</label>
-                        <input type="text" class="form-control" id="dst_address" name="dst_address" 
+                        <input type="text" class="form-control" id="dst_address" name="dst_address"
                                value="{{ $rule['dst_address'] ?? '' }}" placeholder="مثال: 8.8.8.8/32">
                     </div>
 
@@ -68,13 +68,13 @@
 
                     <div class="col-md-6 mb-3">
                         <label for="dst_port" class="form-label">منفذ الوجهة (dst-port)</label>
-                        <input type="text" class="form-control" id="dst_port" name="dst_port" 
+                        <input type="text" class="form-control" id="dst_port" name="dst_port"
                                value="{{ $rule['port'] ?? '' }}" placeholder="مثال: 80,443 أو 22">
                     </div>
 
                     <div class="col-md-12 mb-3">
                         <label for="comment" class="form-label">التعليق (Comment)</label>
-                        <input type="text" class="form-control" id="comment" name="comment" 
+                        <input type="text" class="form-control" id="comment" name="comment"
                                value="{{ $rule['comment'] ?? '' }}" placeholder="وصف القاعدة">
                     </div>
                 </div>

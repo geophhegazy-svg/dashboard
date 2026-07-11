@@ -8,10 +8,15 @@ use App\Models\Customer;
 use App\Models\Invoice;
 use App\Models\Notification;
 use App\Models\Subscription;
+use App\Services\Usage\UsageService;
 use Carbon\Carbon;
 
 class CustomerDashboardService
 {
+    public function __construct(
+        private readonly UsageService $usageService
+    ) {}
+
     public function getDashboardData(Customer $customer): array
     {
         // الاشتراك الحالي
@@ -119,6 +124,8 @@ class CustomerDashboardService
                 ],
 
             ] : null,
+
+            'usage' => $this->usageService->getUsageForCustomer($customer),
 
             'statistics' => [
 

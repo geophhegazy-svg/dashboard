@@ -47,6 +47,21 @@ services:
     networks:
       - egyptnet
 
+  scheduler:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    container_name: egyptnet_scheduler
+    working_dir: /var/www
+    volumes:
+      - ./backend:/var/www
+    depends_on:
+      - app
+      - mysql
+    networks:
+      - egyptnet
+    command: ["sh", "-c", "while true; do php artisan schedule:run --verbose --no-interaction; sleep 60; done"]
+
 volumes:
   mysql_data:
 

@@ -4,28 +4,14 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Models\NetworkDevice;
-use App\Services\TelegramNotificationService;
+use App\Services\TelegramNotificationService;  // 🔥 إضافة الـ use
 use Illuminate\Support\Facades\Log;
 
 class PingMikroTik extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
     protected $signature = 'mikrotik:ping';
+    protected $description = 'فحص حالة أجهزة MikroTik وإرسال تنبيهات';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'فحص حالة أجهزة MikroTik';
-
-    /**
-     * Execute the console command.
-     */
     public function handle()
     {
         $this->info('🔄 فحص أجهزة MikroTik...');
@@ -45,7 +31,6 @@ class PingMikroTik extends Command
             $wasOnline = $device->is_online;
             $isOnline = $this->ping($device->ip_address);
 
-            // 🔥 تحديث الحالة دون تغيير status
             $device->update([
                 'is_online' => $isOnline,
                 'last_ping_at' => now(),
@@ -55,15 +40,55 @@ class PingMikroTik extends Command
             $statusText = $isOnline ? 'Online' : 'Offline';
             $this->line("{$statusIcon} {$device->name} - {$statusText}");
 
+            // 🔴 تنبيه الانقطاع
             if (!$isOnline && $wasOnline) {
                 $this->warn("🚨 تنبيه: الجهاز {$device->name} أصبح غير متصل!");
                 Log::warning("MikroTik Device Offline: {$device->name} ({$device->ip_address})");
-                $telegram->sendDeviceAlert($device);
+                
+                $message = "🚨 <b>تنبيه انقطاع الجهاز</b>\n\n";
+                $message .= "📡 <b>الجهاز:</b> {$device->name}\n";
+                $message .= "🌐 <b>IP:</b> {$device->ip_address}\n";
+                $message .= "📊 <b>الحالة:</b> 🔴 OFFLINE\n";
+                $message .= "⏰ <b>الوقت:</b> " . now()->format('Y-m-d H:i:s');
+                $telegram->sendMessage($message);
             }
 
+            // 🟢 تنبيه العودة
             if ($isOnline && !$wasOnline) {
                 $this->info("✅ الجهاز {$device->name} عاد للاتصال!");
-                $telegram->sendMessage("✅ <b>الجهاز عاد للاتصال</b>\n\n📡 {$device->name}\n🌐 {$device->ip_address}\n⏰ " . now()->format('Y-m-d H:i:s'));
+                
+                $message = "✅ <b>تنبيه عودة الجهاز</b>\n\n";
+                $message .= "📡 <b>الجهاز:</b> {$device->name}\n";
+                $message .= "🌐 <b>IP:</b> {$device->ip_address}\n";
+                $message .= "📊 <b>الحالة:</b> 🟢 ONLINE\n";
+                $message .= "⏰ <b>الوقت:</b> " . now()->format('Y-m-d H:i:s');
+                $telegram->sendMessage($message);
+            }
+
+            // ⚠️ تنبيه استمرار الانقطاع
+            if (!$isOnline && !$wasOnline) {
+                $this->warn("⚠️ الجهاز {$device->name} لا يزال غير متصل!");
+
+                if ($device->last_ping_at && $device->last_ping_at->diffInMinutes(now()) > 5) {
+                    $message = "⚠️ <b>تنبيه استمرار الانقطاع</b>\n\n";
+                    $message .= "📡 <b>الجهاز:</b> {$device->name}\n";
+                    $message .= "🌐 <b>IP:</b> {$device->ip_address}\n";
+                    $message .= "📊 <b>الحالة:</b> 🔴 OFFLINE (مستمر)\n";
+                    $message .= "⏰ <b>الوقت:</b> " . now()->format('Y-m-d H:i:s');
+                    $telegram->sendMessage($message);
+                }
+            }
+
+            // 🟢 تأكيد الاتصال
+            if ($isOnline && $wasOnline) {
+                if ($device->last_ping_at && $device->last_ping_at->diffInMinutes(now()) > 10) {
+                    $message = "🟢 <b>تأكيد اتصال الجهاز</b>\n\n";
+                    $message .= "📡 <b>الجهاز:</b> {$device->name}\n";
+                    $message .= "🌐 <b>IP:</b> {$device->ip_address}\n";
+                    $message .= "📊 <b>الحالة:</b> 🟢 ONLINE\n";
+                    $message .= "⏰ <b>الوقت:</b> " . now()->format('Y-m-d H:i:s');
+                    $telegram->sendMessage($message);
+                }
             }
         }
 
@@ -71,26 +96,19 @@ class PingMikroTik extends Command
         return 0;
     }
 
-    /**
-     * فحص الاتصال بالجهاز عبر Ping
-     */
     protected function ping($ip)
     {
-        // محاولة ping مع مهلة 1 ثانية
         $output = shell_exec("ping -c 1 -W 1 " . escapeshellarg($ip) . " 2>/dev/null");
-
-        // التحقق من وجود '1 received' أو '1 packets received'
         if (strpos($output, '1 received') !== false || strpos($output, '1 packets received') !== false) {
             return true;
         }
-
-        // محاولة ping عبر TCP على port 8728 (API)
+        
         $fp = @fsockopen($ip, 8728, $errno, $errstr, 1);
         if ($fp) {
             fclose($fp);
             return true;
         }
-
+        
         return false;
     }
 }

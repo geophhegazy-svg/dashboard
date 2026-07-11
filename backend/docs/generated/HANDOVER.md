@@ -14,7 +14,7 @@ Technology
 
 Statistics
 - Models: 27
-- Services: 94
+- Services: 99
 
 
 ---
@@ -48,7 +48,7 @@ app/
 # Project Statistics
 
 Models: 27
-Services: 94
+Services: 99
 
 ---
 
@@ -100,7 +100,7 @@ Development Rules
 
 Current Statistics
 Models: 27
-Services: 94
+Services: 99
 
 ---
 
@@ -152,7 +152,7 @@ App\Services\Documentation\Generators
 ## ActivityLogService
 
 **Namespace**
-App\Services
+App\Services\Activity
 
 **Dependencies**
 - None
@@ -213,8 +213,8 @@ App\Services\Billing
 
 **Dependencies**
 - App\Services\Billing\BillingEngine
-- App\Services\SubscriptionRenewalService
-- App\Services\NotificationService
+- App\Services\Subscription\SubscriptionRenewalService
+- App\Services\Notification\NotificationService
 
 **Methods**
 - __construct(3 params) : mixed
@@ -374,9 +374,10 @@ App\Services\Documentation\Knowledge
 App\Services\Dashboard
 
 **Dependencies**
-- None
+- App\Services\Usage\UsageService
 
 **Methods**
+- __construct(1 params) : mixed
 - getDashboardData(1 params) : array
 
 ---
@@ -614,7 +615,7 @@ App\Services\Documentation\Knowledge
 App\Services\Billing
 
 **Dependencies**
-- App\Services\InvoiceNumberService
+- App\Services\Invoice\InvoiceNumberService
 
 **Methods**
 - __construct(1 params) : mixed
@@ -625,7 +626,7 @@ App\Services\Billing
 ## InvoiceNumberService
 
 **Namespace**
-App\Services
+App\Services\Invoice
 
 **Dependencies**
 - None
@@ -647,6 +648,60 @@ App\Services\Invoice
 - create(1 params) : App\Models\Invoice
 - update(2 params) : App\Models\Invoice
 - delete(1 params) : bool
+
+---
+
+## JournalEntryNumberService
+
+**Namespace**
+App\Services\Finance
+
+**Dependencies**
+- None
+
+**Methods**
+- generate(0 params) : string
+
+---
+
+## JournalPostingService
+
+**Namespace**
+App\Services\Accounting
+
+**Dependencies**
+- App\Services\Accounting\JournalValidationService
+- App\Services\Activity\ActivityLogService
+
+**Methods**
+- __construct(2 params) : mixed
+- post(1 params) : App\Models\JournalEntry
+
+---
+
+## JournalValidationService
+
+**Namespace**
+App\Services\Accounting
+
+**Dependencies**
+- None
+
+**Methods**
+- validate(1 params) : void
+
+---
+
+## JournalValidator
+
+**Namespace**
+App\Services\Finance\Accounting
+
+**Dependencies**
+- None
+
+**Methods**
+- validate(1 params) : void
 
 ---
 
@@ -963,7 +1018,7 @@ App\Services\Documentation\Knowledge
 ## NotificationService
 
 **Namespace**
-App\Services
+App\Services\Notification
 
 **Dependencies**
 - None
@@ -1382,7 +1437,7 @@ App\Services\Subscription
 ## SubscriptionRenewalService
 
 **Namespace**
-App\Services
+App\Services\Subscription
 
 **Dependencies**
 - App\Contracts\MikrotikServiceInterface
@@ -1468,7 +1523,7 @@ App\Services\Task
 ## TelegramNotificationService
 
 **Namespace**
-App\Services
+App\Services\Notification
 
 **Dependencies**
 - None
@@ -1544,10 +1599,23 @@ App\Services\Documentation\Knowledge
 
 ---
 
+## UsageService
+
+**Namespace**
+App\Services\Usage
+
+**Dependencies**
+- None
+
+**Methods**
+- getUsageForCustomer(1 params) : array
+
+---
+
 ## WalletService
 
 **Namespace**
-App\Services
+App\Services\Wallet
 
 **Dependencies**
 - None
@@ -2557,6 +2625,7 @@ App\Models
 - creator()
 - approver()
 - lines()
+- postedBy()
 - factory()
 
 ---
@@ -4362,13 +4431,13 @@ App\Services\Documentation\Generators
 **Namespace**
 
 ```
-App\Services
+App\Services\Activity
 ```
 
 **File**
 
 ```
-/var/www/app/Services/ActivityLogService.php
+/var/www/app/Services/Activity/ActivityLogService.php
 ```
 
 **Methods**
@@ -4465,8 +4534,8 @@ App\Services\Billing
 **Properties**
 
 - $billingEngine : App\Services\Billing\BillingEngine
-- $renewalService : App\Services\SubscriptionRenewalService
-- $notificationService : App\Services\NotificationService
+- $renewalService : App\Services\Subscription\SubscriptionRenewalService
+- $notificationService : App\Services\Notification\NotificationService
 
 **Methods**
 
@@ -4733,6 +4802,14 @@ App\Services\Dashboard
 ```
 /var/www/app/Services/Dashboard/CustomerDashboardService.php
 ```
+
+**Constructor Dependencies**
+
+- UsageService $usageService
+
+**Properties**
+
+- $usageService : App\Services\Usage\UsageService
 
 **Methods**
 
@@ -5142,7 +5219,7 @@ App\Services\Billing
 
 **Properties**
 
-- $invoiceNumberService : App\Services\InvoiceNumberService
+- $invoiceNumberService : App\Services\Invoice\InvoiceNumberService
 
 **Methods**
 
@@ -5155,13 +5232,13 @@ App\Services\Billing
 **Namespace**
 
 ```
-App\Services
+App\Services\Invoice
 ```
 
 **File**
 
 ```
-/var/www/app/Services/InvoiceNumberService.php
+/var/www/app/Services/Invoice/InvoiceNumberService.php
 ```
 
 **Methods**
@@ -5189,6 +5266,96 @@ App\Services\Invoice
 - create() : App\Models\Invoice
 - update() : App\Models\Invoice
 - delete() : bool
+
+---
+
+## JournalEntryNumberService
+
+**Namespace**
+
+```
+App\Services\Finance
+```
+
+**File**
+
+```
+/var/www/app/Services/Finance/JournalEntryNumberService.php
+```
+
+**Methods**
+
+- generate() : string
+
+---
+
+## JournalPostingService
+
+**Namespace**
+
+```
+App\Services\Accounting
+```
+
+**File**
+
+```
+/var/www/app/Services/Accounting/JournalPostingService.php
+```
+
+**Constructor Dependencies**
+
+- JournalValidationService $validationService
+- ActivityLogService $activityLogService
+
+**Properties**
+
+- $validationService : App\Services\Accounting\JournalValidationService
+- $activityLogService : App\Services\Activity\ActivityLogService
+
+**Methods**
+
+- post() : App\Models\JournalEntry
+
+---
+
+## JournalValidationService
+
+**Namespace**
+
+```
+App\Services\Accounting
+```
+
+**File**
+
+```
+/var/www/app/Services/Accounting/JournalValidationService.php
+```
+
+**Methods**
+
+- validate() : void
+
+---
+
+## JournalValidator
+
+**Namespace**
+
+```
+App\Services\Finance\Accounting
+```
+
+**File**
+
+```
+/var/www/app/Services/Finance/Accounting/JournalValidator.php
+```
+
+**Methods**
+
+- validate() : void
 
 ---
 
@@ -5729,13 +5896,13 @@ App\Services\Documentation\Knowledge
 **Namespace**
 
 ```
-App\Services
+App\Services\Notification
 ```
 
 **File**
 
 ```
-/var/www/app/Services/NotificationService.php
+/var/www/app/Services/Notification/NotificationService.php
 ```
 
 **Methods**
@@ -6475,13 +6642,13 @@ App\Services\Subscription
 **Namespace**
 
 ```
-App\Services
+App\Services\Subscription
 ```
 
 **File**
 
 ```
-/var/www/app/Services/SubscriptionRenewalService.php
+/var/www/app/Services/Subscription/SubscriptionRenewalService.php
 ```
 
 **Constructor Dependencies**
@@ -6616,13 +6783,13 @@ App\Services\Task
 **Namespace**
 
 ```
-App\Services
+App\Services\Notification
 ```
 
 **File**
 
 ```
-/var/www/app/Services/TelegramNotificationService.php
+/var/www/app/Services/Notification/TelegramNotificationService.php
 ```
 
 **Properties**
@@ -6736,18 +6903,38 @@ App\Services\Documentation\Knowledge
 
 ---
 
-## WalletService
+## UsageService
 
 **Namespace**
 
 ```
-App\Services
+App\Services\Usage
 ```
 
 **File**
 
 ```
-/var/www/app/Services/WalletService.php
+/var/www/app/Services/Usage/UsageService.php
+```
+
+**Methods**
+
+- getUsageForCustomer() : array
+
+---
+
+## WalletService
+
+**Namespace**
+
+```
+App\Services\Wallet
+```
+
+**File**
+
+```
+/var/www/app/Services/Wallet/WalletService.php
 ```
 
 **Methods**
@@ -7017,13 +7204,13 @@ App\Http\Controllers\Api
 **Namespace**
 
 ```
-App\Http\Controllers
+App\Http\Controllers\Api\Network
 ```
 
 **File**
 
 ```
-/var/www/app/Http/Controllers/DHCPController.php
+/var/www/app/Http/Controllers/Api/Network/DHCPController.php
 ```
 
 **Dependencies**
@@ -7116,13 +7303,13 @@ App\Http\Controllers\Api
 **Namespace**
 
 ```
-App\Http\Controllers
+App\Http\Controllers\Api\Network
 ```
 
 **File**
 
 ```
-/var/www/app/Http/Controllers/FirewallController.php
+/var/www/app/Http/Controllers/Api/Network/FirewallController.php
 ```
 
 **Dependencies**
@@ -7393,13 +7580,13 @@ App\Http\Controllers\Api
 **Namespace**
 
 ```
-App\Http\Controllers
+App\Http\Controllers\Api\Network
 ```
 
 **File**
 
 ```
-/var/www/app/Http/Controllers/QueueController.php
+/var/www/app/Http/Controllers/Api/Network/QueueController.php
 ```
 
 **Dependencies**
@@ -7505,13 +7692,13 @@ App\Http\Controllers\Api
 **Namespace**
 
 ```
-App\Http\Controllers
+app\Http\Controllers\Api\Task
 ```
 
 **File**
 
 ```
-/var/www/app/Http/Controllers/TaskController.php
+/var/www/app/Http/Controllers/Api/Task/TaskController.php
 ```
 
 **Dependencies**
@@ -7619,14 +7806,14 @@ App\Http\Controllers\Api
 ## api/login
 
 - Method: POST
-- Name: generated::QYKJD9XtjVt3o3In
+- Name: -
 - Action: App\Http\Controllers\Api\AuthController@login
 - Middleware: api
 
 ## api/customer/login
 
 - Method: POST
-- Name: generated::xb9oEVflAWKfdAQq
+- Name: -
 - Action: App\Http\Controllers\Api\CustomerAuthController@login
 - Middleware: api
 
@@ -7668,56 +7855,56 @@ App\Http\Controllers\Api
 ## api/scheduled-reports/{scheduledReport}/activate
 
 - Method: PATCH
-- Name: generated::8JxHk4vMKCVUZkJY
+- Name: -
 - Action: App\Http\Controllers\Api\ScheduledReportController@activate
 - Middleware: api, auth:sanctum
 
 ## api/scheduled-reports/{scheduledReport}/deactivate
 
 - Method: PATCH
-- Name: generated::SYZWLKH3SbEGLiRZ
+- Name: -
 - Action: App\Http\Controllers\Api\ScheduledReportController@deactivate
 - Middleware: api, auth:sanctum
 
 ## api/me
 
 - Method: GET|HEAD
-- Name: generated::6B6tKd2jkOA850Mk
+- Name: -
 - Action: App\Http\Controllers\Api\AuthController@me
 - Middleware: api, auth:sanctum
 
 ## api/logout
 
 - Method: POST
-- Name: generated::ytlpCiWlTLae6FvR
+- Name: -
 - Action: App\Http\Controllers\Api\AuthController@logout
 - Middleware: api, auth:sanctum
 
 ## api/tickets/{ticket}/reply
 
 - Method: POST
-- Name: generated::tHbFLz7M7SkhRVfD
+- Name: -
 - Action: App\Http\Controllers\Api\TicketController@reply
 - Middleware: api, auth:sanctum
 
 ## api/tickets/{ticket}/messages
 
 - Method: GET|HEAD
-- Name: generated::IzRI79U826U3y0gw
+- Name: -
 - Action: App\Http\Controllers\Api\TicketController@messages
 - Middleware: api, auth:sanctum
 
 ## api/dashboard
 
 - Method: GET|HEAD
-- Name: generated::yG3uLpjKomjZoOTh
+- Name: -
 - Action: App\Http\Controllers\Api\DashboardController@index
 - Middleware: api, auth:sanctum
 
 ## api/dashboard/stats
 
 - Method: GET|HEAD
-- Name: generated::9wTvEhW3lhMwTeg3
+- Name: -
 - Action: App\Http\Controllers\Api\DashboardController@stats
 - Middleware: api
 
@@ -8144,21 +8331,21 @@ App\Http\Controllers\Api
 ## api/tickets/{ticket}/assign
 
 - Method: POST
-- Name: generated::M1hZ3nML3WcAJFRH
+- Name: -
 - Action: App\Http\Controllers\Api\TicketController@assign
 - Middleware: api, auth:sanctum
 
 ## api/tickets/{ticket}/status
 
 - Method: POST
-- Name: generated::P9iPJ5o4L4C7azIw
+- Name: -
 - Action: App\Http\Controllers\Api\TicketController@changeStatus
 - Middleware: api, auth:sanctum
 
 ## api/tickets/dashboard/statistics
 
 - Method: GET|HEAD
-- Name: generated::ihcUgCCcv7ZW7yP1
+- Name: -
 - Action: App\Http\Controllers\Api\TicketController@dashboard
 - Middleware: api, auth:sanctum
 
@@ -8214,343 +8401,343 @@ App\Http\Controllers\Api
 ## api/subscriptions/available-pppoe-users
 
 - Method: GET|HEAD
-- Name: generated::ZPHQ94yNM5XaCnKh
+- Name: -
 - Action: App\Http\Controllers\Api\SubscriptionController@availablePppoeUsers
 - Middleware: api, auth:sanctum
 
 ## api/subscriptions/{subscription}/link-pppoe
 
 - Method: POST
-- Name: generated::LdmbLdgcxnb5Hiop
+- Name: -
 - Action: App\Http\Controllers\Api\SubscriptionController@linkPppoe
 - Middleware: api, auth:sanctum
 
 ## api/subscriptions/{subscription}/activate
 
 - Method: POST
-- Name: generated::MTVRp71HbS7L8rXW
+- Name: -
 - Action: App\Http\Controllers\Api\SubscriptionController@activate
 - Middleware: api, auth:sanctum
 
 ## api/subscriptions/{subscription}/suspend
 
 - Method: POST
-- Name: generated::HaVV3IkpAUV5Dhbw
+- Name: -
 - Action: App\Http\Controllers\Api\SubscriptionController@suspend
 - Middleware: api, auth:sanctum
 
 ## api/subscriptions/{subscription}/renew
 
 - Method: POST
-- Name: generated::Nfr6nihRRji4MCmp
+- Name: -
 - Action: App\Http\Controllers\Api\SubscriptionController@renew
 - Middleware: api, auth:sanctum
 
 ## api/hotspot-subscriptions/{hotspotSubscription}/activate
 
 - Method: POST
-- Name: generated::teVaf4ORlJb8aY3u
+- Name: -
 - Action: App\Http\Controllers\Api\HotspotSubscriptionController@activate
 - Middleware: api, auth:sanctum
 
 ## api/hotspot-subscriptions/{hotspotSubscription}/suspend
 
 - Method: POST
-- Name: generated::G5uwGK3zvtv3y18K
+- Name: -
 - Action: App\Http\Controllers\Api\HotspotSubscriptionController@suspend
 - Middleware: api, auth:sanctum
 
 ## api/device-assignments/{device_assignment}/return
 
 - Method: POST
-- Name: generated::YZFyvVC76uC04Lt6
+- Name: -
 - Action: App\Http\Controllers\Api\DeviceAssignmentController@returnDevice
 - Middleware: api, auth:sanctum
 
 ## api/notifications/{notification}/read
 
 - Method: POST
-- Name: generated::zWVyTicup1IlwHwq
+- Name: -
 - Action: App\Http\Controllers\Api\NotificationController@markAsRead
 - Middleware: api, auth:sanctum
 
 ## api/notifications/read-all
 
 - Method: POST
-- Name: generated::grwU2zIaRF3850vP
+- Name: -
 - Action: App\Http\Controllers\Api\NotificationController@markAllAsRead
 - Middleware: api, auth:sanctum
 
 ## api/reports/dashboard
 
 - Method: GET|HEAD
-- Name: generated::NR5wYF4XxibXceLZ
+- Name: -
 - Action: App\Http\Controllers\Api\ReportController@dashboard
 - Middleware: api, auth:sanctum
 
 ## api/reports/revenue
 
 - Method: GET|HEAD
-- Name: generated::fnIZDZyaIv0NAPWr
+- Name: -
 - Action: App\Http\Controllers\Api\ReportController@revenue
 - Middleware: api, auth:sanctum
 
 ## api/reports/invoices
 
 - Method: GET|HEAD
-- Name: generated::ECp2T4LLrcLPPCRk
+- Name: -
 - Action: App\Http\Controllers\Api\ReportController@invoices
 - Middleware: api, auth:sanctum
 
 ## api/reports/inventory
 
 - Method: GET|HEAD
-- Name: generated::Nw2RUQlbwF54Ds90
+- Name: -
 - Action: App\Http\Controllers\Api\ReportController@inventory
 - Middleware: api, auth:sanctum
 
 ## api/reports/tickets
 
 - Method: GET|HEAD
-- Name: generated::sc6whf3Cp2jCA8Q5
+- Name: -
 - Action: App\Http\Controllers\Api\ReportController@tickets
 - Middleware: api, auth:sanctum
 
 ## api/mikrotik/test
 
 - Method: GET|HEAD
-- Name: generated::NuMGuHwpdSXkEUt2
+- Name: -
 - Action: App\Http\Controllers\Api\MikrotikController@test
 - Middleware: api, auth:sanctum
 
 ## api/mikrotik/dashboard-stats
 
 - Method: GET|HEAD
-- Name: generated::hAPU4FhpbIkC6eWt
+- Name: -
 - Action: App\Http\Controllers\Api\MikrotikController@dashboardStats
 - Middleware: api, auth:sanctum
 
 ## api/mikrotik/pppoe-users
 
 - Method: GET|HEAD
-- Name: generated::LLSpEy5A4hVUVSlc
+- Name: -
 - Action: App\Http\Controllers\Api\MikrotikController@pppoeUsers
 - Middleware: api, auth:sanctum
 
 ## api/mikrotik/pppoe-users
 
 - Method: POST
-- Name: generated::L9FKHjqe6R9wWaKa
+- Name: -
 - Action: App\Http\Controllers\Api\MikrotikController@createPppoeUser
 - Middleware: api, auth:sanctum
 
 ## api/mikrotik/hotspot-users
 
 - Method: GET|HEAD
-- Name: generated::pFLMYJCNJCTJWirV
+- Name: -
 - Action: App\Http\Controllers\Api\MikrotikController@hotspotUsers
 - Middleware: api, auth:sanctum
 
 ## api/mikrotik/hotspot-users/active
 
 - Method: GET|HEAD
-- Name: generated::R9UyvWawqnqeoEEN
+- Name: -
 - Action: App\Http\Controllers\Api\MikrotikController@activeUsers
 - Middleware: api, auth:sanctum
 
 ## api/mikrotik/hotspot-users
 
 - Method: POST
-- Name: generated::aYe5oMxmhMCMx92R
+- Name: -
 - Action: App\Http\Controllers\Api\MikrotikController@createHotspotUser
 - Middleware: api, auth:sanctum
 
 ## api/mikrotik/hotspot-users/{username}
 
 - Method: DELETE
-- Name: generated::OfUq2rObN9mV7Dq7
+- Name: -
 - Action: App\Http\Controllers\Api\MikrotikController@deleteHotspotUser
 - Middleware: api, auth:sanctum
 
 ## api/mikrotik/hotspot-users/{username}/activate
 
 - Method: POST
-- Name: generated::JPPsPEBwyLAwGo6W
+- Name: -
 - Action: App\Http\Controllers\Api\MikrotikController@activateHotspotUser
 - Middleware: api, auth:sanctum
 
 ## api/mikrotik/hotspot-users/{username}/suspend
 
 - Method: POST
-- Name: generated::5wCnKMMvLZPaoeJx
+- Name: -
 - Action: App\Http\Controllers\Api\MikrotikController@suspendHotspotUser
 - Middleware: api, auth:sanctum
 
 ## api/customer/me
 
 - Method: GET|HEAD
-- Name: generated::4c6npTAyEM93Hugi
+- Name: -
 - Action: App\Http\Controllers\Api\CustomerAuthController@me
 - Middleware: api, auth:sanctum
 
 ## api/customer/logout
 
 - Method: POST
-- Name: generated::UHCrjq0A8vXMmx1X
+- Name: -
 - Action: App\Http\Controllers\Api\CustomerAuthController@logout
 - Middleware: api, auth:sanctum
 
 ## api/customer/profile
 
 - Method: PUT
-- Name: generated::Z7Ll2karcioIokuq
+- Name: -
 - Action: App\Http\Controllers\Api\CustomerAuthController@updateProfile
 - Middleware: api, auth:sanctum
 
 ## api/customer/change-password
 
 - Method: POST
-- Name: generated::PC5egwtaMhxCmK0r
+- Name: -
 - Action: App\Http\Controllers\Api\CustomerAuthController@changePassword
 - Middleware: api, auth:sanctum
 
 ## api/customer/dashboard
 
 - Method: GET|HEAD
-- Name: generated::Mf9dnsyjg1PGP2M7
+- Name: -
 - Action: App\Http\Controllers\Api\CustomerDashboardController@index
 - Middleware: api, auth:sanctum
 
 ## api/customer/subscription
 
 - Method: GET|HEAD
-- Name: generated::NxUwZkpCSuTa1QMD
+- Name: -
 - Action: App\Http\Controllers\Api\CustomerSubscriptionController@current
 - Middleware: api, auth:sanctum
 
 ## api/customer/subscription/renew
 
 - Method: POST
-- Name: generated::Kxb3GgYWAfkaJLE5
+- Name: -
 - Action: App\Http\Controllers\Api\CustomerSubscriptionController@renew
 - Middleware: api, auth:sanctum
 
 ## api/customer/wallet
 
 - Method: GET|HEAD
-- Name: generated::KloTQq4YacW2j8kK
+- Name: -
 - Action: App\Http\Controllers\Api\CustomerWalletController@show
 - Middleware: api, auth:sanctum
 
 ## api/customer/wallet/transactions
 
 - Method: GET|HEAD
-- Name: generated::3bRxpsspODEddd5J
+- Name: -
 - Action: App\Http\Controllers\Api\CustomerWalletController@transactions
 - Middleware: api, auth:sanctum
 
 ## api/customer/invoices
 
 - Method: GET|HEAD
-- Name: generated::srKwsLDyqX9tw21g
+- Name: -
 - Action: App\Http\Controllers\Api\CustomerInvoiceController@index
 - Middleware: api, auth:sanctum
 
 ## api/customer/invoices/{invoice}
 
 - Method: GET|HEAD
-- Name: generated::nV2PINLBF1pLKCWf
+- Name: -
 - Action: App\Http\Controllers\Api\CustomerInvoiceController@show
 - Middleware: api, auth:sanctum
 
 ## api/customer/notifications
 
 - Method: GET|HEAD
-- Name: generated::I6MLv05oPKRKwrVS
+- Name: -
 - Action: App\Http\Controllers\Api\CustomerNotificationController@index
 - Middleware: api, auth:sanctum
 
 ## api/customer/notifications/{id}/read
 
 - Method: POST
-- Name: generated::Dt6Iuwh5ZtvqeayK
+- Name: -
 - Action: App\Http\Controllers\Api\CustomerNotificationController@markAsRead
 - Middleware: api, auth:sanctum
 
 ## api/customer/notifications/read-all
 
 - Method: POST
-- Name: generated::PYd8vqUviV2MBuL0
+- Name: -
 - Action: App\Http\Controllers\Api\CustomerNotificationController@markAllAsRead
 - Middleware: api, auth:sanctum
 
 ## api/customer/tickets/dashboard
 
 - Method: GET|HEAD
-- Name: generated::GWs7a6OD8GTwXqPB
+- Name: -
 - Action: App\Http\Controllers\Api\CustomerTicketController@dashboard
 - Middleware: api, auth:sanctum
 
 ## api/customer/tickets
 
 - Method: GET|HEAD
-- Name: generated::RW0iPo1gDFBFvQXp
+- Name: -
 - Action: App\Http\Controllers\Api\CustomerTicketController@index
 - Middleware: api, auth:sanctum
 
 ## api/customer/tickets
 
 - Method: POST
-- Name: generated::bl2LccgVwLjfObbj
+- Name: -
 - Action: App\Http\Controllers\Api\CustomerTicketController@store
 - Middleware: api, auth:sanctum
 
 ## api/customer/tickets/{ticket}
 
 - Method: GET|HEAD
-- Name: generated::hpg171V7Eik3yLJ2
+- Name: -
 - Action: App\Http\Controllers\Api\CustomerTicketController@show
 - Middleware: api, auth:sanctum
 
 ## api/customer/tickets/{ticket}/messages
 
 - Method: GET|HEAD
-- Name: generated::YJ6yL4E3y8cXeVTW
+- Name: -
 - Action: App\Http\Controllers\Api\CustomerTicketController@messages
 - Middleware: api, auth:sanctum
 
 ## api/customer/tickets/{ticket}/reply
 
 - Method: POST
-- Name: generated::KBJ86OzDJCTX3t7g
+- Name: -
 - Action: App\Http\Controllers\Api\CustomerTicketController@reply
 - Middleware: api, auth:sanctum
 
 ## api/customer/tickets/{ticket}/close
 
 - Method: POST
-- Name: generated::PoUh8NvsLwdPfTTn
+- Name: -
 - Action: App\Http\Controllers\Api\CustomerTicketController@close
 - Middleware: api, auth:sanctum
 
 ## api/network/dhcp/leases
 
 - Method: GET|HEAD
-- Name: generated::mQL5dAkI9UyUlJzp
+- Name: -
 - Action: App\Http\Controllers\Api\MikrotikController@dhcpLeases
 - Middleware: api, auth:sanctum
 
 ## api/hotspot/online
 
 - Method: GET|HEAD
-- Name: generated::cmQQqanfwWQuOZwv
+- Name: -
 - Action: App\Http\Controllers\Api\HotspotController@onlineUsers
 - Middleware: api
 
 ## api/hotspot/stats
 
 - Method: GET|HEAD
-- Name: generated::293FQjwnyRa6tWsL
+- Name: -
 - Action: App\Http\Controllers\Api\HotspotController@stats
 - Middleware: api
 
@@ -8558,125 +8745,125 @@ App\Http\Controllers\Api
 
 - Method: GET|HEAD
 - Name: tasks.index
-- Action: App\Http\Controllers\TaskController@index
+- Action: App\Http\Controllers\Api\Task\TaskController@index
 - Middleware: api
 
 ## api/tasks
 
 - Method: POST
 - Name: tasks.store
-- Action: App\Http\Controllers\TaskController@store
+- Action: App\Http\Controllers\Api\Task\TaskController@store
 - Middleware: api
 
 ## api/tasks/{task}
 
 - Method: GET|HEAD
 - Name: tasks.show
-- Action: App\Http\Controllers\TaskController@show
+- Action: App\Http\Controllers\Api\Task\TaskController@show
 - Middleware: api
 
 ## api/tasks/{task}
 
 - Method: PUT|PATCH
 - Name: tasks.update
-- Action: App\Http\Controllers\TaskController@update
+- Action: App\Http\Controllers\Api\Task\TaskController@update
 - Middleware: api
 
 ## api/tasks/{task}
 
 - Method: DELETE
 - Name: tasks.destroy
-- Action: App\Http\Controllers\TaskController@destroy
+- Action: App\Http\Controllers\Api\Task\TaskController@destroy
 - Middleware: api
 
 ## api/mikrotik/advanced/queues
 
 - Method: GET|HEAD
-- Name: generated::DPpfTCdioWph1Hbl
+- Name: -
 - Action: App\Http\Controllers\Api\MikroTikAdvancedController@getQueues
 - Middleware: api, auth:sanctum
 
 ## api/mikrotik/advanced/queues
 
 - Method: POST
-- Name: generated::e8FCb9almOLmBVd2
+- Name: -
 - Action: App\Http\Controllers\Api\MikroTikAdvancedController@createQueue
 - Middleware: api, auth:sanctum
 
 ## api/mikrotik/advanced/queues/{name}
 
 - Method: PUT
-- Name: generated::9GqOd9FEqjcCcUtR
+- Name: -
 - Action: App\Http\Controllers\Api\MikroTikAdvancedController@updateQueue
 - Middleware: api, auth:sanctum
 
 ## api/mikrotik/advanced/queues/{name}
 
 - Method: DELETE
-- Name: generated::nRh6xsN2EE2jNjZu
+- Name: -
 - Action: App\Http\Controllers\Api\MikroTikAdvancedController@deleteQueue
 - Middleware: api, auth:sanctum
 
 ## api/mikrotik/advanced/queues/{name}/toggle
 
 - Method: POST
-- Name: generated::SvTAkDvzYv9druQE
+- Name: -
 - Action: App\Http\Controllers\Api\MikroTikAdvancedController@toggleQueue
 - Middleware: api, auth:sanctum
 
 ## api/mikrotik/advanced/firewall
 
 - Method: GET|HEAD
-- Name: generated::F8ejoSIVGWi85vPS
+- Name: -
 - Action: App\Http\Controllers\Api\MikroTikAdvancedController@getFirewallRules
 - Middleware: api, auth:sanctum
 
 ## api/mikrotik/advanced/firewall
 
 - Method: POST
-- Name: generated::SVhqTVF5XsIWyALx
+- Name: -
 - Action: App\Http\Controllers\Api\MikroTikAdvancedController@createFirewallRule
 - Middleware: api, auth:sanctum
 
 ## api/mikrotik/advanced/firewall/{id}
 
 - Method: DELETE
-- Name: generated::MEs6XxlMRtwLCrMK
+- Name: -
 - Action: App\Http\Controllers\Api\MikroTikAdvancedController@deleteFirewallRule
 - Middleware: api, auth:sanctum
 
 ## api/mikrotik/advanced/nat
 
 - Method: GET|HEAD
-- Name: generated::UIYkjnN5XCxzOqdR
+- Name: -
 - Action: App\Http\Controllers\Api\MikroTikAdvancedController@getNATRules
 - Middleware: api, auth:sanctum
 
 ## api/mikrotik/advanced/dhcp
 
 - Method: GET|HEAD
-- Name: generated::W57Jwf0go5SfDVST
+- Name: -
 - Action: App\Http\Controllers\Api\MikroTikAdvancedController@getDHCPLeases
 - Middleware: api, auth:sanctum
 
 ## api/mikrotik/advanced/dhcp
 
 - Method: POST
-- Name: generated::SobGn7oksM9y892Q
+- Name: -
 - Action: App\Http\Controllers\Api\MikroTikAdvancedController@addDHCPLease
 - Middleware: api, auth:sanctum
 
 ## api/mikrotik/advanced/dhcp/{id}
 
 - Method: DELETE
-- Name: generated::aB40F1eR7u7j6NHb
+- Name: -
 - Action: App\Http\Controllers\Api\MikroTikAdvancedController@deleteDHCPLease
 - Middleware: api, auth:sanctum
 
 ## /
 
 - Method: GET|HEAD|POST|PUT|PATCH|DELETE|OPTIONS
-- Name: generated::Z3L8OWBMjCu5ECLv
+- Name: -
 - Action: \Illuminate\Routing\RedirectController
 - Middleware: web
 
@@ -8691,139 +8878,139 @@ App\Http\Controllers\Api
 
 - Method: GET|HEAD
 - Name: queues.index
-- Action: App\Http\Controllers\QueueController@index
+- Action: App\Http\Controllers\Api\Network\QueueController@index
 - Middleware: web
 
 ## queues/create
 
 - Method: GET|HEAD
 - Name: queues.create
-- Action: App\Http\Controllers\QueueController@create
+- Action: App\Http\Controllers\Api\Network\QueueController@create
 - Middleware: web
 
 ## queues
 
 - Method: POST
 - Name: queues.store
-- Action: App\Http\Controllers\QueueController@store
+- Action: App\Http\Controllers\Api\Network\QueueController@store
 - Middleware: web
 
 ## queues/{name}/toggle
 
 - Method: POST
 - Name: queues.toggle
-- Action: App\Http\Controllers\QueueController@toggle
+- Action: App\Http\Controllers\Api\Network\QueueController@toggle
 - Middleware: web
 
 ## queues/{name}
 
 - Method: DELETE
 - Name: queues.destroy
-- Action: App\Http\Controllers\QueueController@destroy
+- Action: App\Http\Controllers\Api\Network\QueueController@destroy
 - Middleware: web
 
 ## firewall
 
 - Method: GET|HEAD
 - Name: firewall.index
-- Action: App\Http\Controllers\FirewallController@index
+- Action: App\Http\Controllers\Api\Network\FirewallController@index
 - Middleware: web
 
 ## firewall/create
 
 - Method: GET|HEAD
 - Name: firewall.create
-- Action: App\Http\Controllers\FirewallController@create
+- Action: App\Http\Controllers\Api\Network\FirewallController@create
 - Middleware: web
 
 ## firewall
 
 - Method: POST
 - Name: firewall.store
-- Action: App\Http\Controllers\FirewallController@store
+- Action: App\Http\Controllers\Api\Network\FirewallController@store
 - Middleware: web
 
 ## firewall/{id}
 
 - Method: DELETE
 - Name: firewall.destroy
-- Action: App\Http\Controllers\FirewallController@destroy
+- Action: App\Http\Controllers\Api\Network\FirewallController@destroy
 - Middleware: web
 
 ## dhcp
 
 - Method: GET|HEAD
 - Name: dhcp.index
-- Action: App\Http\Controllers\DHCPController@index
+- Action: App\Http\Controllers\Api\Network\DHCPController@index
 - Middleware: web
 
 ## dhcp/create
 
 - Method: GET|HEAD
 - Name: dhcp.create
-- Action: App\Http\Controllers\DHCPController@create
+- Action: App\Http\Controllers\Api\Network\DHCPController@create
 - Middleware: web
 
 ## dhcp
 
 - Method: POST
 - Name: dhcp.store
-- Action: App\Http\Controllers\DHCPController@store
+- Action: App\Http\Controllers\Api\Network\DHCPController@store
 - Middleware: web
 
 ## dhcp/{id}
 
 - Method: DELETE
 - Name: dhcp.destroy
-- Action: App\Http\Controllers\DHCPController@destroy
+- Action: App\Http\Controllers\Api\Network\DHCPController@destroy
 - Middleware: web
 
 ## queues/{name}/edit
 
 - Method: GET|HEAD
 - Name: queues.edit
-- Action: App\Http\Controllers\QueueController@edit
+- Action: App\Http\Controllers\Api\Network\QueueController@edit
 - Middleware: web
 
 ## queues/{name}
 
 - Method: PUT
 - Name: queues.update
-- Action: App\Http\Controllers\QueueController@update
+- Action: App\Http\Controllers\Api\Network\QueueController@update
 - Middleware: web
 
 ## firewall/{id}/edit
 
 - Method: GET|HEAD
 - Name: firewall.edit
-- Action: App\Http\Controllers\FirewallController@edit
+- Action: App\Http\Controllers\Api\Network\FirewallController@edit
 - Middleware: web
 
 ## firewall/{id}
 
 - Method: PUT
 - Name: firewall.update
-- Action: App\Http\Controllers\FirewallController@update
+- Action: App\Http\Controllers\Api\Network\FirewallController@update
 - Middleware: web
 
 ## dhcp/{id}/edit
 
 - Method: GET|HEAD
 - Name: dhcp.edit
-- Action: App\Http\Controllers\DHCPController@edit
+- Action: App\Http\Controllers\Api\Network\DHCPController@edit
 - Middleware: web
 
 ## dhcp/{id}
 
 - Method: PUT
 - Name: dhcp.update
-- Action: App\Http\Controllers\DHCPController@update
+- Action: App\Http\Controllers\Api\Network\DHCPController@update
 - Middleware: web
 
 ## broadcasting/auth
 
 - Method: GET|POST|HEAD
-- Name: generated::9EX54ifigIL1d1x3
+- Name: -
 - Action: \Illuminate\Broadcasting\BroadcastController@authenticate
 - Middleware: web
 

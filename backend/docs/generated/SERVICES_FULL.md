@@ -82,13 +82,13 @@ App\Services\Documentation\Generators
 **Namespace**
 
 ```
-App\Services
+App\Services\Activity
 ```
 
 **File**
 
 ```
-/var/www/app/Services/ActivityLogService.php
+/var/www/app/Services/Activity/ActivityLogService.php
 ```
 
 **Methods**
@@ -185,8 +185,8 @@ App\Services\Billing
 **Properties**
 
 - $billingEngine : App\Services\Billing\BillingEngine
-- $renewalService : App\Services\SubscriptionRenewalService
-- $notificationService : App\Services\NotificationService
+- $renewalService : App\Services\Subscription\SubscriptionRenewalService
+- $notificationService : App\Services\Notification\NotificationService
 
 **Methods**
 
@@ -453,6 +453,14 @@ App\Services\Dashboard
 ```
 /var/www/app/Services/Dashboard/CustomerDashboardService.php
 ```
+
+**Constructor Dependencies**
+
+- UsageService $usageService
+
+**Properties**
+
+- $usageService : App\Services\Usage\UsageService
 
 **Methods**
 
@@ -862,7 +870,7 @@ App\Services\Billing
 
 **Properties**
 
-- $invoiceNumberService : App\Services\InvoiceNumberService
+- $invoiceNumberService : App\Services\Invoice\InvoiceNumberService
 
 **Methods**
 
@@ -875,13 +883,13 @@ App\Services\Billing
 **Namespace**
 
 ```
-App\Services
+App\Services\Invoice
 ```
 
 **File**
 
 ```
-/var/www/app/Services/InvoiceNumberService.php
+/var/www/app/Services/Invoice/InvoiceNumberService.php
 ```
 
 **Methods**
@@ -909,6 +917,96 @@ App\Services\Invoice
 - create() : App\Models\Invoice
 - update() : App\Models\Invoice
 - delete() : bool
+
+---
+
+## JournalEntryNumberService
+
+**Namespace**
+
+```
+App\Services\Finance
+```
+
+**File**
+
+```
+/var/www/app/Services/Finance/JournalEntryNumberService.php
+```
+
+**Methods**
+
+- generate() : string
+
+---
+
+## JournalPostingService
+
+**Namespace**
+
+```
+App\Services\Accounting
+```
+
+**File**
+
+```
+/var/www/app/Services/Accounting/JournalPostingService.php
+```
+
+**Constructor Dependencies**
+
+- JournalValidationService $validationService
+- ActivityLogService $activityLogService
+
+**Properties**
+
+- $validationService : App\Services\Accounting\JournalValidationService
+- $activityLogService : App\Services\Activity\ActivityLogService
+
+**Methods**
+
+- post() : App\Models\JournalEntry
+
+---
+
+## JournalValidationService
+
+**Namespace**
+
+```
+App\Services\Accounting
+```
+
+**File**
+
+```
+/var/www/app/Services/Accounting/JournalValidationService.php
+```
+
+**Methods**
+
+- validate() : void
+
+---
+
+## JournalValidator
+
+**Namespace**
+
+```
+App\Services\Finance\Accounting
+```
+
+**File**
+
+```
+/var/www/app/Services/Finance/Accounting/JournalValidator.php
+```
+
+**Methods**
+
+- validate() : void
 
 ---
 
@@ -1449,13 +1547,13 @@ App\Services\Documentation\Knowledge
 **Namespace**
 
 ```
-App\Services
+App\Services\Notification
 ```
 
 **File**
 
 ```
-/var/www/app/Services/NotificationService.php
+/var/www/app/Services/Notification/NotificationService.php
 ```
 
 **Methods**
@@ -2195,13 +2293,13 @@ App\Services\Subscription
 **Namespace**
 
 ```
-App\Services
+App\Services\Subscription
 ```
 
 **File**
 
 ```
-/var/www/app/Services/SubscriptionRenewalService.php
+/var/www/app/Services/Subscription/SubscriptionRenewalService.php
 ```
 
 **Constructor Dependencies**
@@ -2336,13 +2434,13 @@ App\Services\Task
 **Namespace**
 
 ```
-App\Services
+App\Services\Notification
 ```
 
 **File**
 
 ```
-/var/www/app/Services/TelegramNotificationService.php
+/var/www/app/Services/Notification/TelegramNotificationService.php
 ```
 
 **Properties**
@@ -2456,18 +2554,38 @@ App\Services\Documentation\Knowledge
 
 ---
 
-## WalletService
+## UsageService
 
 **Namespace**
 
 ```
-App\Services
+App\Services\Usage
 ```
 
 **File**
 
 ```
-/var/www/app/Services/WalletService.php
+/var/www/app/Services/Usage/UsageService.php
+```
+
+**Methods**
+
+- getUsageForCustomer() : array
+
+---
+
+## WalletService
+
+**Namespace**
+
+```
+App\Services\Wallet
+```
+
+**File**
+
+```
+/var/www/app/Services/Wallet/WalletService.php
 ```
 
 **Methods**

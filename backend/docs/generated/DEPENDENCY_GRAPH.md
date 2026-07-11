@@ -13,11 +13,11 @@
 - App\Http\Controllers\Api\CustomerSubscriptionController
 - App\Http\Controllers\Api\CustomerTicketController
 - App\Http\Controllers\Api\CustomerWalletController
-- App\Http\Controllers\DHCPController
+- App\Http\Controllers\Api\Network\DHCPController
 - App\Http\Controllers\Api\DashboardController
 - App\Http\Controllers\Api\DeviceAssignmentController
 - App\Http\Controllers\Api\DeviceController
-- App\Http\Controllers\FirewallController
+- App\Http\Controllers\Api\Network\FirewallController
 - App\Http\Controllers\Api\HotspotController
 - App\Http\Controllers\Api\HotspotSubscriptionController
 - App\Http\Controllers\Api\InventoryController
@@ -27,11 +27,11 @@
 - App\Http\Controllers\Api\NotificationController
 - App\Http\Controllers\Api\PackageController
 - App\Http\Controllers\Api\PaymentController
-- App\Http\Controllers\QueueController
+- App\Http\Controllers\Api\Network\QueueController
 - App\Http\Controllers\Api\ReportController
 - App\Http\Controllers\Api\ScheduledReportController
 - App\Http\Controllers\Api\SubscriptionController
-- App\Http\Controllers\TaskController
+- app\Http\Controllers\Api\Task\TaskController
 - App\Http\Controllers\Api\TenantController
 - App\Http\Controllers\Api\TicketController
 - App\Http\Controllers\Api\UserController
@@ -41,7 +41,7 @@
 - App\Services\Documentation\Knowledge\AIContextGenerator
 - App\Services\Documentation\Handover\AbstractHandoverSection
 - App\Services\Documentation\Generators\ActionDocumentationGenerator
-- App\Services\ActivityLogService
+- App\Services\Activity\ActivityLogService
 - App\Services\Documentation\Exports\AiStartPromptExport
 - App\Services\Documentation\Generators\ApiDocumentationGenerator
 - App\Services\Documentation\Knowledge\ArchitectureGenerator
@@ -74,8 +74,12 @@
 - App\Services\Finance\FinanceService
 - App\Services\Documentation\Knowledge\HandoverDocumentGenerator
 - App\Services\Billing\InvoiceGenerator
-- App\Services\InvoiceNumberService
+- App\Services\Invoice\InvoiceNumberService
 - App\Services\Invoice\InvoiceService
+- App\Services\Finance\JournalEntryNumberService
+- App\Services\Accounting\JournalPostingService
+- App\Services\Accounting\JournalValidationService
+- App\Services\Finance\Accounting\JournalValidator
 - App\Services\Documentation\Knowledge\KnowledgeExporter
 - App\Services\Documentation\Knowledge\KnowledgeGeneratorManager
 - App\Services\Documentation\Knowledge\KnowledgeGeneratorRegistry
@@ -95,7 +99,7 @@
 - App\Services\Documentation\Sections\ModelsSection
 - App\Services\Documentation\Knowledge\ModuleExtractor
 - App\Services\Documentation\Knowledge\ModulesKnowledgeGenerator
-- App\Services\NotificationService
+- App\Services\Notification\NotificationService
 - App\Services\Package\PackageService
 - App\Services\Payment\PaymentService
 - App\Services\Documentation\ProjectBibleService
@@ -122,16 +126,17 @@
 - App\Services\Activity\SubscriptionActivityService
 - App\Services\Subscription\SubscriptionExpirationService
 - App\Services\Subscription\SubscriptionLifecycleService
-- App\Services\SubscriptionRenewalService
+- App\Services\Subscription\SubscriptionRenewalService
 - App\Services\Subscription\SubscriptionService
 - App\Services\Subscription\SubscriptionSuspensionService
 - App\Services\Task\TaskService
-- App\Services\TelegramNotificationService
+- App\Services\Notification\TelegramNotificationService
 - App\Services\Documentation\Knowledge\TestCoverageExtractor
 - App\Services\Ticket\TicketService
 - App\Services\Documentation\Knowledge\TodoGenerator
 - App\Services\Documentation\Knowledge\TodoKnowledgeGenerator
-- App\Services\WalletService
+- App\Services\Usage\UsageService
+- App\Services\Wallet\WalletService
 
 ## Models
 

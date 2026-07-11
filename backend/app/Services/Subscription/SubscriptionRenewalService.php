@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Services;
+namespace App\Services\Subscription;
 
 use App\Contracts\MikrotikServiceInterface;
 use App\Models\HotspotSubscription;
@@ -10,6 +10,8 @@ use App\Models\Invoice;
 use App\Models\Payment;
 use App\Models\Subscription;
 use Illuminate\Support\Facades\DB;
+use App\Services\Activity\ActivityLogService;
+use App\Services\Wallet\WalletService;
 
 class SubscriptionRenewalService
 {
@@ -57,6 +59,23 @@ class SubscriptionRenewalService
                 'paid_at'         => now(),
                 'notes'           => 'Auto renewal from wallet',
             ]);
+
+            /*
+            |--------------------------------------------------------------------------
+            | 1.5- تمديد تاريخ انتهاء الاشتراك (مهم جدًا: من غيرها هيتجدد تاني بكرة!)
+            |--------------------------------------------------------------------------
+            */
+
+            $sub->update([
+                'end_date' => now()->addMonth(),
+                'status'   => 'active',
+            ]);
+
+            /*
+            |--------------------------------------------------------------------------
+            | 2- خصم المحفظة
+            |--------------------------------------------------------------------------
+            */
 
             WalletService::deduct(
                 subscription: $sub,

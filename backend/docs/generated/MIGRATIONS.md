@@ -391,3 +391,11 @@
 ```
 /var/www/database/migrations/2026_07_10_095801_create_usage_snapshots_table.php
 ```
+
+## 2026_07_10_180701_add_posting_fields_to_journal_entries_table.php
+
+**File**
+
+```
+/var/www/database/migrations/2026_07_10_180701_add_posting_fields_to_journal_entries_table.php
+```

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers;
+namespace app\Http\Controllers\Api\Task;
 
 use App\Http\Requests\Task\StoreTaskRequest;
 use App\Http\Requests\Task\UpdateTaskRequest;
@@ -11,6 +11,7 @@ use App\Models\Task;
 use App\Services\Task\TaskService;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\JsonResponse;
+use App\Http\Controllers\Controller;
 
 
 class TaskController extends Controller

@@ -8,7 +8,7 @@ use App\Models\Subscription;
 use App\Models\HotspotSubscription;
 use App\Services\Network\MikrotikService;
 use App\Contracts\MikrotikServiceInterface;
-use App\Services\SubscriptionRenewalService;
+use App\Services\Subscription\SubscriptionRenewalService;
 use App\Models\Invoice;
 use App\Models\Payment;
 use Illuminate\Support\Facades\DB;

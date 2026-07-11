@@ -46,7 +46,7 @@ App\Services\Documentation\Generators\ActionDocumentationGenerator
 **Class**
 
 ```
-App\Services\ActivityLogService
+App\Services\Activity\ActivityLogService
 ```
 
 **Public Methods**
@@ -251,6 +251,7 @@ App\Services\Dashboard\CustomerDashboardService
 
 **Public Methods**
 
+- __construct
 - getDashboardData
 
 ## CustomerService
@@ -481,7 +482,7 @@ App\Services\Billing\InvoiceGenerator
 **Class**
 
 ```
-App\Services\InvoiceNumberService
+App\Services\Invoice\InvoiceNumberService
 ```
 
 **Public Methods**
@@ -501,6 +502,55 @@ App\Services\Invoice\InvoiceService
 - create
 - delete
 - update
+
+## JournalEntryNumberService
+
+**Class**
+
+```
+App\Services\Finance\JournalEntryNumberService
+```
+
+**Public Methods**
+
+- generate
+
+## JournalPostingService
+
+**Class**
+
+```
+App\Services\Accounting\JournalPostingService
+```
+
+**Public Methods**
+
+- __construct
+- post
+
+## JournalValidationService
+
+**Class**
+
+```
+App\Services\Accounting\JournalValidationService
+```
+
+**Public Methods**
+
+- validate
+
+## JournalValidator
+
+**Class**
+
+```
+App\Services\Finance\Accounting\JournalValidator
+```
+
+**Public Methods**
+
+- validate
 
 ## KnowledgeExporter
 
@@ -796,7 +846,7 @@ App\Services\Documentation\Knowledge\ModulesKnowledgeGenerator
 **Class**
 
 ```
-App\Services\NotificationService
+App\Services\Notification\NotificationService
 ```
 
 **Public Methods**
@@ -1176,7 +1226,7 @@ App\Services\Subscription\SubscriptionLifecycleService
 **Class**
 
 ```
-App\Services\SubscriptionRenewalService
+App\Services\Subscription\SubscriptionRenewalService
 ```
 
 **Public Methods**
@@ -1252,7 +1302,7 @@ App\Services\Task\TaskService
 **Class**
 
 ```
-App\Services\TelegramNotificationService
+App\Services\Notification\TelegramNotificationService
 ```
 
 **Public Methods**
@@ -1321,12 +1371,24 @@ App\Services\Documentation\Knowledge\TodoKnowledgeGenerator
 - filename
 - generate
 
+## UsageService
+
+**Class**
+
+```
+App\Services\Usage\UsageService
+```
+
+**Public Methods**
+
+- getUsageForCustomer
+
 ## WalletService
 
 **Class**
 
 ```
-App\Services\WalletService
+App\Services\Wallet\WalletService
 ```
 
 **Public Methods**

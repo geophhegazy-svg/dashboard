@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\DashboardController;
-use App\Http\Controllers\QueueController;
+use App\Http\Controllers\Api\Network\QueueController;
 
 Route::redirect('/', '/dashboard');
 
@@ -16,29 +16,41 @@ Route::post('/queues/{name}/toggle', [QueueController::class, 'toggle'])->name('
 Route::delete('/queues/{name}', [QueueController::class, 'destroy'])->name('queues.destroy');
 
 // إدارة الـ Firewall
-Route::get('/firewall', [App\Http\Controllers\FirewallController::class, 'index'])->name('firewall.index');
-Route::get('/firewall/create', [App\Http\Controllers\FirewallController::class, 'create'])->name('firewall.create');
-Route::post('/firewall', [App\Http\Controllers\FirewallController::class, 'store'])->name('firewall.store');
-Route::delete('/firewall/{id}', [App\Http\Controllers\FirewallController::class, 'destroy'])->name('firewall.destroy');
+Route::get('/firewall', [App\Http\Controllers\Api\Network\FirewallController::class, 'index'])->name('firewall.index');
+Route::get('/firewall/create', [App\Http\Controllers\Api\Network\FirewallController::class, 'create'])->name('firewall.create');
+Route::post('/firewall', [App\Http\Controllers\Api\Network\FirewallController::class, 'store'])->name('firewall.store');
+Route::delete('/firewall/{id}', [App\Http\Controllers\Api\Network\FirewallController::class, 'destroy'])->name('firewall.destroy');
 
 // إدارة الـ DHCP
-Route::get('/dhcp', [App\Http\Controllers\DHCPController::class, 'index'])->name('dhcp.index');
-Route::get('/dhcp/create', [App\Http\Controllers\DHCPController::class, 'create'])->name('dhcp.create');
-Route::post('/dhcp', [App\Http\Controllers\DHCPController::class, 'store'])->name('dhcp.store');
-Route::delete('/dhcp/{id}', [App\Http\Controllers\DHCPController::class, 'destroy'])->name('dhcp.destroy');
+Route::get('/dhcp', [App\Http\Controllers\Api\Network\DHCPController::class, 'index'])->name('dhcp.index');
+Route::get('/dhcp/create', [App\Http\Controllers\Api\Network\DHCPController::class, 'create'])->name('dhcp.create');
+Route::post('/dhcp', [App\Http\Controllers\Api\Network\DHCPController::class, 'store'])->name('dhcp.store');
+Route::delete('/dhcp/{id}', [App\Http\Controllers\Api\Network\DHCPController::class, 'destroy'])->name('dhcp.destroy');
 
 // تعديل الـ Queues
-Route::get('/queues/{name}/edit', [App\Http\Controllers\QueueController::class, 'edit'])->name('queues.edit');
-Route::put('/queues/{name}', [App\Http\Controllers\QueueController::class, 'update'])->name('queues.update');
+Route::get('/queues/{name}/edit', [App\Http\Controllers\Api\Network\QueueController::class, 'edit'])->name('queues.edit');
+Route::put('/queues/{name}', [App\Http\Controllers\Api\Network\QueueController::class, 'update'])->name('queues.update');
 
 // تعديل الـ Queues
-Route::get('/queues/{name}/edit', [App\Http\Controllers\QueueController::class, 'edit'])->name('queues.edit');
-Route::put('/queues/{name}', [App\Http\Controllers\QueueController::class, 'update'])->name('queues.update');
+Route::get('/queues/{name}/edit', [App\Http\Controllers\Api\Network\QueueController::class, 'edit'])->name('queues.edit');
+Route::put('/queues/{name}', [App\Http\Controllers\Api\Network\QueueController::class, 'update'])->name('queues.update');
 
 // تعديل الـ Firewall
-Route::get('/firewall/{id}/edit', [App\Http\Controllers\FirewallController::class, 'edit'])->name('firewall.edit');
-Route::put('/firewall/{id}', [App\Http\Controllers\FirewallController::class, 'update'])->name('firewall.update');
+Route::get('/firewall/{id}/edit', [App\Http\Controllers\Api\Network\FirewallController::class, 'edit'])->name('firewall.edit');
+Route::put('/firewall/{id}', [App\Http\Controllers\Api\Network\FirewallController::class, 'update'])->name('firewall.update');
 
 // تعديل الـ DHCP
-Route::get('/dhcp/{id}/edit', [App\Http\Controllers\DHCPController::class, 'edit'])->name('dhcp.edit');
-Route::put('/dhcp/{id}', [App\Http\Controllers\DHCPController::class, 'update'])->name('dhcp.update');
+Route::get('/dhcp/{id}/edit', [App\Http\Controllers\Api\Network\DHCPController::class, 'edit'])->name('dhcp.edit');
+Route::put('/dhcp/{id}', [App\Http\Controllers\Api\Network\DHCPController::class, 'update'])->name('dhcp.update');
+
+// DHCP Routes
+Route::get('/dhcp', [App\Http\Controllers\Api\Network\DHCPController::class, 'index'])->name('dhcp.index');
+Route::get('/dhcp/create', [App\Http\Controllers\Api\Network\DHCPController::class, 'create'])->name('dhcp.create');
+Route::post('/dhcp', [App\Http\Controllers\Api\Network\DHCPController::class, 'store'])->name('dhcp.store');
+Route::get('/dhcp/{id}/edit', [App\Http\Controllers\Api\Network\DHCPController::class, 'edit'])->name('dhcp.edit');
+Route::put('/dhcp/{id}', [App\Http\Controllers\Api\Network\DHCPController::class, 'update'])->name('dhcp.update');
+Route::delete('/dhcp/{id}', [App\Http\Controllers\Api\Network\DHCPController::class, 'destroy'])->name('dhcp.destroy');
+
+// تعديل الـ Firewall
+Route::get('/firewall/{id}/edit', [App\Http\Controllers\Api\Network\FirewallController::class, 'edit'])->name('firewall.edit');
+Route::put('/firewall/{id}', [App\Http\Controllers\Api\Network\FirewallController::class, 'update'])->name('firewall.update');

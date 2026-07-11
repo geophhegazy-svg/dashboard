@@ -90,9 +90,12 @@
                                     </span>
                                 </td>
                                 <td>
-                                    <a href="#" class="btn btn-sm btn-primary">
+                                    <!-- 🔥 زر التعديل -->
+                                    <a href="{{ route('firewall.edit', ['id' => $rule['id'], 'device_id' => $device->id ?? 1]) }}" 
+                                       class="btn btn-sm btn-primary">
                                         <i class="fas fa-edit"></i> تعديل
                                     </a>
+
                                     <form action="{{ route('firewall.destroy', ['id' => $rule['id']]) }}" method="POST" class="d-inline">
                                         @csrf
                                         @method('DELETE')

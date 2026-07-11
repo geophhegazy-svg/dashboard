@@ -6,7 +6,7 @@ namespace App\Services\Billing;
 
 use App\Models\Invoice;
 use App\Models\Subscription;
-use App\Services\InvoiceNumberService;
+use App\Services\Invoice\InvoiceNumberService;
 
 class InvoiceGenerator
 {

@@ -46,7 +46,7 @@ App\Services\Documentation\Generators
 ## ActivityLogService
 
 **Namespace**
-App\Services
+App\Services\Activity
 
 **Dependencies**
 - None
@@ -107,8 +107,8 @@ App\Services\Billing
 
 **Dependencies**
 - App\Services\Billing\BillingEngine
-- App\Services\SubscriptionRenewalService
-- App\Services\NotificationService
+- App\Services\Subscription\SubscriptionRenewalService
+- App\Services\Notification\NotificationService
 
 **Methods**
 - __construct(3 params) : mixed
@@ -268,9 +268,10 @@ App\Services\Documentation\Knowledge
 App\Services\Dashboard
 
 **Dependencies**
-- None
+- App\Services\Usage\UsageService
 
 **Methods**
+- __construct(1 params) : mixed
 - getDashboardData(1 params) : array
 
 ---
@@ -508,7 +509,7 @@ App\Services\Documentation\Knowledge
 App\Services\Billing
 
 **Dependencies**
-- App\Services\InvoiceNumberService
+- App\Services\Invoice\InvoiceNumberService
 
 **Methods**
 - __construct(1 params) : mixed
@@ -519,7 +520,7 @@ App\Services\Billing
 ## InvoiceNumberService
 
 **Namespace**
-App\Services
+App\Services\Invoice
 
 **Dependencies**
 - None
@@ -541,6 +542,60 @@ App\Services\Invoice
 - create(1 params) : App\Models\Invoice
 - update(2 params) : App\Models\Invoice
 - delete(1 params) : bool
+
+---
+
+## JournalEntryNumberService
+
+**Namespace**
+App\Services\Finance
+
+**Dependencies**
+- None
+
+**Methods**
+- generate(0 params) : string
+
+---
+
+## JournalPostingService
+
+**Namespace**
+App\Services\Accounting
+
+**Dependencies**
+- App\Services\Accounting\JournalValidationService
+- App\Services\Activity\ActivityLogService
+
+**Methods**
+- __construct(2 params) : mixed
+- post(1 params) : App\Models\JournalEntry
+
+---
+
+## JournalValidationService
+
+**Namespace**
+App\Services\Accounting
+
+**Dependencies**
+- None
+
+**Methods**
+- validate(1 params) : void
+
+---
+
+## JournalValidator
+
+**Namespace**
+App\Services\Finance\Accounting
+
+**Dependencies**
+- None
+
+**Methods**
+- validate(1 params) : void
 
 ---
 
@@ -857,7 +912,7 @@ App\Services\Documentation\Knowledge
 ## NotificationService
 
 **Namespace**
-App\Services
+App\Services\Notification
 
 **Dependencies**
 - None
@@ -1276,7 +1331,7 @@ App\Services\Subscription
 ## SubscriptionRenewalService
 
 **Namespace**
-App\Services
+App\Services\Subscription
 
 **Dependencies**
 - App\Contracts\MikrotikServiceInterface
@@ -1362,7 +1417,7 @@ App\Services\Task
 ## TelegramNotificationService
 
 **Namespace**
-App\Services
+App\Services\Notification
 
 **Dependencies**
 - None
@@ -1438,10 +1493,23 @@ App\Services\Documentation\Knowledge
 
 ---
 
+## UsageService
+
+**Namespace**
+App\Services\Usage
+
+**Dependencies**
+- None
+
+**Methods**
+- getUsageForCustomer(1 params) : array
+
+---
+
 ## WalletService
 
 **Namespace**
-App\Services
+App\Services\Wallet
 
 **Dependencies**
 - None

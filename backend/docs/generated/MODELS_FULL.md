@@ -995,6 +995,7 @@ App\Models
 - creator()
 - approver()
 - lines()
+- postedBy()
 - factory()
 
 ---

@@ -23,6 +23,8 @@ class JournalEntry extends Model
         'created_by',
         'approved_by',
         'approved_at',
+        'posted_at',
+        'posted_by',
     ];
 
     protected function casts(): array
@@ -30,6 +32,7 @@ class JournalEntry extends Model
         return [
             'entry_date' => 'date',
             'approved_at' => 'datetime',
+            'posted_at' => 'datetime',
         ];
     }
 
@@ -51,5 +54,10 @@ class JournalEntry extends Model
     public function lines(): HasMany
     {
         return $this->hasMany(JournalEntryLine::class);
+    }
+
+    public function postedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'posted_by');
     }
 }

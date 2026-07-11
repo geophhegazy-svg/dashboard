@@ -6,8 +6,8 @@ namespace App\Services\Billing;
 
 use App\Enums\BillingStatus;
 use App\Models\Subscription;
-use App\Services\NotificationService;
-use App\Services\SubscriptionRenewalService;
+use App\Services\Notification\NotificationService;
+use App\Services\Subscription\SubscriptionRenewalService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Log;
 use Throwable;

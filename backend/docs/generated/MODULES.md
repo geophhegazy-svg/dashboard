@@ -34,7 +34,7 @@ Total: 27
 
 ## Services
 
-Total: 94
+Total: 99
 
 - AIContextGenerator
 - AbstractHandoverSection
@@ -74,6 +74,10 @@ Total: 94
 - InvoiceGenerator
 - InvoiceNumberService
 - InvoiceService
+- JournalEntryNumberService
+- JournalPostingService
+- JournalValidationService
+- JournalValidator
 - KnowledgeExporter
 - KnowledgeGeneratorManager
 - KnowledgeGeneratorRegistry
@@ -129,6 +133,7 @@ Total: 94
 - TicketService
 - TodoGenerator
 - TodoKnowledgeGenerator
+- UsageService
 - WalletService
 
 ## Controllers

@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api\Network;
 
 use App\Services\Network\MikroTikAdvancedService;
 use App\Models\NetworkDevice;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class DHCPController extends Controller
 {
@@ -40,7 +41,7 @@ class DHCPController extends Controller
                 $leases = array_slice($allLeases, $offset, $perPage);
                 $total = count($allLeases);
                 $lastPage = ceil($total / $perPage);
-                
+
                 // تخزين البيانات للـ Pagination
                 $pagination = [
                     'current_page' => $currentPage,

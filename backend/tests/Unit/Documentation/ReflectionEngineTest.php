@@ -14,7 +14,7 @@ class ReflectionEngineTest extends TestCase
         $engine = new ReflectionEngine();
 
         $reflection = $engine->reflect(
-            \App\Services\InvoiceNumberService::class
+            \App\Services\Invoice\InvoiceNumberService::class
         );
 
         $this->assertArrayHasKey('methods', $reflection);

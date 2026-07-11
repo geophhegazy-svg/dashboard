@@ -45,7 +45,7 @@ use App\Http\Controllers\Api\CustomerNotificationController;
 use App\Http\Controllers\Api\CustomerTicketController;
 
 use App\Http\Controllers\Api\HotspotController;
-use App\Http\Controllers\TaskController;
+use App\Http\Controllers\Api\Task\TaskController;
 use App\Http\Controllers\Api\MikroTikAdvancedController;
 use App\Http\Controllers\Api\ScheduledReportController;
 

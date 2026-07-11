@@ -6,7 +6,7 @@ namespace Tests\Unit\Services;
 
 use App\Models\ActivityLog;
 use App\Models\Tenant;
-use App\Services\ActivityLogService;
+use App\Services\Activity\ActivityLogService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -36,5 +36,5 @@ class ActivityLogServiceTest extends TestCase
 
         $this->assertEquals(1, ActivityLog::count());
     }
-    
+
 }
