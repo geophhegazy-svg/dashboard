@@ -1649,48 +1649,6 @@ App\Services\Network
 
 ---
 
-## MikrotikService
-
-**Namespace**
-
-```
-App\Services\Network
-```
-
-**File**
-
-```
-/var/www/app/Services/Network/MikrotikService.php
-```
-
-**Properties**
-
-- $client : mixed
-- $device : mixed
-
-**Methods**
-
-- connect() : bool
-- createUser() : bool
-- disableUser() : bool
-- enableUser() : bool
-- deleteUser() : bool
-- getAllUsers() : array
-- getActiveSessions() : array
-- updateUserQueue() : bool
-- getQueueUsage() : array
-- getDeviceStats() : array
-- ping() : bool
-- disconnectUser() : bool
-- updateDeviceStatus() : void
-- getHotspotUsers() : array
-- getHotspotActiveSessions() : array
-- createHotspotUser() : bool
-- disableHotspotUser() : bool
-- enableHotspotUser() : bool
-
----
-
 ## MikrotikServiceAdapter
 
 **Namespace**
@@ -2816,7 +2774,7 @@ App\Services\Subscription
 **Constructor Dependencies**
 
 - SubscriptionRepositoryInterface $subscriptionRepository
-- MikrotikService $mikrotikService
+- MikrotikServiceInterface $mikrotikService
 - ActivateSubscriptionAction $activateAction
 - SuspendSubscriptionAction $suspendAction
 - ExpireSubscriptionAction $expireAction
@@ -2831,7 +2789,7 @@ App\Services\Subscription
 - $restoreAction : App\Actions\Subscription\RestoreSubscriptionAction
 - $renewAction : App\Actions\Subscription\RenewSubscriptionAction
 - $subscriptionRepository : App\Contracts\Repositories\SubscriptionRepositoryInterface
-- $mikrotikService : App\Services\Network\MikrotikService
+- $mikrotikService : App\Contracts\MikrotikServiceInterface
 
 **Methods**
 

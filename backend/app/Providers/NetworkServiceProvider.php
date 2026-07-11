@@ -17,7 +17,7 @@ use App\Services\Network\Providers\MikroTik\MikroTikMonitoringService;
 use App\Contracts\Network\NetworkProviderInterface;
 use App\Services\Network\NetworkProviderResolver;
 use App\Services\Network\Providers\MikroTik\MikroTikProvider;
-
+use App\Services\Network\NetworkDeviceConnectionManager;
 
 class NetworkServiceProvider extends ServiceProvider
 {
@@ -34,6 +34,13 @@ class NetworkServiceProvider extends ServiceProvider
                     MikroTikProvider::class
                 );
             }
+        );
+
+        $this->app->singleton(
+            NetworkDeviceConnectionManager::class,
+            fn($app) => new NetworkDeviceConnectionManager(
+                $app->make(MikroTikConnectionService::class),
+            )
         );
 
         $this->app->singleton(

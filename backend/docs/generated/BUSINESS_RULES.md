@@ -991,36 +991,6 @@ App\Services\Network
 
 ---
 
-## MikrotikService
-
-**Namespace**
-App\Services\Network
-
-**Dependencies**
-- None
-
-**Methods**
-- connect(4 params) : bool
-- createUser(4 params) : bool
-- disableUser(1 params) : bool
-- enableUser(1 params) : bool
-- deleteUser(1 params) : bool
-- getAllUsers(0 params) : array
-- getActiveSessions(0 params) : array
-- updateUserQueue(3 params) : bool
-- getQueueUsage(0 params) : array
-- getDeviceStats(0 params) : array
-- ping(1 params) : bool
-- disconnectUser(1 params) : bool
-- updateDeviceStatus(1 params) : void
-- getHotspotUsers(0 params) : array
-- getHotspotActiveSessions(0 params) : array
-- createHotspotUser(4 params) : bool
-- disableHotspotUser(1 params) : bool
-- enableHotspotUser(1 params) : bool
-
----
-
 ## MikrotikServiceAdapter
 
 **Namespace**
@@ -1648,7 +1618,7 @@ App\Services\Subscription
 
 **Dependencies**
 - App\Contracts\Repositories\SubscriptionRepositoryInterface
-- App\Services\Network\MikrotikService
+- App\Contracts\MikrotikServiceInterface
 - App\Actions\Subscription\ActivateSubscriptionAction
 - App\Actions\Subscription\SuspendSubscriptionAction
 - App\Actions\Subscription\ExpireSubscriptionAction

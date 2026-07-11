@@ -6,7 +6,7 @@ use App\Contracts\Repositories\SubscriptionRepositoryInterface;
 use App\Models\Customer;
 use App\Models\Package;
 use App\Models\Subscription;
-use App\Services\Network\MikrotikService;
+use App\Contracts\MikrotikServiceInterface;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -25,14 +25,14 @@ class SubscriptionService
     protected RenewSubscriptionAction $renewAction;
 
     protected SubscriptionRepositoryInterface $subscriptionRepository;
-    protected MikrotikService $mikrotikService;
+    protected MikrotikServiceInterface $mikrotikService;
 
     /**
      * حقن التبعيات عبر الـ Constructor
      */
     public function __construct(
         SubscriptionRepositoryInterface $subscriptionRepository,
-        MikrotikService $mikrotikService,
+        MikrotikServiceInterface $mikrotikService,
 
         ActivateSubscriptionAction $activateAction,
         SuspendSubscriptionAction $suspendAction,

@@ -1,10 +1,9 @@
 <?php
-// backend/app/Console/Commands/SyncMikroTik.php
 
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Services\Network\MikrotikService;  // 🔥 تغيير الـ Namespace
+use App\Contracts\MikrotikServiceInterface;
 use App\Models\Customer;
 use App\Models\PPPoEUser;
 use App\Models\NetworkDevice;
@@ -13,13 +12,16 @@ use Illuminate\Support\Facades\Log;
 class SyncMikroTik extends Command
 {
     protected $signature = 'mikrotik:sync {--device= : جهاز معين} {--auto : تشغيل تلقائي}';
+
     protected $description = 'مزامنة مستخدمي PPPoE بين النظام و MikroTik';
 
-    protected $mikrotikService;
+    protected MikrotikServiceInterface $mikrotikService;
 
-    public function __construct(MikrotikService $mikrotikService)
-    {
+    public function __construct(
+        MikrotikServiceInterface $mikrotikService
+    ) {
         parent::__construct();
+
         $this->mikrotikService = $mikrotikService;
     }
 
@@ -27,19 +29,22 @@ class SyncMikroTik extends Command
     {
         $this->info('🔄 بدء مزامنة MikroTik...');
 
-        // جلب الأجهزة النشطة
         $devices = $this->getDevices();
 
         if ($devices->isEmpty()) {
             $this->error('❌ لا توجد أجهزة MikroTik نشطة');
-            return 1;
+
+            return self::FAILURE;
         }
 
         foreach ($devices as $device) {
-            $this->info("📡 مزامنة الجهاز: {$device->name} ({$device->ip_address})");
+
+            $this->info(
+                "📡 مزامنة الجهاز: {$device->name} ({$device->ip_address})"
+            );
 
             try {
-                // الاتصال بالجهاز
+
                 $connected = $this->mikrotikService->connect(
                     $device->ip_address,
                     $device->username,
@@ -47,37 +52,62 @@ class SyncMikroTik extends Command
                     $device->port ?? 8728
                 );
 
-                if (!$connected) {
-                    $this->error("❌ فشل الاتصال بالجهاز: {$device->name}");
+                if (! $connected) {
+
+                    $this->error(
+                        "❌ فشل الاتصال بالجهاز: {$device->name}"
+                    );
+
                     continue;
                 }
 
-                // جلب المستخدمين من MikroTik
                 $mikrotikUsers = $this->mikrotikService->getAllUsers();
-                $this->info("📥 تم جلب " . count($mikrotikUsers) . " مستخدم من MikroTik");
 
-                // مزامنة المستخدمين
-                $this->syncUsers($mikrotikUsers, $device);
+                $this->info(
+                    '📥 تم جلب '.count($mikrotikUsers).' مستخدم من MikroTik'
+                );
 
-                // جلب الجلسات النشطة
-                $activeSessions = $this->mikrotikService->getActiveSessions();
-                $this->updateActiveSessions($activeSessions, $device);
+                $this->syncUsers(
+                    $mikrotikUsers,
+                    $device
+                );
 
-                // تحديث حالة الجهاز
+                $activeSessions =
+                    $this->mikrotikService->getActiveSessions();
+
+                $this->updateActiveSessions(
+                    $activeSessions,
+                    $device
+                );
+
                 $device->update([
                     'last_sync_at' => now(),
-                    'status' => 'active',
+                    'status'       => 'active',
                 ]);
 
-                $this->info("✅ تمت مزامنة الجهاز: {$device->name}");
-            } catch (\Exception $e) {
-                $this->error("❌ خطأ في مزامنة {$device->name}: " . $e->getMessage());
-                Log::error("MikroTik Sync Error: " . $e->getMessage());
+                $this->info(
+                    "✅ تمت مزامنة الجهاز: {$device->name}"
+                );
+
+            } catch (\Throwable $e) {
+
+                $this->error(
+                    "❌ خطأ في مزامنة {$device->name}: ".$e->getMessage()
+                );
+
+                Log::error(
+                    'MikroTik Sync Error',
+                    [
+                        'device_id' => $device->id,
+                        'message'   => $e->getMessage(),
+                    ]
+                );
             }
         }
 
         $this->info('✅ اكتملت المزامنة بنجاح');
-        return 0;
+
+        return self::SUCCESS;
     }
 
     protected function getDevices()
@@ -85,56 +115,101 @@ class SyncMikroTik extends Command
         $query = NetworkDevice::where('status', 'active');
 
         if ($this->option('device')) {
-            $query->where('id', $this->option('device'));
+
+            $query->where(
+                'id',
+                $this->option('device')
+            );
         }
 
         return $query->get();
     }
 
-    protected function syncUsers($mikrotikUsers, $device)
-    {
+    /**
+     * مزامنة مستخدمي PPPoE.
+     */
+    protected function syncUsers(
+        array $mikrotikUsers,
+        NetworkDevice $device
+    ): void {
+
         foreach ($mikrotikUsers as $mikrotikUser) {
-            // البحث عن المستخدم في النظام
-            $pppoeUser = PPPoEUser::where('username', $mikrotikUser['name'])
+
+            $username = $mikrotikUser['name'] ?? null;
+
+            if (! $username) {
+                continue;
+            }
+
+            $pppoeUser = PPPoEUser::query()
+                ->where('username', $username)
                 ->where('mikrotik_device_id', $device->id)
                 ->first();
 
             if ($pppoeUser) {
-                // تحديث المستخدم الموجود
+
                 $pppoeUser->update([
-                    'status' => $mikrotikUser['disabled'] ? 'disabled' : 'active',
-                    'last_sync_at' => now(),
-                ]);
-            } else {
-                // إنشاء مستخدم PPPoE جديد، مربوط بشركة (tenant) الجهاز نفسه
-                PPPoEUser::create([
-                    'tenant_id' => $device->tenant_id,
-                    'username' => $mikrotikUser['name'],
-                    'password' => $mikrotikUser['password'] ?? '********',
-                    'mikrotik_device_id' => $device->id,
-                    'profile' => $mikrotikUser['profile'] ?? null,
-                    'status' => $mikrotikUser['disabled'] ? 'disabled' : 'active',
+                    'status' => ! empty($mikrotikUser['disabled'])
+                        ? 'disabled'
+                        : 'active',
+
                     'last_sync_at' => now(),
                 ]);
 
-                $this->info("📝 تم إضافة مستخدم جديد: {$mikrotikUser['name']}");
+                continue;
             }
+
+            PPPoEUser::create([
+                'tenant_id' => $device->tenant_id,
+
+                'username' => $username,
+
+                'password' =>
+                $mikrotikUser['password']
+                    ?? '********',
+
+                'mikrotik_device_id' => $device->id,
+
+                'profile' =>
+                $mikrotikUser['profile']
+                    ?? null,
+
+                'status' =>
+                ! empty($mikrotikUser['disabled'])
+                    ? 'disabled'
+                    : 'active',
+
+                'last_sync_at' => now(),
+            ]);
+
+            $this->info(
+                "📝 تم إضافة مستخدم جديد: {$username}"
+            );
         }
     }
 
-    protected function updateActiveSessions($sessions, $device)
-    {
-        // تحديث حالة المستخدمين المتصلين
-        $activeUsernames = array_column($sessions, 'name');
+    /**
+     * تحديث الجلسات النشطة.
+     */
+    protected function updateActiveSessions(
+        array $sessions,
+        NetworkDevice $device
+    ): void {
 
-        PPPoEUser::where('mikrotik_device_id', $device->id)
+        $activeUsernames = array_filter(
+            array_column($sessions, 'name')
+        );
+
+        PPPoEUser::query()
+            ->where('mikrotik_device_id', $device->id)
             ->whereIn('username', $activeUsernames)
             ->update([
                 'is_online' => true,
                 'last_login_at' => now(),
             ]);
 
-        PPPoEUser::where('mikrotik_device_id', $device->id)
+        PPPoEUser::query()
+            ->where('mikrotik_device_id', $device->id)
             ->whereNotIn('username', $activeUsernames)
             ->update([
                 'is_online' => false,

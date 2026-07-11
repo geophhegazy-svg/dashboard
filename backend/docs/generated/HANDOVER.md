@@ -14,7 +14,7 @@ Technology
 
 Statistics
 - Models: 27
-- Services: 112
+- Services: 111
 
 
 ---
@@ -48,7 +48,7 @@ app/
 # Project Statistics
 
 Models: 27
-Services: 112
+Services: 111
 
 ---
 
@@ -100,7 +100,7 @@ Development Rules
 
 Current Statistics
 Models: 27
-Services: 112
+Services: 111
 
 ---
 
@@ -1097,36 +1097,6 @@ App\Services\Network
 
 ---
 
-## MikrotikService
-
-**Namespace**
-App\Services\Network
-
-**Dependencies**
-- None
-
-**Methods**
-- connect(4 params) : bool
-- createUser(4 params) : bool
-- disableUser(1 params) : bool
-- enableUser(1 params) : bool
-- deleteUser(1 params) : bool
-- getAllUsers(0 params) : array
-- getActiveSessions(0 params) : array
-- updateUserQueue(3 params) : bool
-- getQueueUsage(0 params) : array
-- getDeviceStats(0 params) : array
-- ping(1 params) : bool
-- disconnectUser(1 params) : bool
-- updateDeviceStatus(1 params) : void
-- getHotspotUsers(0 params) : array
-- getHotspotActiveSessions(0 params) : array
-- createHotspotUser(4 params) : bool
-- disableHotspotUser(1 params) : bool
-- enableHotspotUser(1 params) : bool
-
----
-
 ## MikrotikServiceAdapter
 
 **Namespace**
@@ -1754,7 +1724,7 @@ App\Services\Subscription
 
 **Dependencies**
 - App\Contracts\Repositories\SubscriptionRepositoryInterface
-- App\Services\Network\MikrotikService
+- App\Contracts\MikrotikServiceInterface
 - App\Actions\Subscription\ActivateSubscriptionAction
 - App\Actions\Subscription\SuspendSubscriptionAction
 - App\Actions\Subscription\ExpireSubscriptionAction
@@ -6296,48 +6266,6 @@ App\Services\Network
 
 ---
 
-## MikrotikService
-
-**Namespace**
-
-```
-App\Services\Network
-```
-
-**File**
-
-```
-/var/www/app/Services/Network/MikrotikService.php
-```
-
-**Properties**
-
-- $client : mixed
-- $device : mixed
-
-**Methods**
-
-- connect() : bool
-- createUser() : bool
-- disableUser() : bool
-- enableUser() : bool
-- deleteUser() : bool
-- getAllUsers() : array
-- getActiveSessions() : array
-- updateUserQueue() : bool
-- getQueueUsage() : array
-- getDeviceStats() : array
-- ping() : bool
-- disconnectUser() : bool
-- updateDeviceStatus() : void
-- getHotspotUsers() : array
-- getHotspotActiveSessions() : array
-- createHotspotUser() : bool
-- disableHotspotUser() : bool
-- enableHotspotUser() : bool
-
----
-
 ## MikrotikServiceAdapter
 
 **Namespace**
@@ -7463,7 +7391,7 @@ App\Services\Subscription
 **Constructor Dependencies**
 
 - SubscriptionRepositoryInterface $subscriptionRepository
-- MikrotikService $mikrotikService
+- MikrotikServiceInterface $mikrotikService
 - ActivateSubscriptionAction $activateAction
 - SuspendSubscriptionAction $suspendAction
 - ExpireSubscriptionAction $expireAction
@@ -7478,7 +7406,7 @@ App\Services\Subscription
 - $restoreAction : App\Actions\Subscription\RestoreSubscriptionAction
 - $renewAction : App\Actions\Subscription\RenewSubscriptionAction
 - $subscriptionRepository : App\Contracts\Repositories\SubscriptionRepositoryInterface
-- $mikrotikService : App\Services\Network\MikrotikService
+- $mikrotikService : App\Contracts\MikrotikServiceInterface
 
 **Methods**
 

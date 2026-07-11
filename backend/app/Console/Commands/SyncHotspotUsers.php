@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Services\Network\MikroTikService;
+use App\Contracts\MikrotikServiceInterface;
 use App\Models\HotspotUser;
 use App\Models\Customer;
 use App\Models\NetworkDevice;
@@ -16,7 +16,7 @@ class SyncHotspotUsers extends Command
 
     protected $mikrotikService;
 
-    public function __construct(MikroTikService $mikrotikService)
+    public function __construct(MikrotikServiceInterface $mikrotikService)
     {
         parent::__construct();
         $this->mikrotikService = $mikrotikService;

@@ -917,35 +917,6 @@ App\Services\Network\MikrotikConnection
 - client
 - execute
 
-## MikrotikService
-
-**Class**
-
-```
-App\Services\Network\MikrotikService
-```
-
-**Public Methods**
-
-- connect
-- createHotspotUser
-- createUser
-- deleteUser
-- disableHotspotUser
-- disableUser
-- disconnectUser
-- enableHotspotUser
-- enableUser
-- getActiveSessions
-- getAllUsers
-- getDeviceStats
-- getHotspotActiveSessions
-- getHotspotUsers
-- getQueueUsage
-- ping
-- updateDeviceStatus
-- updateUserQueue
-
 ## MikrotikServiceAdapter
 
 **Class**

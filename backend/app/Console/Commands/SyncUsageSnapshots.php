@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Services\Network\MikrotikService;
+use App\Contracts\MikrotikServiceInterface;
 use App\Models\NetworkDevice;
 use App\Models\Subscription;
 use App\Models\HotspotSubscription;
@@ -15,9 +15,10 @@ class SyncUsageSnapshots extends Command
     protected $signature = 'usage:sync';
     protected $description = 'أخذ لقطة دورية من استهلاك كل عملاء PPPoE و Hotspot من كل الأجهزة النشطة';
 
-    protected $mikrotikService;
+    protected MikrotikServiceInterface $mikrotikService;
 
-    public function __construct(MikrotikService $mikrotikService)
+    public function __construct(
+    MikrotikServiceInterface $mikrotikService)
     {
         parent::__construct();
         $this->mikrotikService = $mikrotikService;

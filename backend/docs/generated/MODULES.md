@@ -34,7 +34,7 @@ Total: 27
 
 ## Services
 
-Total: 112
+Total: 111
 
 - AIContextGenerator
 - AbstractHandoverSection
@@ -98,7 +98,6 @@ Total: 112
 - MikroTikQueryService
 - MikroTikQueueService
 - MikrotikConnection
-- MikrotikService
 - MikrotikServiceAdapter
 - ModelDocumentationGenerator
 - ModelRelationExtractor
