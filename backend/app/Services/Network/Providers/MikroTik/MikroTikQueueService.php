@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Services\Network\Providers\MikroTik;
 
+use App\Contracts\Network\Services\QueueServiceInterface;
 use App\Exceptions\Network\ResourceNotFoundException;
-use Illuminate\Support\Facades\Log;
 use RouterOS\Query;
 
-class MikroTikQueueService
+class MikroTikQueueService implements QueueServiceInterface
 {
     public function __construct(
         protected MikroTikQueryService $query
