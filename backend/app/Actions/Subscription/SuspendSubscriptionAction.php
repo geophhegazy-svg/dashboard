@@ -4,31 +4,30 @@ declare(strict_types=1);
 
 namespace App\Actions\Subscription;
 
+use App\Contracts\Domain\Shared\Contracts\ActionInterface;
 use App\Contracts\MikrotikServiceInterface;
+use App\Contracts\Repositories\SubscriptionRepositoryInterface;
 use App\Events\SubscriptionSuspended;
 use App\Models\Subscription;
 use Illuminate\Support\Facades\DB;
-use RuntimeException;
 
-class SuspendSubscriptionAction
+class SuspendSubscriptionAction implements ActionInterface
 {
     public function __construct(
+        private readonly SubscriptionRepositoryInterface $subscriptions,
         private readonly MikrotikServiceInterface $mikrotikService,
     ) {}
 
-    public function execute(Subscription $subscription): bool
-    {
-        if (! $subscription->canSuspend()) {
-            throw new RuntimeException(
-                sprintf(
-                    'Subscription #%d cannot be suspended from status [%s].',
-                    $subscription->id,
-                    $subscription->status->value
-                )
-            );
-        }
+    /**
+     * Suspend subscription.
+     */
+    public function execute(
+        mixed ...$arguments
+    ): Subscription {
+        /** @var Subscription $subscription */
+        $subscription = $arguments[0];
 
-        return DB::transaction(function () use ($subscription) {
+        DB::transaction(function () use ($subscription): void {
 
             /*
             |--------------------------------------------------------------------------
@@ -36,11 +35,12 @@ class SuspendSubscriptionAction
             |--------------------------------------------------------------------------
             */
             $subscription->suspend();
-            $subscription->save();
+
+            $this->subscriptions->save($subscription);
 
             /*
             |--------------------------------------------------------------------------
-            | Disable PPPoE on MikroTik
+            | Disable PPPoE User
             |--------------------------------------------------------------------------
             */
             if (! empty($subscription->pppoe_username)) {
@@ -55,8 +55,8 @@ class SuspendSubscriptionAction
             |--------------------------------------------------------------------------
             */
             SubscriptionSuspended::dispatch($subscription);
-
-            return true;
         });
+
+        return $subscription->fresh();
     }
 }

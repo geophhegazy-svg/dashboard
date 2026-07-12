@@ -88,6 +88,28 @@ App\Http\Controllers\Api
 
 ---
 
+## CustomerAuthController
+
+**Namespace**
+
+```
+App\Http\Controllers
+```
+
+**File**
+
+```
+/var/www/app/Http/Controllers/CustomerAuthController.php
+```
+
+**Public Methods**
+
+- showLoginForm()
+- login()
+- logout()
+
+---
+
 ## CustomerController
 
 **Namespace**
@@ -140,6 +162,26 @@ App\Http\Controllers\Api
 
 ---
 
+## CustomerDashboardController
+
+**Namespace**
+
+```
+App\Http\Controllers
+```
+
+**File**
+
+```
+/var/www/app/Http/Controllers/CustomerDashboardController.php
+```
+
+**Public Methods**
+
+- index()
+
+---
+
 ## CustomerInvoiceController
 
 **Namespace**
@@ -152,6 +194,27 @@ App\Http\Controllers\Api
 
 ```
 /var/www/app/Http/Controllers/Api/CustomerInvoiceController.php
+```
+
+**Public Methods**
+
+- index()
+- show()
+
+---
+
+## CustomerInvoiceController
+
+**Namespace**
+
+```
+App\Http\Controllers
+```
+
+**File**
+
+```
+/var/www/app/Http/Controllers/CustomerInvoiceController.php
 ```
 
 **Public Methods**
@@ -180,6 +243,28 @@ App\Http\Controllers\Api
 - index()
 - markAsRead()
 - markAllAsRead()
+
+---
+
+## CustomerProfileController
+
+**Namespace**
+
+```
+App\Http\Controllers
+```
+
+**File**
+
+```
+/var/www/app/Http/Controllers/CustomerProfileController.php
+```
+
+**Public Methods**
+
+- show()
+- update()
+- changePassword()
 
 ---
 
@@ -228,6 +313,31 @@ App\Http\Controllers\Api
 - show()
 - messages()
 - store()
+- reply()
+- close()
+
+---
+
+## CustomerTicketController
+
+**Namespace**
+
+```
+App\Http\Controllers
+```
+
+**File**
+
+```
+/var/www/app/Http/Controllers/CustomerTicketController.php
+```
+
+**Public Methods**
+
+- index()
+- create()
+- store()
+- show()
 - reply()
 - close()
 

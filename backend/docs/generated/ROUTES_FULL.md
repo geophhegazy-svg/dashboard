@@ -1211,6 +1211,111 @@
 - Action: App\Http\Controllers\Api\Network\DHCPController@update
 - Middleware: web
 
+## customer/login
+
+- Method: GET|HEAD
+- Name: customer.login
+- Action: App\Http\Controllers\CustomerAuthController@showLoginForm
+- Middleware: web
+
+## customer/login
+
+- Method: POST
+- Name: customer.login.post
+- Action: App\Http\Controllers\CustomerAuthController@login
+- Middleware: web
+
+## customer/logout
+
+- Method: POST
+- Name: customer.logout
+- Action: App\Http\Controllers\CustomerAuthController@logout
+- Middleware: web
+
+## customer/dashboard
+
+- Method: GET|HEAD
+- Name: customer.dashboard
+- Action: App\Http\Controllers\CustomerDashboardController@index
+- Middleware: web
+
+## customer/invoices
+
+- Method: GET|HEAD
+- Name: customer.invoices
+- Action: App\Http\Controllers\CustomerInvoiceController@index
+- Middleware: web
+
+## customer/invoices/{id}
+
+- Method: GET|HEAD
+- Name: customer.invoice.show
+- Action: App\Http\Controllers\CustomerInvoiceController@show
+- Middleware: web
+
+## customer/tickets
+
+- Method: GET|HEAD
+- Name: customer.tickets
+- Action: App\Http\Controllers\CustomerTicketController@index
+- Middleware: web
+
+## customer/tickets/create
+
+- Method: GET|HEAD
+- Name: customer.ticket.create
+- Action: App\Http\Controllers\CustomerTicketController@create
+- Middleware: web
+
+## customer/tickets
+
+- Method: POST
+- Name: customer.ticket.store
+- Action: App\Http\Controllers\CustomerTicketController@store
+- Middleware: web
+
+## customer/tickets/{id}
+
+- Method: GET|HEAD
+- Name: customer.ticket.show
+- Action: App\Http\Controllers\CustomerTicketController@show
+- Middleware: web
+
+## customer/tickets/{id}/reply
+
+- Method: POST
+- Name: customer.ticket.reply
+- Action: App\Http\Controllers\CustomerTicketController@reply
+- Middleware: web
+
+## customer/tickets/{id}/close
+
+- Method: POST
+- Name: customer.ticket.close
+- Action: App\Http\Controllers\CustomerTicketController@close
+- Middleware: web
+
+## customer/profile
+
+- Method: GET|HEAD
+- Name: customer.profile
+- Action: App\Http\Controllers\CustomerProfileController@show
+- Middleware: web
+
+## customer/profile
+
+- Method: PUT
+- Name: customer.profile.update
+- Action: App\Http\Controllers\CustomerProfileController@update
+- Middleware: web
+
+## customer/profile/change-password
+
+- Method: POST
+- Name: customer.profile.change-password
+- Action: App\Http\Controllers\CustomerProfileController@changePassword
+- Middleware: web
+
 ## broadcasting/auth
 
 - Method: GET|POST|HEAD

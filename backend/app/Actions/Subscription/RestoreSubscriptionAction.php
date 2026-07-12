@@ -4,34 +4,43 @@ declare(strict_types=1);
 
 namespace App\Actions\Subscription;
 
+use App\Contracts\Domain\Shared\Contracts\ActionInterface;
 use App\Contracts\MikrotikServiceInterface;
+use App\Contracts\Repositories\SubscriptionRepositoryInterface;
 use App\Events\SubscriptionRestored;
 use App\Models\Subscription;
 use Illuminate\Support\Facades\DB;
 
-class RestoreSubscriptionAction
+class RestoreSubscriptionAction implements ActionInterface
 {
     public function __construct(
+        private readonly SubscriptionRepositoryInterface $subscriptions,
         private readonly MikrotikServiceInterface $mikrotikService,
     ) {}
 
+    /**
+     * Restore subscription.
+     */
     public function execute(
-        Subscription $subscription
-    ): bool {
+        mixed ...$arguments
+    ): Subscription {
+        /** @var Subscription $subscription */
+        $subscription = $arguments[0];
 
-        return DB::transaction(function () use ($subscription) {
+        DB::transaction(function () use ($subscription): void {
 
             /*
             |--------------------------------------------------------------------------
-            | Change Subscription State
+            | Restore Subscription State
             |--------------------------------------------------------------------------
             */
             $subscription->restore();
-            $subscription->save();
+
+            $this->subscriptions->save($subscription);
 
             /*
             |--------------------------------------------------------------------------
-            | Enable PPPoE on MikroTik
+            | Enable PPPoE User
             |--------------------------------------------------------------------------
             */
             if (! empty($subscription->pppoe_username)) {
@@ -46,8 +55,8 @@ class RestoreSubscriptionAction
             |--------------------------------------------------------------------------
             */
             SubscriptionRestored::dispatch($subscription);
-
-            return true;
         });
+
+        return $subscription->fresh();
     }
 }

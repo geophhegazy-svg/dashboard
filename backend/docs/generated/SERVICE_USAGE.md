@@ -1499,6 +1499,24 @@ App\Services\Subscription\SubscriptionRenewalService
 - renewHotspot
 - renewPppoe
 
+## SubscriptionRulesService
+
+**Class**
+
+```
+App\Services\Subscription\SubscriptionRulesService
+```
+
+**Public Methods**
+
+- ensureCanActivate
+- ensureCanRenew
+- ensureCanSuspend
+- ensureCustomerIsActive
+- ensurePackageIsActive
+- isExpired
+- isInGracePeriod
+
 ## SubscriptionService
 
 **Class**

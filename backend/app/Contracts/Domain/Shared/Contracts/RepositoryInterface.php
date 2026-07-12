@@ -2,6 +2,6 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Shared\Contracts;
+namespace App\Contracts\Domain\Shared\Contracts;
 
 interface RepositoryInterface {}

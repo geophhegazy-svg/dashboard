@@ -6,12 +6,17 @@
 - App\Http\Controllers\Api\AuthController
 - App\Http\Controllers\Controller
 - App\Http\Controllers\Api\CustomerAuthController
+- App\Http\Controllers\CustomerAuthController
 - App\Http\Controllers\Api\CustomerController
 - App\Http\Controllers\Api\CustomerDashboardController
+- App\Http\Controllers\CustomerDashboardController
 - App\Http\Controllers\Api\CustomerInvoiceController
+- App\Http\Controllers\CustomerInvoiceController
 - App\Http\Controllers\Api\CustomerNotificationController
+- App\Http\Controllers\CustomerProfileController
 - App\Http\Controllers\Api\CustomerSubscriptionController
 - App\Http\Controllers\Api\CustomerTicketController
+- App\Http\Controllers\CustomerTicketController
 - App\Http\Controllers\Api\CustomerWalletController
 - App\Http\Controllers\Api\Network\DHCPController
 - App\Http\Controllers\Api\DashboardController
@@ -140,6 +145,7 @@
 - App\Services\Subscription\SubscriptionExpirationService
 - App\Services\Subscription\SubscriptionLifecycleService
 - App\Services\Subscription\SubscriptionRenewalService
+- App\Services\Subscription\SubscriptionRulesService
 - App\Services\Subscription\SubscriptionService
 - App\Services\Subscription\SubscriptionSuspensionService
 - App\Services\Task\TaskService

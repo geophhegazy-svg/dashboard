@@ -2786,6 +2786,32 @@ App\Services\Subscription
 
 ---
 
+## SubscriptionRulesService
+
+**Namespace**
+
+```
+App\Services\Subscription
+```
+
+**File**
+
+```
+/var/www/app/Services/Subscription/SubscriptionRulesService.php
+```
+
+**Methods**
+
+- ensureCanActivate() : void
+- ensureCanRenew() : void
+- ensureCanSuspend() : void
+- ensureCustomerIsActive() : void
+- ensurePackageIsActive() : void
+- isExpired() : bool
+- isInGracePeriod() : bool
+
+---
+
 ## SubscriptionService
 
 **Namespace**

@@ -1985,14 +1985,27 @@ App\Models
 - payments()
 - notifications()
 - activityLogs()
+- transitionTo()
 - activate()
 - suspend()
-- expire()
 - restore()
+- renew()
+- expire()
+- enterGrace()
+- cancel()
+- terminate()
 - isActive()
+- isExpired()
+- isSuspended()
+- isGrace()
+- isCancelled()
+- isClosed()
 - canActivate()
 - canSuspend()
 - canRenew()
+- canExpire()
+- canRestore()
+- canCancel()
 - factory()
 
 ---
@@ -2181,7 +2194,6 @@ App\Models
 
 **Methods**
 
-- users()
 - factory()
 
 ---

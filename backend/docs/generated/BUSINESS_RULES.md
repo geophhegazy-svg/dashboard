@@ -1626,6 +1626,25 @@ App\Services\Subscription
 
 ---
 
+## SubscriptionRulesService
+
+**Namespace**
+App\Services\Subscription
+
+**Dependencies**
+- None
+
+**Methods**
+- ensureCanActivate(1 params) : void
+- ensureCanRenew(1 params) : void
+- ensureCanSuspend(1 params) : void
+- ensureCustomerIsActive(1 params) : void
+- ensurePackageIsActive(1 params) : void
+- isExpired(1 params) : bool
+- isInGracePeriod(2 params) : bool
+
+---
+
 ## SubscriptionService
 
 **Namespace**

@@ -2,12 +2,17 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Shared\Contracts;
+namespace App\Contracts\Domain\Shared\Contracts;
 
 interface ActionInterface
 {
     /**
-     * Execute domain action.
+     * Execute the action.
+     *
+     * @param mixed ...$arguments
+     * @return mixed
      */
-    public function execute(mixed ...$arguments): mixed;
+    public function execute(
+        mixed ...$arguments
+    ): mixed;
 }
