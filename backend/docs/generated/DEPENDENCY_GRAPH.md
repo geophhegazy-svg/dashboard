@@ -108,6 +108,7 @@
 - App\Services\Documentation\Sections\ModelsSection
 - App\Services\Documentation\Knowledge\ModuleExtractor
 - App\Services\Documentation\Knowledge\ModulesKnowledgeGenerator
+- App\Services\Network\NetworkDeviceConnectionManager
 - App\Services\Network\NetworkManager
 - App\Services\Network\NetworkProviderResolver
 - App\Services\Notification\NotificationService

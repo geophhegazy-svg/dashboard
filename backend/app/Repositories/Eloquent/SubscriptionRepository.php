@@ -1,146 +1,182 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repositories\Eloquent;
 
 use App\Contracts\Repositories\SubscriptionRepositoryInterface;
+use App\Enums\SubscriptionStatus;
 use App\Models\Subscription;
-use App\Models\Customer;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\DB;
 
 class SubscriptionRepository implements SubscriptionRepositoryInterface
 {
-    public function getAll(array $filters = [], int $perPage = 15): LengthAwarePaginator
+    public function paginate(
+        array $filters = [],
+        int $perPage = 15
+    ): LengthAwarePaginator {
+
+        return $this->query($filters)
+            ->latest('id')
+            ->paginate($perPage);
+    }
+
+    public function find(
+        int $id
+    ): ?Subscription {
+
+        return Subscription::query()
+            ->with([
+                'tenant',
+                'customer',
+                'package',
+                'invoices',
+                'payments',
+            ])
+            ->find($id);
+    }
+
+    public function findOrFail(
+        int $id
+    ): Subscription {
+
+        return Subscription::query()
+            ->with([
+                'tenant',
+                'customer',
+                'package',
+                'invoices',
+                'payments',
+            ])
+            ->findOrFail($id);
+    }
+
+    public function byCustomer(
+        int $customerId
+    ): Collection {
+
+        return Subscription::query()
+            ->where('customer_id', $customerId)
+            ->latest('id')
+            ->get();
+    }
+
+    public function byStatus(
+        SubscriptionStatus $status
+    ): Collection {
+
+        return Subscription::query()
+            ->where('status', $status)
+            ->latest('id')
+            ->get();
+    }
+
+    public function active(): Collection
     {
-        $query = Subscription::with(['customer', 'package']);
+        return $this->byStatus(
+            SubscriptionStatus::ACTIVE
+        );
+    }
+
+    public function expired(): Collection
+    {
+        return Subscription::query()
+            ->where(function (Builder $query) {
+
+                $query
+                    ->where('status', SubscriptionStatus::EXPIRED)
+                    ->orWhere(function (Builder $query) {
+
+                        $query
+                            ->where('status', SubscriptionStatus::ACTIVE)
+                            ->whereDate('end_date', '<', now());
+                    });
+            })
+            ->latest('id')
+            ->get();
+    }
+
+    public function create(
+        array $attributes
+    ): Subscription {
+
+        return Subscription::create($attributes);
+    }
+
+    public function save(
+        Subscription $subscription
+    ): Subscription {
+
+        $subscription->save();
+
+        return $subscription->refresh();
+    }
+
+    public function update(
+        Subscription $subscription,
+        array $attributes
+    ): Subscription {
+
+        $subscription->fill($attributes);
+
+        return $this->save($subscription);
+    }
+
+    public function delete(
+        Subscription $subscription
+    ): bool {
+
+        return (bool) $subscription->delete();
+    }
+
+    /**
+     * -------------------------------------------------------------
+     * Internal Query Builder
+     * -------------------------------------------------------------
+     */
+    private function query(
+        array $filters = []
+    ): Builder {
+
+        $query = Subscription::query()
+            ->with([
+                'customer',
+                'package',
+            ]);
 
         if (isset($filters['status'])) {
-            $query->where('status', $filters['status']);
+
+            $query->where(
+                'status',
+                $filters['status']
+            );
         }
 
         if (isset($filters['customer_id'])) {
-            $query->where('customer_id', $filters['customer_id']);
+
+            $query->where(
+                'customer_id',
+                $filters['customer_id']
+            );
         }
 
-        if (isset($filters['search'])) {
-            $query->whereHas('customer', function ($q) use ($filters) {
-                $q->where('name', 'LIKE', "%{$filters['search']}%")
-                    ->orWhere('phone', 'LIKE', "%{$filters['search']}%");
-            });
+        if (! empty($filters['search'])) {
+
+            $search = $filters['search'];
+
+            $query->whereHas(
+                'customer',
+                function (Builder $builder) use ($search) {
+
+                    $builder
+                        ->where('name', 'like', "%{$search}%")
+                        ->orWhere('phone', 'like', "%{$search}%");
+                }
+            );
         }
 
-        return $query->orderBy('created_at', 'desc')->paginate($perPage);
-    }
-
-    public function findById(int $id): ?Subscription
-    {
-        return Subscription::with(['customer', 'package'])->find($id);
-    }
-
-    public function getByCustomerId(int $customerId): array
-    {
-        return Subscription::where('customer_id', $customerId)
-            ->with(['package'])
-            ->orderBy('created_at', 'desc')
-            ->get()
-            ->toArray();
-    }
-
-    public function getActiveSubscriptions(): array
-    {
-        return Subscription::where('status', 'active')
-            ->where('expiry_date', '>', now())
-            ->with(['customer', 'package'])
-            ->get()
-            ->toArray();
-    }
-
-    public function getExpiredSubscriptions(): array
-    {
-        return Subscription::where('status', 'expired')
-            ->orWhere(function ($q) {
-                $q->where('status', 'active')
-                    ->where('expiry_date', '<', now());
-            })
-            ->with(['customer', 'package'])
-            ->get()
-            ->toArray();
-    }
-
-    public function create(array $data): Subscription
-    {
-        return DB::transaction(function () use ($data) {
-            $expiryDate = now()->addMonths($data['duration_months'] ?? 1);
-
-            $subscription = Subscription::create([
-                'customer_id' => $data['customer_id'],
-                'package_id' => $data['package_id'],
-                'start_date' => $data['start_date'] ?? now(),
-                'expiry_date' => $data['expiry_date'] ?? $expiryDate,
-                'status' => $data['status'] ?? 'active',
-                'price' => $data['price'] ?? 0,
-                'discount' => $data['discount'] ?? 0,
-                'total' => ($data['price'] ?? 0) - ($data['discount'] ?? 0),
-                'duration_months' => $data['duration_months'] ?? 1,
-                'notes' => $data['notes'] ?? null,
-            ]);
-
-            if (isset($data['update_customer']) && $data['update_customer']) {
-                Customer::where('id', $data['customer_id'])->update([
-                    'status' => 'active',
-                    'expiry_date' => $expiryDate,
-                    'package_id' => $data['package_id'],
-                ]);
-            }
-
-            return $subscription;
-        });
-    }
-
-    public function update(int $id, array $data): Subscription
-    {
-        $subscription = Subscription::findOrFail($id);
-        $subscription->update($data);
-        return $subscription->fresh();
-    }
-
-    public function delete(int $id): bool
-    {
-        return Subscription::findOrFail($id)->delete();
-    }
-
-    public function renew(int $id, int $months): Subscription
-    {
-        return DB::transaction(function () use ($id, $months) {
-            $subscription = Subscription::findOrFail($id);
-            $newExpiryDate = ($subscription->expiry_date ?? now())->addMonths($months);
-
-            $subscription->update([
-                'expiry_date' => $newExpiryDate,
-                'status' => 'active',
-                'duration_months' => $subscription->duration_months + $months,
-            ]);
-
-            Customer::where('id', $subscription->customer_id)->update([
-                'expiry_date' => $newExpiryDate,
-                'status' => 'active',
-            ]);
-
-            return $subscription->fresh();
-        });
-    }
-
-    public function cancel(int $id): bool
-    {
-        return DB::transaction(function () use ($id) {
-            $subscription = Subscription::findOrFail($id);
-            $subscription->update(['status' => 'cancelled']);
-
-            Customer::where('id', $subscription->customer_id)->update([
-                'status' => 'suspended',
-            ]);
-
-            return true;
-        });
+        return $query;
     }
 }

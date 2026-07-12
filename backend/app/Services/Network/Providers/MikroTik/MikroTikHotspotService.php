@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace App\Services\Network\Providers\MikroTik;
 
 use App\Exceptions\Network\ResourceNotFoundException;
+use App\Contracts\Network\Services\HotspotServiceInterface;
 use RouterOS\Query;
 
-class MikroTikHotspotService
+class MikroTikHotspotService implements HotspotServiceInterface
 {
     public function __construct(
         protected MikroTikQueryService $query

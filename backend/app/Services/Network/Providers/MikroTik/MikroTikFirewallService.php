@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace App\Services\Network\Providers\MikroTik;
 
 use App\Exceptions\Network\ResourceNotFoundException;
+use App\Contracts\Network\Services\FirewallServiceInterface;
 use RouterOS\Query;
 
-class MikroTikFirewallService
+class MikroTikFirewallService implements FirewallServiceInterface
 {
     public function __construct(
         protected MikroTikQueryService $query

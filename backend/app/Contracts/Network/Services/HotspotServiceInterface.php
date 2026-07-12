@@ -91,7 +91,10 @@ interface HotspotServiceInterface
      *
      * @return array<string,mixed>
      */
-    public function statistics(
-        string $username
-    ): array;
+    /**
+     * Hotspot statistics.
+     *
+     * @return array<string,mixed>
+     */
+    public function statistics(): array;
 }

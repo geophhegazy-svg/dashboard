@@ -11,7 +11,7 @@ interface FirewallServiceInterface
      *
      * @return array<int,array<string,mixed>>
      */
-    public function getAll(): array;
+    public function getRules(): array;
 
     /**
      * Find firewall rule.
@@ -59,13 +59,36 @@ interface FirewallServiceInterface
     ): bool;
 
     /**
-     * Move firewall rule.
+     * @return array<int,array<string,mixed>>
      */
-    public function move(
-        string $comment,
-        int $position
+    public function getNatRules(): array;
+
+    /**
+     * @return array<string,mixed>|null
+     */
+    public function findNat(
+        string $comment
+    ): ?array;
+
+    /**
+     * @param array<string,mixed> $attributes
+     */
+    public function createNat(
+        array $attributes
     ): bool;
 
+    /**
+     * @param array<string,mixed> $attributes
+     */
+    public function updateNat(
+        string $comment,
+        array $attributes
+    ): bool;
+
+    public function deleteNat(
+        string $comment
+    ): bool;
+    
     /**
      * Search firewall rules.
      *
@@ -80,7 +103,5 @@ interface FirewallServiceInterface
      *
      * @return array<string,mixed>
      */
-    public function statistics(
-        string $comment
-    ): array;
+    public function statistics(): array;
 }

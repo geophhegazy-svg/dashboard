@@ -1,20 +1,67 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Contracts\Repositories;
 
+use App\Enums\SubscriptionStatus;
 use App\Models\Subscription;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 interface SubscriptionRepositoryInterface
 {
-    public function getAll(array $filters = [], int $perPage = 15): LengthAwarePaginator;
-    public function findById(int $id): ?Subscription;
-    public function getByCustomerId(int $customerId): array;
-    public function getActiveSubscriptions(): array;
-    public function getExpiredSubscriptions(): array;
-    public function create(array $data): Subscription;
-    public function update(int $id, array $data): Subscription;
-    public function delete(int $id): bool;
-    public function renew(int $id, int $months): Subscription;
-    public function cancel(int $id): bool;
+    /*
+    |--------------------------------------------------------------------------
+    | Query Operations
+    |--------------------------------------------------------------------------
+    */
+
+    public function paginate(
+        array $filters = [],
+        int $perPage = 15
+    ): LengthAwarePaginator;
+
+    public function find(
+        int $id
+    ): ?Subscription;
+
+    public function findOrFail(
+        int $id
+    ): Subscription;
+
+    public function byCustomer(
+        int $customerId
+    ): Collection;
+
+    public function byStatus(
+        SubscriptionStatus $status
+    ): Collection;
+
+    public function active(): Collection;
+
+    public function expired(): Collection;
+
+    /*
+    |--------------------------------------------------------------------------
+    | Persistence Operations
+    |--------------------------------------------------------------------------
+    */
+
+    public function create(
+        array $attributes
+    ): Subscription;
+
+    public function save(
+        Subscription $subscription
+    ): Subscription;
+
+    public function update(
+        Subscription $subscription,
+        array $attributes
+    ): Subscription;
+
+    public function delete(
+        Subscription $subscription
+    ): bool;
 }

@@ -14,12 +14,7 @@ use App\Contracts\Network\Services\MonitoringServiceInterface;
 interface NetworkProviderInterface
 {
     /**
-     * Provider name.
-     */
-    public function name(): string;
-
-    /**
-     * Connect to device.
+     * Connect to router.
      */
     public function connect(
         string $host,
@@ -34,12 +29,17 @@ interface NetworkProviderInterface
     public function disconnect(): void;
 
     /**
-     * Connection status.
+     * Connection state.
      */
     public function isConnected(): bool;
 
     /**
-     * Provider capabilities.
+     * Provider name.
+     */
+    public function name(): string;
+
+    /**
+     * Supported capabilities.
      *
      * @return array<int,string>
      */

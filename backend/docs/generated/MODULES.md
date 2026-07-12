@@ -34,7 +34,7 @@ Total: 27
 
 ## Services
 
-Total: 111
+Total: 112
 
 - AIContextGenerator
 - AbstractHandoverSection
@@ -106,6 +106,7 @@ Total: 111
 - ModelsSection
 - ModuleExtractor
 - ModulesKnowledgeGenerator
+- NetworkDeviceConnectionManager
 - NetworkManager
 - NetworkProviderResolver
 - NotificationService

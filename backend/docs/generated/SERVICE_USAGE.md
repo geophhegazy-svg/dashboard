@@ -1042,6 +1042,20 @@ App\Services\Documentation\Knowledge\ModulesKnowledgeGenerator
 - filename
 - generate
 
+## NetworkDeviceConnectionManager
+
+**Class**
+
+```
+App\Services\Network\NetworkDeviceConnectionManager
+```
+
+**Public Methods**
+
+- __construct
+- connect
+- connectById
+
 ## NetworkManager
 
 **Class**

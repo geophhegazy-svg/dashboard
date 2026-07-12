@@ -14,40 +14,64 @@ interface DhcpServiceInterface
     public function getLeases(): array;
 
     /**
-     * Find lease by IP or MAC.
+     * Find lease by IP.
      *
      * @return array<string,mixed>|null
      */
-    public function find(string $value): ?array;
+    public function find(
+        string $value
+    ): ?array;
 
     /**
-     * Add static lease.
+     * Find lease by MAC address.
+     *
+     * @return array<string,mixed>|null
      */
-    public function createLease(
-        string $ipAddress,
+    public function findByMac(
+        string $macAddress
+    ): ?array;
+
+    /**
+     * Create DHCP lease.
+     *
+     * @param array<string,mixed> $attributes
+     */
+    public function create(
+        string $address,
         string $macAddress,
-        string $comment = ''
+        ?string $hostname = null,
+        array $options = []
     ): bool;
 
     /**
-     * Remove lease.
+     * Update DHCP lease.
+     *
+     * @param array<string,mixed> $attributes
      */
-    public function deleteLease(
-        string $ipAddress
+    public function update(
+        string $id,
+        array $data
     ): bool;
 
     /**
-     * Enable lease.
+     * Delete DHCP lease.
      */
-    public function enableLease(
-        string $ipAddress
+    public function delete(
+        string $id
     ): bool;
 
     /**
-     * Disable lease.
+     * Convert dynamic lease to static.
      */
-    public function disableLease(
-        string $ipAddress
+    public function makeStatic(
+        string $id
+    ): bool;
+
+    /**
+     * Remove static lease.
+     */
+    public function removeStatic(
+        string $id
     ): bool;
 
     /**
@@ -58,6 +82,13 @@ interface DhcpServiceInterface
     public function search(
         string $keyword
     ): array;
+
+    /**
+     * Get active DHCP clients.
+     *
+     * @return array<int,array<string,mixed>>
+     */
+    public function activeClients(): array;
 
     /**
      * DHCP statistics.

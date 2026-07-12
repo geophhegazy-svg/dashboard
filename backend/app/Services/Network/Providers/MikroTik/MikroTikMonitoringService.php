@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace App\Services\Network\Providers\MikroTik;
 
+use App\Contracts\Network\Services\MonitoringServiceInterface;
 use RouterOS\Query;
 
-class MikroTikMonitoringService
+class MikroTikMonitoringService implements MonitoringServiceInterface
 {
     public function __construct(
         protected MikroTikQueryService $query

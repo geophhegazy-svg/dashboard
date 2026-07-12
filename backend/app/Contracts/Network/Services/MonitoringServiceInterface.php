@@ -7,57 +7,52 @@ namespace App\Contracts\Network\Services;
 interface MonitoringServiceInterface
 {
     /**
-     * Router resources.
+     * Get router system resources.
      *
      * @return array<string,mixed>
      */
-    public function resources(): array;
+    public function getSystemResource(): array;
 
     /**
-     * Router interfaces.
-     *
-     * @return array<int,array<string,mixed>>
-     */
-    public function interfaces(): array;
-
-    /**
-     * Interface traffic.
-     *
-     * @return array<int,array<string,mixed>>
-     */
-    public function traffic(): array;
-
-    /**
-     * System health.
+     * Get router identity.
      *
      * @return array<string,mixed>
      */
-    public function health(): array;
+    public function getIdentity(): array;
 
     /**
-     * Active connections.
+     * Get all interfaces.
      *
      * @return array<int,array<string,mixed>>
      */
-    public function activeConnections(): array;
+    public function getInterfaces(): array;
 
     /**
-     * CPU usage.
+     * Get interface traffic.
+     *
+     * @return array<int,array<string,mixed>>
      */
-    public function cpuUsage(): float;
+    public function getInterfaceTraffic(): array;
 
     /**
-     * Memory usage.
+     * Ping host.
      */
-    public function memoryUsage(): float;
+    public function ping(
+        string $address,
+        int $count = 3
+    ): bool;
 
     /**
-     * Disk usage.
+     * Health check.
+     *
+     * @return array<string,mixed>
      */
-    public function diskUsage(): float;
+    public function healthCheck(): array;
 
     /**
-     * Router uptime.
+     * Monitoring summary.
+     *
+     * @return array<string,mixed>
      */
-    public function uptime(): string;
+    public function summary(): array;
 }

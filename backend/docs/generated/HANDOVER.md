@@ -14,7 +14,7 @@ Technology
 
 Statistics
 - Models: 27
-- Services: 111
+- Services: 112
 
 
 ---
@@ -48,7 +48,7 @@ app/
 # Project Statistics
 
 Models: 27
-Services: 111
+Services: 112
 
 ---
 
@@ -100,7 +100,7 @@ Development Rules
 
 Current Statistics
 Models: 27
-Services: 111
+Services: 112
 
 ---
 
@@ -1032,12 +1032,12 @@ App\Services\Network\Providers\MikroTik
 - isConnected(0 params) : bool
 - name(0 params) : string
 - capabilities(0 params) : array
-- pppoe(0 params) : App\Services\Network\Providers\MikroTik\MikroTikPppoeService
-- queue(0 params) : App\Services\Network\Providers\MikroTik\MikroTikQueueService
-- hotspot(0 params) : App\Services\Network\Providers\MikroTik\MikroTikHotspotService
-- firewall(0 params) : App\Services\Network\Providers\MikroTik\MikroTikFirewallService
-- dhcp(0 params) : App\Services\Network\Providers\MikroTik\MikroTikDhcpService
-- monitoring(0 params) : App\Services\Network\Providers\MikroTik\MikroTikMonitoringService
+- pppoe(0 params) : App\Contracts\Network\Services\PppoeServiceInterface
+- queue(0 params) : App\Contracts\Network\Services\QueueServiceInterface
+- hotspot(0 params) : App\Contracts\Network\Services\HotspotServiceInterface
+- firewall(0 params) : App\Contracts\Network\Services\FirewallServiceInterface
+- dhcp(0 params) : App\Contracts\Network\Services\DhcpServiceInterface
+- monitoring(0 params) : App\Contracts\Network\Services\MonitoringServiceInterface
 
 ---
 
@@ -1228,6 +1228,21 @@ App\Services\Documentation\Knowledge
 - __construct(1 params) : mixed
 - filename(0 params) : string
 - generate(0 params) : string
+
+---
+
+## NetworkDeviceConnectionManager
+
+**Namespace**
+App\Services\Network
+
+**Dependencies**
+- App\Services\Network\Providers\MikroTik\MikroTikConnectionService
+
+**Methods**
+- __construct(1 params) : mixed
+- connectById(1 params) : App\Services\Network\Providers\MikroTik\MikroTikConnectionService
+- connect(1 params) : App\Services\Network\Providers\MikroTik\MikroTikConnectionService
 
 ---
 
@@ -6162,12 +6177,12 @@ App\Services\Network\Providers\MikroTik
 - isConnected() : bool
 - name() : string
 - capabilities() : array
-- pppoe() : App\Services\Network\Providers\MikroTik\MikroTikPppoeService
-- queue() : App\Services\Network\Providers\MikroTik\MikroTikQueueService
-- hotspot() : App\Services\Network\Providers\MikroTik\MikroTikHotspotService
-- firewall() : App\Services\Network\Providers\MikroTik\MikroTikFirewallService
-- dhcp() : App\Services\Network\Providers\MikroTik\MikroTikDhcpService
-- monitoring() : App\Services\Network\Providers\MikroTik\MikroTikMonitoringService
+- pppoe() : App\Contracts\Network\Services\PppoeServiceInterface
+- queue() : App\Contracts\Network\Services\QueueServiceInterface
+- hotspot() : App\Contracts\Network\Services\HotspotServiceInterface
+- firewall() : App\Contracts\Network\Services\FirewallServiceInterface
+- dhcp() : App\Contracts\Network\Services\DhcpServiceInterface
+- monitoring() : App\Contracts\Network\Services\MonitoringServiceInterface
 
 ---
 
@@ -6503,6 +6518,35 @@ App\Services\Documentation\Knowledge
 
 - filename() : string
 - generate() : string
+
+---
+
+## NetworkDeviceConnectionManager
+
+**Namespace**
+
+```
+App\Services\Network
+```
+
+**File**
+
+```
+/var/www/app/Services/Network/NetworkDeviceConnectionManager.php
+```
+
+**Constructor Dependencies**
+
+- MikroTikConnectionService $connectionService
+
+**Properties**
+
+- $connectionService : App\Services\Network\Providers\MikroTik\MikroTikConnectionService
+
+**Methods**
+
+- connectById() : App\Services\Network\Providers\MikroTik\MikroTikConnectionService
+- connect() : App\Services\Network\Providers\MikroTik\MikroTikConnectionService
 
 ---
 

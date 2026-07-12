@@ -5,6 +5,12 @@ declare(strict_types=1);
 namespace App\Services\Network\Providers\MikroTik;
 
 use App\Contracts\Network\NetworkProviderInterface;
+use App\Contracts\Network\Services\PppoeServiceInterface;
+use App\Contracts\Network\Services\QueueServiceInterface;
+use App\Contracts\Network\Services\HotspotServiceInterface;
+use App\Contracts\Network\Services\FirewallServiceInterface;
+use App\Contracts\Network\Services\DhcpServiceInterface;
+use App\Contracts\Network\Services\MonitoringServiceInterface;
 
 class MikroTikProvider implements NetworkProviderInterface
 {
@@ -91,7 +97,7 @@ class MikroTikProvider implements NetworkProviderInterface
     /**
      * PPPoE service.
      */
-    public function pppoe(): MikroTikPppoeService
+    public function pppoe(): PppoeServiceInterface
     {
         return $this->pppoe;
     }
@@ -101,17 +107,16 @@ class MikroTikProvider implements NetworkProviderInterface
     /**
      * Queue service.
      */
-    public function queue(): MikroTikQueueService
+    public function queue(): QueueServiceInterface
     {
         return $this->queue;
     }
 
 
-
     /**
      * Hotspot service.
      */
-    public function hotspot(): MikroTikHotspotService
+    public function hotspot(): HotspotServiceInterface
     {
         return $this->hotspot;
     }
@@ -121,7 +126,7 @@ class MikroTikProvider implements NetworkProviderInterface
     /**
      * Firewall service.
      */
-    public function firewall(): MikroTikFirewallService
+    public function firewall(): FirewallServiceInterface
     {
         return $this->firewall;
     }
@@ -131,7 +136,7 @@ class MikroTikProvider implements NetworkProviderInterface
     /**
      * DHCP service.
      */
-    public function dhcp(): MikroTikDhcpService
+    public function dhcp(): DhcpServiceInterface
     {
         return $this->dhcp;
     }
@@ -141,7 +146,7 @@ class MikroTikProvider implements NetworkProviderInterface
     /**
      * Monitoring service.
      */
-    public function monitoring(): MikroTikMonitoringService
+    public function monitoring(): MonitoringServiceInterface
     {
         return $this->monitoring;
     }

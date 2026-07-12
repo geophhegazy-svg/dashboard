@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace App\Services\Network\Providers\MikroTik;
 
 use App\Exceptions\Network\ResourceNotFoundException;
+use App\Contracts\Network\Services\DhcpServiceInterface;
 use RouterOS\Query;
 
-class MikroTikDhcpService
+class MikroTikDhcpService implements DhcpServiceInterface
 {
     public function __construct(
         protected MikroTikQueryService $query

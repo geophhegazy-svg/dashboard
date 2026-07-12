@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Log;
 use RouterOS\Query;
 
 
-class MikroTikPppoeService
+class MikroTikPppoeService implements PppoeServiceInterface
 {
     public function __construct(
         protected MikroTikQueryService $query
