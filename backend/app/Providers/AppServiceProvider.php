@@ -24,7 +24,7 @@ use App\Repositories\Eloquent\TaskRepository;
 use App\Repositories\Eloquent\ReportRepository;
 use App\Repositories\Eloquent\ReportExportRepository;
 use App\Repositories\Eloquent\ScheduledReportRepository;
-use App\Repositories\JournalEntryRepository;
+use App\Repositories\Eloquent\JournalEntryRepository;
 use App\Repositories\JournalEntryLineRepository;
 
 use App\Services\Finance\FinanceService;

@@ -72,4 +72,22 @@ class PaymentService
             return $payment;
         });
     }
+
+    public static function createFromInvoice(
+        Invoice $invoice,
+        float $amount,
+        string $method = 'wallet',
+        string $reference = 'AUTO-WALLET',
+        ?string $notes = null
+    ): Payment {
+        return Payment::create([
+            'tenant_id'        => $invoice->tenant_id,
+            'invoice_id'       => $invoice->id,
+            'amount'           => $amount,
+            'payment_date'     => now(),
+            'payment_method'   => $method,
+            'reference_number' => $reference,
+            'notes'            => $notes,
+        ]);
+    }
 }

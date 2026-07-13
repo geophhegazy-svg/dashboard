@@ -14,7 +14,7 @@ Technology
 
 Statistics
 - Models: 27
-- Services: 113
+- Services: 115
 
 
 ---
@@ -48,7 +48,7 @@ app/
 # Project Statistics
 
 Models: 27
-Services: 113
+Services: 115
 
 ---
 
@@ -100,7 +100,7 @@ Development Rules
 
 Current Statistics
 Models: 27
-Services: 113
+Services: 115
 
 ---
 
@@ -632,7 +632,7 @@ App\Services\Invoice
 - None
 
 **Methods**
-- generate(0 params) : string
+- generate(1 params) : string
 
 ---
 
@@ -1324,6 +1324,7 @@ App\Services\Payment
 
 **Methods**
 - create(1 params) : App\Models\Payment
+- createFromInvoice(5 params) : App\Models\Payment
 
 ---
 
@@ -1687,11 +1688,27 @@ App\Services\Activity
 App\Services\Subscription
 
 **Dependencies**
-- App\Actions\Subscription\ExpireSubscriptionAction
+- App\Contracts\MikrotikServiceInterface
 
 **Methods**
 - __construct(1 params) : mixed
-- expire(1 params) : bool
+- expirePppoe(1 params) : bool
+- expireHotspot(1 params) : bool
+
+---
+
+## SubscriptionGracePeriodService
+
+**Namespace**
+App\Services\Subscription
+
+**Dependencies**
+- App\Contracts\MikrotikServiceInterface
+
+**Methods**
+- __construct(1 params) : mixed
+- enterPppoeGrace(1 params) : bool
+- enterHotspotGrace(1 params) : bool
 
 ---
 
@@ -1748,6 +1765,24 @@ App\Services\Subscription
 - ensurePackageIsActive(1 params) : void
 - isExpired(1 params) : bool
 - isInGracePeriod(2 params) : bool
+
+---
+
+## SubscriptionSchedulerService
+
+**Namespace**
+App\Services\Subscription
+
+**Dependencies**
+- App\Services\Subscription\SubscriptionRenewalService
+- App\Services\Subscription\SubscriptionService
+
+**Methods**
+- __construct(2 params) : mixed
+- autoRenew(0 params) : int
+- enterGracePeriod(0 params) : int
+- expireSubscriptions(0 params) : int
+- synchronize(0 params) : int
 
 ---
 
@@ -6713,6 +6748,7 @@ App\Services\Payment
 **Methods**
 
 - create() : App\Models\Payment
+- createFromInvoice() : App\Models\Payment
 
 ---
 
@@ -7374,15 +7410,45 @@ App\Services\Subscription
 
 **Constructor Dependencies**
 
-- ExpireSubscriptionAction $action
+- MikrotikServiceInterface $mikrotik
 
 **Properties**
 
-- $action : App\Actions\Subscription\ExpireSubscriptionAction
+- $mikrotik : App\Contracts\MikrotikServiceInterface
 
 **Methods**
 
-- expire() : bool
+- expirePppoe() : bool
+- expireHotspot() : bool
+
+---
+
+## SubscriptionGracePeriodService
+
+**Namespace**
+
+```
+App\Services\Subscription
+```
+
+**File**
+
+```
+/var/www/app/Services/Subscription/SubscriptionGracePeriodService.php
+```
+
+**Constructor Dependencies**
+
+- MikrotikServiceInterface $mikrotik
+
+**Properties**
+
+- $mikrotik : App\Contracts\MikrotikServiceInterface
+
+**Methods**
+
+- enterPppoeGrace() : bool
+- enterHotspotGrace() : bool
 
 ---
 
@@ -7478,6 +7544,39 @@ App\Services\Subscription
 - ensurePackageIsActive() : void
 - isExpired() : bool
 - isInGracePeriod() : bool
+
+---
+
+## SubscriptionSchedulerService
+
+**Namespace**
+
+```
+App\Services\Subscription
+```
+
+**File**
+
+```
+/var/www/app/Services/Subscription/SubscriptionSchedulerService.php
+```
+
+**Constructor Dependencies**
+
+- SubscriptionRenewalService $renewalService
+- SubscriptionService $subscriptionService
+
+**Properties**
+
+- $renewalService : App\Services\Subscription\SubscriptionRenewalService
+- $subscriptionService : App\Services\Subscription\SubscriptionService
+
+**Methods**
+
+- autoRenew() : int
+- enterGracePeriod() : int
+- expireSubscriptions() : int
+- synchronize() : int
 
 ---
 

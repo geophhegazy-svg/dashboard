@@ -1131,6 +1131,7 @@ App\Services\Payment\PaymentService
 **Public Methods**
 
 - create
+- createFromInvoice
 
 ## ProjectBibleService
 
@@ -1466,7 +1467,22 @@ App\Services\Subscription\SubscriptionExpirationService
 **Public Methods**
 
 - __construct
-- expire
+- expireHotspot
+- expirePppoe
+
+## SubscriptionGracePeriodService
+
+**Class**
+
+```
+App\Services\Subscription\SubscriptionGracePeriodService
+```
+
+**Public Methods**
+
+- __construct
+- enterHotspotGrace
+- enterPppoeGrace
 
 ## SubscriptionLifecycleService
 
@@ -1516,6 +1532,22 @@ App\Services\Subscription\SubscriptionRulesService
 - ensurePackageIsActive
 - isExpired
 - isInGracePeriod
+
+## SubscriptionSchedulerService
+
+**Class**
+
+```
+App\Services\Subscription\SubscriptionSchedulerService
+```
+
+**Public Methods**
+
+- __construct
+- autoRenew
+- enterGracePeriod
+- expireSubscriptions
+- synchronize
 
 ## SubscriptionService
 

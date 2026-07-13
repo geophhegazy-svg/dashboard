@@ -17,6 +17,7 @@ class Invoice extends Model
         'subscription_id',
         'hotspot_subscription_id',
         'invoice_number',
+        'renewal_key',
         'amount',
         'due_date',
         'paid_at',

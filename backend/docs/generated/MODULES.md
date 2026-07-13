@@ -34,7 +34,7 @@ Total: 27
 
 ## Services
 
-Total: 113
+Total: 115
 
 - AIContextGenerator
 - AbstractHandoverSection
@@ -136,9 +136,11 @@ Total: 113
 - SubscriptionActivationService
 - SubscriptionActivityService
 - SubscriptionExpirationService
+- SubscriptionGracePeriodService
 - SubscriptionLifecycleService
 - SubscriptionRenewalService
 - SubscriptionRulesService
+- SubscriptionSchedulerService
 - SubscriptionService
 - SubscriptionSuspensionService
 - TaskService
@@ -195,14 +197,13 @@ Total: 38
 
 ## Repositories
 
-Total: 15
+Total: 14
 
 - AccountRepository
 - BillingRepository
 - CustomerRepository
 - InvoiceRepository
 - JournalEntryLineRepository
-- JournalEntryRepository
 - JournalEntryRepository
 - PackageRepository
 - PaymentRepository

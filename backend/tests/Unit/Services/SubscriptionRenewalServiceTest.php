@@ -171,4 +171,56 @@ class SubscriptionRenewalServiceTest extends TestCase
             $log->description
         );
     }
+
+    public function test_renewal_is_idempotent(): void
+    {
+        $subscription = $this->createSubscription();
+
+        $mikrotik = $this->createMock(MikrotikServiceInterface::class);
+
+        $mikrotik
+            ->expects($this->exactly(2))
+            ->method('enableUser');
+
+        $service = new SubscriptionRenewalService($mikrotik);
+
+        // أول تجديد
+        $service->renewPppoe($subscription);
+
+        // إعادة تنفيذ نفس التجديد
+        $service->renewPppoe($subscription);
+
+        $subscription->refresh();
+
+        // الرصيد خُصم مرة واحدة فقط
+        $this->assertEquals(650, $subscription->wallet_balance);
+
+        // فاتورة واحدة فقط
+        $this->assertCount(
+            1,
+            Invoice::where('subscription_id', $subscription->id)->get()
+        );
+
+        $invoice = Invoice::where('subscription_id', $subscription->id)->first();
+
+        // دفعة واحدة فقط
+        $this->assertCount(
+            1,
+            Payment::where('invoice_id', $invoice->id)->get()
+        );
+
+        // إشعار واحد فقط
+        $this->assertCount(
+            1,
+            Notification::where('customer_id', $subscription->customer_id)->get()
+        );
+
+        // Activity Log واحد فقط
+        $this->assertCount(
+            1,
+            ActivityLog::where('tenant_id', $subscription->tenant_id)
+                ->where('action', 'renewed')
+                ->get()
+        );
+    }
 }

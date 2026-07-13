@@ -526,7 +526,7 @@ App\Services\Invoice
 - None
 
 **Methods**
-- generate(0 params) : string
+- generate(1 params) : string
 
 ---
 
@@ -1218,6 +1218,7 @@ App\Services\Payment
 
 **Methods**
 - create(1 params) : App\Models\Payment
+- createFromInvoice(5 params) : App\Models\Payment
 
 ---
 
@@ -1581,11 +1582,27 @@ App\Services\Activity
 App\Services\Subscription
 
 **Dependencies**
-- App\Actions\Subscription\ExpireSubscriptionAction
+- App\Contracts\MikrotikServiceInterface
 
 **Methods**
 - __construct(1 params) : mixed
-- expire(1 params) : bool
+- expirePppoe(1 params) : bool
+- expireHotspot(1 params) : bool
+
+---
+
+## SubscriptionGracePeriodService
+
+**Namespace**
+App\Services\Subscription
+
+**Dependencies**
+- App\Contracts\MikrotikServiceInterface
+
+**Methods**
+- __construct(1 params) : mixed
+- enterPppoeGrace(1 params) : bool
+- enterHotspotGrace(1 params) : bool
 
 ---
 
@@ -1642,6 +1659,24 @@ App\Services\Subscription
 - ensurePackageIsActive(1 params) : void
 - isExpired(1 params) : bool
 - isInGracePeriod(2 params) : bool
+
+---
+
+## SubscriptionSchedulerService
+
+**Namespace**
+App\Services\Subscription
+
+**Dependencies**
+- App\Services\Subscription\SubscriptionRenewalService
+- App\Services\Subscription\SubscriptionService
+
+**Methods**
+- __construct(2 params) : mixed
+- autoRenew(0 params) : int
+- enterGracePeriod(0 params) : int
+- expireSubscriptions(0 params) : int
+- synchronize(0 params) : int
 
 ---
 

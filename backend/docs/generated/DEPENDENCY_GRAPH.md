@@ -143,9 +143,11 @@
 - App\Services\Subscription\SubscriptionActivationService
 - App\Services\Activity\SubscriptionActivityService
 - App\Services\Subscription\SubscriptionExpirationService
+- App\Services\Subscription\SubscriptionGracePeriodService
 - App\Services\Subscription\SubscriptionLifecycleService
 - App\Services\Subscription\SubscriptionRenewalService
 - App\Services\Subscription\SubscriptionRulesService
+- App\Services\Subscription\SubscriptionSchedulerService
 - App\Services\Subscription\SubscriptionService
 - App\Services\Subscription\SubscriptionSuspensionService
 - App\Services\Task\TaskService

@@ -399,3 +399,11 @@
 ```
 /var/www/database/migrations/2026_07_10_180701_add_posting_fields_to_journal_entries_table.php
 ```
+
+## 2026_07_13_200433_add_renewal_key_to_invoices_table.php
+
+**File**
+
+```
+/var/www/database/migrations/2026_07_13_200433_add_renewal_key_to_invoices_table.php
+```

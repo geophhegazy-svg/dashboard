@@ -13,31 +13,38 @@ class InvoiceNumberServiceTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_generate_returns_first_invoice_number(): void
+    public function test_generate_returns_invoice_number(): void
     {
-        $number = InvoiceNumberService::generate();
+        $invoice = Invoice::factory()->create();
+
+        $number = InvoiceNumberService::generate($invoice);
 
         $this->assertEquals(
-            'INV-000001',
+            'INV-' . str_pad(
+                (string) $invoice->id,
+                6,
+                '0',
+                STR_PAD_LEFT
+            ),
             $number
         );
     }
 
-    public function test_generate_returns_next_invoice_number(): void
+    public function test_generate_returns_correct_number_for_multiple_invoices(): void
     {
+        Invoice::factory()->count(3)->create();
+
         $invoice = Invoice::factory()->create();
 
-        $number = InvoiceNumberService::generate();
-
-        $expected = 'INV-' . str_pad(
-            (string) ($invoice->id + 1),
-            6,
-            '0',
-            STR_PAD_LEFT
-        );
+        $number = InvoiceNumberService::generate($invoice);
 
         $this->assertEquals(
-            $expected,
+            'INV-' . str_pad(
+                (string) $invoice->id,
+                6,
+                '0',
+                STR_PAD_LEFT
+            ),
             $number
         );
     }

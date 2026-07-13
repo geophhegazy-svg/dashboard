@@ -15,3 +15,15 @@ Schedule::command('subscriptions:sync')
 Schedule::command('usage:sync')
     ->everyFifteenMinutes()
     ->withoutOverlapping();
+
+Schedule::command('subscriptions:auto-renew')
+    ->dailyAt('00:05')
+    ->withoutOverlapping();
+
+Schedule::command('subscriptions:auto-grace')
+    ->dailyAt('00:10')
+    ->withoutOverlapping();
+
+Schedule::command('subscriptions:auto-expire')
+    ->dailyAt('00:15')
+    ->withoutOverlapping();

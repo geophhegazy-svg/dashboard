@@ -1,21 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\Invoice;
 
 use App\Models\Invoice;
 
 class InvoiceNumberService
 {
-    public static function generate(): string
+    /**
+     * Generate invoice number from persisted invoice ID.
+     */
+    public static function generate(Invoice $invoice): string
     {
-        $lastInvoice = Invoice::latest('id')->first();
-
-        $next = $lastInvoice
-            ? $lastInvoice->id + 1
-            : 1;
-
         return 'INV-' . str_pad(
-            $next,
+            (string) $invoice->id,
             6,
             '0',
             STR_PAD_LEFT

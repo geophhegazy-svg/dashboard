@@ -436,6 +436,7 @@
 - subscription_id (bigint)
 - hotspot_subscription_id (bigint) nullable
 - invoice_number (varchar)
+- renewal_key (varchar) nullable
 - amount (decimal)
 - due_date (date)
 - paid_at (timestamp) nullable
@@ -456,6 +457,7 @@
 - subscription_id (bigint)
 - hotspot_subscription_id (bigint) nullable
 - invoice_number (varchar)
+- renewal_key (varchar) nullable
 - amount (decimal)
 - due_date (date)
 - paid_at (timestamp) nullable
@@ -600,7 +602,7 @@
 
 ## migrations
 
-**Rows:** 50
+**Rows:** 51
 
 ### Columns
 
@@ -610,7 +612,7 @@
 
 ## migrations
 
-**Rows:** 50
+**Rows:** 51
 
 ### Columns
 
