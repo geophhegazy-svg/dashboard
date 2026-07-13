@@ -5,28 +5,30 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\SubscriptionResource;
 use App\Models\Subscription;
 use App\Services\Subscription\SubscriptionService;
+use App\Support\ApiResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use App\Http\Resources\SubscriptionResource;
-use App\Support\ApiResponse;
 
 class SubscriptionController extends Controller
 {
     public function __construct(
-        private readonly SubscriptionService $subscriptionService
+        private readonly SubscriptionService $subscriptionService,
     ) {}
 
     /**
-     * Activate subscription
+     * Activate subscription.
      */
-    public function activate(Subscription $subscription): JsonResponse
-    {
+    public function activate(
+        Subscription $subscription
+    ): JsonResponse {
         $this->authorize('activate', $subscription);
-        $this->subscriptionService->activate($subscription);
 
-        $subscription->refresh();
+        $subscription = $this->subscriptionService->activate(
+            $subscription
+        );
 
         return ApiResponse::success(
             new SubscriptionResource($subscription),
@@ -35,14 +37,16 @@ class SubscriptionController extends Controller
     }
 
     /**
-     * Suspend subscription
+     * Suspend subscription.
      */
-    public function suspend(Subscription $subscription): JsonResponse
-    {
+    public function suspend(
+        Subscription $subscription
+    ): JsonResponse {
         $this->authorize('suspend', $subscription);
-        $this->subscriptionService->suspend($subscription);
 
-        $subscription->refresh();
+        $subscription = $this->subscriptionService->suspend(
+            $subscription
+        );
 
         return ApiResponse::success(
             new SubscriptionResource($subscription),
@@ -51,7 +55,7 @@ class SubscriptionController extends Controller
     }
 
     /**
-     * Renew subscription
+     * Renew subscription.
      */
     public function renew(
         Request $request,
@@ -59,14 +63,15 @@ class SubscriptionController extends Controller
     ): JsonResponse {
         $this->authorize('renew', $subscription);
 
-        $days = (int) $request->input('days', 30);
+        $days = (int) $request->input(
+            'days',
+            30
+        );
 
-        $this->subscriptionService->renew(
+        $subscription = $this->subscriptionService->renew(
             $subscription,
             $days
         );
-
-        $subscription->refresh();
 
         return ApiResponse::success(
             new SubscriptionResource($subscription),
@@ -74,15 +79,17 @@ class SubscriptionController extends Controller
         );
     }
 
+    /**
+     * Restore subscription.
+     */
     public function restore(
         Subscription $subscription
     ): JsonResponse {
         $this->authorize('restore', $subscription);
-        
 
-        $this->subscriptionService->restore($subscription);
-
-        $subscription->refresh();
+        $subscription = $this->subscriptionService->restore(
+            $subscription
+        );
 
         return ApiResponse::success(
             new SubscriptionResource($subscription),
@@ -90,14 +97,17 @@ class SubscriptionController extends Controller
         );
     }
 
+    /**
+     * Expire subscription.
+     */
     public function expire(
         Subscription $subscription
     ): JsonResponse {
         $this->authorize('expire', $subscription);
 
-        $this->subscriptionService->expire($subscription);
-
-        $subscription->refresh();
+        $subscription = $this->subscriptionService->expire(
+            $subscription
+        );
 
         return ApiResponse::success(
             new SubscriptionResource($subscription),

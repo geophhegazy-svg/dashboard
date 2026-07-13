@@ -9,13 +9,11 @@ use App\Actions\Subscription\ExpireSubscriptionAction;
 use App\Actions\Subscription\RenewSubscriptionAction;
 use App\Actions\Subscription\RestoreSubscriptionAction;
 use App\Actions\Subscription\SuspendSubscriptionAction;
-use App\Contracts\MikrotikServiceInterface;
 use App\Contracts\Repositories\SubscriptionRepositoryInterface;
 use App\Enums\SubscriptionStatus;
 use App\Models\Customer;
 use App\Models\Package;
 use App\Models\Subscription;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
@@ -25,7 +23,6 @@ class SubscriptionService
 {
     public function __construct(
         private readonly SubscriptionRepositoryInterface $subscriptions,
-        private readonly MikrotikServiceInterface $mikrotik,
 
         private readonly ActivateSubscriptionAction $activateAction,
         private readonly SuspendSubscriptionAction $suspendAction,
@@ -219,30 +216,30 @@ class SubscriptionService
 
     public function statistics(): array
     {
-        $total = Subscription::query()->count();
+        $total = $this->subscriptions->count();
 
-        $active = Subscription::query()
-            ->where('status', SubscriptionStatus::ACTIVE)
-            ->count();
+        $active = $this->subscriptions->countByStatus(
+            SubscriptionStatus::ACTIVE
+        );
 
-        $suspended = Subscription::query()
-            ->where('status', SubscriptionStatus::SUSPENDED)
-            ->count();
+        $suspended = $this->subscriptions->countByStatus(
+            SubscriptionStatus::SUSPENDED
+        );
 
-        $expired = Subscription::query()
-            ->where('status', SubscriptionStatus::EXPIRED)
-            ->count();
+        $expired = $this->subscriptions->countByStatus(
+            SubscriptionStatus::EXPIRED
+        );
 
-        $cancelled = Subscription::query()
-            ->where('status', SubscriptionStatus::CANCELLED)
-            ->count();
+        $cancelled = $this->subscriptions->countByStatus(
+            SubscriptionStatus::CANCELLED
+        );
 
         return [
-            'total'       => $total,
-            'active'      => $active,
-            'suspended'   => $suspended,
-            'expired'     => $expired,
-            'cancelled'   => $cancelled,
+            'total' => $total,
+            'active' => $active,
+            'suspended' => $suspended,
+            'expired' => $expired,
+            'cancelled' => $cancelled,
         ];
     }
 
@@ -288,19 +285,8 @@ class SubscriptionService
         int $days = 7
     ): Collection {
 
-        return Subscription::query()
-            ->where('status', SubscriptionStatus::ACTIVE)
-            ->whereBetween(
-                'end_date',
-                [
-                    now(),
-                    now()->addDays($days),
-                ]
-            )
-            ->with([
-                'customer',
-                'package',
-            ])
-            ->get();
+        return $this->subscriptions->expiringSoon(
+            $days
+        );
     }
 }

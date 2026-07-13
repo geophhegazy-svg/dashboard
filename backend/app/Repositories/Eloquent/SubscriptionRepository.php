@@ -44,7 +44,6 @@ class SubscriptionRepository implements SubscriptionRepositoryInterface
             $query->whereHas(
                 'customer',
                 function ($query) use ($search) {
-
                     $query
                         ->where('name', 'like', "%{$search}%")
                         ->orWhere('phone', 'like', "%{$search}%");
@@ -61,20 +60,24 @@ class SubscriptionRepository implements SubscriptionRepositoryInterface
         int $id
     ): ?Subscription {
 
-        return Subscription::with([
-            'customer',
-            'package',
-        ])->find($id);
+        return Subscription::query()
+            ->with([
+                'customer',
+                'package',
+            ])
+            ->find($id);
     }
 
     public function findOrFail(
         int $id
     ): Subscription {
 
-        return Subscription::with([
-            'customer',
-            'package',
-        ])->findOrFail($id);
+        return Subscription::query()
+            ->with([
+                'customer',
+                'package',
+            ])
+            ->findOrFail($id);
     }
 
     public function create(
@@ -91,11 +94,13 @@ class SubscriptionRepository implements SubscriptionRepositoryInterface
         array $attributes
     ): Subscription {
 
-        $subscription->update(
+        $subscription->fill(
             $attributes
         );
 
-        return $subscription->fresh();
+        return $this->save(
+            $subscription
+        );
     }
 
     public function save(
@@ -104,7 +109,10 @@ class SubscriptionRepository implements SubscriptionRepositoryInterface
 
         $subscription->save();
 
-        return $subscription->fresh();
+        return $subscription->fresh([
+            'customer',
+            'package',
+        ]);
     }
 
     public function delete(
@@ -147,10 +155,79 @@ class SubscriptionRepository implements SubscriptionRepositoryInterface
         );
     }
 
+    public function suspended(): Collection
+    {
+        return $this->byStatus(
+            SubscriptionStatus::SUSPENDED
+        );
+    }
+
     public function expired(): Collection
     {
         return $this->byStatus(
             SubscriptionStatus::EXPIRED
         );
+    }
+
+    public function cancelled(): Collection
+    {
+        return $this->byStatus(
+            SubscriptionStatus::CANCELLED
+        );
+    }
+
+    public function expiringSoon(
+        int $days = 7
+    ): Collection {
+
+        return Subscription::query()
+            ->where(
+                'status',
+                SubscriptionStatus::ACTIVE
+            )
+            ->whereBetween(
+                'end_date',
+                [
+                    now(),
+                    now()->addDays($days),
+                ]
+            )
+            ->with([
+                'customer',
+                'package',
+            ])
+            ->get();
+    }
+
+    public function expiredCandidates(): Collection
+    {
+        return Subscription::query()
+            ->where(
+                'status',
+                SubscriptionStatus::ACTIVE
+            )
+            ->where(
+                'end_date',
+                '<',
+                now()
+            )
+            ->get();
+    }
+
+    public function count(): int
+    {
+        return Subscription::query()->count();
+    }
+
+    public function countByStatus(
+        SubscriptionStatus $status
+    ): int {
+
+        return Subscription::query()
+            ->where(
+                'status',
+                $status
+            )
+            ->count();
     }
 }

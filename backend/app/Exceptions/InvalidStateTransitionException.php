@@ -2,13 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Contracts\Domain\Shared\Exceptions;
+namespace App\Exceptions;
 
 use App\Enums\SubscriptionStatus;
 use RuntimeException;
 
 class InvalidStateTransitionException extends RuntimeException
 {
+    /**
+     * Create exception from invalid state transition.
+     */
     public static function fromStates(
         SubscriptionStatus $from,
         SubscriptionStatus $to
