@@ -637,6 +637,20 @@
 - Action: App\Http\Controllers\Api\SubscriptionController@renew
 - Middleware: api, auth:sanctum
 
+## api/subscriptions/{subscription}/restore
+
+- Method: POST
+- Name: -
+- Action: App\Http\Controllers\Api\SubscriptionController@restore
+- Middleware: api, auth:sanctum
+
+## api/subscriptions/{subscription}/expire
+
+- Method: POST
+- Name: -
+- Action: App\Http\Controllers\Api\SubscriptionController@expire
+- Middleware: api, auth:sanctum
+
 ## api/hotspot-subscriptions/{hotspotSubscription}/activate
 
 - Method: POST

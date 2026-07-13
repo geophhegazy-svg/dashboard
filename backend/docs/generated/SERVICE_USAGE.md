@@ -1529,23 +1529,23 @@ App\Services\Subscription\SubscriptionService
 
 - __construct
 - activate
-- autoExpireSubscriptions
-- cancelSubscription
-- createSubscription
+- active
+- autoExpire
+- byCustomer
+- byStatus
+- create
 - expire
-- getActiveSubscriptions
-- getAllSubscriptions
-- getCustomerSubscriptions
-- getExpiredSubscriptions
-- getExpiringSubscriptions
-- getSubscriptionById
-- getSubscriptionStats
+- expired
+- expiringSoon
+- find
+- findOrFail
+- paginate
 - renew
-- renewSubscription
 - restore
-- searchSubscriptions
+- search
+- statistics
 - suspend
-- updateSubscription
+- update
 
 ## SubscriptionSuspensionService
 

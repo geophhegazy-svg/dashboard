@@ -2828,8 +2828,7 @@ App\Services\Subscription
 
 **Constructor Dependencies**
 
-- SubscriptionRepositoryInterface $subscriptionRepository
-- MikrotikServiceInterface $mikrotikService
+- SubscriptionRepositoryInterface $subscriptions
 - ActivateSubscriptionAction $activateAction
 - SuspendSubscriptionAction $suspendAction
 - ExpireSubscriptionAction $expireAction
@@ -2838,34 +2837,33 @@ App\Services\Subscription
 
 **Properties**
 
+- $subscriptions : App\Contracts\Repositories\SubscriptionRepositoryInterface
 - $activateAction : App\Actions\Subscription\ActivateSubscriptionAction
 - $suspendAction : App\Actions\Subscription\SuspendSubscriptionAction
 - $expireAction : App\Actions\Subscription\ExpireSubscriptionAction
 - $restoreAction : App\Actions\Subscription\RestoreSubscriptionAction
 - $renewAction : App\Actions\Subscription\RenewSubscriptionAction
-- $subscriptionRepository : App\Contracts\Repositories\SubscriptionRepositoryInterface
-- $mikrotikService : App\Contracts\MikrotikServiceInterface
 
 **Methods**
 
-- getAllSubscriptions() : mixed
-- getSubscriptionById() : ?App\Models\Subscription
-- getCustomerSubscriptions() : array
-- getActiveSubscriptions() : array
-- getExpiredSubscriptions() : array
-- createSubscription() : App\Models\Subscription
-- updateSubscription() : App\Models\Subscription
-- renewSubscription() : App\Models\Subscription
-- cancelSubscription() : bool
-- getSubscriptionStats() : array
-- getExpiringSubscriptions() : array
-- autoExpireSubscriptions() : int
-- searchSubscriptions() : mixed
-- activate() : bool
-- suspend() : bool
-- expire() : bool
-- restore() : bool
-- renew() : bool
+- paginate() : Illuminate\Pagination\LengthAwarePaginator
+- find() : ?App\Models\Subscription
+- findOrFail() : App\Models\Subscription
+- byCustomer() : Illuminate\Database\Eloquent\Collection
+- active() : Illuminate\Database\Eloquent\Collection
+- expired() : Illuminate\Database\Eloquent\Collection
+- byStatus() : Illuminate\Database\Eloquent\Collection
+- search() : Illuminate\Pagination\LengthAwarePaginator
+- create() : App\Models\Subscription
+- update() : App\Models\Subscription
+- activate() : App\Models\Subscription
+- suspend() : App\Models\Subscription
+- expire() : App\Models\Subscription
+- restore() : App\Models\Subscription
+- renew() : App\Models\Subscription
+- statistics() : array
+- autoExpire() : int
+- expiringSoon() : Illuminate\Database\Eloquent\Collection
 
 ---
 

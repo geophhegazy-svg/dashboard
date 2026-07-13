@@ -232,6 +232,16 @@ Route::middleware('auth:sanctum')->group(function () {
         [SubscriptionController::class, 'renew']
     );
 
+    Route::post(
+        '/subscriptions/{subscription}/restore',
+        [SubscriptionController::class, 'restore']
+    );
+
+    Route::post(
+        '/subscriptions/{subscription}/expire',
+        [SubscriptionController::class, 'expire']
+    );
+
     /*
     |------------------------------------------------------
     | Hotspot Subscription Actions

@@ -1,16 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature;
 
-use Tests\TestCase;
-use Tests\Fakes\FakeMikrotikService;
+use App\Enums\SubscriptionStatus;
+use App\Events\SubscriptionActivated;
+use App\Events\SubscriptionExpired;
+use App\Events\SubscriptionRenewed;
+use App\Events\SubscriptionRestored;
+use App\Events\SubscriptionSuspended;
 use App\Models\Subscription;
-use App\Contracts\MikrotikServiceInterface;
 use App\Services\Subscription\SubscriptionService;
+use App\Contracts\MikrotikServiceInterface;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
-use App\Events\SubscriptionActivated;
-use App\Enums\SubscriptionStatus;
+use Tests\Fakes\FakeMikrotikService;
+use Tests\TestCase;
 
 class SubscriptionServiceTest extends TestCase
 {
@@ -28,12 +34,16 @@ class SubscriptionServiceTest extends TestCase
         return $fake;
     }
 
-    private function createSubscription(array $attributes = []): Subscription
-    {
-        return Subscription::factory()->create(array_merge([
-            'status' => 'active',
-            'pppoe_username' => 'customer1',
-        ], $attributes));
+    private function createSubscription(
+        array $attributes = []
+    ): Subscription {
+
+        return Subscription::factory()->create(
+            array_merge([
+                'status' => SubscriptionStatus::ACTIVE,
+                'pppoe_username' => 'customer1',
+            ], $attributes)
+        );
     }
 
     public function test_activate_subscription_changes_status_to_active(): void
@@ -41,18 +51,28 @@ class SubscriptionServiceTest extends TestCase
         $fake = $this->fakeMikrotik();
 
         $subscription = $this->createSubscription([
-            'status' => 'suspended',
+            'status' => SubscriptionStatus::SUSPENDED,
         ]);
 
         $service = app(SubscriptionService::class);
 
-        $result = $service->activate($subscription);
+        $subscription = $service->activate(
+            $subscription
+        );
 
-        $this->assertTrue($result);
+        $this->assertInstanceOf(
+            Subscription::class,
+            $subscription
+        );
+
+        $this->assertEquals(
+            SubscriptionStatus::ACTIVE,
+            $subscription->status
+        );
 
         $this->assertDatabaseHas('subscriptions', [
             'id' => $subscription->id,
-            'status' => 'active',
+            'status' => SubscriptionStatus::ACTIVE->value,
         ]);
 
         $this->assertContains(
@@ -65,19 +85,22 @@ class SubscriptionServiceTest extends TestCase
     {
         $fake = $this->fakeMikrotik();
 
-        $subscription = $this->createSubscription([
-            'status' => 'active',
-        ]);
+        $subscription = $this->createSubscription();
 
         $service = app(SubscriptionService::class);
 
-        $result = $service->suspend($subscription);
+        $subscription = $service->suspend(
+            $subscription
+        );
 
-        $this->assertTrue($result);
+        $this->assertEquals(
+            SubscriptionStatus::SUSPENDED,
+            $subscription->status
+        );
 
         $this->assertDatabaseHas('subscriptions', [
             'id' => $subscription->id,
-            'status' => 'suspended',
+            'status' => SubscriptionStatus::SUSPENDED->value,
         ]);
 
         $this->assertContains(
@@ -90,19 +113,22 @@ class SubscriptionServiceTest extends TestCase
     {
         $fake = $this->fakeMikrotik();
 
-        $subscription = $this->createSubscription([
-            'status' => 'active',
-        ]);
+        $subscription = $this->createSubscription();
 
         $service = app(SubscriptionService::class);
 
-        $result = $service->expire($subscription);
+        $subscription = $service->expire(
+            $subscription
+        );
 
-        $this->assertTrue($result);
+        $this->assertEquals(
+            SubscriptionStatus::EXPIRED,
+            $subscription->status
+        );
 
         $this->assertDatabaseHas('subscriptions', [
             'id' => $subscription->id,
-            'status' => 'expired',
+            'status' => SubscriptionStatus::EXPIRED->value,
         ]);
 
         $this->assertContains(
@@ -116,18 +142,23 @@ class SubscriptionServiceTest extends TestCase
         $fake = $this->fakeMikrotik();
 
         $subscription = $this->createSubscription([
-            'status' => 'expired',
+            'status' => SubscriptionStatus::EXPIRED,
         ]);
 
         $service = app(SubscriptionService::class);
 
-        $result = $service->restore($subscription);
+        $subscription = $service->restore(
+            $subscription
+        );
 
-        $this->assertTrue($result);
+        $this->assertEquals(
+            SubscriptionStatus::ACTIVE,
+            $subscription->status
+        );
 
         $this->assertDatabaseHas('subscriptions', [
             'id' => $subscription->id,
-            'status' => 'active',
+            'status' => SubscriptionStatus::ACTIVE->value,
         ]);
 
         $this->assertContains(
@@ -141,20 +172,31 @@ class SubscriptionServiceTest extends TestCase
         $fake = $this->fakeMikrotik();
 
         $subscription = $this->createSubscription([
-            'status' => 'expired',
+            'status' => SubscriptionStatus::EXPIRED,
         ]);
+
+        $oldEndDate = $subscription->end_date;
 
         $service = app(SubscriptionService::class);
 
-        $result = $service->renew($subscription);
+        $subscription = $service->renew(
+            $subscription,
+            30
+        );
 
-        $this->assertTrue($result);
-
-        $subscription->refresh();
+        $this->assertInstanceOf(
+            Subscription::class,
+            $subscription
+        );
 
         $this->assertEquals(
-            \App\Enums\SubscriptionStatus::ACTIVE,
+            SubscriptionStatus::ACTIVE,
             $subscription->status
+        );
+
+        $this->assertNotEquals(
+            $oldEndDate,
+            $subscription->end_date
         );
 
         $this->assertContains(
@@ -168,22 +210,24 @@ class SubscriptionServiceTest extends TestCase
         $fake = $this->fakeMikrotik();
 
         $subscription = $this->createSubscription([
-            'status' => 'suspended',
+            'status' => SubscriptionStatus::SUSPENDED,
             'pppoe_username' => null,
         ]);
 
         $service = app(SubscriptionService::class);
 
-        $result = $service->activate($subscription);
+        $subscription = $service->activate(
+            $subscription
+        );
 
-        $this->assertTrue($result);
+        $this->assertEquals(
+            SubscriptionStatus::ACTIVE,
+            $subscription->status
+        );
 
-        $this->assertDatabaseHas('subscriptions', [
-            'id' => $subscription->id,
-            'status' => 'active',
-        ]);
-
-        $this->assertEmpty($fake->enabledUsers);
+        $this->assertEmpty(
+            $fake->enabledUsers
+        );
     }
 
     public function test_suspend_subscription_without_pppoe_user(): void
@@ -196,14 +240,18 @@ class SubscriptionServiceTest extends TestCase
 
         $service = app(SubscriptionService::class);
 
-        $service->suspend($subscription);
+        $subscription = $service->suspend(
+            $subscription
+        );
 
-        $this->assertDatabaseHas('subscriptions', [
-            'id' => $subscription->id,
-            'status' => 'suspended',
-        ]);
+        $this->assertEquals(
+            SubscriptionStatus::SUSPENDED,
+            $subscription->status
+        );
 
-        $this->assertEmpty($fake->disabledUsers);
+        $this->assertEmpty(
+            $fake->disabledUsers
+        );
     }
 
     public function test_activate_dispatches_event(): void
@@ -213,45 +261,17 @@ class SubscriptionServiceTest extends TestCase
         $this->fakeMikrotik();
 
         $subscription = $this->createSubscription([
-            'status' => 'suspended',
+            'status' => SubscriptionStatus::SUSPENDED,
         ]);
 
-        $service = app(SubscriptionService::class);
-
-        $service->activate($subscription);
+        app(SubscriptionService::class)
+            ->activate($subscription);
 
         Event::assertDispatched(
             SubscriptionActivated::class
         );
     }
 
-    public function test_activate_rolls_back_when_mikrotik_fails(): void
-    {
-        $fake = $this->fakeMikrotik();
-
-        $fake->failOnEnable = true;
-
-        $subscription = $this->createSubscription([
-            'status' => 'suspended',
-        ]);
-
-        $service = app(SubscriptionService::class);
-
-        try {
-            $service->activate($subscription);
-
-            $this->fail('RuntimeException was expected.');
-        } catch (\RuntimeException $e) {
-            // Expected
-        }
-
-        $subscription->refresh();
-
-        $this->assertEquals(
-            \App\Enums\SubscriptionStatus::SUSPENDED,
-            $subscription->status
-        );
-    }
     public function test_suspend_dispatches_event(): void
     {
         Event::fake();
@@ -260,12 +280,45 @@ class SubscriptionServiceTest extends TestCase
 
         $subscription = $this->createSubscription();
 
-        $service = app(SubscriptionService::class);
-
-        $service->suspend($subscription);
+        app(SubscriptionService::class)
+            ->suspend($subscription);
 
         Event::assertDispatched(
-            \App\Events\SubscriptionSuspended::class
+            SubscriptionSuspended::class
+        );
+    }
+
+    public function test_expire_dispatches_event(): void
+    {
+        Event::fake();
+
+        $this->fakeMikrotik();
+
+        $subscription = $this->createSubscription();
+
+        app(SubscriptionService::class)
+            ->expire($subscription);
+
+        Event::assertDispatched(
+            SubscriptionExpired::class
+        );
+    }
+
+    public function test_restore_dispatches_event(): void
+    {
+        Event::fake();
+
+        $this->fakeMikrotik();
+
+        $subscription = $this->createSubscription([
+            'status' => SubscriptionStatus::EXPIRED,
+        ]);
+
+        app(SubscriptionService::class)
+            ->restore($subscription);
+
+        Event::assertDispatched(
+            SubscriptionRestored::class
         );
     }
 
@@ -276,15 +329,39 @@ class SubscriptionServiceTest extends TestCase
         $this->fakeMikrotik();
 
         $subscription = $this->createSubscription([
-            'status' => 'expired',
+            'status' => SubscriptionStatus::EXPIRED,
         ]);
 
-        $service = app(SubscriptionService::class);
-
-        $service->renew($subscription);
+        app(SubscriptionService::class)
+            ->renew($subscription);
 
         Event::assertDispatched(
-            \App\Events\SubscriptionRenewed::class
+            SubscriptionRenewed::class
+        );
+    }
+
+    public function test_activate_rolls_back_when_mikrotik_fails(): void
+    {
+        $fake = $this->fakeMikrotik();
+
+        $fake->failOnEnable = true;
+
+        $subscription = $this->createSubscription([
+            'status' => SubscriptionStatus::SUSPENDED,
+        ]);
+
+        $this->expectException(
+            \RuntimeException::class
+        );
+
+        app(SubscriptionService::class)
+            ->activate($subscription);
+
+        $subscription->refresh();
+
+        $this->assertEquals(
+            SubscriptionStatus::SUSPENDED,
+            $subscription->status
         );
     }
 
@@ -293,16 +370,17 @@ class SubscriptionServiceTest extends TestCase
         $this->fakeMikrotik();
 
         $subscription = $this->createSubscription([
-            'status' => 'expired',
+            'status' => SubscriptionStatus::EXPIRED,
         ]);
 
         $oldDate = $subscription->end_date;
 
-        $service = app(SubscriptionService::class);
-
-        $service->renew($subscription, 30);
-
-        $subscription->refresh();
+        $subscription = app(
+            SubscriptionService::class
+        )->renew(
+            $subscription,
+            30
+        );
 
         $this->assertNotEquals(
             $oldDate,
@@ -310,7 +388,8 @@ class SubscriptionServiceTest extends TestCase
         );
 
         $this->assertTrue(
-            $subscription->end_date->greaterThan(now())
+            $subscription->end_date->isFuture()
         );
     }
 }
+

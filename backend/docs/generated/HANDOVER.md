@@ -14,7 +14,7 @@ Technology
 
 Statistics
 - Models: 27
-- Services: 112
+- Services: 113
 
 
 ---
@@ -48,7 +48,7 @@ app/
 # Project Statistics
 
 Models: 27
-Services: 112
+Services: 113
 
 ---
 
@@ -100,7 +100,7 @@ Development Rules
 
 Current Statistics
 Models: 27
-Services: 112
+Services: 113
 
 ---
 
@@ -1732,6 +1732,25 @@ App\Services\Subscription
 
 ---
 
+## SubscriptionRulesService
+
+**Namespace**
+App\Services\Subscription
+
+**Dependencies**
+- None
+
+**Methods**
+- ensureCanActivate(1 params) : void
+- ensureCanRenew(1 params) : void
+- ensureCanSuspend(1 params) : void
+- ensureCustomerIsActive(1 params) : void
+- ensurePackageIsActive(1 params) : void
+- isExpired(1 params) : bool
+- isInGracePeriod(2 params) : bool
+
+---
+
 ## SubscriptionService
 
 **Namespace**
@@ -1739,7 +1758,6 @@ App\Services\Subscription
 
 **Dependencies**
 - App\Contracts\Repositories\SubscriptionRepositoryInterface
-- App\Contracts\MikrotikServiceInterface
 - App\Actions\Subscription\ActivateSubscriptionAction
 - App\Actions\Subscription\SuspendSubscriptionAction
 - App\Actions\Subscription\ExpireSubscriptionAction
@@ -1747,25 +1765,25 @@ App\Services\Subscription
 - App\Actions\Subscription\RenewSubscriptionAction
 
 **Methods**
-- __construct(7 params) : mixed
-- getAllSubscriptions(2 params) : mixed
-- getSubscriptionById(1 params) : ?App\Models\Subscription
-- getCustomerSubscriptions(1 params) : array
-- getActiveSubscriptions(0 params) : array
-- getExpiredSubscriptions(0 params) : array
-- createSubscription(1 params) : App\Models\Subscription
-- updateSubscription(2 params) : App\Models\Subscription
-- renewSubscription(2 params) : App\Models\Subscription
-- cancelSubscription(1 params) : bool
-- getSubscriptionStats(0 params) : array
-- getExpiringSubscriptions(1 params) : array
-- autoExpireSubscriptions(0 params) : int
-- searchSubscriptions(2 params) : mixed
-- activate(1 params) : bool
-- suspend(1 params) : bool
-- expire(1 params) : bool
-- restore(1 params) : bool
-- renew(2 params) : bool
+- __construct(6 params) : mixed
+- paginate(2 params) : Illuminate\Pagination\LengthAwarePaginator
+- find(1 params) : ?App\Models\Subscription
+- findOrFail(1 params) : App\Models\Subscription
+- byCustomer(1 params) : Illuminate\Database\Eloquent\Collection
+- active(0 params) : Illuminate\Database\Eloquent\Collection
+- expired(0 params) : Illuminate\Database\Eloquent\Collection
+- byStatus(1 params) : Illuminate\Database\Eloquent\Collection
+- search(2 params) : Illuminate\Pagination\LengthAwarePaginator
+- create(1 params) : App\Models\Subscription
+- update(2 params) : App\Models\Subscription
+- activate(1 params) : App\Models\Subscription
+- suspend(1 params) : App\Models\Subscription
+- expire(1 params) : App\Models\Subscription
+- restore(1 params) : App\Models\Subscription
+- renew(2 params) : App\Models\Subscription
+- statistics(0 params) : array
+- autoExpire(0 params) : int
+- expiringSoon(1 params) : Illuminate\Database\Eloquent\Collection
 
 ---
 
@@ -3818,10 +3836,10 @@ App\Models
 
 **Properties**
 
+- $table : mixed
 - $fillable : mixed
 - $casts : mixed
 - $connection : mixed
-- $table : mixed
 - $primaryKey : mixed
 - $keyType : mixed
 - $incrementing : mixed
@@ -3898,14 +3916,34 @@ App\Models
 - payments()
 - notifications()
 - activityLogs()
+- transitionTo()
 - activate()
 - suspend()
-- expire()
 - restore()
+- expire()
+- enterGrace()
+- cancel()
+- terminate()
+- renew()
 - isActive()
+- isSuspended()
+- isExpired()
+- isGrace()
+- isCancelled()
+- isTerminated()
+- isClosed()
 - canActivate()
 - canSuspend()
+- canExpire()
+- canRestore()
 - canRenew()
+- canCancel()
+- scopeActive()
+- scopeExpired()
+- scopeSuspended()
+- scopeGrace()
+- scopeCancelled()
+- scopeTerminated()
 - factory()
 
 ---
@@ -4094,7 +4132,6 @@ App\Models
 
 **Methods**
 
-- users()
 - factory()
 
 ---
@@ -7418,6 +7455,32 @@ App\Services\Subscription
 
 ---
 
+## SubscriptionRulesService
+
+**Namespace**
+
+```
+App\Services\Subscription
+```
+
+**File**
+
+```
+/var/www/app/Services/Subscription/SubscriptionRulesService.php
+```
+
+**Methods**
+
+- ensureCanActivate() : void
+- ensureCanRenew() : void
+- ensureCanSuspend() : void
+- ensureCustomerIsActive() : void
+- ensurePackageIsActive() : void
+- isExpired() : bool
+- isInGracePeriod() : bool
+
+---
+
 ## SubscriptionService
 
 **Namespace**
@@ -7434,8 +7497,7 @@ App\Services\Subscription
 
 **Constructor Dependencies**
 
-- SubscriptionRepositoryInterface $subscriptionRepository
-- MikrotikServiceInterface $mikrotikService
+- SubscriptionRepositoryInterface $subscriptions
 - ActivateSubscriptionAction $activateAction
 - SuspendSubscriptionAction $suspendAction
 - ExpireSubscriptionAction $expireAction
@@ -7444,34 +7506,33 @@ App\Services\Subscription
 
 **Properties**
 
+- $subscriptions : App\Contracts\Repositories\SubscriptionRepositoryInterface
 - $activateAction : App\Actions\Subscription\ActivateSubscriptionAction
 - $suspendAction : App\Actions\Subscription\SuspendSubscriptionAction
 - $expireAction : App\Actions\Subscription\ExpireSubscriptionAction
 - $restoreAction : App\Actions\Subscription\RestoreSubscriptionAction
 - $renewAction : App\Actions\Subscription\RenewSubscriptionAction
-- $subscriptionRepository : App\Contracts\Repositories\SubscriptionRepositoryInterface
-- $mikrotikService : App\Contracts\MikrotikServiceInterface
 
 **Methods**
 
-- getAllSubscriptions() : mixed
-- getSubscriptionById() : ?App\Models\Subscription
-- getCustomerSubscriptions() : array
-- getActiveSubscriptions() : array
-- getExpiredSubscriptions() : array
-- createSubscription() : App\Models\Subscription
-- updateSubscription() : App\Models\Subscription
-- renewSubscription() : App\Models\Subscription
-- cancelSubscription() : bool
-- getSubscriptionStats() : array
-- getExpiringSubscriptions() : array
-- autoExpireSubscriptions() : int
-- searchSubscriptions() : mixed
-- activate() : bool
-- suspend() : bool
-- expire() : bool
-- restore() : bool
-- renew() : bool
+- paginate() : Illuminate\Pagination\LengthAwarePaginator
+- find() : ?App\Models\Subscription
+- findOrFail() : App\Models\Subscription
+- byCustomer() : Illuminate\Database\Eloquent\Collection
+- active() : Illuminate\Database\Eloquent\Collection
+- expired() : Illuminate\Database\Eloquent\Collection
+- byStatus() : Illuminate\Database\Eloquent\Collection
+- search() : Illuminate\Pagination\LengthAwarePaginator
+- create() : App\Models\Subscription
+- update() : App\Models\Subscription
+- activate() : App\Models\Subscription
+- suspend() : App\Models\Subscription
+- expire() : App\Models\Subscription
+- restore() : App\Models\Subscription
+- renew() : App\Models\Subscription
+- statistics() : array
+- autoExpire() : int
+- expiringSoon() : Illuminate\Database\Eloquent\Collection
 
 ---
 
@@ -7786,6 +7847,28 @@ App\Http\Controllers\Api
 
 ---
 
+## CustomerAuthController
+
+**Namespace**
+
+```
+App\Http\Controllers
+```
+
+**File**
+
+```
+/var/www/app/Http/Controllers/CustomerAuthController.php
+```
+
+**Public Methods**
+
+- showLoginForm()
+- login()
+- logout()
+
+---
+
 ## CustomerController
 
 **Namespace**
@@ -7838,6 +7921,26 @@ App\Http\Controllers\Api
 
 ---
 
+## CustomerDashboardController
+
+**Namespace**
+
+```
+App\Http\Controllers
+```
+
+**File**
+
+```
+/var/www/app/Http/Controllers/CustomerDashboardController.php
+```
+
+**Public Methods**
+
+- index()
+
+---
+
 ## CustomerInvoiceController
 
 **Namespace**
@@ -7850,6 +7953,27 @@ App\Http\Controllers\Api
 
 ```
 /var/www/app/Http/Controllers/Api/CustomerInvoiceController.php
+```
+
+**Public Methods**
+
+- index()
+- show()
+
+---
+
+## CustomerInvoiceController
+
+**Namespace**
+
+```
+App\Http\Controllers
+```
+
+**File**
+
+```
+/var/www/app/Http/Controllers/CustomerInvoiceController.php
 ```
 
 **Public Methods**
@@ -7878,6 +8002,28 @@ App\Http\Controllers\Api
 - index()
 - markAsRead()
 - markAllAsRead()
+
+---
+
+## CustomerProfileController
+
+**Namespace**
+
+```
+App\Http\Controllers
+```
+
+**File**
+
+```
+/var/www/app/Http/Controllers/CustomerProfileController.php
+```
+
+**Public Methods**
+
+- show()
+- update()
+- changePassword()
 
 ---
 
@@ -7926,6 +8072,31 @@ App\Http\Controllers\Api
 - show()
 - messages()
 - store()
+- reply()
+- close()
+
+---
+
+## CustomerTicketController
+
+**Namespace**
+
+```
+App\Http\Controllers
+```
+
+**File**
+
+```
+/var/www/app/Http/Controllers/CustomerTicketController.php
+```
+
+**Public Methods**
+
+- index()
+- create()
+- store()
+- show()
 - reply()
 - close()
 
@@ -9185,6 +9356,20 @@ App\Http\Controllers\Api
 - Action: App\Http\Controllers\Api\SubscriptionController@renew
 - Middleware: api, auth:sanctum
 
+## api/subscriptions/{subscription}/restore
+
+- Method: POST
+- Name: -
+- Action: App\Http\Controllers\Api\SubscriptionController@restore
+- Middleware: api, auth:sanctum
+
+## api/subscriptions/{subscription}/expire
+
+- Method: POST
+- Name: -
+- Action: App\Http\Controllers\Api\SubscriptionController@expire
+- Middleware: api, auth:sanctum
+
 ## api/hotspot-subscriptions/{hotspotSubscription}/activate
 
 - Method: POST
@@ -9757,6 +9942,111 @@ App\Http\Controllers\Api
 - Method: PUT
 - Name: dhcp.update
 - Action: App\Http\Controllers\Api\Network\DHCPController@update
+- Middleware: web
+
+## customer/login
+
+- Method: GET|HEAD
+- Name: customer.login
+- Action: App\Http\Controllers\CustomerAuthController@showLoginForm
+- Middleware: web
+
+## customer/login
+
+- Method: POST
+- Name: customer.login.post
+- Action: App\Http\Controllers\CustomerAuthController@login
+- Middleware: web
+
+## customer/logout
+
+- Method: POST
+- Name: customer.logout
+- Action: App\Http\Controllers\CustomerAuthController@logout
+- Middleware: web
+
+## customer/dashboard
+
+- Method: GET|HEAD
+- Name: customer.dashboard
+- Action: App\Http\Controllers\CustomerDashboardController@index
+- Middleware: web
+
+## customer/invoices
+
+- Method: GET|HEAD
+- Name: customer.invoices
+- Action: App\Http\Controllers\CustomerInvoiceController@index
+- Middleware: web
+
+## customer/invoices/{id}
+
+- Method: GET|HEAD
+- Name: customer.invoice.show
+- Action: App\Http\Controllers\CustomerInvoiceController@show
+- Middleware: web
+
+## customer/tickets
+
+- Method: GET|HEAD
+- Name: customer.tickets
+- Action: App\Http\Controllers\CustomerTicketController@index
+- Middleware: web
+
+## customer/tickets/create
+
+- Method: GET|HEAD
+- Name: customer.ticket.create
+- Action: App\Http\Controllers\CustomerTicketController@create
+- Middleware: web
+
+## customer/tickets
+
+- Method: POST
+- Name: customer.ticket.store
+- Action: App\Http\Controllers\CustomerTicketController@store
+- Middleware: web
+
+## customer/tickets/{id}
+
+- Method: GET|HEAD
+- Name: customer.ticket.show
+- Action: App\Http\Controllers\CustomerTicketController@show
+- Middleware: web
+
+## customer/tickets/{id}/reply
+
+- Method: POST
+- Name: customer.ticket.reply
+- Action: App\Http\Controllers\CustomerTicketController@reply
+- Middleware: web
+
+## customer/tickets/{id}/close
+
+- Method: POST
+- Name: customer.ticket.close
+- Action: App\Http\Controllers\CustomerTicketController@close
+- Middleware: web
+
+## customer/profile
+
+- Method: GET|HEAD
+- Name: customer.profile
+- Action: App\Http\Controllers\CustomerProfileController@show
+- Middleware: web
+
+## customer/profile
+
+- Method: PUT
+- Name: customer.profile.update
+- Action: App\Http\Controllers\CustomerProfileController@update
+- Middleware: web
+
+## customer/profile/change-password
+
+- Method: POST
+- Name: customer.profile.change-password
+- Action: App\Http\Controllers\CustomerProfileController@changePassword
 - Middleware: web
 
 ## broadcasting/auth

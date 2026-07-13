@@ -53,7 +53,7 @@ class SubscriptionRenewalService
                 'customer_id'     => $sub->customer_id,
                 'subscription_id' => $sub->id,
                 'invoice_number'  => 'INV-' . now()->format('YmdHis') . '-' . $sub->id,
-                'amount'          => $sub->monthly_price,
+                'amount'          => (float) $sub->monthly_price,
                 'due_date'        => now()->addMonth(),
                 'status'          => 'paid',
                 'paid_at'         => now(),
@@ -79,7 +79,7 @@ class SubscriptionRenewalService
 
             WalletService::deduct(
                 subscription: $sub,
-                amount: $sub->monthly_price,
+                amount: (float) $sub->monthly_price,
                 description: "Automatic subscription renewal. Invoice {$invoice->invoice_number}",
                 reference: $invoice->invoice_number
             );
@@ -87,7 +87,7 @@ class SubscriptionRenewalService
             Payment::create([
                 'tenant_id'        => $sub->tenant_id,
                 'invoice_id'       => $invoice->id,
-                'amount'           => $sub->monthly_price,
+                'amount'           => (float) $sub->monthly_price,
                 'payment_date'     => now(),
                 'payment_method'   => 'wallet',
                 'reference_number' => 'AUTO-WALLET',
@@ -99,8 +99,9 @@ class SubscriptionRenewalService
                 'customer_id' => $sub->customer_id,
                 'type'        => 'subscription_renewed',
                 'title'       => 'تم تجديد الاشتراك',
-                'message'     => 'تم تجديد اشتراكك تلقائياً من رصيد المحفظة بقيمة '
-                    . $sub->monthly_price . ' جنيه.',
+                'message' => sprintf(
+                    'تم تجديد اشتراكك تلقائياً من رصيد المحفظة بقيمة %s جنيه.',
+                    number_format((float) $sub->monthly_price, 2, '.', '')),
                 'sent_at'     => now(),
             ]);
 

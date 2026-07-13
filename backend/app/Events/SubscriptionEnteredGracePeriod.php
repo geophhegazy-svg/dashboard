@@ -9,7 +9,7 @@ use App\Models\Subscription;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class SubscriptionExpired
+class SubscriptionEnteredGracePeriod
 {
     use Dispatchable;
     use SerializesModels;

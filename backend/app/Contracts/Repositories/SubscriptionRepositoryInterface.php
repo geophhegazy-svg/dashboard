@@ -86,4 +86,19 @@ interface SubscriptionRepositoryInterface
     public function countByStatus(
         SubscriptionStatus $status
     ): int;
+
+    /**
+     * الاشتراكات المستحقة للتجديد التلقائي.
+     */
+    public function findEligibleForAutoRenew(): Collection;
+
+    /**
+     * الاشتراكات التى ستدخل فترة السماح.
+     */
+    public function findEligibleForGracePeriod(): Collection;
+
+    /**
+     * الاشتراكات التى يجب إنهاؤها.
+     */
+    public function findEligibleForExpiration(): Collection;
 }

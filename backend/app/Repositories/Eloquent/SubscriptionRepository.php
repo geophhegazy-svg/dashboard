@@ -9,6 +9,7 @@ use App\Enums\SubscriptionStatus;
 use App\Models\Subscription;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Carbon\Carbon;
 
 class SubscriptionRepository implements SubscriptionRepositoryInterface
 {
@@ -202,6 +203,10 @@ class SubscriptionRepository implements SubscriptionRepositoryInterface
     public function expiredCandidates(): Collection
     {
         return Subscription::query()
+            ->with([
+                'customer',
+                'package',
+            ])
             ->where(
                 'status',
                 SubscriptionStatus::ACTIVE
@@ -217,6 +222,7 @@ class SubscriptionRepository implements SubscriptionRepositoryInterface
     public function count(): int
     {
         return Subscription::query()->count();
+
     }
 
     public function countByStatus(
@@ -229,5 +235,44 @@ class SubscriptionRepository implements SubscriptionRepositoryInterface
                 $status
             )
             ->count();
+    }
+
+    /**
+     * الاشتراكات المستحقة للتجديد.
+     */
+    public function findEligibleForAutoRenew(): Collection
+    {
+        return Subscription::query()
+            ->with([
+                'customer',
+                'package',
+            ])
+            ->where('status', SubscriptionStatus::ACTIVE)
+            ->whereDate('end_date', '<=', Carbon::today())
+            ->get();
+    }
+
+    public function findEligibleForGracePeriod(): Collection
+    {
+        return Subscription::query()
+            ->with([
+                'customer',
+                'package',
+            ])
+            ->where('status', SubscriptionStatus::ACTIVE)
+            ->whereDate('end_date', '<', Carbon::today())
+            ->get();
+    }
+
+    public function findEligibleForExpiration(): Collection
+    {
+        return Subscription::query()
+            ->with([
+                'customer',
+                'package',
+            ])
+            ->where('status', SubscriptionStatus::GRACE)
+            ->whereDate('grace_end_date', '<=', Carbon::today())
+            ->get();
     }
 }

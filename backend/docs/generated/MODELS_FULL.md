@@ -1905,10 +1905,10 @@ App\Models
 
 **Properties**
 
+- $table : mixed
 - $fillable : mixed
 - $casts : mixed
 - $connection : mixed
-- $table : mixed
 - $primaryKey : mixed
 - $keyType : mixed
 - $incrementing : mixed
@@ -1989,23 +1989,30 @@ App\Models
 - activate()
 - suspend()
 - restore()
-- renew()
 - expire()
 - enterGrace()
 - cancel()
 - terminate()
+- renew()
 - isActive()
-- isExpired()
 - isSuspended()
+- isExpired()
 - isGrace()
 - isCancelled()
+- isTerminated()
 - isClosed()
 - canActivate()
 - canSuspend()
-- canRenew()
 - canExpire()
 - canRestore()
+- canRenew()
 - canCancel()
+- scopeActive()
+- scopeExpired()
+- scopeSuspended()
+- scopeGrace()
+- scopeCancelled()
+- scopeTerminated()
 - factory()
 
 ---

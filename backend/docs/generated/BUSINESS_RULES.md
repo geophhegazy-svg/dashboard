@@ -1652,7 +1652,6 @@ App\Services\Subscription
 
 **Dependencies**
 - App\Contracts\Repositories\SubscriptionRepositoryInterface
-- App\Contracts\MikrotikServiceInterface
 - App\Actions\Subscription\ActivateSubscriptionAction
 - App\Actions\Subscription\SuspendSubscriptionAction
 - App\Actions\Subscription\ExpireSubscriptionAction
@@ -1660,25 +1659,25 @@ App\Services\Subscription
 - App\Actions\Subscription\RenewSubscriptionAction
 
 **Methods**
-- __construct(7 params) : mixed
-- getAllSubscriptions(2 params) : mixed
-- getSubscriptionById(1 params) : ?App\Models\Subscription
-- getCustomerSubscriptions(1 params) : array
-- getActiveSubscriptions(0 params) : array
-- getExpiredSubscriptions(0 params) : array
-- createSubscription(1 params) : App\Models\Subscription
-- updateSubscription(2 params) : App\Models\Subscription
-- renewSubscription(2 params) : App\Models\Subscription
-- cancelSubscription(1 params) : bool
-- getSubscriptionStats(0 params) : array
-- getExpiringSubscriptions(1 params) : array
-- autoExpireSubscriptions(0 params) : int
-- searchSubscriptions(2 params) : mixed
-- activate(1 params) : bool
-- suspend(1 params) : bool
-- expire(1 params) : bool
-- restore(1 params) : bool
-- renew(2 params) : bool
+- __construct(6 params) : mixed
+- paginate(2 params) : Illuminate\Pagination\LengthAwarePaginator
+- find(1 params) : ?App\Models\Subscription
+- findOrFail(1 params) : App\Models\Subscription
+- byCustomer(1 params) : Illuminate\Database\Eloquent\Collection
+- active(0 params) : Illuminate\Database\Eloquent\Collection
+- expired(0 params) : Illuminate\Database\Eloquent\Collection
+- byStatus(1 params) : Illuminate\Database\Eloquent\Collection
+- search(2 params) : Illuminate\Pagination\LengthAwarePaginator
+- create(1 params) : App\Models\Subscription
+- update(2 params) : App\Models\Subscription
+- activate(1 params) : App\Models\Subscription
+- suspend(1 params) : App\Models\Subscription
+- expire(1 params) : App\Models\Subscription
+- restore(1 params) : App\Models\Subscription
+- renew(2 params) : App\Models\Subscription
+- statistics(0 params) : array
+- autoExpire(0 params) : int
+- expiringSoon(1 params) : Illuminate\Database\Eloquent\Collection
 
 ---
 

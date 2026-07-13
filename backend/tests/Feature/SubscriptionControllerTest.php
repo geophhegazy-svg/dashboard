@@ -10,8 +10,8 @@ use App\Services\Subscription\SubscriptionService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Sanctum\Sanctum;
 use Mockery;
-use Tests\TestCase;
 use Spatie\Permission\Models\Permission;
+use Tests\TestCase;
 
 class SubscriptionControllerTest extends TestCase
 {
@@ -25,6 +25,8 @@ class SubscriptionControllerTest extends TestCase
             'subscriptions.activate',
             'subscriptions.suspend',
             'subscriptions.renew',
+            'subscriptions.restore',
+            'subscriptions.expire',
         ];
 
         foreach ($permissions as $permission) {
@@ -47,18 +49,16 @@ class SubscriptionControllerTest extends TestCase
         $service->shouldReceive('activate')
             ->once()
             ->with(Mockery::type(Subscription::class))
-            ->andReturn(true);
+            ->andReturn($subscription);
 
         $this->app->instance(
             SubscriptionService::class,
             $service
         );
 
-        $response = $this->postJson(
+        $this->postJson(
             "/api/subscriptions/{$subscription->id}/activate"
-        );
-
-        $response
+        )
             ->assertOk()
             ->assertJson([
                 'success' => true,
@@ -77,18 +77,16 @@ class SubscriptionControllerTest extends TestCase
         $service->shouldReceive('suspend')
             ->once()
             ->with(Mockery::type(Subscription::class))
-            ->andReturn(true);
+            ->andReturn($subscription);
 
         $this->app->instance(
             SubscriptionService::class,
             $service
         );
 
-        $response = $this->postJson(
+        $this->postJson(
             "/api/subscriptions/{$subscription->id}/suspend"
-        );
-
-        $response
+        )
             ->assertOk()
             ->assertJson([
                 'success' => true,
@@ -110,25 +108,79 @@ class SubscriptionControllerTest extends TestCase
                 Mockery::type(Subscription::class),
                 30
             )
-            ->andReturn(true);
+            ->andReturn($subscription);
 
         $this->app->instance(
             SubscriptionService::class,
             $service
         );
 
-        $response = $this->postJson(
+        $this->postJson(
             "/api/subscriptions/{$subscription->id}/renew",
             [
                 'days' => 30,
             ]
-        );
-
-        $response
+        )
             ->assertOk()
             ->assertJson([
                 'success' => true,
                 'message' => 'Subscription renewed successfully',
+            ]);
+    }
+
+    public function test_restore_endpoint_returns_success(): void
+    {
+        $this->actingAsUser();
+
+        $subscription = Subscription::factory()->create();
+
+        $service = Mockery::mock(SubscriptionService::class);
+
+        $service->shouldReceive('restore')
+            ->once()
+            ->with(Mockery::type(Subscription::class))
+            ->andReturn($subscription);
+
+        $this->app->instance(
+            SubscriptionService::class,
+            $service
+        );
+
+        $this->postJson(
+            "/api/subscriptions/{$subscription->id}/restore"
+        )
+            ->assertOk()
+            ->assertJson([
+                'success' => true,
+                'message' => 'Subscription restored successfully',
+            ]);
+    }
+
+    public function test_expire_endpoint_returns_success(): void
+    {
+        $this->actingAsUser();
+
+        $subscription = Subscription::factory()->create();
+
+        $service = Mockery::mock(SubscriptionService::class);
+
+        $service->shouldReceive('expire')
+            ->once()
+            ->with(Mockery::type(Subscription::class))
+            ->andReturn($subscription);
+
+        $this->app->instance(
+            SubscriptionService::class,
+            $service
+        );
+
+        $this->postJson(
+            "/api/subscriptions/{$subscription->id}/expire"
+        )
+            ->assertOk()
+            ->assertJson([
+                'success' => true,
+                'message' => 'Subscription expired successfully',
             ]);
     }
 

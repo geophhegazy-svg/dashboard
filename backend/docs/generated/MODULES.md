@@ -34,7 +34,7 @@ Total: 27
 
 ## Services
 
-Total: 112
+Total: 113
 
 - AIContextGenerator
 - AbstractHandoverSection
@@ -138,6 +138,7 @@ Total: 112
 - SubscriptionExpirationService
 - SubscriptionLifecycleService
 - SubscriptionRenewalService
+- SubscriptionRulesService
 - SubscriptionService
 - SubscriptionSuspensionService
 - TaskService
@@ -151,17 +152,22 @@ Total: 112
 
 ## Controllers
 
-Total: 33
+Total: 38
 
 - ActivityLogController
 - AuthController
 - Controller
 - CustomerAuthController
+- CustomerAuthController
 - CustomerController
 - CustomerDashboardController
+- CustomerDashboardController
+- CustomerInvoiceController
 - CustomerInvoiceController
 - CustomerNotificationController
+- CustomerProfileController
 - CustomerSubscriptionController
+- CustomerTicketController
 - CustomerTicketController
 - CustomerWalletController
 - DHCPController
@@ -209,9 +215,10 @@ Total: 15
 
 ## Actions
 
-Total: 5
+Total: 6
 
 - ActivateSubscriptionAction
+- ChangeSubscriptionStatusAction
 - ExpireSubscriptionAction
 - RenewSubscriptionAction
 - RestoreSubscriptionAction
