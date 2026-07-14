@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Tests\Feature;
 
-use App\Enums\SubscriptionStatus;
-use App\Events\SubscriptionActivated;
-use App\Events\SubscriptionExpired;
-use App\Events\SubscriptionRenewed;
-use App\Events\SubscriptionRestored;
-use App\Events\SubscriptionSuspended;
+use App\Modules\Subscription\Domain\Enums\SubscriptionStatus;
+use App\Modules\Subscription\Domain\Events\SubscriptionActivated;
+use App\Modules\Subscription\Domain\Events\SubscriptionExpired;
+use App\Modules\Subscription\Domain\Events\SubscriptionRenewed;
+use App\Modules\Subscription\Domain\Events\SubscriptionRestored;
+use App\Modules\Subscription\Domain\Events\SubscriptionSuspended;
 use App\Models\Subscription;
 use App\Services\Subscription\SubscriptionService;
 use App\Contracts\MikrotikServiceInterface;

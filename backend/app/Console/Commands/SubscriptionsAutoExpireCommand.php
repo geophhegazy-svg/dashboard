@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
-use App\Contracts\Repositories\SubscriptionRepositoryInterface;
+use App\Modules\Subscription\Domain\Contracts\SubscriptionRepositoryInterface;
 use App\Services\Subscription\SubscriptionExpirationService;
 use Illuminate\Console\Command;
 

@@ -10,7 +10,7 @@ use App\Models\Invoice;
 use App\Models\Package;
 use App\Models\Payment;
 use App\Models\Subscription;
-use App\Enums\SubscriptionStatus;
+use App\Modules\Subscription\Domain\Enums\SubscriptionStatus;
 
 class DashboardService
 {

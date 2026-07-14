@@ -10,7 +10,7 @@ use App\Contracts\FinanceServiceInterface;
 use App\Contracts\MikrotikServiceInterface;
 
 use App\Contracts\Repositories\AccountRepositoryInterface;
-use App\Contracts\Repositories\SubscriptionRepositoryInterface;
+use App\Modules\Subscription\Domain\Contracts\SubscriptionRepositoryInterface;
 use App\Contracts\Repositories\TaskRepositoryInterface;
 use App\Contracts\Repositories\ReportRepositoryInterface;
 use App\Contracts\Repositories\ReportExportRepositoryInterface;

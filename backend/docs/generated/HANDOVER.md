@@ -1792,7 +1792,7 @@ App\Services\Subscription
 App\Services\Subscription
 
 **Dependencies**
-- App\Contracts\Repositories\SubscriptionRepositoryInterface
+- App\Modules\Subscription\Domain\Contracts\SubscriptionRepositoryInterface
 - App\Actions\Subscription\ActivateSubscriptionAction
 - App\Actions\Subscription\SuspendSubscriptionAction
 - App\Actions\Subscription\ExpireSubscriptionAction
@@ -7605,7 +7605,7 @@ App\Services\Subscription
 
 **Properties**
 
-- $subscriptions : App\Contracts\Repositories\SubscriptionRepositoryInterface
+- $subscriptions : App\Modules\Subscription\Domain\Contracts\SubscriptionRepositoryInterface
 - $activateAction : App\Actions\Subscription\ActivateSubscriptionAction
 - $suspendAction : App\Actions\Subscription\SuspendSubscriptionAction
 - $expireAction : App\Actions\Subscription\ExpireSubscriptionAction

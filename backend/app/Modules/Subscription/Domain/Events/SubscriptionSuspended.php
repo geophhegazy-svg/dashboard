@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Events;
+namespace App\Modules\Subscription\Domain\Events;
 
 use App\Models\Subscription;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class SubscriptionRenewed implements ShouldQueue
+class SubscriptionSuspended implements ShouldQueue
 {
     use Dispatchable, SerializesModels;
 

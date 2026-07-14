@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Subscription;
 
-use App\Enums\SubscriptionStatus;
+use App\Modules\Subscription\Domain\Enums\SubscriptionStatus;
 use App\Models\Subscription;
 use RuntimeException;
 

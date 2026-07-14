@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Actions\Subscription;
 
-use App\Contracts\Repositories\SubscriptionRepositoryInterface;
-use App\Contracts\Domain\Shared\Contracts\ActionInterface;
-use App\Enums\SubscriptionStatus;
+use App\Modules\Subscription\Domain\Contracts\SubscriptionRepositoryInterface;
+use App\Core\Contracts\ActionInterface;
+use App\Modules\Subscription\Domain\Enums\SubscriptionStatus;
 use App\Models\Subscription;
 
 class ChangeSubscriptionStatusAction implements ActionInterface

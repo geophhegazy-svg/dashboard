@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Subscription;
 
 use App\Contracts\MikrotikServiceInterface;
-use App\Events\SubscriptionActivated;
+use App\Modules\Subscription\Domain\Events\SubscriptionActivated;
 use App\Models\Subscription;
 use Illuminate\Support\Facades\DB;
 use RuntimeException;

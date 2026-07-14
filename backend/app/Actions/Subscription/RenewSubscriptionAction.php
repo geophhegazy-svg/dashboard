@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Actions\Subscription;
 
-use App\Contracts\Domain\Shared\Contracts\ActionInterface;
+use App\Core\Contracts\ActionInterface;
 use App\Contracts\MikrotikServiceInterface;
-use App\Contracts\Repositories\SubscriptionRepositoryInterface;
-use App\Events\SubscriptionRenewed;
+use App\Modules\Subscription\Domain\Contracts\SubscriptionRepositoryInterface;
+use App\Modules\Subscription\Domain\Events\SubscriptionRenewed;
 use App\Models\Subscription;
 use Illuminate\Support\Facades\DB;
 

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Contracts\Repositories;
+namespace App\Modules\Subscription\Domain\Contracts;
 
-use App\Enums\SubscriptionStatus;
+use App\Modules\Subscription\Domain\Enums\SubscriptionStatus;
 use App\Models\Subscription;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;

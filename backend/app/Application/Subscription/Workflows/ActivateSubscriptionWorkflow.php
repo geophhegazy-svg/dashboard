@@ -7,7 +7,7 @@ namespace App\Application\Subscription\Workflows;
 use App\Actions\Subscription\ActivateSubscriptionAction;
 use App\Application\Shared\Contracts\WorkflowInterface;
 use App\Application\Subscription\Validators\ActivateSubscriptionValidator;
-use App\Events\SubscriptionActivated;
+use App\Modules\Subscription\Domain\Events\SubscriptionActivated;
 use App\Models\Subscription;
 use App\Services\Subscription\SubscriptionRulesService;
 use Illuminate\Support\Facades\DB;

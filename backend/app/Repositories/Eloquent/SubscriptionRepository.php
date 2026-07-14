@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Repositories\Eloquent;
 
-use App\Contracts\Repositories\SubscriptionRepositoryInterface;
-use App\Enums\SubscriptionStatus;
+use App\Modules\Subscription\Domain\Contracts\SubscriptionRepositoryInterface;
+use App\Modules\Subscription\Domain\Enums\SubscriptionStatus;
 use App\Models\Subscription;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;

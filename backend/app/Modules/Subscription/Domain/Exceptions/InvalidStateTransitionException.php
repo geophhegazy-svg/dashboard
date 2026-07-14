@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Exceptions;
+namespace App\Modules\Subscription\Domain\Exceptions;
 
-use App\Enums\SubscriptionStatus;
+use App\Modules\Subscription\Domain\Enums\SubscriptionStatus;
 use RuntimeException;
 
 class InvalidStateTransitionException extends RuntimeException

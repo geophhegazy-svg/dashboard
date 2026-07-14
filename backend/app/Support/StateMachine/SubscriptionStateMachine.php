@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Support\StateMachine;
 
-use App\Enums\SubscriptionStatus;
+use App\Modules\Subscription\Domain\Enums\SubscriptionStatus;
 
 class SubscriptionStateMachine implements StateTransition
 {

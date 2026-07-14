@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Enums\SubscriptionStatus;
-use App\Exceptions\InvalidStateTransitionException;
+use App\Modules\Subscription\Domain\Enums\SubscriptionStatus;
+use App\Modules\Subscription\Domain\Exceptions\InvalidStateTransitionException;
 use App\Traits\BelongsToTenant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

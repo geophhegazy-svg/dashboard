@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Services\Subscription;
 
 use App\Contracts\MikrotikServiceInterface;
-use App\Enums\SubscriptionStatus;
-use App\Events\SubscriptionEnteredGracePeriod;
+use App\Modules\Subscription\Domain\Enums\SubscriptionStatus;
+use App\Modules\Subscription\Domain\Events\SubscriptionEnteredGracePeriod;
 use App\Models\HotspotSubscription;
 use App\Models\Subscription;
 use App\Services\Activity\ActivityLogService;

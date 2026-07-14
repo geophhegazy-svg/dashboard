@@ -1686,7 +1686,7 @@ App\Services\Subscription
 App\Services\Subscription
 
 **Dependencies**
-- App\Contracts\Repositories\SubscriptionRepositoryInterface
+- App\Modules\Subscription\Domain\Contracts\SubscriptionRepositoryInterface
 - App\Actions\Subscription\ActivateSubscriptionAction
 - App\Actions\Subscription\SuspendSubscriptionAction
 - App\Actions\Subscription\ExpireSubscriptionAction

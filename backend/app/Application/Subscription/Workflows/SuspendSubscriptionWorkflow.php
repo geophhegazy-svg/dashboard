@@ -7,7 +7,7 @@ namespace App\Application\Subscription\Workflows;
 use App\Actions\Subscription\SuspendSubscriptionAction;
 use App\Application\Shared\Contracts\WorkflowInterface;
 use App\Application\Subscription\Validators\ActivateSubscriptionValidator;
-use App\Events\SubscriptionSuspended;
+use App\Modules\Subscription\Domain\Events\SubscriptionSuspended;
 use App\Models\Subscription;
 use App\Services\Subscription\SubscriptionRulesService;
 use Illuminate\Support\Facades\DB;
