@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\Subscription;
+namespace App\Modules\Subscription\Application\Commands;
 
 use App\Core\Contracts\ActionInterface;
 use App\Contracts\MikrotikServiceInterface;

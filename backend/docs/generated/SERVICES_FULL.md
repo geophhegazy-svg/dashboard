@@ -2772,11 +2772,11 @@ App\Services\Subscription
 
 **Properties**
 
-- $activateAction : App\Actions\Subscription\ActivateSubscriptionAction
-- $suspendAction : App\Actions\Subscription\SuspendSubscriptionAction
-- $expireAction : App\Actions\Subscription\ExpireSubscriptionAction
-- $renewAction : App\Actions\Subscription\RenewSubscriptionAction
-- $restoreAction : App\Actions\Subscription\RestoreSubscriptionAction
+- $activateAction : App\Modules\Subscription\Application\Commands\ActivateSubscriptionAction
+- $suspendAction : App\Modules\Subscription\Application\Commands\SuspendSubscriptionAction
+- $expireAction : App\Modules\Subscription\Application\Commands\ExpireSubscriptionAction
+- $renewAction : App\Modules\Subscription\Application\Commands\RenewSubscriptionAction
+- $restoreAction : App\Modules\Subscription\Application\Commands\RestoreSubscriptionAction
 
 **Methods**
 
@@ -2902,11 +2902,11 @@ App\Services\Subscription
 **Properties**
 
 - $subscriptions : App\Modules\Subscription\Domain\Contracts\SubscriptionRepositoryInterface
-- $activateAction : App\Actions\Subscription\ActivateSubscriptionAction
-- $suspendAction : App\Actions\Subscription\SuspendSubscriptionAction
-- $expireAction : App\Actions\Subscription\ExpireSubscriptionAction
-- $restoreAction : App\Actions\Subscription\RestoreSubscriptionAction
-- $renewAction : App\Actions\Subscription\RenewSubscriptionAction
+- $activateAction : App\Modules\Subscription\Application\Commands\ActivateSubscriptionAction
+- $suspendAction : App\Modules\Subscription\Application\Commands\SuspendSubscriptionAction
+- $expireAction : App\Modules\Subscription\Application\Commands\ExpireSubscriptionAction
+- $restoreAction : App\Modules\Subscription\Application\Commands\RestoreSubscriptionAction
+- $renewAction : App\Modules\Subscription\Application\Commands\RenewSubscriptionAction
 
 **Methods**
 
@@ -2951,7 +2951,7 @@ App\Services\Subscription
 
 **Properties**
 
-- $action : App\Actions\Subscription\SuspendSubscriptionAction
+- $action : App\Modules\Subscription\Application\Commands\SuspendSubscriptionAction
 
 **Methods**
 

@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\Subscription;
+namespace App\Modules\Subscription\Application\Commands;
 
 use App\Core\Contracts\ActionInterface;
 use App\Contracts\MikrotikServiceInterface;
 use App\Modules\Subscription\Domain\Contracts\SubscriptionRepositoryInterface;
-use App\Modules\Subscription\Domain\Events\SubscriptionActivated;
+use App\Modules\Subscription\Domain\Events\SubscriptionRenewed;
 use App\Models\Subscription;
 use Illuminate\Support\Facades\DB;
 
-class ActivateSubscriptionAction implements ActionInterface
+class RenewSubscriptionAction implements ActionInterface
 {
     public function __construct(
         private readonly SubscriptionRepositoryInterface $subscriptions,
@@ -19,22 +19,25 @@ class ActivateSubscriptionAction implements ActionInterface
     ) {}
 
     /**
-     * Activate subscription.
+     * Renew subscription.
      */
     public function execute(
         mixed ...$arguments
     ): Subscription {
+
         /** @var Subscription $subscription */
         $subscription = $arguments[0];
 
-        DB::transaction(function () use ($subscription): void {
+        $days = (int) ($arguments[1] ?? 30);
+
+        DB::transaction(function () use ($subscription, $days): void {
 
             /*
             |--------------------------------------------------------------------------
-            | Change Subscription State
+            | Domain State Transition
             |--------------------------------------------------------------------------
             */
-            $subscription->activate();
+            $subscription->renew($days);
 
             $this->subscriptions->save($subscription);
 
@@ -54,7 +57,9 @@ class ActivateSubscriptionAction implements ActionInterface
             | Dispatch Domain Event
             |--------------------------------------------------------------------------
             */
-            SubscriptionActivated::dispatch($subscription);
+            SubscriptionRenewed::dispatch(
+                $subscription
+            );
         });
 
         return $subscription->fresh();

@@ -216,11 +216,5 @@ Total: 14
 
 ## Actions
 
-Total: 6
+Total: 0
 
-- ActivateSubscriptionAction
-- ChangeSubscriptionStatusAction
-- ExpireSubscriptionAction
-- RenewSubscriptionAction
-- RestoreSubscriptionAction
-- SuspendSubscriptionAction

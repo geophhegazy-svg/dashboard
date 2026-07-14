@@ -1718,11 +1718,11 @@ App\Services\Subscription
 App\Services\Subscription
 
 **Dependencies**
-- App\Actions\Subscription\ActivateSubscriptionAction
-- App\Actions\Subscription\SuspendSubscriptionAction
-- App\Actions\Subscription\ExpireSubscriptionAction
-- App\Actions\Subscription\RenewSubscriptionAction
-- App\Actions\Subscription\RestoreSubscriptionAction
+- App\Modules\Subscription\Application\Commands\ActivateSubscriptionAction
+- App\Modules\Subscription\Application\Commands\SuspendSubscriptionAction
+- App\Modules\Subscription\Application\Commands\ExpireSubscriptionAction
+- App\Modules\Subscription\Application\Commands\RenewSubscriptionAction
+- App\Modules\Subscription\Application\Commands\RestoreSubscriptionAction
 
 **Methods**
 - __construct(5 params) : mixed
@@ -1793,11 +1793,11 @@ App\Services\Subscription
 
 **Dependencies**
 - App\Modules\Subscription\Domain\Contracts\SubscriptionRepositoryInterface
-- App\Actions\Subscription\ActivateSubscriptionAction
-- App\Actions\Subscription\SuspendSubscriptionAction
-- App\Actions\Subscription\ExpireSubscriptionAction
-- App\Actions\Subscription\RestoreSubscriptionAction
-- App\Actions\Subscription\RenewSubscriptionAction
+- App\Modules\Subscription\Application\Commands\ActivateSubscriptionAction
+- App\Modules\Subscription\Application\Commands\SuspendSubscriptionAction
+- App\Modules\Subscription\Application\Commands\ExpireSubscriptionAction
+- App\Modules\Subscription\Application\Commands\RestoreSubscriptionAction
+- App\Modules\Subscription\Application\Commands\RenewSubscriptionAction
 
 **Methods**
 - __construct(6 params) : mixed
@@ -1828,7 +1828,7 @@ App\Services\Subscription
 App\Services\Subscription
 
 **Dependencies**
-- App\Actions\Subscription\SuspendSubscriptionAction
+- App\Modules\Subscription\Application\Commands\SuspendSubscriptionAction
 
 **Methods**
 - __construct(1 params) : mixed
@@ -7476,11 +7476,11 @@ App\Services\Subscription
 
 **Properties**
 
-- $activateAction : App\Actions\Subscription\ActivateSubscriptionAction
-- $suspendAction : App\Actions\Subscription\SuspendSubscriptionAction
-- $expireAction : App\Actions\Subscription\ExpireSubscriptionAction
-- $renewAction : App\Actions\Subscription\RenewSubscriptionAction
-- $restoreAction : App\Actions\Subscription\RestoreSubscriptionAction
+- $activateAction : App\Modules\Subscription\Application\Commands\ActivateSubscriptionAction
+- $suspendAction : App\Modules\Subscription\Application\Commands\SuspendSubscriptionAction
+- $expireAction : App\Modules\Subscription\Application\Commands\ExpireSubscriptionAction
+- $renewAction : App\Modules\Subscription\Application\Commands\RenewSubscriptionAction
+- $restoreAction : App\Modules\Subscription\Application\Commands\RestoreSubscriptionAction
 
 **Methods**
 
@@ -7606,11 +7606,11 @@ App\Services\Subscription
 **Properties**
 
 - $subscriptions : App\Modules\Subscription\Domain\Contracts\SubscriptionRepositoryInterface
-- $activateAction : App\Actions\Subscription\ActivateSubscriptionAction
-- $suspendAction : App\Actions\Subscription\SuspendSubscriptionAction
-- $expireAction : App\Actions\Subscription\ExpireSubscriptionAction
-- $restoreAction : App\Actions\Subscription\RestoreSubscriptionAction
-- $renewAction : App\Actions\Subscription\RenewSubscriptionAction
+- $activateAction : App\Modules\Subscription\Application\Commands\ActivateSubscriptionAction
+- $suspendAction : App\Modules\Subscription\Application\Commands\SuspendSubscriptionAction
+- $expireAction : App\Modules\Subscription\Application\Commands\ExpireSubscriptionAction
+- $restoreAction : App\Modules\Subscription\Application\Commands\RestoreSubscriptionAction
+- $renewAction : App\Modules\Subscription\Application\Commands\RenewSubscriptionAction
 
 **Methods**
 
@@ -7655,7 +7655,7 @@ App\Services\Subscription
 
 **Properties**
 
-- $action : App\Actions\Subscription\SuspendSubscriptionAction
+- $action : App\Modules\Subscription\Application\Commands\SuspendSubscriptionAction
 
 **Methods**
 

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Application\Subscription\Workflows;
+namespace App\Modules\Subscription\Application\Workflows;
 
-use App\Actions\Subscription\ActivateSubscriptionAction;
+use App\Modules\Subscription\Application\Commands\ActivateSubscriptionAction;
 use App\Application\Shared\Contracts\WorkflowInterface;
 use App\Application\Subscription\Validators\ActivateSubscriptionValidator;
 use App\Modules\Subscription\Domain\Events\SubscriptionActivated;

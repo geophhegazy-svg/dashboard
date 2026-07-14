@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Subscription;
 
-use App\Actions\Subscription\SuspendSubscriptionAction;
+use App\Modules\Subscription\Application\Commands\SuspendSubscriptionAction;
 use App\Models\Subscription;
 
 class SubscriptionSuspensionService

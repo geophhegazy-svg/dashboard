@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\Subscription;
+namespace App\Modules\Subscription\Application\Commands;
 
 use App\Core\Contracts\ActionInterface;
 use App\Contracts\MikrotikServiceInterface;
 use App\Modules\Subscription\Domain\Contracts\SubscriptionRepositoryInterface;
-use App\Modules\Subscription\Domain\Events\SubscriptionExpired;
+use App\Modules\Subscription\Domain\Events\SubscriptionActivated;
 use App\Models\Subscription;
 use Illuminate\Support\Facades\DB;
 
-class ExpireSubscriptionAction implements ActionInterface
+class ActivateSubscriptionAction implements ActionInterface
 {
     public function __construct(
         private readonly SubscriptionRepositoryInterface $subscriptions,
@@ -19,7 +19,7 @@ class ExpireSubscriptionAction implements ActionInterface
     ) {}
 
     /**
-     * Expire subscription.
+     * Activate subscription.
      */
     public function execute(
         mixed ...$arguments
@@ -34,17 +34,17 @@ class ExpireSubscriptionAction implements ActionInterface
             | Change Subscription State
             |--------------------------------------------------------------------------
             */
-            $subscription->expire();
+            $subscription->activate();
 
             $this->subscriptions->save($subscription);
 
             /*
             |--------------------------------------------------------------------------
-            | Disable PPPoE User
+            | Enable PPPoE User
             |--------------------------------------------------------------------------
             */
             if (! empty($subscription->pppoe_username)) {
-                $this->mikrotikService->disableUser(
+                $this->mikrotikService->enableUser(
                     $subscription->pppoe_username
                 );
             }
@@ -54,7 +54,7 @@ class ExpireSubscriptionAction implements ActionInterface
             | Dispatch Domain Event
             |--------------------------------------------------------------------------
             */
-            SubscriptionExpired::dispatch($subscription);
+            SubscriptionActivated::dispatch($subscription);
         });
 
         return $subscription->fresh();

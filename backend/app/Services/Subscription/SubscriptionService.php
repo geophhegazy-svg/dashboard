@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Services\Subscription;
 
-use App\Actions\Subscription\ActivateSubscriptionAction;
-use App\Actions\Subscription\ExpireSubscriptionAction;
-use App\Actions\Subscription\RenewSubscriptionAction;
-use App\Actions\Subscription\RestoreSubscriptionAction;
-use App\Actions\Subscription\SuspendSubscriptionAction;
+use App\Modules\Subscription\Application\Commands\ActivateSubscriptionAction;
+use App\Modules\Subscription\Application\Commands\ExpireSubscriptionAction;
+use App\Modules\Subscription\Application\Commands\RenewSubscriptionAction;
+use App\Modules\Subscription\Application\Commands\RestoreSubscriptionAction;
+use App\Modules\Subscription\Application\Commands\SuspendSubscriptionAction;
 use App\Modules\Subscription\Domain\Contracts\SubscriptionRepositoryInterface;
 use App\Modules\Subscription\Domain\Enums\SubscriptionStatus;
 use App\Models\Customer;
