@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature;
 
-use App\Models\Subscription;
+use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 use App\Models\User;
 use App\Services\Subscription\SubscriptionService;
 use Illuminate\Foundation\Testing\RefreshDatabase;

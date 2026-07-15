@@ -6,7 +6,7 @@ namespace App\Repositories\Eloquent;
 
 use App\Modules\Subscription\Domain\Contracts\SubscriptionRepositoryInterface;
 use App\Modules\Subscription\Domain\Enums\SubscriptionStatus;
-use App\Models\Subscription;
+use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Carbon\Carbon;

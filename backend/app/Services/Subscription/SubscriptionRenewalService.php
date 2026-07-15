@@ -7,7 +7,7 @@ namespace App\Services\Subscription;
 use App\Contracts\MikrotikServiceInterface;
 use App\Models\HotspotSubscription;
 use App\Models\Invoice;
-use App\Models\Subscription;
+use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 use App\Services\Activity\ActivityLogService;
 use App\Services\Wallet\WalletService;
 use Illuminate\Support\Facades\Cache;

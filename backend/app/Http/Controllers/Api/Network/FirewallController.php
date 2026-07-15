@@ -1,55 +1,87 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Api\Network;
 
-use App\Services\Network\MikroTikAdvancedService;
-use App\Models\NetworkDevice;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\NetworkDevice;
+use App\Services\Network\NetworkManager;
+use Illuminate\Http\Request;
 
 class FirewallController extends Controller
 {
-    protected $mikrotikService;
+    public function __construct(
+        protected NetworkManager $networkManager
+    ) {
+    }
 
-    public function __construct(MikroTikAdvancedService $mikrotikService)
+    protected function provider(int $deviceId)
     {
-        $this->mikrotikService = $mikrotikService;
+        $device = NetworkDevice::findOrFail($deviceId);
+
+        if (! $this->networkManager->connect($device)) {
+            abort(500, 'Unable to connect to network device.');
+        }
+
+        return $this->networkManager->provider();
     }
 
     public function index(Request $request)
     {
-        $deviceId = $request->input('device_id', 1);
+        $deviceId = (int) $request->input('device_id', 1);
+
         $device = NetworkDevice::find($deviceId);
-        $devices = NetworkDevice::where('status', 'active')->get();
+
+        $devices = NetworkDevice::where(
+            'status',
+            'active'
+        )->get();
 
         $rules = [];
         $connected = false;
 
         if ($device) {
-            $connected = $this->mikrotikService->connect(
-                $device->ip_address,
-                $device->username,
-                $device->password,
-                $device->port ?? 8728
-            );
 
-            if ($connected) {
-                $rules = $this->mikrotikService->getFirewallRules();
-            }
+            $provider = $this->provider($device->id);
+
+            $connected = true;
+
+            $rules = $provider
+                ->firewall()
+                ->getAll();
         }
 
-        return view('firewall.index', compact('rules', 'devices', 'device', 'connected'));
+        return view(
+            'firewall.index',
+            compact(
+                'rules',
+                'devices',
+                'device',
+                'connected'
+            )
+        );
     }
 
     public function create(Request $request)
     {
-        $deviceId = $request->input('device_id', 1);
+        $deviceId = (int) $request->input('device_id', 1);
+
         $device = NetworkDevice::find($deviceId);
-        $devices = NetworkDevice::where('status', 'active')->get();
 
-        return view('firewall.create', compact('devices', 'device'));
+        $devices = NetworkDevice::where(
+            'status',
+            'active'
+        )->get();
+
+        return view(
+            'firewall.create',
+            compact(
+                'devices',
+                'device'
+            )
+        );
     }
-
     public function store(Request $request)
     {
         $request->validate([
@@ -63,59 +95,97 @@ class FirewallController extends Controller
             'device_id' => 'required|integer|exists:network_devices,id',
         ]);
 
-        $device = NetworkDevice::find($request->device_id);
-
-        $connected = $this->mikrotikService->connect(
-            $device->ip_address,
-            $device->username,
-            $device->password,
-            $device->port ?? 8728
+        $provider = $this->provider(
+            (int) $request->device_id
         );
 
-        if (!$connected) {
-            return back()->with('error', 'فشل الاتصال بالجهاز');
-        }
-
-        $result = $this->mikrotikService->createFirewallRule($request->all());
+        $result = $provider
+            ->firewall()
+            ->create(
+                array_filter([
+                    'chain'       => $request->chain,
+                    'action'      => $request->action,
+                    'src_address' => $request->src_address,
+                    'dst_address' => $request->dst_address,
+                    'protocol'    => $request->protocol,
+                    'dst_port'    => $request->dst_port,
+                    'comment'     => $request->comment,
+                ], static fn($value) => $value !== null && $value !== '')
+            );
 
         if ($result) {
-            return redirect()->route('firewall.index', ['device_id' => $request->device_id])
-                ->with('success', 'تم إنشاء القاعدة بنجاح');
+
+            return redirect()
+                ->route(
+                    'firewall.index',
+                    [
+                        'device_id' => $request->device_id,
+                    ]
+                )
+                ->with(
+                    'success',
+                    'تم إنشاء القاعدة بنجاح'
+                );
         }
 
-        return back()->with('error', 'فشل إنشاء القاعدة');
+        return back()->with(
+            'error',
+            'فشل إنشاء القاعدة'
+        );
     }
 
-    public function edit(Request $request, string $id)
-    {
-        $deviceId = $request->input('device_id', 1);
-        $device = NetworkDevice::find($deviceId);
-        $devices = NetworkDevice::where('status', 'active')->get();
-
-        $connected = $this->mikrotikService->connect(
-            $device->ip_address,
-            $device->username,
-            $device->password,
-            $device->port ?? 8728
+    public function edit(
+        Request $request,
+        string $id
+    ) {
+        $deviceId = (int) $request->input(
+            'device_id',
+            1
         );
 
-        if (!$connected) {
-            return back()->with('error', 'فشل الاتصال بالجهاز');
+        $device = NetworkDevice::find($deviceId);
+
+        $devices = NetworkDevice::where(
+            'status',
+            'active'
+        )->get();
+
+        $provider = $this->provider($deviceId);
+
+        $rule = $provider
+            ->firewall()
+            ->find($id);
+
+        if ($rule === null) {
+
+            return redirect()
+                ->route(
+                    'firewall.index',
+                    [
+                        'device_id' => $deviceId,
+                    ]
+                )
+                ->with(
+                    'error',
+                    'القاعدة غير موجودة'
+                );
         }
 
-        $rules = $this->mikrotikService->getFirewallRules();
-        $rule = collect($rules)->firstWhere('id', $id);
-
-        if (!$rule) {
-            return redirect()->route('firewall.index', ['device_id' => $deviceId])
-                ->with('error', 'القاعدة غير موجودة');
-        }
-
-        return view('firewall.edit', compact('rule', 'devices', 'device', 'id'));
+        return view(
+            'firewall.edit',
+            compact(
+                'rule',
+                'devices',
+                'device',
+                'id'
+            )
+        );
     }
 
-    public function update(Request $request, string $id)
-    {
+    public function update(
+        Request $request,
+        string $id
+    ) {
         $request->validate([
             'chain' => 'nullable|string|in:input,output,forward,hs-input,hs-unauth,hs-unauth-to',
             'action' => 'nullable|string|in:accept,drop,reject,log,jump,passthrough',
@@ -127,57 +197,77 @@ class FirewallController extends Controller
             'device_id' => 'required|integer|exists:network_devices,id',
         ]);
 
-        $device = NetworkDevice::find($request->device_id);
-
-        $connected = $this->mikrotikService->connect(
-            $device->ip_address,
-            $device->username,
-            $device->password,
-            $device->port ?? 8728
+        $provider = $this->provider(
+            (int) $request->device_id
         );
 
-        if (!$connected) {
-            return back()->with('error', 'فشل الاتصال بالجهاز');
-        }
+        $data = array_filter(
+            $request->only([
+                'chain',
+                'action',
+                'src_address',
+                'dst_address',
+                'protocol',
+                'dst_port',
+                'comment',
+            ]),
+            static fn($value) => $value !== null && $value !== ''
+        );
 
-        $data = $request->only(['chain', 'action', 'src_address', 'dst_address', 'protocol', 'dst_port', 'comment']);
-        $data = array_filter($data, function ($value) {
-            return $value !== null && $value !== '';
-        });
-
-        $result = $this->mikrotikService->updateFirewallRule($id, $data);
+        $result = $provider
+            ->firewall()
+            ->update(
+                $id,
+                $data
+            );
 
         if ($result) {
-            return redirect()->route('firewall.index', ['device_id' => $request->device_id])
-                ->with('success', 'تم تحديث القاعدة بنجاح');
+
+            return redirect()
+                ->route(
+                    'firewall.index',
+                    [
+                        'device_id' => $request->device_id,
+                    ]
+                )
+                ->with(
+                    'success',
+                    'تم تحديث القاعدة بنجاح'
+                );
         }
 
-        return back()->with('error', 'فشل تحديث القاعدة');
+        return back()->with(
+            'error',
+            'فشل تحديث القاعدة'
+        );
     }
 
-    public function destroy(Request $request, string $id)
-    {
-        $deviceId = $request->input('device_id', 1);
-
-        $device = NetworkDevice::find($deviceId);
-
-        $connected = $this->mikrotikService->connect(
-            $device->ip_address,
-            $device->username,
-            $device->password,
-            $device->port ?? 8728
+    public function destroy(
+        Request $request,
+        string $id
+    ) {
+        $provider = $this->provider(
+            (int) $request->input(
+                'device_id',
+                1
+            )
         );
 
-        if (!$connected) {
-            return back()->with('error', 'فشل الاتصال بالجهاز');
-        }
-
-        $result = $this->mikrotikService->deleteFirewallRule($id);
+        $result = $provider
+            ->firewall()
+            ->delete($id);
 
         if ($result) {
-            return back()->with('success', 'تم حذف القاعدة بنجاح');
+
+            return back()->with(
+                'success',
+                'تم حذف القاعدة بنجاح'
+            );
         }
 
-        return back()->with('error', 'فشل حذف القاعدة');
+        return back()->with(
+            'error',
+            'فشل حذف القاعدة'
+        );
     }
 }

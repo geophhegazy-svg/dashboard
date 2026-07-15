@@ -1,210 +1,477 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Api\Network;
 
-use App\Services\Network\MikroTikAdvancedService;
-use App\Models\NetworkDevice;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\NetworkDevice;
+use App\Services\Network\NetworkManager;
+use Illuminate\Http\Request;
 
 class QueueController extends Controller
 {
-    protected $mikrotikService;
+    public function __construct(
+        protected NetworkManager $networkManager
+    ) {}
 
-    public function __construct(MikroTikAdvancedService $mikrotikService)
+
+    /**
+     * Resolve network provider for device.
+     */
+    protected function provider(int $deviceId)
     {
-        $this->mikrotikService = $mikrotikService;
+        $device = NetworkDevice::findOrFail($deviceId);
+
+        $connected = $this->networkManager->connect($device);
+
+        if (!$connected) {
+            return null;
+        }
+
+        return $this->networkManager->provider();
     }
 
+
+
+    /**
+     * Display queues.
+     */
     public function index(Request $request)
     {
-        $deviceId = $request->input('device_id', 1);
+        $deviceId = (int) $request->input('device_id', 1);
+
         $device = NetworkDevice::find($deviceId);
-        $devices = NetworkDevice::where('status', 'active')->get();
+
+        $devices = NetworkDevice::where(
+            'status',
+            'active'
+        )->get();
+
 
         $queues = [];
+
         $connected = false;
 
-        if ($device) {
-            $connected = $this->mikrotikService->connect(
-                $device->ip_address,
-                $device->username,
-                $device->password,
-                $device->port ?? 8728
-            );
 
-            if ($connected) {
-                $queues = $this->mikrotikService->getSimpleQueues();
+        if ($device) {
+
+            $provider = $this->provider($deviceId);
+
+
+            if ($provider) {
+
+                $connected = true;
+
+
+                $queues = $provider
+                    ->queue()
+                    ->getAll();
             }
         }
 
-        return view('queues.index', compact('queues', 'devices', 'device', 'connected'));
+
+        return view(
+            'queues.index',
+            compact(
+                'queues',
+                'devices',
+                'device',
+                'connected'
+            )
+        );
     }
 
+
+
+    /**
+     * Create queue page.
+     */
     public function create(Request $request)
     {
-        $deviceId = $request->input('device_id', 1);
-        $device = NetworkDevice::find($deviceId);
-        $devices = NetworkDevice::where('status', 'active')->get();
+        $deviceId = (int) $request->input('device_id', 1);
 
-        return view('queues.create', compact('devices', 'device'));
+        $device = NetworkDevice::find($deviceId);
+
+
+        $devices = NetworkDevice::where(
+            'status',
+            'active'
+        )->get();
+
+
+        return view(
+            'queues.create',
+            compact(
+                'devices',
+                'device'
+            )
+        );
     }
 
+
+
+    /**
+     * Store queue.
+     */
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string',
-            'target' => 'required|string',
-            'max_limit' => 'required|string',
-            'limit_at' => 'nullable|string',
-            'priority' => 'nullable|integer|min:1|max:8',
-            'device_id' => 'required|integer|exists:network_devices,id',
+
+            'name' =>
+            'required|string',
+
+            'target' =>
+            'required|string',
+
+            'max_limit' =>
+            'required|string',
+
+            'limit_at' =>
+            'nullable|string',
+
+            'priority' =>
+            'nullable|integer|min:1|max:8',
+
+            'device_id' =>
+            'required|integer|exists:network_devices,id',
         ]);
 
-        $device = NetworkDevice::find($request->device_id);
 
-        $connected = $this->mikrotikService->connect(
-            $device->ip_address,
-            $device->username,
-            $device->password,
-            $device->port ?? 8728
+        $provider = $this->provider(
+            (int) $request->device_id
         );
 
-        if (!$connected) {
-            return back()->with('error', 'فشل الاتصال بالجهاز');
+
+        if (!$provider) {
+
+            return back()->with(
+                'error',
+                'فشل الاتصال بالجهاز'
+            );
         }
 
-        $result = $this->mikrotikService->createSimpleQueue(
-            $request->name,
-            $request->target,
-            $request->max_limit,
-            $request->limit_at,
-            $request->priority ?? 1
-        );
+
+
+        $result = $provider
+            ->queue()
+            ->create(
+
+                $request->name,
+
+                $request->target,
+
+                $request->max_limit,
+
+                $request->limit_at,
+
+                $request->priority ?? 1
+            );
+
+
 
         if ($result) {
-            return redirect()->route('queues.index', ['device_id' => $request->device_id])
-                ->with('success', 'تم إنشاء الـ Queue بنجاح');
+
+            return redirect()
+                ->route(
+                    'queues.index',
+                    [
+                        'device_id' =>
+                        $request->device_id
+                    ]
+                )
+                ->with(
+                    'success',
+                    'تم إنشاء الـ Queue بنجاح'
+                );
         }
 
-        return back()->with('error', 'فشل إنشاء الـ Queue');
+
+        return back()->with(
+            'error',
+            'فشل إنشاء الـ Queue'
+        );
     }
 
-    public function edit(Request $request, string $name)
-    {
-        $deviceId = $request->input('device_id', 1);
-        $device = NetworkDevice::find($deviceId);
-        $devices = NetworkDevice::where('status', 'active')->get();
 
-        $connected = $this->mikrotikService->connect(
-            $device->ip_address,
-            $device->username,
-            $device->password,
-            $device->port ?? 8728
+
+
+    /**
+     * Edit queue.
+     */
+    public function edit(
+        Request $request,
+        string $name
+    ) {
+
+        $deviceId = (int) $request->input(
+            'device_id',
+            1
         );
 
-        if (!$connected) {
-            return back()->with('error', 'فشل الاتصال بالجهاز');
+
+        $device = NetworkDevice::find($deviceId);
+
+
+        $devices = NetworkDevice::where(
+            'status',
+            'active'
+        )->get();
+
+
+
+        $provider = $this->provider($deviceId);
+
+
+
+        if (!$provider) {
+
+            return back()->with(
+                'error',
+                'فشل الاتصال بالجهاز'
+            );
         }
 
-        $queues = $this->mikrotikService->getSimpleQueues();
-        $queue = collect($queues)->firstWhere('name', $name);
+
+
+        $queue = $provider
+            ->queue()
+            ->find($name);
+
+
 
         if (!$queue) {
-            return redirect()->route('queues.index', ['device_id' => $deviceId])
-                ->with('error', 'الـ Queue غير موجودة');
+
+            return redirect()
+                ->route(
+                    'queues.index',
+                    [
+                        'device_id' =>
+                        $deviceId
+                    ]
+                )
+                ->with(
+                    'error',
+                    'الـ Queue غير موجودة'
+                );
         }
 
-        return view('queues.edit', compact('queue', 'devices', 'device', 'name'));
+
+
+        return view(
+            'queues.edit',
+            compact(
+                'queue',
+                'devices',
+                'device',
+                'name'
+            )
+        );
     }
 
-    public function update(Request $request, string $name)
-    {
+
+
+
+    /**
+     * Update queue.
+     */
+    public function update(
+        Request $request,
+        string $name
+    ) {
+
         $request->validate([
-            'max_limit' => 'nullable|string',
-            'limit_at' => 'nullable|string',
-            'priority' => 'nullable|integer|min:1|max:8',
-            'comment' => 'nullable|string',
-            'device_id' => 'required|integer|exists:network_devices,id',
+
+            'max_limit' =>
+            'nullable|string',
+
+            'limit_at' =>
+            'nullable|string',
+
+            'priority' =>
+            'nullable|integer|min:1|max:8',
+
+            'comment' =>
+            'nullable|string',
+
+            'device_id' =>
+            'required|integer|exists:network_devices,id',
         ]);
 
-        $device = NetworkDevice::find($request->device_id);
 
-        $connected = $this->mikrotikService->connect(
-            $device->ip_address,
-            $device->username,
-            $device->password,
-            $device->port ?? 8728
+
+        $provider = $this->provider(
+            (int) $request->device_id
         );
 
-        if (!$connected) {
-            return back()->with('error', 'فشل الاتصال بالجهاز');
+
+
+        if (!$provider) {
+
+            return back()->with(
+                'error',
+                'فشل الاتصال بالجهاز'
+            );
         }
 
-        $result = $this->mikrotikService->updateSimpleQueue($name, $request->only([
-            'max_limit', 'limit_at', 'priority', 'comment'
-        ]));
+
+
+        $result = $provider
+            ->queue()
+            ->update(
+                $name,
+                $request->only([
+                    'max_limit',
+                    'limit_at',
+                    'priority',
+                    'comment',
+                ])
+            );
+
+
 
         if ($result) {
-            return redirect()->route('queues.index', ['device_id' => $request->device_id])
-                ->with('success', 'تم تحديث الـ Queue بنجاح');
+
+            return redirect()
+                ->route(
+                    'queues.index',
+                    [
+                        'device_id' =>
+                        $request->device_id
+                    ]
+                )
+                ->with(
+                    'success',
+                    'تم تحديث الـ Queue بنجاح'
+                );
         }
 
-        return back()->with('error', 'فشل تحديث الـ Queue');
+
+
+        return back()->with(
+            'error',
+            'فشل تحديث الـ Queue'
+        );
     }
 
-    public function toggle(Request $request, string $name)
-    {
-        $deviceId = $request->input('device_id', 1);
-        $action = $request->input('action', 'disable');
 
-        $device = NetworkDevice::find($deviceId);
 
-        $connected = $this->mikrotikService->connect(
-            $device->ip_address,
-            $device->username,
-            $device->password,
-            $device->port ?? 8728
+
+    /**
+     * Enable / Disable queue.
+     */
+    public function toggle(
+        Request $request,
+        string $name
+    ) {
+
+        $deviceId = (int) $request->input(
+            'device_id',
+            1
         );
 
-        if (!$connected) {
-            return back()->with('error', 'فشل الاتصال بالجهاز');
+
+        $action = $request->input(
+            'action',
+            'disable'
+        );
+
+
+
+        $provider = $this->provider($deviceId);
+
+
+
+        if (!$provider) {
+
+            return back()->with(
+                'error',
+                'فشل الاتصال بالجهاز'
+            );
         }
+
+
 
         $result = $action === 'enable'
-            ? $this->mikrotikService->enableSimpleQueue($name)
-            : $this->mikrotikService->disableSimpleQueue($name);
+
+            ? $provider
+            ->queue()
+            ->enable($name)
+
+            : $provider
+            ->queue()
+            ->disable($name);
+
+
 
         if ($result) {
-            return back()->with('success', "تم {$action} الـ Queue بنجاح");
+
+            return back()->with(
+                'success',
+                "تم {$action} الـ Queue بنجاح"
+            );
         }
 
-        return back()->with('error', "فشل {$action} الـ Queue");
+
+
+        return back()->with(
+            'error',
+            "فشل {$action} الـ Queue"
+        );
     }
 
-    public function destroy(Request $request, string $name)
-    {
-        $deviceId = $request->input('device_id', 1);
 
-        $device = NetworkDevice::find($deviceId);
 
-        $connected = $this->mikrotikService->connect(
-            $device->ip_address,
-            $device->username,
-            $device->password,
-            $device->port ?? 8728
+
+
+    /**
+     * Delete queue.
+     */
+    public function destroy(
+        Request $request,
+        string $name
+    ) {
+
+        $deviceId = (int) $request->input(
+            'device_id',
+            1
         );
 
-        if (!$connected) {
-            return back()->with('error', 'فشل الاتصال بالجهاز');
+
+
+        $provider = $this->provider($deviceId);
+
+
+
+        if (!$provider) {
+
+            return back()->with(
+                'error',
+                'فشل الاتصال بالجهاز'
+            );
         }
 
-        $result = $this->mikrotikService->deleteSimpleQueue($name);
+
+
+        $result = $provider
+            ->queue()
+            ->delete($name);
+
+
 
         if ($result) {
-            return back()->with('success', 'تم حذف الـ Queue بنجاح');
+
+            return back()->with(
+                'success',
+                'تم حذف الـ Queue بنجاح'
+            );
         }
 
-        return back()->with('error', 'فشل حذف الـ Queue');
+
+
+        return back()->with(
+            'error',
+            'فشل حذف الـ Queue'
+        );
     }
 }

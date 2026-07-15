@@ -34,10 +34,11 @@ Total: 27
 
 ## Services
 
-Total: 115
+Total: 114
 
 - AIContextGenerator
 - AbstractHandoverSection
+- AccountResolverService
 - ActionDocumentationGenerator
 - ActivityLogService
 - AiStartPromptExport
@@ -48,6 +49,7 @@ Total: 115
 - BillingEngine
 - BusinessRuleExtractor
 - BusinessRulesGenerator
+- ChartOfAccountsService
 - ClassDocumentationGenerator
 - ClassFinder
 - ClassReflector
@@ -87,7 +89,6 @@ Total: 115
 - MethodReflector
 - MigrationExtractor
 - MigrationsKnowledgeGenerator
-- MikroTikAdvancedService
 - MikroTikConnectionService
 - MikroTikDhcpService
 - MikroTikFirewallService
@@ -97,7 +98,6 @@ Total: 115
 - MikroTikProvider
 - MikroTikQueryService
 - MikroTikQueueService
-- MikrotikConnection
 - MikrotikServiceAdapter
 - ModelDocumentationGenerator
 - ModelRelationExtractor
@@ -124,7 +124,6 @@ Total: 115
 - ReportService
 - RepositoryDocumentationGenerator
 - RouteExtractor
-- RouterConnectionService
 - RoutesKnowledgeGenerator
 - ScheduledReportService
 - ServiceDocumentationGenerator
@@ -154,7 +153,7 @@ Total: 115
 
 ## Controllers
 
-Total: 38
+Total: 40
 
 - ActivityLogController
 - AuthController
@@ -176,16 +175,18 @@ Total: 38
 - DashboardController
 - DeviceAssignmentController
 - DeviceController
+- DhcpApiController
+- FirewallApiController
 - FirewallController
 - HotspotController
 - HotspotSubscriptionController
 - InventoryController
 - InvoiceController
-- MikroTikAdvancedController
 - MikrotikController
 - NotificationController
 - PackageController
 - PaymentController
+- QueueApiController
 - QueueController
 - ReportController
 - ScheduledReportController

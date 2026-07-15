@@ -379,7 +379,7 @@ App\Http\Controllers\Api\Network
 
 **Dependencies**
 
-- MikroTikAdvancedService $mikrotikService
+- NetworkManager $networkManager
 
 **Public Methods**
 
@@ -462,6 +462,60 @@ App\Http\Controllers\Api
 
 ---
 
+## DhcpApiController
+
+**Namespace**
+
+```
+App\Http\Controllers\Api
+```
+
+**File**
+
+```
+/var/www/app/Http/Controllers/Api/DhcpApiController.php
+```
+
+**Dependencies**
+
+- NetworkManager $networkManager
+
+**Public Methods**
+
+- index()
+- store()
+- update()
+- destroy()
+
+---
+
+## FirewallApiController
+
+**Namespace**
+
+```
+App\Http\Controllers\Api
+```
+
+**File**
+
+```
+/var/www/app/Http/Controllers/Api/FirewallApiController.php
+```
+
+**Dependencies**
+
+- NetworkManager $networkManager
+
+**Public Methods**
+
+- index()
+- store()
+- update()
+- destroy()
+
+---
+
 ## FirewallController
 
 **Namespace**
@@ -478,7 +532,7 @@ App\Http\Controllers\Api\Network
 
 **Dependencies**
 
-- MikroTikAdvancedService $mikrotikService
+- NetworkManager $networkManager
 
 **Public Methods**
 
@@ -586,41 +640,6 @@ App\Http\Controllers\Api
 - show()
 - update()
 - destroy()
-
----
-
-## MikroTikAdvancedController
-
-**Namespace**
-
-```
-App\Http\Controllers\Api
-```
-
-**File**
-
-```
-/var/www/app/Http/Controllers/Api/MikroTikAdvancedController.php
-```
-
-**Dependencies**
-
-- MikroTikAdvancedService $mikrotikService
-
-**Public Methods**
-
-- getQueues()
-- createQueue()
-- updateQueue()
-- deleteQueue()
-- toggleQueue()
-- getFirewallRules()
-- createFirewallRule()
-- deleteFirewallRule()
-- getNATRules()
-- getDHCPLeases()
-- addDHCPLease()
-- deleteDHCPLease()
 
 ---
 
@@ -739,6 +758,34 @@ App\Http\Controllers\Api
 
 ---
 
+## QueueApiController
+
+**Namespace**
+
+```
+App\Http\Controllers\Api
+```
+
+**File**
+
+```
+/var/www/app/Http/Controllers/Api/QueueApiController.php
+```
+
+**Dependencies**
+
+- NetworkManager $networkManager
+
+**Public Methods**
+
+- index()
+- store()
+- update()
+- toggle()
+- destroy()
+
+---
+
 ## QueueController
 
 **Namespace**
@@ -755,7 +802,7 @@ App\Http\Controllers\Api\Network
 
 **Dependencies**
 
-- MikroTikAdvancedService $mikrotikService
+- NetworkManager $networkManager
 
 **Public Methods**
 

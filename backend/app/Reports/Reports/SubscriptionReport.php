@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Reports\Reports;
 
-use App\Models\Subscription;
+use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 use App\Reports\Abstracts\BaseReport;
 use Illuminate\Database\Eloquent\Builder;
 

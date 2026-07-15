@@ -14,7 +14,7 @@ Technology
 
 Statistics
 - Models: 27
-- Services: 115
+- Services: 114
 
 
 ---
@@ -48,7 +48,7 @@ app/
 # Project Statistics
 
 Models: 27
-Services: 115
+Services: 114
 
 ---
 
@@ -100,7 +100,7 @@ Development Rules
 
 Current Statistics
 Models: 27
-Services: 115
+Services: 114
 
 ---
 
@@ -130,6 +130,29 @@ App\Services\Documentation\Handover
 - None
 
 **Methods**
+
+---
+
+## AccountResolverService
+
+**Namespace**
+App\Services\Accounting
+
+**Dependencies**
+- None
+
+**Methods**
+- assets(1 params) : App\Models\Account
+- cash(1 params) : App\Models\Account
+- accountsReceivable(1 params) : App\Models\Account
+- liabilities(1 params) : App\Models\Account
+- customerWalletLiability(1 params) : App\Models\Account
+- equity(1 params) : App\Models\Account
+- ownerEquity(1 params) : App\Models\Account
+- revenue(1 params) : App\Models\Account
+- subscriptionRevenue(1 params) : App\Models\Account
+- expenses(1 params) : App\Models\Account
+- networkExpenses(1 params) : App\Models\Account
 
 ---
 
@@ -279,6 +302,19 @@ App\Services\Documentation\Knowledge
 - __construct(2 params) : mixed
 - filename(0 params) : string
 - generate(0 params) : string
+
+---
+
+## ChartOfAccountsService
+
+**Namespace**
+App\Services\Accounting
+
+**Dependencies**
+- None
+
+**Methods**
+- createDefaultAccounts(1 params) : void
 
 ---
 
@@ -840,34 +876,6 @@ App\Services\Documentation\Knowledge
 
 ---
 
-## MikroTikAdvancedService
-
-**Namespace**
-App\Services\Network
-
-**Dependencies**
-- None
-
-**Methods**
-- connect(4 params) : bool
-- getSimpleQueues(0 params) : array
-- createSimpleQueue(5 params) : bool
-- updateSimpleQueue(2 params) : bool
-- deleteSimpleQueue(1 params) : bool
-- disableSimpleQueue(1 params) : bool
-- enableSimpleQueue(1 params) : bool
-- getFirewallRules(0 params) : array
-- createFirewallRule(1 params) : bool
-- deleteFirewallRule(1 params) : bool
-- updateDHCPLease(2 params) : bool
-- updateFirewallRule(2 params) : bool
-- getNATRules(0 params) : array
-- getDHCPLeases(0 params) : array
-- addDHCPLease(3 params) : bool
-- deleteDHCPLease(1 params) : bool
-
----
-
 ## MikroTikConnectionService
 
 **Namespace**
@@ -895,7 +903,7 @@ App\Services\Network\Providers\MikroTik
 
 **Methods**
 - __construct(1 params) : mixed
-- getLeases(0 params) : array
+- getAll(0 params) : array
 - find(1 params) : ?array
 - findByMac(1 params) : ?array
 - create(4 params) : bool
@@ -1080,20 +1088,6 @@ App\Services\Network\Providers\MikroTik
 - resetCounters(1 params) : bool
 - search(1 params) : array
 - statistics(1 params) : array
-
----
-
-## MikrotikConnection
-
-**Namespace**
-App\Services\Network
-
-**Dependencies**
-- None
-
-**Methods**
-- client(0 params) : RouterOS\Client
-- execute(1 params) : array
 
 ---
 
@@ -1515,22 +1509,6 @@ App\Services\Documentation\Knowledge
 
 ---
 
-## RouterConnectionService
-
-**Namespace**
-App\Services\Network
-
-**Dependencies**
-- App\Services\Network\MikroTikAdvancedService
-
-**Methods**
-- __construct(1 params) : mixed
-- connectByDeviceId(1 params) : App\Models\NetworkDevice
-- connect(1 params) : App\Models\NetworkDevice
-- service(0 params) : App\Services\Network\MikroTikAdvancedService
-
----
-
 ## RoutesKnowledgeGenerator
 
 **Namespace**
@@ -1793,29 +1771,29 @@ App\Services\Subscription
 
 **Dependencies**
 - App\Modules\Subscription\Domain\Contracts\SubscriptionRepositoryInterface
-- App\Modules\Subscription\Application\Commands\ActivateSubscriptionAction
-- App\Modules\Subscription\Application\Commands\SuspendSubscriptionAction
-- App\Modules\Subscription\Application\Commands\ExpireSubscriptionAction
-- App\Modules\Subscription\Application\Commands\RestoreSubscriptionAction
-- App\Modules\Subscription\Application\Commands\RenewSubscriptionAction
+- App\Modules\Subscription\Application\Workflows\ActivateWorkflow
+- App\Modules\Subscription\Application\Workflows\SuspendWorkflow
+- App\Modules\Subscription\Application\Workflows\ExpireWorkflow
+- App\Modules\Subscription\Application\Workflows\RestoreWorkflow
+- App\Modules\Subscription\Application\Workflows\RenewWorkflow
 
 **Methods**
 - __construct(6 params) : mixed
 - paginate(2 params) : Illuminate\Pagination\LengthAwarePaginator
-- find(1 params) : ?App\Models\Subscription
-- findOrFail(1 params) : App\Models\Subscription
+- find(1 params) : ?App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
+- findOrFail(1 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
 - byCustomer(1 params) : Illuminate\Database\Eloquent\Collection
 - active(0 params) : Illuminate\Database\Eloquent\Collection
 - expired(0 params) : Illuminate\Database\Eloquent\Collection
 - byStatus(1 params) : Illuminate\Database\Eloquent\Collection
 - search(2 params) : Illuminate\Pagination\LengthAwarePaginator
-- create(1 params) : App\Models\Subscription
-- update(2 params) : App\Models\Subscription
-- activate(1 params) : App\Models\Subscription
-- suspend(1 params) : App\Models\Subscription
-- expire(1 params) : App\Models\Subscription
-- restore(1 params) : App\Models\Subscription
-- renew(2 params) : App\Models\Subscription
+- create(1 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
+- update(2 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
+- activate(1 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
+- suspend(1 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
+- expire(1 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
+- restore(1 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
+- renew(2 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
 - statistics(0 params) : array
 - autoExpire(0 params) : int
 - expiringSoon(1 params) : Illuminate\Database\Eloquent\Collection
@@ -4751,6 +4729,36 @@ App\Services\Documentation\Handover
 
 ---
 
+## AccountResolverService
+
+**Namespace**
+
+```
+App\Services\Accounting
+```
+
+**File**
+
+```
+/var/www/app/Services/Accounting/AccountResolverService.php
+```
+
+**Methods**
+
+- assets() : App\Models\Account
+- cash() : App\Models\Account
+- accountsReceivable() : App\Models\Account
+- liabilities() : App\Models\Account
+- customerWalletLiability() : App\Models\Account
+- equity() : App\Models\Account
+- ownerEquity() : App\Models\Account
+- revenue() : App\Models\Account
+- subscriptionRevenue() : App\Models\Account
+- expenses() : App\Models\Account
+- networkExpenses() : App\Models\Account
+
+---
+
 ## ActionDocumentationGenerator
 
 **Namespace**
@@ -4991,6 +4999,26 @@ App\Services\Documentation\Knowledge
 
 - filename() : string
 - generate() : string
+
+---
+
+## ChartOfAccountsService
+
+**Namespace**
+
+```
+App\Services\Accounting
+```
+
+**File**
+
+```
+/var/www/app/Services/Accounting/ChartOfAccountsService.php
+```
+
+**Methods**
+
+- createDefaultAccounts() : void
 
 ---
 
@@ -5945,45 +5973,6 @@ App\Services\Documentation\Knowledge
 
 ---
 
-## MikroTikAdvancedService
-
-**Namespace**
-
-```
-App\Services\Network
-```
-
-**File**
-
-```
-/var/www/app/Services/Network/MikroTikAdvancedService.php
-```
-
-**Properties**
-
-- $client : mixed
-
-**Methods**
-
-- connect() : bool
-- getSimpleQueues() : array
-- createSimpleQueue() : bool
-- updateSimpleQueue() : bool
-- deleteSimpleQueue() : bool
-- disableSimpleQueue() : bool
-- enableSimpleQueue() : bool
-- getFirewallRules() : array
-- createFirewallRule() : bool
-- deleteFirewallRule() : bool
-- updateDHCPLease() : bool
-- updateFirewallRule() : bool
-- getNATRules() : array
-- getDHCPLeases() : array
-- addDHCPLease() : bool
-- deleteDHCPLease() : bool
-
----
-
 ## MikroTikConnectionService
 
 **Namespace**
@@ -6036,7 +6025,7 @@ App\Services\Network\Providers\MikroTik
 
 **Methods**
 
-- getLeases() : array
+- getAll() : array
 - find() : ?array
 - findByMac() : ?array
 - create() : bool
@@ -6325,31 +6314,6 @@ App\Services\Network\Providers\MikroTik
 - resetCounters() : bool
 - search() : array
 - statistics() : array
-
----
-
-## MikrotikConnection
-
-**Namespace**
-
-```
-App\Services\Network
-```
-
-**File**
-
-```
-/var/www/app/Services/Network/MikrotikConnection.php
-```
-
-**Properties**
-
-- $client : ?RouterOS\Client
-
-**Methods**
-
-- client() : RouterOS\Client
-- execute() : array
 
 ---
 
@@ -7093,36 +7057,6 @@ App\Services\Documentation\Knowledge
 
 ---
 
-## RouterConnectionService
-
-**Namespace**
-
-```
-App\Services\Network
-```
-
-**File**
-
-```
-/var/www/app/Services/Network/RouterConnectionService.php
-```
-
-**Constructor Dependencies**
-
-- MikroTikAdvancedService $mikrotik
-
-**Properties**
-
-- $mikrotik : App\Services\Network\MikroTikAdvancedService
-
-**Methods**
-
-- connectByDeviceId() : App\Models\NetworkDevice
-- connect() : App\Models\NetworkDevice
-- service() : App\Services\Network\MikroTikAdvancedService
-
----
-
 ## RoutesKnowledgeGenerator
 
 **Namespace**
@@ -7597,38 +7531,38 @@ App\Services\Subscription
 **Constructor Dependencies**
 
 - SubscriptionRepositoryInterface $subscriptions
-- ActivateSubscriptionAction $activateAction
-- SuspendSubscriptionAction $suspendAction
-- ExpireSubscriptionAction $expireAction
-- RestoreSubscriptionAction $restoreAction
-- RenewSubscriptionAction $renewAction
+- ActivateWorkflow $activateWorkflow
+- SuspendWorkflow $suspendWorkflow
+- ExpireWorkflow $expireWorkflow
+- RestoreWorkflow $restoreWorkflow
+- RenewWorkflow $renewWorkflow
 
 **Properties**
 
 - $subscriptions : App\Modules\Subscription\Domain\Contracts\SubscriptionRepositoryInterface
-- $activateAction : App\Modules\Subscription\Application\Commands\ActivateSubscriptionAction
-- $suspendAction : App\Modules\Subscription\Application\Commands\SuspendSubscriptionAction
-- $expireAction : App\Modules\Subscription\Application\Commands\ExpireSubscriptionAction
-- $restoreAction : App\Modules\Subscription\Application\Commands\RestoreSubscriptionAction
-- $renewAction : App\Modules\Subscription\Application\Commands\RenewSubscriptionAction
+- $activateWorkflow : App\Modules\Subscription\Application\Workflows\ActivateWorkflow
+- $suspendWorkflow : App\Modules\Subscription\Application\Workflows\SuspendWorkflow
+- $expireWorkflow : App\Modules\Subscription\Application\Workflows\ExpireWorkflow
+- $restoreWorkflow : App\Modules\Subscription\Application\Workflows\RestoreWorkflow
+- $renewWorkflow : App\Modules\Subscription\Application\Workflows\RenewWorkflow
 
 **Methods**
 
 - paginate() : Illuminate\Pagination\LengthAwarePaginator
-- find() : ?App\Models\Subscription
-- findOrFail() : App\Models\Subscription
+- find() : ?App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
+- findOrFail() : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
 - byCustomer() : Illuminate\Database\Eloquent\Collection
 - active() : Illuminate\Database\Eloquent\Collection
 - expired() : Illuminate\Database\Eloquent\Collection
 - byStatus() : Illuminate\Database\Eloquent\Collection
 - search() : Illuminate\Pagination\LengthAwarePaginator
-- create() : App\Models\Subscription
-- update() : App\Models\Subscription
-- activate() : App\Models\Subscription
-- suspend() : App\Models\Subscription
-- expire() : App\Models\Subscription
-- restore() : App\Models\Subscription
-- renew() : App\Models\Subscription
+- create() : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
+- update() : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
+- activate() : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
+- suspend() : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
+- expire() : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
+- restore() : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
+- renew() : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
 - statistics() : array
 - autoExpire() : int
 - expiringSoon() : Illuminate\Database\Eloquent\Collection
@@ -8237,7 +8171,7 @@ App\Http\Controllers\Api\Network
 
 **Dependencies**
 
-- MikroTikAdvancedService $mikrotikService
+- NetworkManager $networkManager
 
 **Public Methods**
 
@@ -8320,6 +8254,60 @@ App\Http\Controllers\Api
 
 ---
 
+## DhcpApiController
+
+**Namespace**
+
+```
+App\Http\Controllers\Api
+```
+
+**File**
+
+```
+/var/www/app/Http/Controllers/Api/DhcpApiController.php
+```
+
+**Dependencies**
+
+- NetworkManager $networkManager
+
+**Public Methods**
+
+- index()
+- store()
+- update()
+- destroy()
+
+---
+
+## FirewallApiController
+
+**Namespace**
+
+```
+App\Http\Controllers\Api
+```
+
+**File**
+
+```
+/var/www/app/Http/Controllers/Api/FirewallApiController.php
+```
+
+**Dependencies**
+
+- NetworkManager $networkManager
+
+**Public Methods**
+
+- index()
+- store()
+- update()
+- destroy()
+
+---
+
 ## FirewallController
 
 **Namespace**
@@ -8336,7 +8324,7 @@ App\Http\Controllers\Api\Network
 
 **Dependencies**
 
-- MikroTikAdvancedService $mikrotikService
+- NetworkManager $networkManager
 
 **Public Methods**
 
@@ -8444,41 +8432,6 @@ App\Http\Controllers\Api
 - show()
 - update()
 - destroy()
-
----
-
-## MikroTikAdvancedController
-
-**Namespace**
-
-```
-App\Http\Controllers\Api
-```
-
-**File**
-
-```
-/var/www/app/Http/Controllers/Api/MikroTikAdvancedController.php
-```
-
-**Dependencies**
-
-- MikroTikAdvancedService $mikrotikService
-
-**Public Methods**
-
-- getQueues()
-- createQueue()
-- updateQueue()
-- deleteQueue()
-- toggleQueue()
-- getFirewallRules()
-- createFirewallRule()
-- deleteFirewallRule()
-- getNATRules()
-- getDHCPLeases()
-- addDHCPLease()
-- deleteDHCPLease()
 
 ---
 
@@ -8597,6 +8550,34 @@ App\Http\Controllers\Api
 
 ---
 
+## QueueApiController
+
+**Namespace**
+
+```
+App\Http\Controllers\Api
+```
+
+**File**
+
+```
+/var/www/app/Http/Controllers/Api/QueueApiController.php
+```
+
+**Dependencies**
+
+- NetworkManager $networkManager
+
+**Public Methods**
+
+- index()
+- store()
+- update()
+- toggle()
+- destroy()
+
+---
+
 ## QueueController
 
 **Namespace**
@@ -8613,7 +8594,7 @@ App\Http\Controllers\Api\Network
 
 **Dependencies**
 
-- MikroTikAdvancedService $mikrotikService
+- NetworkManager $networkManager
 
 **Public Methods**
 
@@ -9811,90 +9792,6 @@ App\Http\Controllers\Api
 - Name: tasks.destroy
 - Action: App\Http\Controllers\Api\Task\TaskController@destroy
 - Middleware: api
-
-## api/mikrotik/advanced/queues
-
-- Method: GET|HEAD
-- Name: -
-- Action: App\Http\Controllers\Api\MikroTikAdvancedController@getQueues
-- Middleware: api, auth:sanctum
-
-## api/mikrotik/advanced/queues
-
-- Method: POST
-- Name: -
-- Action: App\Http\Controllers\Api\MikroTikAdvancedController@createQueue
-- Middleware: api, auth:sanctum
-
-## api/mikrotik/advanced/queues/{name}
-
-- Method: PUT
-- Name: -
-- Action: App\Http\Controllers\Api\MikroTikAdvancedController@updateQueue
-- Middleware: api, auth:sanctum
-
-## api/mikrotik/advanced/queues/{name}
-
-- Method: DELETE
-- Name: -
-- Action: App\Http\Controllers\Api\MikroTikAdvancedController@deleteQueue
-- Middleware: api, auth:sanctum
-
-## api/mikrotik/advanced/queues/{name}/toggle
-
-- Method: POST
-- Name: -
-- Action: App\Http\Controllers\Api\MikroTikAdvancedController@toggleQueue
-- Middleware: api, auth:sanctum
-
-## api/mikrotik/advanced/firewall
-
-- Method: GET|HEAD
-- Name: -
-- Action: App\Http\Controllers\Api\MikroTikAdvancedController@getFirewallRules
-- Middleware: api, auth:sanctum
-
-## api/mikrotik/advanced/firewall
-
-- Method: POST
-- Name: -
-- Action: App\Http\Controllers\Api\MikroTikAdvancedController@createFirewallRule
-- Middleware: api, auth:sanctum
-
-## api/mikrotik/advanced/firewall/{id}
-
-- Method: DELETE
-- Name: -
-- Action: App\Http\Controllers\Api\MikroTikAdvancedController@deleteFirewallRule
-- Middleware: api, auth:sanctum
-
-## api/mikrotik/advanced/nat
-
-- Method: GET|HEAD
-- Name: -
-- Action: App\Http\Controllers\Api\MikroTikAdvancedController@getNATRules
-- Middleware: api, auth:sanctum
-
-## api/mikrotik/advanced/dhcp
-
-- Method: GET|HEAD
-- Name: -
-- Action: App\Http\Controllers\Api\MikroTikAdvancedController@getDHCPLeases
-- Middleware: api, auth:sanctum
-
-## api/mikrotik/advanced/dhcp
-
-- Method: POST
-- Name: -
-- Action: App\Http\Controllers\Api\MikroTikAdvancedController@addDHCPLease
-- Middleware: api, auth:sanctum
-
-## api/mikrotik/advanced/dhcp/{id}
-
-- Method: DELETE
-- Name: -
-- Action: App\Http\Controllers\Api\MikroTikAdvancedController@deleteDHCPLease
-- Middleware: api, auth:sanctum
 
 ## /
 

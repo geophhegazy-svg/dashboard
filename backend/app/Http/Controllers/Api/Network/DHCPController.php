@@ -1,69 +1,127 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Api\Network;
 
-use App\Services\Network\MikroTikAdvancedService;
-use App\Models\NetworkDevice;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\NetworkDevice;
+use App\Services\Network\NetworkManager;
+use Illuminate\Http\Request;
 
 class DHCPController extends Controller
 {
-    protected $mikrotikService;
+    public function __construct(
+        protected NetworkManager $networkManager
+    ) {
+    }
 
-    public function __construct(MikroTikAdvancedService $mikrotikService)
+    protected function provider(int $deviceId)
     {
-        $this->mikrotikService = $mikrotikService;
+        $device = NetworkDevice::findOrFail($deviceId);
+
+        if (! $this->networkManager->connect($device)) {
+            abort(500, 'Unable to connect to network device.');
+        }
+
+        return $this->networkManager->provider();
     }
 
     public function index(Request $request)
     {
-        $deviceId = $request->input('device_id', 1);
+        $deviceId = (int) $request->input('device_id', 1);
+
         $device = NetworkDevice::find($deviceId);
-        $devices = NetworkDevice::where('status', 'active')->get();
+
+        $devices = NetworkDevice::where(
+            'status',
+            'active'
+        )->get();
 
         $leases = [];
         $connected = false;
+        $pagination = [];
 
         if ($device) {
-            $connected = $this->mikrotikService->connect(
-                $device->ip_address,
-                $device->username,
-                $device->password,
-                $device->port ?? 8728
-            );
+
+            $provider = $this->provider($device->id);
+
+            $connected = $this->networkManager->connected();
 
             if ($connected) {
-                $allLeases = $this->mikrotikService->getDHCPLeases();
-                $perPage = 50;
-                $currentPage = $request->input('page', 1);
-                $offset = ($currentPage - 1) * $perPage;
-                $leases = array_slice($allLeases, $offset, $perPage);
-                $total = count($allLeases);
-                $lastPage = ceil($total / $perPage);
 
-                // تخزين البيانات للـ Pagination
+                $allLeases = $provider
+                    ->dhcp()
+                    ->getAll();
+
+                $perPage = 50;
+
+                $currentPage = (int) $request->input(
+                    'page',
+                    1
+                );
+
+                $offset = ($currentPage - 1) * $perPage;
+
+                $leases = array_slice(
+                    $allLeases,
+                    $offset,
+                    $perPage
+                );
+
+                $total = count($allLeases);
+
+                $lastPage = (int) ceil(
+                    $total / $perPage
+                );
+
                 $pagination = [
                     'current_page' => $currentPage,
                     'last_page' => $lastPage,
                     'per_page' => $perPage,
                     'total' => $total,
                     'from' => $offset + 1,
-                    'to' => min($offset + $perPage, $total),
+                    'to' => min(
+                        $offset + $perPage,
+                        $total
+                    ),
                 ];
             }
         }
 
-        return view('dhcp.index', compact('leases', 'devices', 'device', 'connected', 'pagination'));
+        return view(
+            'dhcp.index',
+            compact(
+                'leases',
+                'devices',
+                'device',
+                'connected',
+                'pagination'
+            )
+        );
     }
 
     public function create(Request $request)
     {
-        $deviceId = $request->input('device_id', 1);
-        $device = NetworkDevice::find($deviceId);
-        $devices = NetworkDevice::where('status', 'active')->get();
+        $deviceId = (int) $request->input(
+            'device_id',
+            1
+        );
 
-        return view('dhcp.create', compact('devices', 'device'));
+        $device = NetworkDevice::find($deviceId);
+
+        $devices = NetworkDevice::where(
+            'status',
+            'active'
+        )->get();
+
+        return view(
+            'dhcp.create',
+            compact(
+                'devices',
+                'device'
+            )
+        );
     }
 
     public function store(Request $request)
@@ -76,63 +134,96 @@ class DHCPController extends Controller
             'device_id' => 'required|integer|exists:network_devices,id',
         ]);
 
-        $device = NetworkDevice::find($request->device_id);
-
-        $connected = $this->mikrotikService->connect(
-            $device->ip_address,
-            $device->username,
-            $device->password,
-            $device->port ?? 8728
+        $provider = $this->provider(
+            (int) $request->device_id
         );
 
-        if (!$connected) {
-            return back()->with('error', 'فشل الاتصال بالجهاز');
-        }
-
-        $result = $this->mikrotikService->addDHCPLease(
-            $request->address,
-            $request->mac_address,
-            $request->hostname
-        );
+        $result = $provider
+            ->dhcp()
+            ->create(
+                $request->address,
+                $request->mac_address,
+                $request->hostname,
+                [
+                    'comment' => $request->comment,
+                ]
+            );
 
         if ($result) {
-            return redirect()->route('dhcp.index', ['device_id' => $request->device_id])
-                ->with('success', 'تم إضافة عقد الإيجار بنجاح');
+
+            return redirect()
+                ->route(
+                    'dhcp.index',
+                    [
+                        'device_id' => $request->device_id,
+                    ]
+                )
+                ->with(
+                    'success',
+                    'تم إضافة عقد الإيجار بنجاح'
+                );
         }
 
-        return back()->with('error', 'فشل إضافة عقد الإيجار');
+        return back()->with(
+            'error',
+            'فشل إضافة عقد الإيجار'
+        );
     }
 
-    public function edit(Request $request, string $id)
-    {
-        $deviceId = $request->input('device_id', 1);
-        $device = NetworkDevice::find($deviceId);
-        $devices = NetworkDevice::where('status', 'active')->get();
+    public function edit(
+        Request $request,
+        string $id
+    ) {
 
-        $connected = $this->mikrotikService->connect(
-            $device->ip_address,
-            $device->username,
-            $device->password,
-            $device->port ?? 8728
+        $deviceId = (int) $request->input(
+            'device_id',
+            1
         );
 
-        if (!$connected) {
-            return back()->with('error', 'فشل الاتصال بالجهاز');
+        $device = NetworkDevice::find($deviceId);
+
+        $devices = NetworkDevice::where(
+            'status',
+            'active'
+        )->get();
+
+        $provider = $this->provider($deviceId);
+
+        $lease = $provider
+            ->dhcp()
+            ->find($id);
+
+        if ($lease === null) {
+
+            return redirect()
+                ->route(
+                    'dhcp.index',
+                    [
+                        'device_id' => $deviceId,
+                    ]
+                )
+                ->with(
+                    'error',
+                    'عقد الإيجار غير موجود'
+                );
         }
 
-        $leases = $this->mikrotikService->getDHCPLeases();
-        $lease = collect($leases)->firstWhere('id', $id);
-
-        if (!$lease) {
-            return redirect()->route('dhcp.index', ['device_id' => $deviceId])
-                ->with('error', 'عقد الإيجار غير موجود');
-        }
-
-        return view('dhcp.edit', compact('lease', 'devices', 'device', 'id'));
+        return view(
+            'dhcp.edit',
+            compact(
+                'lease',
+                'devices',
+                'device',
+                'id'
+            )
+        );
     }
 
-    public function update(Request $request, string $id)
-    {
+    public function update(
+        Request $request,
+        string $id
+    ) {
+
         $request->validate([
             'address' => 'nullable|string',
             'mac_address' => 'nullable|string',
@@ -141,57 +232,75 @@ class DHCPController extends Controller
             'device_id' => 'required|integer|exists:network_devices,id',
         ]);
 
-        $device = NetworkDevice::find($request->device_id);
-
-        $connected = $this->mikrotikService->connect(
-            $device->ip_address,
-            $device->username,
-            $device->password,
-            $device->port ?? 8728
+        $provider = $this->provider(
+            (int) $request->device_id
         );
 
-        if (!$connected) {
-            return back()->with('error', 'فشل الاتصال بالجهاز');
-        }
+        $data = array_filter(
+            $request->only([
+                'address',
+                'mac_address',
+                'hostname',
+                'comment',
+            ]),
+            static fn($value) => $value !== null && $value !== ''
+        );
 
-        $data = $request->only(['address', 'mac_address', 'hostname', 'comment']);
-        $data = array_filter($data, function ($value) {
-            return $value !== null && $value !== '';
-        });
-
-        $result = $this->mikrotikService->updateDHCPLease($id, $data);
+        $result = $provider
+            ->dhcp()
+            ->update(
+                $id,
+                $data
+            );
 
         if ($result) {
-            return redirect()->route('dhcp.index', ['device_id' => $request->device_id])
-                ->with('success', 'تم تحديث عقد الإيجار بنجاح');
+
+            return redirect()
+                ->route(
+                    'dhcp.index',
+                    [
+                        'device_id' => $request->device_id,
+                    ]
+                )
+                ->with(
+                    'success',
+                    'تم تحديث عقد الإيجار بنجاح'
+                );
         }
 
-        return back()->with('error', 'فشل تحديث عقد الإيجار');
+        return back()->with(
+            'error',
+            'فشل تحديث عقد الإيجار'
+        );
     }
 
-    public function destroy(Request $request, string $id)
-    {
-        $deviceId = $request->input('device_id', 1);
+    public function destroy(
+        Request $request,
+        string $id
+    ) {
 
-        $device = NetworkDevice::find($deviceId);
-
-        $connected = $this->mikrotikService->connect(
-            $device->ip_address,
-            $device->username,
-            $device->password,
-            $device->port ?? 8728
+        $provider = $this->provider(
+            (int) $request->input(
+                'device_id',
+                1
+            )
         );
 
-        if (!$connected) {
-            return back()->with('error', 'فشل الاتصال بالجهاز');
-        }
-
-        $result = $this->mikrotikService->deleteDHCPLease($id);
+        $result = $provider
+            ->dhcp()
+            ->delete($id);
 
         if ($result) {
-            return back()->with('success', 'تم حذف عقد الإيجار بنجاح');
+
+            return back()->with(
+                'success',
+                'تم حذف عقد الإيجار بنجاح'
+            );
         }
 
-        return back()->with('error', 'فشل حذف عقد الإيجار');
+        return back()->with(
+            'error',
+            'فشل حذف عقد الإيجار'
+        );
     }
 }

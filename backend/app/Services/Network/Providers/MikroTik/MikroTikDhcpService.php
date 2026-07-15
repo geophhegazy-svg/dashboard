@@ -21,7 +21,7 @@ class MikroTikDhcpService implements DhcpServiceInterface
      *
      * @return array<int,array<string,mixed>>
      */
-    public function getLeases(): array
+    public function getAll(): array
     {
         return $this->query->execute(
             new Query('/ip/dhcp-server/lease/print')
@@ -39,7 +39,7 @@ class MikroTikDhcpService implements DhcpServiceInterface
         string $id
     ): ?array {
 
-        $leases = $this->getLeases();
+        $leases = $this->getAll();
 
 
         foreach ($leases as $lease) {
@@ -65,7 +65,7 @@ class MikroTikDhcpService implements DhcpServiceInterface
         string $mac
     ): ?array {
 
-        $leases = $this->getLeases();
+        $leases = $this->getAll();
 
 
         foreach ($leases as $lease) {
@@ -274,7 +274,7 @@ class MikroTikDhcpService implements DhcpServiceInterface
         string $keyword
     ): array {
 
-        $leases = $this->getLeases();
+        $leases = $this->getAll();
 
 
         return array_values(
@@ -319,7 +319,7 @@ class MikroTikDhcpService implements DhcpServiceInterface
      */
     public function statistics(): array
     {
-        $leases = $this->getLeases();
+        $leases = $this->getAll();
 
 
         $dynamic = 0;
@@ -367,7 +367,7 @@ class MikroTikDhcpService implements DhcpServiceInterface
     {
         return array_values(
             array_filter(
-                $this->getLeases(),
+                $this->getAll(),
                 function (array $lease) {
 
                     return ($lease['status'] ?? null)

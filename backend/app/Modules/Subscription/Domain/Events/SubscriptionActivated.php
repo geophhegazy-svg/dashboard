@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace App\Modules\Subscription\Domain\Events;
 
-use App\Models\Subscription;
+use App\Core\EventBus\Contracts\EventContract;
+use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
-class SubscriptionActivated implements ShouldQueue
+class SubscriptionActivated implements EventContract
 {
-    use Dispatchable, SerializesModels;
+    use Dispatchable;
+    use SerializesModels;
 
     public function __construct(
         public readonly Subscription $subscription

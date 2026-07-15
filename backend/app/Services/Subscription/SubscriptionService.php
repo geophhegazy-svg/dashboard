@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Services\Subscription;
 
-use App\Modules\Subscription\Application\Commands\ActivateSubscriptionAction;
-use App\Modules\Subscription\Application\Commands\ExpireSubscriptionAction;
-use App\Modules\Subscription\Application\Commands\RenewSubscriptionAction;
-use App\Modules\Subscription\Application\Commands\RestoreSubscriptionAction;
-use App\Modules\Subscription\Application\Commands\SuspendSubscriptionAction;
+use App\Modules\Subscription\Application\Workflows\ActivateWorkflow;
+use App\Modules\Subscription\Application\Workflows\ExpireWorkflow;
+use App\Modules\Subscription\Application\Workflows\RenewWorkflow;
+use App\Modules\Subscription\Application\Workflows\RestoreWorkflow;
+use App\Modules\Subscription\Application\Workflows\SuspendWorkflow;
 use App\Modules\Subscription\Domain\Contracts\SubscriptionRepositoryInterface;
 use App\Modules\Subscription\Domain\Enums\SubscriptionStatus;
 use App\Models\Customer;
 use App\Models\Package;
-use App\Models\Subscription;
+use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
@@ -24,11 +24,11 @@ class SubscriptionService
     public function __construct(
         private readonly SubscriptionRepositoryInterface $subscriptions,
 
-        private readonly ActivateSubscriptionAction $activateAction,
-        private readonly SuspendSubscriptionAction $suspendAction,
-        private readonly ExpireSubscriptionAction $expireAction,
-        private readonly RestoreSubscriptionAction $restoreAction,
-        private readonly RenewSubscriptionAction $renewAction,
+        private readonly ActivateWorkflow $activateWorkflow,
+        private readonly SuspendWorkflow $suspendWorkflow,
+        private readonly ExpireWorkflow $expireWorkflow,
+        private readonly RestoreWorkflow $restoreWorkflow,
+        private readonly RenewWorkflow $renewWorkflow,
     ) {
     }
 
@@ -165,7 +165,7 @@ class SubscriptionService
         Subscription $subscription
     ): Subscription {
 
-        return $this->activateAction->execute(
+        return $this->activateWorkflow->execute(
             $subscription
         );
     }
@@ -174,7 +174,7 @@ class SubscriptionService
         Subscription $subscription
     ): Subscription {
 
-        return $this->suspendAction->execute(
+        return $this->suspendWorkflow->execute(
             $subscription
         );
     }
@@ -183,7 +183,7 @@ class SubscriptionService
         Subscription $subscription
     ): Subscription {
 
-        return $this->expireAction->execute(
+        return $this->expireWorkflow->execute(
             $subscription
         );
     }
@@ -192,7 +192,7 @@ class SubscriptionService
         Subscription $subscription
     ): Subscription {
 
-        return $this->restoreAction->execute(
+        return $this->restoreWorkflow->execute(
             $subscription
         );
     }
@@ -202,7 +202,7 @@ class SubscriptionService
         int $days = 30
     ): Subscription {
 
-        return $this->renewAction->execute(
+        return $this->renewWorkflow->execute(
             $subscription,
             $days
         );
@@ -260,7 +260,7 @@ class SubscriptionService
 
         foreach ($subscriptions as $subscription) {
 
-            $this->expireAction->execute($subscription);
+            $this->expireWorkflow->execute($subscription);
 
             $count++;
         }

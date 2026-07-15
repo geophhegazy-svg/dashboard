@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Subscription;
 
 use App\Modules\Subscription\Domain\Enums\SubscriptionStatus;
-use App\Models\Subscription;
+use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 

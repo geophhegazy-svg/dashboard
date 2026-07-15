@@ -8,7 +8,7 @@ use App\Contracts\MikrotikServiceInterface;
 use App\Modules\Subscription\Domain\Enums\SubscriptionStatus;
 use App\Modules\Subscription\Domain\Events\SubscriptionEnteredGracePeriod;
 use App\Models\HotspotSubscription;
-use App\Models\Subscription;
+use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 use App\Services\Activity\ActivityLogService;
 use Illuminate\Support\Facades\DB;
 

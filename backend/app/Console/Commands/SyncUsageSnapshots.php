@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Contracts\MikrotikServiceInterface;
 use App\Models\NetworkDevice;
-use App\Models\Subscription;
+use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 use App\Models\HotspotSubscription;
 use App\Models\UsageSnapshot;
 use Illuminate\Support\Facades\Log;

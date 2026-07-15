@@ -9,7 +9,7 @@ use App\Modules\Subscription\Application\Commands\ExpireSubscriptionAction;
 use App\Modules\Subscription\Application\Commands\RenewSubscriptionAction;
 use App\Modules\Subscription\Application\Commands\RestoreSubscriptionAction;
 use App\Modules\Subscription\Application\Commands\SuspendSubscriptionAction;
-use App\Models\Subscription;
+use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 
 class SubscriptionLifecycleService
 {

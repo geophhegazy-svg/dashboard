@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Usage;
 
 use App\Models\Customer;
-use App\Models\Subscription;
+use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 use App\Models\HotspotSubscription;
 use App\Models\UsageSnapshot;
 use Illuminate\Support\Collection;

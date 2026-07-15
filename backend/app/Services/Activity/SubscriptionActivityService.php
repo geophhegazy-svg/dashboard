@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Activity;
 
 use App\Models\ActivityLog;
-use App\Models\Subscription;
+use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 
 class SubscriptionActivityService
 {

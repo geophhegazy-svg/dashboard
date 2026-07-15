@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Wallet;
 
-use App\Models\Subscription;
+use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 use App\Models\WalletTransaction;
 use App\Services\Activity\ActivityLogService;
 use Illuminate\Support\Facades\DB;

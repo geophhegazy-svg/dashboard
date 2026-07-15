@@ -8,7 +8,7 @@ use App\Core\Contracts\ActionInterface;
 use App\Contracts\MikrotikServiceInterface;
 use App\Modules\Subscription\Domain\Contracts\SubscriptionRepositoryInterface;
 use App\Modules\Subscription\Domain\Events\SubscriptionSuspended;
-use App\Models\Subscription;
+use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 use Illuminate\Support\Facades\DB;
 
 class SuspendSubscriptionAction implements ActionInterface

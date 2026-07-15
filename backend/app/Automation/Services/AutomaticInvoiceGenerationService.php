@@ -7,7 +7,7 @@ namespace App\Automation\Services;
 use App\Automation\Actions\GenerateInvoicesAction;
 use App\Automation\Contracts\AutomationServiceInterface;
 use App\Automation\DTOs\AutomationResult;
-use App\Models\Subscription;
+use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 
 final readonly class AutomaticInvoiceGenerationService implements AutomationServiceInterface
 {

@@ -26,6 +26,28 @@ App\Services\Documentation\Handover\AbstractHandoverSection
 
 - generate
 
+## AccountResolverService
+
+**Class**
+
+```
+App\Services\Accounting\AccountResolverService
+```
+
+**Public Methods**
+
+- accountsReceivable
+- assets
+- cash
+- customerWalletLiability
+- equity
+- expenses
+- liabilities
+- networkExpenses
+- ownerEquity
+- revenue
+- subscriptionRevenue
+
 ## ActionDocumentationGenerator
 
 **Class**
@@ -161,6 +183,18 @@ App\Services\Documentation\Knowledge\BusinessRulesGenerator
 - __construct
 - filename
 - generate
+
+## ChartOfAccountsService
+
+**Class**
+
+```
+App\Services\Accounting\ChartOfAccountsService
+```
+
+**Public Methods**
+
+- createDefaultAccounts
 
 ## ClassDocumentationGenerator
 
@@ -677,33 +711,6 @@ App\Services\Documentation\Knowledge\MigrationsKnowledgeGenerator
 - filename
 - generate
 
-## MikroTikAdvancedService
-
-**Class**
-
-```
-App\Services\Network\MikroTikAdvancedService
-```
-
-**Public Methods**
-
-- addDHCPLease
-- connect
-- createFirewallRule
-- createSimpleQueue
-- deleteDHCPLease
-- deleteFirewallRule
-- deleteSimpleQueue
-- disableSimpleQueue
-- enableSimpleQueue
-- getDHCPLeases
-- getFirewallRules
-- getNATRules
-- getSimpleQueues
-- updateDHCPLease
-- updateFirewallRule
-- updateSimpleQueue
-
 ## MikroTikConnectionService
 
 **Class**
@@ -736,7 +743,7 @@ App\Services\Network\Providers\MikroTik\MikroTikDhcpService
 - delete
 - find
 - findByMac
-- getLeases
+- getAll
 - makeStatic
 - removeStatic
 - search
@@ -903,19 +910,6 @@ App\Services\Network\Providers\MikroTik\MikroTikQueueService
 - statistics
 - update
 - updateSpeed
-
-## MikrotikConnection
-
-**Class**
-
-```
-App\Services\Network\MikrotikConnection
-```
-
-**Public Methods**
-
-- client
-- execute
 
 ## MikrotikServiceAdapter
 
@@ -1300,21 +1294,6 @@ App\Services\Documentation\Knowledge\RouteExtractor
 **Public Methods**
 
 - extract
-
-## RouterConnectionService
-
-**Class**
-
-```
-App\Services\Network\RouterConnectionService
-```
-
-**Public Methods**
-
-- __construct
-- connect
-- connectByDeviceId
-- service
 
 ## RoutesKnowledgeGenerator
 

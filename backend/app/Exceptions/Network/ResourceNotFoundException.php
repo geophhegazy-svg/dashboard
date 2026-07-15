@@ -4,50 +4,34 @@ declare(strict_types=1);
 
 namespace App\Exceptions\Network;
 
-use Throwable;
+use RuntimeException;
 
-class ResourceNotFoundException extends MikroTikException
+class ResourceNotFoundException extends RuntimeException
 {
-    /**
-     * Create resource not found exception.
-     *
-     * @param array<string,mixed> $context
-     */
     public function __construct(
-        string $message = 'Router resource not found.',
-        int $code = 404,
-        ?Throwable $previous = null,
-        array $context = []
+        string $message = "",
+        int $code = 0,
+        ?\Throwable $previous = null,
+        public readonly array $context = []
     ) {
         parent::__construct(
             $message,
             $code,
-            $previous,
-            $context
+            $previous
         );
     }
 
 
-    /**
-     * Create exception for missing resource.
-     *
-     * @param string $resource
-     * @param array<string,mixed> $context
-     */
     public static function missing(
         string $resource,
         array $context = []
     ): self {
+
         return new self(
-            "Router resource not found: {$resource}.",
+            "Router resource '{$resource}' not found.",
             404,
             null,
-            array_merge(
-                $context,
-                [
-                    'resource' => $resource,
-                ]
-            )
+            $context
         );
     }
 }

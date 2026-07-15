@@ -6,7 +6,7 @@ namespace App\Services\Subscription;
 
 use App\Contracts\MikrotikServiceInterface;
 use App\Modules\Subscription\Domain\Events\SubscriptionActivated;
-use App\Models\Subscription;
+use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 use Illuminate\Support\Facades\DB;
 use RuntimeException;
 

@@ -7,7 +7,7 @@ namespace App\Modules\Subscription\Application\Commands;
 use App\Modules\Subscription\Domain\Contracts\SubscriptionRepositoryInterface;
 use App\Core\Contracts\ActionInterface;
 use App\Modules\Subscription\Domain\Enums\SubscriptionStatus;
-use App\Models\Subscription;
+use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 
 class ChangeSubscriptionStatusAction implements ActionInterface
 {

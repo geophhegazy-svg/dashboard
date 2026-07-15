@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Services\Dashboard\DashboardService;
 use App\Models\Customer;
 use App\Models\Package;
-use App\Models\Subscription;
+use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 use App\Models\Payment;
 use App\Models\Invoice;
 

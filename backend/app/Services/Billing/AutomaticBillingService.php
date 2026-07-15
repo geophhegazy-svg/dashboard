@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Billing;
 
 use App\Enums\BillingStatus;
-use App\Models\Subscription;
+use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 use App\Services\Notification\NotificationService;
 use App\Services\Subscription\SubscriptionRenewalService;
 use Illuminate\Database\Eloquent\Collection;

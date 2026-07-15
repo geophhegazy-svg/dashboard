@@ -7,7 +7,7 @@ namespace Tests\Unit\Services;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Contracts\MikrotikServiceInterface;
-use App\Models\Subscription;
+use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 use App\Services\Subscription\SubscriptionRenewalService;
 use App\Models\Invoice;
 use App\Models\Payment;

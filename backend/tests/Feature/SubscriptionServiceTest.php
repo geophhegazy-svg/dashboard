@@ -10,7 +10,7 @@ use App\Modules\Subscription\Domain\Events\SubscriptionExpired;
 use App\Modules\Subscription\Domain\Events\SubscriptionRenewed;
 use App\Modules\Subscription\Domain\Events\SubscriptionRestored;
 use App\Modules\Subscription\Domain\Events\SubscriptionSuspended;
-use App\Models\Subscription;
+use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 use App\Services\Subscription\SubscriptionService;
 use App\Contracts\MikrotikServiceInterface;
 use Illuminate\Foundation\Testing\RefreshDatabase;

@@ -10,7 +10,7 @@ use Carbon\Carbon;
 use App\Contracts\MikrotikServiceInterface;
 use App\Services\Subscription\SubscriptionRenewalService;
 
-use App\Models\Subscription;
+use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 use App\Models\HotspotSubscription;
 use App\Models\Notification;
 

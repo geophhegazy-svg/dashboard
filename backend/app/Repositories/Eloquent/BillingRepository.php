@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Repositories\Eloquent;
 
 use App\Contracts\Repositories\BillingRepositoryInterface;
-use App\Models\Subscription;
+use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 use Illuminate\Database\Eloquent\Collection;
 
 class BillingRepository implements BillingRepositoryInterface

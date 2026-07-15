@@ -22,16 +22,18 @@
 - App\Http\Controllers\Api\DashboardController
 - App\Http\Controllers\Api\DeviceAssignmentController
 - App\Http\Controllers\Api\DeviceController
+- App\Http\Controllers\Api\DhcpApiController
+- App\Http\Controllers\Api\FirewallApiController
 - App\Http\Controllers\Api\Network\FirewallController
 - App\Http\Controllers\Api\HotspotController
 - App\Http\Controllers\Api\HotspotSubscriptionController
 - App\Http\Controllers\Api\InventoryController
 - App\Http\Controllers\Api\InvoiceController
-- App\Http\Controllers\Api\MikroTikAdvancedController
 - App\Http\Controllers\Api\MikrotikController
 - App\Http\Controllers\Api\NotificationController
 - App\Http\Controllers\Api\PackageController
 - App\Http\Controllers\Api\PaymentController
+- App\Http\Controllers\Api\QueueApiController
 - App\Http\Controllers\Api\Network\QueueController
 - App\Http\Controllers\Api\ReportController
 - App\Http\Controllers\Api\ScheduledReportController
@@ -45,6 +47,7 @@
 
 - App\Services\Documentation\Knowledge\AIContextGenerator
 - App\Services\Documentation\Handover\AbstractHandoverSection
+- App\Services\Accounting\AccountResolverService
 - App\Services\Documentation\Generators\ActionDocumentationGenerator
 - App\Services\Activity\ActivityLogService
 - App\Services\Documentation\Exports\AiStartPromptExport
@@ -55,6 +58,7 @@
 - App\Services\Billing\BillingEngine
 - App\Services\Documentation\Knowledge\BusinessRuleExtractor
 - App\Services\Documentation\Knowledge\BusinessRulesGenerator
+- App\Services\Accounting\ChartOfAccountsService
 - App\Services\Documentation\Generators\ClassDocumentationGenerator
 - App\Services\Documentation\Scanner\ClassFinder
 - App\Services\Documentation\Reflection\ClassReflector
@@ -94,7 +98,6 @@
 - App\Services\Documentation\Reflection\MethodReflector
 - App\Services\Documentation\Knowledge\MigrationExtractor
 - App\Services\Documentation\Knowledge\MigrationsKnowledgeGenerator
-- App\Services\Network\MikroTikAdvancedService
 - App\Services\Network\Providers\MikroTik\MikroTikConnectionService
 - App\Services\Network\Providers\MikroTik\MikroTikDhcpService
 - App\Services\Network\Providers\MikroTik\MikroTikFirewallService
@@ -104,7 +107,6 @@
 - App\Services\Network\Providers\MikroTik\MikroTikProvider
 - App\Services\Network\Providers\MikroTik\MikroTikQueryService
 - App\Services\Network\Providers\MikroTik\MikroTikQueueService
-- App\Services\Network\MikrotikConnection
 - App\Services\Network\MikrotikServiceAdapter
 - App\Services\Documentation\Generators\ModelDocumentationGenerator
 - App\Services\Documentation\Knowledge\ModelRelationExtractor
@@ -131,7 +133,6 @@
 - App\Services\Reports\ReportService
 - App\Services\Documentation\Generators\RepositoryDocumentationGenerator
 - App\Services\Documentation\Knowledge\RouteExtractor
-- App\Services\Network\RouterConnectionService
 - App\Services\Documentation\Knowledge\RoutesKnowledgeGenerator
 - App\Services\Reports\ScheduledReportService
 - App\Services\Documentation\Generators\ServiceDocumentationGenerator

@@ -4,16 +4,17 @@ declare(strict_types=1);
 
 namespace App\Modules\Subscription\Domain\Events;
 
-use App\Models\Subscription;
+use App\Core\EventBus\Contracts\EventContract;
+use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class SubscriptionRestored
+class SubscriptionRestored implements EventContract
 {
     use Dispatchable;
     use SerializesModels;
 
     public function __construct(
-        public Subscription $subscription
+        public readonly Subscription $subscription
     ) {}
 }

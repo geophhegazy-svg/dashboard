@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\Models\Subscription;
+use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 use App\Models\User;
 use App\Policies\Concerns\AuthorizesByPermission;
 

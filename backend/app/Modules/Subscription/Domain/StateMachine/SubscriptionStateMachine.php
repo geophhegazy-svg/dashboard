@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Support\StateMachine;
+namespace App\Modules\Subscription\Domain\StateMachine;
 
 use App\Modules\Subscription\Domain\Enums\SubscriptionStatus;
 

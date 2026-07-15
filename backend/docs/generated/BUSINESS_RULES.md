@@ -27,6 +27,29 @@ App\Services\Documentation\Handover
 
 ---
 
+## AccountResolverService
+
+**Namespace**
+App\Services\Accounting
+
+**Dependencies**
+- None
+
+**Methods**
+- assets(1 params) : App\Models\Account
+- cash(1 params) : App\Models\Account
+- accountsReceivable(1 params) : App\Models\Account
+- liabilities(1 params) : App\Models\Account
+- customerWalletLiability(1 params) : App\Models\Account
+- equity(1 params) : App\Models\Account
+- ownerEquity(1 params) : App\Models\Account
+- revenue(1 params) : App\Models\Account
+- subscriptionRevenue(1 params) : App\Models\Account
+- expenses(1 params) : App\Models\Account
+- networkExpenses(1 params) : App\Models\Account
+
+---
+
 ## ActionDocumentationGenerator
 
 **Namespace**
@@ -173,6 +196,19 @@ App\Services\Documentation\Knowledge
 - __construct(2 params) : mixed
 - filename(0 params) : string
 - generate(0 params) : string
+
+---
+
+## ChartOfAccountsService
+
+**Namespace**
+App\Services\Accounting
+
+**Dependencies**
+- None
+
+**Methods**
+- createDefaultAccounts(1 params) : void
 
 ---
 
@@ -734,34 +770,6 @@ App\Services\Documentation\Knowledge
 
 ---
 
-## MikroTikAdvancedService
-
-**Namespace**
-App\Services\Network
-
-**Dependencies**
-- None
-
-**Methods**
-- connect(4 params) : bool
-- getSimpleQueues(0 params) : array
-- createSimpleQueue(5 params) : bool
-- updateSimpleQueue(2 params) : bool
-- deleteSimpleQueue(1 params) : bool
-- disableSimpleQueue(1 params) : bool
-- enableSimpleQueue(1 params) : bool
-- getFirewallRules(0 params) : array
-- createFirewallRule(1 params) : bool
-- deleteFirewallRule(1 params) : bool
-- updateDHCPLease(2 params) : bool
-- updateFirewallRule(2 params) : bool
-- getNATRules(0 params) : array
-- getDHCPLeases(0 params) : array
-- addDHCPLease(3 params) : bool
-- deleteDHCPLease(1 params) : bool
-
----
-
 ## MikroTikConnectionService
 
 **Namespace**
@@ -789,7 +797,7 @@ App\Services\Network\Providers\MikroTik
 
 **Methods**
 - __construct(1 params) : mixed
-- getLeases(0 params) : array
+- getAll(0 params) : array
 - find(1 params) : ?array
 - findByMac(1 params) : ?array
 - create(4 params) : bool
@@ -974,20 +982,6 @@ App\Services\Network\Providers\MikroTik
 - resetCounters(1 params) : bool
 - search(1 params) : array
 - statistics(1 params) : array
-
----
-
-## MikrotikConnection
-
-**Namespace**
-App\Services\Network
-
-**Dependencies**
-- None
-
-**Methods**
-- client(0 params) : RouterOS\Client
-- execute(1 params) : array
 
 ---
 
@@ -1409,22 +1403,6 @@ App\Services\Documentation\Knowledge
 
 ---
 
-## RouterConnectionService
-
-**Namespace**
-App\Services\Network
-
-**Dependencies**
-- App\Services\Network\MikroTikAdvancedService
-
-**Methods**
-- __construct(1 params) : mixed
-- connectByDeviceId(1 params) : App\Models\NetworkDevice
-- connect(1 params) : App\Models\NetworkDevice
-- service(0 params) : App\Services\Network\MikroTikAdvancedService
-
----
-
 ## RoutesKnowledgeGenerator
 
 **Namespace**
@@ -1687,29 +1665,29 @@ App\Services\Subscription
 
 **Dependencies**
 - App\Modules\Subscription\Domain\Contracts\SubscriptionRepositoryInterface
-- App\Modules\Subscription\Application\Commands\ActivateSubscriptionAction
-- App\Modules\Subscription\Application\Commands\SuspendSubscriptionAction
-- App\Modules\Subscription\Application\Commands\ExpireSubscriptionAction
-- App\Modules\Subscription\Application\Commands\RestoreSubscriptionAction
-- App\Modules\Subscription\Application\Commands\RenewSubscriptionAction
+- App\Modules\Subscription\Application\Workflows\ActivateWorkflow
+- App\Modules\Subscription\Application\Workflows\SuspendWorkflow
+- App\Modules\Subscription\Application\Workflows\ExpireWorkflow
+- App\Modules\Subscription\Application\Workflows\RestoreWorkflow
+- App\Modules\Subscription\Application\Workflows\RenewWorkflow
 
 **Methods**
 - __construct(6 params) : mixed
 - paginate(2 params) : Illuminate\Pagination\LengthAwarePaginator
-- find(1 params) : ?App\Models\Subscription
-- findOrFail(1 params) : App\Models\Subscription
+- find(1 params) : ?App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
+- findOrFail(1 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
 - byCustomer(1 params) : Illuminate\Database\Eloquent\Collection
 - active(0 params) : Illuminate\Database\Eloquent\Collection
 - expired(0 params) : Illuminate\Database\Eloquent\Collection
 - byStatus(1 params) : Illuminate\Database\Eloquent\Collection
 - search(2 params) : Illuminate\Pagination\LengthAwarePaginator
-- create(1 params) : App\Models\Subscription
-- update(2 params) : App\Models\Subscription
-- activate(1 params) : App\Models\Subscription
-- suspend(1 params) : App\Models\Subscription
-- expire(1 params) : App\Models\Subscription
-- restore(1 params) : App\Models\Subscription
-- renew(2 params) : App\Models\Subscription
+- create(1 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
+- update(2 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
+- activate(1 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
+- suspend(1 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
+- expire(1 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
+- restore(1 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
+- renew(2 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
 - statistics(0 params) : array
 - autoExpire(0 params) : int
 - expiringSoon(1 params) : Illuminate\Database\Eloquent\Collection

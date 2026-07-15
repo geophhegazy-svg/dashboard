@@ -19,7 +19,7 @@ use App\Contracts\Repositories\JournalEntryRepositoryInterface;
 use App\Contracts\Repositories\JournalEntryLineRepositoryInterface;
 
 use App\Repositories\AccountRepository;
-use App\Repositories\Eloquent\SubscriptionRepository;
+use App\Modules\Subscription\Infrastructure\Repositories\SubscriptionRepository;
 use App\Repositories\Eloquent\TaskRepository;
 use App\Repositories\Eloquent\ReportRepository;
 use App\Repositories\Eloquent\ReportExportRepository;
@@ -121,6 +121,9 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        //
+        \Illuminate\Support\Facades\Event::listen(
+            \App\Core\EventBus\Contracts\EventContract::class,
+            \App\Core\EventBus\Bridge\LaravelEventBridge::class
+        );
     }
 }

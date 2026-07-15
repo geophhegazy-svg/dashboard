@@ -47,6 +47,36 @@ App\Services\Documentation\Handover
 
 ---
 
+## AccountResolverService
+
+**Namespace**
+
+```
+App\Services\Accounting
+```
+
+**File**
+
+```
+/var/www/app/Services/Accounting/AccountResolverService.php
+```
+
+**Methods**
+
+- assets() : App\Models\Account
+- cash() : App\Models\Account
+- accountsReceivable() : App\Models\Account
+- liabilities() : App\Models\Account
+- customerWalletLiability() : App\Models\Account
+- equity() : App\Models\Account
+- ownerEquity() : App\Models\Account
+- revenue() : App\Models\Account
+- subscriptionRevenue() : App\Models\Account
+- expenses() : App\Models\Account
+- networkExpenses() : App\Models\Account
+
+---
+
 ## ActionDocumentationGenerator
 
 **Namespace**
@@ -287,6 +317,26 @@ App\Services\Documentation\Knowledge
 
 - filename() : string
 - generate() : string
+
+---
+
+## ChartOfAccountsService
+
+**Namespace**
+
+```
+App\Services\Accounting
+```
+
+**File**
+
+```
+/var/www/app/Services/Accounting/ChartOfAccountsService.php
+```
+
+**Methods**
+
+- createDefaultAccounts() : void
 
 ---
 
@@ -1241,45 +1291,6 @@ App\Services\Documentation\Knowledge
 
 ---
 
-## MikroTikAdvancedService
-
-**Namespace**
-
-```
-App\Services\Network
-```
-
-**File**
-
-```
-/var/www/app/Services/Network/MikroTikAdvancedService.php
-```
-
-**Properties**
-
-- $client : mixed
-
-**Methods**
-
-- connect() : bool
-- getSimpleQueues() : array
-- createSimpleQueue() : bool
-- updateSimpleQueue() : bool
-- deleteSimpleQueue() : bool
-- disableSimpleQueue() : bool
-- enableSimpleQueue() : bool
-- getFirewallRules() : array
-- createFirewallRule() : bool
-- deleteFirewallRule() : bool
-- updateDHCPLease() : bool
-- updateFirewallRule() : bool
-- getNATRules() : array
-- getDHCPLeases() : array
-- addDHCPLease() : bool
-- deleteDHCPLease() : bool
-
----
-
 ## MikroTikConnectionService
 
 **Namespace**
@@ -1332,7 +1343,7 @@ App\Services\Network\Providers\MikroTik
 
 **Methods**
 
-- getLeases() : array
+- getAll() : array
 - find() : ?array
 - findByMac() : ?array
 - create() : bool
@@ -1621,31 +1632,6 @@ App\Services\Network\Providers\MikroTik
 - resetCounters() : bool
 - search() : array
 - statistics() : array
-
----
-
-## MikrotikConnection
-
-**Namespace**
-
-```
-App\Services\Network
-```
-
-**File**
-
-```
-/var/www/app/Services/Network/MikrotikConnection.php
-```
-
-**Properties**
-
-- $client : ?RouterOS\Client
-
-**Methods**
-
-- client() : RouterOS\Client
-- execute() : array
 
 ---
 
@@ -2389,36 +2375,6 @@ App\Services\Documentation\Knowledge
 
 ---
 
-## RouterConnectionService
-
-**Namespace**
-
-```
-App\Services\Network
-```
-
-**File**
-
-```
-/var/www/app/Services/Network/RouterConnectionService.php
-```
-
-**Constructor Dependencies**
-
-- MikroTikAdvancedService $mikrotik
-
-**Properties**
-
-- $mikrotik : App\Services\Network\MikroTikAdvancedService
-
-**Methods**
-
-- connectByDeviceId() : App\Models\NetworkDevice
-- connect() : App\Models\NetworkDevice
-- service() : App\Services\Network\MikroTikAdvancedService
-
----
-
 ## RoutesKnowledgeGenerator
 
 **Namespace**
@@ -2893,38 +2849,38 @@ App\Services\Subscription
 **Constructor Dependencies**
 
 - SubscriptionRepositoryInterface $subscriptions
-- ActivateSubscriptionAction $activateAction
-- SuspendSubscriptionAction $suspendAction
-- ExpireSubscriptionAction $expireAction
-- RestoreSubscriptionAction $restoreAction
-- RenewSubscriptionAction $renewAction
+- ActivateWorkflow $activateWorkflow
+- SuspendWorkflow $suspendWorkflow
+- ExpireWorkflow $expireWorkflow
+- RestoreWorkflow $restoreWorkflow
+- RenewWorkflow $renewWorkflow
 
 **Properties**
 
 - $subscriptions : App\Modules\Subscription\Domain\Contracts\SubscriptionRepositoryInterface
-- $activateAction : App\Modules\Subscription\Application\Commands\ActivateSubscriptionAction
-- $suspendAction : App\Modules\Subscription\Application\Commands\SuspendSubscriptionAction
-- $expireAction : App\Modules\Subscription\Application\Commands\ExpireSubscriptionAction
-- $restoreAction : App\Modules\Subscription\Application\Commands\RestoreSubscriptionAction
-- $renewAction : App\Modules\Subscription\Application\Commands\RenewSubscriptionAction
+- $activateWorkflow : App\Modules\Subscription\Application\Workflows\ActivateWorkflow
+- $suspendWorkflow : App\Modules\Subscription\Application\Workflows\SuspendWorkflow
+- $expireWorkflow : App\Modules\Subscription\Application\Workflows\ExpireWorkflow
+- $restoreWorkflow : App\Modules\Subscription\Application\Workflows\RestoreWorkflow
+- $renewWorkflow : App\Modules\Subscription\Application\Workflows\RenewWorkflow
 
 **Methods**
 
 - paginate() : Illuminate\Pagination\LengthAwarePaginator
-- find() : ?App\Models\Subscription
-- findOrFail() : App\Models\Subscription
+- find() : ?App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
+- findOrFail() : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
 - byCustomer() : Illuminate\Database\Eloquent\Collection
 - active() : Illuminate\Database\Eloquent\Collection
 - expired() : Illuminate\Database\Eloquent\Collection
 - byStatus() : Illuminate\Database\Eloquent\Collection
 - search() : Illuminate\Pagination\LengthAwarePaginator
-- create() : App\Models\Subscription
-- update() : App\Models\Subscription
-- activate() : App\Models\Subscription
-- suspend() : App\Models\Subscription
-- expire() : App\Models\Subscription
-- restore() : App\Models\Subscription
-- renew() : App\Models\Subscription
+- create() : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
+- update() : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
+- activate() : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
+- suspend() : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
+- expire() : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
+- restore() : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
+- renew() : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
 - statistics() : array
 - autoExpire() : int
 - expiringSoon() : Illuminate\Database\Eloquent\Collection

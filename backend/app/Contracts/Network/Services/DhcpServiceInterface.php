@@ -11,7 +11,7 @@ interface DhcpServiceInterface
      *
      * @return array<int,array<string,mixed>>
      */
-    public function getLeases(): array;
+    public function getAll(): array;
 
     /**
      * Find lease by IP.

@@ -7,7 +7,7 @@ namespace App\Services\Dashboard;
 use App\Models\Customer;
 use App\Models\Invoice;
 use App\Models\Notification;
-use App\Models\Subscription;
+use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 use App\Services\Usage\UsageService;
 use Carbon\Carbon;
 

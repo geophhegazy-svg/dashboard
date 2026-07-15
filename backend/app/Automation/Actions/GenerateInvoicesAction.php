@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Automation\Actions;
 
-use App\Models\Subscription;
+use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 use App\Services\Billing\InvoiceGeneratorService;
 
 final readonly class GenerateInvoicesAction
