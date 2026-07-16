@@ -1097,7 +1097,7 @@ App\Services\Network\Providers\MikroTik
 App\Services\Network
 
 **Dependencies**
-- App\Services\Network\Providers\MikroTik\MikroTikProvider
+- App\Services\Network\NetworkManager
 
 **Methods**
 - __construct(1 params) : mixed
@@ -6333,11 +6333,11 @@ App\Services\Network
 
 **Constructor Dependencies**
 
-- MikroTikProvider $provider
+- NetworkManager $networkManager
 
 **Properties**
 
-- $provider : App\Services\Network\Providers\MikroTik\MikroTikProvider
+- $networkManager : App\Services\Network\NetworkManager
 
 **Methods**
 
@@ -8451,20 +8451,13 @@ App\Http\Controllers\Api
 
 **Dependencies**
 
-- MikrotikServiceInterface $mikrotik
-- MikrotikConnection $connection
+- NetworkManager $networkManager
 
 **Public Methods**
 
 - test()
 - pppoeUsers()
-- createPppoeUser()
 - hotspotUsers()
-- activeUsers()
-- createHotspotUser()
-- deleteHotspotUser()
-- suspendHotspotUser()
-- activateHotspotUser()
 - dhcpLeases()
 - dashboardStats()
 

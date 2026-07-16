@@ -13,55 +13,86 @@ class DHCPController extends Controller
 {
     public function __construct(
         protected NetworkManager $networkManager
-    ) {
-    }
+    ) {}
 
+
+    /**
+     * Resolve provider for device.
+     */
     protected function provider(int $deviceId)
     {
         $device = NetworkDevice::findOrFail($deviceId);
 
+
         if (! $this->networkManager->connect($device)) {
-            abort(500, 'Unable to connect to network device.');
+            return null;
         }
+
 
         return $this->networkManager->provider();
     }
 
+
+
+
+    /**
+     * Display DHCP leases.
+     */
     public function index(Request $request)
     {
-        $deviceId = (int) $request->input('device_id', 1);
+        $deviceId = (int) $request->input(
+            'device_id',
+            1
+        );
+
 
         $device = NetworkDevice::find($deviceId);
+
 
         $devices = NetworkDevice::where(
             'status',
             'active'
         )->get();
 
+
+
         $leases = [];
+
         $connected = false;
+
         $pagination = [];
+
+
 
         if ($device) {
 
-            $provider = $this->provider($device->id);
+            $provider = $this->provider($deviceId);
 
-            $connected = $this->networkManager->connected();
 
-            if ($connected) {
+
+            if ($provider) {
+
+                $connected = true;
+
 
                 $allLeases = $provider
                     ->dhcp()
                     ->getAll();
 
+
+
                 $perPage = 50;
+
 
                 $currentPage = (int) $request->input(
                     'page',
                     1
                 );
 
+
                 $offset = ($currentPage - 1) * $perPage;
+
+
 
                 $leases = array_slice(
                     $allLeases,
@@ -69,25 +100,40 @@ class DHCPController extends Controller
                     $perPage
                 );
 
+
+
                 $total = count($allLeases);
 
-                $lastPage = (int) ceil(
-                    $total / $perPage
-                );
+
 
                 $pagination = [
-                    'current_page' => $currentPage,
-                    'last_page' => $lastPage,
-                    'per_page' => $perPage,
-                    'total' => $total,
-                    'from' => $offset + 1,
-                    'to' => min(
+
+                    'current_page' =>
+                    $currentPage,
+
+                    'last_page' =>
+                    (int) ceil($total / $perPage),
+
+                    'per_page' =>
+                    $perPage,
+
+                    'total' =>
+                    $total,
+
+                    'from' =>
+                    $offset + 1,
+
+                    'to' =>
+                    min(
                         $offset + $perPage,
                         $total
                     ),
+
                 ];
             }
         }
+
+
 
         return view(
             'dhcp.index',
@@ -101,6 +147,13 @@ class DHCPController extends Controller
         );
     }
 
+
+
+
+
+    /**
+     * Create DHCP lease page.
+     */
     public function create(Request $request)
     {
         $deviceId = (int) $request->input(
@@ -108,12 +161,17 @@ class DHCPController extends Controller
             1
         );
 
+
         $device = NetworkDevice::find($deviceId);
+
+
 
         $devices = NetworkDevice::where(
             'status',
             'active'
         )->get();
+
+
 
         return view(
             'dhcp.create',
@@ -124,30 +182,69 @@ class DHCPController extends Controller
         );
     }
 
+
+
+
+
+    /**
+     * Store DHCP lease.
+     */
     public function store(Request $request)
     {
         $request->validate([
-            'address' => 'required|string',
-            'mac_address' => 'required|string',
-            'hostname' => 'nullable|string',
-            'comment' => 'nullable|string',
-            'device_id' => 'required|integer|exists:network_devices,id',
+
+            'address' =>
+            'required|string',
+
+            'mac_address' =>
+            'required|string',
+
+            'hostname' =>
+            'nullable|string',
+
+            'comment' =>
+            'nullable|string',
+
+            'device_id' =>
+            'required|integer|exists:network_devices,id',
+
         ]);
+
+
 
         $provider = $this->provider(
             (int) $request->device_id
         );
 
+
+
+        if (! $provider) {
+
+            return back()->with(
+                'error',
+                'فشل الاتصال بالجهاز'
+            );
+        }
+
+
+
         $result = $provider
             ->dhcp()
             ->create(
+
                 $request->address,
+
                 $request->mac_address,
+
                 $request->hostname,
+
                 [
-                    'comment' => $request->comment,
+                    'comment' =>
+                    $request->comment,
                 ]
             );
+
+
 
         if ($result) {
 
@@ -155,21 +252,30 @@ class DHCPController extends Controller
                 ->route(
                     'dhcp.index',
                     [
-                        'device_id' => $request->device_id,
+                        'device_id' => $request->device_id
                     ]
                 )
                 ->with(
                     'success',
-                    'تم إضافة عقد الإيجار بنجاح'
+                    'تم إضافة DHCP Lease بنجاح'
                 );
         }
 
+
+
         return back()->with(
             'error',
-            'فشل إضافة عقد الإيجار'
+            'فشل إضافة DHCP Lease'
         );
     }
 
+
+
+
+
+    /**
+     * Edit DHCP lease.
+     */
     public function edit(
         Request $request,
         string $id
@@ -180,33 +286,55 @@ class DHCPController extends Controller
             1
         );
 
+
+
         $device = NetworkDevice::find($deviceId);
+
+
 
         $devices = NetworkDevice::where(
             'status',
             'active'
         )->get();
 
+
+
         $provider = $this->provider($deviceId);
+
+
+
+        if (! $provider) {
+
+            return back()->with(
+                'error',
+                'فشل الاتصال بالجهاز'
+            );
+        }
+
+
 
         $lease = $provider
             ->dhcp()
             ->find($id);
 
-        if ($lease === null) {
+
+
+        if (! $lease) {
 
             return redirect()
                 ->route(
                     'dhcp.index',
                     [
-                        'device_id' => $deviceId,
+                        'device_id' => $deviceId
                     ]
                 )
                 ->with(
                     'error',
-                    'عقد الإيجار غير موجود'
+                    'Lease غير موجود'
                 );
         }
+
+
 
         return view(
             'dhcp.edit',
@@ -219,39 +347,70 @@ class DHCPController extends Controller
         );
     }
 
+
+
+
+
+    /**
+     * Update DHCP lease.
+     */
     public function update(
         Request $request,
         string $id
     ) {
 
         $request->validate([
-            'address' => 'nullable|string',
-            'mac_address' => 'nullable|string',
-            'hostname' => 'nullable|string',
-            'comment' => 'nullable|string',
-            'device_id' => 'required|integer|exists:network_devices,id',
+
+            'address' =>
+            'nullable|string',
+
+            'mac_address' =>
+            'nullable|string',
+
+            'hostname' =>
+            'nullable|string',
+
+            'comment' =>
+            'nullable|string',
+
+            'device_id' =>
+            'required|integer|exists:network_devices,id',
+
         ]);
+
+
 
         $provider = $this->provider(
             (int) $request->device_id
         );
 
-        $data = array_filter(
-            $request->only([
-                'address',
-                'mac_address',
-                'hostname',
-                'comment',
-            ]),
-            static fn($value) => $value !== null && $value !== ''
-        );
+
+
+        if (! $provider) {
+
+            return back()->with(
+                'error',
+                'فشل الاتصال بالجهاز'
+            );
+        }
+
+
 
         $result = $provider
             ->dhcp()
             ->update(
                 $id,
-                $data
+                array_filter(
+                    $request->only([
+                        'address',
+                        'mac_address',
+                        'hostname',
+                        'comment',
+                    ])
+                )
             );
+
+
 
         if ($result) {
 
@@ -259,48 +418,75 @@ class DHCPController extends Controller
                 ->route(
                     'dhcp.index',
                     [
-                        'device_id' => $request->device_id,
+                        'device_id' => $request->device_id
                     ]
                 )
                 ->with(
                     'success',
-                    'تم تحديث عقد الإيجار بنجاح'
+                    'تم تحديث DHCP Lease بنجاح'
                 );
         }
 
+
+
         return back()->with(
             'error',
-            'فشل تحديث عقد الإيجار'
+            'فشل تحديث DHCP Lease'
         );
     }
 
+
+
+
+
+    /**
+     * Delete DHCP lease.
+     */
     public function destroy(
         Request $request,
         string $id
     ) {
 
-        $provider = $this->provider(
-            (int) $request->input(
-                'device_id',
-                1
-            )
+        $deviceId = (int) $request->input(
+            'device_id',
+            1
         );
+
+
+
+        $provider = $this->provider($deviceId);
+
+
+
+        if (! $provider) {
+
+            return back()->with(
+                'error',
+                'فشل الاتصال بالجهاز'
+            );
+        }
+
+
 
         $result = $provider
             ->dhcp()
             ->delete($id);
 
+
+
         if ($result) {
 
             return back()->with(
                 'success',
-                'تم حذف عقد الإيجار بنجاح'
+                'تم حذف DHCP Lease بنجاح'
             );
         }
 
+
+
         return back()->with(
             'error',
-            'فشل حذف عقد الإيجار'
+            'فشل حذف DHCP Lease'
         );
     }
 }

@@ -6,10 +6,10 @@ namespace App\Modules\Subscription\Application\Listeners;
 
 use App\Contracts\MikrotikServiceInterface;
 use App\Core\EventBus\Contracts\EventContract;
-use App\Core\EventBus\Contracts\ListenerContract;
+use App\Core\EventBus\Contracts\EventListenerInterface;
 use App\Modules\Subscription\Domain\Events\SubscriptionActivated;
 
-final readonly class EnableMikrotikUserListener implements ListenerContract
+final readonly class EnableMikrotikUserListener implements EventListenerInterface
 {
     public function __construct(
         private MikrotikServiceInterface $mikrotik,
@@ -19,7 +19,7 @@ final readonly class EnableMikrotikUserListener implements ListenerContract
         EventContract $event
     ): void {
 
-        if (!$event instanceof SubscriptionActivated) {
+        if (! $event instanceof SubscriptionActivated) {
             return;
         }
 

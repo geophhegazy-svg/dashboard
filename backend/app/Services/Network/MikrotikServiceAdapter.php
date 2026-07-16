@@ -6,15 +6,26 @@ namespace App\Services\Network;
 
 use App\Contracts\MikrotikServiceInterface;
 use App\Models\NetworkDevice;
-use App\Services\Network\Providers\MikroTik\MikroTikProvider;
+
 
 class MikrotikServiceAdapter implements MikrotikServiceInterface
 {
     public function __construct(
-        protected MikroTikProvider $provider
+        protected NetworkManager $networkManager
     ) {}
 
+    protected function provider(): \App\Contracts\Network\NetworkProviderInterface
+    {
+        $provider = $this->networkManager->provider();
 
+        if ($provider === null) {
+            throw new \RuntimeException(
+                'No active network provider connection.'
+            );
+        }
+
+        return $provider;
+    }
 
     public function connect(
         string $ip,
@@ -23,7 +34,7 @@ class MikrotikServiceAdapter implements MikrotikServiceInterface
         int $port = 8728
     ): bool {
 
-        return $this->provider->connect(
+        return $this->provider()->connect(
             $ip,
             $username,
             $password,
@@ -40,7 +51,7 @@ class MikrotikServiceAdapter implements MikrotikServiceInterface
         array $options = []
     ): bool {
 
-        return $this->provider
+        return $this->provider()
             ->pppoe()
             ->createUser(
                 $username,
@@ -56,7 +67,7 @@ class MikrotikServiceAdapter implements MikrotikServiceInterface
         string $username
     ): bool {
 
-        return $this->provider
+        return $this->provider()
             ->pppoe()
             ->disableUser($username);
     }
@@ -67,7 +78,7 @@ class MikrotikServiceAdapter implements MikrotikServiceInterface
         string $username
     ): bool {
 
-        return $this->provider
+        return $this->provider()
             ->pppoe()
             ->enableUser($username);
     }
@@ -78,7 +89,7 @@ class MikrotikServiceAdapter implements MikrotikServiceInterface
         string $username
     ): bool {
 
-        return $this->provider
+        return $this->provider()
             ->pppoe()
             ->deleteUser($username);
     }
@@ -87,7 +98,7 @@ class MikrotikServiceAdapter implements MikrotikServiceInterface
 
     public function getAllUsers(): array
     {
-        return $this->provider
+        return $this->provider()
             ->pppoe()
             ->getAllUsers();
     }
@@ -96,7 +107,7 @@ class MikrotikServiceAdapter implements MikrotikServiceInterface
 
     public function getActiveSessions(): array
     {
-        return $this->provider
+        return $this->provider()
             ->pppoe()
             ->getActiveSessions();
     }
@@ -109,7 +120,7 @@ class MikrotikServiceAdapter implements MikrotikServiceInterface
         int $upload
     ): bool {
 
-        return $this->provider
+        return $this->provider()
             ->queue()
             ->updateSpeed(
                 $username,
@@ -122,7 +133,7 @@ class MikrotikServiceAdapter implements MikrotikServiceInterface
 
     public function getQueueUsage(): array
     {
-        $queues = $this->provider
+        $queues = $this->provider()
             ->queue()
             ->getUsage();
 
@@ -149,7 +160,7 @@ class MikrotikServiceAdapter implements MikrotikServiceInterface
 
     public function getDeviceStats(): array
     {
-        return $this->provider
+        return $this->provider()
             ->monitoring()
             ->getSystemResource();
     }
@@ -160,7 +171,7 @@ class MikrotikServiceAdapter implements MikrotikServiceInterface
         string $ip
     ): bool {
 
-        return $this->provider
+        return $this->provider()
             ->monitoring()
             ->ping($ip);
     }
@@ -171,7 +182,7 @@ class MikrotikServiceAdapter implements MikrotikServiceInterface
         string $username
     ): bool {
 
-        return $this->provider
+        return $this->provider()
             ->pppoe()
             ->disconnectUser($username);
     }
@@ -184,7 +195,7 @@ class MikrotikServiceAdapter implements MikrotikServiceInterface
 
         $device->update([
             'status' =>
-            $this->provider->isConnected()
+            $this->provider()->isConnected()
                 ? 'online'
                 : 'offline',
         ]);
@@ -194,7 +205,7 @@ class MikrotikServiceAdapter implements MikrotikServiceInterface
 
     public function getHotspotUsers(): array
     {
-        return $this->provider
+        return $this->provider()
             ->hotspot()
             ->getUsers();
     }
@@ -203,7 +214,7 @@ class MikrotikServiceAdapter implements MikrotikServiceInterface
 
     public function getHotspotActiveSessions(): array
     {
-        return $this->provider
+        return $this->provider()
             ->hotspot()
             ->getActiveSessions();
     }
@@ -217,7 +228,7 @@ class MikrotikServiceAdapter implements MikrotikServiceInterface
         array $options = []
     ): bool {
 
-        return $this->provider
+        return $this->provider()
             ->hotspot()
             ->createUser(
                 $username,
@@ -233,7 +244,7 @@ class MikrotikServiceAdapter implements MikrotikServiceInterface
         string $username
     ): bool {
 
-        return $this->provider
+        return $this->provider()
             ->hotspot()
             ->disableUser($username);
     }
@@ -244,7 +255,7 @@ class MikrotikServiceAdapter implements MikrotikServiceInterface
         string $username
     ): bool {
 
-        return $this->provider
+        return $this->provider()
             ->hotspot()
             ->enableUser($username);
     }

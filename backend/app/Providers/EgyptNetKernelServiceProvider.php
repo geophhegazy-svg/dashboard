@@ -11,6 +11,8 @@ use App\Modules\Subscription\Kernel\SubscriptionModule;
 use App\Core\Kernel\Discovery\ModuleDiscovery;
 use App\Core\EventBus\EventRegistry;
 use App\Core\EventBus\EventDispatcher;
+use App\Core\EventBus\Contracts\ListenerResolverInterface;
+use App\Infrastructure\Laravel\EventBus\LaravelListenerResolver;
 
 class EgyptNetKernelServiceProvider extends ServiceProvider
 {
@@ -43,16 +45,13 @@ class EgyptNetKernelServiceProvider extends ServiceProvider
             }
         );
 
-
         $this->app->singleton(
-            EventDispatcher::class,
-            function ($app) {
-
-                return new EventDispatcher(
-                    $app->make(EventRegistry::class)
-                );
-            }
+            ListenerResolverInterface::class,
+            LaravelListenerResolver::class,
         );
+
+
+        $this->app->singleton(EventDispatcher::class);
     }
 
 

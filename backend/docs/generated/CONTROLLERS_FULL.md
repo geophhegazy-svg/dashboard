@@ -659,20 +659,13 @@ App\Http\Controllers\Api
 
 **Dependencies**
 
-- MikrotikServiceInterface $mikrotik
-- MikrotikConnection $connection
+- NetworkManager $networkManager
 
 **Public Methods**
 
 - test()
 - pppoeUsers()
-- createPppoeUser()
 - hotspotUsers()
-- activeUsers()
-- createHotspotUser()
-- deleteHotspotUser()
-- suspendHotspotUser()
-- activateHotspotUser()
 - dhcpLeases()
 - dashboardStats()
 

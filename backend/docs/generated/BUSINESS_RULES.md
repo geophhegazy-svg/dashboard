@@ -991,7 +991,7 @@ App\Services\Network\Providers\MikroTik
 App\Services\Network
 
 **Dependencies**
-- App\Services\Network\Providers\MikroTik\MikroTikProvider
+- App\Services\Network\NetworkManager
 
 **Methods**
 - __construct(1 params) : mixed

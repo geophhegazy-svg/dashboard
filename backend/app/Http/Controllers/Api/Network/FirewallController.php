@@ -13,44 +13,71 @@ class FirewallController extends Controller
 {
     public function __construct(
         protected NetworkManager $networkManager
-    ) {
-    }
+    ) {}
 
+
+    /**
+     * Resolve network provider.
+     */
     protected function provider(int $deviceId)
     {
         $device = NetworkDevice::findOrFail($deviceId);
 
+
         if (! $this->networkManager->connect($device)) {
-            abort(500, 'Unable to connect to network device.');
+            return null;
         }
+
 
         return $this->networkManager->provider();
     }
 
+
+
+    /**
+     * Display firewall rules.
+     */
     public function index(Request $request)
     {
-        $deviceId = (int) $request->input('device_id', 1);
+        $deviceId = (int) $request->input(
+            'device_id',
+            1
+        );
+
 
         $device = NetworkDevice::find($deviceId);
+
 
         $devices = NetworkDevice::where(
             'status',
             'active'
         )->get();
 
+
+
         $rules = [];
+
         $connected = false;
+
+
 
         if ($device) {
 
-            $provider = $this->provider($device->id);
+            $provider = $this->provider($deviceId);
 
-            $connected = true;
 
-            $rules = $provider
-                ->firewall()
-                ->getAll();
+            if ($provider) {
+
+                $connected = true;
+
+
+                $rules = $provider
+                    ->firewall()
+                    ->getAll();
+            }
         }
+
+
 
         return view(
             'firewall.index',
@@ -63,16 +90,29 @@ class FirewallController extends Controller
         );
     }
 
+
+
+
+    /**
+     * Create firewall rule page.
+     */
     public function create(Request $request)
     {
-        $deviceId = (int) $request->input('device_id', 1);
+        $deviceId = (int) $request->input(
+            'device_id',
+            1
+        );
+
 
         $device = NetworkDevice::find($deviceId);
+
 
         $devices = NetworkDevice::where(
             'status',
             'active'
         )->get();
+
+
 
         return view(
             'firewall.create',
@@ -82,36 +122,77 @@ class FirewallController extends Controller
             )
         );
     }
+
+
+
+
+
+    /**
+     * Store firewall rule.
+     */
     public function store(Request $request)
     {
         $request->validate([
-            'chain' => 'required|string|in:input,output,forward,hs-input,hs-unauth,hs-unauth-to',
-            'action' => 'required|string|in:accept,drop,reject,log,jump,passthrough',
-            'src_address' => 'nullable|string',
-            'dst_address' => 'nullable|string',
-            'protocol' => 'nullable|string',
-            'dst_port' => 'nullable|string',
-            'comment' => 'nullable|string',
-            'device_id' => 'required|integer|exists:network_devices,id',
+
+            'chain' =>
+            'required|string',
+
+            'action' =>
+            'required|string',
+
+            'src_address' =>
+            'nullable|string',
+
+            'dst_address' =>
+            'nullable|string',
+
+            'protocol' =>
+            'nullable|string',
+
+            'dst_port' =>
+            'nullable|string',
+
+            'comment' =>
+            'nullable|string',
+
+            'device_id' =>
+            'required|integer|exists:network_devices,id',
+
         ]);
+
+
 
         $provider = $this->provider(
             (int) $request->device_id
         );
 
+
+
+        if (! $provider) {
+
+            return back()->with(
+                'error',
+                'فشل الاتصال بالجهاز'
+            );
+        }
+
+
+
         $result = $provider
             ->firewall()
             ->create(
-                array_filter([
-                    'chain'       => $request->chain,
-                    'action'      => $request->action,
-                    'src_address' => $request->src_address,
-                    'dst_address' => $request->dst_address,
-                    'protocol'    => $request->protocol,
-                    'dst_port'    => $request->dst_port,
-                    'comment'     => $request->comment,
-                ], static fn($value) => $value !== null && $value !== '')
+                $request->only([
+                    'chain',
+                    'action',
+                    'src_address',
+                    'dst_address',
+                    'protocol',
+                    'dst_port',
+                    'comment',
+                ])
             );
+
+
 
         if ($result) {
 
@@ -119,7 +200,8 @@ class FirewallController extends Controller
                 ->route(
                     'firewall.index',
                     [
-                        'device_id' => $request->device_id,
+                        'device_id' =>
+                        $request->device_id
                     ]
                 )
                 ->with(
@@ -128,41 +210,69 @@ class FirewallController extends Controller
                 );
         }
 
+
+
         return back()->with(
             'error',
             'فشل إنشاء القاعدة'
         );
     }
 
+
+
+
+
+    /**
+     * Edit firewall rule.
+     */
     public function edit(
         Request $request,
         string $id
     ) {
+
         $deviceId = (int) $request->input(
             'device_id',
             1
         );
 
+
         $device = NetworkDevice::find($deviceId);
+
 
         $devices = NetworkDevice::where(
             'status',
             'active'
         )->get();
 
+
+
         $provider = $this->provider($deviceId);
+
+
+
+        if (! $provider) {
+
+            return back()->with(
+                'error',
+                'فشل الاتصال بالجهاز'
+            );
+        }
+
+
 
         $rule = $provider
             ->firewall()
             ->find($id);
 
-        if ($rule === null) {
+
+
+        if (! $rule) {
 
             return redirect()
                 ->route(
                     'firewall.index',
                     [
-                        'device_id' => $deviceId,
+                        'device_id' => $deviceId
                     ]
                 )
                 ->with(
@@ -170,6 +280,8 @@ class FirewallController extends Controller
                     'القاعدة غير موجودة'
                 );
         }
+
+
 
         return view(
             'firewall.edit',
@@ -182,44 +294,82 @@ class FirewallController extends Controller
         );
     }
 
+
+
+
+
+    /**
+     * Update firewall rule.
+     */
     public function update(
         Request $request,
         string $id
     ) {
+
         $request->validate([
-            'chain' => 'nullable|string|in:input,output,forward,hs-input,hs-unauth,hs-unauth-to',
-            'action' => 'nullable|string|in:accept,drop,reject,log,jump,passthrough',
-            'src_address' => 'nullable|string',
-            'dst_address' => 'nullable|string',
-            'protocol' => 'nullable|string',
-            'dst_port' => 'nullable|string',
-            'comment' => 'nullable|string',
-            'device_id' => 'required|integer|exists:network_devices,id',
+
+            'chain' =>
+            'nullable|string',
+
+            'action' =>
+            'nullable|string',
+
+            'src_address' =>
+            'nullable|string',
+
+            'dst_address' =>
+            'nullable|string',
+
+            'protocol' =>
+            'nullable|string',
+
+            'dst_port' =>
+            'nullable|string',
+
+            'comment' =>
+            'nullable|string',
+
+            'device_id' =>
+            'required|integer|exists:network_devices,id',
+
         ]);
+
+
 
         $provider = $this->provider(
             (int) $request->device_id
         );
 
-        $data = array_filter(
-            $request->only([
-                'chain',
-                'action',
-                'src_address',
-                'dst_address',
-                'protocol',
-                'dst_port',
-                'comment',
-            ]),
-            static fn($value) => $value !== null && $value !== ''
-        );
+
+
+        if (! $provider) {
+
+            return back()->with(
+                'error',
+                'فشل الاتصال بالجهاز'
+            );
+        }
+
+
 
         $result = $provider
             ->firewall()
             ->update(
                 $id,
-                $data
+                array_filter(
+                    $request->only([
+                        'chain',
+                        'action',
+                        'src_address',
+                        'dst_address',
+                        'protocol',
+                        'dst_port',
+                        'comment',
+                    ])
+                )
             );
+
+
 
         if ($result) {
 
@@ -227,7 +377,7 @@ class FirewallController extends Controller
                 ->route(
                     'firewall.index',
                     [
-                        'device_id' => $request->device_id,
+                        'device_id' => $request->device_id
                     ]
                 )
                 ->with(
@@ -236,26 +386,51 @@ class FirewallController extends Controller
                 );
         }
 
+
+
         return back()->with(
             'error',
             'فشل تحديث القاعدة'
         );
     }
 
+
+
+
+
+    /**
+     * Delete firewall rule.
+     */
     public function destroy(
         Request $request,
         string $id
     ) {
-        $provider = $this->provider(
-            (int) $request->input(
-                'device_id',
-                1
-            )
+
+        $deviceId = (int) $request->input(
+            'device_id',
+            1
         );
+
+
+        $provider = $this->provider($deviceId);
+
+
+
+        if (! $provider) {
+
+            return back()->with(
+                'error',
+                'فشل الاتصال بالجهاز'
+            );
+        }
+
+
 
         $result = $provider
             ->firewall()
             ->delete($id);
+
+
 
         if ($result) {
 
@@ -264,6 +439,8 @@ class FirewallController extends Controller
                 'تم حذف القاعدة بنجاح'
             );
         }
+
+
 
         return back()->with(
             'error',

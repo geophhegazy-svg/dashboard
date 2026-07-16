@@ -1,187 +1,157 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Contracts\Network\NetworkProviderInterface;
+use App\Services\Network\NetworkManager;
 use App\Models\Customer;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 use App\Models\HotspotSubscription;
 use App\Models\Invoice;
-use App\Services\Network\MikrotikConnection;
-use App\Contracts\MikrotikServiceInterface;
+use App\Models\NetworkDevice;
 
 class MikrotikController extends Controller
 {
-    protected MikrotikServiceInterface $mikrotik;
-    protected MikrotikConnection $connection;
+    public function __construct(
+        protected NetworkManager $networkManager
+    ) {}
 
-    public function __construct(MikrotikServiceInterface $mikrotik, MikrotikConnection $connection)
-    {
-        $this->mikrotik = $mikrotik;
-        $this->connection = $connection;
-    }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Health Check
-    |--------------------------------------------------------------------------
-    */
 
+    /**
+     * Health Check
+     */
     public function test()
     {
         try {
-            $this->connection->client();
+
+            $deviceId = request()->input('device_id', 1);
+
+            $provider = $this->provider($deviceId);
+
+
+            if (!$provider) {
+
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Unable to connect',
+                ], 503);
+            }
+
 
             return response()->json([
                 'success' => true,
-                'message' => 'Connected to MikroTik router successfully.',
+                'message' => 'Connected successfully',
             ]);
         } catch (\Throwable $e) {
 
             return response()->json([
                 'success' => false,
-                'message' => 'Unable to connect to MikroTik router.',
+                'message' => $e->getMessage(),
             ], 503);
         }
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | PPPoE
-    |--------------------------------------------------------------------------
-    */
 
+
+    protected function provider(int $deviceId): ?NetworkProviderInterface
+    {
+        $device = NetworkDevice::find($deviceId);
+
+
+        if (!$device) {
+            return null;
+        }
+
+
+        if (!$this->networkManager->connect($device)) {
+            return null;
+        }
+
+
+        return $this->networkManager->provider();
+    }
+
+
+
+
+    /**
+     * PPPoE Users
+     */
     public function pppoeUsers()
     {
+        $provider = $this->provider(
+            request()->input('device_id', 1)
+        );
+
+
+        if (!$provider) {
+            return response()->json([]);
+        }
+
+
         return response()->json(
-            $this->mikrotik->getPppoeUsers()
+            $provider->pppoe()->all()
         );
     }
 
-    public function createPppoeUser(Request $request)
-    {
-        $request->validate([
-            'username' => 'required',
-            'password' => 'required',
-            'profile'  => 'required',
-        ]);
 
-        $this->mikrotik->createPppoe(
-            $request->username,
-            $request->password,
-            $request->profile
-        );
 
-        return response()->json([
-            'message' => 'PPPoE user created successfully'
-        ]);
-    }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Hotspot
-    |--------------------------------------------------------------------------
-    */
-
+    /**
+     * Hotspot Users
+     */
     public function hotspotUsers()
     {
-        $users = $this->mikrotik->getHotspotUsers();
+        $provider = $this->provider(
+            request()->input('device_id', 1)
+        );
 
-        return response()->json([
-            'success' => true,
-            'count'   => count($users),
-            'data'    => $users,
-        ]);
-    }
 
-    public function activeUsers()
-    {
+        if (!$provider) {
+            return response()->json([]);
+        }
+
+
         return response()->json(
-            $this->mikrotik->getActiveHotspotUsers()
+            $provider->hotspot()->users()
         );
     }
 
-    public function createHotspotUser(Request $request)
-    {
-        $request->validate([
-            'username' => 'required',
-            'password' => 'required',
-            'profile'  => 'nullable',
-        ]);
 
-        $this->mikrotik->createHotspot(
-            $request->username,
-            $request->password,
-            $request->profile ?? 'default'
-        );
 
-        return response()->json([
-            'message' => 'Hotspot user created'
-        ]);
-    }
 
-    public function deleteHotspotUser($username)
-    {
-        if (!$this->mikrotik->deleteHotspot($username)) {
 
-            return response()->json([
-                'message' => 'User not found'
-            ], 404);
-        }
-
-        return response()->json([
-            'message' => 'User deleted'
-        ]);
-    }
-
-    public function suspendHotspotUser($username)
-    {
-        if (!$this->mikrotik->disableHotspotUser($username)) {
-
-            return response()->json([
-                'message' => 'User not found'
-            ], 404);
-        }
-
-        return response()->json([
-            'message' => 'Hotspot user suspended'
-        ]);
-    }
-
-    public function activateHotspotUser($username)
-    {
-        if (!$this->mikrotik->enableHotspotUser($username)) {
-
-            return response()->json([
-                'message' => 'User not found'
-            ], 404);
-        }
-
-        return response()->json([
-            'message' => 'Hotspot user activated'
-        ]);
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | DHCP
-    |--------------------------------------------------------------------------
-    */
-
+    /**
+     * DHCP
+     */
     public function dhcpLeases()
     {
+        $provider = $this->provider(
+            request()->input('device_id', 1)
+        );
+
+
+        if (!$provider) {
+            return response()->json([]);
+        }
+
+
         return response()->json(
-            $this->mikrotik->getDhcpLeases()
+            $provider->dhcp()->getAll()
         );
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Dashboard
-    |--------------------------------------------------------------------------
-    */
 
+
+
+
+    /**
+     * Dashboard
+     */
     public function dashboardStats()
     {
         return response()->json([
@@ -212,7 +182,10 @@ class MikrotikController extends Controller
                 'status',
                 'paid'
             )
-                ->whereMonth('paid_at', now()->month)
+                ->whereMonth(
+                    'paid_at',
+                    now()->month
+                )
                 ->sum('amount'),
         ]);
     }

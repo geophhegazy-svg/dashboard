@@ -1651,11 +1651,11 @@ App\Services\Network
 
 **Constructor Dependencies**
 
-- MikroTikProvider $provider
+- NetworkManager $networkManager
 
 **Properties**
 
-- $provider : App\Services\Network\Providers\MikroTik\MikroTikProvider
+- $networkManager : App\Services\Network\NetworkManager
 
 **Methods**
 
