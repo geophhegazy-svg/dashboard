@@ -8,7 +8,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Services\MikrotikService;
+use App\Contracts\MikrotikServiceInterface;
 use App\Models\NetworkDevice;
 use App\Models\PPPoEUser;
 use App\Models\Customer;
@@ -25,7 +25,7 @@ class SyncMikroTikJob implements ShouldQueue
         $this->deviceId = $deviceId;
     }
 
-    public function handle(MikrotikService $mikrotikService)
+    public function handle(MikrotikServiceInterface $mikrotikService)
     {
         $devices = $this->getDevices();
 

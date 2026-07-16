@@ -94,7 +94,7 @@ class MikrotikController extends Controller
 
 
         return response()->json(
-            $provider->pppoe()->all()
+            $provider->pppoe()->getAllUsers()
         );
     }
 
@@ -117,7 +117,7 @@ class MikrotikController extends Controller
 
 
         return response()->json(
-            $provider->hotspot()->users()
+            $provider->hotspot()->getUsers()
         );
     }
 

@@ -22,6 +22,26 @@ final class PlatformExceptionTest extends TestCase
         );
     }
 
+    public function test_exception_stores_context(): void
+    {
+        $exception = new PlatformException(
+            message: 'Router offline',
+            errorCode: 'NETWORK_OFFLINE',
+            context: [
+                'router' => 'MikroTik-01',
+                'ip' => '192.168.88.1',
+            ],
+        );
+
+        $this->assertSame(
+            [
+                'router' => 'MikroTik-01',
+                'ip' => '192.168.88.1',
+            ],
+            $exception->context(),
+        );
+    }
+
     public function test_exception_array_representation(): void
     {
         $exception = new PlatformException(
@@ -33,6 +53,7 @@ final class PlatformExceptionTest extends TestCase
             [
                 'message' => 'Router offline',
                 'code' => 'NETWORK_OFFLINE',
+                'context' => [],
             ],
             $exception->toArray(),
         );

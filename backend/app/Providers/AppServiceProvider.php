@@ -18,19 +18,19 @@ use App\Contracts\Repositories\ScheduledReportRepositoryInterface;
 use App\Contracts\Repositories\JournalEntryRepositoryInterface;
 use App\Contracts\Repositories\JournalEntryLineRepositoryInterface;
 
-use App\Repositories\AccountRepository;
+use App\Repositories\Eloquent\AccountRepository;
 use App\Modules\Subscription\Infrastructure\Repositories\SubscriptionRepository;
 use App\Repositories\Eloquent\TaskRepository;
 use App\Repositories\Eloquent\ReportRepository;
 use App\Repositories\Eloquent\ReportExportRepository;
 use App\Repositories\Eloquent\ScheduledReportRepository;
 use App\Repositories\Eloquent\JournalEntryRepository;
-use App\Repositories\JournalEntryLineRepository;
+use App\Repositories\Eloquent\JournalEntryLineRepository;
 
 use App\Services\Finance\FinanceService;
 use App\Services\Network\MikrotikServiceAdapter;
 
-use App\Services\Accounting\JournalEntryNumberService;
+use App\Services\Finance\JournalEntryNumberService;
 use App\Services\Accounting\JournalPostingService;
 use App\Services\Accounting\JournalValidationService;
 
