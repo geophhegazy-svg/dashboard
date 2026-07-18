@@ -6,21 +6,30 @@ namespace App\Core\ActionBus;
 
 final class ActionRegistry
 {
-    /**
-     * @var array<class-string,bool>
+    /****
+     * @var array<class-string,ActionDescriptor>
      */
     private array $actions = [];
 
     public function register(
         string $action,
     ): void {
-        $this->actions[$action] = true;
+
+        $this->actions[$action] =
+            new ActionDescriptor($action);
+    }
+
+    public function get(
+        string $action,
+    ): ?ActionDescriptor {
+        return $this->actions[$action] ?? null;
     }
 
     public function has(
         string $action,
     ): bool {
-        return isset($this->actions[$action]);
+
+        return $this->get($action) !== null;
     }
 
     /**

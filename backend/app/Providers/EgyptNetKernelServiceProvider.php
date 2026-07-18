@@ -13,12 +13,43 @@ use App\Core\EventBus\EventRegistry;
 use App\Core\EventBus\EventDispatcher;
 use App\Core\EventBus\Contracts\ListenerResolverInterface;
 use App\Infrastructure\Laravel\EventBus\LaravelListenerResolver;
+use App\Core\ActionBus\ActionRegistry;
+use App\Core\ActionBus\ActionDispatcher;
+use App\Core\ActionBus\Pipeline\ActionPipeline;
+use App\Core\QueryBus\QueryRegistry;
+use App\Core\QueryBus\QueryDispatcher;
+
 
 class EgyptNetKernelServiceProvider extends ServiceProvider
 {
 
     public function register(): void
     {
+        $this->app->singleton(
+            QueryRegistry::class,
+        );
+
+        $this->app->singleton(
+            QueryDispatcher::class,
+        );
+
+        $this->app->singleton(
+            ActionRegistry::class,
+            fn() => new ActionRegistry(),
+        );
+
+        $this->app->singleton(
+            ActionPipeline::class,
+            fn() => new ActionPipeline(),
+        );
+
+        $this->app->singleton(
+            ActionDispatcher::class,
+            fn($app) => new ActionDispatcher(
+                $app->make(ActionRegistry::class),
+                $app->make(ActionPipeline::class),
+            ),
+        );
 
         $this->app->singleton(
             ModuleRegistry::class,
@@ -33,7 +64,10 @@ class EgyptNetKernelServiceProvider extends ServiceProvider
             function ($app) {
 
                 return new EgyptNetKernel(
-                    $app->make(ModuleRegistry::class)
+                    $app->make(ModuleRegistry::class),
+                    $app->make(ActionRegistry::class),
+                    $app->make(EventRegistry::class),
+                    $app->make(QueryRegistry::class),
                 );
             }
         );

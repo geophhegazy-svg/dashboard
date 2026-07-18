@@ -9,6 +9,8 @@ use App\Modules\Subscription\Application\Commands\ActivateSubscriptionAction;
 use App\Modules\Subscription\Domain\Events\SubscriptionActivated;
 use App\Modules\Subscription\Domain\Rules\CanActivateSubscriptionRule;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
+use App\Core\ActionBus\ActionDispatcher;
+use App\Core\ActionBus\ActionRegistry;
 
 final class ActivateWorkflow extends AbstractWorkflow
 {
@@ -25,9 +27,22 @@ final class ActivateWorkflow extends AbstractWorkflow
         /** @var Subscription $subscription */
         $subscription = $arguments[0];
 
-        return $this->action->execute(
-            $subscription
-        );
+        $registry = app(ActionRegistry::class);
+
+        if (! $registry->has(
+            ActivateSubscriptionAction::class
+        )) {
+            $registry->register(
+                ActivateSubscriptionAction::class
+            );
+        }
+
+        /** @var Subscription */
+        return app(ActionDispatcher::class)
+            ->dispatch(
+                ActivateSubscriptionAction::class,
+                $subscription,
+            );
     }
 
 
