@@ -14,7 +14,7 @@ Technology
 
 Statistics
 - Models: 27
-- Services: 87
+- Services: 80
 
 
 ---
@@ -48,7 +48,7 @@ app/
 # Project Statistics
 
 Models: 27
-Services: 87
+Services: 80
 
 ---
 
@@ -100,7 +100,7 @@ Development Rules
 
 Current Statistics
 Models: 27
-Services: 87
+Services: 80
 
 ---
 
@@ -130,29 +130,6 @@ App\Services\Documentation\Handover
 - None
 
 **Methods**
-
----
-
-## AccountResolverService
-
-**Namespace**
-App\Services\Accounting
-
-**Dependencies**
-- None
-
-**Methods**
-- assets(1 params) : App\Models\Account
-- cash(1 params) : App\Models\Account
-- accountsReceivable(1 params) : App\Models\Account
-- liabilities(1 params) : App\Models\Account
-- customerWalletLiability(1 params) : App\Models\Account
-- equity(1 params) : App\Models\Account
-- ownerEquity(1 params) : App\Models\Account
-- revenue(1 params) : App\Models\Account
-- subscriptionRevenue(1 params) : App\Models\Account
-- expenses(1 params) : App\Models\Account
-- networkExpenses(1 params) : App\Models\Account
 
 ---
 
@@ -242,19 +219,6 @@ App\Services\Documentation\Knowledge
 - __construct(2 params) : mixed
 - filename(0 params) : string
 - generate(0 params) : string
-
----
-
-## ChartOfAccountsService
-
-**Namespace**
-App\Services\Accounting
-
-**Dependencies**
-- None
-
-**Methods**
-- createDefaultAccounts(1 params) : void
 
 ---
 
@@ -567,47 +531,6 @@ App\Services\Documentation\Knowledge
 **Methods**
 - filename(0 params) : string
 - generate(0 params) : string
-
----
-
-## JournalEntryNumberService
-
-**Namespace**
-App\Services\Finance
-
-**Dependencies**
-- None
-
-**Methods**
-- generate(0 params) : string
-
----
-
-## JournalPostingService
-
-**Namespace**
-App\Services\Accounting
-
-**Dependencies**
-- App\Services\Accounting\JournalValidationService
-- App\Modules\Activity\Application\Services\ActivityLogService
-
-**Methods**
-- __construct(2 params) : mixed
-- post(1 params) : App\Models\JournalEntry
-
----
-
-## JournalValidationService
-
-**Namespace**
-App\Services\Accounting
-
-**Dependencies**
-- None
-
-**Methods**
-- validate(1 params) : void
 
 ---
 
@@ -1159,22 +1082,6 @@ App\Services\Network
 
 ---
 
-## NotificationService
-
-**Namespace**
-App\Services\Notification
-
-**Dependencies**
-- None
-
-**Methods**
-- create(1 params) : App\Models\Notification
-- createReminder(2 params) : App\Models\Notification
-- billingFailed(1 params) : App\Models\Notification
-- subscriptionRenewed(1 params) : App\Models\Notification
-
----
-
 ## ProjectBibleService
 
 **Namespace**
@@ -1412,19 +1319,6 @@ App\Services\Documentation\Knowledge
 - __construct(1 params) : mixed
 - generate(0 params) : string
 - filename(0 params) : string
-
----
-
-## SubscriptionActivityService
-
-**Namespace**
-App\Services\Activity
-
-**Dependencies**
-- None
-
-**Methods**
-- log(4 params) : App\Models\ActivityLog
 
 ---
 
@@ -4273,36 +4167,6 @@ App\Services\Documentation\Handover
 
 ---
 
-## AccountResolverService
-
-**Namespace**
-
-```
-App\Services\Accounting
-```
-
-**File**
-
-```
-/var/www/app/Services/Accounting/AccountResolverService.php
-```
-
-**Methods**
-
-- assets() : App\Models\Account
-- cash() : App\Models\Account
-- accountsReceivable() : App\Models\Account
-- liabilities() : App\Models\Account
-- customerWalletLiability() : App\Models\Account
-- equity() : App\Models\Account
-- ownerEquity() : App\Models\Account
-- revenue() : App\Models\Account
-- subscriptionRevenue() : App\Models\Account
-- expenses() : App\Models\Account
-- networkExpenses() : App\Models\Account
-
----
-
 ## ActionDocumentationGenerator
 
 **Namespace**
@@ -4446,26 +4310,6 @@ App\Services\Documentation\Knowledge
 
 - filename() : string
 - generate() : string
-
----
-
-## ChartOfAccountsService
-
-**Namespace**
-
-```
-App\Services\Accounting
-```
-
-**File**
-
-```
-/var/www/app/Services/Accounting/ChartOfAccountsService.php
-```
-
-**Methods**
-
-- createDefaultAccounts() : void
 
 ---
 
@@ -5004,76 +4848,6 @@ App\Services\Documentation\Knowledge
 
 - filename() : string
 - generate() : string
-
----
-
-## JournalEntryNumberService
-
-**Namespace**
-
-```
-App\Services\Finance
-```
-
-**File**
-
-```
-/var/www/app/Services/Finance/JournalEntryNumberService.php
-```
-
-**Methods**
-
-- generate() : string
-
----
-
-## JournalPostingService
-
-**Namespace**
-
-```
-App\Services\Accounting
-```
-
-**File**
-
-```
-/var/www/app/Services/Accounting/JournalPostingService.php
-```
-
-**Constructor Dependencies**
-
-- JournalValidationService $validationService
-- ActivityLogService $activityLogService
-
-**Properties**
-
-- $validationService : App\Services\Accounting\JournalValidationService
-- $activityLogService : App\Modules\Activity\Application\Services\ActivityLogService
-
-**Methods**
-
-- post() : App\Models\JournalEntry
-
----
-
-## JournalValidationService
-
-**Namespace**
-
-```
-App\Services\Accounting
-```
-
-**File**
-
-```
-/var/www/app/Services/Accounting/JournalValidationService.php
-```
-
-**Methods**
-
-- validate() : void
 
 ---
 
@@ -6004,29 +5778,6 @@ App\Services\Network
 
 ---
 
-## NotificationService
-
-**Namespace**
-
-```
-App\Services\Notification
-```
-
-**File**
-
-```
-/var/www/app/Services/Notification/NotificationService.php
-```
-
-**Methods**
-
-- create() : App\Models\Notification
-- createReminder() : App\Models\Notification
-- billingFailed() : App\Models\Notification
-- subscriptionRenewed() : App\Models\Notification
-
----
-
 ## ProjectBibleService
 
 **Namespace**
@@ -6465,26 +6216,6 @@ App\Services\Documentation\Knowledge
 
 - generate() : string
 - filename() : string
-
----
-
-## SubscriptionActivityService
-
-**Namespace**
-
-```
-App\Services\Activity
-```
-
-**File**
-
-```
-/var/www/app/Services/Activity/SubscriptionActivityService.php
-```
-
-**Methods**
-
-- log() : App\Models\ActivityLog
 
 ---
 

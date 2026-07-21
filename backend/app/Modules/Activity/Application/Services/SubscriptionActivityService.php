@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Activity;
+namespace App\Modules\Activity\Application\Services;
 
 use App\Models\ActivityLog;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 
-class SubscriptionActivityService
+final class SubscriptionActivityService
 {
     public function log(
         Subscription $subscription,

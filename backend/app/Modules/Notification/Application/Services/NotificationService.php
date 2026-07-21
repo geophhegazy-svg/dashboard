@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Notification;
+namespace App\Modules\Notification\Application\Services;
 
 use App\Models\Notification;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
@@ -76,9 +76,9 @@ class NotificationService
             ],
 
             [
-                'title'    => 'تم تجديد الاشتراك',
-                'message'  => 'تم تجديد اشتراكك بنجاح.',
-                'sent_at'  => now(),
+                'title'   => 'تم تجديد الاشتراك',
+                'message' => 'تم تجديد اشتراكك بنجاح.',
+                'sent_at' => now(),
             ]
         );
     }

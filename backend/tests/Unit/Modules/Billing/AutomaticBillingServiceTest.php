@@ -11,7 +11,7 @@ use App\Enums\BillingStatus;
 use App\Modules\Billing\AutomaticBillingService;
 use App\Modules\Billing\Domain\Services\BillingEngine;
 use App\Modules\Subscription\Domain\Contracts\SubscriptionRenewalServiceInterface;
-use App\Services\Notification\NotificationService;
+use App\Modules\Notification\Application\Services\NotificationService;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 
 class AutomaticBillingServiceTest extends TestCase

@@ -47,14 +47,12 @@
 
 - App\Services\Documentation\Knowledge\AIContextGenerator
 - App\Services\Documentation\Handover\AbstractHandoverSection
-- App\Services\Accounting\AccountResolverService
 - App\Services\Documentation\Generators\ActionDocumentationGenerator
 - App\Services\Documentation\Exports\AiStartPromptExport
 - App\Services\Documentation\Generators\ApiDocumentationGenerator
 - App\Services\Documentation\Knowledge\ArchitectureGenerator
 - App\Services\Documentation\Knowledge\BusinessRuleExtractor
 - App\Services\Documentation\Knowledge\BusinessRulesGenerator
-- App\Services\Accounting\ChartOfAccountsService
 - App\Services\Documentation\Generators\ClassDocumentationGenerator
 - App\Services\Documentation\Scanner\ClassFinder
 - App\Services\Documentation\Reflection\ClassReflector
@@ -77,9 +75,6 @@
 - App\Services\Documentation\Scanner\FileScanner
 - App\Services\Finance\FinanceService
 - App\Services\Documentation\Knowledge\HandoverDocumentGenerator
-- App\Services\Finance\JournalEntryNumberService
-- App\Services\Accounting\JournalPostingService
-- App\Services\Accounting\JournalValidationService
 - App\Services\Finance\Accounting\JournalValidator
 - App\Services\Documentation\Knowledge\KnowledgeExporter
 - App\Services\Documentation\Knowledge\KnowledgeGeneratorManager
@@ -110,7 +105,6 @@
 - App\Services\Network\NetworkDeviceConnectionManager
 - App\Services\Network\NetworkManager
 - App\Services\Network\NetworkProviderResolver
-- App\Services\Notification\NotificationService
 - App\Services\Documentation\ProjectBibleService
 - App\Services\Documentation\Scanner\ProjectScanner
 - App\Services\Documentation\Knowledge\ProjectStateExtractor
@@ -127,7 +121,6 @@
 - App\Services\Documentation\Knowledge\ServicesKnowledgeGenerator
 - App\Services\Documentation\Sections\ServicesSection
 - App\Services\Documentation\Knowledge\StatisticsGenerator
-- App\Services\Activity\SubscriptionActivityService
 - App\Services\Notification\TelegramNotificationService
 - App\Services\Documentation\Knowledge\TestCoverageExtractor
 - App\Services\Documentation\Knowledge\TodoGenerator

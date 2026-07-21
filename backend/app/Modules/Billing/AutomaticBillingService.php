@@ -6,7 +6,7 @@ namespace App\Modules\Billing;
 
 use App\Enums\BillingStatus;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
-use App\Services\Notification\NotificationService;
+use App\Modules\Notification\Application\Services\NotificationService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Log;
 use Throwable;

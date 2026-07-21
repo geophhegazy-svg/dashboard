@@ -7,7 +7,7 @@ namespace Tests\Unit\Services;
 use Tests\TestCase;
 use App\Models\JournalEntry;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Services\Finance\JournalEntryNumberService;
+use App\Modules\Accounting\Application\Services\JournalEntryNumberService;
 
 class JournalEntryNumberServiceTest extends TestCase
 {

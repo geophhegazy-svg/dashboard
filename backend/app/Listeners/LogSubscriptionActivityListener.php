@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Listeners;
 
 use App\Modules\Subscription\Domain\Events\SubscriptionActivated;
-use App\Services\Activity\SubscriptionActivityService;
+use App\Modules\Activity\Application\Services\SubscriptionActivityService;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 

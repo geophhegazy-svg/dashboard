@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Finance;
+namespace App\Modules\Accounting\Application\Services;
 
 use App\Models\JournalEntry;
 

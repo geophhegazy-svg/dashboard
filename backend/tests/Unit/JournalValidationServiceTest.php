@@ -9,7 +9,7 @@ use App\Models\Account;
 use App\Models\JournalEntry;
 use App\Models\JournalEntryLine;
 use App\Models\Tenant;
-use App\Services\Accounting\JournalValidationService;
+use App\Modules\Accounting\Application\Services\JournalValidationService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 

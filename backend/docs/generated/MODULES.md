@@ -34,18 +34,16 @@ Total: 27
 
 ## Services
 
-Total: 87
+Total: 80
 
 - AIContextGenerator
 - AbstractHandoverSection
-- AccountResolverService
 - ActionDocumentationGenerator
 - AiStartPromptExport
 - ApiDocumentationGenerator
 - ArchitectureGenerator
 - BusinessRuleExtractor
 - BusinessRulesGenerator
-- ChartOfAccountsService
 - ClassDocumentationGenerator
 - ClassFinder
 - ClassReflector
@@ -68,9 +66,6 @@ Total: 87
 - FileScanner
 - FinanceService
 - HandoverDocumentGenerator
-- JournalEntryNumberService
-- JournalPostingService
-- JournalValidationService
 - JournalValidator
 - KnowledgeExporter
 - KnowledgeGeneratorManager
@@ -101,7 +96,6 @@ Total: 87
 - NetworkDeviceConnectionManager
 - NetworkManager
 - NetworkProviderResolver
-- NotificationService
 - ProjectBibleService
 - ProjectScanner
 - ProjectStateExtractor
@@ -118,7 +112,6 @@ Total: 87
 - ServicesKnowledgeGenerator
 - ServicesSection
 - StatisticsGenerator
-- SubscriptionActivityService
 - TelegramNotificationService
 - TestCoverageExtractor
 - TodoGenerator

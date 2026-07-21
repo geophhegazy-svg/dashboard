@@ -47,36 +47,6 @@ App\Services\Documentation\Handover
 
 ---
 
-## AccountResolverService
-
-**Namespace**
-
-```
-App\Services\Accounting
-```
-
-**File**
-
-```
-/var/www/app/Services/Accounting/AccountResolverService.php
-```
-
-**Methods**
-
-- assets() : App\Models\Account
-- cash() : App\Models\Account
-- accountsReceivable() : App\Models\Account
-- liabilities() : App\Models\Account
-- customerWalletLiability() : App\Models\Account
-- equity() : App\Models\Account
-- ownerEquity() : App\Models\Account
-- revenue() : App\Models\Account
-- subscriptionRevenue() : App\Models\Account
-- expenses() : App\Models\Account
-- networkExpenses() : App\Models\Account
-
----
-
 ## ActionDocumentationGenerator
 
 **Namespace**
@@ -220,26 +190,6 @@ App\Services\Documentation\Knowledge
 
 - filename() : string
 - generate() : string
-
----
-
-## ChartOfAccountsService
-
-**Namespace**
-
-```
-App\Services\Accounting
-```
-
-**File**
-
-```
-/var/www/app/Services/Accounting/ChartOfAccountsService.php
-```
-
-**Methods**
-
-- createDefaultAccounts() : void
 
 ---
 
@@ -778,76 +728,6 @@ App\Services\Documentation\Knowledge
 
 - filename() : string
 - generate() : string
-
----
-
-## JournalEntryNumberService
-
-**Namespace**
-
-```
-App\Services\Finance
-```
-
-**File**
-
-```
-/var/www/app/Services/Finance/JournalEntryNumberService.php
-```
-
-**Methods**
-
-- generate() : string
-
----
-
-## JournalPostingService
-
-**Namespace**
-
-```
-App\Services\Accounting
-```
-
-**File**
-
-```
-/var/www/app/Services/Accounting/JournalPostingService.php
-```
-
-**Constructor Dependencies**
-
-- JournalValidationService $validationService
-- ActivityLogService $activityLogService
-
-**Properties**
-
-- $validationService : App\Services\Accounting\JournalValidationService
-- $activityLogService : App\Modules\Activity\Application\Services\ActivityLogService
-
-**Methods**
-
-- post() : App\Models\JournalEntry
-
----
-
-## JournalValidationService
-
-**Namespace**
-
-```
-App\Services\Accounting
-```
-
-**File**
-
-```
-/var/www/app/Services/Accounting/JournalValidationService.php
-```
-
-**Methods**
-
-- validate() : void
 
 ---
 
@@ -1778,29 +1658,6 @@ App\Services\Network
 
 ---
 
-## NotificationService
-
-**Namespace**
-
-```
-App\Services\Notification
-```
-
-**File**
-
-```
-/var/www/app/Services/Notification/NotificationService.php
-```
-
-**Methods**
-
-- create() : App\Models\Notification
-- createReminder() : App\Models\Notification
-- billingFailed() : App\Models\Notification
-- subscriptionRenewed() : App\Models\Notification
-
----
-
 ## ProjectBibleService
 
 **Namespace**
@@ -2239,26 +2096,6 @@ App\Services\Documentation\Knowledge
 
 - generate() : string
 - filename() : string
-
----
-
-## SubscriptionActivityService
-
-**Namespace**
-
-```
-App\Services\Activity
-```
-
-**File**
-
-```
-/var/www/app/Services/Activity/SubscriptionActivityService.php
-```
-
-**Methods**
-
-- log() : App\Models\ActivityLog
 
 ---
 

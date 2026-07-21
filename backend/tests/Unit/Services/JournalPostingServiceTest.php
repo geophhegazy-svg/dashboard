@@ -10,8 +10,9 @@ use App\Models\JournalEntry;
 use App\Models\JournalEntryLine;
 use App\Models\Tenant;
 use App\Models\User;
-use App\Services\Accounting\JournalPostingService;
+use App\Modules\Accounting\Application\Services\JournalPostingService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
@@ -127,7 +128,7 @@ class JournalPostingServiceTest extends TestCase
         $this->service->post($entry);
 
         $this->assertEquals(
-            auth()->id(),
+            Auth::id(),
             $entry->fresh()->posted_by
         );
     }

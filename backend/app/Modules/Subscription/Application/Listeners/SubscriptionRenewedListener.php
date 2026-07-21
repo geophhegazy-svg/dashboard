@@ -7,7 +7,7 @@ namespace App\Modules\Subscription\Application\Listeners;
 use App\Models\Invoice;
 use App\Modules\Invoice\InvoiceService;
 use App\Modules\Payment\PaymentService;
-use App\Services\Notification\NotificationService;
+use App\Modules\Notification\Application\Services\NotificationService;
 use App\Modules\Activity\Application\Services\ActivityLogService;
 use App\Core\EventBus\Contracts\EventContract;
 use App\Core\EventBus\Contracts\EventListenerInterface;

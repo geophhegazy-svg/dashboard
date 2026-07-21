@@ -6,7 +6,7 @@ namespace Tests\Unit\Services;
 
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Services\Notification\NotificationService;
+use App\Modules\Notification\Application\Services\NotificationService;
 use App\Models\Notification;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 

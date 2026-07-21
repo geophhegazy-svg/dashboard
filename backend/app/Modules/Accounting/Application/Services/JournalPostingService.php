@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Accounting;
+namespace App\Modules\Accounting\Application\Services;
 
 use App\Events\JournalEntryPosted;
 use App\Exceptions\Accounting\JournalPostingException;

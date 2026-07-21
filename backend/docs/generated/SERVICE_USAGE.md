@@ -26,28 +26,6 @@ App\Services\Documentation\Handover\AbstractHandoverSection
 
 - generate
 
-## AccountResolverService
-
-**Class**
-
-```
-App\Services\Accounting\AccountResolverService
-```
-
-**Public Methods**
-
-- accountsReceivable
-- assets
-- cash
-- customerWalletLiability
-- equity
-- expenses
-- liabilities
-- networkExpenses
-- ownerEquity
-- revenue
-- subscriptionRevenue
-
 ## ActionDocumentationGenerator
 
 **Class**
@@ -129,18 +107,6 @@ App\Services\Documentation\Knowledge\BusinessRulesGenerator
 - __construct
 - filename
 - generate
-
-## ChartOfAccountsService
-
-**Class**
-
-```
-App\Services\Accounting\ChartOfAccountsService
-```
-
-**Public Methods**
-
-- createDefaultAccounts
 
 ## ClassDocumentationGenerator
 
@@ -429,43 +395,6 @@ App\Services\Documentation\Knowledge\HandoverDocumentGenerator
 
 - filename
 - generate
-
-## JournalEntryNumberService
-
-**Class**
-
-```
-App\Services\Finance\JournalEntryNumberService
-```
-
-**Public Methods**
-
-- generate
-
-## JournalPostingService
-
-**Class**
-
-```
-App\Services\Accounting\JournalPostingService
-```
-
-**Public Methods**
-
-- __construct
-- post
-
-## JournalValidationService
-
-**Class**
-
-```
-App\Services\Accounting\JournalValidationService
-```
-
-**Public Methods**
-
-- validate
 
 ## JournalValidator
 
@@ -977,21 +906,6 @@ App\Services\Network\NetworkProviderResolver
 - resolve
 - resolveByName
 
-## NotificationService
-
-**Class**
-
-```
-App\Services\Notification\NotificationService
-```
-
-**Public Methods**
-
-- billingFailed
-- create
-- createReminder
-- subscriptionRenewed
-
 ## ProjectBibleService
 
 **Class**
@@ -1210,18 +1124,6 @@ App\Services\Documentation\Knowledge\StatisticsGenerator
 - __construct
 - filename
 - generate
-
-## SubscriptionActivityService
-
-**Class**
-
-```
-App\Services\Activity\SubscriptionActivityService
-```
-
-**Public Methods**
-
-- log
 
 ## TelegramNotificationService
 

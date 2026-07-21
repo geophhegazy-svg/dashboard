@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Accounting;
+namespace App\Modules\Accounting\Application\Services;;
 
 use App\Exceptions\Accounting\JournalValidationException;
 use App\Models\JournalEntry;
+use App\Modules\Accounting\Application\Services\JuornalValidationService;
 
 class JournalValidationService
 {

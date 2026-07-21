@@ -30,10 +30,9 @@ use App\Repositories\Eloquent\JournalEntryLineRepository;
 use App\Services\Finance\FinanceService;
 use App\Services\Network\MikrotikServiceAdapter;
 
-use App\Services\Finance\JournalEntryNumberService;
-use App\Services\Accounting\JournalPostingService;
-use App\Services\Accounting\JournalValidationService;
-
+use App\Modules\Accounting\Application\Services\JournalEntryNumberService;
+use App\Modules\Accounting\Application\Services\JournalPostingService;
+use App\Modules\Accounting\Application\Services\JournalValidationService;
 class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
