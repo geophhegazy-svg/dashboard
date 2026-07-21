@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\Subscription\Application\Workflows;
 
 use App\Application\Shared\Workflow\AbstractWorkflow;
-use App\Modules\Subscription\Application\Commands\RenewSubscriptionAction;
+use App\Modules\Subscription\Application\Actions\RenewSubscriptionAction;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 
 final class RenewWorkflow extends AbstractWorkflow

@@ -11,10 +11,19 @@ abstract class Module implements ModuleContract
 {
     abstract public function name(): string;
 
+    /**
+     * @deprecated استخدم ModuleManifest بدلاً منه.
+     */
     public function register(): void {}
 
+    /**
+     * @deprecated استخدم ModuleManifest بدلاً منه.
+     */
     public function boot(): void {}
 
+    /**
+     * المصدر الوحيد لتعريف مكونات الـ Module.
+     */
     public function manifest(): ModuleManifest
     {
         return ModuleManifest::make();

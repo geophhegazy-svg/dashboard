@@ -7,7 +7,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\SubscriptionResource;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
-use App\Services\Subscription\SubscriptionService;
+use App\Modules\Subscription\Application\Services\SubscriptionService;
 use App\Support\ApiResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;

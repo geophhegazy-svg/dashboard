@@ -14,12 +14,12 @@ class ServicesSection
         $services = [];
 
         $iterator = new RecursiveIteratorIterator(
-            new RecursiveDirectoryIterator(app_path('Services'))
+            new RecursiveDirectoryIterator(app_path())
         );
 
         foreach ($iterator as $file) {
 
-            if (!$file->isFile()) {
+            if (! $file->isFile()) {
                 continue;
             }
 
@@ -27,8 +27,28 @@ class ServicesSection
                 continue;
             }
 
-            $services[] = $file->getBasename('.php');
+            $path = $file->getPathname();
+
+            if (
+                str_contains($path, DIRECTORY_SEPARATOR . 'Documentation' . DIRECTORY_SEPARATOR)
+                || str_contains($path, DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR)
+            ) {
+                continue;
+            }
+
+            $name = $file->getBasename('.php');
+
+            if (
+                ! str_ends_with($name, 'Service')
+                && ! str_ends_with($name, 'Manager')
+            ) {
+                continue;
+            }
+
+            $services[] = $name;
         }
+
+        $services = array_values(array_unique($services));
 
         sort($services);
 

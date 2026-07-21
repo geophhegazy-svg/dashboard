@@ -66,19 +66,6 @@ App\Services\Documentation\Generators
 
 ---
 
-## ActivityLogService
-
-**Namespace**
-App\Services\Activity
-
-**Dependencies**
-- None
-
-**Methods**
-- log(5 params) : void
-
----
-
 ## AiStartPromptExport
 
 **Namespace**
@@ -120,53 +107,6 @@ App\Services\Documentation\Knowledge
 **Methods**
 - generate(0 params) : string
 - filename(0 params) : string
-
----
-
-## AutomaticBillingService
-
-**Namespace**
-App\Services\Billing
-
-**Dependencies**
-- App\Services\Billing\BillingEngine
-- App\Services\Subscription\SubscriptionRenewalService
-- App\Services\Notification\NotificationService
-
-**Methods**
-- __construct(3 params) : mixed
-- run(1 params) : void
-- processSubscription(1 params) : void
-
----
-
-## BillingCycleService
-
-**Namespace**
-App\Services\Billing
-
-**Dependencies**
-- None
-
-**Methods**
-- calculateNextBillingDate(2 params) : Carbon\Carbon
-- calculateGraceDate(2 params) : Carbon\Carbon
-- isDue(1 params) : bool
-- isExpired(1 params) : bool
-
----
-
-## BillingEngine
-
-**Namespace**
-App\Services\Billing
-
-**Dependencies**
-- None
-
-**Methods**
-- status(2 params) : App\Enums\BillingStatus
-- nextDueDate(2 params) : Carbon\Carbon
 
 ---
 
@@ -309,21 +249,6 @@ App\Services\Dashboard
 **Methods**
 - __construct(1 params) : mixed
 - getDashboardData(1 params) : array
-
----
-
-## CustomerService
-
-**Namespace**
-App\Services\Customer
-
-**Dependencies**
-- None
-
-**Methods**
-- create(1 params) : App\Models\Customer
-- update(2 params) : App\Models\Customer
-- delete(1 params) : bool
 
 ---
 
@@ -539,48 +464,6 @@ App\Services\Documentation\Knowledge
 
 ---
 
-## InvoiceGenerator
-
-**Namespace**
-App\Services\Billing
-
-**Dependencies**
-- App\Services\Invoice\InvoiceNumberService
-
-**Methods**
-- __construct(1 params) : mixed
-- generate(1 params) : App\Models\Invoice
-
----
-
-## InvoiceNumberService
-
-**Namespace**
-App\Services\Invoice
-
-**Dependencies**
-- None
-
-**Methods**
-- generate(1 params) : string
-
----
-
-## InvoiceService
-
-**Namespace**
-App\Services\Invoice
-
-**Dependencies**
-- None
-
-**Methods**
-- create(1 params) : App\Models\Invoice
-- update(2 params) : App\Models\Invoice
-- delete(1 params) : bool
-
----
-
 ## JournalEntryNumberService
 
 **Namespace**
@@ -601,7 +484,7 @@ App\Services\Accounting
 
 **Dependencies**
 - App\Services\Accounting\JournalValidationService
-- App\Services\Activity\ActivityLogService
+- App\Modules\Activity\Application\Services\ActivityLogService
 
 **Methods**
 - __construct(2 params) : mixed
@@ -1186,36 +1069,6 @@ App\Services\Notification
 
 ---
 
-## PackageService
-
-**Namespace**
-App\Services\Package
-
-**Dependencies**
-- None
-
-**Methods**
-- paginate(0 params) : Illuminate\Contracts\Pagination\LengthAwarePaginator
-- create(1 params) : App\Models\Package
-- update(2 params) : App\Models\Package
-- delete(1 params) : void
-
----
-
-## PaymentService
-
-**Namespace**
-App\Services\Payment
-
-**Dependencies**
-- None
-
-**Methods**
-- create(1 params) : App\Models\Payment
-- createFromInvoice(5 params) : App\Models\Payment
-
----
-
 ## ProjectBibleService
 
 **Namespace**
@@ -1323,57 +1176,6 @@ App\Services\Documentation\Reflection
 
 ---
 
-## ReportExecutionService
-
-**Namespace**
-App\Services\Reports
-
-**Dependencies**
-- App\Reports\Manager\ReportManager
-- App\Reports\Export\ExportManager
-- App\Contracts\Repositories\ReportRepositoryInterface
-- App\Contracts\Repositories\ReportExportRepositoryInterface
-
-**Methods**
-- __construct(4 params) : mixed
-- execute(3 params) : App\Reports\DTO\ExportResult
-
----
-
-## ReportExportService
-
-**Namespace**
-App\Services\Reports
-
-**Dependencies**
-- App\Contracts\Repositories\ReportExportRepositoryInterface
-
-**Methods**
-- __construct(1 params) : mixed
-- paginate(0 params) : Illuminate\Contracts\Pagination\LengthAwarePaginator
-- create(1 params) : App\Models\ReportExport
-- find(1 params) : ?App\Models\ReportExport
-
----
-
-## ReportService
-
-**Namespace**
-App\Services\Reports
-
-**Dependencies**
-- App\Contracts\Repositories\ReportRepositoryInterface
-
-**Methods**
-- __construct(1 params) : mixed
-- paginate(0 params) : Illuminate\Contracts\Pagination\LengthAwarePaginator
-- create(1 params) : App\Models\Report
-- update(2 params) : App\Models\Report
-- delete(1 params) : bool
-- find(1 params) : ?App\Models\Report
-
----
-
 ## RepositoryDocumentationGenerator
 
 **Namespace**
@@ -1415,26 +1217,6 @@ App\Services\Documentation\Knowledge
 - __construct(1 params) : mixed
 - filename(0 params) : string
 - generate(0 params) : string
-
----
-
-## ScheduledReportService
-
-**Namespace**
-App\Services\Reports
-
-**Dependencies**
-- None
-
-**Methods**
-- paginate(0 params) : Illuminate\Contracts\Pagination\LengthAwarePaginator
-- create(1 params) : App\Models\ScheduledReport
-- update(2 params) : App\Models\ScheduledReport
-- delete(1 params) : void
-- activate(1 params) : App\Models\ScheduledReport
-- deactivate(1 params) : App\Models\ScheduledReport
-- updateLastRun(1 params) : App\Models\ScheduledReport
-- updateNextRun(2 params) : App\Models\ScheduledReport
 
 ---
 
@@ -1527,20 +1309,6 @@ App\Services\Documentation\Knowledge
 
 ---
 
-## SubscriptionActivationService
-
-**Namespace**
-App\Services\Subscription
-
-**Dependencies**
-- App\Contracts\MikrotikServiceInterface
-
-**Methods**
-- __construct(1 params) : mixed
-- activate(1 params) : bool
-
----
-
 ## SubscriptionActivityService
 
 **Namespace**
@@ -1551,180 +1319,6 @@ App\Services\Activity
 
 **Methods**
 - log(4 params) : App\Models\ActivityLog
-
----
-
-## SubscriptionExpirationService
-
-**Namespace**
-App\Services\Subscription
-
-**Dependencies**
-- App\Contracts\MikrotikServiceInterface
-
-**Methods**
-- __construct(1 params) : mixed
-- expirePppoe(1 params) : bool
-- expireHotspot(1 params) : bool
-
----
-
-## SubscriptionGracePeriodService
-
-**Namespace**
-App\Services\Subscription
-
-**Dependencies**
-- App\Contracts\MikrotikServiceInterface
-
-**Methods**
-- __construct(1 params) : mixed
-- enterPppoeGrace(1 params) : bool
-- enterHotspotGrace(1 params) : bool
-
----
-
-## SubscriptionLifecycleService
-
-**Namespace**
-App\Services\Subscription
-
-**Dependencies**
-- App\Modules\Subscription\Application\Commands\ActivateSubscriptionAction
-- App\Modules\Subscription\Application\Commands\SuspendSubscriptionAction
-- App\Modules\Subscription\Application\Commands\ExpireSubscriptionAction
-- App\Modules\Subscription\Application\Commands\RenewSubscriptionAction
-- App\Modules\Subscription\Application\Commands\RestoreSubscriptionAction
-
-**Methods**
-- __construct(5 params) : mixed
-- activate(1 params) : bool
-- suspend(1 params) : bool
-- expire(1 params) : bool
-- renew(2 params) : bool
-- restore(1 params) : bool
-
----
-
-## SubscriptionRenewalService
-
-**Namespace**
-App\Services\Subscription
-
-**Dependencies**
-- App\Contracts\MikrotikServiceInterface
-
-**Methods**
-- __construct(1 params) : mixed
-- renewPppoe(1 params) : bool
-- renewHotspot(1 params) : bool
-
----
-
-## SubscriptionRulesService
-
-**Namespace**
-App\Services\Subscription
-
-**Dependencies**
-- None
-
-**Methods**
-- ensureCanActivate(1 params) : void
-- ensureCanRenew(1 params) : void
-- ensureCanSuspend(1 params) : void
-- ensureCustomerIsActive(1 params) : void
-- ensurePackageIsActive(1 params) : void
-- isExpired(1 params) : bool
-- isInGracePeriod(2 params) : bool
-
----
-
-## SubscriptionSchedulerService
-
-**Namespace**
-App\Services\Subscription
-
-**Dependencies**
-- App\Services\Subscription\SubscriptionRenewalService
-- App\Services\Subscription\SubscriptionService
-
-**Methods**
-- __construct(2 params) : mixed
-- autoRenew(0 params) : int
-- enterGracePeriod(0 params) : int
-- expireSubscriptions(0 params) : int
-- synchronize(0 params) : int
-
----
-
-## SubscriptionService
-
-**Namespace**
-App\Services\Subscription
-
-**Dependencies**
-- App\Modules\Subscription\Domain\Contracts\SubscriptionRepositoryInterface
-- App\Modules\Subscription\Application\Workflows\ActivateWorkflow
-- App\Modules\Subscription\Application\Workflows\SuspendWorkflow
-- App\Modules\Subscription\Application\Workflows\ExpireWorkflow
-- App\Modules\Subscription\Application\Workflows\RestoreWorkflow
-- App\Modules\Subscription\Application\Workflows\RenewWorkflow
-
-**Methods**
-- __construct(6 params) : mixed
-- paginate(2 params) : Illuminate\Pagination\LengthAwarePaginator
-- find(1 params) : ?App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
-- findOrFail(1 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
-- byCustomer(1 params) : Illuminate\Database\Eloquent\Collection
-- active(0 params) : Illuminate\Database\Eloquent\Collection
-- expired(0 params) : Illuminate\Database\Eloquent\Collection
-- byStatus(1 params) : Illuminate\Database\Eloquent\Collection
-- search(2 params) : Illuminate\Pagination\LengthAwarePaginator
-- create(1 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
-- update(2 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
-- activate(1 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
-- suspend(1 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
-- expire(1 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
-- restore(1 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
-- renew(2 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
-- statistics(0 params) : array
-- autoExpire(0 params) : int
-- expiringSoon(1 params) : Illuminate\Database\Eloquent\Collection
-
----
-
-## SubscriptionSuspensionService
-
-**Namespace**
-App\Services\Subscription
-
-**Dependencies**
-- App\Modules\Subscription\Application\Commands\SuspendSubscriptionAction
-
-**Methods**
-- __construct(1 params) : mixed
-- suspend(1 params) : bool
-
----
-
-## TaskService
-
-**Namespace**
-App\Services\Task
-
-**Dependencies**
-- None
-
-**Methods**
-- paginate(0 params) : Illuminate\Contracts\Pagination\LengthAwarePaginator
-- create(1 params) : App\Models\Task
-- update(2 params) : App\Models\Task
-- complete(1 params) : App\Models\Task
-- cancel(1 params) : App\Models\Task
-- reopen(1 params) : App\Models\Task
-- start(1 params) : App\Models\Task
-- delete(1 params) : void
 
 ---
 
@@ -1756,29 +1350,6 @@ App\Services\Documentation\Knowledge
 
 ---
 
-## TicketService
-
-**Namespace**
-App\Services\Ticket
-
-**Dependencies**
-- None
-
-**Methods**
-- createFromAdmin(2 params) : App\Models\Ticket
-- createFromCustomer(2 params) : App\Models\Ticket
-- updateFromAdmin(3 params) : App\Models\Ticket
-- delete(2 params) : void
-- replyAsStaff(3 params) : App\Models\TicketReply
-- replyAsCustomer(3 params) : App\Models\TicketReply
-- changeStatus(3 params) : App\Models\Ticket
-- closeByCustomer(1 params) : App\Models\Ticket
-- assign(3 params) : App\Models\Ticket
-- adminDashboardStats(0 params) : array
-- customerDashboardStats(1 params) : array
-
----
-
 ## TodoGenerator
 
 **Namespace**
@@ -1804,32 +1375,5 @@ App\Services\Documentation\Knowledge
 - __construct(1 params) : mixed
 - filename(0 params) : string
 - generate(0 params) : string
-
----
-
-## UsageService
-
-**Namespace**
-App\Services\Usage
-
-**Dependencies**
-- None
-
-**Methods**
-- getUsageForCustomer(1 params) : array
-
----
-
-## WalletService
-
-**Namespace**
-App\Services\Wallet
-
-**Dependencies**
-- None
-
-**Methods**
-- deposit(4 params) : void
-- deduct(4 params) : void
 
 ---

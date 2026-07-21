@@ -63,18 +63,6 @@ App\Services\Documentation\Generators\ActionDocumentationGenerator
 - generate
 - priority
 
-## ActivityLogService
-
-**Class**
-
-```
-App\Services\Activity\ActivityLogService
-```
-
-**Public Methods**
-
-- log
-
 ## AiStartPromptExport
 
 **Class**
@@ -115,48 +103,6 @@ App\Services\Documentation\Knowledge\ArchitectureGenerator
 
 - filename
 - generate
-
-## AutomaticBillingService
-
-**Class**
-
-```
-App\Services\Billing\AutomaticBillingService
-```
-
-**Public Methods**
-
-- __construct
-- processSubscription
-- run
-
-## BillingCycleService
-
-**Class**
-
-```
-App\Services\Billing\BillingCycleService
-```
-
-**Public Methods**
-
-- calculateGraceDate
-- calculateNextBillingDate
-- isDue
-- isExpired
-
-## BillingEngine
-
-**Class**
-
-```
-App\Services\Billing\BillingEngine
-```
-
-**Public Methods**
-
-- nextDueDate
-- status
 
 ## BusinessRuleExtractor
 
@@ -287,20 +233,6 @@ App\Services\Dashboard\CustomerDashboardService
 
 - __construct
 - getDashboardData
-
-## CustomerService
-
-**Class**
-
-```
-App\Services\Customer\CustomerService
-```
-
-**Public Methods**
-
-- create
-- delete
-- update
 
 ## DashboardService
 
@@ -497,45 +429,6 @@ App\Services\Documentation\Knowledge\HandoverDocumentGenerator
 
 - filename
 - generate
-
-## InvoiceGenerator
-
-**Class**
-
-```
-App\Services\Billing\InvoiceGenerator
-```
-
-**Public Methods**
-
-- __construct
-- generate
-
-## InvoiceNumberService
-
-**Class**
-
-```
-App\Services\Invoice\InvoiceNumberService
-```
-
-**Public Methods**
-
-- generate
-
-## InvoiceService
-
-**Class**
-
-```
-App\Services\Invoice\InvoiceService
-```
-
-**Public Methods**
-
-- create
-- delete
-- update
 
 ## JournalEntryNumberService
 
@@ -1099,34 +992,6 @@ App\Services\Notification\NotificationService
 - createReminder
 - subscriptionRenewed
 
-## PackageService
-
-**Class**
-
-```
-App\Services\Package\PackageService
-```
-
-**Public Methods**
-
-- create
-- delete
-- paginate
-- update
-
-## PaymentService
-
-**Class**
-
-```
-App\Services\Payment\PaymentService
-```
-
-**Public Methods**
-
-- create
-- createFromInvoice
-
 ## ProjectBibleService
 
 **Class**
@@ -1223,51 +1088,6 @@ App\Services\Documentation\Reflection\ReflectionEngine
 - __construct
 - reflect
 
-## ReportExecutionService
-
-**Class**
-
-```
-App\Services\Reports\ReportExecutionService
-```
-
-**Public Methods**
-
-- __construct
-- execute
-
-## ReportExportService
-
-**Class**
-
-```
-App\Services\Reports\ReportExportService
-```
-
-**Public Methods**
-
-- __construct
-- create
-- find
-- paginate
-
-## ReportService
-
-**Class**
-
-```
-App\Services\Reports\ReportService
-```
-
-**Public Methods**
-
-- __construct
-- create
-- delete
-- find
-- paginate
-- update
-
 ## RepositoryDocumentationGenerator
 
 **Class**
@@ -1308,25 +1128,6 @@ App\Services\Documentation\Knowledge\RoutesKnowledgeGenerator
 - __construct
 - filename
 - generate
-
-## ScheduledReportService
-
-**Class**
-
-```
-App\Services\Reports\ScheduledReportService
-```
-
-**Public Methods**
-
-- activate
-- create
-- deactivate
-- delete
-- paginate
-- update
-- updateLastRun
-- updateNextRun
 
 ## ServiceDocumentationGenerator
 
@@ -1410,19 +1211,6 @@ App\Services\Documentation\Knowledge\StatisticsGenerator
 - filename
 - generate
 
-## SubscriptionActivationService
-
-**Class**
-
-```
-App\Services\Subscription\SubscriptionActivationService
-```
-
-**Public Methods**
-
-- __construct
-- activate
-
 ## SubscriptionActivityService
 
 **Class**
@@ -1434,161 +1222,6 @@ App\Services\Activity\SubscriptionActivityService
 **Public Methods**
 
 - log
-
-## SubscriptionExpirationService
-
-**Class**
-
-```
-App\Services\Subscription\SubscriptionExpirationService
-```
-
-**Public Methods**
-
-- __construct
-- expireHotspot
-- expirePppoe
-
-## SubscriptionGracePeriodService
-
-**Class**
-
-```
-App\Services\Subscription\SubscriptionGracePeriodService
-```
-
-**Public Methods**
-
-- __construct
-- enterHotspotGrace
-- enterPppoeGrace
-
-## SubscriptionLifecycleService
-
-**Class**
-
-```
-App\Services\Subscription\SubscriptionLifecycleService
-```
-
-**Public Methods**
-
-- __construct
-- activate
-- expire
-- renew
-- restore
-- suspend
-
-## SubscriptionRenewalService
-
-**Class**
-
-```
-App\Services\Subscription\SubscriptionRenewalService
-```
-
-**Public Methods**
-
-- __construct
-- renewHotspot
-- renewPppoe
-
-## SubscriptionRulesService
-
-**Class**
-
-```
-App\Services\Subscription\SubscriptionRulesService
-```
-
-**Public Methods**
-
-- ensureCanActivate
-- ensureCanRenew
-- ensureCanSuspend
-- ensureCustomerIsActive
-- ensurePackageIsActive
-- isExpired
-- isInGracePeriod
-
-## SubscriptionSchedulerService
-
-**Class**
-
-```
-App\Services\Subscription\SubscriptionSchedulerService
-```
-
-**Public Methods**
-
-- __construct
-- autoRenew
-- enterGracePeriod
-- expireSubscriptions
-- synchronize
-
-## SubscriptionService
-
-**Class**
-
-```
-App\Services\Subscription\SubscriptionService
-```
-
-**Public Methods**
-
-- __construct
-- activate
-- active
-- autoExpire
-- byCustomer
-- byStatus
-- create
-- expire
-- expired
-- expiringSoon
-- find
-- findOrFail
-- paginate
-- renew
-- restore
-- search
-- statistics
-- suspend
-- update
-
-## SubscriptionSuspensionService
-
-**Class**
-
-```
-App\Services\Subscription\SubscriptionSuspensionService
-```
-
-**Public Methods**
-
-- __construct
-- suspend
-
-## TaskService
-
-**Class**
-
-```
-App\Services\Task\TaskService
-```
-
-**Public Methods**
-
-- cancel
-- complete
-- create
-- delete
-- paginate
-- reopen
-- start
-- update
 
 ## TelegramNotificationService
 
@@ -1616,28 +1249,6 @@ App\Services\Documentation\Knowledge\TestCoverageExtractor
 
 - extract
 
-## TicketService
-
-**Class**
-
-```
-App\Services\Ticket\TicketService
-```
-
-**Public Methods**
-
-- adminDashboardStats
-- assign
-- changeStatus
-- closeByCustomer
-- createFromAdmin
-- createFromCustomer
-- customerDashboardStats
-- delete
-- replyAsCustomer
-- replyAsStaff
-- updateFromAdmin
-
 ## TodoGenerator
 
 **Class**
@@ -1663,28 +1274,3 @@ App\Services\Documentation\Knowledge\TodoKnowledgeGenerator
 - __construct
 - filename
 - generate
-
-## UsageService
-
-**Class**
-
-```
-App\Services\Usage\UsageService
-```
-
-**Public Methods**
-
-- getUsageForCustomer
-
-## WalletService
-
-**Class**
-
-```
-App\Services\Wallet\WalletService
-```
-
-**Public Methods**
-
-- deduct
-- deposit

@@ -6,7 +6,6 @@ namespace App\Core\QueryBus;
 
 use LogicException;
 use App\Core\QueryBus\Contracts\QueryInterface;
-use App\Core\QueryBus\Contracts\QueryHandlerInterface;
 
 final readonly class QueryDispatcher
 {
@@ -31,7 +30,6 @@ final readonly class QueryDispatcher
             );
         }
 
-        /** @var QueryHandlerInterface $handler */
         $handler = app(
             $descriptor->handler,
         );

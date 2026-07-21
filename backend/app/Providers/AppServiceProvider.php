@@ -45,13 +45,13 @@ class AppServiceProvider extends ServiceProvider
         */
 
         $this->app->bind(
-            AccountRepositoryInterface::class,
-            AccountRepository::class
+            SubscriptionRepositoryInterface::class,
+            SubscriptionRepository::class
         );
 
         $this->app->bind(
-            SubscriptionRepositoryInterface::class,
-            SubscriptionRepository::class
+            AccountRepositoryInterface::class,
+            AccountRepository::class
         );
 
         $this->app->bind(

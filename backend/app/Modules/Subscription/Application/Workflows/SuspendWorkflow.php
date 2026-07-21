@@ -6,7 +6,7 @@ namespace App\Modules\Subscription\Application\Workflows;
 
 use App\Application\Shared\Workflow\AbstractWorkflow;
 use App\Contracts\MikrotikServiceInterface;
-use App\Modules\Subscription\Application\Commands\SuspendSubscriptionAction;
+use App\Modules\Subscription\Application\Actions\SuspendSubscriptionAction;
 use App\Modules\Subscription\Domain\Events\SubscriptionSuspended;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 

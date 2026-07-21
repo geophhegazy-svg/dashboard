@@ -896,7 +896,7 @@ App\Http\Controllers\Api
 **Namespace**
 
 ```
-app\Http\Controllers\Api\Task
+App\Http\Controllers\Api\Task
 ```
 
 **File**

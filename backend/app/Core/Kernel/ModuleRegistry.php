@@ -4,32 +4,86 @@ declare(strict_types=1);
 
 namespace App\Core\Kernel;
 
+use Illuminate\Console\Application as Artisan;
+use Illuminate\Console\Scheduling\Schedule;
 use App\Core\Kernel\Contracts\ModuleContract;
+use App\Core\Kernel\Resources\CommandResource;
+use App\Core\Kernel\Resources\ScheduleResource;
 
-class ModuleRegistry
+final class ModuleRegistry
 {
     /**
-     * @var ModuleContract[]
+     * @var array<int,ModuleContract>
      */
-    protected array $modules = [];
+    private array $modules = [];
 
+    /**
+     * @var array<int,CommandResource>
+     */
+    private array $commands = [];
 
-    public function register(ModuleContract $module): void
-    {
+    /**
+     * @var array<int,ScheduleResource>
+     */
+    private array $schedules = [];
+
+    public function register(
+        ModuleContract $module
+    ): void {
+
         $this->modules[] = $module;
 
-        $module->register();
-    }
+        $manifest = $module->manifest();
 
+        foreach ($manifest->resources() as $resource) {
 
-    public function boot(): void
-    {
-        foreach ($this->modules as $module) {
-            $module->boot();
+            $resource->register();
+
+            if ($resource instanceof CommandResource) {
+                $this->commands[] = $resource;
+            }
+
+            if ($resource instanceof ScheduleResource) {
+                $this->schedules[] = $resource;
+            }
         }
     }
 
+    public function boot(): void
+    {
+        $this->registerCommands();
 
+        $this->registerSchedules();
+    }
+
+    private function registerCommands(): void
+    {
+        foreach ($this->commands as $resource) {
+
+            Artisan::starting(function (Artisan $artisan) use ($resource) {
+
+                $artisan->resolveCommands(
+                    $resource->commands()
+                );
+            });
+        }
+    }
+
+    private function registerSchedules(): void
+    {
+        if (! app()->bound(Schedule::class)) {
+            return;
+        }
+
+        foreach ($this->schedules as $resource) {
+
+            $resource->register();
+        }
+    }
+
+    /**
+     * @return array<int,ModuleContract>
+     */
     public function all(): array
     {
         return $this->modules;

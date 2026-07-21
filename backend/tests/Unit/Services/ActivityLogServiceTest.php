@@ -6,7 +6,7 @@ namespace Tests\Unit\Services;
 
 use App\Models\ActivityLog;
 use App\Models\Tenant;
-use App\Services\Activity\ActivityLogService;
+use App\Modules\Activity\Application\Services\ActivityLogService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 

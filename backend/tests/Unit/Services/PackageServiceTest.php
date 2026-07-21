@@ -6,7 +6,7 @@ namespace Tests\Unit\Services;
 
 use Tests\TestCase;
 use App\Models\Package;
-use App\Services\Package\PackageService;
+use App\Modules\Package\Application\Services\PackageService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\Tenant;
 

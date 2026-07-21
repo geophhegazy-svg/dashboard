@@ -11,7 +11,7 @@ use App\Modules\Subscription\Domain\Events\SubscriptionRenewed;
 use App\Modules\Subscription\Domain\Events\SubscriptionRestored;
 use App\Modules\Subscription\Domain\Events\SubscriptionSuspended;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
-use App\Services\Subscription\SubscriptionService;
+use App\Modules\Subscription\Application\Services\SubscriptionService;
 use App\Contracts\MikrotikServiceInterface;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;

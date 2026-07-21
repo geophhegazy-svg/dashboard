@@ -34,19 +34,15 @@ Total: 27
 
 ## Services
 
-Total: 114
+Total: 87
 
 - AIContextGenerator
 - AbstractHandoverSection
 - AccountResolverService
 - ActionDocumentationGenerator
-- ActivityLogService
 - AiStartPromptExport
 - ApiDocumentationGenerator
 - ArchitectureGenerator
-- AutomaticBillingService
-- BillingCycleService
-- BillingEngine
 - BusinessRuleExtractor
 - BusinessRulesGenerator
 - ChartOfAccountsService
@@ -57,7 +53,6 @@ Total: 114
 - ControllerDocumentationGenerator
 - ControllersKnowledgeGenerator
 - CustomerDashboardService
-- CustomerService
 - DashboardService
 - DatabaseExtractor
 - DatabaseKnowledgeGenerator
@@ -73,9 +68,6 @@ Total: 114
 - FileScanner
 - FinanceService
 - HandoverDocumentGenerator
-- InvoiceGenerator
-- InvoiceNumberService
-- InvoiceService
 - JournalEntryNumberService
 - JournalPostingService
 - JournalValidationService
@@ -110,8 +102,6 @@ Total: 114
 - NetworkManager
 - NetworkProviderResolver
 - NotificationService
-- PackageService
-- PaymentService
 - ProjectBibleService
 - ProjectScanner
 - ProjectStateExtractor
@@ -119,37 +109,20 @@ Total: 114
 - ProjectSummaryGenerator
 - PropertyReflector
 - ReflectionEngine
-- ReportExecutionService
-- ReportExportService
-- ReportService
 - RepositoryDocumentationGenerator
 - RouteExtractor
 - RoutesKnowledgeGenerator
-- ScheduledReportService
 - ServiceDocumentationGenerator
 - ServiceUsageExtractor
 - ServiceUsageKnowledgeGenerator
 - ServicesKnowledgeGenerator
 - ServicesSection
 - StatisticsGenerator
-- SubscriptionActivationService
 - SubscriptionActivityService
-- SubscriptionExpirationService
-- SubscriptionGracePeriodService
-- SubscriptionLifecycleService
-- SubscriptionRenewalService
-- SubscriptionRulesService
-- SubscriptionSchedulerService
-- SubscriptionService
-- SubscriptionSuspensionService
-- TaskService
 - TelegramNotificationService
 - TestCoverageExtractor
-- TicketService
 - TodoGenerator
 - TodoKnowledgeGenerator
-- UsageService
-- WalletService
 
 ## Controllers
 

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\Subscription\Application\Workflows;
 
 use App\Application\Shared\Workflow\AbstractWorkflow;
-use App\Modules\Subscription\Application\Commands\ActivateSubscriptionAction;
+use App\Modules\Subscription\Application\Actions\ActivateSubscriptionAction;
 use App\Modules\Subscription\Domain\Events\SubscriptionActivated;
 use App\Modules\Subscription\Domain\Rules\CanActivateSubscriptionRule;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;

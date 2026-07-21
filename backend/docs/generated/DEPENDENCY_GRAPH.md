@@ -38,7 +38,7 @@
 - App\Http\Controllers\Api\ReportController
 - App\Http\Controllers\Api\ScheduledReportController
 - App\Http\Controllers\Api\SubscriptionController
-- app\Http\Controllers\Api\Task\TaskController
+- App\Http\Controllers\Api\Task\TaskController
 - App\Http\Controllers\Api\TenantController
 - App\Http\Controllers\Api\TicketController
 - App\Http\Controllers\Api\UserController
@@ -49,13 +49,9 @@
 - App\Services\Documentation\Handover\AbstractHandoverSection
 - App\Services\Accounting\AccountResolverService
 - App\Services\Documentation\Generators\ActionDocumentationGenerator
-- App\Services\Activity\ActivityLogService
 - App\Services\Documentation\Exports\AiStartPromptExport
 - App\Services\Documentation\Generators\ApiDocumentationGenerator
 - App\Services\Documentation\Knowledge\ArchitectureGenerator
-- App\Services\Billing\AutomaticBillingService
-- App\Services\Billing\BillingCycleService
-- App\Services\Billing\BillingEngine
 - App\Services\Documentation\Knowledge\BusinessRuleExtractor
 - App\Services\Documentation\Knowledge\BusinessRulesGenerator
 - App\Services\Accounting\ChartOfAccountsService
@@ -66,7 +62,6 @@
 - App\Services\Documentation\Generators\ControllerDocumentationGenerator
 - App\Services\Documentation\Knowledge\ControllersKnowledgeGenerator
 - App\Services\Dashboard\CustomerDashboardService
-- App\Services\Customer\CustomerService
 - App\Services\Dashboard\DashboardService
 - App\Services\Documentation\Knowledge\DatabaseExtractor
 - App\Services\Documentation\Knowledge\DatabaseKnowledgeGenerator
@@ -82,9 +77,6 @@
 - App\Services\Documentation\Scanner\FileScanner
 - App\Services\Finance\FinanceService
 - App\Services\Documentation\Knowledge\HandoverDocumentGenerator
-- App\Services\Billing\InvoiceGenerator
-- App\Services\Invoice\InvoiceNumberService
-- App\Services\Invoice\InvoiceService
 - App\Services\Finance\JournalEntryNumberService
 - App\Services\Accounting\JournalPostingService
 - App\Services\Accounting\JournalValidationService
@@ -119,8 +111,6 @@
 - App\Services\Network\NetworkManager
 - App\Services\Network\NetworkProviderResolver
 - App\Services\Notification\NotificationService
-- App\Services\Package\PackageService
-- App\Services\Payment\PaymentService
 - App\Services\Documentation\ProjectBibleService
 - App\Services\Documentation\Scanner\ProjectScanner
 - App\Services\Documentation\Knowledge\ProjectStateExtractor
@@ -128,37 +118,20 @@
 - App\Services\Documentation\Knowledge\ProjectSummaryGenerator
 - App\Services\Documentation\Reflection\PropertyReflector
 - App\Services\Documentation\Reflection\ReflectionEngine
-- App\Services\Reports\ReportExecutionService
-- App\Services\Reports\ReportExportService
-- App\Services\Reports\ReportService
 - App\Services\Documentation\Generators\RepositoryDocumentationGenerator
 - App\Services\Documentation\Knowledge\RouteExtractor
 - App\Services\Documentation\Knowledge\RoutesKnowledgeGenerator
-- App\Services\Reports\ScheduledReportService
 - App\Services\Documentation\Generators\ServiceDocumentationGenerator
 - App\Services\Documentation\Knowledge\ServiceUsageExtractor
 - App\Services\Documentation\Knowledge\ServiceUsageKnowledgeGenerator
 - App\Services\Documentation\Knowledge\ServicesKnowledgeGenerator
 - App\Services\Documentation\Sections\ServicesSection
 - App\Services\Documentation\Knowledge\StatisticsGenerator
-- App\Services\Subscription\SubscriptionActivationService
 - App\Services\Activity\SubscriptionActivityService
-- App\Services\Subscription\SubscriptionExpirationService
-- App\Services\Subscription\SubscriptionGracePeriodService
-- App\Services\Subscription\SubscriptionLifecycleService
-- App\Services\Subscription\SubscriptionRenewalService
-- App\Services\Subscription\SubscriptionRulesService
-- App\Services\Subscription\SubscriptionSchedulerService
-- App\Services\Subscription\SubscriptionService
-- App\Services\Subscription\SubscriptionSuspensionService
-- App\Services\Task\TaskService
 - App\Services\Notification\TelegramNotificationService
 - App\Services\Documentation\Knowledge\TestCoverageExtractor
-- App\Services\Ticket\TicketService
 - App\Services\Documentation\Knowledge\TodoGenerator
 - App\Services\Documentation\Knowledge\TodoKnowledgeGenerator
-- App\Services\Usage\UsageService
-- App\Services\Wallet\WalletService
 
 ## Models
 

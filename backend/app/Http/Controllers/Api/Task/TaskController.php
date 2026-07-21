@@ -2,19 +2,18 @@
 
 declare(strict_types=1);
 
-namespace app\Http\Controllers\Api\Task;
+namespace App\Http\Controllers\Api\Task;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Task\StoreTaskRequest;
 use App\Http\Requests\Task\UpdateTaskRequest;
 use App\Http\Resources\TaskResource;
 use App\Models\Task;
-use App\Services\Task\TaskService;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use App\Modules\Task\Application\Services\TaskService;
 use Illuminate\Http\JsonResponse;
-use App\Http\Controllers\Controller;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
-
-class TaskController extends Controller
+final class TaskController extends Controller
 {
     public function __construct(
         private readonly TaskService $service,
@@ -49,10 +48,13 @@ class TaskController extends Controller
         );
     }
 
-    public function destroy(Task $task)
+    public function destroy(Task $task): JsonResponse
     {
         $this->service->delete($task);
 
-        return response()->noContent();
+        return response()->json(
+            null,
+            204
+        );
     }
 }

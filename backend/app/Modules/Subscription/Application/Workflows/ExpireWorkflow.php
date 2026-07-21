@@ -6,7 +6,7 @@ namespace App\Modules\Subscription\Application\Workflows;
 
 use App\Application\Shared\Workflow\AbstractWorkflow;
 use App\Contracts\MikrotikServiceInterface;
-use App\Modules\Subscription\Application\Commands\ExpireSubscriptionAction;
+use App\Modules\Subscription\Application\Actions\ExpireSubscriptionAction;
 use App\Modules\Subscription\Domain\Events\SubscriptionExpired;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 

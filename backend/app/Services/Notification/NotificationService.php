@@ -67,13 +67,19 @@ class NotificationService
         Subscription $subscription
     ): Notification {
 
-        return $this->create([
-            'tenant_id'   => $subscription->tenant_id,
-            'customer_id' => $subscription->customer_id,
-            'type'        => 'subscription_renewed',
-            'title'       => 'تم تجديد الاشتراك',
-            'message'     => 'تم تجديد اشتراكك بنجاح.',
-            'sent_at'     => now(),
-        ]);
+        return Notification::firstOrCreate(
+
+            [
+                'tenant_id'   => $subscription->tenant_id,
+                'customer_id' => $subscription->customer_id,
+                'type'        => 'subscription_renewed',
+            ],
+
+            [
+                'title'    => 'تم تجديد الاشتراك',
+                'message'  => 'تم تجديد اشتراكك بنجاح.',
+                'sent_at'  => now(),
+            ]
+        );
     }
 }

@@ -8,10 +8,21 @@ use App\Core\Kernel\ModuleManifest;
 use App\Core\Kernel\Modules\Module;
 use App\Core\Kernel\Resources\ActionResource;
 use App\Core\Kernel\Resources\EventListenerResource;
-use App\Modules\Subscription\Application\Commands\ActivateSubscriptionAction;
+use App\Core\Kernel\Resources\QueryResource;
+use App\Modules\Subscription\Application\Actions\ActivateSubscriptionAction;
 use App\Modules\Subscription\Application\Listeners\EnableMikrotikUserListener;
+use App\Modules\Subscription\Application\Queries\FindSubscriptionQuery;
 use App\Modules\Subscription\Domain\Events\SubscriptionActivated;
 use App\Core\Kernel\Resources\ListenerResource;
+use App\Core\Kernel\Resources\ServiceResource;
+use App\Modules\Subscription\Application\QueryHandlers\FindSubscriptionHandler;
+use App\Modules\Subscription\Domain\Contracts\SubscriptionRepositoryInterface;
+use App\Modules\Subscription\Infrastructure\Repositories\SubscriptionRepository;
+use App\Modules\Subscription\Domain\Contracts\SubscriptionRenewalServiceInterface;
+use App\Modules\Subscription\Domain\Services\SubscriptionRenewalService;
+use App\Modules\Subscription\Domain\Events\SubscriptionRenewed;
+use App\Modules\Subscription\Application\Listeners\SubscriptionRenewedListener;
+
 final class SubscriptionModule extends Module
 {
     public function name(): string
@@ -22,17 +33,44 @@ final class SubscriptionModule extends Module
     public function manifest(): ModuleManifest
     {
         return ModuleManifest::make()
+
+            ->add(
+            new ServiceResource([
+
+                SubscriptionRepositoryInterface::class =>
+                SubscriptionRepository::class,
+
+                SubscriptionRenewalServiceInterface::class =>
+                SubscriptionRenewalService::class,
+
+            ])
+            )
+
             ->add(
                 new ActionResource([
                     ActivateSubscriptionAction::class,
                 ])
             )
+
             ->add(
-                new ListenerResource([
-                    SubscriptionActivated::class => [
-                        EnableMikrotikUserListener::class,
-                    ],
+                new QueryResource([
+                    FindSubscriptionQuery::class =>
+                    FindSubscriptionHandler::class,
                 ])
-            );
+            )
+
+            ->add(
+            new ListenerResource([
+
+                SubscriptionActivated::class => [
+                    EnableMikrotikUserListener::class,
+                ],
+
+                SubscriptionRenewed::class => [
+                    SubscriptionRenewedListener::class,
+                ],
+
+            ])
+        );
     }
 }

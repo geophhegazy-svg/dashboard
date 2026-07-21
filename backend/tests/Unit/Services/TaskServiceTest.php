@@ -6,7 +6,7 @@ namespace Tests\Unit\Services;
 
 use App\Models\Task;
 use App\Models\Tenant;
-use App\Services\Task\TaskService;
+use App\Modules\Task\Application\Services\TaskService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 

@@ -18,6 +18,7 @@ use App\Core\ActionBus\ActionDispatcher;
 use App\Core\ActionBus\Pipeline\ActionPipeline;
 use App\Core\QueryBus\QueryRegistry;
 use App\Core\QueryBus\QueryDispatcher;
+use App\Core\CommandBus\CommandRegistry;
 
 
 class EgyptNetKernelServiceProvider extends ServiceProvider
@@ -25,6 +26,11 @@ class EgyptNetKernelServiceProvider extends ServiceProvider
 
     public function register(): void
     {
+        $this->app->singleton(
+            CommandRegistry::class,
+            fn() => new CommandRegistry(),
+        );
+        
         $this->app->singleton(
             QueryRegistry::class,
         );
@@ -65,9 +71,6 @@ class EgyptNetKernelServiceProvider extends ServiceProvider
 
                 return new EgyptNetKernel(
                     $app->make(ModuleRegistry::class),
-                    $app->make(ActionRegistry::class),
-                    $app->make(EventRegistry::class),
-                    $app->make(QueryRegistry::class),
                 );
             }
         );
@@ -85,7 +88,13 @@ class EgyptNetKernelServiceProvider extends ServiceProvider
         );
 
 
-        $this->app->singleton(EventDispatcher::class);
+        $this->app->singleton(
+            EventDispatcher::class,
+            fn($app) => new EventDispatcher(
+                $app->make(EventRegistry::class),
+                $app->make(ListenerResolverInterface::class),
+            ),
+        );
     }
 
 

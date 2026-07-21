@@ -76,44 +76,83 @@ enum SubscriptionStatus: string
     }
 
     /*
-    |--------------------------------------------------------------------------
-    | Compatibility Helpers
-    |--------------------------------------------------------------------------
-    */
+|--------------------------------------------------------------------------
+| Business Capabilities
+|--------------------------------------------------------------------------
+|
+| هذه الدوال تمثل قواعد العمل (Business Rules)
+| وليست قواعد الانتقال بين الحالات (State Machine).
+|
+*/
 
     public function canActivate(): bool
     {
-        return $this->canTransitionTo(self::ACTIVE);
+        return match ($this) {
+            self::PENDING,
+            self::SUSPENDED,
+            self::EXPIRED => true,
+
+            default => false,
+        };
     }
 
     public function canSuspend(): bool
     {
-        return $this->canTransitionTo(self::SUSPENDED);
+        return $this === self::ACTIVE;
     }
 
     public function canRenew(): bool
     {
-        return $this->canTransitionTo(self::ACTIVE);
+        return match ($this) {
+            self::ACTIVE,
+            self::GRACE,
+            self::EXPIRED => true,
+
+            default => false,
+        };
     }
 
     public function canExpire(): bool
     {
-        return $this->canTransitionTo(self::EXPIRED);
+        return match ($this) {
+            self::ACTIVE,
+            self::GRACE => true,
+
+            default => false,
+        };
     }
 
     public function canRestore(): bool
     {
-        return $this->canTransitionTo(self::ACTIVE);
+        return match ($this) {
+            self::SUSPENDED,
+            self::EXPIRED => true,
+
+            default => false,
+        };
     }
 
     public function canCancel(): bool
     {
-        return $this->canTransitionTo(self::CANCELLED);
+        return match ($this) {
+            self::DRAFT,
+            self::PENDING,
+            self::ACTIVE,
+            self::GRACE,
+            self::SUSPENDED => true,
+
+            default => false,
+        };
     }
 
     public function canTerminate(): bool
     {
-        return $this->canTransitionTo(self::TERMINATED);
+        return match ($this) {
+            self::EXPIRED,
+            self::CANCELLED => true,
+
+            default => false,
+        };
     }
 
     /*

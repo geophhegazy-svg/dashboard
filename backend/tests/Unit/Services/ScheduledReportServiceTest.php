@@ -6,7 +6,7 @@ namespace Tests\Unit\Services;
 
 use App\Models\ScheduledReport;
 use App\Models\User;
-use App\Services\Reports\ScheduledReportService;
+use App\Modules\Reports\ScheduledReportService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 

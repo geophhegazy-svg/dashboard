@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Services;
 
 use App\Models\Package;
-use App\Services\Billing\BillingCycleService;
+use App\Modules\Billing\BillingCycleService;
 use Carbon\Carbon;
 use Tests\TestCase;
 

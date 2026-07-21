@@ -7,7 +7,7 @@ namespace Tests\Unit\Services;
 use Tests\TestCase;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 use App\Models\WalletTransaction;
-use App\Services\Wallet\WalletService;
+use App\Modules\Wallet\Application\Services\WalletService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class WalletServiceTest extends TestCase

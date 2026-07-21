@@ -108,7 +108,7 @@ class SubscriptionRepository implements SubscriptionRepositoryInterface
         Subscription $subscription
     ): Subscription {
 
-        $subscription->save();
+        $ok = $subscription->save();
 
         return $subscription->fresh([
             'customer',

@@ -6,7 +6,7 @@ namespace Tests\Unit\Services;
 
 use Tests\TestCase;
 use App\Models\Invoice;
-use App\Services\Invoice\InvoiceService;
+use App\Modules\Invoice\InvoiceService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class InvoiceServiceTest extends TestCase

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Billing;
 
-use App\Services\Billing\BillingEngine;
+use App\Modules\Billing\Domain\Services\BillingEngine;
 use Carbon\Carbon;
 use PHPUnit\Framework\TestCase;
 use App\Enums\BillingStatus;

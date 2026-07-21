@@ -7,7 +7,7 @@ namespace App\Services\Accounting;
 use App\Events\JournalEntryPosted;
 use App\Exceptions\Accounting\JournalPostingException;
 use App\Models\JournalEntry;
-use App\Services\Activity\ActivityLogService;
+use App\Modules\Activity\Application\Services\ActivityLogService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 

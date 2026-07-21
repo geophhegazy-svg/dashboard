@@ -9,7 +9,7 @@ use App\Http\Requests\Reports\StoreScheduledReportRequest;
 use App\Http\Requests\Reports\UpdateScheduledReportRequest;
 use App\Http\Resources\ScheduledReportResource;
 use App\Models\ScheduledReport;
-use App\Services\Reports\ScheduledReportService;
+use App\Modules\Reports\ScheduledReportService;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;

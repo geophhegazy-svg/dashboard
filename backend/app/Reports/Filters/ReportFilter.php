@@ -6,6 +6,7 @@ namespace App\Reports\Filters;
 
 use Carbon\Carbon;
 
+
 class ReportFilter
 {
     public function __construct(

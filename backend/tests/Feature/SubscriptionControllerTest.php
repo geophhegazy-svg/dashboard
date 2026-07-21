@@ -6,7 +6,7 @@ namespace Tests\Feature;
 
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 use App\Models\User;
-use App\Services\Subscription\SubscriptionService;
+use App\Modules\Subscription\Application\Services\SubscriptionService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Sanctum\Sanctum;
 use Mockery;
