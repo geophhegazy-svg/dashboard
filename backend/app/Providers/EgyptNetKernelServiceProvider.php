@@ -5,10 +5,6 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Core\Kernel\ModuleRegistry;
-use App\Core\Kernel\EgyptNetKernel;
-use App\Modules\Subscription\Kernel\SubscriptionModule;
-use App\Core\Kernel\Discovery\ModuleDiscovery;
 use App\Core\EventBus\EventRegistry;
 use App\Core\EventBus\EventDispatcher;
 use App\Core\EventBus\Contracts\ListenerResolverInterface;
@@ -31,6 +27,20 @@ class EgyptNetKernelServiceProvider extends ServiceProvider
         $this->app->bind(
             ModuleRegistrarInterface::class,
             LaravelModuleRegistrar::class
+        );
+
+        $this->app->singleton(
+            \App\Core\Kernel\Contracts\ModuleDiscoveryInterface::class,
+            \App\Core\Kernel\Discovery\ModuleDiscovery::class,
+        );
+
+        $this->app->singleton(
+            \App\Core\Kernel\DependencyResolver::class,
+        );
+
+        $this->app->singleton(
+            \App\Core\Kernel\Contracts\KernelBootstrapperInterface::class,
+            \App\Core\Kernel\Bootstrap\KernelBootstrapper::class,
         );
 
         $this->app->singleton(
@@ -65,31 +75,6 @@ class EgyptNetKernelServiceProvider extends ServiceProvider
         );
 
         $this->app->singleton(
-            ModuleRegistry::class,
-            function ($app) {
-
-                return new ModuleRegistry(
-                    $app->make(
-                        ModuleRegistrarInterface::class
-                    )
-                );
-            }
-        );
-
-
-        $this->app->singleton(
-            EgyptNetKernel::class,
-            function ($app) {
-
-                return new EgyptNetKernel(
-                    $app->make(
-                        \App\Core\Kernel\Contracts\ModuleRegistrarInterface::class
-                    )
-                );
-            }
-        );
-
-        $this->app->singleton(
             EventRegistry::class,
             function () {
                 return new EventRegistry();
@@ -115,20 +100,10 @@ class EgyptNetKernelServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        $kernel = $this->app
-            ->make(EgyptNetKernel::class);
-
-
-        $discovery = new ModuleDiscovery();
-
-
-        foreach ($discovery->discover() as $module) {
-
-            $kernel->modules()
-                ->register($module);
-        }
-
-
-        $kernel->boot();
+        $this->app
+            ->make(
+                \App\Core\Kernel\Contracts\KernelBootstrapperInterface::class
+            )
+            ->boot();
     }
 }

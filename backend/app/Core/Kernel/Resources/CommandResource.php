@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Kernel\Resources;
 
+use App\Core\Kernel\Contracts\ModuleRegistrarInterface;
 use App\Core\Kernel\Contracts\ModuleResourceInterface;
 
 final readonly class CommandResource implements ModuleResourceInterface
@@ -23,9 +24,16 @@ final readonly class CommandResource implements ModuleResourceInterface
         return $this->commands;
     }
 
-    public function register(): void
-    {
-        // سيتtegration.م تنفيذ التسجيل الفعلي داخل Infrastructure
-        // في Sprint Console In
+
+    public function register(
+        ModuleRegistrarInterface $registrar
+    ): void {
+
+        foreach ($this->commands as $command) {
+
+            $registrar->registerCommand(
+                $command
+            );
+        }
     }
 }

@@ -164,11 +164,10 @@ Total: 40
 
 ## Repositories
 
-Total: 14
+Total: 13
 
 - AccountRepository
 - BillingRepository
-- CustomerRepository
 - InvoiceRepository
 - JournalEntryLineRepository
 - JournalEntryRepository

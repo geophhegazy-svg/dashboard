@@ -12,6 +12,14 @@ abstract class Module implements ModuleContract
     abstract public function name(): string;
 
     /**
+     * @return array<class-string<Module>>
+     */
+    public function dependencies(): array
+    {
+        return [];
+    }
+
+    /**
      * @deprecated استخدم ModuleManifest بدلاً منه.
      */
     public function register(): void {}

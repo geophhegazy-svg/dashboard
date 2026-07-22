@@ -7,6 +7,7 @@ namespace Tests\Feature\Core\Kernel;
 use App\Core\Kernel\Resources\RouteResource;
 use Illuminate\Support\Facades\Route;
 use Tests\TestCase;
+use App\Core\Kernel\Contracts\ModuleRegistrarInterface;
 
 final class RouteResourceTest extends TestCase
 {
@@ -20,7 +21,11 @@ final class RouteResourceTest extends TestCase
             },
         );
 
-        $resource->register();
+        $registrar = $this->app->make(
+            ModuleRegistrarInterface::class
+        );
+
+        $resource->register($registrar);
 
         $this->getJson('/api/module-route-resource-test')
             ->assertOk()

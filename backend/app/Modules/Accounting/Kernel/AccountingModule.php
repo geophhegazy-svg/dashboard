@@ -16,7 +16,13 @@ class AccountingModule extends Module
         return 'Accounting';
     }
 
-
+    public function dependencies(): array
+    {
+        return [
+            \App\Modules\Billing\Kernel\BillingModule::class,
+        ];
+    }
+    
     public function register(): void {}
 
 

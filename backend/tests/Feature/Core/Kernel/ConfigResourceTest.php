@@ -4,22 +4,39 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Core\Kernel;
 
-use App\Core\Kernel\Resources\ConfigResource;
+use Mockery;
 use Tests\TestCase;
+use App\Core\Kernel\Resources\ConfigResource;
+use App\Core\Kernel\Contracts\ModuleRegistrarInterface;
 
 final class ConfigResourceTest extends TestCase
 {
     public function test_it_registers_module_configuration(): void
     {
+        $registrar = Mockery::mock(
+            ModuleRegistrarInterface::class
+        );
+
+        $registrar
+            ->shouldReceive('registerConfig')
+            ->once()
+            ->with([
+                'app.name' => 'EgyptNet',
+            ]);
+
         $resource = new ConfigResource([
-            'modules.subscription.grace_period_days' => 7,
+            'app.name' => 'EgyptNet',
         ]);
 
-        $resource->register();
+        $resource->register($registrar);
 
-        $this->assertSame(
-            7,
-            config('modules.subscription.grace_period_days'),
-        );
+        $this->assertTrue(true);
+    }
+
+    protected function tearDown(): void
+    {
+        Mockery::close();
+
+        parent::tearDown();
     }
 }

@@ -6,7 +6,6 @@ namespace App\Core\Kernel\Resources;
 
 use App\Core\Kernel\Contracts\ModuleResourceInterface;
 use Closure;
-use Illuminate\Support\Facades\Route;
 use App\Core\Kernel\Contracts\ModuleRegistrarInterface;
 
 final readonly class RouteResource implements ModuleResourceInterface
@@ -31,3 +30,4 @@ final readonly class RouteResource implements ModuleResourceInterface
             $this->middleware
         );
     }
+}

@@ -22,6 +22,13 @@ final class BillingModule extends Module
         return 'Billing';
     }
 
+    public function dependencies(): array
+    {
+        return [
+            \App\Modules\Subscription\Kernel\SubscriptionModule::class,
+        ];
+    }
+
     public function manifest(): ModuleManifest
     {
         return ModuleManifest::make()
@@ -39,4 +46,5 @@ final class BillingModule extends Module
 
             ]);
     }
+
 }

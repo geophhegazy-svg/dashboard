@@ -7,6 +7,8 @@ namespace Tests\Feature\Core\Kernel;
 use App\Core\Kernel\Resources\PolicyResource;
 use Illuminate\Support\Facades\Gate;
 use Tests\TestCase;
+use Mockery;
+use App\Core\Kernel\Contracts\ModuleRegistrarInterface;
 
 final class PolicyResourceTest extends TestCase
 {
@@ -16,7 +18,11 @@ final class PolicyResourceTest extends TestCase
             PolicyResourceTestModel::class => PolicyResourceTestPolicy::class,
         ]);
 
-        $resource->register();
+        $registrar = $this->app->make(
+            ModuleRegistrarInterface::class
+        );
+
+        $resource->register($registrar);
 
         $this->assertInstanceOf(
             PolicyResourceTestPolicy::class,

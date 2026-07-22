@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Repositories\Eloquent;
+namespace App\Modules\Customer\Infrastructure\Repositories;
 
-use App\Contracts\Repositories\CustomerRepositoryInterface;
 use App\Models\Customer;
+use App\Modules\Customer\Domain\Contracts\CustomerRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 
-class CustomerRepository implements CustomerRepositoryInterface
+final class CustomerRepository implements CustomerRepositoryInterface
 {
     public function all(): Collection
     {

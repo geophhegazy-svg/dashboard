@@ -7,6 +7,7 @@ namespace App\Core\Kernel\Resources;
 use App\Core\Kernel\Contracts\ModuleResourceInterface;
 use Closure;
 use Illuminate\Console\Scheduling\Schedule;
+use App\Core\Kernel\Contracts\ModuleRegistrarInterface;
 
 final readonly class ScheduleResource implements ModuleResourceInterface
 {
@@ -17,8 +18,12 @@ final readonly class ScheduleResource implements ModuleResourceInterface
         private Closure $schedule,
     ) {}
 
-    public function register(): void
-    {
-        ($this->schedule)(app(Schedule::class));
+    public function register(
+        ModuleRegistrarInterface $registrar
+    ): void {
+
+        $registrar->registerSchedule(
+            $this->schedule
+        );
     }
 }

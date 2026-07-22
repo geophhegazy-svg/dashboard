@@ -7,6 +7,8 @@ namespace Tests\Feature\Core\Kernel;
 use App\Core\Kernel\Resources\MigrationResource;
 use Illuminate\Database\Migrations\Migrator;
 use Tests\TestCase;
+use App\Core\Kernel\Contracts\ModuleRegistrarInterface;
+use Mockery;
 
 final class MigrationResourceTest extends TestCase
 {
@@ -15,7 +17,11 @@ final class MigrationResourceTest extends TestCase
         $path = database_path('migrations');
         $resource = new MigrationResource([$path]);
 
-        $resource->register();
+        $registrar = $this->app->make(
+            ModuleRegistrarInterface::class
+        );
+
+        $resource->register($registrar);
 
         $this->assertContains(
             $path,

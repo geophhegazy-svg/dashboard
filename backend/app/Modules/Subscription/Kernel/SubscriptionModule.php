@@ -6,15 +6,10 @@ namespace App\Modules\Subscription\Kernel;
 
 use App\Core\Kernel\ModuleManifest;
 use App\Core\Kernel\Modules\Module;
-use App\Core\Kernel\Resources\ActionResource;
-use App\Core\Kernel\Resources\EventListenerResource;
-use App\Core\Kernel\Resources\QueryResource;
 use App\Modules\Subscription\Application\Actions\ActivateSubscriptionAction;
 use App\Modules\Subscription\Application\Listeners\EnableMikrotikUserListener;
 use App\Modules\Subscription\Application\Queries\FindSubscriptionQuery;
 use App\Modules\Subscription\Domain\Events\SubscriptionActivated;
-use App\Core\Kernel\Resources\ListenerResource;
-use App\Core\Kernel\Resources\ServiceResource;
 use App\Modules\Subscription\Application\Queries\Handlers\FindSubscriptionQueryHandler;
 use App\Modules\Subscription\Domain\Contracts\SubscriptionRepositoryInterface;
 use App\Modules\Subscription\Infrastructure\Repositories\SubscriptionRepository;
@@ -30,12 +25,16 @@ final class SubscriptionModule extends Module
         return 'Subscription';
     }
 
+    public function dependencies(): array
+    {
+        return [];
+    }
+
     public function manifest(): ModuleManifest
     {
         return ModuleManifest::make()
 
-            ->add(
-            new ServiceResource([
+            ->services([
 
                 SubscriptionRepositoryInterface::class =>
                 SubscriptionRepository::class,
@@ -44,23 +43,21 @@ final class SubscriptionModule extends Module
                 SubscriptionRenewalService::class,
 
             ])
-            )
 
-            ->add(
-                new ActionResource([
-                    ActivateSubscriptionAction::class,
-                ])
-            )
+            ->actions([
 
-            ->add(
-            new QueryResource([
+                ActivateSubscriptionAction::class,
+
+            ])
+
+            ->queries([
+
                 FindSubscriptionQuery::class =>
                 FindSubscriptionQueryHandler::class,
-                ])
-            )
 
-            ->add(
-            new ListenerResource([
+            ])
+
+            ->listeners([
 
                 SubscriptionActivated::class => [
                     EnableMikrotikUserListener::class,
@@ -70,7 +67,8 @@ final class SubscriptionModule extends Module
                     SubscriptionRenewedListener::class,
                 ],
 
-            ])
-        );
+            ]);
     }
+
+
 }

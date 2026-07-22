@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Core\Kernel\Resources;
 
 use App\Core\Kernel\Contracts\ModuleResourceInterface;
-
+use App\Core\Kernel\Contracts\ModuleRegistrarInterface;
 final readonly class ConfigResource implements ModuleResourceInterface
 {
     /**
@@ -15,8 +15,12 @@ final readonly class ConfigResource implements ModuleResourceInterface
         private array $configuration,
     ) {}
 
-    public function register(): void
-    {
-        config()->set($this->configuration);
+    public function register(
+        ModuleRegistrarInterface $registrar
+    ): void {
+
+        $registrar->registerConfig(
+            $this->configuration
+        );
     }
 }

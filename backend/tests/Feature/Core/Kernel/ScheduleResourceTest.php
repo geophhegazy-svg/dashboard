@@ -7,6 +7,8 @@ namespace Tests\Feature\Core\Kernel;
 use App\Core\Kernel\Resources\ScheduleResource;
 use Illuminate\Console\Scheduling\Schedule;
 use Tests\TestCase;
+use Mockery;
+use App\Core\Kernel\Contracts\ModuleRegistrarInterface;
 
 final class ScheduleResourceTest extends TestCase
 {
@@ -21,7 +23,11 @@ final class ScheduleResourceTest extends TestCase
             },
         );
 
-        $resource->register();
+        $registrar = $this->app->make(
+            ModuleRegistrarInterface::class
+        );
+
+        $resource->register($registrar);
 
         $this->assertCount($eventCount + 1, $schedule->events());
     }

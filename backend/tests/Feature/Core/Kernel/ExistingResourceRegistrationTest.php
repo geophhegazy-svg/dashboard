@@ -12,14 +12,18 @@ use App\Core\Kernel\Resources\ListenerResource;
 use App\Core\Kernel\Resources\QueryResource;
 use App\Core\QueryBus\QueryRegistry;
 use Tests\TestCase;
+use Mockery;
+use App\Core\Kernel\Contracts\ModuleRegistrarInterface;
 
 final class ExistingResourceRegistrationTest extends TestCase
 {
     public function test_action_resource_registers_module_actions(): void
     {
+        $registrar = $this->app->make(ModuleRegistrarInterface::class);
+
         (new ActionResource([
             ExistingResourceRegistrationAction::class,
-        ]))->register();
+        ]))->register($registrar);
 
         $this->assertTrue(
             $this->app->make(ActionRegistry::class)
@@ -29,11 +33,13 @@ final class ExistingResourceRegistrationTest extends TestCase
 
     public function test_listener_resource_registers_module_listeners(): void
     {
+        $registrar = $this->app->make(ModuleRegistrarInterface::class);
+
         (new ListenerResource([
             ExistingResourceRegistrationEvent::class => [
                 ExistingResourceRegistrationListener::class,
             ],
-        ]))->register();
+        ]))->register($registrar);
 
         $this->assertSame(
             [ExistingResourceRegistrationListener::class],
@@ -44,15 +50,24 @@ final class ExistingResourceRegistrationTest extends TestCase
 
     public function test_query_resource_registers_module_query_handlers(): void
     {
+        $registrar = $this->app->make(ModuleRegistrarInterface::class);
+
         (new QueryResource([
             ExistingResourceRegistrationQuery::class => ExistingResourceRegistrationHandler::class,
-        ]))->register();
+        ]))->register($registrar);
 
         $this->assertSame(
             ExistingResourceRegistrationHandler::class,
             $this->app->make(QueryRegistry::class)
                 ->get(ExistingResourceRegistrationQuery::class)?->handler,
         );
+    }
+
+    protected function tearDown(): void
+    {
+        Mockery::close();
+
+        parent::tearDown();
     }
 }
 
@@ -75,3 +90,5 @@ final class ExistingResourceRegistrationQuery
 final class ExistingResourceRegistrationHandler
 {
 }
+
+
