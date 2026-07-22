@@ -25,7 +25,7 @@ final readonly class CommandResource implements ModuleResourceInterface
 
     public function register(): void
     {
-        // سيتم تنفيذ التسجيل الفعلي داخل Infrastructure
-        // في Sprint Console Integration.
+        // سيتtegration.م تنفيذ التسجيل الفعلي داخل Infrastructure
+        // في Sprint Console In
     }
 }

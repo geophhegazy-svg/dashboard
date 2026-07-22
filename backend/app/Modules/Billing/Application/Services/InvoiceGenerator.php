@@ -2,14 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Modules\Billing;
+namespace App\Modules\Billing\Application\Services;
 
 use App\Events\InvoiceCreated;
 use App\Models\Invoice;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 use App\Modules\Invoice\InvoiceNumberService;
+use App\Modules\Billing\Domain\Contracts\InvoiceGeneratorInterface;
 
-class InvoiceGenerator
+class InvoiceGenerator implements InvoiceGeneratorInterface
 {
     public function __construct(
         private readonly InvoiceNumberService $invoiceNumberService

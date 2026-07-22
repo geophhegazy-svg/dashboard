@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Subscription\Application\Workflows;
 
-use App\Application\Shared\Workflow\AbstractWorkflow;
+use App\Core\Workflow\AbstractWorkflow;
 use App\Modules\Subscription\Application\Actions\RestoreSubscriptionAction;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 

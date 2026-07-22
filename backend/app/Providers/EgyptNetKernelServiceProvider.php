@@ -19,18 +19,25 @@ use App\Core\ActionBus\Pipeline\ActionPipeline;
 use App\Core\QueryBus\QueryRegistry;
 use App\Core\QueryBus\QueryDispatcher;
 use App\Core\CommandBus\CommandRegistry;
-
+use App\Core\Kernel\Contracts\ModuleRegistrarInterface;
+use App\Infrastructure\Laravel\Kernel\LaravelModuleRegistrar;
 
 class EgyptNetKernelServiceProvider extends ServiceProvider
 {
 
     public function register(): void
     {
+
+        $this->app->bind(
+            ModuleRegistrarInterface::class,
+            LaravelModuleRegistrar::class
+        );
+
         $this->app->singleton(
             CommandRegistry::class,
             fn() => new CommandRegistry(),
         );
-        
+
         $this->app->singleton(
             QueryRegistry::class,
         );
@@ -59,8 +66,13 @@ class EgyptNetKernelServiceProvider extends ServiceProvider
 
         $this->app->singleton(
             ModuleRegistry::class,
-            function () {
-                return new ModuleRegistry();
+            function ($app) {
+
+                return new ModuleRegistry(
+                    $app->make(
+                        ModuleRegistrarInterface::class
+                    )
+                );
             }
         );
 
@@ -70,7 +82,9 @@ class EgyptNetKernelServiceProvider extends ServiceProvider
             function ($app) {
 
                 return new EgyptNetKernel(
-                    $app->make(ModuleRegistry::class),
+                    $app->make(
+                        \App\Core\Kernel\Contracts\ModuleRegistrarInterface::class
+                    )
                 );
             }
         );
@@ -95,6 +109,7 @@ class EgyptNetKernelServiceProvider extends ServiceProvider
                 $app->make(ListenerResolverInterface::class),
             ),
         );
+
     }
 
 

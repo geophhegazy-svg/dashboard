@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Services;
+namespace Tests\Unit\Modules\Billing;
 
 use App\Models\Package;
-use App\Modules\Billing\BillingCycleService;
+use App\Modules\Billing\Application\Services\BillingCycleService;
 use Carbon\Carbon;
 use Tests\TestCase;
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Kernel\Resources;
 
-use App\Core\QueryBus\QueryRegistry;
+use App\Core\Kernel\Contracts\ModuleRegistrarInterface;
 use App\Core\Kernel\Contracts\ModuleResourceInterface;
 
 final readonly class QueryResource implements ModuleResourceInterface
@@ -16,12 +16,13 @@ final readonly class QueryResource implements ModuleResourceInterface
         private array $queries,
     ) {}
 
-    public function register(): void
-    {
-        $registry = app(QueryRegistry::class);
+    public function register(
+        ModuleRegistrarInterface $registrar
+    ): void {
 
         foreach ($this->queries as $query => $handler) {
-            $registry->register(
+
+            $registrar->registerQuery(
                 $query,
                 $handler,
             );

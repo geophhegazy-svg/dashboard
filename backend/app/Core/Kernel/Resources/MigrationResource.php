@@ -4,24 +4,24 @@ declare(strict_types=1);
 
 namespace App\Core\Kernel\Resources;
 
+use App\Core\Kernel\Contracts\ModuleRegistrarInterface;
 use App\Core\Kernel\Contracts\ModuleResourceInterface;
-use Illuminate\Database\Migrations\Migrator;
 
 final readonly class MigrationResource implements ModuleResourceInterface
 {
     /**
-     * @param list<non-empty-string> $paths
+     * @param list<string> $paths
      */
     public function __construct(
         private array $paths,
     ) {}
 
-    public function register(): void
-    {
-        $migrator = app(Migrator::class);
+    public function register(
+        ModuleRegistrarInterface $registrar
+    ): void {
 
-        foreach ($this->paths as $path) {
-            $migrator->path($path);
-        }
+        $registrar->registerMigration(
+            $this->paths
+        );
     }
 }

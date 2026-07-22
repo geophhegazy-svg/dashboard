@@ -4,29 +4,41 @@ declare(strict_types=1);
 
 namespace App\Core\Kernel;
 
-final readonly class EgyptNetKernel
+use App\Core\Kernel\Contracts\ModuleRegistrarInterface;
+use App\Core\Kernel\Contracts\ModuleContract;
+
+final class EgyptNetKernel
 {
+    private ModuleRegistry $modules;
+
+
     public function __construct(
-        private ModuleRegistry $modules,
-    ) {}
-
-    public function boot(): void
-    {
-        foreach ($this->modules->all() as $module) {
-
-            foreach (
-                $module->manifest()->resources()
-                as $resource
-            ) {
-                $resource->register();
-            }
-
-            $module->boot();
-        }
+        ModuleRegistrarInterface $registrar
+    ) {
+        $this->modules = new ModuleRegistry(
+            $registrar
+        );
     }
+
+
+    public function register(
+        ModuleContract $module
+    ): void {
+
+        $this->modules->register(
+            $module
+        );
+    }
+
 
     public function modules(): ModuleRegistry
     {
         return $this->modules;
+    }
+
+
+    public function boot(): void
+    {
+        $this->modules->boot();
     }
 }

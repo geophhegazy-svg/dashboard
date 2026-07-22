@@ -15,7 +15,7 @@ use App\Modules\Subscription\Application\Queries\FindSubscriptionQuery;
 use App\Modules\Subscription\Domain\Events\SubscriptionActivated;
 use App\Core\Kernel\Resources\ListenerResource;
 use App\Core\Kernel\Resources\ServiceResource;
-use App\Modules\Subscription\Application\QueryHandlers\FindSubscriptionHandler;
+use App\Modules\Subscription\Application\Queries\Handlers\FindSubscriptionQueryHandler;
 use App\Modules\Subscription\Domain\Contracts\SubscriptionRepositoryInterface;
 use App\Modules\Subscription\Infrastructure\Repositories\SubscriptionRepository;
 use App\Modules\Subscription\Domain\Contracts\SubscriptionRenewalServiceInterface;
@@ -53,9 +53,9 @@ final class SubscriptionModule extends Module
             )
 
             ->add(
-                new QueryResource([
-                    FindSubscriptionQuery::class =>
-                    FindSubscriptionHandler::class,
+            new QueryResource([
+                FindSubscriptionQuery::class =>
+                FindSubscriptionQueryHandler::class,
                 ])
             )
 

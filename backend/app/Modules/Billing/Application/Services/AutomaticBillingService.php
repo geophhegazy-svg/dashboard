@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace App\Modules\Billing;
+namespace App\Modules\Billing\Application\Services;
 
-use App\Enums\BillingStatus;
-use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
-use App\Modules\Notification\Application\Services\NotificationService;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\Log;
 use Throwable;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Database\Eloquent\Collection;
+use App\Enums\BillingStatus;
 use App\Modules\Billing\Domain\Services\BillingEngine;
+use App\Modules\Notification\Application\Services\NotificationService;
 use App\Modules\Subscription\Domain\Contracts\SubscriptionRenewalServiceInterface;
+use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
+use App\Modules\Billing\Domain\Contracts\AutomaticBillingServiceInterface;
 
-
-class AutomaticBillingService
+class AutomaticBillingService implements AutomaticBillingServiceInterface
 {
     public function __construct(
         private readonly BillingEngine $billingEngine,
@@ -22,15 +22,19 @@ class AutomaticBillingService
         private readonly NotificationService $notificationService,
     ) {}
 
-    /**
-     * Process all subscriptions.
-     */
-    public function run(Collection $subscriptions): void
-    {
+    public function run(
+        Collection $subscriptions
+    ): void {
+
         foreach ($subscriptions as $subscription) {
+
             try {
-                $this->processSubscription($subscription);
+
+                $this->processSubscription(
+                    $subscription
+                );
             } catch (Throwable $e) {
+
                 Log::error(
                     'Automatic billing failed.',
                     [
@@ -43,38 +47,17 @@ class AutomaticBillingService
         }
     }
 
-    /**
-     * Process a single subscription.
-     */
     public function processSubscription(
         Subscription $subscription
     ): void {
-
-        /*
-        |--------------------------------------------------------------------------
-        | Ignore subscriptions that cannot be renewed
-        |--------------------------------------------------------------------------
-        */
 
         if (! $subscription->canRenew()) {
             return;
         }
 
-        /*
-        |--------------------------------------------------------------------------
-        | Billing status
-        |--------------------------------------------------------------------------
-        */
-
         $status = $this->billingEngine->status(
             $subscription->end_date
         );
-
-        /*
-        |--------------------------------------------------------------------------
-        | Active or Grace Period
-        |--------------------------------------------------------------------------
-        */
 
         if (
             $status === BillingStatus::ACTIVE ||
@@ -83,15 +66,11 @@ class AutomaticBillingService
             return;
         }
 
-        /*
-        |--------------------------------------------------------------------------
-        | Renew Subscription
-        |--------------------------------------------------------------------------
-        */
-
         try {
 
-            $this->renewalService->renewPppoe($subscription);
+            $this->renewalService->renewPppoe(
+                $subscription
+            );
         } catch (Throwable $e) {
 
             Log::error(

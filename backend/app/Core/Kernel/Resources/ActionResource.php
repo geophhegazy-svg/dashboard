@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Kernel\Resources;
 
-use App\Core\ActionBus\ActionRegistry;
+use App\Core\Kernel\Contracts\ModuleRegistrarInterface;
 use App\Core\Kernel\Contracts\ModuleResourceInterface;
 
 final readonly class ActionResource implements ModuleResourceInterface
@@ -16,12 +16,15 @@ final readonly class ActionResource implements ModuleResourceInterface
         private array $actions,
     ) {}
 
-    public function register(): void
-    {
-        $registry = app(ActionRegistry::class);
+    public function register(
+        ModuleRegistrarInterface $registrar
+    ): void {
 
         foreach ($this->actions as $action) {
-            $registry->register($action);
+
+            $registrar->registerAction(
+                $action,
+            );
         }
     }
 }

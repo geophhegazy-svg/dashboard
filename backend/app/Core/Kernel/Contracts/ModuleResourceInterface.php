@@ -6,5 +6,7 @@ namespace App\Core\Kernel\Contracts;
 
 interface ModuleResourceInterface
 {
-    public function register(): void;
+    public function register(
+        ModuleRegistrarInterface $registrar
+    ): void;
 }

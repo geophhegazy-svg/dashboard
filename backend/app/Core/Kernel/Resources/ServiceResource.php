@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Kernel\Resources;
 
-use Illuminate\Contracts\Foundation\Application;
+use App\Core\Kernel\Contracts\ModuleRegistrarInterface;
 use App\Core\Kernel\Contracts\ModuleResourceInterface;
 
 final readonly class ServiceResource implements ModuleResourceInterface
@@ -16,15 +16,14 @@ final readonly class ServiceResource implements ModuleResourceInterface
         private array $bindings = [],
     ) {}
 
-    public function register(): void
-    {
-        /** @var Application $app */
-        $app = app();
-
+    public function register(
+        ModuleRegistrarInterface $registrar
+    ): void {
         foreach ($this->bindings as $abstract => $concrete) {
-            $app->bind(
+
+            $registrar->bind(
                 $abstract,
-                $concrete,
+                $concrete
             );
         }
     }

@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Modules\Billing;
+namespace App\Modules\Billing\Application\Services;
 
 use App\Models\Package;
 use Carbon\Carbon;
+use App\Modules\Billing\Domain\Contracts\BillingCycleServiceInterface;
 
-class BillingCycleService
+class BillingCycleService implements BillingCycleServiceInterface
 {
     public function calculateNextBillingDate(
         Carbon $from,
@@ -41,7 +42,8 @@ class BillingCycleService
         Package $package
     ): Carbon {
 
-        return $billingDate->copy()
+        return $billingDate
+            ->copy()
             ->addDays($package->grace_days);
     }
 

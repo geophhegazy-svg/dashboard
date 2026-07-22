@@ -8,7 +8,7 @@ use Tests\TestCase;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Enums\BillingStatus;
-use App\Modules\Billing\AutomaticBillingService;
+use App\Modules\Billing\Application\Services\AutomaticBillingService;
 use App\Modules\Billing\Domain\Services\BillingEngine;
 use App\Modules\Subscription\Domain\Contracts\SubscriptionRenewalServiceInterface;
 use App\Modules\Notification\Application\Services\NotificationService;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Kernel\Resources;
 
-use App\Core\EventBus\EventRegistry;
+use App\Core\Kernel\Contracts\ModuleRegistrarInterface;
 use App\Core\Kernel\Contracts\ModuleResourceInterface;
 
 final readonly class ListenerResource implements ModuleResourceInterface
@@ -16,15 +16,15 @@ final readonly class ListenerResource implements ModuleResourceInterface
         private array $listeners,
     ) {}
 
-    public function register(): void
-    {
-        $registry = app(EventRegistry::class);
+    public function register(
+        ModuleRegistrarInterface $registrar
+    ): void {
 
         foreach ($this->listeners as $event => $listeners) {
 
             foreach ($listeners as $listener) {
 
-                $registry->register(
+                $registrar->registerListener(
                     $event,
                     $listener,
                 );

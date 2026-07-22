@@ -7,6 +7,7 @@ namespace App\Core\Kernel\Resources;
 use App\Core\Kernel\Contracts\ModuleResourceInterface;
 use Closure;
 use Illuminate\Support\Facades\Route;
+use App\Core\Kernel\Contracts\ModuleRegistrarInterface;
 
 final readonly class RouteResource implements ModuleResourceInterface
 {
@@ -20,10 +21,13 @@ final readonly class RouteResource implements ModuleResourceInterface
         private array $middleware = ['api'],
     ) {}
 
-    public function register(): void
-    {
-        Route::middleware($this->middleware)
-            ->prefix($this->prefix)
-            ->group($this->routes);
+    public function register(
+        ModuleRegistrarInterface $registrar
+    ): void {
+
+        $registrar->registerRoute(
+            $this->routes,
+            $this->prefix,
+            $this->middleware
+        );
     }
-}

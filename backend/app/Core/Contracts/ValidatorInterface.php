@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Core\Contracts;
 
-interface WorkflowInterface
+interface ValidatorInterface
 {
-    public function execute(
+    public function validate(
         mixed ...$arguments
-    ): mixed;
+    ): void;
 }

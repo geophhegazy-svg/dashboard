@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Subscription\Validators;
 
-use App\Application\Shared\Contracts\ValidatorInterface;
+use App\Core\Contracts\ValidatorInterface;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 use InvalidArgumentException;
 

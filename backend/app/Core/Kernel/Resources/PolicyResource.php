@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Core\Kernel\Resources;
 
+use App\Core\Kernel\Contracts\ModuleRegistrarInterface;
 use App\Core\Kernel\Contracts\ModuleResourceInterface;
-use Illuminate\Support\Facades\Gate;
 
 final readonly class PolicyResource implements ModuleResourceInterface
 {
@@ -16,10 +16,16 @@ final readonly class PolicyResource implements ModuleResourceInterface
         private array $policies,
     ) {}
 
-    public function register(): void
-    {
+    public function register(
+        ModuleRegistrarInterface $registrar
+    ): void {
+
         foreach ($this->policies as $model => $policy) {
-            Gate::policy($model, $policy);
+
+            $registrar->registerPolicy(
+                $model,
+                $policy,
+            );
         }
     }
 }
