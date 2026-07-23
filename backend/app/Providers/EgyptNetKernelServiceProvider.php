@@ -17,6 +17,8 @@ use App\Core\QueryBus\QueryDispatcher;
 use App\Core\CommandBus\CommandRegistry;
 use App\Core\Kernel\Contracts\ModuleRegistrarInterface;
 use App\Infrastructure\Laravel\Kernel\LaravelModuleRegistrar;
+use App\Core\CommandBus\CommandDispatcher;
+use App\Core\Kernel\Compiler\ModuleManifestCompiler;
 
 class EgyptNetKernelServiceProvider extends ServiceProvider
 {
@@ -27,6 +29,14 @@ class EgyptNetKernelServiceProvider extends ServiceProvider
         $this->app->bind(
             ModuleRegistrarInterface::class,
             LaravelModuleRegistrar::class
+        );
+
+        $this->app->singleton(
+            ModuleManifestCompiler::class,
+        );
+
+        $this->app->singleton(
+            CommandDispatcher::class,
         );
 
         $this->app->singleton(
@@ -72,6 +82,24 @@ class EgyptNetKernelServiceProvider extends ServiceProvider
                 $app->make(ActionRegistry::class),
                 $app->make(ActionPipeline::class),
             ),
+        );
+
+        $this->app->singleton(
+            \App\Core\Kernel\ModuleRegistry::class,
+            function ($app) {
+                return new \App\Core\Kernel\ModuleRegistry(
+                    $app->make(ModuleRegistrarInterface::class)
+                );
+            }
+        );
+
+        $this->app->singleton(
+            \App\Core\Kernel\EgyptNetKernel::class,
+            function ($app) {
+                return new \App\Core\Kernel\EgyptNetKernel(
+                    $app->make(ModuleRegistrarInterface::class)
+                );
+            }
         );
 
         $this->app->singleton(

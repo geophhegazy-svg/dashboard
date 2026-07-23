@@ -127,6 +127,7 @@ App\Http\Controllers\Api
 **Dependencies**
 
 - CustomerService $customerService
+- QueryDispatcher $queryDispatcher
 
 **Public Methods**
 

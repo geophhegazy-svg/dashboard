@@ -17,6 +17,9 @@ use App\Modules\Customer\Domain\Contracts\CustomerActivationServiceInterface;
 use App\Modules\Customer\Domain\Services\CustomerActivationService;
 use App\Modules\Customer\Application\Listeners\CustomerCreatedListener;
 use App\Modules\Customer\Domain\Events\CustomerCreated;
+use App\Modules\Customer\Application\Workflows\CreateCustomerWorkflow;
+use App\Modules\Customer\Application\Commands\CreateCustomerCommand;
+use App\Modules\Customer\Application\Commands\Handlers\CreateCustomerCommandHandler;
 
 final class CustomerModule extends Module
 {
@@ -42,6 +45,9 @@ final class CustomerModule extends Module
                 CustomerActivationServiceInterface::class
                 => CustomerActivationService::class,
 
+                CreateCustomerWorkflow::class
+                => CreateCustomerWorkflow::class,
+
             ])
 
             ->actions([
@@ -57,12 +63,19 @@ final class CustomerModule extends Module
                 DeleteCustomerAction::class,
 
             ])
-            
+
             ->listeners([
 
                 CustomerCreated::class => [
                 CustomerCreatedListener::class,
             ],
+
+            ])
+
+            ->commandHandlers([
+
+                CreateCustomerCommand::class
+                    => CreateCustomerCommandHandler::class,
 
             ]);
     }

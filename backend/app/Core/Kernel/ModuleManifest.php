@@ -17,6 +17,7 @@ use App\Core\Kernel\Resources\ScheduleResource;
 use App\Core\Kernel\Resources\ServiceResource;
 use App\Core\Kernel\Resources\SingletonResource;
 use Closure;
+use App\Core\Kernel\Resources\CommandHandlerResource;
 
 final class ModuleManifest
 {
@@ -184,5 +185,16 @@ final class ModuleManifest
     public function resources(): ModuleResourceCollection
     {
         return $this->resources;
+    }
+
+    public function commandHandlers(
+        array $commands,
+    ): self {
+
+        return $this->add(
+            new CommandHandlerResource(
+                $commands,
+            )
+        );
     }
 }

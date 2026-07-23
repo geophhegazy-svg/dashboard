@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Database\Migrations\Migrator;
 use Illuminate\Console\Scheduling\Schedule;
 use Closure;
+use App\Core\CommandBus\CommandRegistry;
 
 final readonly class LaravelModuleRegistrar implements ModuleRegistrarInterface
 {
@@ -153,5 +154,18 @@ final readonly class LaravelModuleRegistrar implements ModuleRegistrarInterface
         config()->set(
             $configuration
         );
+    }
+
+    public function registerCommandHandler(
+        string $command,
+        string $handler,
+    ): void {
+
+        $this->app
+            ->make(CommandRegistry::class)
+            ->register(
+                $command,
+                $handler,
+            );
     }
 }

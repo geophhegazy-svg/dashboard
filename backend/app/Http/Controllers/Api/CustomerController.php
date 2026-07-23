@@ -10,13 +10,15 @@ use App\Http\Resources\CustomerResource;
 use App\Models\Customer;
 use App\Modules\Customer\Application\Services\CustomerService;
 use Illuminate\Http\JsonResponse;
-
+use App\Core\QueryBus\QueryDispatcher;
+use App\Modules\Customer\Application\Queries\PaginateCustomersQuery;
 
 
 class CustomerController extends Controller
 {
     public function __construct(
-        private readonly CustomerService $customerService
+        private readonly CustomerService $customerService,
+        private readonly QueryDispatcher $queryDispatcher,
     ) {}
 
     public function index()
@@ -24,7 +26,9 @@ class CustomerController extends Controller
         $this->authorize('viewAny', Customer::class);
 
         return CustomerResource::collection(
-            $this->customerService->paginate()
+            $this->queryDispatcher->dispatch(
+                new PaginateCustomersQuery()
+            )
         );
     }
 

@@ -6,24 +6,36 @@ namespace App\Modules\Customer\Application\Services;
 
 use App\Models\Customer;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use App\Modules\Customer\Application\Actions\CreateCustomerAction;
+use App\Modules\Customer\Application\Actions\UpdateCustomerAction;
+use App\Modules\Customer\Application\Actions\DeleteCustomerAction;
 
-class CustomerService
+final readonly class CustomerService
 {
+    public function __construct(
+        private CreateCustomerAction $createCustomer,
+        private UpdateCustomerAction $updateCustomer,
+        private DeleteCustomerAction $deleteCustomer,
+    ) {}
+
     public function create(array $data): Customer
     {
-        return Customer::create($data);
+        $customer = new Customer($data);
+
+        return $this->createCustomer->execute($customer);
     }
 
     public function update(Customer $customer, array $data): Customer
     {
-        $customer->update($data);
-
-        return $customer->refresh();
+        return $this->updateCustomer->execute(
+            $customer,
+            $data,
+        );
     }
 
     public function delete(Customer $customer): bool
     {
-        return $customer->delete();
+        return $this->deleteCustomer->execute($customer);
     }
 
     public function paginate(): LengthAwarePaginator

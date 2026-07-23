@@ -96,4 +96,9 @@ interface ModuleRegistrarInterface
     public function registerConfig(
         array $configuration,
     ): void;
+
+    public function registerCommandHandler(
+        string $command,
+        string $handler,
+    ): void;
 }
