@@ -8,11 +8,14 @@ use App\Core\Kernel\ModuleManifest;
 
 interface ModuleContract
 {
-    public function register(): void;
-
-    public function boot(): void;
-
     public function name(): string;
+
+
+    /**
+     * @return array<class-string<self>>
+     */
+    public function dependencies(): array;
+
 
     public function manifest(): ModuleManifest;
 }

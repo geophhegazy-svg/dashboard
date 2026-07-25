@@ -4,27 +4,45 @@ declare(strict_types=1);
 
 namespace App\Core\Kernel\Compiler;
 
-use App\Core\Kernel\Contracts\ModuleDiscoveryInterface;
+use App\Core\Kernel\Contracts\CompilableModuleResourceInterface;
+use App\Core\Kernel\Modules\Module;
 
-final readonly class ModuleManifestCompiler
+final class ModuleManifestCompiler
 {
-    public function __construct(
-        private ModuleDiscoveryInterface $discovery,
-    ) {
-    }
+    /**
+     * @param iterable<Module> $modules
+     */
+    public function compile(
+        iterable $modules,
+    ): CompiledModuleManifest {
 
-    public function compile(): array
-    {
-        $modules = [];
+        $compiledModules = [];
 
-        foreach ($this->discovery->discover() as $module) {
-            $modules[] = [
-                'class' => $module::class,
-                'name' => $module->name(),
-                'dependencies' => $module->dependencies(),
-            ];
+        foreach ($modules as $module) {
+
+            $resources = [];
+
+            foreach ($module->manifest()->resources() as $resource) {
+
+                if (
+                    ! $resource instanceof CompilableModuleResourceInterface
+                ) {
+                    continue;
+                }
+
+                $resources[] = $resource->compile();
+            }
+
+            $compiledModules[] = new CompiledModule(
+                class: $module::class,
+                name: $module->name(),
+                dependencies: $module->dependencies(),
+                resources: $resources,
+            );
         }
 
-        return $modules;
+        return new CompiledModuleManifest(
+            $compiledModules,
+        );
     }
 }

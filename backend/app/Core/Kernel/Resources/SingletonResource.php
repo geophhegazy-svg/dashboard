@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Core\Kernel\Resources;
 
+use App\Core\Kernel\Contracts\CompilableModuleResourceInterface;
 use App\Core\Kernel\Contracts\ModuleRegistrarInterface;
-use App\Core\Kernel\Contracts\ModuleResourceInterface;
 
-final readonly class SingletonResource implements ModuleResourceInterface
+final readonly class SingletonResource implements CompilableModuleResourceInterface
 {
     /**
      * @param array<class-string,class-string> $bindings
@@ -20,11 +20,21 @@ final readonly class SingletonResource implements ModuleResourceInterface
         ModuleRegistrarInterface $registrar
     ): void {
         foreach ($this->bindings as $abstract => $concrete) {
-
             $registrar->singleton(
                 $abstract,
                 $concrete
             );
         }
+    }
+
+    /**
+     * @return array<string,mixed>
+     */
+    public function compile(): array
+    {
+        return [
+            'type' => 'singletons',
+            'bindings' => $this->bindings,
+        ];
     }
 }

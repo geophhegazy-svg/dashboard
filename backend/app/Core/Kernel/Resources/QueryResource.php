@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Core\Kernel\Resources;
 
 use App\Core\Kernel\Contracts\ModuleRegistrarInterface;
-use App\Core\Kernel\Contracts\ModuleResourceInterface;
+use App\Core\Kernel\Contracts\CompilableModuleResourceInterface;
 
-final readonly class QueryResource implements ModuleResourceInterface
+final readonly class QueryResource implements CompilableModuleResourceInterface
 {
     /**
      * @param array<class-string,class-string> $queries
@@ -27,5 +27,13 @@ final readonly class QueryResource implements ModuleResourceInterface
                 $handler,
             );
         }
+    }
+
+    public function compile(): array
+    {
+        return [
+            'type' => 'queries',
+            'queries' => $this->queries,
+        ];
     }
 }

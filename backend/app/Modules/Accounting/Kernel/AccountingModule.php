@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Modules\Accounting\Kernel;
 
+use App\Core\Kernel\ModuleManifest;
 use App\Core\Kernel\Modules\Module;
-use App\Core\EventBus\EventRegistry;
 use App\Events\JournalEntryPosted;
 use App\Modules\Accounting\Listeners\JournalEntryPostedListener;
 
-class AccountingModule extends Module
+final class AccountingModule extends Module
 {
     public function name(): string
     {
@@ -22,16 +22,19 @@ class AccountingModule extends Module
             \App\Modules\Billing\Kernel\BillingModule::class,
         ];
     }
-    
-    public function register(): void {}
 
-
-    public function boot(): void
+    public function manifest(): ModuleManifest
     {
-        app(EventRegistry::class)
-            ->register(
-                JournalEntryPosted::class,
-                JournalEntryPostedListener::class
-            );
+        return ModuleManifest::make()
+
+            ->listeners([
+
+                JournalEntryPosted::class => [
+
+                    JournalEntryPostedListener::class,
+
+                ],
+
+            ]);
     }
 }

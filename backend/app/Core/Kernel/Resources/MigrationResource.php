@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Core\Kernel\Resources;
 
 use App\Core\Kernel\Contracts\ModuleRegistrarInterface;
-use App\Core\Kernel\Contracts\ModuleResourceInterface;
+use App\Core\Kernel\Contracts\CompilableModuleResourceInterface;
 
-final readonly class MigrationResource implements ModuleResourceInterface
+final readonly class MigrationResource implements CompilableModuleResourceInterface
 {
     /**
      * @param list<string> $paths
@@ -23,5 +23,13 @@ final readonly class MigrationResource implements ModuleResourceInterface
         $registrar->registerMigration(
             $this->paths
         );
+    }
+
+    public function compile(): array
+    {
+        return [
+            'type' => 'migrations',
+            'paths' => $this->paths,
+        ];
     }
 }

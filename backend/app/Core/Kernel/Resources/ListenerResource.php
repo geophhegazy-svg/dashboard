@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Core\Kernel\Resources;
 
 use App\Core\Kernel\Contracts\ModuleRegistrarInterface;
-use App\Core\Kernel\Contracts\ModuleResourceInterface;
+use App\Core\Kernel\Contracts\CompilableModuleResourceInterface;
 
-final readonly class ListenerResource implements ModuleResourceInterface
+final readonly class ListenerResource implements CompilableModuleResourceInterface
 {
     /**
      * @param array<class-string,array<class-string>> $listeners
@@ -30,5 +30,13 @@ final readonly class ListenerResource implements ModuleResourceInterface
                 );
             }
         }
+    }
+
+    public function compile(): array
+    {
+        return [
+            'type' => 'listeners',
+            'listeners' => $this->listeners,
+        ];
     }
 }

@@ -9,9 +9,15 @@ use App\Core\Kernel\ModuleManifest;
 
 abstract class Module implements ModuleContract
 {
+    /**
+     * اسم الـ Module.
+     */
     abstract public function name(): string;
 
+
     /**
+     * Dependencies بين الـ Modules.
+     *
      * @return array<class-string<Module>>
      */
     public function dependencies(): array
@@ -19,18 +25,9 @@ abstract class Module implements ModuleContract
         return [];
     }
 
-    /**
-     * @deprecated استخدم ModuleManifest بدلاً منه.
-     */
-    public function register(): void {}
 
     /**
-     * @deprecated استخدم ModuleManifest بدلاً منه.
-     */
-    public function boot(): void {}
-
-    /**
-     * المصدر الوحيد لتعريف مكونات الـ Module.
+     * المصدر الوحيد لتعريف موارد الـ Module.
      */
     public function manifest(): ModuleManifest
     {

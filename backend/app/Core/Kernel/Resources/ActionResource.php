@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Core\Kernel\Resources;
 
 use App\Core\Kernel\Contracts\ModuleRegistrarInterface;
-use App\Core\Kernel\Contracts\ModuleResourceInterface;
+use App\Core\Kernel\Contracts\CompilableModuleResourceInterface;
 
-final readonly class ActionResource implements ModuleResourceInterface
+final readonly class ActionResource implements CompilableModuleResourceInterface
 {
     /**
      * @param array<class-string> $actions
@@ -26,5 +26,13 @@ final readonly class ActionResource implements ModuleResourceInterface
                 $action,
             );
         }
+    }
+
+    public function compile(): array
+    {
+        return [
+            'type' => 'actions',
+            'actions' => $this->actions,
+        ];
     }
 }

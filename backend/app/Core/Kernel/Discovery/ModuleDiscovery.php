@@ -45,14 +45,31 @@ final class ModuleDiscovery implements ModuleDiscoveryInterface
                 continue;
             }
 
-            $instance = app($class);
+            $instance = $this->createModuleInstance(
+                $class,
+            );
 
-            if ($instance instanceof Module) {
+            if ($instance !== null) {
                 $modules[] = $instance;
             }
         }
 
         return $modules;
+    }
+
+    private function createModuleInstance(
+        string $class,
+    ): ?Module {
+
+        if (! class_exists($class)) {
+            return null;
+        }
+
+        $instance = app($class);
+
+        return $instance instanceof Module
+            ? $instance
+            : null;
     }
 
     /**

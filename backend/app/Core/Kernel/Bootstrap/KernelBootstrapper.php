@@ -5,48 +5,48 @@ declare(strict_types=1);
 namespace App\Core\Kernel\Bootstrap;
 
 use App\Core\Kernel\Contracts\KernelBootstrapperInterface;
-use App\Core\Kernel\Contracts\ModuleDiscoveryInterface;
-use App\Core\Kernel\Contracts\ModuleRegistrarInterface;
-use App\Core\Kernel\DependencyResolver;
+use App\Core\Kernel\Contracts\KernelValidatorInterface;
+use App\Core\Kernel\Contracts\ModuleLoaderInterface;
+use App\Core\Kernel\Events\KernelBooted;
+use App\Core\Kernel\Events\KernelBooting;
+use App\Core\Kernel\Registration\ModuleRegistrationService;
+use RuntimeException;
 
-final readonly class KernelBootstrapper implements KernelBootstrapperInterface
+final readonly class KernelBootstrapper
+implements KernelBootstrapperInterface
 {
     public function __construct(
-        private ModuleDiscoveryInterface $discovery,
-        private ModuleRegistrarInterface $registrar,
-        private DependencyResolver $resolver,
+        private ModuleLoaderInterface $loader,
+        private KernelValidatorInterface $validator,
+        private ModuleRegistrationService $registration,
     ) {}
 
     public function boot(): void
     {
         event(
-            new \App\Core\Kernel\Events\KernelBooting()
+            new KernelBooting(),
         );
 
-        $modules = $this->resolver->resolve(
-            $this->discovery->discover()
+        $registry = $this->loader->load();
+
+        $result = $this->validator->validate(
+            $registry,
         );
 
-        foreach ($modules as $module) {
+        if (! $result->isValid()) {
 
-            event(
-                new \App\Core\Kernel\Events\ModuleBooting($module)
-            );
-
-            foreach ($module->manifest()->resources() as $resource) {
-
-                $resource->register(
-                    $this->registrar
-                );
-            }
-
-            event(
-                new \App\Core\Kernel\Events\ModuleBooted($module)
+            throw new RuntimeException(
+                "Kernel validation failed.\n\n"
+                    . $result->exceptionMessage(),
             );
         }
 
+        $this->registration->register(
+            $registry,
+        );
+
         event(
-            new \App\Core\Kernel\Events\KernelBooted()
+            new KernelBooted(),
         );
     }
 }

@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Core\Kernel\Resources;
 
 use App\Core\Kernel\Contracts\ModuleRegistrarInterface;
-use App\Core\Kernel\Contracts\ModuleResourceInterface;
+use App\Core\Kernel\Contracts\CompilableModuleResourceInterface;
 
-final readonly class CommandHandlerResource implements ModuleResourceInterface
+final readonly class CommandHandlerResource implements CompilableModuleResourceInterface
 {
     /**
      * @param array<class-string,class-string> $commands
@@ -26,5 +26,13 @@ final readonly class CommandHandlerResource implements ModuleResourceInterface
                 $handler,
             );
         }
+    }
+
+    public function compile(): array
+    {
+        return [
+            'type' => 'command_handlers',
+            'handlers' => $this->commands,
+        ];
     }
 }
