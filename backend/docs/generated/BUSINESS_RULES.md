@@ -791,6 +791,31 @@ App\Services\Network\Providers\MikroTik
 
 ---
 
+## MikrotikService
+
+**Namespace**
+App\Services
+
+**Dependencies**
+- None
+
+**Methods**
+- __construct(0 params) : mixed
+- getClient(0 params) : RouterOS\Client
+- getPppoeUsers(0 params) : array
+- createPppoeUser(4 params) : void
+- findPppoeUser(1 params) : ?array
+- setPppoeUserStatus(2 params) : void
+- getHotspotUsers(0 params) : array
+- createHotspotUser(3 params) : void
+- findHotspotUser(1 params) : ?array
+- getHotspotUserId(1 params) : string
+- setHotspotUserStatus(2 params) : void
+- deleteHotspotUser(1 params) : void
+- getActiveHotspotUsers(0 params) : array
+
+---
+
 ## MikrotikServiceAdapter
 
 **Namespace**

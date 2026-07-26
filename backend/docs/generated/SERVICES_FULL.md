@@ -1326,6 +1326,41 @@ App\Services\Network\Providers\MikroTik
 
 ---
 
+## MikrotikService
+
+**Namespace**
+
+```
+App\Services
+```
+
+**File**
+
+```
+/var/www/app/Services/MikrotikService.php
+```
+
+**Properties**
+
+- $client : ?RouterOS\Client
+
+**Methods**
+
+- getClient() : RouterOS\Client
+- getPppoeUsers() : array
+- createPppoeUser() : void
+- findPppoeUser() : ?array
+- setPppoeUserStatus() : void
+- getHotspotUsers() : array
+- createHotspotUser() : void
+- findHotspotUser() : ?array
+- getHotspotUserId() : string
+- setHotspotUserStatus() : void
+- deleteHotspotUser() : void
+- getActiveHotspotUsers() : array
+
+---
+
 ## MikrotikServiceAdapter
 
 **Namespace**

@@ -33,6 +33,11 @@ use App\Services\Network\MikrotikServiceAdapter;
 use App\Modules\Accounting\Application\Services\JournalEntryNumberService;
 use App\Modules\Accounting\Application\Services\JournalPostingService;
 use App\Modules\Accounting\Application\Services\JournalValidationService;
+use App\Core\Kernel\Discovery\Contracts\ModuleSourceInterface;
+use App\Infrastructure\Laravel\Discovery\LaravelModuleSource;
+use App\Core\Kernel\Discovery\Contracts\PluginSourceInterface;
+use App\Infrastructure\Laravel\Discovery\LaravelPluginSource;
+
 class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
@@ -83,6 +88,11 @@ class AppServiceProvider extends ServiceProvider
             JournalEntryLineRepository::class
         );
 
+        $this->app->bind(
+            PluginSourceInterface::class,
+            LaravelPluginSource::class,
+        );
+
         /*
         |--------------------------------------------------------------------------
         | Core Services
@@ -97,6 +107,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             MikrotikServiceInterface::class,
             MikrotikServiceAdapter::class
+        );
+
+        $this->app->bind(
+            ModuleSourceInterface::class,
+            LaravelModuleSource::class,
         );
 
         /*
@@ -122,7 +137,7 @@ class AppServiceProvider extends ServiceProvider
     {
         \Illuminate\Support\Facades\Event::listen(
             \App\Core\EventBus\Contracts\EventContract::class,
-            \App\Core\EventBus\Bridge\LaravelEventBridge::class
+            \App\Core\EventBus\Bridge\EventBridge::class
         );
     }
 }

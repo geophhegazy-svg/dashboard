@@ -15,6 +15,7 @@ final readonly class ModuleLoader implements ModuleLoaderInterface
         private ModuleRegistry $registry,
     ) {}
 
+
     public function load(): ModuleRegistry
     {
         foreach ($this->discovery->discover() as $module) {
@@ -25,5 +26,11 @@ final readonly class ModuleLoader implements ModuleLoaderInterface
         }
 
         return $this->registry;
+    }
+
+
+    public function reset(): void
+    {
+        $this->registry->reset();
     }
 }

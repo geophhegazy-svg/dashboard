@@ -15,11 +15,13 @@ use Illuminate\Database\Migrations\Migrator;
 use Illuminate\Console\Scheduling\Schedule;
 use Closure;
 use App\Core\CommandBus\CommandRegistry;
+use App\Core\Kernel\Contracts\KernelCommandRegistrarInterface;
 
 final readonly class LaravelModuleRegistrar implements ModuleRegistrarInterface
 {
     public function __construct(
         private Application $app,
+        private KernelCommandRegistrarInterface $commandRegistrar,
     ) {}
 
 
@@ -127,11 +129,9 @@ final readonly class LaravelModuleRegistrar implements ModuleRegistrarInterface
         string $command
     ): void {
 
-        $this->app->make(
-            'Illuminate\Contracts\Console\Kernel'
-        )->resolveCommands([
-            $command
-        ]);
+        $this->commandRegistrar->register(
+            $command,
+        );
     }
 
 

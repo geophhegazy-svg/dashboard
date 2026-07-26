@@ -733,6 +733,30 @@ App\Services\Network\Providers\MikroTik\MikroTikQueueService
 - update
 - updateSpeed
 
+## MikrotikService
+
+**Class**
+
+```
+App\Services\MikrotikService
+```
+
+**Public Methods**
+
+- __construct
+- createHotspotUser
+- createPppoeUser
+- deleteHotspotUser
+- findHotspotUser
+- findPppoeUser
+- getActiveHotspotUsers
+- getClient
+- getHotspotUserId
+- getHotspotUsers
+- getPppoeUsers
+- setHotspotUserStatus
+- setPppoeUserStatus
+
 ## MikrotikServiceAdapter
 
 **Class**

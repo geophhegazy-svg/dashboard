@@ -120,10 +120,12 @@ final readonly class CompiledModuleManifest
             );
         }
 
+        $modules = $payload['modules'] ?? [];
+
         return new self(
             array_map(
                 static fn(array $module) => CompiledModule::fromPayload($module),
-                $payload['modules'],
+                $modules,
             ),
         );
     }

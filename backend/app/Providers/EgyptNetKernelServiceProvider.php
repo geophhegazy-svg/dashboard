@@ -38,8 +38,27 @@ use App\Core\Kernel\Contracts\ManifestFingerprintGeneratorInterface;
 use App\Core\Kernel\Fingerprint\ManifestFingerprintGenerator;
 use App\Core\Kernel\Compiler\CompiledManifestProvider;
 use App\Core\Kernel\Registration\ModuleRegistrationService;
-
-
+use App\Core\Kernel\Contracts\KernelCommandRegistrarInterface;
+use App\Infrastructure\Laravel\Kernel\LaravelKernelCommandRegistrar;
+use App\Infrastructure\Laravel\Console\Kernel\KernelCacheCommand;
+use App\Core\Kernel\Registration\CompiledResourceRegistrar;
+use App\Core\Kernel\Registration\Handlers\ServiceResourceHandler;
+use App\Core\Kernel\Registration\CompiledManifestRegistrationService;
+use App\Core\Kernel\Registration\Handlers\ActionResourceHandler;
+use App\Core\Kernel\Registration\Handlers\QueryResourceHandler;
+use App\Core\Kernel\Registration\Handlers\ListenerResourceHandler;
+use App\Core\Kernel\Registration\Handlers\CommandHandlerResourceHandler;
+use App\Core\Kernel\Diagnostics\KernelDiagnostics;
+use App\Infrastructure\Laravel\Console\Kernel\KernelDiagnosticsCommand;
+use App\Core\Kernel\Runtime\KernelRuntimeState;
+use App\Core\Kernel\Health\KernelHealthService;
+use App\Core\Kernel\Health\Checks\KernelBootCheck;
+use App\Core\Kernel\Health\Checks\ManifestAvailabilityCheck;
+use App\Core\Kernel\Monitoring\KernelBootTimeline;
+use App\Core\Kernel\Monitoring\KernelMonitoringService;
+use App\Core\Kernel\Lifecycle\KernelLifecycleManager;
+use App\Core\Kernel\Lifecycle\Registration\LifecycleEventRegistrar;
+use App\Core\EventBus\Contracts\EventDispatcherInterface;
 final class EgyptNetKernelServiceProvider extends ServiceProvider
 {
     public function register(): void
@@ -47,6 +66,39 @@ final class EgyptNetKernelServiceProvider extends ServiceProvider
         $this->app->bind(
             ModuleRegistrarInterface::class,
             LaravelModuleRegistrar::class,
+        );
+
+        $this->app->singleton(
+            ManifestAvailabilityCheck::class,
+        );
+
+        $this->app->singleton(
+            KernelBootCheck::class,
+        );
+
+        $this->app->singleton(
+            KernelHealthService::class,
+            fn($app) => new KernelHealthService([
+                $app->make(KernelBootCheck::class),
+                $app->make(ManifestAvailabilityCheck::class),
+            ]),
+        );
+
+        $this->app->singleton(
+            KernelRuntimeState::class,
+        );
+
+        $this->app->singleton(
+            KernelLifecycleManager::class,
+        );
+
+        $this->app->singleton(
+            KernelDiagnostics::class,
+        );
+
+        $this->app->singleton(
+            KernelCommandRegistrarInterface::class,
+            LaravelKernelCommandRegistrar::class,
         );
 
         $this->app->singleton(
@@ -83,6 +135,21 @@ final class EgyptNetKernelServiceProvider extends ServiceProvider
 
         $this->app->singleton(
             ModuleRegistrationService::class,
+        );
+
+        $this->app->singleton(
+            CompiledResourceRegistrar::class,
+            fn() => new CompiledResourceRegistrar([
+                new ServiceResourceHandler(),
+                new ActionResourceHandler(),
+                new QueryResourceHandler(),
+                new ListenerResourceHandler(),
+                new CommandHandlerResourceHandler(),
+            ]),
+        );
+
+        $this->app->singleton(
+            CompiledManifestRegistrationService::class,
         );
 
         $this->app->singleton(
@@ -141,21 +208,62 @@ final class EgyptNetKernelServiceProvider extends ServiceProvider
         );
 
         $this->app->singleton(
+            LifecycleEventRegistrar::class,
+        );
+
+        $this->app->singleton(
             ListenerResolverInterface::class,
             LaravelListenerResolver::class,
         );
 
         $this->app->singleton(
-            EventDispatcher::class,
+            EventDispatcherInterface::class,
             fn($app) => new EventDispatcher(
                 $app->make(EventRegistry::class),
                 $app->make(ListenerResolverInterface::class),
             ),
         );
+
+        $this->app->alias(
+            EventDispatcherInterface::class,
+            EventDispatcher::class,
+        );
+
+        $this->app->singleton(
+            KernelBootTimeline::class,
+        );
+
+        $this->app->singleton(
+            KernelMonitoringService::class,
+        );
+
+        $this->app->singleton(
+            \App\Core\Contracts\ContainerInterface::class,
+            \App\Infrastructure\Laravel\Container\LaravelContainerAdapter::class,
+        );
     }
 
     public function boot(): void
     {
+        $commandRegistrar = $this->app
+            ->make(KernelCommandRegistrarInterface::class);
+
+        $commandRegistrar->register(
+            \App\Infrastructure\Laravel\Console\Kernel\KernelModulesCommand::class,
+        );
+
+        $commandRegistrar->register(
+            \App\Infrastructure\Laravel\Console\Kernel\KernelCacheCommand::class,
+        );
+
+        $commandRegistrar->register(
+            \App\Infrastructure\Laravel\Console\Kernel\KernelCacheStatusCommand::class,
+        );
+
+        $commandRegistrar->register(
+            KernelDiagnosticsCommand::class,
+        );
+
         $this->app
             ->make(KernelBootstrapperInterface::class)
             ->boot();

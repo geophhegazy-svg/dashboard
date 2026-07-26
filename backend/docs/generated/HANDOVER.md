@@ -14,7 +14,7 @@ Technology
 
 Statistics
 - Models: 27
-- Services: 80
+- Services: 81
 
 
 ---
@@ -48,7 +48,7 @@ app/
 # Project Statistics
 
 Models: 27
-Services: 80
+Services: 81
 
 ---
 
@@ -100,7 +100,7 @@ Development Rules
 
 Current Statistics
 Models: 27
-Services: 80
+Services: 81
 
 ---
 
@@ -894,6 +894,31 @@ App\Services\Network\Providers\MikroTik
 - resetCounters(1 params) : bool
 - search(1 params) : array
 - statistics(1 params) : array
+
+---
+
+## MikrotikService
+
+**Namespace**
+App\Services
+
+**Dependencies**
+- None
+
+**Methods**
+- __construct(0 params) : mixed
+- getClient(0 params) : RouterOS\Client
+- getPppoeUsers(0 params) : array
+- createPppoeUser(4 params) : void
+- findPppoeUser(1 params) : ?array
+- setPppoeUserStatus(2 params) : void
+- getHotspotUsers(0 params) : array
+- createHotspotUser(3 params) : void
+- findHotspotUser(1 params) : ?array
+- getHotspotUserId(1 params) : string
+- setHotspotUserStatus(2 params) : void
+- deleteHotspotUser(1 params) : void
+- getActiveHotspotUsers(0 params) : array
 
 ---
 
@@ -5443,6 +5468,41 @@ App\Services\Network\Providers\MikroTik
 - resetCounters() : bool
 - search() : array
 - statistics() : array
+
+---
+
+## MikrotikService
+
+**Namespace**
+
+```
+App\Services
+```
+
+**File**
+
+```
+/var/www/app/Services/MikrotikService.php
+```
+
+**Properties**
+
+- $client : ?RouterOS\Client
+
+**Methods**
+
+- getClient() : RouterOS\Client
+- getPppoeUsers() : array
+- createPppoeUser() : void
+- findPppoeUser() : ?array
+- setPppoeUserStatus() : void
+- getHotspotUsers() : array
+- createHotspotUser() : void
+- findHotspotUser() : ?array
+- getHotspotUserId() : string
+- setHotspotUserStatus() : void
+- deleteHotspotUser() : void
+- getActiveHotspotUsers() : array
 
 ---
 

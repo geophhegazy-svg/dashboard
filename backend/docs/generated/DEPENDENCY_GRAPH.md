@@ -94,6 +94,7 @@
 - App\Services\Network\Providers\MikroTik\MikroTikProvider
 - App\Services\Network\Providers\MikroTik\MikroTikQueryService
 - App\Services\Network\Providers\MikroTik\MikroTikQueueService
+- App\Services\MikrotikService
 - App\Services\Network\MikrotikServiceAdapter
 - App\Services\Documentation\Generators\ModelDocumentationGenerator
 - App\Services\Documentation\Knowledge\ModelRelationExtractor

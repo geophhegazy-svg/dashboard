@@ -16,6 +16,17 @@ class EventRegistry
         string $listener
     ): void {
 
+        if (
+            in_array(
+                $listener,
+                $this->listeners[$event] ?? [],
+                true,
+            )
+        ) {
+            return;
+        }
+
+
         $this->listeners[$event][] = $listener;
     }
 

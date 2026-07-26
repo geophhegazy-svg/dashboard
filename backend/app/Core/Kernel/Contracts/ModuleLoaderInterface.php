@@ -9,4 +9,7 @@ use App\Core\Kernel\ModuleRegistry;
 interface ModuleLoaderInterface
 {
     public function load(): ModuleRegistry;
+
+
+    public function reset(): void;
 }

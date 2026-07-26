@@ -6,8 +6,9 @@ namespace App\Core\EventBus;
 
 use App\Core\EventBus\Contracts\EventContract;
 use App\Core\EventBus\Contracts\ListenerResolverInterface;
+use App\Core\EventBus\Contracts\EventDispatcherInterface;
 
-final class EventDispatcher
+final class EventDispatcher implements EventDispatcherInterface
 {
     public function __construct(
         private readonly EventRegistry $registry,

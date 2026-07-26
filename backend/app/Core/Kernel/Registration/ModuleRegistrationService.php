@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Kernel\Registration;
 
+use App\Core\EventBus\Contracts\EventDispatcherInterface;
 use App\Core\Kernel\Contracts\ModuleContract;
 use App\Core\Kernel\Contracts\ModuleRegistrarInterface;
 use App\Core\Kernel\Events\ModuleBooted;
@@ -14,7 +15,9 @@ final readonly class ModuleRegistrationService
 {
     public function __construct(
         private ModuleRegistrarInterface $registrar,
+        private EventDispatcherInterface $events,
     ) {}
+
 
     public function register(
         ModuleRegistry $registry,
@@ -26,13 +29,15 @@ final readonly class ModuleRegistrationService
         }
     }
 
+
     private function registerModule(
         ModuleContract $module,
     ): void {
 
-        event(
+        $this->events->dispatch(
             new ModuleBooting($module),
         );
+
 
         foreach (
             $module->manifest()->resources()
@@ -44,7 +49,8 @@ final readonly class ModuleRegistrationService
             );
         }
 
-        event(
+
+        $this->events->dispatch(
             new ModuleBooted($module),
         );
     }

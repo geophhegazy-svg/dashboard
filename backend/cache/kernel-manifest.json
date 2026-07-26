@@ -1,0 +1,115 @@
+{
+    "version": 1,
+    "modules": [
+        {
+            "class": "App\\Modules\\Subscription\\Kernel\\SubscriptionModule",
+            "name": "Subscription",
+            "dependencies": [],
+            "resources": [
+                {
+                    "type": "services",
+                    "bindings": {
+                        "App\\Modules\\Subscription\\Domain\\Contracts\\SubscriptionRepositoryInterface": "App\\Modules\\Subscription\\Infrastructure\\Repositories\\SubscriptionRepository",
+                        "App\\Modules\\Subscription\\Domain\\Contracts\\SubscriptionRenewalServiceInterface": "App\\Modules\\Subscription\\Domain\\Services\\SubscriptionRenewalService"
+                    }
+                },
+                {
+                    "type": "actions",
+                    "actions": [
+                        "App\\Modules\\Subscription\\Application\\Actions\\ActivateSubscriptionAction"
+                    ]
+                },
+                {
+                    "type": "queries",
+                    "queries": {
+                        "App\\Modules\\Subscription\\Application\\Queries\\FindSubscriptionQuery": "App\\Modules\\Subscription\\Application\\Queries\\Handlers\\FindSubscriptionQueryHandler"
+                    }
+                },
+                {
+                    "type": "listeners",
+                    "listeners": {
+                        "App\\Modules\\Subscription\\Domain\\Events\\SubscriptionActivated": [
+                            "App\\Modules\\Subscription\\Application\\Listeners\\EnableMikrotikUserListener"
+                        ],
+                        "App\\Modules\\Subscription\\Domain\\Events\\SubscriptionRenewed": [
+                            "App\\Modules\\Subscription\\Application\\Listeners\\SubscriptionRenewedListener"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "class": "App\\Modules\\Billing\\Kernel\\BillingModule",
+            "name": "Billing",
+            "dependencies": [
+                "App\\Modules\\Subscription\\Kernel\\SubscriptionModule"
+            ],
+            "resources": [
+                {
+                    "type": "services",
+                    "bindings": {
+                        "App\\Modules\\Billing\\Domain\\Contracts\\BillingCycleServiceInterface": "App\\Modules\\Billing\\Application\\Services\\BillingCycleService",
+                        "App\\Modules\\Billing\\Domain\\Contracts\\AutomaticBillingServiceInterface": "App\\Modules\\Billing\\Application\\Services\\AutomaticBillingService",
+                        "App\\Modules\\Billing\\Domain\\Contracts\\InvoiceGeneratorInterface": "App\\Modules\\Billing\\Application\\Services\\InvoiceGenerator"
+                    }
+                }
+            ]
+        },
+        {
+            "class": "App\\Modules\\Accounting\\Kernel\\AccountingModule",
+            "name": "Accounting",
+            "dependencies": [
+                "App\\Modules\\Billing\\Kernel\\BillingModule"
+            ],
+            "resources": [
+                {
+                    "type": "listeners",
+                    "listeners": {
+                        "App\\Events\\JournalEntryPosted": [
+                            "App\\Modules\\Accounting\\Listeners\\JournalEntryPostedListener"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "class": "App\\Modules\\Customer\\Kernel\\CustomerModule",
+            "name": "Customer",
+            "dependencies": [],
+            "resources": [
+                {
+                    "type": "services",
+                    "bindings": {
+                        "App\\Modules\\Customer\\Domain\\Contracts\\CustomerRepositoryInterface": "App\\Modules\\Customer\\Infrastructure\\Repositories\\CustomerRepository",
+                        "App\\Modules\\Customer\\Domain\\Contracts\\CustomerActivationServiceInterface": "App\\Modules\\Customer\\Domain\\Services\\CustomerActivationService",
+                        "App\\Modules\\Customer\\Application\\Workflows\\CreateCustomerWorkflow": "App\\Modules\\Customer\\Application\\Workflows\\CreateCustomerWorkflow"
+                    }
+                },
+                {
+                    "type": "actions",
+                    "actions": [
+                        "App\\Modules\\Customer\\Application\\Actions\\CreateCustomerAction",
+                        "App\\Modules\\Customer\\Application\\Actions\\UpdateCustomerAction",
+                        "App\\Modules\\Customer\\Application\\Actions\\ActivateCustomerAction",
+                        "App\\Modules\\Customer\\Application\\Actions\\DeactivateCustomerAction",
+                        "App\\Modules\\Customer\\Application\\Actions\\DeleteCustomerAction"
+                    ]
+                },
+                {
+                    "type": "listeners",
+                    "listeners": {
+                        "App\\Modules\\Customer\\Domain\\Events\\CustomerCreated": [
+                            "App\\Modules\\Customer\\Application\\Listeners\\CustomerCreatedListener"
+                        ]
+                    }
+                },
+                {
+                    "type": "command_handlers",
+                    "handlers": {
+                        "App\\Modules\\Customer\\Application\\Commands\\CreateCustomerCommand": "App\\Modules\\Customer\\Application\\Commands\\Handlers\\CreateCustomerCommandHandler"
+                    }
+                }
+            ]
+        }
+    ]
+}

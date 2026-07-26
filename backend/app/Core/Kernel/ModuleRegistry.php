@@ -9,53 +9,72 @@ use App\Core\Kernel\Contracts\ModuleContract;
 final class ModuleRegistry
 {
     /**
-     * @var array<class-string<ModuleContract>, ModuleContract>
+     * @var list<ModuleContract>
      */
     private array $modules = [];
+
 
     public function add(
         ModuleContract $module,
     ): void {
 
-        $this->modules[$module::class] = $module;
+        $this->modules[] = $module;
     }
+
 
     /**
      * @return list<ModuleContract>
      */
     public function all(): array
     {
-        return array_values(
-            $this->modules,
-        );
+        return $this->modules;
     }
+
 
     public function has(
         string $module,
     ): bool {
 
-        return isset(
-            $this->modules[$module],
-        );
+        foreach ($this->modules as $item) {
+
+            if ($item::class === $module) {
+                return true;
+            }
+        }
+
+        return false;
     }
+
 
     public function get(
         string $module,
     ): ?ModuleContract {
 
-        return $this->modules[$module]
-            ?? null;
+        foreach ($this->modules as $item) {
+
+            if ($item::class === $module) {
+                return $item;
+            }
+        }
+
+        return null;
     }
+
 
     public function count(): int
     {
-        return count(
-            $this->modules,
-        );
+        return count($this->modules);
     }
+
 
     public function isEmpty(): bool
     {
         return $this->modules === [];
+    }
+
+
+    public function reset(): void
+    {
+        $this->modules = [];
     }
 }

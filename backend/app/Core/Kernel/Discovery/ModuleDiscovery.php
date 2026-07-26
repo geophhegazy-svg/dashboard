@@ -5,90 +5,49 @@ declare(strict_types=1);
 namespace App\Core\Kernel\Discovery;
 
 use App\Core\Kernel\Contracts\ModuleDiscoveryInterface;
+use App\Core\Kernel\Discovery\Contracts\ModuleSourceInterface;
 use App\Core\Kernel\Modules\Module;
-use Illuminate\Support\Facades\File;
 use RuntimeException;
 
-final class ModuleDiscovery implements ModuleDiscoveryInterface
+final readonly class ModuleDiscovery implements ModuleDiscoveryInterface
 {
+    public function __construct(
+        private ModuleSourceInterface $source,
+    ) {}
+
+
     public function discover(): iterable
     {
         return $this->sortModules(
-            $this->discoverModules()
+            iterator_to_array(
+                $this->source->modules()
+            )
         );
     }
 
-    /**
-     * @return array<int, Module>
-     */
-    private function discoverModules(): array
-    {
-        $modules = [];
-
-        $modulesPath = app_path('Modules');
-
-        if (! File::exists($modulesPath)) {
-            return [];
-        }
-
-        foreach (File::directories($modulesPath) as $directory) {
-
-            $module = basename($directory);
-
-            $class = sprintf(
-                'App\\Modules\\%s\\Kernel\\%sModule',
-                $module,
-                $module
-            );
-
-            if (! class_exists($class)) {
-                continue;
-            }
-
-            $instance = $this->createModuleInstance(
-                $class,
-            );
-
-            if ($instance !== null) {
-                $modules[] = $instance;
-            }
-        }
-
-        return $modules;
-    }
-
-    private function createModuleInstance(
-        string $class,
-    ): ?Module {
-
-        if (! class_exists($class)) {
-            return null;
-        }
-
-        $instance = app($class);
-
-        return $instance instanceof Module
-            ? $instance
-            : null;
-    }
 
     /**
      * @param array<int, Module> $modules
      * @return array<int, Module>
      */
-    private function sortModules(array $modules): array
-    {
+    private function sortModules(
+        array $modules,
+    ): array {
+
         $map = [];
 
         foreach ($modules as $module) {
             $map[$module::class] = $module;
         }
 
+
         $sorted = [];
         $visited = [];
         $visiting = [];
 
+
         foreach ($modules as $module) {
+
             $this->visit(
                 $module,
                 $map,
@@ -98,8 +57,10 @@ final class ModuleDiscovery implements ModuleDiscoveryInterface
             );
         }
 
+
         return $sorted;
     }
+
 
     /**
      * @param array<class-string<Module>, Module> $map
@@ -117,25 +78,32 @@ final class ModuleDiscovery implements ModuleDiscoveryInterface
 
         $class = $module::class;
 
+
         if (isset($visited[$class])) {
             return;
         }
 
+
         if (isset($visiting[$class])) {
+
             throw new RuntimeException(
                 "Circular module dependency detected: {$class}"
             );
         }
 
+
         $visiting[$class] = true;
+
 
         foreach ($module->dependencies() as $dependency) {
 
             if (! isset($map[$dependency])) {
+
                 throw new RuntimeException(
                     "Missing module dependency: {$dependency}"
                 );
             }
+
 
             $this->visit(
                 $map[$dependency],
@@ -146,9 +114,12 @@ final class ModuleDiscovery implements ModuleDiscoveryInterface
             );
         }
 
+
         unset($visiting[$class]);
 
+
         $visited[$class] = true;
+
 
         $sorted[] = $module;
     }

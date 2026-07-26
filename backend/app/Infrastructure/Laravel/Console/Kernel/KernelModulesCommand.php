@@ -2,7 +2,8 @@
 
 declare(strict_types=1);
 
-namespace App\Core\Kernel\Console;
+namespace App\Infrastructure\Laravel\Console\Kernel;
+
 
 use App\Core\Kernel\Inspector\KernelInspector;
 use Illuminate\Console\Command;

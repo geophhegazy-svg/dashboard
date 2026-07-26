@@ -4,4 +4,12 @@ declare(strict_types=1);
 
 namespace App\Core\Kernel\Events;
 
-final readonly class KernelBooted {}
+use App\Core\EventBus\Contracts\EventContract;
+use App\Core\Kernel\Context\KernelContext;
+
+final readonly class KernelBooted implements EventContract
+{
+    public function __construct(
+        public KernelContext $context,
+    ) {}
+}
