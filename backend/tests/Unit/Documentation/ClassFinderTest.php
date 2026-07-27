@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Documentation;
 
-use App\Services\Documentation\Scanner\ClassFinder;
+use App\Modules\Documentation\Application\Scanner\ClassFinder;
 use Tests\TestCase;
 
 class ClassFinderTest extends TestCase

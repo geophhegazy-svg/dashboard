@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Services\Documentation\ProjectBibleService;
+use App\Modules\Documentation\Application\ProjectBibleService;
 
 class BibleUpdateCommand extends Command
 {

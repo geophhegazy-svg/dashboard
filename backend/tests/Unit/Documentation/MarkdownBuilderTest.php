@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Documentation;
 
 use PHPUnit\Framework\TestCase;
-use App\Services\Documentation\Builder\MarkdownBuilder;
+use App\Modules\Documentation\Application\Builder\MarkdownBuilder;
 
 class MarkdownBuilderTest extends TestCase
 {

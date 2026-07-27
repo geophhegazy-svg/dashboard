@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Documentation;
 
-use App\Services\Documentation\Writer\DocumentationWriter;
+use App\Modules\Documentation\Application\Writer\DocumentationWriter;
 use Tests\TestCase;
 
 class DocumentationWriterTest extends TestCase

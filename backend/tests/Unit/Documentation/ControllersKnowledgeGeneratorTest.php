@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Documentation;
 
-use App\Services\Documentation\Knowledge\ControllersKnowledgeGenerator;
-use App\Services\Documentation\Scanner\ProjectScanner;
+use App\Modules\Documentation\Application\Knowledge\ControllersKnowledgeGenerator;
+use App\Modules\Documentation\Application\Scanner\ProjectScanner;
 use Tests\TestCase;
 
 class ControllersKnowledgeGeneratorTest extends TestCase

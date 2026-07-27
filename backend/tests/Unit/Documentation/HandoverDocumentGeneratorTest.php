@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Documentation;
 
-use App\Services\Documentation\Knowledge\HandoverDocumentGenerator;
+use App\Modules\Documentation\Application\Knowledge\HandoverDocumentGenerator;
 use Tests\TestCase;
 
 class HandoverDocumentGeneratorTest extends TestCase

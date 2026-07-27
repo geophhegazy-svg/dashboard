@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Documentation;
 
-use App\Services\Documentation\Scanner\MetadataExtractor;
+use App\Modules\Documentation\Application\Scanner\MetadataExtractor;
 use Tests\TestCase;
 
 class MetadataExtractorTest extends TestCase

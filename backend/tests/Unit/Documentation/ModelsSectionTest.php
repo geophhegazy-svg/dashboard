@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Documentation;
 
-use App\Services\Documentation\Sections\ModelsSection;
+use App\Modules\Documentation\Application\Sections\ModelsSection;
 use Tests\TestCase;
 
 class ModelsSectionTest extends TestCase

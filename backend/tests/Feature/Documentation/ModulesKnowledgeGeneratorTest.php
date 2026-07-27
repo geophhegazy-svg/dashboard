@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Documentation;
 
-use App\Services\Documentation\Knowledge\ModulesKnowledgeGenerator;
+use App\Modules\Documentation\Application\Knowledge\ModulesKnowledgeGenerator;
 use Tests\TestCase;
 
 class ModulesKnowledgeGeneratorTest extends TestCase

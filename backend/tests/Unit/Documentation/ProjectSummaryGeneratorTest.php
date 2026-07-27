@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Documentation;
 
-use App\Services\Documentation\Knowledge\ProjectSummaryGenerator;
+use App\Modules\Documentation\Application\Knowledge\ProjectSummaryGenerator;
 use Tests\TestCase;
 
 class ProjectSummaryGeneratorTest extends TestCase

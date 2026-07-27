@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Documentation;
 
-use App\Services\Documentation\Knowledge\ProjectStateKnowledgeGenerator;
+use App\Modules\Documentation\Application\Knowledge\ProjectStateKnowledgeGenerator;
 use Tests\TestCase;
 
 class ProjectStateKnowledgeGeneratorTest extends TestCase

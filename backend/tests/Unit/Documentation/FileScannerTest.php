@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Documentation;
 
-use App\Services\Documentation\Scanner\FileScanner;
+use App\Modules\Documentation\Application\Scanner\FileScanner;
 use Tests\TestCase;
 
 class FileScannerTest extends TestCase

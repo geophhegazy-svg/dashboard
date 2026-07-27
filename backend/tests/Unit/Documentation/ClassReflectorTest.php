@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Documentation;
 
-use App\Services\Documentation\Reflection\ClassReflector;
+use App\Modules\Documentation\Application\Reflection\ClassReflector;
 use Tests\TestCase;
 
 class ClassReflectorTest extends TestCase

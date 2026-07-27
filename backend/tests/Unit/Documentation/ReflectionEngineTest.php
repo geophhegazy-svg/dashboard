@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Documentation;
 
 use PHPUnit\Framework\TestCase;
-use App\Services\Documentation\Reflection\ReflectionEngine;
+use App\Modules\Documentation\Application\Reflection\ReflectionEngine;
 
 class ReflectionEngineTest extends TestCase
 {

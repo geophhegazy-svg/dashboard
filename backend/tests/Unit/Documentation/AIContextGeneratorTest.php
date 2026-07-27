@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Documentation;
 
-use App\Services\Documentation\Knowledge\AIContextGenerator;
+use App\Modules\Documentation\Application\Knowledge\AIContextGenerator;
 use Tests\TestCase;
 
 class AIContextGeneratorTest extends TestCase
