@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Events;
+namespace App\Modules\Accounting\Domain\Events;
 
 use App\Core\EventBus\Contracts\EventContract;
 use App\Models\JournalEntry;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class JournalEntryPosted implements EventContract
+final class JournalEntryPosted implements EventContract
 {
     use Dispatchable;
     use SerializesModels;

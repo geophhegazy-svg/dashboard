@@ -52,6 +52,12 @@
                         "App\\Modules\\Billing\\Domain\\Contracts\\AutomaticBillingServiceInterface": "App\\Modules\\Billing\\Application\\Services\\AutomaticBillingService",
                         "App\\Modules\\Billing\\Domain\\Contracts\\InvoiceGeneratorInterface": "App\\Modules\\Billing\\Application\\Services\\InvoiceGenerator"
                     }
+                },
+                {
+                    "type": "policies",
+                    "policies": {
+                        "App\\Models\\Invoice": "App\\Modules\\Billing\\Policies\\InvoicePolicy"
+                    }
                 }
             ]
         },
@@ -65,7 +71,7 @@
                 {
                     "type": "listeners",
                     "listeners": {
-                        "App\\Events\\JournalEntryPosted": [
+                        "App\\Modules\\Accounting\\Domain\\Events\\JournalEntryPosted": [
                             "App\\Modules\\Accounting\\Listeners\\JournalEntryPostedListener"
                         ]
                     }
@@ -107,6 +113,20 @@
                     "type": "command_handlers",
                     "handlers": {
                         "App\\Modules\\Customer\\Application\\Commands\\CreateCustomerCommand": "App\\Modules\\Customer\\Application\\Commands\\Handlers\\CreateCustomerCommandHandler"
+                    }
+                }
+            ]
+        },
+        {
+            "class": "App\\Modules\\Dashboard\\Kernel\\DashboardModule",
+            "name": "Dashboard",
+            "dependencies": [],
+            "resources": [
+                {
+                    "type": "services",
+                    "bindings": {
+                        "App\\Modules\\Dashboard\\Application\\Services\\DashboardService": "App\\Modules\\Dashboard\\Application\\Services\\DashboardService",
+                        "App\\Modules\\Dashboard\\Application\\Services\\CustomerDashboardService": "App\\Modules\\Dashboard\\Application\\Services\\CustomerDashboardService"
                     }
                 }
             ]

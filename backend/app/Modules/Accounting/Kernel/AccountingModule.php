@@ -6,8 +6,9 @@ namespace App\Modules\Accounting\Kernel;
 
 use App\Core\Kernel\ModuleManifest;
 use App\Core\Kernel\Modules\Module;
-use App\Events\JournalEntryPosted;
+use App\Modules\Accounting\Domain\Events\JournalEntryPosted;
 use App\Modules\Accounting\Listeners\JournalEntryPostedListener;
+
 
 final class AccountingModule extends Module
 {

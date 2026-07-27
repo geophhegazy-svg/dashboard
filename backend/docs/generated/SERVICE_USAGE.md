@@ -187,31 +187,6 @@ App\Services\Documentation\Knowledge\ControllersKnowledgeGenerator
 - filename
 - generate
 
-## CustomerDashboardService
-
-**Class**
-
-```
-App\Services\Dashboard\CustomerDashboardService
-```
-
-**Public Methods**
-
-- __construct
-- getDashboardData
-
-## DashboardService
-
-**Class**
-
-```
-App\Services\Dashboard\DashboardService
-```
-
-**Public Methods**
-
-- getDashboardData
-
 ## DatabaseExtractor
 
 **Class**

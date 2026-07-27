@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Invoice;
 
-use App\Events\InvoiceCreated;
+use App\Modules\Invoice\Domain\Events\InvoiceCreated;
 use App\Models\Invoice;
 
 class InvoiceService

@@ -1,11 +1,14 @@
 <?php
 
-namespace App\Policies;
+declare(strict_types=1);
 
+namespace App\Modules\Customer\Policies;
+
+use App\Core\Security\Authorization\BasePolicy;
 use App\Models\Customer;
 use App\Models\User;
 
-class CustomerPolicy extends BasePolicy
+final class CustomerPolicy extends BasePolicy
 {
     public function viewAny(User $user): bool
     {

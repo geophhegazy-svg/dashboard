@@ -11,30 +11,43 @@ final class DependencyResolver
 {
     /**
      * @param iterable<Module> $modules
-     * @return array<Module>
+     * @return list<Module>
      */
     public function resolve(iterable $modules): array
     {
+        $modules = iterator_to_array($modules, false);
+
+        $map = [];
+
+        foreach ($modules as $module) {
+            $map[$module::class] = $module;
+        }
+
         $resolved = [];
         $visited = [];
 
         foreach ($modules as $module) {
             $this->visit(
                 $module,
-                $modules,
+                $map,
                 $resolved,
-                $visited
+                $visited,
             );
         }
 
         return array_values($resolved);
     }
 
+    /**
+     * @param array<class-string,Module> $modules
+     * @param array<class-string,Module> $resolved
+     * @param array<class-string,string> $visited
+     */
     private function visit(
         Module $module,
-        iterable $modules,
+        array $modules,
         array &$resolved,
-        array &$visited
+        array &$visited,
     ): void {
 
         $class = $module::class;
@@ -44,8 +57,12 @@ final class DependencyResolver
         }
 
         if (($visited[$class] ?? null) === 'visiting') {
+
             throw new RuntimeException(
-                "Circular dependency detected: {$class}"
+                sprintf(
+                    'Circular dependency detected for [%s].',
+                    $class,
+                ),
             );
         }
 
@@ -53,20 +70,23 @@ final class DependencyResolver
 
         foreach ($module->dependencies() as $dependency) {
 
-            foreach ($modules as $candidate) {
+            if (! isset($modules[$dependency])) {
 
-                if ($candidate::class === $dependency) {
-
-                    $this->visit(
-                        $candidate,
-                        $modules,
-                        $resolved,
-                        $visited
-                    );
-
-                    break;
-                }
+                throw new RuntimeException(
+                    sprintf(
+                        'Missing dependency [%s] required by [%s].',
+                        $dependency,
+                        $class,
+                    ),
+                );
             }
+
+            $this->visit(
+                $modules[$dependency],
+                $modules,
+                $resolved,
+                $visited,
+            );
         }
 
         $visited[$class] = 'done';

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Services;
 
-use App\Events\JournalEntryPosted;
+use App\Modules\Accounting\Domain\Events\JournalEntryPosted;
 use App\Models\Account;
 use App\Models\JournalEntry;
 use App\Models\JournalEntryLine;

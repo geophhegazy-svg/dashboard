@@ -5,7 +5,7 @@ namespace App\Policies;
 use App\Models\Tenant;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
-use App\Policies\Concerns\AuthorizesByPermission;
+use App\Core\Security\Authorization\Concerns\AuthorizesByPermission;
 
 class TenantPolicy
 {

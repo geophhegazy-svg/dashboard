@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Dashboard;
+namespace App\Modules\Dashboard\Application\Services;
 
 use App\Models\Customer;
 use App\Models\HotspotSubscription;

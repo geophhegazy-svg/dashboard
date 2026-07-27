@@ -4,7 +4,7 @@ namespace App\Policies;
 
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 use App\Models\User;
-use App\Policies\Concerns\AuthorizesByPermission;
+use App\Core\Security\Authorization\Concerns\AuthorizesByPermission;
 
 class SubscriptionPolicy
 {

@@ -4,13 +4,18 @@ declare(strict_types=1);
 
 namespace App\Core\Kernel\Registration;
 
+use App\Core\EventBus\Contracts\EventDispatcherInterface;
 use App\Core\Kernel\Compiler\CompiledModuleManifest;
 use App\Core\Kernel\Contracts\ModuleRegistrarInterface;
+use App\Core\Kernel\Contracts\ModuleContract;
+use App\Core\Kernel\Events\ModuleBooted;
+use App\Core\Kernel\Events\ModuleBooting;
 
 final readonly class CompiledManifestRegistrationService
 {
     public function __construct(
         private CompiledResourceRegistrar $registrar,
+        private EventDispatcherInterface $events,
     ) {}
 
 
@@ -21,6 +26,16 @@ final readonly class CompiledManifestRegistrationService
 
         foreach ($manifest->modules() as $module) {
 
+            $moduleInstance = $this->resolveModule(
+                $module->class(),
+            );
+
+            $this->events->dispatch(
+                new ModuleBooting(
+                    $moduleInstance,
+                ),
+            );
+
             foreach ($module->resources() as $resource) {
 
                 $this->registrar->register(
@@ -28,6 +43,20 @@ final readonly class CompiledManifestRegistrationService
                     $moduleRegistrar,
                 );
             }
+
+            $this->events->dispatch(
+                new ModuleBooted(
+                    $moduleInstance,
+                ),
+            );
         }
+    }
+
+
+    private function resolveModule(
+        string $class,
+    ): \App\Core\Kernel\Contracts\ModuleContract {
+
+        return app($class);
     }
 }

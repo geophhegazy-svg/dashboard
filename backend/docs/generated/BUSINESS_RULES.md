@@ -202,33 +202,6 @@ App\Services\Documentation\Knowledge
 
 ---
 
-## CustomerDashboardService
-
-**Namespace**
-App\Services\Dashboard
-
-**Dependencies**
-- App\Services\Usage\UsageService
-
-**Methods**
-- __construct(1 params) : mixed
-- getDashboardData(1 params) : array
-
----
-
-## DashboardService
-
-**Namespace**
-App\Services\Dashboard
-
-**Dependencies**
-- None
-
-**Methods**
-- getDashboardData(0 params) : array
-
----
-
 ## DatabaseExtractor
 
 **Namespace**

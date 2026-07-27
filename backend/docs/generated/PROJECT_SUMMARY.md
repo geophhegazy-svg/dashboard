@@ -10,4 +10,4 @@ Technology
 
 Statistics
 - Models: 27
-- Services: 81
+- Services: 79

@@ -343,54 +343,6 @@ App\Services\Documentation\Knowledge
 
 ---
 
-## CustomerDashboardService
-
-**Namespace**
-
-```
-App\Services\Dashboard
-```
-
-**File**
-
-```
-/var/www/app/Services/Dashboard/CustomerDashboardService.php
-```
-
-**Constructor Dependencies**
-
-- UsageService $usageService
-
-**Properties**
-
-- $usageService : App\Services\Usage\UsageService
-
-**Methods**
-
-- getDashboardData() : array
-
----
-
-## DashboardService
-
-**Namespace**
-
-```
-App\Services\Dashboard
-```
-
-**File**
-
-```
-/var/www/app/Services/Dashboard/DashboardService.php
-```
-
-**Methods**
-
-- getDashboardData() : array
-
----
-
 ## DatabaseExtractor
 
 **Namespace**

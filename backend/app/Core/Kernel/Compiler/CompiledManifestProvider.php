@@ -11,6 +11,7 @@ use App\Core\Kernel\ModuleRegistry;
 final readonly class CompiledManifestProvider
 {
     public function __construct(
+        private ManifestCollector $collector,
         private ModuleManifestCompiler $compiler,
         private ModuleManifestCacheInterface $cache,
         private ManifestFingerprintGeneratorInterface $fingerprint,
@@ -51,8 +52,12 @@ final readonly class CompiledManifestProvider
         ModuleRegistry $registry,
     ): CompiledModuleManifest {
 
-        return $this->compiler->compile(
+        $manifest = $this->collector->collect(
             $registry->all(),
+        );
+
+        return $this->compiler->compile(
+            $manifest,
         );
     }
 }

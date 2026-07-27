@@ -2,18 +2,19 @@
 
 declare(strict_types=1);
 
-namespace App\Events;
+namespace App\Modules\Invoice\Domain\Events;
 
+use App\Core\EventBus\Contracts\EventContract;
 use App\Models\Invoice;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-final class InvoiceCreated
+final class InvoiceCreated implements EventContract
 {
     use Dispatchable;
     use SerializesModels;
 
     public function __construct(
-        public readonly Invoice $invoice
+        public readonly Invoice $invoice,
     ) {}
 }

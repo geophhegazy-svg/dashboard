@@ -6,7 +6,7 @@ namespace Tests\Unit\Services;
 
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Services\Dashboard\DashboardService;
+use App\Modules\Dashboard\Application\Services\DashboardService;
 use App\Models\Customer;
 use App\Models\Package;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;

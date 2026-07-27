@@ -4,7 +4,7 @@ namespace App\Policies;
 
 use App\Models\Device;
 use App\Models\User;
-use App\Policies\Concerns\AuthorizesByPermission;
+use App\Core\Security\Authorization\Concerns\AuthorizesByPermission;
 
 class DevicePolicy
 {

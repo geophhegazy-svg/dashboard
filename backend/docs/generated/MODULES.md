@@ -34,7 +34,7 @@ Total: 27
 
 ## Services
 
-Total: 81
+Total: 79
 
 - AIContextGenerator
 - AbstractHandoverSection
@@ -50,8 +50,6 @@ Total: 81
 - ConstructorReflector
 - ControllerDocumentationGenerator
 - ControllersKnowledgeGenerator
-- CustomerDashboardService
-- DashboardService
 - DatabaseExtractor
 - DatabaseKnowledgeGenerator
 - DependencyGraphExtractor

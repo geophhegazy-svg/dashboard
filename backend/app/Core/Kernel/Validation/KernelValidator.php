@@ -15,7 +15,7 @@ implements KernelValidatorInterface
      * @param iterable<KernelValidationRuleInterface> $rules
      */
     public function __construct(
-        private iterable $rules,
+        private KernelValidationRuleRegistry $registry,
     ) {}
 
     public function validate(
@@ -24,7 +24,7 @@ implements KernelValidatorInterface
 
         $errors = [];
 
-        foreach ($this->rules as $rule) {
+        foreach ($this->registry->rules() as $rule) {
 
             array_push(
                 $errors,

@@ -15,6 +15,9 @@ use App\Modules\Billing\Domain\Contracts\AutomaticBillingServiceInterface;
 use App\Modules\Billing\Domain\Contracts\BillingCycleServiceInterface;
 use App\Modules\Billing\Domain\Contracts\InvoiceGeneratorInterface;
 
+use App\Models\Invoice;
+use App\Modules\Billing\Policies\InvoicePolicy;
+
 final class BillingModule extends Module
 {
     public function name(): string
@@ -43,6 +46,12 @@ final class BillingModule extends Module
 
                 InvoiceGeneratorInterface::class
                 => InvoiceGenerator::class,
+
+            ])
+
+            ->policies([
+
+                Invoice::class => InvoicePolicy::class,
 
             ]);
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Policies\Concerns;
+namespace App\Core\Security\Authorization\Concerns;
 
 use App\Models\User;
 

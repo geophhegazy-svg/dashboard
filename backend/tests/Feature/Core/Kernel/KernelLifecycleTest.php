@@ -34,6 +34,10 @@ final class KernelLifecycleTest extends TestCase
             ModuleRegistrationService::class
         );
 
+        $this->app->forgetInstance(
+            \App\Core\Kernel\Registration\CompiledManifestRegistrationService::class
+        );
+
         $this->app
             ->make(KernelLifecycleManager::class)
             ->reset();

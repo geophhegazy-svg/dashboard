@@ -7,7 +7,7 @@ namespace App\Modules\Accounting\Listeners;
 use Illuminate\Support\Facades\Log;
 use App\Core\EventBus\Contracts\EventContract;
 use App\Core\EventBus\Contracts\EventListenerInterface;
-use App\Events\JournalEntryPosted;
+use App\Modules\Accounting\Domain\Events\JournalEntryPosted;
 
 final class JournalEntryPostedListener implements EventListenerInterface
 {

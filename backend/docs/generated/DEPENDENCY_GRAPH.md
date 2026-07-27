@@ -59,8 +59,6 @@
 - App\Services\Documentation\Reflection\ConstructorReflector
 - App\Services\Documentation\Generators\ControllerDocumentationGenerator
 - App\Services\Documentation\Knowledge\ControllersKnowledgeGenerator
-- App\Services\Dashboard\CustomerDashboardService
-- App\Services\Dashboard\DashboardService
 - App\Services\Documentation\Knowledge\DatabaseExtractor
 - App\Services\Documentation\Knowledge\DatabaseKnowledgeGenerator
 - App\Services\Documentation\Knowledge\DependencyGraphExtractor

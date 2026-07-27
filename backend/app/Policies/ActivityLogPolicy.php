@@ -4,7 +4,7 @@ namespace App\Policies;
 
 use App\Models\ActivityLog;
 use App\Models\User;
-use App\Policies\Concerns\AuthorizesByPermission;
+use App\Core\Security\Authorization\Concerns\AuthorizesByPermission;
 
 class ActivityLogPolicy
 {

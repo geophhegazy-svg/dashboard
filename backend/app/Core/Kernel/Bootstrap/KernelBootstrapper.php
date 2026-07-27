@@ -13,7 +13,8 @@ use App\Core\Kernel\Events\KernelBooted;
 use App\Core\Kernel\Events\KernelBooting;
 use App\Core\Kernel\Monitoring\KernelBootStage;
 use App\Core\Kernel\Monitoring\KernelBootTimeline;
-use App\Core\Kernel\Registration\ModuleRegistrationService;
+use App\Core\Kernel\Registration\CompiledManifestRegistrationService;
+use App\Core\Kernel\Contracts\ModuleRegistrarInterface;
 use App\Core\Kernel\Runtime\KernelRuntimeContext;
 use App\Core\Kernel\Runtime\KernelRuntimeState;
 use RuntimeException;
@@ -33,11 +34,12 @@ implements KernelBootstrapperInterface
     public function __construct(
         private ModuleLoaderInterface $loader,
         private KernelValidatorInterface $validator,
-        private ModuleRegistrationService $registration,
         private CompiledManifestProvider $manifestProvider,
+        private CompiledManifestRegistrationService $registration,
+        private ModuleRegistrarInterface $registrar,
         private KernelRuntimeState $runtime,
-        private KernelBootTimeline $timeline,
         private KernelLifecycleManager $lifecycle,
+        private KernelBootTimeline $timeline,
         private EventDispatcherInterface $events,
         private LifecycleEventRegistrar $lifecycleEvents,
     ) {}
@@ -143,7 +145,8 @@ implements KernelBootstrapperInterface
             $this->lifecycleEvents->register();
 
             $this->registration->register(
-                $registry,
+                $manifest,
+                $this->registrar,
             );
 
             $this->timeline->record(

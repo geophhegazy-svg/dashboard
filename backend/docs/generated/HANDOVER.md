@@ -14,7 +14,7 @@ Technology
 
 Statistics
 - Models: 27
-- Services: 81
+- Services: 79
 
 
 ---
@@ -48,7 +48,7 @@ app/
 # Project Statistics
 
 Models: 27
-Services: 81
+Services: 79
 
 ---
 
@@ -100,7 +100,7 @@ Development Rules
 
 Current Statistics
 Models: 27
-Services: 81
+Services: 79
 
 ---
 
@@ -305,33 +305,6 @@ App\Services\Documentation\Knowledge
 - __construct(2 params) : mixed
 - filename(0 params) : string
 - generate(0 params) : string
-
----
-
-## CustomerDashboardService
-
-**Namespace**
-App\Services\Dashboard
-
-**Dependencies**
-- App\Services\Usage\UsageService
-
-**Methods**
-- __construct(1 params) : mixed
-- getDashboardData(1 params) : array
-
----
-
-## DashboardService
-
-**Namespace**
-App\Services\Dashboard
-
-**Dependencies**
-- None
-
-**Methods**
-- getDashboardData(0 params) : array
 
 ---
 
@@ -4485,54 +4458,6 @@ App\Services\Documentation\Knowledge
 
 - filename() : string
 - generate() : string
-
----
-
-## CustomerDashboardService
-
-**Namespace**
-
-```
-App\Services\Dashboard
-```
-
-**File**
-
-```
-/var/www/app/Services/Dashboard/CustomerDashboardService.php
-```
-
-**Constructor Dependencies**
-
-- UsageService $usageService
-
-**Properties**
-
-- $usageService : App\Services\Usage\UsageService
-
-**Methods**
-
-- getDashboardData() : array
-
----
-
-## DashboardService
-
-**Namespace**
-
-```
-App\Services\Dashboard
-```
-
-**File**
-
-```
-/var/www/app/Services/Dashboard/DashboardService.php
-```
-
-**Methods**
-
-- getDashboardData() : array
 
 ---
 

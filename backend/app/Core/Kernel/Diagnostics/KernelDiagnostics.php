@@ -42,7 +42,7 @@ final readonly class KernelDiagnostics
             fingerprint: $manifest
                 ? $this->fingerprint->generate($manifest)
                 : null,
-            booted: true,
+            booted: $this->runtime->isBooted(),
             bootedAt: $context->bootedAt(),
             lifecycle: $lifecycle,
         );

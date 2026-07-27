@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Accounting\Application\Services;
 
-use App\Events\JournalEntryPosted;
+use App\Modules\Accounting\Domain\Events\JournalEntryPosted;
 use App\Exceptions\Accounting\JournalPostingException;
 use App\Models\JournalEntry;
 use App\Modules\Activity\Application\Services\ActivityLogService;
