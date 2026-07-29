@@ -32,7 +32,7 @@ final readonly class PolicyResource implements CompilableModuleResourceInterface
     public function compile(): array
     {
         return [
-            'type' => 'policies',
+            'type' => ResourceType::Policies->value,
             'policies' => $this->policies,
         ];
     }

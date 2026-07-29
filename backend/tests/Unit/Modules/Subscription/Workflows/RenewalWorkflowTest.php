@@ -6,7 +6,7 @@ namespace Tests\Unit\Modules\Subscription\Workflows;
 
 use Mockery;
 use Tests\TestCase;
-use App\Core\DTO\RenewalResult;
+use App\Modules\Subscription\Application\Results\RenewalResult;
 use Illuminate\Database\Eloquent\Collection;
 use App\Modules\Subscription\Application\Actions\RenewSubscriptionAction;
 use App\Modules\Subscription\Application\Workflows\RenewalWorkflow;

@@ -2,18 +2,177 @@
 
 ---
 
-## FinanceService
+## ActivityLogService
 
 **Namespace**
 
 ```
-App\Services\Finance
+App\Modules\Activity\Application\Services
 ```
 
 **File**
 
 ```
-/var/www/app/Services/Finance/FinanceService.php
+/var/www/app/Modules/Activity/Application/Services/ActivityLogService.php
+```
+
+**Methods**
+
+- log() : void
+
+---
+
+## AutomaticBillingService
+
+**Namespace**
+
+```
+App\Modules\Billing\Application\Services
+```
+
+**File**
+
+```
+/var/www/app/Modules/Billing/Application/Services/AutomaticBillingService.php
+```
+
+**Constructor Dependencies**
+
+- BillingEngine $billingEngine
+- SubscriptionRenewalServiceInterface $renewalService
+- NotificationService $notificationService
+
+**Properties**
+
+- $billingEngine : App\Modules\Billing\Domain\Services\BillingEngine
+- $renewalService : App\Modules\Subscription\Domain\Contracts\SubscriptionRenewalServiceInterface
+- $notificationService : App\Modules\Notification\Application\Services\NotificationService
+
+**Methods**
+
+- run() : void
+- processSubscription() : void
+
+---
+
+## BillingCycleService
+
+**Namespace**
+
+```
+App\Modules\Billing\Application\Services
+```
+
+**File**
+
+```
+/var/www/app/Modules/Billing/Application/Services/BillingCycleService.php
+```
+
+**Methods**
+
+- calculateNextBillingDate() : Carbon\Carbon
+- calculateGraceDate() : Carbon\Carbon
+- isDue() : bool
+- isExpired() : bool
+
+---
+
+## CustomerDashboardService
+
+**Namespace**
+
+```
+App\Modules\Dashboard\Application\Services
+```
+
+**File**
+
+```
+/var/www/app/Modules/Dashboard/Application/Services/CustomerDashboardService.php
+```
+
+**Constructor Dependencies**
+
+- UsageService $usageService
+
+**Properties**
+
+- $usageService : App\Modules\Usage\UsageService
+
+**Methods**
+
+- getDashboardData() : array
+
+---
+
+## CustomerService
+
+**Namespace**
+
+```
+App\Modules\Customer\Application\Services
+```
+
+**File**
+
+```
+/var/www/app/Modules/Customer/Application/Services/CustomerService.php
+```
+
+**Constructor Dependencies**
+
+- CreateCustomerAction $createCustomer
+- UpdateCustomerAction $updateCustomer
+- DeleteCustomerAction $deleteCustomer
+
+**Properties**
+
+- $createCustomer : App\Modules\Customer\Application\Actions\CreateCustomerAction
+- $updateCustomer : App\Modules\Customer\Application\Actions\UpdateCustomerAction
+- $deleteCustomer : App\Modules\Customer\Application\Actions\DeleteCustomerAction
+
+**Methods**
+
+- create() : App\Models\Customer
+- update() : App\Models\Customer
+- delete() : bool
+- paginate() : Illuminate\Contracts\Pagination\LengthAwarePaginator
+
+---
+
+## DashboardService
+
+**Namespace**
+
+```
+App\Modules\Dashboard\Application\Services
+```
+
+**File**
+
+```
+/var/www/app/Modules/Dashboard/Application/Services/DashboardService.php
+```
+
+**Methods**
+
+- getDashboardData() : array
+
+---
+
+## FinanceService
+
+**Namespace**
+
+```
+App\Modules\Finance\Application\Services
+```
+
+**File**
+
+```
+/var/www/app/Modules/Finance/Application/Services/FinanceService.php
 ```
 
 **Methods**
@@ -22,18 +181,138 @@ App\Services\Finance
 
 ---
 
-## JournalValidator
+## InvoiceGenerator
 
 **Namespace**
 
 ```
-App\Services\Finance\Accounting
+App\Modules\Billing\Application\Services
 ```
 
 **File**
 
 ```
-/var/www/app/Services/Finance/Accounting/JournalValidator.php
+/var/www/app/Modules/Billing/Application/Services/InvoiceGenerator.php
+```
+
+**Constructor Dependencies**
+
+- InvoiceNumberService $invoiceNumberService
+
+**Properties**
+
+- $invoiceNumberService : App\Modules\Invoice\Application\Services\InvoiceNumberService
+
+**Methods**
+
+- generate() : App\Models\Invoice
+
+---
+
+## InvoiceNumberService
+
+**Namespace**
+
+```
+App\Modules\Invoice\Application\Services
+```
+
+**File**
+
+```
+/var/www/app/Modules/Invoice/Application/Services/InvoiceNumberService.php
+```
+
+**Methods**
+
+- generate() : string
+
+---
+
+## InvoiceService
+
+**Namespace**
+
+```
+App\Modules\Invoice\Application\Services
+```
+
+**File**
+
+```
+/var/www/app/Modules/Invoice/Application/Services/InvoiceService.php
+```
+
+**Methods**
+
+- create() : App\Models\Invoice
+- update() : App\Models\Invoice
+- delete() : bool
+
+---
+
+## JournalEntryNumberService
+
+**Namespace**
+
+```
+App\Modules\Accounting\Application\Services
+```
+
+**File**
+
+```
+/var/www/app/Modules/Accounting/Application/Services/JournalEntryNumberService.php
+```
+
+**Methods**
+
+- generate() : string
+
+---
+
+## JournalPostingService
+
+**Namespace**
+
+```
+App\Modules\Accounting\Application\Services
+```
+
+**File**
+
+```
+/var/www/app/Modules/Accounting/Application/Services/JournalPostingService.php
+```
+
+**Constructor Dependencies**
+
+- JournalValidationService $validationService
+- ActivityLogService $activityLogService
+
+**Properties**
+
+- $validationService : App\Modules\Accounting\Application\Services\JournalValidationService
+- $activityLogService : App\Modules\Activity\Application\Services\ActivityLogService
+
+**Methods**
+
+- post() : App\Models\JournalEntry
+
+---
+
+## JournalValidationService
+
+**Namespace**
+
+```
+App\Modules\Accounting\Application\Services
+```
+
+**File**
+
+```
+/var/www/app/Modules/Accounting/Application/Services/JournalValidationService.php
 ```
 
 **Methods**
@@ -42,519 +321,295 @@ App\Services\Finance\Accounting
 
 ---
 
-## MikroTikConnectionService
+## NotificationService
 
 **Namespace**
 
 ```
-App\Services\Network\Providers\MikroTik
+App\Modules\Notification\Application\Services
 ```
 
 **File**
 
 ```
-/var/www/app/Services/Network/Providers/MikroTik/MikroTikConnectionService.php
+/var/www/app/Modules/Notification/Application/Services/NotificationService.php
 ```
-
-**Properties**
-
-- $client : ?RouterOS\Client
 
 **Methods**
 
-- connect() : bool
-- client() : ?RouterOS\Client
-- isConnected() : bool
-- disconnect() : void
-- ping() : bool
+- create() : App\Models\Notification
+- createReminder() : App\Models\Notification
+- billingFailed() : App\Models\Notification
+- subscriptionRenewed() : App\Models\Notification
 
 ---
 
-## MikroTikDhcpService
+## PackageService
 
 **Namespace**
 
 ```
-App\Services\Network\Providers\MikroTik
+App\Modules\Package\Application\Services
 ```
 
 **File**
 
 ```
-/var/www/app/Services/Network/Providers/MikroTik/MikroTikDhcpService.php
+/var/www/app/Modules/Package/Application/Services/PackageService.php
+```
+
+**Methods**
+
+- paginate() : Illuminate\Contracts\Pagination\LengthAwarePaginator
+- create() : App\Models\Package
+- update() : App\Models\Package
+- delete() : void
+
+---
+
+## PaymentService
+
+**Namespace**
+
+```
+App\Modules\Payment\Application\Services
+```
+
+**File**
+
+```
+/var/www/app/Modules/Payment/Application/Services/PaymentService.php
+```
+
+**Methods**
+
+- create() : App\Models\Payment
+- createFromInvoice() : App\Models\Payment
+
+---
+
+## ReportExecutionService
+
+**Namespace**
+
+```
+App\Modules\Reports\Application\Services
+```
+
+**File**
+
+```
+/var/www/app/Modules/Reports/Application/Services/ReportExecutionService.php
 ```
 
 **Constructor Dependencies**
 
-- MikroTikQueryService $query
+- ReportManager $reportManager
+- ExportManager $exportManager
+- ReportRepositoryInterface $reportRepository
+- ReportExportRepositoryInterface $reportExportRepository
 
 **Properties**
 
-- $query : App\Services\Network\Providers\MikroTik\MikroTikQueryService
+- $reportManager : App\Reports\Manager\ReportManager
+- $exportManager : App\Reports\Export\ExportManager
+- $reportRepository : App\Modules\Reports\Domain\Contracts\ReportRepositoryInterface
+- $reportExportRepository : App\Modules\Reports\Domain\Contracts\ReportExportRepositoryInterface
 
 **Methods**
 
-- getAll() : array
-- find() : ?array
-- findByMac() : ?array
-- create() : bool
-- update() : bool
+- execute() : App\Reports\DTO\ExportResult
+
+---
+
+## ReportExportService
+
+**Namespace**
+
+```
+App\Modules\Reports\Application\Services
+```
+
+**File**
+
+```
+/var/www/app/Modules/Reports/Application/Services/ReportExportService.php
+```
+
+**Constructor Dependencies**
+
+- ReportExportRepositoryInterface $exports
+
+**Properties**
+
+- $exports : App\Modules\Reports\Domain\Contracts\ReportExportRepositoryInterface
+
+**Methods**
+
+- paginate() : Illuminate\Contracts\Pagination\LengthAwarePaginator
+- create() : App\Models\ReportExport
+- find() : ?App\Models\ReportExport
+
+---
+
+## ReportService
+
+**Namespace**
+
+```
+App\Modules\Reports\Application\Services
+```
+
+**File**
+
+```
+/var/www/app/Modules/Reports/Application/Services/ReportService.php
+```
+
+**Constructor Dependencies**
+
+- ReportRepositoryInterface $reports
+
+**Properties**
+
+- $reports : App\Modules\Reports\Domain\Contracts\ReportRepositoryInterface
+
+**Methods**
+
+- paginate() : Illuminate\Contracts\Pagination\LengthAwarePaginator
+- create() : App\Models\Report
+- update() : App\Models\Report
 - delete() : bool
-- makeStatic() : bool
-- removeStatic() : bool
-- search() : array
+- find() : ?App\Models\Report
+
+---
+
+## ScheduledReportService
+
+**Namespace**
+
+```
+App\Modules\Reports\Application\Services
+```
+
+**File**
+
+```
+/var/www/app/Modules/Reports/Application/Services/ScheduledReportService.php
+```
+
+**Methods**
+
+- paginate() : Illuminate\Contracts\Pagination\LengthAwarePaginator
+- create() : App\Models\ScheduledReport
+- update() : App\Models\ScheduledReport
+- delete() : void
+- activate() : App\Models\ScheduledReport
+- deactivate() : App\Models\ScheduledReport
+- updateLastRun() : App\Models\ScheduledReport
+- updateNextRun() : App\Models\ScheduledReport
+
+---
+
+## SubscriptionActivityService
+
+**Namespace**
+
+```
+App\Modules\Activity\Application\Services
+```
+
+**File**
+
+```
+/var/www/app/Modules/Activity/Application/Services/SubscriptionActivityService.php
+```
+
+**Methods**
+
+- log() : App\Models\ActivityLog
+
+---
+
+## SubscriptionService
+
+**Namespace**
+
+```
+App\Modules\Subscription\Application\Services
+```
+
+**File**
+
+```
+/var/www/app/Modules/Subscription/Application/Services/SubscriptionService.php
+```
+
+**Constructor Dependencies**
+
+- SubscriptionRepositoryInterface $subscriptions
+- ActivateWorkflow $activateWorkflow
+- SuspendWorkflow $suspendWorkflow
+- ExpireWorkflow $expireWorkflow
+- RestoreWorkflow $restoreWorkflow
+- RenewWorkflow $renewWorkflow
+
+**Properties**
+
+- $subscriptions : App\Modules\Subscription\Domain\Contracts\SubscriptionRepositoryInterface
+- $activateWorkflow : App\Modules\Subscription\Application\Workflows\ActivateWorkflow
+- $suspendWorkflow : App\Modules\Subscription\Application\Workflows\SuspendWorkflow
+- $expireWorkflow : App\Modules\Subscription\Application\Workflows\ExpireWorkflow
+- $restoreWorkflow : App\Modules\Subscription\Application\Workflows\RestoreWorkflow
+- $renewWorkflow : App\Modules\Subscription\Application\Workflows\RenewWorkflow
+
+**Methods**
+
+- paginate() : Illuminate\Pagination\LengthAwarePaginator
+- find() : ?App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
+- findOrFail() : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
+- byCustomer() : Illuminate\Database\Eloquent\Collection
+- active() : Illuminate\Database\Eloquent\Collection
+- expired() : Illuminate\Database\Eloquent\Collection
+- byStatus() : Illuminate\Database\Eloquent\Collection
+- search() : Illuminate\Pagination\LengthAwarePaginator
+- create() : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
+- update() : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
+- activate() : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
+- suspend() : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
+- expire() : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
+- restore() : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
+- renew() : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
 - statistics() : array
-- activeClients() : array
+- autoExpire() : int
+- expiringSoon() : Illuminate\Database\Eloquent\Collection
 
 ---
 
-## MikroTikFirewallService
+## TaskService
 
 **Namespace**
 
 ```
-App\Services\Network\Providers\MikroTik
+App\Modules\Task\Application\Services
 ```
 
 **File**
 
 ```
-/var/www/app/Services/Network/Providers/MikroTik/MikroTikFirewallService.php
+/var/www/app/Modules/Task/Application/Services/TaskService.php
 ```
-
-**Constructor Dependencies**
-
-- MikroTikQueryService $query
-
-**Properties**
-
-- $query : App\Services\Network\Providers\MikroTik\MikroTikQueryService
 
 **Methods**
 
-- getRules() : array
-- find() : ?array
-- create() : bool
-- update() : bool
-- delete() : bool
-- disable() : bool
-- enable() : bool
-- getNatRules() : array
-- findNat() : ?array
-- createNat() : bool
-- updateNat() : bool
-- deleteNat() : bool
-- search() : array
-- statistics() : array
-
----
-
-## MikroTikHotspotService
-
-**Namespace**
-
-```
-App\Services\Network\Providers\MikroTik
-```
-
-**File**
-
-```
-/var/www/app/Services/Network/Providers/MikroTik/MikroTikHotspotService.php
-```
-
-**Constructor Dependencies**
-
-- MikroTikQueryService $query
-
-**Properties**
-
-- $query : App\Services\Network\Providers\MikroTik\MikroTikQueryService
-
-**Methods**
-
-- getUsers() : array
-- findUser() : ?array
-- getActiveSessions() : array
-- getActiveSession() : ?array
-- createUser() : bool
-- disableUser() : bool
-- enableUser() : bool
-- deleteUser() : bool
-- disconnectUser() : bool
-- status() : array
-- updateUser() : bool
-- updateProfile() : bool
-- updatePassword() : bool
-- search() : array
-- statistics() : array
-
----
-
-## MikroTikMonitoringService
-
-**Namespace**
-
-```
-App\Services\Network\Providers\MikroTik
-```
-
-**File**
-
-```
-/var/www/app/Services/Network/Providers/MikroTik/MikroTikMonitoringService.php
-```
-
-**Constructor Dependencies**
-
-- MikroTikQueryService $query
-
-**Properties**
-
-- $query : App\Services\Network\Providers\MikroTik\MikroTikQueryService
-
-**Methods**
-
-- getSystemResource() : array
-- getIdentity() : array
-- getInterfaces() : array
-- getInterfaceTraffic() : array
-- ping() : bool
-- healthCheck() : array
-- summary() : array
-
----
-
-## MikroTikPppoeService
-
-**Namespace**
-
-```
-App\Services\Network\Providers\MikroTik
-```
-
-**File**
-
-```
-/var/www/app/Services/Network/Providers/MikroTik/MikroTikPppoeService.php
-```
-
-**Constructor Dependencies**
-
-- MikroTikQueryService $query
-
-**Properties**
-
-- $query : App\Services\Network\Providers\MikroTik\MikroTikQueryService
-
-**Methods**
-
-- getAllUsers() : array
-- getUser() : ?array
-- createUser() : bool
-- updateUser() : bool
-- disableUser() : bool
-- enableUser() : bool
-- deleteUser() : bool
-- getActiveSessions() : array
-- getActiveSession() : ?array
-- disconnectUser() : bool
-- updateProfile() : bool
-- updatePassword() : bool
-- searchUsers() : array
-- status() : array
-
----
-
-## MikroTikProvider
-
-**Namespace**
-
-```
-App\Services\Network\Providers\MikroTik
-```
-
-**File**
-
-```
-/var/www/app/Services/Network/Providers/MikroTik/MikroTikProvider.php
-```
-
-**Constructor Dependencies**
-
-- MikroTikConnectionService $connection
-- MikroTikPppoeService $pppoe
-- MikroTikQueueService $queue
-- MikroTikHotspotService $hotspot
-- MikroTikFirewallService $firewall
-- MikroTikDhcpService $dhcp
-- MikroTikMonitoringService $monitoring
-
-**Properties**
-
-- $connection : App\Services\Network\Providers\MikroTik\MikroTikConnectionService
-- $pppoe : App\Services\Network\Providers\MikroTik\MikroTikPppoeService
-- $queue : App\Services\Network\Providers\MikroTik\MikroTikQueueService
-- $hotspot : App\Services\Network\Providers\MikroTik\MikroTikHotspotService
-- $firewall : App\Services\Network\Providers\MikroTik\MikroTikFirewallService
-- $dhcp : App\Services\Network\Providers\MikroTik\MikroTikDhcpService
-- $monitoring : App\Services\Network\Providers\MikroTik\MikroTikMonitoringService
-
-**Methods**
-
-- connect() : bool
-- disconnect() : void
-- isConnected() : bool
-- name() : string
-- capabilities() : array
-- pppoe() : App\Contracts\Network\Services\PppoeServiceInterface
-- queue() : App\Contracts\Network\Services\QueueServiceInterface
-- hotspot() : App\Contracts\Network\Services\HotspotServiceInterface
-- firewall() : App\Contracts\Network\Services\FirewallServiceInterface
-- dhcp() : App\Contracts\Network\Services\DhcpServiceInterface
-- monitoring() : App\Contracts\Network\Services\MonitoringServiceInterface
-
----
-
-## MikroTikQueryService
-
-**Namespace**
-
-```
-App\Services\Network\Providers\MikroTik
-```
-
-**File**
-
-```
-/var/www/app/Services/Network/Providers/MikroTik/MikroTikQueryService.php
-```
-
-**Constructor Dependencies**
-
-- MikroTikConnectionService $connection
-
-**Properties**
-
-- $connection : App\Services\Network\Providers\MikroTik\MikroTikConnectionService
-
-**Methods**
-
-- execute() : array
-- first() : ?array
-- write() : bool
-
----
-
-## MikroTikQueueService
-
-**Namespace**
-
-```
-App\Services\Network\Providers\MikroTik
-```
-
-**File**
-
-```
-/var/www/app/Services/Network/Providers/MikroTik/MikroTikQueueService.php
-```
-
-**Constructor Dependencies**
-
-- MikroTikQueryService $query
-
-**Properties**
-
-- $query : App\Services\Network\Providers\MikroTik\MikroTikQueryService
-
-**Methods**
-
-- getAll() : array
-- find() : ?array
-- create() : bool
-- update() : bool
-- delete() : bool
-- disable() : bool
-- enable() : bool
-- getUsage() : array
-- getUserQueue() : ?array
-- updateSpeed() : bool
-- resetCounters() : bool
-- search() : array
-- statistics() : array
-
----
-
-## MikrotikService
-
-**Namespace**
-
-```
-App\Services
-```
-
-**File**
-
-```
-/var/www/app/Services/MikrotikService.php
-```
-
-**Properties**
-
-- $client : ?RouterOS\Client
-
-**Methods**
-
-- getClient() : RouterOS\Client
-- getPppoeUsers() : array
-- createPppoeUser() : void
-- findPppoeUser() : ?array
-- setPppoeUserStatus() : void
-- getHotspotUsers() : array
-- createHotspotUser() : void
-- findHotspotUser() : ?array
-- getHotspotUserId() : string
-- setHotspotUserStatus() : void
-- deleteHotspotUser() : void
-- getActiveHotspotUsers() : array
-
----
-
-## MikrotikServiceAdapter
-
-**Namespace**
-
-```
-App\Services\Network
-```
-
-**File**
-
-```
-/var/www/app/Services/Network/MikrotikServiceAdapter.php
-```
-
-**Constructor Dependencies**
-
-- NetworkManager $networkManager
-
-**Properties**
-
-- $networkManager : App\Services\Network\NetworkManager
-
-**Methods**
-
-- connect() : bool
-- createUser() : bool
-- disableUser() : bool
-- enableUser() : bool
-- deleteUser() : bool
-- getAllUsers() : array
-- getActiveSessions() : array
-- updateUserQueue() : bool
-- getQueueUsage() : array
-- getDeviceStats() : array
-- ping() : bool
-- disconnectUser() : bool
-- updateDeviceStatus() : void
-- getHotspotUsers() : array
-- getHotspotActiveSessions() : array
-- createHotspotUser() : bool
-- disableHotspotUser() : bool
-- enableHotspotUser() : bool
-
----
-
-## NetworkDeviceConnectionManager
-
-**Namespace**
-
-```
-App\Services\Network
-```
-
-**File**
-
-```
-/var/www/app/Services/Network/NetworkDeviceConnectionManager.php
-```
-
-**Constructor Dependencies**
-
-- MikroTikConnectionService $connectionService
-
-**Properties**
-
-- $connectionService : App\Services\Network\Providers\MikroTik\MikroTikConnectionService
-
-**Methods**
-
-- connectById() : App\Services\Network\Providers\MikroTik\MikroTikConnectionService
-- connect() : App\Services\Network\Providers\MikroTik\MikroTikConnectionService
-
----
-
-## NetworkManager
-
-**Namespace**
-
-```
-App\Services\Network
-```
-
-**File**
-
-```
-/var/www/app/Services/Network/NetworkManager.php
-```
-
-**Constructor Dependencies**
-
-- NetworkProviderResolver $resolver
-
-**Properties**
-
-- $device : ?App\Models\NetworkDevice
-- $provider : ?App\Contracts\Network\NetworkProviderInterface
-- $resolver : App\Services\Network\NetworkProviderResolver
-
-**Methods**
-
-- connect() : bool
-- disconnect() : void
-- provider() : ?App\Contracts\Network\NetworkProviderInterface
-- device() : ?App\Models\NetworkDevice
-- connected() : bool
-- providerName() : ?string
-- capabilities() : array
-
----
-
-## NetworkProviderResolver
-
-**Namespace**
-
-```
-App\Services\Network
-```
-
-**File**
-
-```
-/var/www/app/Services/Network/NetworkProviderResolver.php
-```
-
-**Properties**
-
-- $providers : array
-
-**Methods**
-
-- resolve() : App\Contracts\Network\NetworkProviderInterface
-- resolveByName() : App\Contracts\Network\NetworkProviderInterface
-- register() : void
-- available() : array
+- paginate() : Illuminate\Contracts\Pagination\LengthAwarePaginator
+- create() : App\Models\Task
+- update() : App\Models\Task
+- complete() : App\Models\Task
+- cancel() : App\Models\Task
+- reopen() : App\Models\Task
+- start() : App\Models\Task
+- delete() : void
 
 ---
 
@@ -563,13 +618,13 @@ App\Services\Network
 **Namespace**
 
 ```
-App\Services\Notification
+App\Modules\Notification\Application\Services
 ```
 
 **File**
 
 ```
-/var/www/app/Services/Notification/TelegramNotificationService.php
+/var/www/app/Modules/Notification/Application/Services/TelegramNotificationService.php
 ```
 
 **Properties**
@@ -581,3 +636,24 @@ App\Services\Notification
 
 - sendMessage() : mixed
 - sendDeviceAlert() : mixed
+
+---
+
+## WalletService
+
+**Namespace**
+
+```
+App\Modules\Wallet\Application\Services
+```
+
+**File**
+
+```
+/var/www/app/Modules/Wallet/Application/Services/WalletService.php
+```
+
+**Methods**
+
+- deposit() : void
+- deduct() : void

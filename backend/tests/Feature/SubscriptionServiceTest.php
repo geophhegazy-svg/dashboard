@@ -12,7 +12,7 @@ use App\Modules\Subscription\Domain\Events\SubscriptionRestored;
 use App\Modules\Subscription\Domain\Events\SubscriptionSuspended;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 use App\Modules\Subscription\Application\Services\SubscriptionService;
-use App\Contracts\MikrotikServiceInterface;
+use App\Modules\Network\Domain\Contracts\MikrotikServiceInterface;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Tests\Fakes\FakeMikrotikService;

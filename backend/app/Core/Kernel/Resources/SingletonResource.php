@@ -33,7 +33,7 @@ final readonly class SingletonResource implements CompilableModuleResourceInterf
     public function compile(): array
     {
         return [
-            'type' => 'singletons',
+            'type' => ResourceType::Singletons->value,
             'bindings' => $this->bindings,
         ];
     }

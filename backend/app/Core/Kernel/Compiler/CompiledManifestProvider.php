@@ -8,6 +8,9 @@ use App\Core\Kernel\Contracts\ManifestFingerprintGeneratorInterface;
 use App\Core\Kernel\Contracts\ModuleManifestCacheInterface;
 use App\Core\Kernel\ModuleRegistry;
 
+/**
+ * @internal
+ */
 final readonly class CompiledManifestProvider
 {
     public function __construct(

@@ -27,7 +27,9 @@ use App\Core\Kernel\Lifecycle\Events\KernelFailed;
 use App\Core\EventBus\Contracts\EventDispatcherInterface;
 use App\Core\Kernel\Lifecycle\Registration\LifecycleEventRegistrar;
 
-
+/**
+ * @internal
+ */
 final readonly class KernelBootstrapper
 implements KernelBootstrapperInterface
 {

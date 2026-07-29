@@ -6,7 +6,7 @@ namespace App\Http\Controllers\Api\Network;
 
 use App\Http\Controllers\Controller;
 use App\Models\NetworkDevice;
-use App\Services\Network\NetworkManager;
+use App\Modules\Network\Application\NetworkManager;
 use Illuminate\Http\Request;
 
 class QueueController extends Controller

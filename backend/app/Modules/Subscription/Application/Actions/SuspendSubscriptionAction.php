@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\Subscription\Application\Actions;
 
 use App\Core\Contracts\ActionInterface;
-use App\Contracts\MikrotikServiceInterface;
+use App\Modules\Network\Domain\Contracts\MikrotikServiceInterface;
 use App\Modules\Subscription\Domain\Contracts\SubscriptionRepositoryInterface;
 use App\Modules\Subscription\Domain\Events\SubscriptionSuspended;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;

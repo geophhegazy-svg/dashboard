@@ -19,7 +19,40 @@ class ProjectScanner
 
     public function services(): array
     {
-        return $this->scanDirectory(app_path('Services'));
+        $services = [];
+
+        // Legacy services (إن وجدت)
+        if (is_dir(app_path('Services'))) {
+            $services = array_merge(
+                $services,
+                $this->scanDirectory(app_path('Services'))
+            );
+        }
+
+        // Module Application Services
+        $modulesPath = app_path('Modules');
+
+        if (is_dir($modulesPath)) {
+
+            foreach (glob($modulesPath . '/*', GLOB_ONLYDIR) as $module) {
+
+                $servicePath = $module . '/Application/Services';
+
+                if (is_dir($servicePath)) {
+                    $services = array_merge(
+                        $services,
+                        $this->scanDirectory($servicePath)
+                    );
+                }
+            }
+        }
+
+        usort(
+            $services,
+            fn($a, $b) => strcmp($a['name'], $b['name'])
+        );
+
+        return $services;
     }
 
     public function controllers(): array

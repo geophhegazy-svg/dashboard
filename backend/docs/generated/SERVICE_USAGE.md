@@ -1,210 +1,252 @@
 # Service Usage
 
+## ActivityLogService
+
+**Class**
+
+```
+App\Modules\Activity\Application\Services\ActivityLogService
+```
+
+**Public Methods**
+
+- log
+
+## AutomaticBillingService
+
+**Class**
+
+```
+App\Modules\Billing\Application\Services\AutomaticBillingService
+```
+
+**Public Methods**
+
+- __construct
+- processSubscription
+- run
+
+## BillingCycleService
+
+**Class**
+
+```
+App\Modules\Billing\Application\Services\BillingCycleService
+```
+
+**Public Methods**
+
+- calculateGraceDate
+- calculateNextBillingDate
+- isDue
+- isExpired
+
+## CustomerDashboardService
+
+**Class**
+
+```
+App\Modules\Dashboard\Application\Services\CustomerDashboardService
+```
+
+**Public Methods**
+
+- __construct
+- getDashboardData
+
+## CustomerService
+
+**Class**
+
+```
+App\Modules\Customer\Application\Services\CustomerService
+```
+
+**Public Methods**
+
+- __construct
+- create
+- delete
+- paginate
+- update
+
+## DashboardService
+
+**Class**
+
+```
+App\Modules\Dashboard\Application\Services\DashboardService
+```
+
+**Public Methods**
+
+- getDashboardData
+
 ## FinanceService
 
 **Class**
 
 ```
-App\Services\Finance\FinanceService
+App\Modules\Finance\Application\Services\FinanceService
 ```
 
 **Public Methods**
 
 - record
 
-## JournalValidator
+## InvoiceGenerator
 
 **Class**
 
 ```
-App\Services\Finance\Accounting\JournalValidator
+App\Modules\Billing\Application\Services\InvoiceGenerator
+```
+
+**Public Methods**
+
+- __construct
+- generate
+
+## InvoiceNumberService
+
+**Class**
+
+```
+App\Modules\Invoice\Application\Services\InvoiceNumberService
+```
+
+**Public Methods**
+
+- generate
+
+## InvoiceService
+
+**Class**
+
+```
+App\Modules\Invoice\Application\Services\InvoiceService
+```
+
+**Public Methods**
+
+- create
+- delete
+- update
+
+## JournalEntryNumberService
+
+**Class**
+
+```
+App\Modules\Accounting\Application\Services\JournalEntryNumberService
+```
+
+**Public Methods**
+
+- generate
+
+## JournalPostingService
+
+**Class**
+
+```
+App\Modules\Accounting\Application\Services\JournalPostingService
+```
+
+**Public Methods**
+
+- __construct
+- post
+
+## JournalValidationService
+
+**Class**
+
+```
+App\Modules\Accounting\Application\Services\JournalValidationService
 ```
 
 **Public Methods**
 
 - validate
 
-## MikroTikConnectionService
+## NotificationService
 
 **Class**
 
 ```
-App\Services\Network\Providers\MikroTik\MikroTikConnectionService
+App\Modules\Notification\Application\Services\NotificationService
 ```
 
 **Public Methods**
 
-- client
-- connect
-- disconnect
-- isConnected
-- ping
+- billingFailed
+- create
+- createReminder
+- subscriptionRenewed
 
-## MikroTikDhcpService
+## PackageService
 
 **Class**
 
 ```
-App\Services\Network\Providers\MikroTik\MikroTikDhcpService
+App\Modules\Package\Application\Services\PackageService
 ```
 
 **Public Methods**
 
-- __construct
-- activeClients
 - create
 - delete
-- find
-- findByMac
-- getAll
-- makeStatic
-- removeStatic
-- search
-- statistics
+- paginate
 - update
 
-## MikroTikFirewallService
+## PaymentService
 
 **Class**
 
 ```
-App\Services\Network\Providers\MikroTik\MikroTikFirewallService
+App\Modules\Payment\Application\Services\PaymentService
 ```
 
 **Public Methods**
 
-- __construct
 - create
-- createNat
-- delete
-- deleteNat
-- disable
-- enable
-- find
-- findNat
-- getNatRules
-- getRules
-- search
-- statistics
-- update
-- updateNat
+- createFromInvoice
 
-## MikroTikHotspotService
+## ReportExecutionService
 
 **Class**
 
 ```
-App\Services\Network\Providers\MikroTik\MikroTikHotspotService
-```
-
-**Public Methods**
-
-- __construct
-- createUser
-- deleteUser
-- disableUser
-- disconnectUser
-- enableUser
-- findUser
-- getActiveSession
-- getActiveSessions
-- getUsers
-- search
-- statistics
-- status
-- updatePassword
-- updateProfile
-- updateUser
-
-## MikroTikMonitoringService
-
-**Class**
-
-```
-App\Services\Network\Providers\MikroTik\MikroTikMonitoringService
-```
-
-**Public Methods**
-
-- __construct
-- getIdentity
-- getInterfaceTraffic
-- getInterfaces
-- getSystemResource
-- healthCheck
-- ping
-- summary
-
-## MikroTikPppoeService
-
-**Class**
-
-```
-App\Services\Network\Providers\MikroTik\MikroTikPppoeService
-```
-
-**Public Methods**
-
-- __construct
-- createUser
-- deleteUser
-- disableUser
-- disconnectUser
-- enableUser
-- getActiveSession
-- getActiveSessions
-- getAllUsers
-- getUser
-- searchUsers
-- status
-- updatePassword
-- updateProfile
-- updateUser
-
-## MikroTikProvider
-
-**Class**
-
-```
-App\Services\Network\Providers\MikroTik\MikroTikProvider
-```
-
-**Public Methods**
-
-- __construct
-- capabilities
-- connect
-- dhcp
-- disconnect
-- firewall
-- hotspot
-- isConnected
-- monitoring
-- name
-- pppoe
-- queue
-
-## MikroTikQueryService
-
-**Class**
-
-```
-App\Services\Network\Providers\MikroTik\MikroTikQueryService
+App\Modules\Reports\Application\Services\ReportExecutionService
 ```
 
 **Public Methods**
 
 - __construct
 - execute
-- first
-- write
 
-## MikroTikQueueService
+## ReportExportService
 
 **Class**
 
 ```
-App\Services\Network\Providers\MikroTik\MikroTikQueueService
+App\Modules\Reports\Application\Services\ReportExportService
+```
+
+**Public Methods**
+
+- __construct
+- create
+- find
+- paginate
+
+## ReportService
+
+**Class**
+
+```
+App\Modules\Reports\Application\Services\ReportService
 ```
 
 **Public Methods**
@@ -212,126 +254,96 @@ App\Services\Network\Providers\MikroTik\MikroTikQueueService
 - __construct
 - create
 - delete
-- disable
-- enable
 - find
-- getAll
-- getUsage
-- getUserQueue
-- resetCounters
+- paginate
+- update
+
+## ScheduledReportService
+
+**Class**
+
+```
+App\Modules\Reports\Application\Services\ScheduledReportService
+```
+
+**Public Methods**
+
+- activate
+- create
+- deactivate
+- delete
+- paginate
+- update
+- updateLastRun
+- updateNextRun
+
+## SubscriptionActivityService
+
+**Class**
+
+```
+App\Modules\Activity\Application\Services\SubscriptionActivityService
+```
+
+**Public Methods**
+
+- log
+
+## SubscriptionService
+
+**Class**
+
+```
+App\Modules\Subscription\Application\Services\SubscriptionService
+```
+
+**Public Methods**
+
+- __construct
+- activate
+- active
+- autoExpire
+- byCustomer
+- byStatus
+- create
+- expire
+- expired
+- expiringSoon
+- find
+- findOrFail
+- paginate
+- renew
+- restore
 - search
 - statistics
+- suspend
 - update
-- updateSpeed
 
-## MikrotikService
-
-**Class**
-
-```
-App\Services\MikrotikService
-```
-
-**Public Methods**
-
-- __construct
-- createHotspotUser
-- createPppoeUser
-- deleteHotspotUser
-- findHotspotUser
-- findPppoeUser
-- getActiveHotspotUsers
-- getClient
-- getHotspotUserId
-- getHotspotUsers
-- getPppoeUsers
-- setHotspotUserStatus
-- setPppoeUserStatus
-
-## MikrotikServiceAdapter
+## TaskService
 
 **Class**
 
 ```
-App\Services\Network\MikrotikServiceAdapter
+App\Modules\Task\Application\Services\TaskService
 ```
 
 **Public Methods**
 
-- __construct
-- connect
-- createHotspotUser
-- createUser
-- deleteUser
-- disableHotspotUser
-- disableUser
-- disconnectUser
-- enableHotspotUser
-- enableUser
-- getActiveSessions
-- getAllUsers
-- getDeviceStats
-- getHotspotActiveSessions
-- getHotspotUsers
-- getQueueUsage
-- ping
-- updateDeviceStatus
-- updateUserQueue
-
-## NetworkDeviceConnectionManager
-
-**Class**
-
-```
-App\Services\Network\NetworkDeviceConnectionManager
-```
-
-**Public Methods**
-
-- __construct
-- connect
-- connectById
-
-## NetworkManager
-
-**Class**
-
-```
-App\Services\Network\NetworkManager
-```
-
-**Public Methods**
-
-- __construct
-- capabilities
-- connect
-- connected
-- device
-- disconnect
-- provider
-- providerName
-
-## NetworkProviderResolver
-
-**Class**
-
-```
-App\Services\Network\NetworkProviderResolver
-```
-
-**Public Methods**
-
-- available
-- register
-- resolve
-- resolveByName
+- cancel
+- complete
+- create
+- delete
+- paginate
+- reopen
+- start
+- update
 
 ## TelegramNotificationService
 
 **Class**
 
 ```
-App\Services\Notification\TelegramNotificationService
+App\Modules\Notification\Application\Services\TelegramNotificationService
 ```
 
 **Public Methods**
@@ -339,3 +351,16 @@ App\Services\Notification\TelegramNotificationService
 - __construct
 - sendDeviceAlert
 - sendMessage
+
+## WalletService
+
+**Class**
+
+```
+App\Modules\Wallet\Application\Services\WalletService
+```
+
+**Public Methods**
+
+- deduct
+- deposit

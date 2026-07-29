@@ -34,25 +34,33 @@ Total: 27
 
 ## Services
 
-Total: 17
+Total: 25
 
+- ActivityLogService
+- AutomaticBillingService
+- BillingCycleService
+- CustomerDashboardService
+- CustomerService
+- DashboardService
 - FinanceService
-- JournalValidator
-- MikroTikConnectionService
-- MikroTikDhcpService
-- MikroTikFirewallService
-- MikroTikHotspotService
-- MikroTikMonitoringService
-- MikroTikPppoeService
-- MikroTikProvider
-- MikroTikQueryService
-- MikroTikQueueService
-- MikrotikService
-- MikrotikServiceAdapter
-- NetworkDeviceConnectionManager
-- NetworkManager
-- NetworkProviderResolver
+- InvoiceGenerator
+- InvoiceNumberService
+- InvoiceService
+- JournalEntryNumberService
+- JournalPostingService
+- JournalValidationService
+- NotificationService
+- PackageService
+- PaymentService
+- ReportExecutionService
+- ReportExportService
+- ReportService
+- ScheduledReportService
+- SubscriptionActivityService
+- SubscriptionService
+- TaskService
 - TelegramNotificationService
+- WalletService
 
 ## Controllers
 
@@ -101,21 +109,8 @@ Total: 40
 
 ## Repositories
 
-Total: 13
+Total: 0
 
-- AccountRepository
-- BillingRepository
-- InvoiceRepository
-- JournalEntryLineRepository
-- JournalEntryRepository
-- PackageRepository
-- PaymentRepository
-- ReportExportRepository
-- ReportRepository
-- ScheduledReportRepository
-- SubscriptionRepository
-- TaskRepository
-- WalletRepository
 
 ## Actions
 

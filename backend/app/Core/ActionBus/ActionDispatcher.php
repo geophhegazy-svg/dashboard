@@ -6,6 +6,7 @@ namespace App\Core\ActionBus;
 
 use LogicException;
 use App\Core\Contracts\ActionInterface;
+use App\Core\Contracts\ContainerInterface;
 use App\Core\ActionBus\Pipeline\ActionPipeline;
 
 final readonly class ActionDispatcher
@@ -13,6 +14,7 @@ final readonly class ActionDispatcher
     public function __construct(
         private ActionRegistry $registry,
         private ActionPipeline $pipeline,
+        private ContainerInterface $container,
     ) {}
 
     /**
@@ -42,7 +44,7 @@ final readonly class ActionDispatcher
             ) {
 
                 /** @var ActionInterface $instance */
-                $instance = app($action);
+                $instance = $this->container->make($action);
 
                 return $instance->execute(
                     ...$arguments,

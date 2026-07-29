@@ -7,7 +7,7 @@ namespace App\Modules\Billing\Application\Services;
 use App\Modules\Invoice\Domain\Events\InvoiceCreated;
 use App\Models\Invoice;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
-use App\Modules\Invoice\InvoiceNumberService;
+use App\Modules\Invoice\Application\Services\InvoiceNumberService;
 use App\Modules\Billing\Domain\Contracts\InvoiceGeneratorInterface;
 
 class InvoiceGenerator implements InvoiceGeneratorInterface

@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Core\Kernel\Compiler;
 
+/**
+ * @internal
+ */
 final readonly class CollectedManifest
 {
     /**

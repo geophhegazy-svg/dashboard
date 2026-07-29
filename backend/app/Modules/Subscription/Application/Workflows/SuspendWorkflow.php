@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\Subscription\Application\Workflows;
 
 use App\Core\Workflow\AbstractWorkflow;
-use App\Contracts\MikrotikServiceInterface;
+use App\Modules\Network\Domain\Contracts\MikrotikServiceInterface;
 use App\Modules\Subscription\Application\Actions\SuspendSubscriptionAction;
 use App\Modules\Subscription\Domain\Events\SubscriptionSuspended;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;

@@ -11,5 +11,6 @@ return [
     App\Providers\NetworkServiceProvider::class,
 
     App\Modules\Subscription\Infrastructure\Providers\SubscriptionEventServiceProvider::class,
-    
+
+    App\Providers\AuthServiceProvider::class,
 ];

@@ -32,7 +32,7 @@ final readonly class QueryResource implements CompilableModuleResourceInterface
     public function compile(): array
     {
         return [
-            'type' => 'queries',
+            'type' => ResourceType::Queries->value,
             'queries' => $this->queries,
         ];
     }

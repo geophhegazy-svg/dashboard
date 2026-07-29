@@ -45,23 +45,31 @@
 
 ## Services
 
-- App\Services\Finance\FinanceService
-- App\Services\Finance\Accounting\JournalValidator
-- App\Services\Network\Providers\MikroTik\MikroTikConnectionService
-- App\Services\Network\Providers\MikroTik\MikroTikDhcpService
-- App\Services\Network\Providers\MikroTik\MikroTikFirewallService
-- App\Services\Network\Providers\MikroTik\MikroTikHotspotService
-- App\Services\Network\Providers\MikroTik\MikroTikMonitoringService
-- App\Services\Network\Providers\MikroTik\MikroTikPppoeService
-- App\Services\Network\Providers\MikroTik\MikroTikProvider
-- App\Services\Network\Providers\MikroTik\MikroTikQueryService
-- App\Services\Network\Providers\MikroTik\MikroTikQueueService
-- App\Services\MikrotikService
-- App\Services\Network\MikrotikServiceAdapter
-- App\Services\Network\NetworkDeviceConnectionManager
-- App\Services\Network\NetworkManager
-- App\Services\Network\NetworkProviderResolver
-- App\Services\Notification\TelegramNotificationService
+- App\Modules\Activity\Application\Services\ActivityLogService
+- App\Modules\Billing\Application\Services\AutomaticBillingService
+- App\Modules\Billing\Application\Services\BillingCycleService
+- App\Modules\Dashboard\Application\Services\CustomerDashboardService
+- App\Modules\Customer\Application\Services\CustomerService
+- App\Modules\Dashboard\Application\Services\DashboardService
+- App\Modules\Finance\Application\Services\FinanceService
+- App\Modules\Billing\Application\Services\InvoiceGenerator
+- App\Modules\Invoice\Application\Services\InvoiceNumberService
+- App\Modules\Invoice\Application\Services\InvoiceService
+- App\Modules\Accounting\Application\Services\JournalEntryNumberService
+- App\Modules\Accounting\Application\Services\JournalPostingService
+- App\Modules\Accounting\Application\Services\JournalValidationService
+- App\Modules\Notification\Application\Services\NotificationService
+- App\Modules\Package\Application\Services\PackageService
+- App\Modules\Payment\Application\Services\PaymentService
+- App\Modules\Reports\Application\Services\ReportExecutionService
+- App\Modules\Reports\Application\Services\ReportExportService
+- App\Modules\Reports\Application\Services\ReportService
+- App\Modules\Reports\Application\Services\ScheduledReportService
+- App\Modules\Activity\Application\Services\SubscriptionActivityService
+- App\Modules\Subscription\Application\Services\SubscriptionService
+- App\Modules\Task\Application\Services\TaskService
+- App\Modules\Notification\Application\Services\TelegramNotificationService
+- App\Modules\Wallet\Application\Services\WalletService
 
 ## Models
 

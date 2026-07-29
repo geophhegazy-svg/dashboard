@@ -6,6 +6,9 @@ namespace App\Core\Kernel\Inspector;
 
 use App\Core\Kernel\ModuleRegistry;
 
+/**
+ * @internal
+ */
 final readonly class KernelInspector
 {
     public function __construct(

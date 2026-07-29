@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Contracts\Network\NetworkProviderInterface;
-use App\Services\Network\NetworkManager;
+use App\Modules\Network\Domain\Contracts\NetworkProviderInterface;
+use App\Modules\Network\Application\NetworkManager;
 use App\Models\Customer;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 use App\Models\HotspotSubscription;

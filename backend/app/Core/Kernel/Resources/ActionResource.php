@@ -31,7 +31,7 @@ final readonly class ActionResource implements CompilableModuleResourceInterface
     public function compile(): array
     {
         return [
-            'type' => 'actions',
+            'type' => ResourceType::Actions->value,
             'actions' => $this->actions,
         ];
     }

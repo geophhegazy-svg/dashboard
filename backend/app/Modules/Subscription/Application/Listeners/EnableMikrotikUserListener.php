@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Subscription\Application\Listeners;
 
-use App\Contracts\MikrotikServiceInterface;
+use App\Modules\Network\Domain\Contracts\MikrotikServiceInterface;
 use App\Core\EventBus\Contracts\EventContract;
 use App\Core\EventBus\Contracts\EventListenerInterface;
 use App\Modules\Subscription\Domain\Events\SubscriptionActivated;

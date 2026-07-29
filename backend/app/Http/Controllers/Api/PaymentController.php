@@ -6,7 +6,7 @@ use App\Models\Payment;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePaymentRequest;
 use App\Http\Resources\PaymentResource;
-use App\Modules\Payment\PaymentService;
+use App\Modules\Payment\Application\Services\PaymentService;
 
 
 class PaymentController extends Controller

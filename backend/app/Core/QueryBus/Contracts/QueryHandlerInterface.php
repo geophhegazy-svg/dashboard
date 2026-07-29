@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Core\QueryBus\Contracts;
 
-/**
- * Marker interface for Query Handlers.
- */
-interface QueryHandlerInterface {}
+interface QueryHandlerInterface
+{
+    public function handle(
+        QueryInterface $query,
+    ): mixed;
+}

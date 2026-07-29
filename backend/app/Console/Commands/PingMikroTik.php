@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Models\NetworkDevice;
-use App\Services\Notification\TelegramNotificationService;
+use App\Modules\Notification\Application\Services\TelegramNotificationService;
 use Illuminate\Support\Facades\Log;
 
 class PingMikroTik extends Command

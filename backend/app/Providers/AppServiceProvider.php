@@ -6,29 +6,29 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
-use App\Contracts\FinanceServiceInterface;
-use App\Contracts\MikrotikServiceInterface;
+use App\Modules\Finance\Domain\Contracts\FinanceServiceInterface;
+use App\Modules\Network\Domain\Contracts\MikrotikServiceInterface;
 
-use App\Contracts\Repositories\AccountRepositoryInterface;
+use App\Modules\Accounting\Domain\Contracts\AccountRepositoryInterface;
 use App\Modules\Subscription\Domain\Contracts\SubscriptionRepositoryInterface;
-use App\Contracts\Repositories\TaskRepositoryInterface;
-use App\Contracts\Repositories\ReportRepositoryInterface;
-use App\Contracts\Repositories\ReportExportRepositoryInterface;
-use App\Contracts\Repositories\ScheduledReportRepositoryInterface;
-use App\Contracts\Repositories\JournalEntryRepositoryInterface;
-use App\Contracts\Repositories\JournalEntryLineRepositoryInterface;
+use App\Modules\Task\Domain\Contracts\TaskRepositoryInterface;
+use App\Modules\Reports\Domain\Contracts\ReportRepositoryInterface;
+use App\Modules\Reports\Domain\Contracts\ReportExportRepositoryInterface;
+use App\Modules\Reports\Domain\Contracts\ScheduledReportRepositoryInterface;
+use App\Modules\Accounting\Domain\Contracts\JournalEntryRepositoryInterface;
+use App\Modules\Accounting\Domain\Contracts\JournalEntryLineRepositoryInterface;
 
-use App\Repositories\Eloquent\AccountRepository;
+use App\Modules\Accounting\Infrastructure\Repositories\AccountRepository;
 use App\Modules\Subscription\Infrastructure\Repositories\SubscriptionRepository;
-use App\Repositories\Eloquent\TaskRepository;
-use App\Repositories\Eloquent\ReportRepository;
-use App\Repositories\Eloquent\ReportExportRepository;
-use App\Repositories\Eloquent\ScheduledReportRepository;
-use App\Repositories\Eloquent\JournalEntryRepository;
-use App\Repositories\Eloquent\JournalEntryLineRepository;
+use App\Modules\Task\Infrastructure\Repositories\TaskRepository;
+use App\Modules\Reports\Infrastructure\Repositories\ReportRepository;
+use App\Modules\Reports\Infrastructure\Repositories\ReportExportRepository;
+use App\Modules\Reports\Infrastructure\Repositories\ScheduledReportRepository;
+use App\Modules\Accounting\Infrastructure\Repositories\JournalEntryRepository;
+use App\Modules\Accounting\Infrastructure\Repositories\JournalEntryLineRepository;
 
-use App\Services\Finance\FinanceService;
-use App\Services\Network\MikrotikServiceAdapter;
+use App\Modules\Finance\Application\Services\FinanceService;
+use App\Modules\Network\Application\MikrotikServiceAdapter;
 
 use App\Modules\Accounting\Application\Services\JournalEntryNumberService;
 use App\Modules\Accounting\Application\Services\JournalPostingService;

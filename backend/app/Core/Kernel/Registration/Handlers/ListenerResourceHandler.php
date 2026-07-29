@@ -6,6 +6,7 @@ namespace App\Core\Kernel\Registration\Handlers;
 
 use App\Core\Kernel\Contracts\CompiledResourceHandlerInterface;
 use App\Core\Kernel\Contracts\ModuleRegistrarInterface;
+use App\Core\Kernel\Resources\ResourceType;
 
 final readonly class ListenerResourceHandler
 implements CompiledResourceHandlerInterface
@@ -14,7 +15,7 @@ implements CompiledResourceHandlerInterface
         string $type,
     ): bool {
 
-        return $type === 'listeners';
+        return $type === ResourceType::Listeners->value;
     }
 
 

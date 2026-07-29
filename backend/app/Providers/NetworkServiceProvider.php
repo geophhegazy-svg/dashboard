@@ -6,18 +6,18 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
-use App\Services\Network\Providers\MikroTik\MikroTikConnectionService;
-use App\Services\Network\Providers\MikroTik\MikroTikQueryService;
-use App\Services\Network\Providers\MikroTik\MikroTikPppoeService;
-use App\Services\Network\Providers\MikroTik\MikroTikQueueService;
-use App\Services\Network\Providers\MikroTik\MikroTikHotspotService;
-use App\Services\Network\Providers\MikroTik\MikroTikFirewallService;
-use App\Services\Network\Providers\MikroTik\MikroTikDhcpService;
-use App\Services\Network\Providers\MikroTik\MikroTikMonitoringService;
-use App\Contracts\Network\NetworkProviderInterface;
-use App\Services\Network\NetworkProviderResolver;
-use App\Services\Network\Providers\MikroTik\MikroTikProvider;
-use App\Services\Network\NetworkDeviceConnectionManager;
+use App\Modules\Network\Infrastructure\Providers\MikroTik\MikroTikConnectionService;
+use App\Modules\Network\Infrastructure\Providers\MikroTik\MikroTikQueryService;
+use App\Modules\Network\Infrastructure\Providers\MikroTik\MikroTikPppoeService;
+use App\Modules\Network\Infrastructure\Providers\MikroTik\MikroTikQueueService;
+use App\Modules\Network\Infrastructure\Providers\MikroTik\MikroTikHotspotService;
+use App\Modules\Network\Infrastructure\Providers\MikroTik\MikroTikFirewallService;
+use App\Modules\Network\Infrastructure\Providers\MikroTik\MikroTikDhcpService;
+use App\Modules\Network\Infrastructure\Providers\MikroTik\MikroTikMonitoringService;
+use App\Modules\Network\Domain\Contracts\NetworkProviderInterface;
+use App\Modules\Network\Application\NetworkProviderResolver;
+use App\Modules\Network\Infrastructure\Providers\MikroTik\MikroTikProvider;
+use App\Modules\Network\Application\NetworkDeviceConnectionManager;
 
 class NetworkServiceProvider extends ServiceProvider
 {

@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace App\Core\QueryBus;
 
 use LogicException;
+use App\Core\Contracts\ContainerInterface;
 use App\Core\QueryBus\Contracts\QueryInterface;
 
 final readonly class QueryDispatcher
 {
     public function __construct(
         private QueryRegistry $registry,
+        private ContainerInterface $container,
     ) {}
 
     public function dispatch(
@@ -30,7 +32,7 @@ final readonly class QueryDispatcher
             );
         }
 
-        $handler = app(
+        $handler = $this->container->make(
             $descriptor->handler,
         );
 

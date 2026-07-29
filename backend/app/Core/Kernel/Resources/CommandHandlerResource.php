@@ -31,7 +31,7 @@ final readonly class CommandHandlerResource implements CompilableModuleResourceI
     public function compile(): array
     {
         return [
-            'type' => 'command_handlers',
+            'type' => ResourceType::CommandHandlers->value,
             'handlers' => $this->commands,
         ];
     }

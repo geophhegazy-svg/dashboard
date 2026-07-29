@@ -40,7 +40,7 @@ final readonly class CommandResource implements CompilableModuleResourceInterfac
     public function compile(): array
     {
         return [
-            'type' => 'commands',
+            'type' => ResourceType::Commands->value,
             'commands' => $this->commands,
         ];
     }

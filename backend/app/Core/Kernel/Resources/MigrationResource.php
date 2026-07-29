@@ -28,7 +28,7 @@ final readonly class MigrationResource implements CompilableModuleResourceInterf
     public function compile(): array
     {
         return [
-            'type' => 'migrations',
+            'type' => ResourceType::Migrations->value,
             'paths' => $this->paths,
         ];
     }

@@ -35,7 +35,7 @@ final readonly class ListenerResource implements CompilableModuleResourceInterfa
     public function compile(): array
     {
         return [
-            'type' => 'listeners',
+            'type' => ResourceType::Listeners->value,
             'listeners' => $this->listeners,
         ];
     }

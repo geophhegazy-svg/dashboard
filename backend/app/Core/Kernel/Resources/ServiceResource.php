@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Core\Kernel\Resources;
 
-use App\Core\Kernel\Contracts\ModuleRegistrarInterface;
 use App\Core\Kernel\Contracts\CompilableModuleResourceInterface;
+use App\Core\Kernel\Contracts\ModuleRegistrarInterface;
 
 final readonly class ServiceResource implements CompilableModuleResourceInterface
 {
@@ -21,6 +21,7 @@ final readonly class ServiceResource implements CompilableModuleResourceInterfac
     ): void {
 
         foreach ($this->bindings as $abstract => $concrete) {
+
             $registrar->bind(
                 $abstract,
                 $concrete,
@@ -34,7 +35,7 @@ final readonly class ServiceResource implements CompilableModuleResourceInterfac
     public function compile(): array
     {
         return [
-            'type' => 'services',
+            'type' => ResourceType::Services->value,
             'bindings' => $this->bindings,
         ];
     }

@@ -8,6 +8,9 @@ use App\Core\Kernel\Contracts\CompiledResourceHandlerInterface;
 use App\Core\Kernel\Contracts\ModuleRegistrarInterface;
 use LogicException;
 
+/**
+ * @internal
+ */
 final readonly class CompiledResourceRegistrar
 {
     /**

@@ -7,7 +7,7 @@ namespace Tests\Unit\Services;
 use Tests\TestCase;
 use App\Models\Invoice;
 use App\Models\Payment;
-use App\Modules\Payment\PaymentService;
+use App\Modules\Payment\Application\Services\PaymentService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class PaymentServiceTest extends TestCase

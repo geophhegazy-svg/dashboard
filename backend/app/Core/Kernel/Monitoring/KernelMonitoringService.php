@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Core\Kernel\Monitoring;
 
+/**
+ * @internal
+ */
 final readonly class KernelMonitoringService
 {
     public function __construct(

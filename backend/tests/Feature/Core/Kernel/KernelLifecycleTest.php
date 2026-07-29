@@ -13,7 +13,6 @@ use App\Core\Kernel\Lifecycle\KernelLifecycleManager;
 use App\Core\Kernel\Runtime\KernelRuntimeState;
 use Tests\Fakes\Core\FakeEventDispatcher;
 use Tests\TestCase;
-use App\Core\Kernel\Registration\ModuleRegistrationService;
 use App\Core\Kernel\Contracts\KernelBootstrapperInterface;
 final class KernelLifecycleTest extends TestCase
 {
@@ -28,10 +27,6 @@ final class KernelLifecycleTest extends TestCase
 
         $this->app->forgetInstance(
             KernelBootstrapperInterface::class
-        );
-
-        $this->app->forgetInstance(
-            ModuleRegistrationService::class
         );
 
         $this->app->forgetInstance(

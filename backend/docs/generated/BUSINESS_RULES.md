@@ -1,9 +1,101 @@
 # Business Rules
 
+## ActivityLogService
+
+**Namespace**
+App\Modules\Activity\Application\Services
+
+**Dependencies**
+- None
+
+**Methods**
+- log(5 params) : void
+
+---
+
+## AutomaticBillingService
+
+**Namespace**
+App\Modules\Billing\Application\Services
+
+**Dependencies**
+- App\Modules\Billing\Domain\Services\BillingEngine
+- App\Modules\Subscription\Domain\Contracts\SubscriptionRenewalServiceInterface
+- App\Modules\Notification\Application\Services\NotificationService
+
+**Methods**
+- __construct(3 params) : mixed
+- run(1 params) : void
+- processSubscription(1 params) : void
+
+---
+
+## BillingCycleService
+
+**Namespace**
+App\Modules\Billing\Application\Services
+
+**Dependencies**
+- None
+
+**Methods**
+- calculateNextBillingDate(2 params) : Carbon\Carbon
+- calculateGraceDate(2 params) : Carbon\Carbon
+- isDue(1 params) : bool
+- isExpired(1 params) : bool
+
+---
+
+## CustomerDashboardService
+
+**Namespace**
+App\Modules\Dashboard\Application\Services
+
+**Dependencies**
+- App\Modules\Usage\UsageService
+
+**Methods**
+- __construct(1 params) : mixed
+- getDashboardData(1 params) : array
+
+---
+
+## CustomerService
+
+**Namespace**
+App\Modules\Customer\Application\Services
+
+**Dependencies**
+- App\Modules\Customer\Application\Actions\CreateCustomerAction
+- App\Modules\Customer\Application\Actions\UpdateCustomerAction
+- App\Modules\Customer\Application\Actions\DeleteCustomerAction
+
+**Methods**
+- __construct(3 params) : mixed
+- create(1 params) : App\Models\Customer
+- update(2 params) : App\Models\Customer
+- delete(1 params) : bool
+- paginate(0 params) : Illuminate\Contracts\Pagination\LengthAwarePaginator
+
+---
+
+## DashboardService
+
+**Namespace**
+App\Modules\Dashboard\Application\Services
+
+**Dependencies**
+- None
+
+**Methods**
+- getDashboardData(0 params) : array
+
+---
+
 ## FinanceService
 
 **Namespace**
-App\Services\Finance
+App\Modules\Finance\Application\Services
 
 **Dependencies**
 - None
@@ -13,10 +105,80 @@ App\Services\Finance
 
 ---
 
-## JournalValidator
+## InvoiceGenerator
 
 **Namespace**
-App\Services\Finance\Accounting
+App\Modules\Billing\Application\Services
+
+**Dependencies**
+- App\Modules\Invoice\Application\Services\InvoiceNumberService
+
+**Methods**
+- __construct(1 params) : mixed
+- generate(1 params) : App\Models\Invoice
+
+---
+
+## InvoiceNumberService
+
+**Namespace**
+App\Modules\Invoice\Application\Services
+
+**Dependencies**
+- None
+
+**Methods**
+- generate(1 params) : string
+
+---
+
+## InvoiceService
+
+**Namespace**
+App\Modules\Invoice\Application\Services
+
+**Dependencies**
+- None
+
+**Methods**
+- create(1 params) : App\Models\Invoice
+- update(2 params) : App\Models\Invoice
+- delete(1 params) : bool
+
+---
+
+## JournalEntryNumberService
+
+**Namespace**
+App\Modules\Accounting\Application\Services
+
+**Dependencies**
+- None
+
+**Methods**
+- generate(0 params) : string
+
+---
+
+## JournalPostingService
+
+**Namespace**
+App\Modules\Accounting\Application\Services
+
+**Dependencies**
+- App\Modules\Accounting\Application\Services\JournalValidationService
+- App\Modules\Activity\Application\Services\ActivityLogService
+
+**Methods**
+- __construct(2 params) : mixed
+- post(1 params) : App\Models\JournalEntry
+
+---
+
+## JournalValidationService
+
+**Namespace**
+App\Modules\Accounting\Application\Services
 
 **Dependencies**
 - None
@@ -26,332 +188,196 @@ App\Services\Finance\Accounting
 
 ---
 
-## MikroTikConnectionService
+## NotificationService
 
 **Namespace**
-App\Services\Network\Providers\MikroTik
+App\Modules\Notification\Application\Services
 
 **Dependencies**
 - None
 
 **Methods**
-- connect(4 params) : bool
-- client(0 params) : ?RouterOS\Client
-- isConnected(0 params) : bool
-- disconnect(0 params) : void
-- ping(0 params) : bool
+- create(1 params) : App\Models\Notification
+- createReminder(2 params) : App\Models\Notification
+- billingFailed(1 params) : App\Models\Notification
+- subscriptionRenewed(1 params) : App\Models\Notification
 
 ---
 
-## MikroTikDhcpService
+## PackageService
 
 **Namespace**
-App\Services\Network\Providers\MikroTik
-
-**Dependencies**
-- App\Services\Network\Providers\MikroTik\MikroTikQueryService
-
-**Methods**
-- __construct(1 params) : mixed
-- getAll(0 params) : array
-- find(1 params) : ?array
-- findByMac(1 params) : ?array
-- create(4 params) : bool
-- update(2 params) : bool
-- delete(1 params) : bool
-- makeStatic(1 params) : bool
-- removeStatic(1 params) : bool
-- search(1 params) : array
-- statistics(0 params) : array
-- activeClients(0 params) : array
-
----
-
-## MikroTikFirewallService
-
-**Namespace**
-App\Services\Network\Providers\MikroTik
-
-**Dependencies**
-- App\Services\Network\Providers\MikroTik\MikroTikQueryService
-
-**Methods**
-- __construct(1 params) : mixed
-- getRules(0 params) : array
-- find(1 params) : ?array
-- create(1 params) : bool
-- update(2 params) : bool
-- delete(1 params) : bool
-- disable(1 params) : bool
-- enable(1 params) : bool
-- getNatRules(0 params) : array
-- findNat(1 params) : ?array
-- createNat(1 params) : bool
-- updateNat(2 params) : bool
-- deleteNat(1 params) : bool
-- search(1 params) : array
-- statistics(0 params) : array
-
----
-
-## MikroTikHotspotService
-
-**Namespace**
-App\Services\Network\Providers\MikroTik
-
-**Dependencies**
-- App\Services\Network\Providers\MikroTik\MikroTikQueryService
-
-**Methods**
-- __construct(1 params) : mixed
-- getUsers(0 params) : array
-- findUser(1 params) : ?array
-- getActiveSessions(0 params) : array
-- getActiveSession(1 params) : ?array
-- createUser(4 params) : bool
-- disableUser(1 params) : bool
-- enableUser(1 params) : bool
-- deleteUser(1 params) : bool
-- disconnectUser(1 params) : bool
-- status(1 params) : array
-- updateUser(2 params) : bool
-- updateProfile(2 params) : bool
-- updatePassword(2 params) : bool
-- search(1 params) : array
-- statistics(0 params) : array
-
----
-
-## MikroTikMonitoringService
-
-**Namespace**
-App\Services\Network\Providers\MikroTik
-
-**Dependencies**
-- App\Services\Network\Providers\MikroTik\MikroTikQueryService
-
-**Methods**
-- __construct(1 params) : mixed
-- getSystemResource(0 params) : array
-- getIdentity(0 params) : array
-- getInterfaces(0 params) : array
-- getInterfaceTraffic(0 params) : array
-- ping(2 params) : bool
-- healthCheck(0 params) : array
-- summary(0 params) : array
-
----
-
-## MikroTikPppoeService
-
-**Namespace**
-App\Services\Network\Providers\MikroTik
-
-**Dependencies**
-- App\Services\Network\Providers\MikroTik\MikroTikQueryService
-
-**Methods**
-- __construct(1 params) : mixed
-- getAllUsers(0 params) : array
-- getUser(1 params) : ?array
-- createUser(4 params) : bool
-- updateUser(2 params) : bool
-- disableUser(1 params) : bool
-- enableUser(1 params) : bool
-- deleteUser(1 params) : bool
-- getActiveSessions(0 params) : array
-- getActiveSession(1 params) : ?array
-- disconnectUser(1 params) : bool
-- updateProfile(2 params) : bool
-- updatePassword(2 params) : bool
-- searchUsers(1 params) : array
-- status(1 params) : array
-
----
-
-## MikroTikProvider
-
-**Namespace**
-App\Services\Network\Providers\MikroTik
-
-**Dependencies**
-- App\Services\Network\Providers\MikroTik\MikroTikConnectionService
-- App\Services\Network\Providers\MikroTik\MikroTikPppoeService
-- App\Services\Network\Providers\MikroTik\MikroTikQueueService
-- App\Services\Network\Providers\MikroTik\MikroTikHotspotService
-- App\Services\Network\Providers\MikroTik\MikroTikFirewallService
-- App\Services\Network\Providers\MikroTik\MikroTikDhcpService
-- App\Services\Network\Providers\MikroTik\MikroTikMonitoringService
-
-**Methods**
-- __construct(7 params) : mixed
-- connect(4 params) : bool
-- disconnect(0 params) : void
-- isConnected(0 params) : bool
-- name(0 params) : string
-- capabilities(0 params) : array
-- pppoe(0 params) : App\Contracts\Network\Services\PppoeServiceInterface
-- queue(0 params) : App\Contracts\Network\Services\QueueServiceInterface
-- hotspot(0 params) : App\Contracts\Network\Services\HotspotServiceInterface
-- firewall(0 params) : App\Contracts\Network\Services\FirewallServiceInterface
-- dhcp(0 params) : App\Contracts\Network\Services\DhcpServiceInterface
-- monitoring(0 params) : App\Contracts\Network\Services\MonitoringServiceInterface
-
----
-
-## MikroTikQueryService
-
-**Namespace**
-App\Services\Network\Providers\MikroTik
-
-**Dependencies**
-- App\Services\Network\Providers\MikroTik\MikroTikConnectionService
-
-**Methods**
-- __construct(1 params) : mixed
-- execute(1 params) : array
-- first(1 params) : ?array
-- write(1 params) : bool
-
----
-
-## MikroTikQueueService
-
-**Namespace**
-App\Services\Network\Providers\MikroTik
-
-**Dependencies**
-- App\Services\Network\Providers\MikroTik\MikroTikQueryService
-
-**Methods**
-- __construct(1 params) : mixed
-- getAll(0 params) : array
-- find(1 params) : ?array
-- create(6 params) : bool
-- update(2 params) : bool
-- delete(1 params) : bool
-- disable(1 params) : bool
-- enable(1 params) : bool
-- getUsage(0 params) : array
-- getUserQueue(1 params) : ?array
-- updateSpeed(3 params) : bool
-- resetCounters(1 params) : bool
-- search(1 params) : array
-- statistics(1 params) : array
-
----
-
-## MikrotikService
-
-**Namespace**
-App\Services
+App\Modules\Package\Application\Services
 
 **Dependencies**
 - None
 
 **Methods**
-- __construct(0 params) : mixed
-- getClient(0 params) : RouterOS\Client
-- getPppoeUsers(0 params) : array
-- createPppoeUser(4 params) : void
-- findPppoeUser(1 params) : ?array
-- setPppoeUserStatus(2 params) : void
-- getHotspotUsers(0 params) : array
-- createHotspotUser(3 params) : void
-- findHotspotUser(1 params) : ?array
-- getHotspotUserId(1 params) : string
-- setHotspotUserStatus(2 params) : void
-- deleteHotspotUser(1 params) : void
-- getActiveHotspotUsers(0 params) : array
+- paginate(0 params) : Illuminate\Contracts\Pagination\LengthAwarePaginator
+- create(1 params) : App\Models\Package
+- update(2 params) : App\Models\Package
+- delete(1 params) : void
 
 ---
 
-## MikrotikServiceAdapter
+## PaymentService
 
 **Namespace**
-App\Services\Network
-
-**Dependencies**
-- App\Services\Network\NetworkManager
-
-**Methods**
-- __construct(1 params) : mixed
-- connect(4 params) : bool
-- createUser(4 params) : bool
-- disableUser(1 params) : bool
-- enableUser(1 params) : bool
-- deleteUser(1 params) : bool
-- getAllUsers(0 params) : array
-- getActiveSessions(0 params) : array
-- updateUserQueue(3 params) : bool
-- getQueueUsage(0 params) : array
-- getDeviceStats(0 params) : array
-- ping(1 params) : bool
-- disconnectUser(1 params) : bool
-- updateDeviceStatus(1 params) : void
-- getHotspotUsers(0 params) : array
-- getHotspotActiveSessions(0 params) : array
-- createHotspotUser(4 params) : bool
-- disableHotspotUser(1 params) : bool
-- enableHotspotUser(1 params) : bool
-
----
-
-## NetworkDeviceConnectionManager
-
-**Namespace**
-App\Services\Network
-
-**Dependencies**
-- App\Services\Network\Providers\MikroTik\MikroTikConnectionService
-
-**Methods**
-- __construct(1 params) : mixed
-- connectById(1 params) : App\Services\Network\Providers\MikroTik\MikroTikConnectionService
-- connect(1 params) : App\Services\Network\Providers\MikroTik\MikroTikConnectionService
-
----
-
-## NetworkManager
-
-**Namespace**
-App\Services\Network
-
-**Dependencies**
-- App\Services\Network\NetworkProviderResolver
-
-**Methods**
-- __construct(1 params) : mixed
-- connect(1 params) : bool
-- disconnect(0 params) : void
-- provider(0 params) : ?App\Contracts\Network\NetworkProviderInterface
-- device(0 params) : ?App\Models\NetworkDevice
-- connected(0 params) : bool
-- providerName(0 params) : ?string
-- capabilities(0 params) : array
-
----
-
-## NetworkProviderResolver
-
-**Namespace**
-App\Services\Network
+App\Modules\Payment\Application\Services
 
 **Dependencies**
 - None
 
 **Methods**
-- resolve(1 params) : App\Contracts\Network\NetworkProviderInterface
-- resolveByName(1 params) : App\Contracts\Network\NetworkProviderInterface
-- register(2 params) : void
-- available(0 params) : array
+- create(1 params) : App\Models\Payment
+- createFromInvoice(5 params) : App\Models\Payment
+
+---
+
+## ReportExecutionService
+
+**Namespace**
+App\Modules\Reports\Application\Services
+
+**Dependencies**
+- App\Reports\Manager\ReportManager
+- App\Reports\Export\ExportManager
+- App\Modules\Reports\Domain\Contracts\ReportRepositoryInterface
+- App\Modules\Reports\Domain\Contracts\ReportExportRepositoryInterface
+
+**Methods**
+- __construct(4 params) : mixed
+- execute(3 params) : App\Reports\DTO\ExportResult
+
+---
+
+## ReportExportService
+
+**Namespace**
+App\Modules\Reports\Application\Services
+
+**Dependencies**
+- App\Modules\Reports\Domain\Contracts\ReportExportRepositoryInterface
+
+**Methods**
+- __construct(1 params) : mixed
+- paginate(0 params) : Illuminate\Contracts\Pagination\LengthAwarePaginator
+- create(1 params) : App\Models\ReportExport
+- find(1 params) : ?App\Models\ReportExport
+
+---
+
+## ReportService
+
+**Namespace**
+App\Modules\Reports\Application\Services
+
+**Dependencies**
+- App\Modules\Reports\Domain\Contracts\ReportRepositoryInterface
+
+**Methods**
+- __construct(1 params) : mixed
+- paginate(0 params) : Illuminate\Contracts\Pagination\LengthAwarePaginator
+- create(1 params) : App\Models\Report
+- update(2 params) : App\Models\Report
+- delete(1 params) : bool
+- find(1 params) : ?App\Models\Report
+
+---
+
+## ScheduledReportService
+
+**Namespace**
+App\Modules\Reports\Application\Services
+
+**Dependencies**
+- None
+
+**Methods**
+- paginate(0 params) : Illuminate\Contracts\Pagination\LengthAwarePaginator
+- create(1 params) : App\Models\ScheduledReport
+- update(2 params) : App\Models\ScheduledReport
+- delete(1 params) : void
+- activate(1 params) : App\Models\ScheduledReport
+- deactivate(1 params) : App\Models\ScheduledReport
+- updateLastRun(1 params) : App\Models\ScheduledReport
+- updateNextRun(2 params) : App\Models\ScheduledReport
+
+---
+
+## SubscriptionActivityService
+
+**Namespace**
+App\Modules\Activity\Application\Services
+
+**Dependencies**
+- None
+
+**Methods**
+- log(4 params) : App\Models\ActivityLog
+
+---
+
+## SubscriptionService
+
+**Namespace**
+App\Modules\Subscription\Application\Services
+
+**Dependencies**
+- App\Modules\Subscription\Domain\Contracts\SubscriptionRepositoryInterface
+- App\Modules\Subscription\Application\Workflows\ActivateWorkflow
+- App\Modules\Subscription\Application\Workflows\SuspendWorkflow
+- App\Modules\Subscription\Application\Workflows\ExpireWorkflow
+- App\Modules\Subscription\Application\Workflows\RestoreWorkflow
+- App\Modules\Subscription\Application\Workflows\RenewWorkflow
+
+**Methods**
+- __construct(6 params) : mixed
+- paginate(2 params) : Illuminate\Pagination\LengthAwarePaginator
+- find(1 params) : ?App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
+- findOrFail(1 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
+- byCustomer(1 params) : Illuminate\Database\Eloquent\Collection
+- active(0 params) : Illuminate\Database\Eloquent\Collection
+- expired(0 params) : Illuminate\Database\Eloquent\Collection
+- byStatus(1 params) : Illuminate\Database\Eloquent\Collection
+- search(2 params) : Illuminate\Pagination\LengthAwarePaginator
+- create(1 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
+- update(2 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
+- activate(1 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
+- suspend(1 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
+- expire(1 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
+- restore(1 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
+- renew(2 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
+- statistics(0 params) : array
+- autoExpire(0 params) : int
+- expiringSoon(1 params) : Illuminate\Database\Eloquent\Collection
+
+---
+
+## TaskService
+
+**Namespace**
+App\Modules\Task\Application\Services
+
+**Dependencies**
+- None
+
+**Methods**
+- paginate(0 params) : Illuminate\Contracts\Pagination\LengthAwarePaginator
+- create(1 params) : App\Models\Task
+- update(2 params) : App\Models\Task
+- complete(1 params) : App\Models\Task
+- cancel(1 params) : App\Models\Task
+- reopen(1 params) : App\Models\Task
+- start(1 params) : App\Models\Task
+- delete(1 params) : void
 
 ---
 
 ## TelegramNotificationService
 
 **Namespace**
-App\Services\Notification
+App\Modules\Notification\Application\Services
 
 **Dependencies**
 - None
@@ -360,5 +386,19 @@ App\Services\Notification
 - __construct(0 params) : mixed
 - sendMessage(1 params) : mixed
 - sendDeviceAlert(1 params) : mixed
+
+---
+
+## WalletService
+
+**Namespace**
+App\Modules\Wallet\Application\Services
+
+**Dependencies**
+- None
+
+**Methods**
+- deposit(4 params) : void
+- deduct(4 params) : void
 
 ---

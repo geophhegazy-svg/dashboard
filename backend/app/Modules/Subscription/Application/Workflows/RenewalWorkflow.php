@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\Subscription\Application\Workflows;
 
 use Throwable;
-use App\Core\DTO\RenewalResult;
+use App\Modules\Subscription\Application\Results\RenewalResult;
 use App\Modules\Subscription\Application\Actions\RenewSubscriptionAction;
 use App\Modules\Subscription\Domain\Contracts\SubscriptionRepositoryInterface;
 

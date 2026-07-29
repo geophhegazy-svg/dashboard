@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\DTO;
 
-final readonly class PaginationData
+final readonly class PaginationData extends DataTransferObject
 {
     public function __construct(
         public int $currentPage,

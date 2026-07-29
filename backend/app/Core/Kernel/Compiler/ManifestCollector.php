@@ -7,6 +7,9 @@ namespace App\Core\Kernel\Compiler;
 use App\Core\Kernel\Contracts\CompilableModuleResourceInterface;
 use App\Core\Kernel\Modules\Module;
 
+/**
+ * @internal
+ */
 final class ManifestCollector
 {
     /**
