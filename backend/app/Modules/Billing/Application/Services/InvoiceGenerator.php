@@ -4,46 +4,24 @@ declare(strict_types=1);
 
 namespace App\Modules\Billing\Application\Services;
 
-use App\Modules\Invoice\Domain\Events\InvoiceCreated;
 use App\Models\Invoice;
-use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
-use App\Modules\Invoice\Application\Services\InvoiceNumberService;
+use App\Modules\Billing\Application\Workflows\GenerateInvoiceWorkflow;
 use App\Modules\Billing\Domain\Contracts\InvoiceGeneratorInterface;
+use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 
-class InvoiceGenerator implements InvoiceGeneratorInterface
+final class InvoiceGenerator implements InvoiceGeneratorInterface
 {
     public function __construct(
-        private readonly InvoiceNumberService $invoiceNumberService
+        private readonly GenerateInvoiceWorkflow $workflow,
     ) {}
 
     public function generate(
         Subscription $subscription
     ): Invoice {
 
-        $invoice = Invoice::create([
-
-            'tenant_id'       => $subscription->tenant_id,
-            'customer_id'     => $subscription->customer_id,
-            'subscription_id' => $subscription->id,
-            'amount'          => $subscription->package->price,
-            'due_date'        => now()->toDateString(),
-            'status'          => 'pending',
-        ]);
-
-        $invoice->update([
-
-            'invoice_number' => InvoiceNumberService::generate($invoice),
-
-        ]);
-
-        $invoice = $invoice->fresh();
-
-
-        InvoiceCreated::dispatch(
-            $invoice
+        /** @var Invoice */
+        return $this->workflow->execute(
+            $subscription
         );
-
-
-        return $invoice;
     }
 }

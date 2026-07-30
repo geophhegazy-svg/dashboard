@@ -38,15 +38,11 @@ App\Modules\Billing\Application\Services
 
 **Constructor Dependencies**
 
-- BillingEngine $billingEngine
-- SubscriptionRenewalServiceInterface $renewalService
-- NotificationService $notificationService
+- AutomaticBillingWorkflow $workflow
 
 **Properties**
 
-- $billingEngine : App\Modules\Billing\Domain\Services\BillingEngine
-- $renewalService : App\Modules\Subscription\Domain\Contracts\SubscriptionRenewalServiceInterface
-- $notificationService : App\Modules\Notification\Application\Services\NotificationService
+- $workflow : App\Modules\Billing\Application\Workflows\AutomaticBillingWorkflow
 
 **Methods**
 
@@ -196,11 +192,11 @@ App\Modules\Billing\Application\Services
 
 **Constructor Dependencies**
 
-- InvoiceNumberService $invoiceNumberService
+- GenerateInvoiceWorkflow $workflow
 
 **Properties**
 
-- $invoiceNumberService : App\Modules\Invoice\Application\Services\InvoiceNumberService
+- $workflow : App\Modules\Billing\Application\Workflows\GenerateInvoiceWorkflow
 
 **Methods**
 
@@ -286,13 +282,11 @@ App\Modules\Accounting\Application\Services
 
 **Constructor Dependencies**
 
-- JournalValidationService $validationService
-- ActivityLogService $activityLogService
+- PostJournalEntryWorkflow $workflow
 
 **Properties**
 
-- $validationService : App\Modules\Accounting\Application\Services\JournalValidationService
-- $activityLogService : App\Modules\Activity\Application\Services\ActivityLogService
+- $workflow : App\Modules\Accounting\Application\Workflows\PostJournalEntryWorkflow
 
 **Methods**
 

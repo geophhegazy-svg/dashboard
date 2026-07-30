@@ -125,12 +125,10 @@ App\Modules\Activity\Application\Services
 App\Modules\Billing\Application\Services
 
 **Dependencies**
-- App\Modules\Billing\Domain\Services\BillingEngine
-- App\Modules\Subscription\Domain\Contracts\SubscriptionRenewalServiceInterface
-- App\Modules\Notification\Application\Services\NotificationService
+- App\Modules\Billing\Application\Workflows\AutomaticBillingWorkflow
 
 **Methods**
-- __construct(3 params) : mixed
+- __construct(1 params) : mixed
 - run(1 params) : void
 - processSubscription(1 params) : void
 
@@ -216,7 +214,7 @@ App\Modules\Finance\Application\Services
 App\Modules\Billing\Application\Services
 
 **Dependencies**
-- App\Modules\Invoice\Application\Services\InvoiceNumberService
+- App\Modules\Billing\Application\Workflows\GenerateInvoiceWorkflow
 
 **Methods**
 - __construct(1 params) : mixed
@@ -271,11 +269,10 @@ App\Modules\Accounting\Application\Services
 App\Modules\Accounting\Application\Services
 
 **Dependencies**
-- App\Modules\Accounting\Application\Services\JournalValidationService
-- App\Modules\Activity\Application\Services\ActivityLogService
+- App\Modules\Accounting\Application\Workflows\PostJournalEntryWorkflow
 
 **Methods**
-- __construct(2 params) : mixed
+- __construct(1 params) : mixed
 - post(1 params) : App\Models\JournalEntry
 
 ---
@@ -3289,15 +3286,11 @@ App\Modules\Billing\Application\Services
 
 **Constructor Dependencies**
 
-- BillingEngine $billingEngine
-- SubscriptionRenewalServiceInterface $renewalService
-- NotificationService $notificationService
+- AutomaticBillingWorkflow $workflow
 
 **Properties**
 
-- $billingEngine : App\Modules\Billing\Domain\Services\BillingEngine
-- $renewalService : App\Modules\Subscription\Domain\Contracts\SubscriptionRenewalServiceInterface
-- $notificationService : App\Modules\Notification\Application\Services\NotificationService
+- $workflow : App\Modules\Billing\Application\Workflows\AutomaticBillingWorkflow
 
 **Methods**
 
@@ -3447,11 +3440,11 @@ App\Modules\Billing\Application\Services
 
 **Constructor Dependencies**
 
-- InvoiceNumberService $invoiceNumberService
+- GenerateInvoiceWorkflow $workflow
 
 **Properties**
 
-- $invoiceNumberService : App\Modules\Invoice\Application\Services\InvoiceNumberService
+- $workflow : App\Modules\Billing\Application\Workflows\GenerateInvoiceWorkflow
 
 **Methods**
 
@@ -3537,13 +3530,11 @@ App\Modules\Accounting\Application\Services
 
 **Constructor Dependencies**
 
-- JournalValidationService $validationService
-- ActivityLogService $activityLogService
+- PostJournalEntryWorkflow $workflow
 
 **Properties**
 
-- $validationService : App\Modules\Accounting\Application\Services\JournalValidationService
-- $activityLogService : App\Modules\Activity\Application\Services\ActivityLogService
+- $workflow : App\Modules\Accounting\Application\Workflows\PostJournalEntryWorkflow
 
 **Methods**
 

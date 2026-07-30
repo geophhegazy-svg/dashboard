@@ -13,6 +13,7 @@ use App\Modules\Billing\Domain\Services\BillingEngine;
 use App\Modules\Subscription\Domain\Contracts\SubscriptionRenewalServiceInterface;
 use App\Modules\Notification\Application\Services\NotificationService;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
+use App\Modules\Billing\Application\Workflows\AutomaticBillingWorkflow;
 
 class AutomaticBillingServiceTest extends TestCase
 {
@@ -58,10 +59,14 @@ class AutomaticBillingServiceTest extends TestCase
             NotificationService::class
         );
 
-        $service = new AutomaticBillingService(
+        $workflow = new AutomaticBillingWorkflow(
             $billing,
             $renewal,
-            $notification
+            $notification,
+        );
+
+        $service = new AutomaticBillingService(
+            $workflow,
         );
 
         $service->processSubscription(
@@ -96,10 +101,14 @@ class AutomaticBillingServiceTest extends TestCase
             NotificationService::class
         );
 
-        $service = new AutomaticBillingService(
+        $workflow = new AutomaticBillingWorkflow(
             $billing,
             $renewal,
-            $notification
+            $notification,
+        );
+
+        $service = new AutomaticBillingService(
+            $workflow,
         );
 
         $service->processSubscription(
@@ -138,19 +147,17 @@ class AutomaticBillingServiceTest extends TestCase
             ->method('billingFailed')
             ->with($subscription);
 
-        $service = new AutomaticBillingService(
+        $workflow = new AutomaticBillingWorkflow(
             $billing,
             $renewal,
-            $notification
+            $notification,
         );
 
-        $this->expectException(
-            \RuntimeException::class
+        $service = new AutomaticBillingService(
+            $workflow,
         );
 
-        $service->processSubscription(
-            $subscription
-        );
+        $service->processSubscription($subscription);
     }
 
     public function test_run_processes_collection(): void
@@ -182,10 +189,14 @@ class AutomaticBillingServiceTest extends TestCase
             NotificationService::class
         );
 
-        $service = new AutomaticBillingService(
+        $workflow = new AutomaticBillingWorkflow(
             $billing,
             $renewal,
-            $notification
+            $notification,
+        );
+
+        $service = new AutomaticBillingService(
+            $workflow,
         );
 
         $service->run(

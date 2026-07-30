@@ -6,7 +6,6 @@ namespace App\Modules\Accounting\Application\Services;;
 
 use App\Exceptions\Accounting\JournalValidationException;
 use App\Models\JournalEntry;
-use App\Modules\Accounting\Application\Services\JuornalValidationService;
 
 class JournalValidationService
 {

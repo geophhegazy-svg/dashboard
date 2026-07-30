@@ -20,6 +20,10 @@ use App\Core\Kernel\Runtime\KernelRuntimeState;
 use App\Core\Kernel\ModuleRegistry;
 use App\Infrastructure\Laravel\Kernel\LaravelModuleRegistrar;
 
+use App\Core\Workflow\Contracts\TransactionManagerInterface;
+use App\Infrastructure\Laravel\Database\LaravelTransactionManager;
+use App\Core\Workflow\WorkflowExecutorFactory;
+
 final class KernelCoreServiceProvider extends ServiceProvider
 {
     public function register(): void
@@ -27,6 +31,11 @@ final class KernelCoreServiceProvider extends ServiceProvider
         $this->app->bind(
             ModuleRegistrarInterface::class,
             LaravelModuleRegistrar::class,
+        );
+
+        $this->app->bind(
+            TransactionManagerInterface::class,
+            LaravelTransactionManager::class,
         );
 
         $this->app->singleton(
@@ -61,6 +70,10 @@ final class KernelCoreServiceProvider extends ServiceProvider
 
         $this->app->singleton(
             KernelMonitoringService::class,
+        );
+
+        $this->app->singleton(
+            WorkflowExecutorFactory::class,
         );
 
     }
