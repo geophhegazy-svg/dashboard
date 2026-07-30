@@ -67,7 +67,6 @@ App\Modules\Customer\Application\Services\CustomerService
 - __construct
 - create
 - delete
-- paginate
 - update
 
 ## DashboardService
@@ -195,6 +194,7 @@ App\Modules\Package\Application\Services\PackageService
 
 **Public Methods**
 
+- __construct
 - create
 - delete
 - paginate

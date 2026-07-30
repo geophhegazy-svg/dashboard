@@ -5,18 +5,23 @@ declare(strict_types=1);
 namespace App\Modules\Package\Application\Services;
 
 use App\Models\Package;
+use App\Modules\Package\Domain\Contracts\PackageRepositoryInterface;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class PackageService
 {
+    public function __construct(
+        private readonly PackageRepositoryInterface $repository,
+    ) {}
+
     public function paginate(): LengthAwarePaginator
     {
-        return Package::latest()->paginate();
+        return $this->repository->paginate();
     }
 
     public function create(array $data): Package
     {
-        return Package::create($data);
+        return $this->repository->create($data);
     }
 
     public function update(
@@ -24,15 +29,16 @@ class PackageService
         array $data
     ): Package {
 
-        $package->update($data);
-
-        return $package->fresh();
+        return $this->repository->update(
+            $package,
+            $data
+        );
     }
 
     public function delete(
-        Package $package
+        Package $package,
     ): void {
 
-        $package->delete();
+        $this->repository->delete($package);
     }
 }

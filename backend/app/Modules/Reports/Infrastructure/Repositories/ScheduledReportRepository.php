@@ -6,8 +6,9 @@ namespace App\Modules\Reports\Infrastructure\Repositories;
 
 use App\Models\ScheduledReport;
 use Illuminate\Database\Eloquent\Collection;
-
-class ScheduledReportRepository
+use App\Modules\Reports\Domain\Contracts\ScheduledReportRepositoryInterface;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+final class ScheduledReportRepository implements ScheduledReportRepositoryInterface
 {
     public function all(): Collection
     {
@@ -45,5 +46,12 @@ class ScheduledReportRepository
     ): bool {
 
         return (bool) $scheduledReport->delete();
+    }
+
+    public function paginate(): LengthAwarePaginator
+    {
+        return ScheduledReport::query()
+            ->latest()
+            ->paginate();
     }
 }

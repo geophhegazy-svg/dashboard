@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\Modules\Package\Infrastructure\Repositories;
 
-use App\Modules\Package\Domain\Contracts\PackageRepositoryInterface;
 use App\Models\Package;
-use Illuminate\Database\Eloquent\Collection;
+use App\Modules\Package\Domain\Contracts\PackageRepositoryInterface;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class PackageRepository implements PackageRepositoryInterface
 {
-    public function all(): Collection
+    public function paginate(): LengthAwarePaginator
     {
-        return Package::all();
+        return Package::latest()->paginate();
     }
 
     public function find(int $id): ?Package
@@ -20,9 +20,19 @@ class PackageRepository implements PackageRepositoryInterface
         return Package::find($id);
     }
 
-    public function save(Package $package): bool
+    public function create(array $data): Package
     {
-        return $package->save();
+        return Package::create($data);
+    }
+
+    public function update(
+        Package $package,
+        array $data
+    ): Package {
+
+        $package->update($data);
+
+        return $package->fresh();
     }
 
     public function delete(Package $package): bool

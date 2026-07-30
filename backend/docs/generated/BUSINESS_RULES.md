@@ -75,7 +75,6 @@ App\Modules\Customer\Application\Services
 - create(1 params) : App\Models\Customer
 - update(2 params) : App\Models\Customer
 - delete(1 params) : bool
-- paginate(0 params) : Illuminate\Contracts\Pagination\LengthAwarePaginator
 
 ---
 
@@ -210,9 +209,10 @@ App\Modules\Notification\Application\Services
 App\Modules\Package\Application\Services
 
 **Dependencies**
-- None
+- App\Modules\Package\Domain\Contracts\PackageRepositoryInterface
 
 **Methods**
+- __construct(1 params) : mixed
 - paginate(0 params) : Illuminate\Contracts\Pagination\LengthAwarePaginator
 - create(1 params) : App\Models\Package
 - update(2 params) : App\Models\Package

@@ -8,7 +8,13 @@ use App\Core\Kernel\ModuleManifest;
 use App\Core\Kernel\Modules\Module;
 use App\Modules\Accounting\Domain\Events\JournalEntryPosted;
 use App\Modules\Accounting\Listeners\JournalEntryPostedListener;
+use App\Modules\Accounting\Domain\Contracts\AccountRepositoryInterface;
+use App\Modules\Accounting\Domain\Contracts\JournalEntryRepositoryInterface;
+use App\Modules\Accounting\Domain\Contracts\JournalEntryLineRepositoryInterface;
 
+use App\Modules\Accounting\Infrastructure\Repositories\AccountRepository;
+use App\Modules\Accounting\Infrastructure\Repositories\JournalEntryRepository;
+use App\Modules\Accounting\Infrastructure\Repositories\JournalEntryLineRepository;
 
 final class AccountingModule extends Module
 {
@@ -27,6 +33,19 @@ final class AccountingModule extends Module
     public function manifest(): ModuleManifest
     {
         return ModuleManifest::make()
+
+            ->services([
+
+                AccountRepositoryInterface::class
+                => AccountRepository::class,
+
+                JournalEntryRepositoryInterface::class
+                => JournalEntryRepository::class,
+
+                JournalEntryLineRepositoryInterface::class
+                => JournalEntryLineRepository::class,
+
+            ])
 
             ->listeners([
 

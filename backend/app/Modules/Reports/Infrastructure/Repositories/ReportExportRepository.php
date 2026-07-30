@@ -6,8 +6,9 @@ namespace App\Modules\Reports\Infrastructure\Repositories;
 
 use App\Models\ReportExport;
 use Illuminate\Database\Eloquent\Collection;
-
-class ReportExportRepository
+use App\Modules\Reports\Domain\Contracts\ReportExportRepositoryInterface;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+final class ReportExportRepository implements ReportExportRepositoryInterface
 {
     public function all(): Collection
     {
@@ -45,5 +46,12 @@ class ReportExportRepository
     ): bool {
 
         return (bool) $export->delete();
+    }
+
+    public function paginate(): LengthAwarePaginator
+    {
+        return ReportExport::query()
+            ->latest()
+            ->paginate();
     }
 }

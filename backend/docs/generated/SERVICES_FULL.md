@@ -137,7 +137,6 @@ App\Modules\Customer\Application\Services
 - create() : App\Models\Customer
 - update() : App\Models\Customer
 - delete() : bool
-- paginate() : Illuminate\Contracts\Pagination\LengthAwarePaginator
 
 ---
 
@@ -357,6 +356,14 @@ App\Modules\Package\Application\Services
 ```
 /var/www/app/Modules/Package/Application/Services/PackageService.php
 ```
+
+**Constructor Dependencies**
+
+- PackageRepositoryInterface $repository
+
+**Properties**
+
+- $repository : App\Modules\Package\Domain\Contracts\PackageRepositoryInterface
 
 **Methods**
 

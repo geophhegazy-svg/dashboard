@@ -6,9 +6,10 @@ namespace App\Modules\Reports\Infrastructure\Repositories;
 
 use App\Models\Report;
 use Illuminate\Database\Eloquent\Collection;
+use App\Modules\Reports\Domain\Contracts\ReportRepositoryInterface;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
-
-class ReportRepository
+final class ReportRepository implements ReportRepositoryInterface
 {
     public function all(): Collection
     {
@@ -46,5 +47,12 @@ class ReportRepository
     ): bool {
 
         return (bool) $report->delete();
+    }
+
+    public function paginate(): LengthAwarePaginator
+    {
+        return Report::query()
+            ->latest()
+            ->paginate();
     }
 }

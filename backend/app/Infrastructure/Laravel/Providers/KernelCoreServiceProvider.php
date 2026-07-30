@@ -17,7 +17,7 @@ use App\Core\Kernel\Monitoring\KernelBootTimeline;
 use App\Core\Kernel\Monitoring\KernelMonitoringService;
 
 use App\Core\Kernel\Runtime\KernelRuntimeState;
-
+use App\Core\Kernel\ModuleRegistry;
 use App\Infrastructure\Laravel\Kernel\LaravelModuleRegistrar;
 
 final class KernelCoreServiceProvider extends ServiceProvider
@@ -27,6 +27,10 @@ final class KernelCoreServiceProvider extends ServiceProvider
         $this->app->bind(
             ModuleRegistrarInterface::class,
             LaravelModuleRegistrar::class,
+        );
+
+        $this->app->singleton(
+            ModuleRegistry::class,
         );
 
         $this->app->singleton(
@@ -58,5 +62,6 @@ final class KernelCoreServiceProvider extends ServiceProvider
         $this->app->singleton(
             KernelMonitoringService::class,
         );
+
     }
 }

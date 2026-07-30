@@ -13,11 +13,6 @@ use App\Core\Kernel\Compiler\CompiledManifestProvider;
 use App\Core\Kernel\Compiler\ManifestCollector;
 use App\Core\Kernel\Compiler\ModuleManifestCompiler;
 
-use App\Core\Kernel\Contracts\ManifestFingerprintGeneratorInterface;
-use App\Core\Kernel\Contracts\ModuleManifestCacheInterface;
-
-use App\Core\Kernel\Fingerprint\ManifestFingerprintGenerator;
-
 use App\Core\Kernel\Registration\CompiledManifestRegistrationService;
 use App\Core\Kernel\Registration\CompiledResourceRegistrar;
 
@@ -28,8 +23,6 @@ use App\Core\Kernel\Registration\Handlers\PolicyResourceHandler;
 use App\Core\Kernel\Registration\Handlers\QueryResourceHandler;
 use App\Core\Kernel\Registration\Handlers\ServiceResourceHandler;
 use App\Core\Kernel\Registration\Handlers\SingletonResourceHandler;
-
-use App\Infrastructure\Laravel\Kernel\FileModuleManifestCache;
 
 final class KernelCompilerPipelineServiceProvider extends ServiceProvider
 {
@@ -88,15 +81,5 @@ final class KernelCompilerPipelineServiceProvider extends ServiceProvider
         | Manifest Cache
         |--------------------------------------------------------------------------
         */
-
-        $this->app->singleton(
-            ModuleManifestCacheInterface::class,
-            FileModuleManifestCache::class,
-        );
-
-        $this->app->singleton(
-            ManifestFingerprintGeneratorInterface::class,
-            ManifestFingerprintGenerator::class,
-        );
     }
 }

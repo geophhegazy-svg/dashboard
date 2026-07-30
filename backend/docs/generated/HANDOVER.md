@@ -181,7 +181,6 @@ App\Modules\Customer\Application\Services
 - create(1 params) : App\Models\Customer
 - update(2 params) : App\Models\Customer
 - delete(1 params) : bool
-- paginate(0 params) : Illuminate\Contracts\Pagination\LengthAwarePaginator
 
 ---
 
@@ -316,9 +315,10 @@ App\Modules\Notification\Application\Services
 App\Modules\Package\Application\Services
 
 **Dependencies**
-- None
+- App\Modules\Package\Domain\Contracts\PackageRepositoryInterface
 
 **Methods**
+- __construct(1 params) : mixed
 - paginate(0 params) : Illuminate\Contracts\Pagination\LengthAwarePaginator
 - create(1 params) : App\Models\Package
 - update(2 params) : App\Models\Package
@@ -3388,7 +3388,6 @@ App\Modules\Customer\Application\Services
 - create() : App\Models\Customer
 - update() : App\Models\Customer
 - delete() : bool
-- paginate() : Illuminate\Contracts\Pagination\LengthAwarePaginator
 
 ---
 
@@ -3608,6 +3607,14 @@ App\Modules\Package\Application\Services
 ```
 /var/www/app/Modules/Package/Application/Services/PackageService.php
 ```
+
+**Constructor Dependencies**
+
+- PackageRepositoryInterface $repository
+
+**Properties**
+
+- $repository : App\Modules\Package\Domain\Contracts\PackageRepositoryInterface
 
 **Methods**
 

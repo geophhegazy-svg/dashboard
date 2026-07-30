@@ -69,6 +69,14 @@
             ],
             "resources": [
                 {
+                    "type": "services",
+                    "bindings": {
+                        "App\\Modules\\Accounting\\Domain\\Contracts\\AccountRepositoryInterface": "App\\Modules\\Accounting\\Infrastructure\\Repositories\\AccountRepository",
+                        "App\\Modules\\Accounting\\Domain\\Contracts\\JournalEntryRepositoryInterface": "App\\Modules\\Accounting\\Infrastructure\\Repositories\\JournalEntryRepository",
+                        "App\\Modules\\Accounting\\Domain\\Contracts\\JournalEntryLineRepositoryInterface": "App\\Modules\\Accounting\\Infrastructure\\Repositories\\JournalEntryLineRepository"
+                    }
+                },
+                {
                     "type": "listeners",
                     "listeners": {
                         "App\\Modules\\Accounting\\Domain\\Events\\JournalEntryPosted": [
@@ -127,6 +135,73 @@
                     "bindings": {
                         "App\\Modules\\Dashboard\\Application\\Services\\DashboardService": "App\\Modules\\Dashboard\\Application\\Services\\DashboardService",
                         "App\\Modules\\Dashboard\\Application\\Services\\CustomerDashboardService": "App\\Modules\\Dashboard\\Application\\Services\\CustomerDashboardService"
+                    }
+                }
+            ]
+        },
+        {
+            "class": "App\\Modules\\Finance\\Kernel\\FinanceModule",
+            "name": "Finance",
+            "dependencies": [],
+            "resources": [
+                {
+                    "type": "singletons",
+                    "bindings": {
+                        "App\\Modules\\Finance\\Domain\\Contracts\\FinanceServiceInterface": "App\\Modules\\Finance\\Application\\Services\\FinanceService"
+                    }
+                }
+            ]
+        },
+        {
+            "class": "App\\Modules\\Network\\Kernel\\NetworkModule",
+            "name": "Network",
+            "dependencies": [],
+            "resources": [
+                {
+                    "type": "services",
+                    "bindings": {
+                        "App\\Modules\\Network\\Domain\\Contracts\\MikrotikServiceInterface": "App\\Modules\\Network\\Application\\MikrotikServiceAdapter"
+                    }
+                }
+            ]
+        },
+        {
+            "class": "App\\Modules\\Package\\Kernel\\PackageModule",
+            "name": "Package",
+            "dependencies": [],
+            "resources": [
+                {
+                    "type": "services",
+                    "bindings": {
+                        "App\\Modules\\Package\\Domain\\Contracts\\PackageRepositoryInterface": "App\\Modules\\Package\\Infrastructure\\Repositories\\PackageRepository"
+                    }
+                }
+            ]
+        },
+        {
+            "class": "App\\Modules\\Reports\\Kernel\\ReportsModule",
+            "name": "Reports",
+            "dependencies": [],
+            "resources": [
+                {
+                    "type": "services",
+                    "bindings": {
+                        "App\\Modules\\Reports\\Domain\\Contracts\\ReportRepositoryInterface": "App\\Modules\\Reports\\Infrastructure\\Repositories\\ReportRepository",
+                        "App\\Modules\\Reports\\Domain\\Contracts\\ReportExportRepositoryInterface": "App\\Modules\\Reports\\Infrastructure\\Repositories\\ReportExportRepository",
+                        "App\\Modules\\Reports\\Domain\\Contracts\\ScheduledReportRepositoryInterface": "App\\Modules\\Reports\\Infrastructure\\Repositories\\ScheduledReportRepository"
+                    }
+                }
+            ]
+        },
+        {
+            "class": "App\\Modules\\Task\\Kernel\\TaskModule",
+            "name": "Task",
+            "dependencies": [],
+            "resources": [
+                {
+                    "type": "services",
+                    "bindings": {
+                        "App\\Modules\\Task\\Domain\\Contracts\\TaskRepositoryInterface": "App\\Modules\\Task\\Infrastructure\\Repositories\\TaskRepository"
                     }
                 }
             ]
