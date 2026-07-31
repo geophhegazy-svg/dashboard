@@ -135,9 +135,12 @@ App\Modules\Invoice\Application\Services
 App\Modules\Invoice\Application\Services
 
 **Dependencies**
-- None
+- App\Modules\Invoice\Application\Actions\CreateInvoiceAction
+- App\Modules\Invoice\Application\Actions\UpdateInvoiceAction
+- App\Modules\Invoice\Application\Actions\DeleteInvoiceAction
 
 **Methods**
+- __construct(3 params) : mixed
 - create(1 params) : App\Models\Invoice
 - update(2 params) : App\Models\Invoice
 - delete(1 params) : bool
@@ -357,9 +360,12 @@ App\Modules\Subscription\Application\Services
 App\Modules\Task\Application\Services
 
 **Dependencies**
-- None
+- App\Modules\Task\Application\Workflows\CreateTaskWorkflow
+- App\Modules\Task\Application\Workflows\UpdateTaskWorkflow
+- App\Modules\Task\Application\Workflows\DeleteTaskWorkflow
 
 **Methods**
+- __construct(3 params) : mixed
 - paginate(0 params) : Illuminate\Contracts\Pagination\LengthAwarePaginator
 - create(1 params) : App\Models\Task
 - update(2 params) : App\Models\Task
@@ -367,7 +373,7 @@ App\Modules\Task\Application\Services
 - cancel(1 params) : App\Models\Task
 - reopen(1 params) : App\Models\Task
 - start(1 params) : App\Models\Task
-- delete(1 params) : void
+- delete(1 params) : bool
 
 ---
 

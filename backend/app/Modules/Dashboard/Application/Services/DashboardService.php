@@ -96,10 +96,10 @@ class DashboardService
 
             'total_revenue' => Payment::sum('amount'),
 
-            'monthly_revenue' => Payment::whereMonth(
-                'payment_date',
-                now()->month
-            )->sum('amount'),
+            'monthly_revenue' => Payment::query()
+                ->whereYear('payment_date', now()->year)
+                ->whereMonth('payment_date', now()->month)
+                ->sum('amount'),
         ];
     }
 

@@ -5,23 +5,29 @@ declare(strict_types=1);
 namespace App\Modules\Payment\Application\Workflows;
 
 use App\Modules\Payment\Application\DTO\ReceivePaymentData;
-use App\Modules\Payment\Application\Results\WorkflowResult;
 use App\Modules\Payment\Application\Validators\ReceivePaymentValidator;
+use App\Core\Workflow\AbstractWorkflow;
+use App\Models\Payment;
+use App\Modules\Payment\Application\Services\PaymentService;
 
-class ReceivePaymentWorkflow
+final class ReceivePaymentWorkflow extends AbstractWorkflow
 {
     public function __construct(
-        protected ReceivePaymentValidator $validator,
+        private readonly PaymentService $paymentService,
+        private readonly ReceivePaymentValidator $validator,
     ) {}
 
-    public function handle(
-        ReceivePaymentData $data,
-    ): WorkflowResult {
+    protected function perform(
+        mixed ...$arguments
+    ): Payment {
+
+        /** @var ReceivePaymentData $data */
+        $data = $arguments[0];
 
         $this->validator->validate($data);
 
-        return new WorkflowResult(
-            success: true,
+        return $this->paymentService->create(
+            $data->attributes
         );
     }
 }

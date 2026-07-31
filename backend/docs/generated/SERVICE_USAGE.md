@@ -128,6 +128,7 @@ App\Modules\Invoice\Application\Services\InvoiceService
 
 **Public Methods**
 
+- __construct
 - create
 - delete
 - update
@@ -329,6 +330,7 @@ App\Modules\Task\Application\Services\TaskService
 
 **Public Methods**
 
+- __construct
 - cancel
 - complete
 - create

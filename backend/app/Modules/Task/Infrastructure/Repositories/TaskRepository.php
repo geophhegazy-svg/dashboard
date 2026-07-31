@@ -20,16 +20,9 @@ class TaskRepository implements TaskRepositoryInterface
         return Task::find($id);
     }
 
-    public function create(array $attributes): Task
+    public function save(Task $task): bool
     {
-        return Task::create($attributes);
-    }
-
-    public function update(Task $task, array $attributes): Task
-    {
-        $task->update($attributes);
-
-        return $task->refresh();
+        return $task->save();
     }
 
     public function delete(Task $task): bool

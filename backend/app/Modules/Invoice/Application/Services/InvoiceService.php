@@ -4,54 +4,47 @@ declare(strict_types=1);
 
 namespace App\Modules\Invoice\Application\Services;
 
-use App\Modules\Invoice\Domain\Events\InvoiceCreated;
 use App\Models\Invoice;
-use App\Modules\Invoice\Application\Services\InvoiceNumberService;
+use App\Modules\Invoice\Application\Actions\CreateInvoiceAction;
+use App\Modules\Invoice\Application\Actions\UpdateInvoiceAction;
+use App\Modules\Invoice\Application\Actions\DeleteInvoiceAction;
 
-class InvoiceService
+final readonly class InvoiceService
 {
+    public function __construct(
+        private CreateInvoiceAction $createInvoice,
+        private UpdateInvoiceAction $updateInvoice,
+        private DeleteInvoiceAction $deleteInvoice,
+    ) {}
+
     public function create(
-        array $data
+        array $data,
     ): Invoice {
 
-        $invoice = Invoice::create(
-            $data
+        $invoice = new Invoice($data);
+
+        return $this->createInvoice->execute(
+            $invoice,
         );
-
-        $invoice->update([
-
-            'invoice_number' => InvoiceNumberService::generate(
-                $invoice
-            ),
-
-        ]);
-
-        InvoiceCreated::dispatch(
-            $invoice
-        );
-
-        return $invoice->fresh();
     }
-
 
     public function update(
         Invoice $invoice,
-        array $data
+        array $data,
     ): Invoice {
 
-        $invoice->update($data);
-
-        return $invoice->fresh([
-            'customer',
-            'subscription',
-        ]);
+        return $this->updateInvoice->execute(
+            $invoice,
+            $data,
+        );
     }
 
-
     public function delete(
-        Invoice $invoice
+        Invoice $invoice,
     ): bool {
 
-        return (bool) $invoice->delete();
+        return $this->deleteInvoice->execute(
+            $invoice,
+        );
     }
 }

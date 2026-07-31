@@ -238,6 +238,18 @@ App\Modules\Invoice\Application\Services
 /var/www/app/Modules/Invoice/Application/Services/InvoiceService.php
 ```
 
+**Constructor Dependencies**
+
+- CreateInvoiceAction $createInvoice
+- UpdateInvoiceAction $updateInvoice
+- DeleteInvoiceAction $deleteInvoice
+
+**Properties**
+
+- $createInvoice : App\Modules\Invoice\Application\Actions\CreateInvoiceAction
+- $updateInvoice : App\Modules\Invoice\Application\Actions\UpdateInvoiceAction
+- $deleteInvoice : App\Modules\Invoice\Application\Actions\DeleteInvoiceAction
+
 **Methods**
 
 - create() : App\Models\Invoice
@@ -601,6 +613,18 @@ App\Modules\Task\Application\Services
 /var/www/app/Modules/Task/Application/Services/TaskService.php
 ```
 
+**Constructor Dependencies**
+
+- CreateTaskWorkflow $createTask
+- UpdateTaskWorkflow $updateTask
+- DeleteTaskWorkflow $deleteTask
+
+**Properties**
+
+- $createTask : App\Modules\Task\Application\Workflows\CreateTaskWorkflow
+- $updateTask : App\Modules\Task\Application\Workflows\UpdateTaskWorkflow
+- $deleteTask : App\Modules\Task\Application\Workflows\DeleteTaskWorkflow
+
 **Methods**
 
 - paginate() : Illuminate\Contracts\Pagination\LengthAwarePaginator
@@ -610,7 +634,7 @@ App\Modules\Task\Application\Services
 - cancel() : App\Models\Task
 - reopen() : App\Models\Task
 - start() : App\Models\Task
-- delete() : void
+- delete() : bool
 
 ---
 

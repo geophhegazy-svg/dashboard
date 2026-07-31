@@ -6,27 +6,45 @@ namespace App\Modules\Task\Application\Services;
 
 use App\Models\Task;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use App\Modules\Task\Application\Workflows\CreateTaskWorkflow;
+use App\Modules\Task\Application\Workflows\UpdateTaskWorkflow;
+use App\Modules\Task\Application\Workflows\DeleteTaskWorkflow;
+use App\Modules\Task\Application\Workflows\StartTaskWorkflow;
 
 final class TaskService
 {
+    public function __construct(
+        private readonly CreateTaskWorkflow $createTask,
+        private readonly UpdateTaskWorkflow $updateTask,
+        private readonly DeleteTaskWorkflow $deleteTask,
+        private readonly StartTaskWorkflow $startTask,
+    ) {}
+
     public function paginate(): LengthAwarePaginator
     {
         return Task::latest()->paginate();
     }
 
-    public function create(array $data): Task
-    {
-        return Task::create($data);
+    public function create(
+        array $data
+    ): Task {
+
+        $task = new Task($data);
+
+        return $this->createTask->execute(
+            $task,
+        );
     }
 
     public function update(
         Task $task,
-        array $data
+        array $data,
     ): Task {
 
-        $task->update($data);
-
-        return $task->fresh();
+        return $this->updateTask->execute(
+            $task,
+            $data,
+        );
     }
 
     public function complete(
@@ -68,21 +86,20 @@ final class TaskService
     }
 
     public function start(
-        Task $task
+        Task $task,
     ): Task {
 
-        $task->update([
-            'status' => 'in_progress',
-            'started_at' => now(),
-        ]);
-
-        return $task->fresh();
+        return $this->startTask->execute(
+            $task,
+        );
     }
 
     public function delete(
-        Task $task
-    ): void {
+        Task $task,
+    ): bool {
 
-        $task->delete();
+        return $this->deleteTask->execute(
+            $task,
+        );
     }
 }

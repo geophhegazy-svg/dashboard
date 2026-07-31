@@ -153,6 +153,19 @@
             ]
         },
         {
+            "class": "App\\Modules\\Invoice\\Kernel\\InvoiceModule",
+            "name": "Invoice",
+            "dependencies": [],
+            "resources": [
+                {
+                    "type": "services",
+                    "bindings": {
+                        "App\\Modules\\Invoice\\Domain\\Contracts\\InvoiceRepositoryInterface": "App\\Modules\\Invoice\\Infrastructure\\Repositories\\InvoiceRepository"
+                    }
+                }
+            ]
+        },
+        {
             "class": "App\\Modules\\Network\\Kernel\\NetworkModule",
             "name": "Network",
             "dependencies": [],

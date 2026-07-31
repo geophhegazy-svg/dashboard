@@ -99,21 +99,21 @@ class DashboardServiceTest extends TestCase
             'invoice_id' => $invoices[0]->id,
             'tenant_id' => $invoices[0]->tenant_id,
             'amount' => 100,
-            'payment_date' => now(),
+            'payment_date' => '2026-07-10',
         ]);
 
         Payment::factory()->create([
             'invoice_id' => $invoices[1]->id,
             'tenant_id' => $invoices[1]->tenant_id,
             'amount' => 200,
-            'payment_date' => now(),
+            'payment_date' => '2026-07-15',
         ]);
 
         Payment::factory()->create([
             'invoice_id' => $invoices[2]->id,
             'tenant_id' => $invoices[2]->tenant_id,
             'amount' => 300,
-            'payment_date' => now()->subMonth(),
+            'payment_date' => '2026-06-15',
         ]);
 
         $service = new DashboardService();
