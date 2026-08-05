@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Payment\Domain\Contracts;
 
-use App\Models\Payment;
+use App\Modules\Payment\Infrastructure\Persistence\Models\Payment;
 use Illuminate\Database\Eloquent\Collection;
 
 interface PaymentRepositoryInterface
@@ -12,6 +12,10 @@ interface PaymentRepositoryInterface
     public function all(): Collection;
 
     public function find(int $id): ?Payment;
+
+    public function create(
+        array $data,
+    ): Payment;
 
     public function save(Payment $payment): bool;
 

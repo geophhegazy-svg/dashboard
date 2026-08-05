@@ -15,7 +15,7 @@ use App\Modules\Billing\Domain\Contracts\AutomaticBillingServiceInterface;
 use App\Modules\Billing\Domain\Contracts\BillingCycleServiceInterface;
 use App\Modules\Billing\Domain\Contracts\InvoiceGeneratorInterface;
 
-use App\Models\Invoice;
+use App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice;
 use App\Modules\Billing\Policies\InvoicePolicy;
 
 final class BillingModule extends Module

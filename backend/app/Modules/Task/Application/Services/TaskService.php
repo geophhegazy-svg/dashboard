@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace App\Modules\Task\Application\Services;
 
-use App\Models\Task;
+use App\Modules\Task\Infrastructure\Persistence\Models\Task;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use App\Modules\Task\Application\Workflows\CreateTaskWorkflow;
 use App\Modules\Task\Application\Workflows\UpdateTaskWorkflow;
 use App\Modules\Task\Application\Workflows\DeleteTaskWorkflow;
 use App\Modules\Task\Application\Workflows\StartTaskWorkflow;
+use App\Modules\Task\Application\Workflows\CompleteTaskWorkflow;
+use App\Modules\Task\Application\Workflows\CancelTaskWorkflow;
+use App\Modules\Task\Application\Workflows\ReopenTaskWorkflow;
 
 final class TaskService
 {
@@ -18,6 +21,9 @@ final class TaskService
         private readonly UpdateTaskWorkflow $updateTask,
         private readonly DeleteTaskWorkflow $deleteTask,
         private readonly StartTaskWorkflow $startTask,
+        private readonly CompleteTaskWorkflow $completeTask,
+        private readonly CancelTaskWorkflow $cancelTask,
+        private readonly ReopenTaskWorkflow $reopenTask,
     ) {}
 
     public function paginate(): LengthAwarePaginator
@@ -48,41 +54,22 @@ final class TaskService
     }
 
     public function complete(
-        Task $task
+        Task $task,
     ): Task {
 
-        $task->update([
-            'status' => 'completed',
-            'completed_at' => now(),
-        ]);
-
-        return $task->fresh();
+        return $this->completeTask->execute(
+            $task,
+        );
     }
 
-    public function cancel(
-        Task $task
-    ): Task {
-
-        $task->update([
-            'status' => 'cancelled',
-            'cancelled_at' => now(),
-        ]);
-
-        return $task->fresh();
+    public function cancel(Task $task): Task
+    {
+        return $this->cancelTask->execute($task);
     }
 
-    public function reopen(
-        Task $task
-    ): Task {
-
-        $task->update([
-            'status' => 'pending',
-            'started_at' => null,
-            'completed_at' => null,
-            'cancelled_at' => null,
-        ]);
-
-        return $task->fresh();
+    public function reopen(Task $task): Task
+    {
+        return $this->reopenTask->execute($task);
     }
 
     public function start(

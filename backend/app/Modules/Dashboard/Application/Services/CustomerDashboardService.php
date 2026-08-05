@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Modules\Dashboard\Application\Services;
 
-use App\Models\Customer;
-use App\Models\Invoice;
-use App\Models\Notification;
+use App\Modules\Customer\Infrastructure\Persistence\Models\Customer;
+use App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice;
+use App\Modules\Notification\Infrastructure\Persistence\Models\Notification;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 use App\Modules\Usage\UsageService;
 use Carbon\Carbon;

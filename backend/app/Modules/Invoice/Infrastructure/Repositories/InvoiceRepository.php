@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\Invoice\Infrastructure\Repositories;
 
 use App\Modules\Invoice\Domain\Contracts\InvoiceRepositoryInterface;
-use App\Models\Invoice;
+use App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice;
 use Illuminate\Database\Eloquent\Collection;
 
 class InvoiceRepository implements InvoiceRepositoryInterface
@@ -20,13 +20,41 @@ class InvoiceRepository implements InvoiceRepositoryInterface
         return Invoice::find($id);
     }
 
-    public function save(Invoice $invoice): bool
-    {
+    public function create(
+        array $attributes,
+    ): Invoice {
+        return Invoice::create(
+            $attributes
+        );
+    }
+
+    public function save(
+        Invoice $invoice,
+    ): bool {
         return $invoice->save();
     }
 
-    public function delete(Invoice $invoice): bool
-    {
+    public function update(
+        Invoice $invoice,
+        array $attributes,
+    ): bool {
+        return $invoice->update(
+            $attributes
+        );
+    }
+
+    public function fresh(
+        Invoice $invoice,
+        array $relations = [],
+    ): Invoice {
+        return $invoice->fresh(
+            $relations
+        );
+    }
+
+    public function delete(
+        Invoice $invoice,
+    ): bool {
         return (bool) $invoice->delete();
     }
 }

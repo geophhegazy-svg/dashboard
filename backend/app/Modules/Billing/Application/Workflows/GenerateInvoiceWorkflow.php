@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\Billing\Application\Workflows;
 
 use App\Core\Workflow\AbstractWorkflow;
-use App\Models\Invoice;
+use App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice;
 use App\Modules\Invoice\Application\Services\InvoiceService;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 

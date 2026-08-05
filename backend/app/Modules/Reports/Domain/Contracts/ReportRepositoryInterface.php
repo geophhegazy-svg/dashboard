@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Reports\Domain\Contracts;
 
-use App\Models\Report;
+use App\Modules\Reports\Infrastructure\Persistence\Models\Report;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 interface ReportRepositoryInterface

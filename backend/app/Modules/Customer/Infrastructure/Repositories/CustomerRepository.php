@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Customer\Infrastructure\Repositories;
 
-use App\Models\Customer;
+use App\Modules\Customer\Infrastructure\Persistence\Models\Customer;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use App\Modules\Customer\Domain\Contracts\CustomerRepositoryInterface;
@@ -32,11 +32,30 @@ final class CustomerRepository implements CustomerRepositoryInterface
         return Customer::find($id);
     }
 
+    public function create(
+        array $data,
+    ): Customer {
+
+        return Customer::create(
+            $data,
+        );
+    }
+
     public function save(
         Customer $customer,
     ): bool {
 
         return $customer->save();
+    }
+
+    public function update(
+        Customer $customer,
+        array $data,
+    ): bool {
+
+        return $customer->update(
+            $data,
+        );
     }
 
     public function delete(

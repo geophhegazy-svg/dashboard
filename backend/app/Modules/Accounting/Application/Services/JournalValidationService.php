@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\Accounting\Application\Services;;
 
 use App\Exceptions\Accounting\JournalValidationException;
-use App\Models\JournalEntry;
+use App\Modules\Accounting\Infrastructure\Persistence\Models\JournalEntry;
 
 class JournalValidationService
 {

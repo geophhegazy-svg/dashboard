@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Reports\Application\Services;
 
-use App\Models\ScheduledReport;
+use App\Modules\Reports\Infrastructure\Persistence\Models\ScheduledReport;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class ScheduledReportService

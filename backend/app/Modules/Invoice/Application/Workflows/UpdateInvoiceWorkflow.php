@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Invoice\Application\Workflows;
 
-use App\Models\Invoice;
+use App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice;
 use App\Modules\Invoice\Application\Actions\UpdateInvoiceAction;
 
 final readonly class UpdateInvoiceWorkflow

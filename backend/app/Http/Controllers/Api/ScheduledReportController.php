@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Reports\StoreScheduledReportRequest;
 use App\Http\Requests\Reports\UpdateScheduledReportRequest;
 use App\Http\Resources\ScheduledReportResource;
-use App\Models\ScheduledReport;
+use App\Modules\Reports\Infrastructure\Persistence\Models\ScheduledReport;
 use App\Modules\Reports\Application\Services\ScheduledReportService;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\JsonResponse;

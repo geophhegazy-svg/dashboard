@@ -1,17 +1,5 @@
 # Service Usage
 
-## ActivityLogService
-
-**Class**
-
-```
-App\Modules\Activity\Application\Services\ActivityLogService
-```
-
-**Public Methods**
-
-- log
-
 ## AutomaticBillingService
 
 **Class**
@@ -180,6 +168,7 @@ App\Modules\Notification\Application\Services\NotificationService
 
 **Public Methods**
 
+- __construct
 - billingFailed
 - create
 - createReminder
@@ -211,6 +200,7 @@ App\Modules\Payment\Application\Services\PaymentService
 
 **Public Methods**
 
+- __construct
 - create
 - createFromInvoice
 
@@ -288,6 +278,7 @@ App\Modules\Activity\Application\Services\SubscriptionActivityService
 
 **Public Methods**
 
+- __construct
 - log
 
 ## SubscriptionService
@@ -353,16 +344,3 @@ App\Modules\Notification\Application\Services\TelegramNotificationService
 - __construct
 - sendDeviceAlert
 - sendMessage
-
-## WalletService
-
-**Class**
-
-```
-App\Modules\Wallet\Application\Services\WalletService
-```
-
-**Public Methods**
-
-- deduct
-- deposit

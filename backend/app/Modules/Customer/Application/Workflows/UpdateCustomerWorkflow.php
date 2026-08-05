@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Customer\Application\Workflows;
 
-use App\Models\Customer;
+use App\Modules\Customer\Infrastructure\Persistence\Models\Customer;
 use App\Modules\Customer\Application\Actions\UpdateCustomerAction;
 
 final readonly class UpdateCustomerWorkflow

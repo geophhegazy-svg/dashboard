@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Customer\Application\Services;
 
-use App\Models\Customer;
+use App\Modules\Customer\Infrastructure\Persistence\Models\Customer;
 use App\Modules\Customer\Application\Actions\CreateCustomerAction;
 use App\Modules\Customer\Application\Actions\DeleteCustomerAction;
 use App\Modules\Customer\Application\Actions\UpdateCustomerAction;
@@ -19,9 +19,9 @@ final readonly class CustomerService
 
     public function create(array $data): Customer
     {
-        $customer = new Customer($data);
-
-        return $this->createCustomer->execute($customer);
+        return $this->createCustomer->execute(
+            $data,
+        );
     }
 
     public function update(

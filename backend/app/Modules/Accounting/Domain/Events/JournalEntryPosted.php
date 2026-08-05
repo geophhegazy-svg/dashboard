@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\Accounting\Domain\Events;
 
 use App\Core\EventBus\Contracts\EventContract;
-use App\Models\JournalEntry;
+use App\Modules\Accounting\Infrastructure\Persistence\Models\JournalEntry;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 

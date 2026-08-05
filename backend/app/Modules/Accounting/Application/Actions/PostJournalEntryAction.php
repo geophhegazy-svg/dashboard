@@ -4,18 +4,21 @@ declare(strict_types=1);
 
 namespace App\Modules\Accounting\Application\Actions;
 
-use App\Models\JournalEntry;
+use App\Modules\Accounting\Infrastructure\Persistence\Models\JournalEntry;
 use App\Exceptions\Accounting\JournalPostingException;
 use App\Modules\Accounting\Application\Services\JournalValidationService;
-use App\Modules\Activity\Application\Services\ActivityLogService;
+use App\Modules\Activity\Application\Workflows\LogActivityWorkflow;
 use App\Modules\Accounting\Domain\Events\JournalEntryPosted;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Modules\Accounting\Domain\Contracts\JournalEntryRepositoryInterface;
 
 final readonly class PostJournalEntryAction
 {
     public function __construct(
         private JournalValidationService $validationService,
+        private readonly JournalEntryRepositoryInterface $journalEntries,
+        private readonly LogActivityWorkflow $logActivity,
     ) {}
 
     public function execute(
@@ -42,26 +45,36 @@ final readonly class PostJournalEntryAction
             function () use ($entry): JournalEntry {
 
 
-                $entry->update([
+                $this->journalEntries->update(
 
-                    'status'    => 'posted',
-                    'posted_at' => now(),
-                    'posted_by' => Auth::id(),
+                    $entry,
 
-                ]);
+                    [
+
+                        'status'    => 'posted',
+
+                        'posted_at' => now(),
+
+                        'posted_by' => Auth::id(),
+
+                    ]
+
+                );
 
 
-                ActivityLogService::log(
+                $this->logActivity->execute(
 
-                    tenantId: (int) $entry->tenant_id,
+                    [
+                        'tenant_id' => (int) $entry->tenant_id,
+                        'module'    => 'Accounting',
+                        'action'    => 'Journal Posted',
+                    ],
 
-                    userId: Auth::id(),
-
-                    module: 'Accounting',
-
-                    action: 'Journal Posted',
-
-                    description: "Journal Entry {$entry->entry_number} posted."
+                    [
+                        'user_id'     => Auth::id(),
+                        'description' => "Journal Entry {$entry->entry_number} posted.",
+                        'ip_address'  => request()->ip(),
+                    ],
 
                 );
 

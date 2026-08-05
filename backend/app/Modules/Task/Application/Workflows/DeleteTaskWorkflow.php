@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Task\Application\Workflows;
 
-use App\Models\Task;
+use App\Modules\Task\Infrastructure\Persistence\Models\Task;
 use App\Modules\Task\Application\Actions\DeleteTaskAction;
 
 final readonly class DeleteTaskWorkflow

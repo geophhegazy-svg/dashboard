@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Accounting\Domain\Contracts;
 
-use App\Models\Account;
+use App\Modules\Accounting\Infrastructure\Persistence\Models\Account;
 use Illuminate\Database\Eloquent\Collection;
 
 interface AccountRepositoryInterface

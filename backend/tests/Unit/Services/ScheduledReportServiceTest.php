@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Services;
 
-use App\Models\ScheduledReport;
+use App\Modules\Reports\Infrastructure\Persistence\Models\ScheduledReport;
 use App\Models\User;
 use App\Modules\Reports\Application\Services\ScheduledReportService;
 use Illuminate\Foundation\Testing\RefreshDatabase;

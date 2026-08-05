@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Modules\Accounting\Infrastructure\Repositories;
 
 use App\Modules\Accounting\Domain\Contracts\JournalEntryLineRepositoryInterface;
-use App\Models\JournalEntry;
-use App\Models\JournalEntryLine;
+use App\Modules\Accounting\Infrastructure\Persistence\Models\JournalEntry;
+use App\Modules\Accounting\Infrastructure\Persistence\Models\JournalEntryLine;
 use Illuminate\Database\Eloquent\Collection;
 
 class JournalEntryLineRepository implements JournalEntryLineRepositoryInterface

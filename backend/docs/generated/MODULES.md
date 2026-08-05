@@ -34,9 +34,8 @@ Total: 27
 
 ## Services
 
-Total: 25
+Total: 23
 
-- ActivityLogService
 - AutomaticBillingService
 - BillingCycleService
 - CustomerDashboardService
@@ -60,7 +59,6 @@ Total: 25
 - SubscriptionService
 - TaskService
 - TelegramNotificationService
-- WalletService
 
 ## Controllers
 

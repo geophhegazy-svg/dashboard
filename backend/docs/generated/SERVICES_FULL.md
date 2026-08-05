@@ -2,26 +2,6 @@
 
 ---
 
-## ActivityLogService
-
-**Namespace**
-
-```
-App\Modules\Activity\Application\Services
-```
-
-**File**
-
-```
-/var/www/app/Modules/Activity/Application/Services/ActivityLogService.php
-```
-
-**Methods**
-
-- log() : void
-
----
-
 ## AutomaticBillingService
 
 **Namespace**
@@ -130,8 +110,8 @@ App\Modules\Customer\Application\Services
 
 **Methods**
 
-- create() : App\Models\Customer
-- update() : App\Models\Customer
+- create() : App\Modules\Customer\Infrastructure\Persistence\Models\Customer
+- update() : App\Modules\Customer\Infrastructure\Persistence\Models\Customer
 - delete() : bool
 
 ---
@@ -200,7 +180,7 @@ App\Modules\Billing\Application\Services
 
 **Methods**
 
-- generate() : App\Models\Invoice
+- generate() : App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice
 
 ---
 
@@ -240,20 +220,20 @@ App\Modules\Invoice\Application\Services
 
 **Constructor Dependencies**
 
-- CreateInvoiceAction $createInvoice
-- UpdateInvoiceAction $updateInvoice
-- DeleteInvoiceAction $deleteInvoice
+- CreateInvoiceWorkflow $createInvoice
+- UpdateInvoiceWorkflow $updateInvoice
+- DeleteInvoiceWorkflow $deleteInvoice
 
 **Properties**
 
-- $createInvoice : App\Modules\Invoice\Application\Actions\CreateInvoiceAction
-- $updateInvoice : App\Modules\Invoice\Application\Actions\UpdateInvoiceAction
-- $deleteInvoice : App\Modules\Invoice\Application\Actions\DeleteInvoiceAction
+- $createInvoice : App\Modules\Invoice\Application\Workflows\CreateInvoiceWorkflow
+- $updateInvoice : App\Modules\Invoice\Application\Workflows\UpdateInvoiceWorkflow
+- $deleteInvoice : App\Modules\Invoice\Application\Workflows\DeleteInvoiceWorkflow
 
 **Methods**
 
-- create() : App\Models\Invoice
-- update() : App\Models\Invoice
+- create() : App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice
+- update() : App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice
 - delete() : bool
 
 ---
@@ -302,7 +282,7 @@ App\Modules\Accounting\Application\Services
 
 **Methods**
 
-- post() : App\Models\JournalEntry
+- post() : App\Modules\Accounting\Infrastructure\Persistence\Models\JournalEntry
 
 ---
 
@@ -340,12 +320,26 @@ App\Modules\Notification\Application\Services
 /var/www/app/Modules/Notification/Application/Services/NotificationService.php
 ```
 
+**Constructor Dependencies**
+
+- CreateNotificationWorkflow $createNotification
+- CreateReminderWorkflow $createReminder
+- BillingFailedNotificationWorkflow $billingFailed
+- SubscriptionRenewedNotificationWorkflow $subscriptionRenewed
+
+**Properties**
+
+- $createNotification : App\Modules\Notification\Application\Workflows\CreateNotificationWorkflow
+- $createReminder : App\Modules\Notification\Application\Workflows\CreateReminderWorkflow
+- $billingFailed : App\Modules\Notification\Application\Workflows\BillingFailedNotificationWorkflow
+- $subscriptionRenewed : App\Modules\Notification\Application\Workflows\SubscriptionRenewedNotificationWorkflow
+
 **Methods**
 
-- create() : App\Models\Notification
-- createReminder() : App\Models\Notification
-- billingFailed() : App\Models\Notification
-- subscriptionRenewed() : App\Models\Notification
+- create() : App\Modules\Notification\Infrastructure\Persistence\Models\Notification
+- createReminder() : App\Modules\Notification\Infrastructure\Persistence\Models\Notification
+- billingFailed() : App\Modules\Notification\Infrastructure\Persistence\Models\Notification
+- subscriptionRenewed() : App\Modules\Notification\Infrastructure\Persistence\Models\Notification
 
 ---
 
@@ -366,16 +360,22 @@ App\Modules\Package\Application\Services
 **Constructor Dependencies**
 
 - PackageRepositoryInterface $repository
+- CreatePackageWorkflow $createWorkflow
+- UpdatePackageWorkflow $updateWorkflow
+- DeletePackageWorkflow $deleteWorkflow
 
 **Properties**
 
 - $repository : App\Modules\Package\Domain\Contracts\PackageRepositoryInterface
+- $createWorkflow : App\Modules\Package\Application\Workflows\CreatePackageWorkflow
+- $updateWorkflow : App\Modules\Package\Application\Workflows\UpdatePackageWorkflow
+- $deleteWorkflow : App\Modules\Package\Application\Workflows\DeletePackageWorkflow
 
 **Methods**
 
 - paginate() : Illuminate\Contracts\Pagination\LengthAwarePaginator
-- create() : App\Models\Package
-- update() : App\Models\Package
+- create() : App\Modules\Package\Infrastructure\Persistence\Models\Package
+- update() : App\Modules\Package\Infrastructure\Persistence\Models\Package
 - delete() : void
 
 ---
@@ -394,10 +394,18 @@ App\Modules\Payment\Application\Services
 /var/www/app/Modules/Payment/Application/Services/PaymentService.php
 ```
 
+**Constructor Dependencies**
+
+- CreatePaymentWorkflow $createPayment
+
+**Properties**
+
+- $createPayment : App\Modules\Payment\Application\Workflows\CreatePaymentWorkflow
+
 **Methods**
 
-- create() : App\Models\Payment
-- createFromInvoice() : App\Models\Payment
+- create() : App\Modules\Payment\Infrastructure\Persistence\Models\Payment
+- createFromInvoice() : App\Modules\Payment\Infrastructure\Persistence\Models\Payment
 
 ---
 
@@ -460,8 +468,8 @@ App\Modules\Reports\Application\Services
 **Methods**
 
 - paginate() : Illuminate\Contracts\Pagination\LengthAwarePaginator
-- create() : App\Models\ReportExport
-- find() : ?App\Models\ReportExport
+- create() : App\Modules\Reports\Infrastructure\Persistence\Models\ReportExport
+- find() : ?App\Modules\Reports\Infrastructure\Persistence\Models\ReportExport
 
 ---
 
@@ -490,10 +498,10 @@ App\Modules\Reports\Application\Services
 **Methods**
 
 - paginate() : Illuminate\Contracts\Pagination\LengthAwarePaginator
-- create() : App\Models\Report
-- update() : App\Models\Report
+- create() : App\Modules\Reports\Infrastructure\Persistence\Models\Report
+- update() : App\Modules\Reports\Infrastructure\Persistence\Models\Report
 - delete() : bool
-- find() : ?App\Models\Report
+- find() : ?App\Modules\Reports\Infrastructure\Persistence\Models\Report
 
 ---
 
@@ -514,13 +522,13 @@ App\Modules\Reports\Application\Services
 **Methods**
 
 - paginate() : Illuminate\Contracts\Pagination\LengthAwarePaginator
-- create() : App\Models\ScheduledReport
-- update() : App\Models\ScheduledReport
+- create() : App\Modules\Reports\Infrastructure\Persistence\Models\ScheduledReport
+- update() : App\Modules\Reports\Infrastructure\Persistence\Models\ScheduledReport
 - delete() : void
-- activate() : App\Models\ScheduledReport
-- deactivate() : App\Models\ScheduledReport
-- updateLastRun() : App\Models\ScheduledReport
-- updateNextRun() : App\Models\ScheduledReport
+- activate() : App\Modules\Reports\Infrastructure\Persistence\Models\ScheduledReport
+- deactivate() : App\Modules\Reports\Infrastructure\Persistence\Models\ScheduledReport
+- updateLastRun() : App\Modules\Reports\Infrastructure\Persistence\Models\ScheduledReport
+- updateNextRun() : App\Modules\Reports\Infrastructure\Persistence\Models\ScheduledReport
 
 ---
 
@@ -538,9 +546,17 @@ App\Modules\Activity\Application\Services
 /var/www/app/Modules/Activity/Application/Services/SubscriptionActivityService.php
 ```
 
+**Constructor Dependencies**
+
+- CreateActivityLogWorkflow $workflow
+
+**Properties**
+
+- $workflow : App\Modules\Activity\Application\Workflows\CreateActivityLogWorkflow
+
 **Methods**
 
-- log() : App\Models\ActivityLog
+- log() : App\Modules\Activity\Infrastructure\Persistence\Models\ActivityLog
 
 ---
 
@@ -566,6 +582,7 @@ App\Modules\Subscription\Application\Services
 - ExpireWorkflow $expireWorkflow
 - RestoreWorkflow $restoreWorkflow
 - RenewWorkflow $renewWorkflow
+- AutoExpireSubscriptionsWorkflow $autoExpireSubscriptionsWorkflow
 
 **Properties**
 
@@ -575,6 +592,7 @@ App\Modules\Subscription\Application\Services
 - $expireWorkflow : App\Modules\Subscription\Application\Workflows\ExpireWorkflow
 - $restoreWorkflow : App\Modules\Subscription\Application\Workflows\RestoreWorkflow
 - $renewWorkflow : App\Modules\Subscription\Application\Workflows\RenewWorkflow
+- $autoExpireSubscriptionsWorkflow : App\Modules\Subscription\Application\Workflows\AutoExpireSubscriptionsWorkflow
 
 **Methods**
 
@@ -618,22 +636,30 @@ App\Modules\Task\Application\Services
 - CreateTaskWorkflow $createTask
 - UpdateTaskWorkflow $updateTask
 - DeleteTaskWorkflow $deleteTask
+- StartTaskWorkflow $startTask
+- CompleteTaskWorkflow $completeTask
+- CancelTaskWorkflow $cancelTask
+- ReopenTaskWorkflow $reopenTask
 
 **Properties**
 
 - $createTask : App\Modules\Task\Application\Workflows\CreateTaskWorkflow
 - $updateTask : App\Modules\Task\Application\Workflows\UpdateTaskWorkflow
 - $deleteTask : App\Modules\Task\Application\Workflows\DeleteTaskWorkflow
+- $startTask : App\Modules\Task\Application\Workflows\StartTaskWorkflow
+- $completeTask : App\Modules\Task\Application\Workflows\CompleteTaskWorkflow
+- $cancelTask : App\Modules\Task\Application\Workflows\CancelTaskWorkflow
+- $reopenTask : App\Modules\Task\Application\Workflows\ReopenTaskWorkflow
 
 **Methods**
 
 - paginate() : Illuminate\Contracts\Pagination\LengthAwarePaginator
-- create() : App\Models\Task
-- update() : App\Models\Task
-- complete() : App\Models\Task
-- cancel() : App\Models\Task
-- reopen() : App\Models\Task
-- start() : App\Models\Task
+- create() : App\Modules\Task\Infrastructure\Persistence\Models\Task
+- update() : App\Modules\Task\Infrastructure\Persistence\Models\Task
+- complete() : App\Modules\Task\Infrastructure\Persistence\Models\Task
+- cancel() : App\Modules\Task\Infrastructure\Persistence\Models\Task
+- reopen() : App\Modules\Task\Infrastructure\Persistence\Models\Task
+- start() : App\Modules\Task\Infrastructure\Persistence\Models\Task
 - delete() : bool
 
 ---
@@ -661,24 +687,3 @@ App\Modules\Notification\Application\Services
 
 - sendMessage() : mixed
 - sendDeviceAlert() : mixed
-
----
-
-## WalletService
-
-**Namespace**
-
-```
-App\Modules\Wallet\Application\Services
-```
-
-**File**
-
-```
-/var/www/app/Modules/Wallet/Application/Services/WalletService.php
-```
-
-**Methods**
-
-- deposit() : void
-- deduct() : void

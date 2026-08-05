@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace App\Modules\Wallet\Infrastructure\Repositories;
 
-use App\Modules\Wallet\Domain\Contracts\WalletRepositoryInterface;
+use App\Modules\Wallet\Infrastructure\Persistence\Models\WalletTransaction;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
+use App\Modules\Wallet\Domain\Contracts\WalletRepositoryInterface;
 
 class WalletRepository implements WalletRepositoryInterface
 {
@@ -23,5 +24,12 @@ class WalletRepository implements WalletRepositoryInterface
         return $subscription->update([
             'wallet_balance' => $balance,
         ]);
+    }
+
+    public function createTransaction(
+        array $data
+    ): WalletTransaction {
+
+        return WalletTransaction::create($data);
     }
 }

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\Billing\Policies;
 
 use App\Core\Security\Authorization\BasePolicy;
-use App\Models\Invoice;
+use App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice;
 use App\Models\User;
 
 final class InvoicePolicy extends BasePolicy

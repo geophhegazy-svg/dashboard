@@ -891,15 +891,6 @@ App\Models
 - $recursionCache : mixed
 - $resolvedCollectionClasses : array
 
-**Methods**
-
-- tenant()
-- customer()
-- subscription()
-- payments()
-- hotspotSubscription()
-- factory()
-
 ---
 
 ## JournalEntry

@@ -11,24 +11,25 @@ use App\Modules\Subscription\Application\Workflows\RestoreWorkflow;
 use App\Modules\Subscription\Application\Workflows\SuspendWorkflow;
 use App\Modules\Subscription\Domain\Contracts\SubscriptionRepositoryInterface;
 use App\Modules\Subscription\Domain\Enums\SubscriptionStatus;
-use App\Models\Customer;
-use App\Models\Package;
+use App\Modules\Customer\Infrastructure\Persistence\Models\Customer;
+use App\Modules\Package\Infrastructure\Persistence\Models\Package;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use App\Modules\Subscription\Application\Workflows\AutoExpireSubscriptionsWorkflow;
 
 class SubscriptionService
 {
     public function __construct(
         private readonly SubscriptionRepositoryInterface $subscriptions,
-
         private readonly ActivateWorkflow $activateWorkflow,
         private readonly SuspendWorkflow $suspendWorkflow,
         private readonly ExpireWorkflow $expireWorkflow,
         private readonly RestoreWorkflow $restoreWorkflow,
         private readonly RenewWorkflow $renewWorkflow,
+        private readonly AutoExpireSubscriptionsWorkflow $autoExpireSubscriptionsWorkflow,
     ) {
     }
 
@@ -251,28 +252,7 @@ class SubscriptionService
 
     public function autoExpire(): int
     {
-        $subscriptions = Subscription::query()
-            ->where('status', SubscriptionStatus::ACTIVE)
-            ->where('end_date', '<', now())
-            ->get();
-
-        $count = 0;
-
-        foreach ($subscriptions as $subscription) {
-
-            $this->expireWorkflow->execute($subscription);
-
-            $count++;
-        }
-
-        Log::info(
-            'Subscriptions auto expired.',
-            [
-                'count' => $count,
-            ]
-        );
-
-        return $count;
+        return $this->autoExpireSubscriptionsWorkflow->execute();
     }
 
     /*

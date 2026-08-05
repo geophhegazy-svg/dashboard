@@ -17,8 +17,8 @@ class ServicesSectionTest extends TestCase
 
         $this->assertStringContainsString('# Services', $markdown);
         $this->assertStringContainsString('Count:', $markdown);
-        $this->assertStringContainsString('WalletService', $markdown);
-        $this->assertStringContainsString('ActivityLogService', $markdown);
+        $this->assertStringContainsString('CustomerService', $markdown);
+        $this->assertStringContainsString('SubscriptionActivityService', $markdown);
         $this->assertStringContainsString('InvoiceNumberService', $markdown);
     }
 }

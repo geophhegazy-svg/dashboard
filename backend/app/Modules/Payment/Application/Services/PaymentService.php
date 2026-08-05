@@ -4,83 +4,34 @@ declare(strict_types=1);
 
 namespace App\Modules\Payment\Application\Services;
 
-use App\Models\Invoice;
-use App\Models\Payment;
-use Illuminate\Support\Facades\DB;
+use App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice;
+use App\Modules\Payment\Infrastructure\Persistence\Models\Payment;
+use App\Modules\Payment\Application\Workflows\CreatePaymentWorkflow;
 
 class PaymentService
 {
-    public function create(array $data): Payment
-    {
-        return DB::transaction(function () use ($data) {
+    public function __construct(
+        private readonly CreatePaymentWorkflow $createPayment,
+    ) {}
 
-            $invoice = Invoice::findOrFail(
-                $data['invoice_id']
-            );
+    public function create(
+        array $data,
+    ): Payment {
 
-            if ($invoice->status === 'paid') {
-                abort(422, 'Invoice already paid');
-            }
-
-            $totalPaidBefore = $invoice
-                ->payments()
-                ->sum('amount');
-
-            $data['tenant_id'] = $invoice->tenant_id;
-
-            if (! isset($data['payment_date'])) {
-                $data['payment_date'] = now();
-            }
-
-            $payment = Payment::create($data);
-
-            $totalPaidAfter =
-                $totalPaidBefore + $payment->amount;
-
-            if ($totalPaidAfter >= $invoice->amount) {
-
-                $invoice->update([
-                    'status'  => 'paid',
-                    'paid_at' => now(),
-                ]);
-
-                $extraCredit = max(
-                    0,
-                    $totalPaidAfter - $invoice->amount
-                );
-
-                if ($extraCredit > 0) {
-
-                    if ($invoice->subscription) {
-
-                        $invoice->subscription->increment(
-                            'wallet_balance',
-                            $extraCredit
-                        );
-                    }
-
-                    if ($invoice->hotspotSubscription) {
-
-                        $invoice->hotspotSubscription->increment(
-                            'wallet_balance',
-                            $extraCredit
-                        );
-                    }
-                }
-            }
-
-            return $payment;
-        });
+        return $this->createPayment->execute(
+            $data,
+        );
     }
 
-    public static function createFromInvoice(
+    public function createFromInvoice(
         Invoice $invoice,
         float $amount,
         string $method = 'wallet',
         string $reference = 'AUTO-WALLET',
-        ?string $notes = null
+        ?string $notes = null,
     ): Payment {
-        return Payment::create([
+
+        return $this->create([
             'tenant_id'        => $invoice->tenant_id,
             'invoice_id'       => $invoice->id,
             'amount'           => $amount,

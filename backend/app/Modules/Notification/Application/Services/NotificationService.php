@@ -4,82 +4,57 @@ declare(strict_types=1);
 
 namespace App\Modules\Notification\Application\Services;
 
-use App\Models\Notification;
+use App\Modules\Notification\Infrastructure\Persistence\Models\Notification;
+use App\Modules\Notification\Application\Workflows\BillingFailedNotificationWorkflow;
+use App\Modules\Notification\Application\Workflows\CreateNotificationWorkflow;
+use App\Modules\Notification\Application\Workflows\CreateReminderWorkflow;
+use App\Modules\Notification\Application\Workflows\SubscriptionRenewedNotificationWorkflow;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 
 class NotificationService
 {
-    /**
-     * Create generic notification.
-     */
-    public function create(array $data): Notification
-    {
-        return Notification::create($data);
-    }
+    public function __construct(
+        private readonly CreateNotificationWorkflow $createNotification,
+        private readonly CreateReminderWorkflow $createReminder,
+        private readonly BillingFailedNotificationWorkflow $billingFailed,
+        private readonly SubscriptionRenewedNotificationWorkflow $subscriptionRenewed,
+    ) {}
 
-    /**
-     * Create renewal reminder.
-     */
-    public function createReminder(
-        Subscription $subscription,
-        int $days
+    public function create(
+        array $data,
     ): Notification {
 
-        return Notification::firstOrCreate(
-
-            [
-                'subscription_id' => $subscription->id,
-                'type'            => 'renewal',
-                'reminder_day'    => $days,
-            ],
-
-            [
-                'tenant_id'   => $subscription->tenant_id,
-                'customer_id' => $subscription->customer_id,
-                'title'       => 'Renewal Reminder',
-                'message'     => "Your subscription will expire in {$days} day(s).",
-                'sent_at'     => now(),
-            ]
+        return $this->createNotification->execute(
+            $data,
         );
     }
 
-    /**
-     * Billing failed notification.
-     */
-    public function billingFailed(
-        Subscription $subscription
+    public function createReminder(
+        Subscription $subscription,
+        int $days,
     ): Notification {
 
-        return $this->create([
-            'tenant_id'   => $subscription->tenant_id,
-            'customer_id' => $subscription->customer_id,
-            'type'        => 'billing_failed',
-            'title'       => 'فشل التجديد التلقائي',
-            'message'     => 'تعذر تنفيذ التجديد التلقائي لاشتراكك.',
-            'sent_at'     => now(),
-        ]);
+        return $this->createReminder->execute(
+            $subscription,
+            $days,
+        );
     }
 
-    /**
-     * Subscription renewed notification.
-     */
-    public function subscriptionRenewed(
-        Subscription $subscription
+    public function billingFailed(
+        Subscription $subscription,
     ): Notification {
 
-        return Notification::firstOrCreate(
+        return $this->billingFailed->execute(
+            $subscription,
+        );
+    }
 
-            [
-                'tenant_id'   => $subscription->tenant_id,
-                'customer_id' => $subscription->customer_id,
-                'type'        => 'subscription_renewed',
-            ],
+    public function subscriptionRenewed(
+        Subscription $subscription,
+    ): Notification {
 
-            [
-                'title'   => 'تم تجديد الاشتراك',
-                'message' => 'تم تجديد اشتراكك بنجاح.',
-                'sent_at' => now(),
-            ]
+        return $this->subscriptionRenewed->execute(
+            $subscription,
         );
     }
 }

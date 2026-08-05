@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Modules\Dashboard\Application\Services;
 
-use App\Models\Customer;
+use App\Modules\Customer\Infrastructure\Persistence\Models\Customer;
 use App\Models\HotspotSubscription;
-use App\Models\Invoice;
-use App\Models\Package;
-use App\Models\Payment;
+use App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice;
+use App\Modules\Package\Infrastructure\Persistence\Models\Package;
+use App\Modules\Payment\Infrastructure\Persistence\Models\Payment;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 use App\Modules\Subscription\Domain\Enums\SubscriptionStatus;
 

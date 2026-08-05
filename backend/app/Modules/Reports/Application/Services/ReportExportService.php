@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\Reports\Application\Services;
 
 use App\Modules\Reports\Domain\Contracts\ReportExportRepositoryInterface;
-use App\Models\ReportExport;
+use App\Modules\Reports\Infrastructure\Persistence\Models\ReportExport;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class ReportExportService

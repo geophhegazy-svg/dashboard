@@ -1,18 +1,5 @@
 # Business Rules
 
-## ActivityLogService
-
-**Namespace**
-App\Modules\Activity\Application\Services
-
-**Dependencies**
-- None
-
-**Methods**
-- log(5 params) : void
-
----
-
 ## AutomaticBillingService
 
 **Namespace**
@@ -70,8 +57,8 @@ App\Modules\Customer\Application\Services
 
 **Methods**
 - __construct(3 params) : mixed
-- create(1 params) : App\Models\Customer
-- update(2 params) : App\Models\Customer
+- create(1 params) : App\Modules\Customer\Infrastructure\Persistence\Models\Customer
+- update(2 params) : App\Modules\Customer\Infrastructure\Persistence\Models\Customer
 - delete(1 params) : bool
 
 ---
@@ -112,7 +99,7 @@ App\Modules\Billing\Application\Services
 
 **Methods**
 - __construct(1 params) : mixed
-- generate(1 params) : App\Models\Invoice
+- generate(1 params) : App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice
 
 ---
 
@@ -135,14 +122,14 @@ App\Modules\Invoice\Application\Services
 App\Modules\Invoice\Application\Services
 
 **Dependencies**
-- App\Modules\Invoice\Application\Actions\CreateInvoiceAction
-- App\Modules\Invoice\Application\Actions\UpdateInvoiceAction
-- App\Modules\Invoice\Application\Actions\DeleteInvoiceAction
+- App\Modules\Invoice\Application\Workflows\CreateInvoiceWorkflow
+- App\Modules\Invoice\Application\Workflows\UpdateInvoiceWorkflow
+- App\Modules\Invoice\Application\Workflows\DeleteInvoiceWorkflow
 
 **Methods**
 - __construct(3 params) : mixed
-- create(1 params) : App\Models\Invoice
-- update(2 params) : App\Models\Invoice
+- create(1 params) : App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice
+- update(2 params) : App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice
 - delete(1 params) : bool
 
 ---
@@ -170,7 +157,7 @@ App\Modules\Accounting\Application\Services
 
 **Methods**
 - __construct(1 params) : mixed
-- post(1 params) : App\Models\JournalEntry
+- post(1 params) : App\Modules\Accounting\Infrastructure\Persistence\Models\JournalEntry
 
 ---
 
@@ -193,13 +180,17 @@ App\Modules\Accounting\Application\Services
 App\Modules\Notification\Application\Services
 
 **Dependencies**
-- None
+- App\Modules\Notification\Application\Workflows\CreateNotificationWorkflow
+- App\Modules\Notification\Application\Workflows\CreateReminderWorkflow
+- App\Modules\Notification\Application\Workflows\BillingFailedNotificationWorkflow
+- App\Modules\Notification\Application\Workflows\SubscriptionRenewedNotificationWorkflow
 
 **Methods**
-- create(1 params) : App\Models\Notification
-- createReminder(2 params) : App\Models\Notification
-- billingFailed(1 params) : App\Models\Notification
-- subscriptionRenewed(1 params) : App\Models\Notification
+- __construct(4 params) : mixed
+- create(1 params) : App\Modules\Notification\Infrastructure\Persistence\Models\Notification
+- createReminder(2 params) : App\Modules\Notification\Infrastructure\Persistence\Models\Notification
+- billingFailed(1 params) : App\Modules\Notification\Infrastructure\Persistence\Models\Notification
+- subscriptionRenewed(1 params) : App\Modules\Notification\Infrastructure\Persistence\Models\Notification
 
 ---
 
@@ -210,12 +201,15 @@ App\Modules\Package\Application\Services
 
 **Dependencies**
 - App\Modules\Package\Domain\Contracts\PackageRepositoryInterface
+- App\Modules\Package\Application\Workflows\CreatePackageWorkflow
+- App\Modules\Package\Application\Workflows\UpdatePackageWorkflow
+- App\Modules\Package\Application\Workflows\DeletePackageWorkflow
 
 **Methods**
-- __construct(1 params) : mixed
+- __construct(4 params) : mixed
 - paginate(0 params) : Illuminate\Contracts\Pagination\LengthAwarePaginator
-- create(1 params) : App\Models\Package
-- update(2 params) : App\Models\Package
+- create(1 params) : App\Modules\Package\Infrastructure\Persistence\Models\Package
+- update(2 params) : App\Modules\Package\Infrastructure\Persistence\Models\Package
 - delete(1 params) : void
 
 ---
@@ -226,11 +220,12 @@ App\Modules\Package\Application\Services
 App\Modules\Payment\Application\Services
 
 **Dependencies**
-- None
+- App\Modules\Payment\Application\Workflows\CreatePaymentWorkflow
 
 **Methods**
-- create(1 params) : App\Models\Payment
-- createFromInvoice(5 params) : App\Models\Payment
+- __construct(1 params) : mixed
+- create(1 params) : App\Modules\Payment\Infrastructure\Persistence\Models\Payment
+- createFromInvoice(5 params) : App\Modules\Payment\Infrastructure\Persistence\Models\Payment
 
 ---
 
@@ -262,8 +257,8 @@ App\Modules\Reports\Application\Services
 **Methods**
 - __construct(1 params) : mixed
 - paginate(0 params) : Illuminate\Contracts\Pagination\LengthAwarePaginator
-- create(1 params) : App\Models\ReportExport
-- find(1 params) : ?App\Models\ReportExport
+- create(1 params) : App\Modules\Reports\Infrastructure\Persistence\Models\ReportExport
+- find(1 params) : ?App\Modules\Reports\Infrastructure\Persistence\Models\ReportExport
 
 ---
 
@@ -278,10 +273,10 @@ App\Modules\Reports\Application\Services
 **Methods**
 - __construct(1 params) : mixed
 - paginate(0 params) : Illuminate\Contracts\Pagination\LengthAwarePaginator
-- create(1 params) : App\Models\Report
-- update(2 params) : App\Models\Report
+- create(1 params) : App\Modules\Reports\Infrastructure\Persistence\Models\Report
+- update(2 params) : App\Modules\Reports\Infrastructure\Persistence\Models\Report
 - delete(1 params) : bool
-- find(1 params) : ?App\Models\Report
+- find(1 params) : ?App\Modules\Reports\Infrastructure\Persistence\Models\Report
 
 ---
 
@@ -295,13 +290,13 @@ App\Modules\Reports\Application\Services
 
 **Methods**
 - paginate(0 params) : Illuminate\Contracts\Pagination\LengthAwarePaginator
-- create(1 params) : App\Models\ScheduledReport
-- update(2 params) : App\Models\ScheduledReport
+- create(1 params) : App\Modules\Reports\Infrastructure\Persistence\Models\ScheduledReport
+- update(2 params) : App\Modules\Reports\Infrastructure\Persistence\Models\ScheduledReport
 - delete(1 params) : void
-- activate(1 params) : App\Models\ScheduledReport
-- deactivate(1 params) : App\Models\ScheduledReport
-- updateLastRun(1 params) : App\Models\ScheduledReport
-- updateNextRun(2 params) : App\Models\ScheduledReport
+- activate(1 params) : App\Modules\Reports\Infrastructure\Persistence\Models\ScheduledReport
+- deactivate(1 params) : App\Modules\Reports\Infrastructure\Persistence\Models\ScheduledReport
+- updateLastRun(1 params) : App\Modules\Reports\Infrastructure\Persistence\Models\ScheduledReport
+- updateNextRun(2 params) : App\Modules\Reports\Infrastructure\Persistence\Models\ScheduledReport
 
 ---
 
@@ -311,10 +306,11 @@ App\Modules\Reports\Application\Services
 App\Modules\Activity\Application\Services
 
 **Dependencies**
-- None
+- App\Modules\Activity\Application\Workflows\CreateActivityLogWorkflow
 
 **Methods**
-- log(4 params) : App\Models\ActivityLog
+- __construct(1 params) : mixed
+- log(4 params) : App\Modules\Activity\Infrastructure\Persistence\Models\ActivityLog
 
 ---
 
@@ -330,9 +326,10 @@ App\Modules\Subscription\Application\Services
 - App\Modules\Subscription\Application\Workflows\ExpireWorkflow
 - App\Modules\Subscription\Application\Workflows\RestoreWorkflow
 - App\Modules\Subscription\Application\Workflows\RenewWorkflow
+- App\Modules\Subscription\Application\Workflows\AutoExpireSubscriptionsWorkflow
 
 **Methods**
-- __construct(6 params) : mixed
+- __construct(7 params) : mixed
 - paginate(2 params) : Illuminate\Pagination\LengthAwarePaginator
 - find(1 params) : ?App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
 - findOrFail(1 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
@@ -363,16 +360,20 @@ App\Modules\Task\Application\Services
 - App\Modules\Task\Application\Workflows\CreateTaskWorkflow
 - App\Modules\Task\Application\Workflows\UpdateTaskWorkflow
 - App\Modules\Task\Application\Workflows\DeleteTaskWorkflow
+- App\Modules\Task\Application\Workflows\StartTaskWorkflow
+- App\Modules\Task\Application\Workflows\CompleteTaskWorkflow
+- App\Modules\Task\Application\Workflows\CancelTaskWorkflow
+- App\Modules\Task\Application\Workflows\ReopenTaskWorkflow
 
 **Methods**
-- __construct(3 params) : mixed
+- __construct(7 params) : mixed
 - paginate(0 params) : Illuminate\Contracts\Pagination\LengthAwarePaginator
-- create(1 params) : App\Models\Task
-- update(2 params) : App\Models\Task
-- complete(1 params) : App\Models\Task
-- cancel(1 params) : App\Models\Task
-- reopen(1 params) : App\Models\Task
-- start(1 params) : App\Models\Task
+- create(1 params) : App\Modules\Task\Infrastructure\Persistence\Models\Task
+- update(2 params) : App\Modules\Task\Infrastructure\Persistence\Models\Task
+- complete(1 params) : App\Modules\Task\Infrastructure\Persistence\Models\Task
+- cancel(1 params) : App\Modules\Task\Infrastructure\Persistence\Models\Task
+- reopen(1 params) : App\Modules\Task\Infrastructure\Persistence\Models\Task
+- start(1 params) : App\Modules\Task\Infrastructure\Persistence\Models\Task
 - delete(1 params) : bool
 
 ---
@@ -389,19 +390,5 @@ App\Modules\Notification\Application\Services
 - __construct(0 params) : mixed
 - sendMessage(1 params) : mixed
 - sendDeviceAlert(1 params) : mixed
-
----
-
-## WalletService
-
-**Namespace**
-App\Modules\Wallet\Application\Services
-
-**Dependencies**
-- None
-
-**Methods**
-- deposit(4 params) : void
-- deduct(4 params) : void
 
 ---

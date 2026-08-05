@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Reports\Infrastructure\Repositories;
 
-use App\Models\ScheduledReport;
+use App\Modules\Reports\Infrastructure\Persistence\Models\ScheduledReport;
 use Illuminate\Database\Eloquent\Collection;
 use App\Modules\Reports\Domain\Contracts\ScheduledReportRepositoryInterface;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Network\Application;
 
-use App\Models\NetworkDevice;
+use App\Modules\Network\Infrastructure\Persistence\Models\NetworkDevice;
 use App\Modules\Network\Infrastructure\Providers\MikroTik\MikroTikConnectionService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use RuntimeException;

@@ -4,32 +4,54 @@ declare(strict_types=1);
 
 namespace App\Modules\Ticket;
 
-use App\Models\Customer;
-use App\Models\Ticket;
-use App\Models\TicketReply;
+use App\Modules\Customer\Infrastructure\Persistence\Models\Customer;
+use App\Modules\Ticket\Infrastructure\Persistence\Models\Ticket;
+use App\Modules\Ticket\Infrastructure\Persistence\Models\TicketReply;
 use App\Models\User;
-use App\Modules\Activity\Application\Services\ActivityLogService;
-use Illuminate\Support\Facades\DB;
+use App\Modules\Activity\Application\Workflows\LogActivityWorkflow;
+use App\Modules\Ticket\Application\Workflows\UpdateTicketWorkflow;
+use App\Modules\Ticket\Application\Workflows\CreateTicketWorkflow;
+use App\Modules\Ticket\Application\Workflows\DeleteTicketWorkflow;
+use App\Modules\Ticket\Application\Workflows\CreateTicketReplyWorkflow;
+use App\Modules\Ticket\Application\Workflows\ChangeTicketStatusWorkflow;
+use App\Modules\Ticket\Application\Workflows\AssignTicketWorkflow;
+use App\Modules\Ticket\Application\Workflows\GetAdminTicketStatisticsWorkflow;
+use App\Modules\Ticket\Application\Workflows\GetCustomerTicketStatisticsWorkflow;
 
 class TicketService
 {
 
     public function __construct(
-        private readonly ActivityLogService $activityLogService,
+        private readonly CreateTicketWorkflow $createTicketWorkflow,
+        private readonly UpdateTicketWorkflow $updateTicketWorkflow,
+        private readonly DeleteTicketWorkflow $deleteTicketWorkflow,
+        private readonly CreateTicketReplyWorkflow $createTicketReplyWorkflow,
+        private readonly ChangeTicketStatusWorkflow $changeTicketStatusWorkflow,
+        private readonly LogActivityWorkflow $logActivity,
+        private readonly AssignTicketWorkflow $assignTicketWorkflow,
+        private readonly GetAdminTicketStatisticsWorkflow $adminStatisticsWorkflow,
+        private readonly GetCustomerTicketStatisticsWorkflow $customerStatisticsWorkflow,
     ) {}
     /**
      * إنشاء تذكرة جديدة من لوحة تحكم الموظفين (Admin).
      */
     public function createFromAdmin(array $data, ?int $actingUserId): Ticket
     {
-        $ticket = Ticket::create($data);
+        $ticket = $this->createTicketWorkflow->execute(
+            $data,
+        );
 
-        $this->activityLogService->log(
-            tenantId: $ticket->tenant_id,
-            userId: $actingUserId,
-            module: 'ticket',
-            action: 'created',
-            description: "Created ticket {$ticket->ticket_number}"
+        $this->logActivity->execute(
+            [
+                'tenant_id' => $ticket->tenant_id,
+                'module'    => 'ticket',
+                'action'    => 'created',
+            ],
+            [
+                'user_id'     => $actingUserId,
+                'description' => "Created ticket {$ticket->ticket_number}",
+                'ip_address'  => request()->ip(),
+            ],
         );
 
         return $ticket;
@@ -40,7 +62,7 @@ class TicketService
      */
     public function createFromCustomer(Customer $customer, array $data): Ticket
     {
-        $ticket = Ticket::create([
+        $ticket = $this->createTicketWorkflow->execute([
 
             'tenant_id'     => $customer->tenant_id,
             'customer_id'   => $customer->id,
@@ -51,18 +73,28 @@ class TicketService
             'subject'       => $data['subject'],
             'description'   => $data['description'],
             'priority'      => $data['priority'] ?? 'medium',
+
             'status'        => 'open',
+
             'opened_at'     => now(),
+
             'closed_at'     => null,
+
             'notes'         => null,
+
         ]);
 
-        $this->activityLogService->log(
-            tenantId: $customer->tenant_id,
-            userId: null,
-            module: 'ticket',
-            action: 'created',
-            description: "Customer {$customer->name} created ticket {$ticket->ticket_number}"
+        $this->logActivity->execute(
+            [
+                'tenant_id' => $ticket->tenant_id,
+                'module'    => 'ticket',
+                'action'    => 'created',
+            ],
+            [
+                'user_id'     => null,
+                'description' => "Customer {$customer->name} created ticket {$ticket->ticket_number}",
+                'ip_address'  => request()->ip(),
+            ],
         );
 
         return $ticket;
@@ -73,17 +105,25 @@ class TicketService
      */
     public function updateFromAdmin(Ticket $ticket, array $data, ?int $actingUserId): Ticket
     {
-        $ticket->update($data);
-
-        $this->activityLogService->log(
-            tenantId: $ticket->tenant_id,
-            userId: $actingUserId,
-            module: 'ticket',
-            action: 'updated',
-            description: "Updated ticket {$ticket->ticket_number}"
+        $ticket = $this->updateTicketWorkflow->execute(
+            $ticket,
+            $data,
         );
 
-        return $ticket->fresh();
+        $this->logActivity->execute(
+            [
+                'tenant_id' => $ticket->tenant_id,
+                'module'    => 'ticket',
+                'action'    => 'updated',
+            ],
+            [
+                'user_id'     => $actingUserId,
+                'description' => "Updated ticket {$ticket->ticket_number}",
+                'ip_address'  => request()->ip(),
+            ],
+        );
+
+        return $ticket;
     }
 
     /**
@@ -91,15 +131,22 @@ class TicketService
      */
     public function delete(Ticket $ticket, ?int $actingUserId): void
     {
-        $this->activityLogService->log(
-            tenantId: $ticket->tenant_id,
-            userId: $actingUserId,
-            module: 'ticket',
-            action: 'deleted',
-            description: "Deleted ticket {$ticket->ticket_number}"
+        $this->logActivity->execute(
+            [
+                'tenant_id' => $ticket->tenant_id,
+                'module'    => 'ticket',
+                'action'    => 'deleted',
+            ],
+            [
+                'user_id'     => $actingUserId,
+                'description' => "Deleted ticket {$ticket->ticket_number}",
+                'ip_address'  => request()->ip(),
+            ],
         );
 
-        $ticket->delete();
+        $this->deleteTicketWorkflow->execute(
+            $ticket,
+        );
     }
 
     /**
@@ -113,7 +160,7 @@ class TicketService
             throw new \RuntimeException('Ticket is already closed.');
         }
 
-        $reply = TicketReply::create([
+        $reply = $this->createTicketReplyWorkflow->execute([
             'ticket_id'   => $ticket->id,
             'customer_id' => null,
             'user_id'     => $userId,
@@ -122,12 +169,17 @@ class TicketService
             'sent_at'     => now(),
         ]);
 
-        $this->activityLogService->log(
-            tenantId: $ticket->tenant_id,
-            userId: $userId,
-            module: 'ticket',
-            action: 'reply',
-            description: "Staff replied to {$ticket->ticket_number}"
+        $this->logActivity->execute(
+            [
+                'tenant_id' => $ticket->tenant_id,
+                'module'    => 'ticket',
+                'action'    => 'reply',
+            ],
+            [
+                'user_id'     => $userId,
+                'description' => "Staff replied to {$ticket->ticket_number}",
+                'ip_address'  => request()->ip(),
+            ],
         );
 
         return $reply;
@@ -144,7 +196,7 @@ class TicketService
             throw new \RuntimeException('Cannot reply to closed ticket.');
         }
 
-        $reply = TicketReply::create([
+        $reply = $this->createTicketReplyWorkflow->execute([
             'ticket_id'   => $ticket->id,
             'customer_id' => $customer->id,
             'user_id'     => null,
@@ -153,12 +205,17 @@ class TicketService
             'sent_at'     => now(),
         ]);
 
-        $this->activityLogService->log(
-            tenantId: $ticket->tenant_id,
-            userId: null,
-            module: 'ticket',
-            action: 'reply',
-            description: "Customer replied to ticket {$ticket->ticket_number}"
+        $this->logActivity->execute(
+            [
+                'tenant_id' => $ticket->tenant_id,
+                'module'    => 'ticket',
+                'action'    => 'reply',
+            ],
+            [
+                'user_id'     => null,
+                'description' => "Customer replied to ticket {$ticket->ticket_number}",
+                'ip_address'  => request()->ip(),
+            ],
         );
 
         return $reply;
@@ -169,20 +226,22 @@ class TicketService
      */
     public function changeStatus(Ticket $ticket, string $status, ?int $actingUserId): Ticket
     {
-        $ticket->status = $status;
+        $ticket = $this->changeTicketStatusWorkflow->execute(
+            $ticket,
+            $status,
+        );
 
-        if ($status === 'closed') {
-            $ticket->closed_at = now();
-        }
-
-        $ticket->save();
-
-        $this->activityLogService->log(
-            tenantId: $ticket->tenant_id,
-            userId: $actingUserId,
-            module: 'ticket',
-            action: 'status',
-            description: "Changed {$ticket->ticket_number} status to {$ticket->status}"
+        $this->logActivity->execute(
+            [
+                'tenant_id' => $ticket->tenant_id,
+                'module'    => 'ticket',
+                'action'    => 'status',
+            ],
+            [
+                'user_id'     => $actingUserId,
+                'description' => "Changed {$ticket->ticket_number} status to {$ticket->status}",
+                'ip_address'  => request()->ip(),
+            ],
         );
 
         return $ticket;
@@ -199,20 +258,25 @@ class TicketService
             throw new \RuntimeException('Ticket already closed.');
         }
 
-        $ticket->update([
-            'status'    => 'closed',
-            'closed_at' => now(),
-        ]);
-
-        $this->activityLogService->log(
-            tenantId: $ticket->tenant_id,
-            userId: null,
-            module: 'ticket',
-            action: 'closed',
-            description: "Customer closed ticket {$ticket->ticket_number}"
+        $ticket = $this->changeTicketStatusWorkflow->execute(
+            $ticket,
+            'closed',
         );
 
-        return $ticket->fresh();
+        $this->logActivity->execute(
+            [
+                'tenant_id' => $ticket->tenant_id,
+                'module'    => 'ticket',
+                'action'    => 'closed',
+            ],
+            [
+                'user_id'     => null,
+                'description' => "Customer closed ticket {$ticket->ticket_number}",
+                'ip_address'  => request()->ip(),
+            ],
+        );
+
+        return $ticket;
     }
 
     /**
@@ -220,19 +284,25 @@ class TicketService
      */
     public function assign(Ticket $ticket, User $user, ?int $actingUserId): Ticket
     {
-        $ticket->update([
-            'user_id' => $user->id,
-        ]);
-
-        $this->activityLogService->log(
-            tenantId: $ticket->tenant_id,
-            userId: $actingUserId,
-            module: 'ticket',
-            action: 'assigned',
-            description: "Assigned {$ticket->ticket_number} to {$user->name}"
+        $ticket = $this->assignTicketWorkflow->execute(
+            $ticket,
+            $user,
         );
 
-        return $ticket->fresh();
+        $this->logActivity->execute(
+            [
+                'tenant_id' => $ticket->tenant_id,
+                'module'    => 'ticket',
+                'action'    => 'assigned',
+            ],
+            [
+                'user_id'     => $actingUserId,
+                'description' => "Assigned {$ticket->ticket_number} to {$user->name}",
+                'ip_address'  => request()->ip(),
+            ],
+        );
+
+        return $ticket;
     }
 
     /**
@@ -240,32 +310,18 @@ class TicketService
      */
     public function adminDashboardStats(): array
     {
-        return [
-            'total'         => Ticket::count(),
-            'open'          => Ticket::where('status', 'open')->count(),
-            'closed'        => Ticket::where('status', 'closed')->count(),
-            'high_priority' => Ticket::where('priority', 'high')->count(),
-            'today'         => Ticket::whereDate('created_at', today())->count(),
-        ];
+        return $this->adminStatisticsWorkflow->execute();
     }
 
     /**
      * إحصائيات لوحة تحكم العميل (تذاكره هو فقط).
      */
-    public function customerDashboardStats(Customer $customer): array
-    {
-        $tickets = Ticket::where('customer_id', $customer->id);
+    public function customerDashboardStats(
+        Customer $customer,
+    ): array {
 
-        $lastTicket = (clone $tickets)->latest()->first();
-
-        return [
-            'statistics' => [
-                'total'         => (clone $tickets)->count(),
-                'open'          => (clone $tickets)->where('status', 'open')->count(),
-                'closed'        => (clone $tickets)->where('status', 'closed')->count(),
-                'high_priority' => (clone $tickets)->where('priority', 'high')->count(),
-            ],
-            'last_ticket' => $lastTicket,
-        ];
+        return $this->customerStatisticsWorkflow->execute(
+            $customer,
+        );
     }
 }

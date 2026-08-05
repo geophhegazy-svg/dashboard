@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Wallet\Domain\Contracts;
 
+use App\Modules\Wallet\Infrastructure\Persistence\Models\WalletTransaction;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 
 interface WalletRepositoryInterface
@@ -14,4 +15,8 @@ interface WalletRepositoryInterface
         Subscription $subscription,
         float $balance
     ): bool;
+
+    public function createTransaction(
+        array $data
+    ): WalletTransaction;
 }

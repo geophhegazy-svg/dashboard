@@ -7,7 +7,7 @@ namespace App\Modules\Finance\Domain\Rules;
 use App\Exceptions\Finance\InvalidAccountException;
 use App\Exceptions\Finance\InvalidJournalLineException;
 use App\Exceptions\Finance\UnbalancedJournalException;
-use App\Models\Account;
+use App\Modules\Accounting\Infrastructure\Persistence\Models\Account;
 
 class JournalValidator
 {

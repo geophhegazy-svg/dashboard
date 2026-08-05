@@ -9,8 +9,8 @@ use App\Http\Resources\TicketReplyResource;
 use Illuminate\Http\Request;
 use App\Models\Ticket;
 use App\Models\User;
-use App\Services\Ticket\TicketService;
-
+use App\Modules\Ticket\TicketService;
+use Illuminate\Support\Facades\Auth;
 
 class TicketController extends Controller
 {
@@ -31,7 +31,7 @@ class TicketController extends Controller
     {
         $ticket = $this->ticketService->createFromAdmin(
             $request->validated(),
-            auth()->id()
+            auth::id()
         );
 
         return new TicketResource($ticket);
@@ -54,7 +54,7 @@ class TicketController extends Controller
         $ticket = $this->ticketService->updateFromAdmin(
             $ticket,
             $request->validated(),
-            auth()->id()
+            auth::id()
         );
 
         return new TicketResource($ticket);
@@ -62,7 +62,7 @@ class TicketController extends Controller
 
     public function destroy(Ticket $ticket)
     {
-        $this->ticketService->delete($ticket, auth()->id());
+        $this->ticketService->delete($ticket, auth::id());
 
         return response()->json([
             'message' => 'Ticket deleted successfully'
@@ -133,7 +133,7 @@ class TicketController extends Controller
         try {
             $reply = $this->ticketService->replyAsStaff(
                 $ticket,
-                auth()->id(),
+                auth::id(),
                 $request->message
             );
         } catch (\RuntimeException $e) {
@@ -167,7 +167,7 @@ class TicketController extends Controller
         $ticket = $this->ticketService->changeStatus(
             $ticket,
             $request->status,
-            auth()->id()
+            auth::id()
         );
 
         return new TicketResource($ticket);
@@ -192,7 +192,7 @@ class TicketController extends Controller
         $ticket = $this->ticketService->assign(
             $ticket,
             $user,
-            auth()->id()
+            auth::id()
         );
 
         return response()->json([

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Modules\Usage;
 
-use App\Models\Customer;
+use App\Modules\Customer\Infrastructure\Persistence\Models\Customer;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 use App\Models\HotspotSubscription;
-use App\Models\UsageSnapshot;
+use App\Modules\Usage\UsageSnapshot;
 use Illuminate\Support\Collection;
 
 class UsageService

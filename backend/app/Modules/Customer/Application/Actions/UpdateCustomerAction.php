@@ -4,16 +4,24 @@ declare(strict_types=1);
 
 namespace App\Modules\Customer\Application\Actions;
 
-use App\Models\Customer;
+use App\Modules\Customer\Infrastructure\Persistence\Models\Customer;
+use App\Modules\Customer\Domain\Contracts\CustomerRepositoryInterface;
 
-final class UpdateCustomerAction
+final readonly class UpdateCustomerAction
 {
+    public function __construct(
+        private CustomerRepositoryInterface $repository,
+    ) {}
+
     public function execute(
         Customer $customer,
         array $data,
     ): Customer {
 
-        $customer->update($data);
+        $this->repository->update(
+            $customer,
+            $data,
+        );
 
         return $customer->refresh();
     }

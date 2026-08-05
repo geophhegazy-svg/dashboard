@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Invoice\Application\Actions;
 
-use App\Models\Invoice;
+use App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice;
 use App\Modules\Invoice\Domain\Events\InvoiceCreated;
 use App\Modules\Invoice\Domain\Contracts\InvoiceRepositoryInterface;
 use App\Modules\Invoice\Application\Services\InvoiceNumberService;
@@ -16,8 +16,12 @@ final readonly class CreateInvoiceAction
     ) {}
 
     public function execute(
-        Invoice $invoice,
+        array $data,
     ): Invoice {
+
+        $invoice = $this->repository->create(
+            $data
+        );
 
         $this->repository->save(
             $invoice

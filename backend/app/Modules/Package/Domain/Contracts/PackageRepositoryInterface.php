@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Package\Domain\Contracts;
 
-use App\Models\Package;
+use App\Modules\Package\Infrastructure\Persistence\Models\Package;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 interface PackageRepositoryInterface

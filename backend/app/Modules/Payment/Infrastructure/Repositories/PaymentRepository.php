@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\Payment\Infrastructure\Repositories;
 
 use App\Modules\Payment\Domain\Contracts\PaymentRepositoryInterface;
-use App\Models\Payment;
+use App\Modules\Payment\Infrastructure\Persistence\Models\Payment;
 use Illuminate\Database\Eloquent\Collection;
 
 class PaymentRepository implements PaymentRepositoryInterface
@@ -18,6 +18,13 @@ class PaymentRepository implements PaymentRepositoryInterface
     public function find(int $id): ?Payment
     {
         return Payment::find($id);
+    }
+
+    public function create(
+        array $data,
+    ): Payment {
+
+        return Payment::create($data);
     }
 
     public function save(Payment $payment): bool

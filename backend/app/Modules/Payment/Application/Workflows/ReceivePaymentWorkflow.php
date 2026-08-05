@@ -7,7 +7,7 @@ namespace App\Modules\Payment\Application\Workflows;
 use App\Modules\Payment\Application\DTO\ReceivePaymentData;
 use App\Modules\Payment\Application\Validators\ReceivePaymentValidator;
 use App\Core\Workflow\AbstractWorkflow;
-use App\Models\Payment;
+use App\Modules\Payment\Infrastructure\Persistence\Models\Payment;
 use App\Modules\Payment\Application\Services\PaymentService;
 
 final class ReceivePaymentWorkflow extends AbstractWorkflow

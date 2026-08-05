@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\Accounting\Infrastructure\Repositories;
 
 use App\Modules\Accounting\Domain\Contracts\AccountRepositoryInterface;
-use App\Models\Account;
+use App\Modules\Accounting\Infrastructure\Persistence\Models\Account;
 use Illuminate\Database\Eloquent\Collection;
 
 class AccountRepository implements AccountRepositoryInterface

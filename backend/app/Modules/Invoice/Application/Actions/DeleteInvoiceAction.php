@@ -4,14 +4,21 @@ declare(strict_types=1);
 
 namespace App\Modules\Invoice\Application\Actions;
 
-use App\Models\Invoice;
+use App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice;
+use App\Modules\Invoice\Domain\Contracts\InvoiceRepositoryInterface;
 
-final class DeleteInvoiceAction
+final readonly class DeleteInvoiceAction
 {
+    public function __construct(
+        private InvoiceRepositoryInterface $repository,
+    ) {}
+
     public function execute(
         Invoice $invoice,
     ): bool {
 
-        return (bool) $invoice->delete();
+        return $this->repository->delete(
+            $invoice,
+        );
     }
 }

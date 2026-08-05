@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\Customer\Policies;
 
 use App\Core\Security\Authorization\BasePolicy;
-use App\Models\Customer;
+use App\Modules\Customer\Infrastructure\Persistence\Models\Customer;
 use App\Models\User;
 
 final class CustomerPolicy extends BasePolicy

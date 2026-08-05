@@ -14,8 +14,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Database\Factories\Modules\Subscription\Infrastructure\Persistence\Models\SubscriptionFactory;
-use App\Models\Customer;
-use App\Models\Package;
+use App\Modules\Customer\Infrastructure\Persistence\Models\Customer;
+use App\Modules\Package\Infrastructure\Persistence\Models\Package;
 
 class Subscription extends Model
 {

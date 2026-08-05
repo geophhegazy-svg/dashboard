@@ -8,6 +8,8 @@ use App\Models\Ticket;
 use App\Models\TicketReply;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Modules\Ticket\TicketService;
+
 
 class CustomerTicketController extends Controller
 {

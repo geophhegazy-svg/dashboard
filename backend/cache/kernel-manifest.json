@@ -2,21 +2,64 @@
     "version": 1,
     "modules": [
         {
-            "class": "App\\Modules\\Subscription\\Kernel\\SubscriptionModule",
-            "name": "Subscription",
+            "class": "App\\Modules\\Network\\Kernel\\NetworkModule",
+            "name": "Network",
             "dependencies": [],
             "resources": [
                 {
                     "type": "services",
                     "bindings": {
+                        "App\\Modules\\Network\\Domain\\Contracts\\MikrotikServiceInterface": "App\\Modules\\Network\\Application\\MikrotikServiceAdapter"
+                    }
+                }
+            ]
+        },
+        {
+            "class": "App\\Modules\\Invoice\\Kernel\\InvoiceModule",
+            "name": "Invoice",
+            "dependencies": [],
+            "resources": [
+                {
+                    "type": "services",
+                    "bindings": {
+                        "App\\Modules\\Invoice\\Domain\\Contracts\\InvoiceRepositoryInterface": "App\\Modules\\Invoice\\Infrastructure\\Repositories\\InvoiceRepository",
+                        "App\\Modules\\Invoice\\Application\\Actions\\CreateInvoiceAction": "App\\Modules\\Invoice\\Application\\Actions\\CreateInvoiceAction",
+                        "App\\Modules\\Invoice\\Application\\Actions\\UpdateInvoiceAction": "App\\Modules\\Invoice\\Application\\Actions\\UpdateInvoiceAction",
+                        "App\\Modules\\Invoice\\Application\\Actions\\DeleteInvoiceAction": "App\\Modules\\Invoice\\Application\\Actions\\DeleteInvoiceAction",
+                        "App\\Modules\\Invoice\\Application\\Workflows\\CreateInvoiceWorkflow": "App\\Modules\\Invoice\\Application\\Workflows\\CreateInvoiceWorkflow",
+                        "App\\Modules\\Invoice\\Application\\Workflows\\UpdateInvoiceWorkflow": "App\\Modules\\Invoice\\Application\\Workflows\\UpdateInvoiceWorkflow",
+                        "App\\Modules\\Invoice\\Application\\Workflows\\DeleteInvoiceWorkflow": "App\\Modules\\Invoice\\Application\\Workflows\\DeleteInvoiceWorkflow",
+                        "App\\Modules\\Invoice\\Application\\Services\\InvoiceService": "App\\Modules\\Invoice\\Application\\Services\\InvoiceService"
+                    }
+                }
+            ]
+        },
+        {
+            "class": "App\\Modules\\Subscription\\Kernel\\SubscriptionModule",
+            "name": "Subscription",
+            "dependencies": [
+                "App\\Modules\\Network\\Kernel\\NetworkModule",
+                "App\\Modules\\Invoice\\Kernel\\InvoiceModule"
+            ],
+            "resources": [
+                {
+                    "type": "services",
+                    "bindings": {
                         "App\\Modules\\Subscription\\Domain\\Contracts\\SubscriptionRepositoryInterface": "App\\Modules\\Subscription\\Infrastructure\\Repositories\\SubscriptionRepository",
-                        "App\\Modules\\Subscription\\Domain\\Contracts\\SubscriptionRenewalServiceInterface": "App\\Modules\\Subscription\\Domain\\Services\\SubscriptionRenewalService"
+                        "App\\Modules\\Subscription\\Domain\\Contracts\\SubscriptionRenewalServiceInterface": "App\\Modules\\Subscription\\Domain\\Services\\SubscriptionRenewalService",
+                        "App\\Modules\\Subscription\\Application\\Workflows\\AutoExpireSubscriptionsWorkflow": "App\\Modules\\Subscription\\Application\\Workflows\\AutoExpireSubscriptionsWorkflow",
+                        "App\\Modules\\Subscription\\Application\\Services\\SubscriptionService": "App\\Modules\\Subscription\\Application\\Services\\SubscriptionService"
                     }
                 },
                 {
                     "type": "actions",
                     "actions": [
-                        "App\\Modules\\Subscription\\Application\\Actions\\ActivateSubscriptionAction"
+                        "App\\Modules\\Subscription\\Application\\Actions\\ActivateSubscriptionAction",
+                        "App\\Modules\\Subscription\\Application\\Actions\\ChangeSubscriptionStatusAction",
+                        "App\\Modules\\Subscription\\Application\\Actions\\ExpireSubscriptionAction",
+                        "App\\Modules\\Subscription\\Application\\Actions\\RenewSubscriptionAction",
+                        "App\\Modules\\Subscription\\Application\\Actions\\RestoreSubscriptionAction",
+                        "App\\Modules\\Subscription\\Application\\Actions\\SuspendSubscriptionAction"
                     ]
                 },
                 {
@@ -56,7 +99,7 @@
                 {
                     "type": "policies",
                     "policies": {
-                        "App\\Models\\Invoice": "App\\Modules\\Billing\\Policies\\InvoicePolicy"
+                        "App\\Modules\\Invoice\\Infrastructure\\Persistence\\Models\\Invoice": "App\\Modules\\Billing\\Policies\\InvoicePolicy"
                     }
                 }
             ]
@@ -83,6 +126,28 @@
                             "App\\Modules\\Accounting\\Listeners\\JournalEntryPostedListener"
                         ]
                     }
+                }
+            ]
+        },
+        {
+            "class": "App\\Modules\\Activity\\Kernel\\ActivityModule",
+            "name": "Activity",
+            "dependencies": [],
+            "resources": [
+                {
+                    "type": "services",
+                    "bindings": {
+                        "App\\Modules\\Activity\\Domain\\Contracts\\ActivityRepositoryInterface": "App\\Modules\\Activity\\Infrastructure\\Repositories\\ActivityRepository",
+                        "App\\Modules\\Activity\\Application\\Workflows\\LogActivityWorkflow": "App\\Modules\\Activity\\Application\\Workflows\\LogActivityWorkflow",
+                        "App\\Modules\\Activity\\Application\\Workflows\\CreateActivityLogWorkflow": "App\\Modules\\Activity\\Application\\Workflows\\CreateActivityLogWorkflow"
+                    }
+                },
+                {
+                    "type": "actions",
+                    "actions": [
+                        "App\\Modules\\Activity\\Application\\Actions\\LogActivityAction",
+                        "App\\Modules\\Activity\\Application\\Actions\\CreateActivityLogAction"
+                    ]
                 }
             ]
         },
@@ -153,27 +218,14 @@
             ]
         },
         {
-            "class": "App\\Modules\\Invoice\\Kernel\\InvoiceModule",
-            "name": "Invoice",
+            "class": "App\\Modules\\Notification\\Kernel\\NotificationModule",
+            "name": "Notification",
             "dependencies": [],
             "resources": [
                 {
                     "type": "services",
                     "bindings": {
-                        "App\\Modules\\Invoice\\Domain\\Contracts\\InvoiceRepositoryInterface": "App\\Modules\\Invoice\\Infrastructure\\Repositories\\InvoiceRepository"
-                    }
-                }
-            ]
-        },
-        {
-            "class": "App\\Modules\\Network\\Kernel\\NetworkModule",
-            "name": "Network",
-            "dependencies": [],
-            "resources": [
-                {
-                    "type": "services",
-                    "bindings": {
-                        "App\\Modules\\Network\\Domain\\Contracts\\MikrotikServiceInterface": "App\\Modules\\Network\\Application\\MikrotikServiceAdapter"
+                        "App\\Modules\\Notification\\Domain\\Contracts\\NotificationRepositoryInterface": "App\\Modules\\Notification\\Infrastructure\\Repositories\\NotificationRepository"
                     }
                 }
             ]
@@ -186,7 +238,32 @@
                 {
                     "type": "services",
                     "bindings": {
-                        "App\\Modules\\Package\\Domain\\Contracts\\PackageRepositoryInterface": "App\\Modules\\Package\\Infrastructure\\Repositories\\PackageRepository"
+                        "App\\Modules\\Package\\Domain\\Contracts\\PackageRepositoryInterface": "App\\Modules\\Package\\Infrastructure\\Repositories\\PackageRepository",
+                        "App\\Modules\\Package\\Application\\Actions\\CreatePackageAction": "App\\Modules\\Package\\Application\\Actions\\CreatePackageAction",
+                        "App\\Modules\\Package\\Application\\Actions\\UpdatePackageAction": "App\\Modules\\Package\\Application\\Actions\\UpdatePackageAction",
+                        "App\\Modules\\Package\\Application\\Actions\\DeletePackageAction": "App\\Modules\\Package\\Application\\Actions\\DeletePackageAction",
+                        "App\\Modules\\Package\\Application\\Workflows\\CreatePackageWorkflow": "App\\Modules\\Package\\Application\\Workflows\\CreatePackageWorkflow",
+                        "App\\Modules\\Package\\Application\\Workflows\\UpdatePackageWorkflow": "App\\Modules\\Package\\Application\\Workflows\\UpdatePackageWorkflow",
+                        "App\\Modules\\Package\\Application\\Workflows\\DeletePackageWorkflow": "App\\Modules\\Package\\Application\\Workflows\\DeletePackageWorkflow"
+                    }
+                },
+                {
+                    "type": "policies",
+                    "policies": {
+                        "App\\Modules\\Package\\Infrastructure\\Persistence\\Models\\Package": "App\\Modules\\Policies\\PackagePolicy"
+                    }
+                }
+            ]
+        },
+        {
+            "class": "App\\Modules\\Payment\\Kernel\\PaymentModule",
+            "name": "Payment",
+            "dependencies": [],
+            "resources": [
+                {
+                    "type": "services",
+                    "bindings": {
+                        "App\\Modules\\Payment\\Domain\\Contracts\\PaymentRepositoryInterface": "App\\Modules\\Payment\\Infrastructure\\Repositories\\PaymentRepository"
                     }
                 }
             ]
@@ -216,6 +293,60 @@
                     "bindings": {
                         "App\\Modules\\Task\\Domain\\Contracts\\TaskRepositoryInterface": "App\\Modules\\Task\\Infrastructure\\Repositories\\TaskRepository"
                     }
+                }
+            ]
+        },
+        {
+            "class": "App\\Modules\\Ticket\\Kernel\\TicketModule",
+            "name": "Ticket",
+            "dependencies": [],
+            "resources": [
+                {
+                    "type": "services",
+                    "bindings": {
+                        "App\\Modules\\Ticket\\Domain\\Contracts\\TicketRepositoryInterface": "App\\Modules\\Ticket\\Infrastructure\\Repositories\\TicketRepository",
+                        "App\\Modules\\Ticket\\Application\\Actions\\CreateTicketAction": "App\\Modules\\Ticket\\Application\\Actions\\CreateTicketAction",
+                        "App\\Modules\\Ticket\\Application\\Workflows\\CreateTicketWorkflow": "App\\Modules\\Ticket\\Application\\Workflows\\CreateTicketWorkflow",
+                        "App\\Modules\\Ticket\\Application\\Actions\\UpdateTicketAction": "App\\Modules\\Ticket\\Application\\Actions\\UpdateTicketAction",
+                        "App\\Modules\\Ticket\\Application\\Workflows\\UpdateTicketWorkflow": "App\\Modules\\Ticket\\Application\\Workflows\\UpdateTicketWorkflow",
+                        "App\\Modules\\Ticket\\Application\\Actions\\DeleteTicketAction": "App\\Modules\\Ticket\\Application\\Actions\\DeleteTicketAction",
+                        "App\\Modules\\Ticket\\Application\\Workflows\\DeleteTicketWorkflow": "App\\Modules\\Ticket\\Application\\Workflows\\DeleteTicketWorkflow",
+                        "App\\Modules\\Ticket\\Application\\Actions\\CreateTicketReplyAction": "App\\Modules\\Ticket\\Application\\Actions\\CreateTicketReplyAction",
+                        "App\\Modules\\Ticket\\Application\\Workflows\\CreateTicketReplyWorkflow": "App\\Modules\\Ticket\\Application\\Workflows\\CreateTicketReplyWorkflow",
+                        "App\\Modules\\Ticket\\Application\\Actions\\ChangeTicketStatusAction": "App\\Modules\\Ticket\\Application\\Actions\\ChangeTicketStatusAction",
+                        "App\\Modules\\Ticket\\Application\\Workflows\\ChangeTicketStatusWorkflow": "App\\Modules\\Ticket\\Application\\Workflows\\ChangeTicketStatusWorkflow",
+                        "App\\Modules\\Ticket\\Application\\Actions\\AssignTicketAction": "App\\Modules\\Ticket\\Application\\Actions\\AssignTicketAction",
+                        "App\\Modules\\Ticket\\Application\\Workflows\\AssignTicketWorkflow": "App\\Modules\\Ticket\\Application\\Workflows\\AssignTicketWorkflow",
+                        "App\\Modules\\Ticket\\Application\\Actions\\GetAdminTicketStatisticsAction": "App\\Modules\\Ticket\\Application\\Actions\\GetAdminTicketStatisticsAction",
+                        "App\\Modules\\Ticket\\Application\\Workflows\\GetAdminTicketStatisticsWorkflow": "App\\Modules\\Ticket\\Application\\Workflows\\GetAdminTicketStatisticsWorkflow",
+                        "App\\Modules\\Ticket\\Application\\Actions\\GetCustomerTicketStatisticsAction": "App\\Modules\\Ticket\\Application\\Actions\\GetCustomerTicketStatisticsAction",
+                        "App\\Modules\\Ticket\\Application\\Workflows\\GetCustomerTicketStatisticsWorkflow": "App\\Modules\\Ticket\\Application\\Workflows\\GetCustomerTicketStatisticsWorkflow"
+                    }
+                }
+            ]
+        },
+        {
+            "class": "App\\Modules\\Wallet\\Kernel\\WalletModule",
+            "name": "Wallet",
+            "dependencies": [
+                "App\\Modules\\Subscription\\Kernel\\SubscriptionModule",
+                "App\\Modules\\Activity\\Kernel\\ActivityModule"
+            ],
+            "resources": [
+                {
+                    "type": "services",
+                    "bindings": {
+                        "App\\Modules\\Wallet\\Domain\\Contracts\\WalletRepositoryInterface": "App\\Modules\\Wallet\\Infrastructure\\Repositories\\WalletRepository",
+                        "App\\Modules\\Wallet\\Application\\Workflows\\DepositWalletWorkflow": "App\\Modules\\Wallet\\Application\\Workflows\\DepositWalletWorkflow",
+                        "App\\Modules\\Wallet\\Application\\Workflows\\DeductWalletWorkflow": "App\\Modules\\Wallet\\Application\\Workflows\\DeductWalletWorkflow"
+                    }
+                },
+                {
+                    "type": "actions",
+                    "actions": [
+                        "App\\Modules\\Wallet\\Application\\Actions\\DepositWalletAction",
+                        "App\\Modules\\Wallet\\Application\\Actions\\DeductWalletAction"
+                    ]
                 }
             ]
         }

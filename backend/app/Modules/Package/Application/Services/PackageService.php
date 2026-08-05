@@ -4,14 +4,21 @@ declare(strict_types=1);
 
 namespace App\Modules\Package\Application\Services;
 
-use App\Models\Package;
+use App\Modules\Package\Infrastructure\Persistence\Models\Package;
 use App\Modules\Package\Domain\Contracts\PackageRepositoryInterface;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use App\Modules\Package\Application\Workflows\CreatePackageWorkflow;
+use App\Modules\Package\Application\Workflows\UpdatePackageWorkflow;
+use App\Modules\Package\Application\Workflows\DeletePackageWorkflow;
 
 class PackageService
 {
     public function __construct(
         private readonly PackageRepositoryInterface $repository,
+
+        private readonly CreatePackageWorkflow $createWorkflow,
+        private readonly UpdatePackageWorkflow $updateWorkflow,
+        private readonly DeletePackageWorkflow $deleteWorkflow,
     ) {}
 
     public function paginate(): LengthAwarePaginator
@@ -21,7 +28,7 @@ class PackageService
 
     public function create(array $data): Package
     {
-        return $this->repository->create($data);
+        return $this->createWorkflow->execute($data);
     }
 
     public function update(
@@ -29,7 +36,7 @@ class PackageService
         array $data
     ): Package {
 
-        return $this->repository->update(
+        return $this->updateWorkflow->execute(
             $package,
             $data
         );
@@ -39,6 +46,6 @@ class PackageService
         Package $package,
     ): void {
 
-        $this->repository->delete($package);
+        $this->deleteWorkflow->execute($package);
     }
 }

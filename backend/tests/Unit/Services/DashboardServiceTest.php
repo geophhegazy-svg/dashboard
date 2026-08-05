@@ -12,7 +12,7 @@ use App\Models\Package;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 use App\Models\Payment;
 use App\Models\Invoice;
-
+use Carbon\Carbon;
 
 class DashboardServiceTest extends TestCase
 {
@@ -25,6 +25,15 @@ class DashboardServiceTest extends TestCase
         Package::factory()->count(2)->create();
 
         $service = new DashboardService();
+
+        dump(
+            now()->toDateString(),
+            Payment::query()
+                ->select('amount', 'payment_date')
+                ->orderBy('payment_date')
+                ->get()
+                ->toArray()
+        );
 
         $data = $service->getDashboardData();
 
@@ -93,46 +102,43 @@ class DashboardServiceTest extends TestCase
 
     public function test_financial_metrics_are_returned_correctly(): void
     {
-        $invoices = Invoice::factory()->count(5)->create();
+        Carbon::setTestNow('2026-07-20 12:00:00');
 
-        Payment::factory()->create([
-            'invoice_id' => $invoices[0]->id,
-            'tenant_id' => $invoices[0]->tenant_id,
-            'amount' => 100,
-            'payment_date' => '2026-07-10',
-        ]);
+        try {
 
-        Payment::factory()->create([
-            'invoice_id' => $invoices[1]->id,
-            'tenant_id' => $invoices[1]->tenant_id,
-            'amount' => 200,
-            'payment_date' => '2026-07-15',
-        ]);
+            $invoices = Invoice::factory()->count(5)->create();
 
-        Payment::factory()->create([
-            'invoice_id' => $invoices[2]->id,
-            'tenant_id' => $invoices[2]->tenant_id,
-            'amount' => 300,
-            'payment_date' => '2026-06-15',
-        ]);
+            Payment::factory()->create([
+                'invoice_id'   => $invoices[0]->id,
+                'tenant_id'    => $invoices[0]->tenant_id,
+                'amount'       => 100,
+                'payment_date' => now()->subDays(10),
+            ]);
 
-        $service = new DashboardService();
+            Payment::factory()->create([
+                'invoice_id'   => $invoices[1]->id,
+                'tenant_id'    => $invoices[1]->tenant_id,
+                'amount'       => 200,
+                'payment_date' => now()->subDays(5),
+            ]);
 
-        $data = $service->getDashboardData();
+            Payment::factory()->create([
+                'invoice_id'   => $invoices[2]->id,
+                'tenant_id'    => $invoices[2]->tenant_id,
+                'amount'       => 300,
+                'payment_date' => now()->subMonth(),
+            ]);
 
-        $this->assertEquals(
-            5,
-            $data['financial']['total_invoices']
-        );
+            $service = new DashboardService();
 
-        $this->assertEquals(
-            600,
-            $data['financial']['total_revenue']
-        );
+            $data = $service->getDashboardData();
 
-        $this->assertEquals(
-            300,
-            $data['financial']['monthly_revenue']
-        );
+            $this->assertEquals(5, $data['financial']['total_invoices']);
+            $this->assertEquals(600, $data['financial']['total_revenue']);
+            $this->assertEquals(300, $data['financial']['monthly_revenue']);
+        } finally {
+
+            Carbon::setTestNow();
+        }
     }
 }

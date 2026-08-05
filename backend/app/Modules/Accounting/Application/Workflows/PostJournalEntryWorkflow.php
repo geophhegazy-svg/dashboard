@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Accounting\Application\Workflows;
 
-use App\Models\JournalEntry;
+use App\Modules\Accounting\Infrastructure\Persistence\Models\JournalEntry;
 use App\Core\Workflow\AbstractWorkflow;
 use App\Modules\Accounting\Application\Actions\PostJournalEntryAction;
 

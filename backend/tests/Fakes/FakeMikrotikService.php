@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Fakes;
 
 use App\Modules\Network\Domain\Contracts\MikrotikServiceInterface;
-use App\Models\NetworkDevice;
+use App\Modules\Network\Infrastructure\Persistence\Models\NetworkDevice;
 
 class FakeMikrotikService implements MikrotikServiceInterface
 {

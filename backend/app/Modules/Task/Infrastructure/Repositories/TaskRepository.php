@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\Task\Infrastructure\Repositories;
 
 use App\Modules\Task\Domain\Contracts\TaskRepositoryInterface;
-use App\Models\Task;
+use App\Modules\Task\Infrastructure\Persistence\Models\Task;
 use Illuminate\Database\Eloquent\Collection;
 
 class TaskRepository implements TaskRepositoryInterface

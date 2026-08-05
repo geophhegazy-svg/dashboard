@@ -18,7 +18,7 @@ class NotificationServiceTest extends TestCase
     {
         $subscription = Subscription::factory()->create();
 
-        $service = new NotificationService();
+        $service = app(NotificationService::class);
 
         $service->createReminder($subscription, 7);
 
@@ -37,7 +37,7 @@ class NotificationServiceTest extends TestCase
     {
         $subscription = Subscription::factory()->create();
 
-        $service = new NotificationService();
+        $service = app(NotificationService::class);
 
         $service->createReminder($subscription, 7);
 

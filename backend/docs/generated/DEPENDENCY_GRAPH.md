@@ -45,7 +45,6 @@
 
 ## Services
 
-- App\Modules\Activity\Application\Services\ActivityLogService
 - App\Modules\Billing\Application\Services\AutomaticBillingService
 - App\Modules\Billing\Application\Services\BillingCycleService
 - App\Modules\Dashboard\Application\Services\CustomerDashboardService
@@ -69,7 +68,6 @@
 - App\Modules\Subscription\Application\Services\SubscriptionService
 - App\Modules\Task\Application\Services\TaskService
 - App\Modules\Notification\Application\Services\TelegramNotificationService
-- App\Modules\Wallet\Application\Services\WalletService
 
 ## Models
 

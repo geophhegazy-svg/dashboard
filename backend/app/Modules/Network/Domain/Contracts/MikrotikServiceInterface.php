@@ -2,7 +2,7 @@
 
 namespace App\Modules\Network\Domain\Contracts;
 
-use App\Models\NetworkDevice;
+use App\Modules\Network\Infrastructure\Persistence\Models\NetworkDevice;
 
 interface MikrotikServiceInterface
 {

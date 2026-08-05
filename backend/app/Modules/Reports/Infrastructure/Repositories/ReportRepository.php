@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Reports\Infrastructure\Repositories;
 
-use App\Models\Report;
+use App\Modules\Reports\Infrastructure\Persistence\Models\Report;
 use Illuminate\Database\Eloquent\Collection;
 use App\Modules\Reports\Domain\Contracts\ReportRepositoryInterface;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;

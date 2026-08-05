@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Modules\Accounting\Domain\Contracts;
 
-use App\Models\JournalEntry;
-use App\Models\JournalEntryLine;
+use App\Modules\Accounting\Infrastructure\Persistence\Models\JournalEntry;
+use App\Modules\Accounting\Infrastructure\Persistence\Models\JournalEntryLine;
 use Illuminate\Database\Eloquent\Collection;
 
 interface JournalEntryLineRepositoryInterface

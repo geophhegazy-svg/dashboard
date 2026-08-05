@@ -6,7 +6,7 @@ namespace Tests\Unit\Services;
 
 use App\Models\ActivityLog;
 use App\Models\Tenant;
-use App\Modules\Activity\Application\Services\ActivityLogService;
+use App\Modules\Activity\Application\Workflows\LogActivityWorkflow;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -18,23 +18,30 @@ class ActivityLogServiceTest extends TestCase
     {
         $tenant = Tenant::factory()->create();
 
-        ActivityLogService::log(
-            tenantId: $tenant->id,
-            userId: null,
-            module: 'wallet',
-            action: 'deposit',
-            description: 'Wallet credited'
+        app(LogActivityWorkflow::class)->execute(
+
+            [
+                'tenant_id' => $tenant->id,
+                'module'    => 'wallet',
+                'action'    => 'deposit',
+            ],
+
+            [
+                'user_id'     => null,
+                'description' => 'Wallet credited',
+                'ip_address'  => '127.0.0.1',
+            ]
+
         );
 
         $this->assertDatabaseHas('activity_logs', [
-            'tenant_id' => $tenant->id,
-            'user_id' => null,
-            'module' => 'wallet',
-            'action' => 'deposit',
+            'tenant_id'   => $tenant->id,
+            'user_id'     => null,
+            'module'      => 'wallet',
+            'action'      => 'deposit',
             'description' => 'Wallet credited',
         ]);
 
         $this->assertEquals(1, ActivityLog::count());
     }
-
 }

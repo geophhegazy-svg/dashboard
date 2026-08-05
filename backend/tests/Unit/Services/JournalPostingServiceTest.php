@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace Tests\Unit\Services;
 
 use App\Modules\Accounting\Domain\Events\JournalEntryPosted;
-use App\Models\Account;
-use App\Models\JournalEntry;
-use App\Models\JournalEntryLine;
+use App\Modules\Accounting\Infrastructure\Persistence\Models\Account;
+use App\Modules\Accounting\Infrastructure\Persistence\Models\JournalEntry;
+use App\Modules\Accounting\Infrastructure\Persistence\Models\JournalEntryLine;
+
 use App\Models\Tenant;
 use App\Models\User;
 use App\Modules\Accounting\Application\Services\JournalPostingService;

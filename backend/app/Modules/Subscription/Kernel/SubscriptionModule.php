@@ -17,6 +17,14 @@ use App\Modules\Subscription\Domain\Contracts\SubscriptionRenewalServiceInterfac
 use App\Modules\Subscription\Domain\Services\SubscriptionRenewalService;
 use App\Modules\Subscription\Domain\Events\SubscriptionRenewed;
 use App\Modules\Subscription\Application\Listeners\SubscriptionRenewedListener;
+use App\Modules\Subscription\Application\Actions\ChangeSubscriptionStatusAction;
+use App\Modules\Subscription\Application\Actions\ExpireSubscriptionAction;
+use App\Modules\Subscription\Application\Actions\RenewSubscriptionAction;
+use App\Modules\Subscription\Application\Actions\RestoreSubscriptionAction;
+use App\Modules\Subscription\Application\Actions\SuspendSubscriptionAction;
+use App\Modules\Subscription\Application\Workflows\AutoExpireSubscriptionsWorkflow;
+use App\Modules\Subscription\Application\Services\SubscriptionService;
+
 
 final class SubscriptionModule extends Module
 {
@@ -27,7 +35,10 @@ final class SubscriptionModule extends Module
 
     public function dependencies(): array
     {
-        return [];
+        return [
+            \App\Modules\Network\Kernel\NetworkModule::class,
+            \App\Modules\Invoice\Kernel\InvoiceModule::class,
+        ];
     }
 
     public function manifest(): ModuleManifest
@@ -42,11 +53,27 @@ final class SubscriptionModule extends Module
                 SubscriptionRenewalServiceInterface::class =>
                 SubscriptionRenewalService::class,
 
+                AutoExpireSubscriptionsWorkflow::class =>
+                AutoExpireSubscriptionsWorkflow::class,
+
+                SubscriptionService::class
+                => SubscriptionService::class,
+
             ])
 
             ->actions([
 
                 ActivateSubscriptionAction::class,
+
+                ChangeSubscriptionStatusAction::class,
+
+                ExpireSubscriptionAction::class,
+
+                RenewSubscriptionAction::class,
+
+                RestoreSubscriptionAction::class,
+
+                SuspendSubscriptionAction::class,
 
             ])
 
