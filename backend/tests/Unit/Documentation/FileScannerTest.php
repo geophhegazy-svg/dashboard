@@ -14,13 +14,13 @@ class FileScannerTest extends TestCase
         $scanner = new FileScanner();
 
         $files = $scanner->scan(
-            app_path('Models')
+            app_path('Modules/Customer/Infrastructure/Persistence/Models')
         );
 
         $this->assertNotEmpty($files);
 
         $this->assertContains(
-            app_path('Models/Customer.php'),
+            app_path('Modules/Customer/Infrastructure/Persistence/Models/Customer.php'),
             $files
         );
     }

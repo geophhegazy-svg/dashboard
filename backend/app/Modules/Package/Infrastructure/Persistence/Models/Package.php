@@ -7,12 +7,18 @@ namespace App\Modules\Package\Infrastructure\Persistence\Models;
 use App\Models\Tenant;
 use App\Traits\BelongsToTenant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Database\Factories\Modules\Package\Infrastructure\Persistence\Models\PackageFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Package extends Model
 {
     use HasFactory;
     use BelongsToTenant;
+
+    protected static function newFactory()
+    {
+        return PackageFactory::new();
+    }
 
     protected $fillable = [
         'tenant_id',

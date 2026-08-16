@@ -7,8 +7,8 @@ namespace Tests\Unit\Services;
 use Tests\TestCase;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 use App\Models\WalletTransaction;
-use App\Modules\Wallet\Application\Workflows\DepositWalletWorkflow;
-use App\Modules\Wallet\Application\Workflows\DeductWalletWorkflow;
+use App\Modules\Wallet\Application\Actions\DepositWalletAction;
+use App\Modules\Wallet\Application\Actions\DeductWalletAction;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class WalletServiceTest extends TestCase
@@ -21,7 +21,7 @@ class WalletServiceTest extends TestCase
             'wallet_balance' => 100,
         ]);
 
-        app(DepositWalletWorkflow::class)->execute(
+        app(DepositWalletAction::class)->execute(
             subscription: $subscription,
             amount: 50,
             description: 'Test deposit',
@@ -46,7 +46,7 @@ class WalletServiceTest extends TestCase
             'wallet_balance' => 100,
         ]);
 
-        app(DeductWalletWorkflow::class)->execute(
+        app(DeductWalletAction::class)->execute(
             subscription: $subscription,
             amount: 40,
             description: 'Test deduct',
@@ -77,7 +77,7 @@ class WalletServiceTest extends TestCase
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('Insufficient wallet balance.');
 
-        app(DeductWalletWorkflow::class)->execute(
+        app(DeductWalletAction::class)->execute(
             subscription: $subscription,
             amount: 50,
             description: 'Test insufficient balance',
@@ -101,7 +101,7 @@ class WalletServiceTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Amount must be greater than zero.');
 
-        app(DeductWalletWorkflow::class)->execute(
+        app(DeductWalletAction::class)->execute(
             subscription: $subscription,
             amount: 0,
             description: 'Invalid amount test',
@@ -118,7 +118,7 @@ class WalletServiceTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Amount must be greater than zero.');
 
-        app(DeductWalletWorkflow::class)->execute(
+        app(DeductWalletAction::class)->execute(
             subscription: $subscription,
             amount: -10,
             description: 'Negative amount test',
@@ -132,7 +132,7 @@ class WalletServiceTest extends TestCase
             'wallet_balance' => 100,
         ]);
 
-        app(DepositWalletWorkflow::class)->execute(
+        app(DepositWalletAction::class)->execute(
             subscription: $subscription,
             amount: 50,
             description: 'Transaction test',

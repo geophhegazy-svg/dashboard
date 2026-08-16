@@ -5,7 +5,7 @@
 **Class**
 
 ```
-App\Models\Account
+App\Modules\Accounting\Infrastructure\Persistence\Models\Account
 ```
 
 ## ActivityLog
@@ -13,7 +13,7 @@ App\Models\Account
 **Class**
 
 ```
-App\Models\ActivityLog
+App\Modules\Activity\Infrastructure\Persistence\Models\ActivityLog
 ```
 
 ## Customer
@@ -21,47 +21,7 @@ App\Models\ActivityLog
 **Class**
 
 ```
-App\Models\Customer
-```
-
-## Device
-
-**Class**
-
-```
-App\Models\Device
-```
-
-## DeviceAssignment
-
-**Class**
-
-```
-App\Models\DeviceAssignment
-```
-
-## HotspotSubscription
-
-**Class**
-
-```
-App\Models\HotspotSubscription
-```
-
-## HotspotUser
-
-**Class**
-
-```
-App\Models\HotspotUser
-```
-
-## Inventory
-
-**Class**
-
-```
-App\Models\Inventory
+App\Modules\Customer\Infrastructure\Persistence\Models\Customer
 ```
 
 ## Invoice
@@ -69,7 +29,7 @@ App\Models\Inventory
 **Class**
 
 ```
-App\Models\Invoice
+App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice
 ```
 
 ## JournalEntry
@@ -77,7 +37,7 @@ App\Models\Invoice
 **Class**
 
 ```
-App\Models\JournalEntry
+App\Modules\Accounting\Infrastructure\Persistence\Models\JournalEntry
 ```
 
 ## JournalEntryLine
@@ -85,7 +45,7 @@ App\Models\JournalEntry
 **Class**
 
 ```
-App\Models\JournalEntryLine
+App\Modules\Accounting\Infrastructure\Persistence\Models\JournalEntryLine
 ```
 
 ## NetworkDevice
@@ -93,7 +53,7 @@ App\Models\JournalEntryLine
 **Class**
 
 ```
-App\Models\NetworkDevice
+App\Modules\Network\Infrastructure\Persistence\Models\NetworkDevice
 ```
 
 ## Notification
@@ -101,7 +61,7 @@ App\Models\NetworkDevice
 **Class**
 
 ```
-App\Models\Notification
+App\Modules\Notification\Infrastructure\Persistence\Models\Notification
 ```
 
 ## PPPoEUser
@@ -109,7 +69,7 @@ App\Models\Notification
 **Class**
 
 ```
-App\Models\PPPoEUser
+App\Modules\Network\Infrastructure\Persistence\Models\PPPoEUser
 ```
 
 ## Package
@@ -117,7 +77,7 @@ App\Models\PPPoEUser
 **Class**
 
 ```
-App\Models\Package
+App\Modules\Package\Infrastructure\Persistence\Models\Package
 ```
 
 ## Payment
@@ -125,7 +85,7 @@ App\Models\Package
 **Class**
 
 ```
-App\Models\Payment
+App\Modules\Payment\Infrastructure\Persistence\Models\Payment
 ```
 
 ## Report
@@ -133,7 +93,7 @@ App\Models\Payment
 **Class**
 
 ```
-App\Models\Report
+App\Modules\Reports\Infrastructure\Persistence\Models\Report
 ```
 
 ## ReportExport
@@ -141,7 +101,7 @@ App\Models\Report
 **Class**
 
 ```
-App\Models\ReportExport
+App\Modules\Reports\Infrastructure\Persistence\Models\ReportExport
 ```
 
 ## ScheduledReport
@@ -149,7 +109,7 @@ App\Models\ReportExport
 **Class**
 
 ```
-App\Models\ScheduledReport
+App\Modules\Reports\Infrastructure\Persistence\Models\ScheduledReport
 ```
 
 ## Subscription
@@ -157,7 +117,7 @@ App\Models\ScheduledReport
 **Class**
 
 ```
-App\Models\Subscription
+App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
 ```
 
 ## Task
@@ -165,15 +125,7 @@ App\Models\Subscription
 **Class**
 
 ```
-App\Models\Task
-```
-
-## Tenant
-
-**Class**
-
-```
-App\Models\Tenant
+App\Modules\Task\Infrastructure\Persistence\Models\Task
 ```
 
 ## Ticket
@@ -181,7 +133,7 @@ App\Models\Tenant
 **Class**
 
 ```
-App\Models\Ticket
+App\Modules\Ticket\Infrastructure\Persistence\Models\Ticket
 ```
 
 ## TicketReply
@@ -189,23 +141,7 @@ App\Models\Ticket
 **Class**
 
 ```
-App\Models\TicketReply
-```
-
-## UsageSnapshot
-
-**Class**
-
-```
-App\Models\UsageSnapshot
-```
-
-## User
-
-**Class**
-
-```
-App\Models\User
+App\Modules\Ticket\Infrastructure\Persistence\Models\TicketReply
 ```
 
 ## WalletTransaction
@@ -213,5 +149,5 @@ App\Models\User
 **Class**
 
 ```
-App\Models\WalletTransaction
+App\Modules\Wallet\Infrastructure\Persistence\Models\WalletTransaction
 ```

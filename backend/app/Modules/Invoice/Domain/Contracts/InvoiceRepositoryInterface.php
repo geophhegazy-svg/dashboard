@@ -6,6 +6,7 @@ namespace App\Modules\Invoice\Domain\Contracts;
 
 use App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 interface InvoiceRepositoryInterface
 {
@@ -30,4 +31,8 @@ interface InvoiceRepositoryInterface
     ): Invoice;
 
     public function delete(Invoice $invoice): bool;
+
+    public function paginate(
+        int $perPage = 15,
+    ): LengthAwarePaginator;
 }

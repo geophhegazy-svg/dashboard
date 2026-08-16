@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Policies;
 
-use App\Models\Package;
+use App\Modules\Package\Infrastructure\Persistence\Models\Package;
 use App\Models\User;
 use App\Core\Security\Authorization\Concerns\AuthorizesByPermission;
 

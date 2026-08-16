@@ -13,10 +13,19 @@ use App\Modules\Invoice\Application\Actions\CreateInvoiceAction;
 use App\Modules\Invoice\Application\Actions\UpdateInvoiceAction;
 use App\Modules\Invoice\Application\Actions\DeleteInvoiceAction;
 
-use App\Modules\Invoice\Application\Workflows\CreateInvoiceWorkflow;
-use App\Modules\Invoice\Application\Workflows\UpdateInvoiceWorkflow;
-use App\Modules\Invoice\Application\Workflows\DeleteInvoiceWorkflow;
 use App\Modules\Invoice\Application\Services\InvoiceService;
+
+use App\Modules\Invoice\Application\Queries\PaginateInvoicesQuery;
+use App\Modules\Invoice\Application\Queries\Handlers\PaginateInvoicesQueryHandler;
+
+use App\Modules\Invoice\Application\Commands\CreateInvoiceCommand;
+use App\Modules\Invoice\Application\Commands\UpdateInvoiceCommand;
+use App\Modules\Invoice\Application\Commands\DeleteInvoiceCommand;
+
+use App\Modules\Invoice\Application\Commands\Handlers\CreateInvoiceCommandHandler;
+use App\Modules\Invoice\Application\Commands\Handlers\UpdateInvoiceCommandHandler;
+use App\Modules\Invoice\Application\Commands\Handlers\DeleteInvoiceCommandHandler;
+use App\Modules\Invoice\Application\Contracts\InvoiceServiceInterface;
 
 final class InvoiceModule extends Module
 {
@@ -48,17 +57,28 @@ final class InvoiceModule extends Module
                 DeleteInvoiceAction::class
                 => DeleteInvoiceAction::class,
 
-                CreateInvoiceWorkflow::class
-                => CreateInvoiceWorkflow::class,
-
-                UpdateInvoiceWorkflow::class
-                => UpdateInvoiceWorkflow::class,
-
-                DeleteInvoiceWorkflow::class
-                => DeleteInvoiceWorkflow::class,
-
-                InvoiceService::class
+                InvoiceServiceInterface::class
                 => InvoiceService::class,
+
+            ])
+
+            ->queries([
+
+                PaginateInvoicesQuery::class
+                => PaginateInvoicesQueryHandler::class,
+
+            ])
+
+            ->commandHandlers([
+
+                CreateInvoiceCommand::class
+                => CreateInvoiceCommandHandler::class,
+
+                UpdateInvoiceCommand::class
+                => UpdateInvoiceCommandHandler::class,
+
+                DeleteInvoiceCommand::class
+                => DeleteInvoiceCommandHandler::class,
 
             ]);
     }

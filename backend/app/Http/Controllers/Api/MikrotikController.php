@@ -7,10 +7,10 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Modules\Network\Domain\Contracts\NetworkProviderInterface;
 use App\Modules\Network\Application\NetworkManager;
-use App\Models\Customer;
+use App\Modules\Customer\Infrastructure\Persistence\Models\Customer;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 use App\Models\HotspotSubscription;
-use App\Models\Invoice;
+use App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice;
 use App\Models\NetworkDevice;
 
 class MikrotikController extends Controller

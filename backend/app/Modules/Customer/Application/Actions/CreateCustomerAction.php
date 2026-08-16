@@ -20,16 +20,10 @@ final readonly class CreateCustomerAction
         array $data,
     ): Customer
     {
-        $customer = $this->repository->create(
-            $data,
-        );
-        
-        $this->repository->save($customer);
+        $customer = $this->repository->create($data);
 
         $this->events->dispatch(
-            new CustomerCreated(
-                $customer->id,
-            )
+            new CustomerCreated($customer->id)
         );
 
         return $customer;

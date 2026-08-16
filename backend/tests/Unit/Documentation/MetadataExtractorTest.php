@@ -14,7 +14,7 @@ class MetadataExtractorTest extends TestCase
         $extractor = new MetadataExtractor();
 
         $metadata = $extractor->extract(
-            \App\Models\Customer::class
+            \App\Modules\Customer\Infrastructure\Persistence\Models\Customer::class
         );
 
         $this->assertIsArray($metadata);
@@ -25,7 +25,7 @@ class MetadataExtractorTest extends TestCase
         );
 
         $this->assertEquals(
-            \App\Models\Customer::class,
+            \App\Modules\Customer\Infrastructure\Persistence\Models\Customer::class,
             $metadata['class']
         );
     }

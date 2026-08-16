@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\Invoice;
+use App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice;
 use App\Models\Payment;
 use App\Models\Tenant;
 use Illuminate\Database\Eloquent\Factories\Factory;

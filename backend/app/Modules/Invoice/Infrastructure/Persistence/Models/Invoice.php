@@ -5,11 +5,19 @@ namespace App\Modules\Invoice\Infrastructure\Persistence\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\BelongsToTenant;
+use Database\Factories\Modules\Invoice\Infrastructure\Persistence\Models\InvoiceFactory;
+use App\Modules\Customer\Infrastructure\Persistence\Models\Customer;
 
 class Invoice extends \Illuminate\Database\Eloquent\Model
 {
     use HasFactory;
     use BelongsToTenant;
+
+
+    protected static function newFactory()
+    {
+        return InvoiceFactory::new();
+    }
 
     protected $fillable = [
         'tenant_id',
@@ -40,7 +48,7 @@ class Invoice extends \Illuminate\Database\Eloquent\Model
     public function customer()
     {
         return $this->belongsTo(
-            \App\Models\Customer::class
+            Customer::class
         );
     }
 

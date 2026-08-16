@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Reports\Reports;
 
-use App\Models\Customer;
+use App\Modules\Customer\Infrastructure\Persistence\Models\Customer;
 use App\Reports\Abstracts\BaseReport;
 use Illuminate\Database\Eloquent\Builder;
 

@@ -5,25 +5,31 @@ declare(strict_types=1);
 namespace App\Modules\Invoice\Application\Services;
 
 use App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice;
-use App\Modules\Invoice\Application\Workflows\CreateInvoiceWorkflow;
-use App\Modules\Invoice\Application\Workflows\UpdateInvoiceWorkflow;
-use App\Modules\Invoice\Application\Workflows\DeleteInvoiceWorkflow;
+use App\Modules\Invoice\Application\Actions\CreateInvoiceAction;
+use App\Modules\Invoice\Application\Actions\UpdateInvoiceAction;
+use App\Modules\Invoice\Application\Actions\DeleteInvoiceAction;
+use App\Modules\Invoice\Application\Contracts\InvoiceServiceInterface;
 
-final readonly class InvoiceService
+final readonly class InvoiceService implements InvoiceServiceInterface
 {
     public function __construct(
-        private CreateInvoiceWorkflow $createInvoice,
-        private UpdateInvoiceWorkflow $updateInvoice,
-        private DeleteInvoiceWorkflow $deleteInvoice,
+        private CreateInvoiceAction $createInvoice,
+        private UpdateInvoiceAction $updateInvoice,
+        private DeleteInvoiceAction $deleteInvoice,
     ) {}
 
-    public function create(
-        array $data,
-    ): Invoice {
+    public function create(array $data): Invoice
+    {
+        $invoice = Invoice::where(
+            'subscription_id',
+            $data['subscription_id']
+        )->first();
 
-        return $this->createInvoice->execute(
-            $data,
-        );
+        if ($invoice) {
+            return $invoice;
+        }
+
+        return $this->createInvoice->execute($data);
     }
 
     public function update(

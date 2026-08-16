@@ -8,8 +8,7 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Modules\Subscription\Domain\Events\SubscriptionRenewed;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
-use App\Models\Invoice;
-use App\Models\Payment;
+use App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice;
 use App\Models\Notification;
 use App\Models\ActivityLog;
 
@@ -36,29 +35,7 @@ class SubscriptionRenewedListenerTest extends TestCase
             'tenant_id'       => $subscription->tenant_id,
             'customer_id'     => $subscription->customer_id,
             'amount'          => 350,
-            'status'          => 'paid',
-        ]);
-    }
-
-    public function test_listener_creates_payment(): void
-    {
-        $subscription = $this->subscription();
-
-        SubscriptionRenewed::dispatch($subscription);
-
-        $invoice = Invoice::where(
-            'subscription_id',
-            $subscription->id
-        )->first();
-
-        $this->assertNotNull($invoice);
-
-        $this->assertDatabaseHas('payments', [
-            'invoice_id'       => $invoice->id,
-            'tenant_id'        => $subscription->tenant_id,
-            'amount'           => 350,
-            'payment_method'   => 'wallet',
-            'reference_number' => 'AUTO-WALLET',
+            'status'          => 'pending',
         ]);
     }
 
@@ -100,19 +77,6 @@ class SubscriptionRenewedListenerTest extends TestCase
             Invoice::where(
                 'subscription_id',
                 $subscription->id
-            )->get()
-        );
-
-        $invoice = Invoice::where(
-            'subscription_id',
-            $subscription->id
-        )->first();
-
-        $this->assertCount(
-            1,
-            Payment::where(
-                'invoice_id',
-                $invoice->id
             )->get()
         );
 

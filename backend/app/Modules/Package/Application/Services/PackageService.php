@@ -7,18 +7,20 @@ namespace App\Modules\Package\Application\Services;
 use App\Modules\Package\Infrastructure\Persistence\Models\Package;
 use App\Modules\Package\Domain\Contracts\PackageRepositoryInterface;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use App\Modules\Package\Application\Workflows\CreatePackageWorkflow;
-use App\Modules\Package\Application\Workflows\UpdatePackageWorkflow;
-use App\Modules\Package\Application\Workflows\DeletePackageWorkflow;
+use App\Modules\Package\Application\Actions\CreatePackageAction;
+use App\Modules\Package\Application\Actions\UpdatePackageAction;
+use App\Modules\Package\Application\Actions\DeletePackageAction;
+
+
 
 class PackageService
 {
     public function __construct(
         private readonly PackageRepositoryInterface $repository,
 
-        private readonly CreatePackageWorkflow $createWorkflow,
-        private readonly UpdatePackageWorkflow $updateWorkflow,
-        private readonly DeletePackageWorkflow $deleteWorkflow,
+        private readonly CreatePackageAction $createWorkflow,
+        private readonly UpdatePackageAction $updateWorkflow,
+        private readonly DeletePackageAction $deleteWorkflow,
     ) {}
 
     public function paginate(): LengthAwarePaginator

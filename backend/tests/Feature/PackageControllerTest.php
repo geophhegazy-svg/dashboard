@@ -7,7 +7,7 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Tenant;
-use App\Models\Package;
+use App\Modules\Package\Infrastructure\Persistence\Models\Package;
 use Laravel\Sanctum\Sanctum;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 

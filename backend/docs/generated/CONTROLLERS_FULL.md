@@ -126,7 +126,7 @@ App\Http\Controllers\Api
 
 **Dependencies**
 
-- CustomerService $customerService
+- CommandDispatcher $commandDispatcher
 - QueryDispatcher $queryDispatcher
 
 **Public Methods**
@@ -632,7 +632,8 @@ App\Http\Controllers\Api
 
 **Dependencies**
 
-- InvoiceService $invoiceService
+- CommandDispatcher $commandDispatcher
+- QueryDispatcher $queryDispatcher
 
 **Public Methods**
 

@@ -6,12 +6,12 @@ namespace App\Modules\Payment\Application\Services;
 
 use App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice;
 use App\Modules\Payment\Infrastructure\Persistence\Models\Payment;
-use App\Modules\Payment\Application\Workflows\CreatePaymentWorkflow;
+use App\Modules\Payment\Application\Actions\CreatePaymentAction;
 
 class PaymentService
 {
     public function __construct(
-        private readonly CreatePaymentWorkflow $createPayment,
+        private readonly CreatePaymentAction $createPayment,
     ) {}
 
     public function create(

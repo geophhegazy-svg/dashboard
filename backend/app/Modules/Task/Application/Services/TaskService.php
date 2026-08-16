@@ -4,26 +4,26 @@ declare(strict_types=1);
 
 namespace App\Modules\Task\Application\Services;
 
+use App\Modules\Task\Application\Actions\CancelTaskAction;
+use App\Modules\Task\Application\Actions\CompleteTaskAction;
+use App\Modules\Task\Application\Actions\CreateTaskAction;
+use App\Modules\Task\Application\Actions\DeleteTaskAction;
+use App\Modules\Task\Application\Actions\ReopenTaskAction;
+use App\Modules\Task\Application\Actions\StartTaskAction;
+use App\Modules\Task\Application\Actions\UpdateTaskAction;
 use App\Modules\Task\Infrastructure\Persistence\Models\Task;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use App\Modules\Task\Application\Workflows\CreateTaskWorkflow;
-use App\Modules\Task\Application\Workflows\UpdateTaskWorkflow;
-use App\Modules\Task\Application\Workflows\DeleteTaskWorkflow;
-use App\Modules\Task\Application\Workflows\StartTaskWorkflow;
-use App\Modules\Task\Application\Workflows\CompleteTaskWorkflow;
-use App\Modules\Task\Application\Workflows\CancelTaskWorkflow;
-use App\Modules\Task\Application\Workflows\ReopenTaskWorkflow;
 
 final class TaskService
 {
     public function __construct(
-        private readonly CreateTaskWorkflow $createTask,
-        private readonly UpdateTaskWorkflow $updateTask,
-        private readonly DeleteTaskWorkflow $deleteTask,
-        private readonly StartTaskWorkflow $startTask,
-        private readonly CompleteTaskWorkflow $completeTask,
-        private readonly CancelTaskWorkflow $cancelTask,
-        private readonly ReopenTaskWorkflow $reopenTask,
+        private readonly CreateTaskAction $createTask,
+        private readonly UpdateTaskAction $updateTask,
+        private readonly DeleteTaskAction $deleteTask,
+        private readonly StartTaskAction $startTask,
+        private readonly CompleteTaskAction $completeTask,
+        private readonly CancelTaskAction $cancelTask,
+        private readonly ReopenTaskAction $reopenTask,
     ) {}
 
     public function paginate(): LengthAwarePaginator
@@ -32,7 +32,7 @@ final class TaskService
     }
 
     public function create(
-        array $data
+        array $data,
     ): Task {
 
         $task = new Task($data);
@@ -62,14 +62,22 @@ final class TaskService
         );
     }
 
-    public function cancel(Task $task): Task
-    {
-        return $this->cancelTask->execute($task);
+    public function cancel(
+        Task $task,
+    ): Task {
+
+        return $this->cancelTask->execute(
+            $task,
+        );
     }
 
-    public function reopen(Task $task): Task
-    {
-        return $this->reopenTask->execute($task);
+    public function reopen(
+        Task $task,
+    ): Task {
+
+        return $this->reopenTask->execute(
+            $task,
+        );
     }
 
     public function start(

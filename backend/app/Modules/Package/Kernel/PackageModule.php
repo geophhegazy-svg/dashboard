@@ -13,10 +13,6 @@ use App\Modules\Package\Application\Actions\CreatePackageAction;
 use App\Modules\Package\Application\Actions\UpdatePackageAction;
 use App\Modules\Package\Application\Actions\DeletePackageAction;
 
-use App\Modules\Package\Application\Workflows\CreatePackageWorkflow;
-use App\Modules\Package\Application\Workflows\UpdatePackageWorkflow;
-use App\Modules\Package\Application\Workflows\DeletePackageWorkflow;
-
 use App\Modules\Package\Infrastructure\Persistence\Models\Package;
 use App\Modules\Policies\PackagePolicy;
 
@@ -49,15 +45,6 @@ final class PackageModule extends Module
 
                 DeletePackageAction::class
                 => DeletePackageAction::class,
-
-                CreatePackageWorkflow::class
-                => CreatePackageWorkflow::class,
-
-                UpdatePackageWorkflow::class
-                => UpdatePackageWorkflow::class,
-
-                DeletePackageWorkflow::class
-                => DeletePackageWorkflow::class,
 
             ])
 

@@ -22,7 +22,7 @@ use App\Infrastructure\Laravel\Kernel\LaravelModuleRegistrar;
 
 use App\Core\Workflow\Contracts\TransactionManagerInterface;
 use App\Infrastructure\Laravel\Database\LaravelTransactionManager;
-use App\Core\Workflow\WorkflowExecutorFactory;
+
 
 final class KernelCoreServiceProvider extends ServiceProvider
 {
@@ -70,10 +70,6 @@ final class KernelCoreServiceProvider extends ServiceProvider
 
         $this->app->singleton(
             KernelMonitoringService::class,
-        );
-
-        $this->app->singleton(
-            WorkflowExecutorFactory::class,
         );
 
     }

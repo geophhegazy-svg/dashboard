@@ -2,16 +2,11 @@
 
 ## Models
 
-Total: 27
+Total: 19
 
 - Account
 - ActivityLog
 - Customer
-- Device
-- DeviceAssignment
-- HotspotSubscription
-- HotspotUser
-- Inventory
 - Invoice
 - JournalEntry
 - JournalEntryLine
@@ -25,21 +20,17 @@ Total: 27
 - ScheduledReport
 - Subscription
 - Task
-- Tenant
 - Ticket
 - TicketReply
-- UsageSnapshot
-- User
 - WalletTransaction
 
 ## Services
 
-Total: 23
+Total: 22
 
 - AutomaticBillingService
 - BillingCycleService
 - CustomerDashboardService
-- CustomerService
 - DashboardService
 - FinanceService
 - InvoiceGenerator

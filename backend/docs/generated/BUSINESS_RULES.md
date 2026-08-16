@@ -45,24 +45,6 @@ App\Modules\Dashboard\Application\Services
 
 ---
 
-## CustomerService
-
-**Namespace**
-App\Modules\Customer\Application\Services
-
-**Dependencies**
-- App\Modules\Customer\Application\Actions\CreateCustomerAction
-- App\Modules\Customer\Application\Actions\UpdateCustomerAction
-- App\Modules\Customer\Application\Actions\DeleteCustomerAction
-
-**Methods**
-- __construct(3 params) : mixed
-- create(1 params) : App\Modules\Customer\Infrastructure\Persistence\Models\Customer
-- update(2 params) : App\Modules\Customer\Infrastructure\Persistence\Models\Customer
-- delete(1 params) : bool
-
----
-
 ## DashboardService
 
 **Namespace**
@@ -122,9 +104,9 @@ App\Modules\Invoice\Application\Services
 App\Modules\Invoice\Application\Services
 
 **Dependencies**
-- App\Modules\Invoice\Application\Workflows\CreateInvoiceWorkflow
-- App\Modules\Invoice\Application\Workflows\UpdateInvoiceWorkflow
-- App\Modules\Invoice\Application\Workflows\DeleteInvoiceWorkflow
+- App\Modules\Invoice\Application\Actions\CreateInvoiceAction
+- App\Modules\Invoice\Application\Actions\UpdateInvoiceAction
+- App\Modules\Invoice\Application\Actions\DeleteInvoiceAction
 
 **Methods**
 - __construct(3 params) : mixed
@@ -180,10 +162,10 @@ App\Modules\Accounting\Application\Services
 App\Modules\Notification\Application\Services
 
 **Dependencies**
-- App\Modules\Notification\Application\Workflows\CreateNotificationWorkflow
-- App\Modules\Notification\Application\Workflows\CreateReminderWorkflow
-- App\Modules\Notification\Application\Workflows\BillingFailedNotificationWorkflow
-- App\Modules\Notification\Application\Workflows\SubscriptionRenewedNotificationWorkflow
+- App\Modules\Notification\Application\Actions\CreateNotificationAction
+- App\Modules\Notification\Application\Actions\CreateReminderAction
+- App\Modules\Notification\Application\Actions\BillingFailedNotificationAction
+- App\Modules\Notification\Application\Actions\SubscriptionRenewedNotificationAction
 
 **Methods**
 - __construct(4 params) : mixed
@@ -201,9 +183,9 @@ App\Modules\Package\Application\Services
 
 **Dependencies**
 - App\Modules\Package\Domain\Contracts\PackageRepositoryInterface
-- App\Modules\Package\Application\Workflows\CreatePackageWorkflow
-- App\Modules\Package\Application\Workflows\UpdatePackageWorkflow
-- App\Modules\Package\Application\Workflows\DeletePackageWorkflow
+- App\Modules\Package\Application\Actions\CreatePackageAction
+- App\Modules\Package\Application\Actions\UpdatePackageAction
+- App\Modules\Package\Application\Actions\DeletePackageAction
 
 **Methods**
 - __construct(4 params) : mixed
@@ -220,7 +202,7 @@ App\Modules\Package\Application\Services
 App\Modules\Payment\Application\Services
 
 **Dependencies**
-- App\Modules\Payment\Application\Workflows\CreatePaymentWorkflow
+- App\Modules\Payment\Application\Actions\CreatePaymentAction
 
 **Methods**
 - __construct(1 params) : mixed
@@ -306,7 +288,7 @@ App\Modules\Reports\Application\Services
 App\Modules\Activity\Application\Services
 
 **Dependencies**
-- App\Modules\Activity\Application\Workflows\CreateActivityLogWorkflow
+- App\Modules\Activity\Application\Actions\CreateActivityLogAction
 
 **Methods**
 - __construct(1 params) : mixed
@@ -357,13 +339,13 @@ App\Modules\Subscription\Application\Services
 App\Modules\Task\Application\Services
 
 **Dependencies**
-- App\Modules\Task\Application\Workflows\CreateTaskWorkflow
-- App\Modules\Task\Application\Workflows\UpdateTaskWorkflow
-- App\Modules\Task\Application\Workflows\DeleteTaskWorkflow
-- App\Modules\Task\Application\Workflows\StartTaskWorkflow
-- App\Modules\Task\Application\Workflows\CompleteTaskWorkflow
-- App\Modules\Task\Application\Workflows\CancelTaskWorkflow
-- App\Modules\Task\Application\Workflows\ReopenTaskWorkflow
+- App\Modules\Task\Application\Actions\CreateTaskAction
+- App\Modules\Task\Application\Actions\UpdateTaskAction
+- App\Modules\Task\Application\Actions\DeleteTaskAction
+- App\Modules\Task\Application\Actions\StartTaskAction
+- App\Modules\Task\Application\Actions\CompleteTaskAction
+- App\Modules\Task\Application\Actions\CancelTaskAction
+- App\Modules\Task\Application\Actions\ReopenTaskAction
 
 **Methods**
 - __construct(7 params) : mixed

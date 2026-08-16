@@ -5,13 +5,20 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreInvoiceRequest;
 use App\Http\Resources\InvoiceResource;
-use App\Models\Invoice;
-use App\Modules\Invoice\Application\Services\InvoiceService;
+use App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice;
+use App\Core\QueryBus\QueryDispatcher;
+use App\Modules\Invoice\Application\Queries\PaginateInvoicesQuery;
+use App\Core\CommandBus\CommandDispatcher;
+
+use App\Modules\Invoice\Application\Commands\CreateInvoiceCommand;
+use App\Modules\Invoice\Application\Commands\UpdateInvoiceCommand;
+use App\Modules\Invoice\Application\Commands\DeleteInvoiceCommand;
 
 class InvoiceController extends Controller
 {
     public function __construct(
-        private readonly InvoiceService $invoiceService
+        private readonly CommandDispatcher $commandDispatcher,
+        private readonly QueryDispatcher $queryDispatcher,
     ) {}
 
     public function index()
@@ -19,10 +26,9 @@ class InvoiceController extends Controller
         $this->authorize('viewAny', Invoice::class);
 
         return InvoiceResource::collection(
-            Invoice::with([
-                'customer',
-                'subscription',
-            ])->latest()->paginate()
+            $this->queryDispatcher->dispatch(
+                new PaginateInvoicesQuery()
+            )
         );
     }
 
@@ -30,8 +36,10 @@ class InvoiceController extends Controller
     {
         $this->authorize('create', Invoice::class);
 
-        $invoice = $this->invoiceService->create(
-            $request->validated()
+        $invoice = $this->commandDispatcher->dispatch(
+            new CreateInvoiceCommand(
+                $request->validated()
+            )
         );
 
         return new InvoiceResource(
@@ -60,9 +68,11 @@ class InvoiceController extends Controller
     ) {
         $this->authorize('update', $invoice);
 
-        $invoice = $this->invoiceService->update(
-            $invoice,
-            $request->validated()
+        $invoice = $this->commandDispatcher->dispatch(
+            new UpdateInvoiceCommand(
+                $invoice,
+                $request->validated()
+            )
         );
 
         return new InvoiceResource($invoice);
@@ -73,7 +83,11 @@ class InvoiceController extends Controller
     ) {
         $this->authorize('delete', $invoice);
 
-        $this->invoiceService->delete($invoice);
+        $this->commandDispatcher->dispatch(
+            new DeleteInvoiceCommand(
+                $invoice
+            )
+        );
 
         return response()->json([
             'message' => 'Invoice deleted successfully'

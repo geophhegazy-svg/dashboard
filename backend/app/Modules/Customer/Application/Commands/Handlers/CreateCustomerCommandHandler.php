@@ -4,24 +4,21 @@ declare(strict_types=1);
 
 namespace App\Modules\Customer\Application\Commands\Handlers;
 
-use App\Modules\Customer\Infrastructure\Persistence\Models\Customer;
 use App\Modules\Customer\Application\Commands\CreateCustomerCommand;
-use App\Modules\Customer\Application\Workflows\CreateCustomerWorkflow;
+use App\Modules\Customer\Application\Actions\CreateCustomerAction;
+use App\Modules\Customer\Infrastructure\Persistence\Models\Customer;
 
 final readonly class CreateCustomerCommandHandler
 {
     public function __construct(
-        private CreateCustomerWorkflow $workflow,
+        private CreateCustomerAction $action,
     ) {}
 
     public function handle(
         CreateCustomerCommand $command,
     ): Customer {
-
-        return $this->workflow->execute(
-            new Customer(
-                $command->data,
-            )
+        return $this->action->execute(
+            $command->data
         );
     }
 }

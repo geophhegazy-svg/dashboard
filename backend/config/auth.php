@@ -81,7 +81,7 @@ return [
         // 🔥 إضافة Provider للعملاء
         'customers' => [
             'driver' => 'eloquent',
-            'model' => App\Models\Customer::class,
+            'model' => App\Modules\Customer\Infrastructure\Persistence\Models\Customer::class,
         ],
     ],
 

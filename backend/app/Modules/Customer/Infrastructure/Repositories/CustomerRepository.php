@@ -41,13 +41,6 @@ final class CustomerRepository implements CustomerRepositoryInterface
         );
     }
 
-    public function save(
-        Customer $customer,
-    ): bool {
-
-        return $customer->save();
-    }
-
     public function update(
         Customer $customer,
         array $data,

@@ -22,13 +22,12 @@ interface CustomerRepositoryInterface
         array $data,
     ): Customer;
 
-    public function save(Customer $customer): bool;
-
     public function update(
         Customer $customer,
         array $data,
     ): bool;
 
-    public function delete(Customer $customer): bool;
-
+    public function delete(
+        Customer $customer,
+    ): bool;
 }

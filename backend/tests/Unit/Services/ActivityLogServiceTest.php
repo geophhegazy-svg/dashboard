@@ -6,7 +6,7 @@ namespace Tests\Unit\Services;
 
 use App\Models\ActivityLog;
 use App\Models\Tenant;
-use App\Modules\Activity\Application\Workflows\LogActivityWorkflow;
+use App\Modules\Activity\Application\Actions\LogActivityAction;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -18,7 +18,7 @@ class ActivityLogServiceTest extends TestCase
     {
         $tenant = Tenant::factory()->create();
 
-        app(LogActivityWorkflow::class)->execute(
+        app(LogActivityAction::class)->execute(
 
             [
                 'tenant_id' => $tenant->id,

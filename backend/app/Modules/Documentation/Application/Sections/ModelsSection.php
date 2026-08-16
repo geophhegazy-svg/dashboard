@@ -4,12 +4,18 @@ declare(strict_types=1);
 
 namespace App\Modules\Documentation\Application\Sections;
 
+use App\Modules\Documentation\Application\Scanner\ProjectScanner;
+
 class ModelsSection
 {
+    public function __construct(
+        private readonly ProjectScanner $scanner = new ProjectScanner(),
+    ) {}
+
     public function generate(): string
     {
-        $models = collect(glob(app_path('Models/*.php')))
-            ->map(fn($file) => pathinfo($file, PATHINFO_FILENAME))
+        $models = collect($this->scanner->models())
+            ->pluck('name')
             ->sort()
             ->values();
 

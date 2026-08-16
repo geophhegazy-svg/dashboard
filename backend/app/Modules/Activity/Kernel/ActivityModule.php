@@ -11,10 +11,10 @@ use App\Modules\Activity\Domain\Contracts\ActivityRepositoryInterface;
 use App\Modules\Activity\Infrastructure\Repositories\ActivityRepository;
 
 use App\Modules\Activity\Application\Actions\LogActivityAction;
-use App\Modules\Activity\Application\Workflows\LogActivityWorkflow;
 
 use App\Modules\Activity\Application\Actions\CreateActivityLogAction;
-use App\Modules\Activity\Application\Workflows\CreateActivityLogWorkflow;
+use App\Modules\Subscription\Domain\Events\SubscriptionRenewed;
+use App\Modules\Activity\Application\Listeners\SubscriptionRenewedActivityListener;
 
 final class ActivityModule extends Module
 {
@@ -35,20 +35,24 @@ final class ActivityModule extends Module
             ->services([
 
                 ActivityRepositoryInterface::class
-                => ActivityRepository::class,
+                    => ActivityRepository::class,
 
-                LogActivityWorkflow::class
-                => LogActivityWorkflow::class,
 
-                CreateActivityLogWorkflow::class
-                => CreateActivityLogWorkflow::class,
 
             ])
+
+            ->listeners(
+                [
+                    SubscriptionRenewed::class => [
+                        SubscriptionRenewedActivityListener::class,
+                    ],
+                ]
+            )
 
             ->actions([
 
                 LogActivityAction::class,
-                CreateActivityLogAction::class,
+                    CreateActivityLogAction::class,
 
             ]);
     }

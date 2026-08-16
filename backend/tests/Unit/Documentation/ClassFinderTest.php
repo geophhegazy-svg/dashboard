@@ -14,11 +14,11 @@ class ClassFinderTest extends TestCase
         $finder = new ClassFinder();
 
         $class = $finder->find(
-            app_path('Models/Customer.php')
+            app_path('Modules/Customer/Infrastructure/Persistence/Models/Customer.php')
         );
 
         $this->assertEquals(
-            'App\\Models\\Customer',
+            'App\\Modules\\Customer\\Infrastructure\\Persistence\\Models\\Customer',
             $class
         );
     }

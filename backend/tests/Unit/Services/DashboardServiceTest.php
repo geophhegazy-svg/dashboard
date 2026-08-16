@@ -7,11 +7,11 @@ namespace Tests\Unit\Services;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Modules\Dashboard\Application\Services\DashboardService;
-use App\Models\Customer;
-use App\Models\Package;
+use App\Modules\Customer\Infrastructure\Persistence\Models\Customer;
+use App\Modules\Package\Infrastructure\Persistence\Models\Package;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 use App\Models\Payment;
-use App\Models\Invoice;
+use App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice;
 use Carbon\Carbon;
 
 class DashboardServiceTest extends TestCase

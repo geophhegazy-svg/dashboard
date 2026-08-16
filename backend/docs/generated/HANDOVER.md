@@ -13,8 +13,8 @@ Technology
 - MikroTik RouterOS
 
 Statistics
-- Models: 27
-- Services: 23
+- Models: 19
+- Services: 22
 
 
 ---
@@ -47,8 +47,8 @@ app/
 
 # Project Statistics
 
-Models: 27
-Services: 23
+Models: 19
+Services: 22
 
 ---
 
@@ -99,8 +99,8 @@ Development Rules
 - Update generated documentation after structural changes.
 
 Current Statistics
-Models: 27
-Services: 23
+Models: 19
+Services: 22
 
 ---
 
@@ -148,24 +148,6 @@ App\Modules\Dashboard\Application\Services
 **Methods**
 - __construct(1 params) : mixed
 - getDashboardData(1 params) : array
-
----
-
-## CustomerService
-
-**Namespace**
-App\Modules\Customer\Application\Services
-
-**Dependencies**
-- App\Modules\Customer\Application\Actions\CreateCustomerAction
-- App\Modules\Customer\Application\Actions\UpdateCustomerAction
-- App\Modules\Customer\Application\Actions\DeleteCustomerAction
-
-**Methods**
-- __construct(3 params) : mixed
-- create(1 params) : App\Modules\Customer\Infrastructure\Persistence\Models\Customer
-- update(2 params) : App\Modules\Customer\Infrastructure\Persistence\Models\Customer
-- delete(1 params) : bool
 
 ---
 
@@ -228,9 +210,9 @@ App\Modules\Invoice\Application\Services
 App\Modules\Invoice\Application\Services
 
 **Dependencies**
-- App\Modules\Invoice\Application\Workflows\CreateInvoiceWorkflow
-- App\Modules\Invoice\Application\Workflows\UpdateInvoiceWorkflow
-- App\Modules\Invoice\Application\Workflows\DeleteInvoiceWorkflow
+- App\Modules\Invoice\Application\Actions\CreateInvoiceAction
+- App\Modules\Invoice\Application\Actions\UpdateInvoiceAction
+- App\Modules\Invoice\Application\Actions\DeleteInvoiceAction
 
 **Methods**
 - __construct(3 params) : mixed
@@ -286,10 +268,10 @@ App\Modules\Accounting\Application\Services
 App\Modules\Notification\Application\Services
 
 **Dependencies**
-- App\Modules\Notification\Application\Workflows\CreateNotificationWorkflow
-- App\Modules\Notification\Application\Workflows\CreateReminderWorkflow
-- App\Modules\Notification\Application\Workflows\BillingFailedNotificationWorkflow
-- App\Modules\Notification\Application\Workflows\SubscriptionRenewedNotificationWorkflow
+- App\Modules\Notification\Application\Actions\CreateNotificationAction
+- App\Modules\Notification\Application\Actions\CreateReminderAction
+- App\Modules\Notification\Application\Actions\BillingFailedNotificationAction
+- App\Modules\Notification\Application\Actions\SubscriptionRenewedNotificationAction
 
 **Methods**
 - __construct(4 params) : mixed
@@ -307,9 +289,9 @@ App\Modules\Package\Application\Services
 
 **Dependencies**
 - App\Modules\Package\Domain\Contracts\PackageRepositoryInterface
-- App\Modules\Package\Application\Workflows\CreatePackageWorkflow
-- App\Modules\Package\Application\Workflows\UpdatePackageWorkflow
-- App\Modules\Package\Application\Workflows\DeletePackageWorkflow
+- App\Modules\Package\Application\Actions\CreatePackageAction
+- App\Modules\Package\Application\Actions\UpdatePackageAction
+- App\Modules\Package\Application\Actions\DeletePackageAction
 
 **Methods**
 - __construct(4 params) : mixed
@@ -326,7 +308,7 @@ App\Modules\Package\Application\Services
 App\Modules\Payment\Application\Services
 
 **Dependencies**
-- App\Modules\Payment\Application\Workflows\CreatePaymentWorkflow
+- App\Modules\Payment\Application\Actions\CreatePaymentAction
 
 **Methods**
 - __construct(1 params) : mixed
@@ -412,7 +394,7 @@ App\Modules\Reports\Application\Services
 App\Modules\Activity\Application\Services
 
 **Dependencies**
-- App\Modules\Activity\Application\Workflows\CreateActivityLogWorkflow
+- App\Modules\Activity\Application\Actions\CreateActivityLogAction
 
 **Methods**
 - __construct(1 params) : mixed
@@ -463,13 +445,13 @@ App\Modules\Subscription\Application\Services
 App\Modules\Task\Application\Services
 
 **Dependencies**
-- App\Modules\Task\Application\Workflows\CreateTaskWorkflow
-- App\Modules\Task\Application\Workflows\UpdateTaskWorkflow
-- App\Modules\Task\Application\Workflows\DeleteTaskWorkflow
-- App\Modules\Task\Application\Workflows\StartTaskWorkflow
-- App\Modules\Task\Application\Workflows\CompleteTaskWorkflow
-- App\Modules\Task\Application\Workflows\CancelTaskWorkflow
-- App\Modules\Task\Application\Workflows\ReopenTaskWorkflow
+- App\Modules\Task\Application\Actions\CreateTaskAction
+- App\Modules\Task\Application\Actions\UpdateTaskAction
+- App\Modules\Task\Application\Actions\DeleteTaskAction
+- App\Modules\Task\Application\Actions\StartTaskAction
+- App\Modules\Task\Application\Actions\CompleteTaskAction
+- App\Modules\Task\Application\Actions\CancelTaskAction
+- App\Modules\Task\Application\Actions\ReopenTaskAction
 
 **Methods**
 - __construct(7 params) : mixed
@@ -510,13 +492,13 @@ App\Modules\Notification\Application\Services
 **Namespace**
 
 ```
-App\Models
+App\Modules\Accounting\Infrastructure\Persistence\Models
 ```
 
 **File**
 
 ```
-/var/www/app/Models/Account.php
+/var/www/app/Modules/Accounting/Infrastructure/Persistence/Models/Account.php
 ```
 
 **Properties**
@@ -591,13 +573,6 @@ App\Models
 - $guardableColumns : mixed
 - $recursionCache : mixed
 - $resolvedCollectionClasses : array
-
-**Methods**
-
-- parent()
-- children()
-- journalEntryLines()
-- factory()
 
 ---
 
@@ -606,13 +581,13 @@ App\Models
 **Namespace**
 
 ```
-App\Models
+App\Modules\Activity\Infrastructure\Persistence\Models
 ```
 
 **File**
 
 ```
-/var/www/app/Models/ActivityLog.php
+/var/www/app/Modules/Activity/Infrastructure/Persistence/Models/ActivityLog.php
 ```
 
 **Properties**
@@ -688,14 +663,6 @@ App\Models
 - $recursionCache : mixed
 - $resolvedCollectionClasses : array
 
-**Methods**
-
-- getIconAttribute()
-- getColorAttribute()
-- getTitleAttribute()
-- tenant()
-- user()
-
 ---
 
 ## Customer
@@ -703,13 +670,13 @@ App\Models
 **Namespace**
 
 ```
-App\Models
+App\Modules\Customer\Infrastructure\Persistence\Models
 ```
 
 **File**
 
 ```
-/var/www/app/Models/Customer.php
+/var/www/app/Modules/Customer/Infrastructure/Persistence/Models/Customer.php
 ```
 
 **Properties**
@@ -809,516 +776,18 @@ App\Models
 
 ---
 
-## Device
-
-**Namespace**
-
-```
-App\Models
-```
-
-**File**
-
-```
-/var/www/app/Models/Device.php
-```
-
-**Properties**
-
-- $fillable : mixed
-- $connection : mixed
-- $table : mixed
-- $primaryKey : mixed
-- $keyType : mixed
-- $incrementing : mixed
-- $with : mixed
-- $withCount : mixed
-- $preventsLazyLoading : mixed
-- $perPage : mixed
-- $exists : mixed
-- $wasRecentlyCreated : mixed
-- $escapeWhenCastingToString : mixed
-- $resolver : mixed
-- $dispatcher : mixed
-- $booting : mixed
-- $booted : mixed
-- $bootedCallbacks : mixed
-- $traitInitializers : mixed
-- $globalScopes : mixed
-- $ignoreOnTouch : mixed
-- $modelsShouldPreventLazyLoading : mixed
-- $modelsShouldAutomaticallyEagerLoadRelationships : mixed
-- $lazyLoadingViolationCallback : mixed
-- $modelsShouldPreventSilentlyDiscardingAttributes : mixed
-- $discardedAttributeViolationCallback : mixed
-- $modelsShouldPreventAccessingMissingAttributes : mixed
-- $missingAttributeViolationCallback : mixed
-- $isBroadcasting : mixed
-- $builder : string
-- $collectionClass : string
-- $isSoftDeletable : array
-- $isPrunable : array
-- $isMassPrunable : array
-- $classAttributes : array
-- $attributes : mixed
-- $original : mixed
-- $changes : mixed
-- $previous : mixed
-- $casts : mixed
-- $classCastCache : mixed
-- $attributeCastCache : mixed
-- $primitiveCastTypes : mixed
-- $dateFormat : mixed
-- $appends : mixed
-- $snakeAttributes : mixed
-- $mutatorCache : mixed
-- $attributeMutatorCache : mixed
-- $getAttributeMutatorCache : mixed
-- $setAttributeMutatorCache : mixed
-- $castTypeCache : mixed
-- $encrypter : mixed
-- $dispatchesEvents : mixed
-- $observables : mixed
-- $relations : mixed
-- $touches : mixed
-- $relationAutoloadCallback : mixed
-- $relationAutoloadContext : mixed
-- $manyMethods : mixed
-- $relationResolvers : mixed
-- $timestamps : mixed
-- $ignoreTimestampsOn : mixed
-- $usesUniqueIds : mixed
-- $hidden : mixed
-- $visible : mixed
-- $guarded : mixed
-- $unguarded : mixed
-- $guardableColumns : mixed
-- $recursionCache : mixed
-- $resolvedCollectionClasses : array
-
-**Methods**
-
-- tenant()
-- customer()
-
----
-
-## DeviceAssignment
-
-**Namespace**
-
-```
-App\Models
-```
-
-**File**
-
-```
-/var/www/app/Models/DeviceAssignment.php
-```
-
-**Properties**
-
-- $fillable : mixed
-- $casts : mixed
-- $connection : mixed
-- $table : mixed
-- $primaryKey : mixed
-- $keyType : mixed
-- $incrementing : mixed
-- $with : mixed
-- $withCount : mixed
-- $preventsLazyLoading : mixed
-- $perPage : mixed
-- $exists : mixed
-- $wasRecentlyCreated : mixed
-- $escapeWhenCastingToString : mixed
-- $resolver : mixed
-- $dispatcher : mixed
-- $booting : mixed
-- $booted : mixed
-- $bootedCallbacks : mixed
-- $traitInitializers : mixed
-- $globalScopes : mixed
-- $ignoreOnTouch : mixed
-- $modelsShouldPreventLazyLoading : mixed
-- $modelsShouldAutomaticallyEagerLoadRelationships : mixed
-- $lazyLoadingViolationCallback : mixed
-- $modelsShouldPreventSilentlyDiscardingAttributes : mixed
-- $discardedAttributeViolationCallback : mixed
-- $modelsShouldPreventAccessingMissingAttributes : mixed
-- $missingAttributeViolationCallback : mixed
-- $isBroadcasting : mixed
-- $builder : string
-- $collectionClass : string
-- $isSoftDeletable : array
-- $isPrunable : array
-- $isMassPrunable : array
-- $classAttributes : array
-- $attributes : mixed
-- $original : mixed
-- $changes : mixed
-- $previous : mixed
-- $classCastCache : mixed
-- $attributeCastCache : mixed
-- $primitiveCastTypes : mixed
-- $dateFormat : mixed
-- $appends : mixed
-- $snakeAttributes : mixed
-- $mutatorCache : mixed
-- $attributeMutatorCache : mixed
-- $getAttributeMutatorCache : mixed
-- $setAttributeMutatorCache : mixed
-- $castTypeCache : mixed
-- $encrypter : mixed
-- $dispatchesEvents : mixed
-- $observables : mixed
-- $relations : mixed
-- $touches : mixed
-- $relationAutoloadCallback : mixed
-- $relationAutoloadContext : mixed
-- $manyMethods : mixed
-- $relationResolvers : mixed
-- $timestamps : mixed
-- $ignoreTimestampsOn : mixed
-- $usesUniqueIds : mixed
-- $hidden : mixed
-- $visible : mixed
-- $guarded : mixed
-- $unguarded : mixed
-- $guardableColumns : mixed
-- $recursionCache : mixed
-- $resolvedCollectionClasses : array
-
-**Methods**
-
-- tenant()
-- customer()
-- device()
-
----
-
-## HotspotSubscription
-
-**Namespace**
-
-```
-App\Models
-```
-
-**File**
-
-```
-/var/www/app/Models/HotspotSubscription.php
-```
-
-**Properties**
-
-- $fillable : mixed
-- $casts : mixed
-- $connection : mixed
-- $table : mixed
-- $primaryKey : mixed
-- $keyType : mixed
-- $incrementing : mixed
-- $with : mixed
-- $withCount : mixed
-- $preventsLazyLoading : mixed
-- $perPage : mixed
-- $exists : mixed
-- $wasRecentlyCreated : mixed
-- $escapeWhenCastingToString : mixed
-- $resolver : mixed
-- $dispatcher : mixed
-- $booting : mixed
-- $booted : mixed
-- $bootedCallbacks : mixed
-- $traitInitializers : mixed
-- $globalScopes : mixed
-- $ignoreOnTouch : mixed
-- $modelsShouldPreventLazyLoading : mixed
-- $modelsShouldAutomaticallyEagerLoadRelationships : mixed
-- $lazyLoadingViolationCallback : mixed
-- $modelsShouldPreventSilentlyDiscardingAttributes : mixed
-- $discardedAttributeViolationCallback : mixed
-- $modelsShouldPreventAccessingMissingAttributes : mixed
-- $missingAttributeViolationCallback : mixed
-- $isBroadcasting : mixed
-- $builder : string
-- $collectionClass : string
-- $isSoftDeletable : array
-- $isPrunable : array
-- $isMassPrunable : array
-- $classAttributes : array
-- $attributes : mixed
-- $original : mixed
-- $changes : mixed
-- $previous : mixed
-- $classCastCache : mixed
-- $attributeCastCache : mixed
-- $primitiveCastTypes : mixed
-- $dateFormat : mixed
-- $appends : mixed
-- $snakeAttributes : mixed
-- $mutatorCache : mixed
-- $attributeMutatorCache : mixed
-- $getAttributeMutatorCache : mixed
-- $setAttributeMutatorCache : mixed
-- $castTypeCache : mixed
-- $encrypter : mixed
-- $dispatchesEvents : mixed
-- $observables : mixed
-- $relations : mixed
-- $touches : mixed
-- $relationAutoloadCallback : mixed
-- $relationAutoloadContext : mixed
-- $manyMethods : mixed
-- $relationResolvers : mixed
-- $timestamps : mixed
-- $ignoreTimestampsOn : mixed
-- $usesUniqueIds : mixed
-- $hidden : mixed
-- $visible : mixed
-- $guarded : mixed
-- $unguarded : mixed
-- $guardableColumns : mixed
-- $recursionCache : mixed
-- $resolvedCollectionClasses : array
-
-**Methods**
-
-- tenant()
-- customer()
-- package()
-- invoices()
-
----
-
-## HotspotUser
-
-**Namespace**
-
-```
-App\Models
-```
-
-**File**
-
-```
-/var/www/app/Models/HotspotUser.php
-```
-
-**Properties**
-
-- $table : mixed
-- $fillable : mixed
-- $casts : mixed
-- $hidden : mixed
-- $connection : mixed
-- $primaryKey : mixed
-- $keyType : mixed
-- $incrementing : mixed
-- $with : mixed
-- $withCount : mixed
-- $preventsLazyLoading : mixed
-- $perPage : mixed
-- $exists : mixed
-- $wasRecentlyCreated : mixed
-- $escapeWhenCastingToString : mixed
-- $resolver : mixed
-- $dispatcher : mixed
-- $booting : mixed
-- $booted : mixed
-- $bootedCallbacks : mixed
-- $traitInitializers : mixed
-- $globalScopes : mixed
-- $ignoreOnTouch : mixed
-- $modelsShouldPreventLazyLoading : mixed
-- $modelsShouldAutomaticallyEagerLoadRelationships : mixed
-- $lazyLoadingViolationCallback : mixed
-- $modelsShouldPreventSilentlyDiscardingAttributes : mixed
-- $discardedAttributeViolationCallback : mixed
-- $modelsShouldPreventAccessingMissingAttributes : mixed
-- $missingAttributeViolationCallback : mixed
-- $isBroadcasting : mixed
-- $builder : string
-- $collectionClass : string
-- $isSoftDeletable : array
-- $isPrunable : array
-- $isMassPrunable : array
-- $classAttributes : array
-- $attributes : mixed
-- $original : mixed
-- $changes : mixed
-- $previous : mixed
-- $classCastCache : mixed
-- $attributeCastCache : mixed
-- $primitiveCastTypes : mixed
-- $dateFormat : mixed
-- $appends : mixed
-- $snakeAttributes : mixed
-- $mutatorCache : mixed
-- $attributeMutatorCache : mixed
-- $getAttributeMutatorCache : mixed
-- $setAttributeMutatorCache : mixed
-- $castTypeCache : mixed
-- $encrypter : mixed
-- $dispatchesEvents : mixed
-- $observables : mixed
-- $relations : mixed
-- $touches : mixed
-- $relationAutoloadCallback : mixed
-- $relationAutoloadContext : mixed
-- $manyMethods : mixed
-- $relationResolvers : mixed
-- $timestamps : mixed
-- $ignoreTimestampsOn : mixed
-- $usesUniqueIds : mixed
-- $visible : mixed
-- $guarded : mixed
-- $unguarded : mixed
-- $guardableColumns : mixed
-- $recursionCache : mixed
-- $resolvedCollectionClasses : array
-- $forceDeleting : mixed
-
-**Methods**
-
-- customer()
-- device()
-- scopeActive()
-- scopeOnline()
-- scopeExpired()
-- isActive()
-- isOnline()
-- getUptimeFormatted()
-- getTrafficFormatted()
-- forceDelete()
-- forceDestroy()
-- factory()
-- bootSoftDeletes()
-- initializeSoftDeletes()
-- forceDeleteQuietly()
-- restore()
-- restoreQuietly()
-- trashed()
-- softDeleted()
-- restoring()
-- restored()
-- forceDeleting()
-- forceDeleted()
-- isForceDeleting()
-- getDeletedAtColumn()
-- getQualifiedDeletedAtColumn()
-
----
-
-## Inventory
-
-**Namespace**
-
-```
-App\Models
-```
-
-**File**
-
-```
-/var/www/app/Models/Inventory.php
-```
-
-**Properties**
-
-- $fillable : mixed
-- $connection : mixed
-- $table : mixed
-- $primaryKey : mixed
-- $keyType : mixed
-- $incrementing : mixed
-- $with : mixed
-- $withCount : mixed
-- $preventsLazyLoading : mixed
-- $perPage : mixed
-- $exists : mixed
-- $wasRecentlyCreated : mixed
-- $escapeWhenCastingToString : mixed
-- $resolver : mixed
-- $dispatcher : mixed
-- $booting : mixed
-- $booted : mixed
-- $bootedCallbacks : mixed
-- $traitInitializers : mixed
-- $globalScopes : mixed
-- $ignoreOnTouch : mixed
-- $modelsShouldPreventLazyLoading : mixed
-- $modelsShouldAutomaticallyEagerLoadRelationships : mixed
-- $lazyLoadingViolationCallback : mixed
-- $modelsShouldPreventSilentlyDiscardingAttributes : mixed
-- $discardedAttributeViolationCallback : mixed
-- $modelsShouldPreventAccessingMissingAttributes : mixed
-- $missingAttributeViolationCallback : mixed
-- $isBroadcasting : mixed
-- $builder : string
-- $collectionClass : string
-- $isSoftDeletable : array
-- $isPrunable : array
-- $isMassPrunable : array
-- $classAttributes : array
-- $attributes : mixed
-- $original : mixed
-- $changes : mixed
-- $previous : mixed
-- $casts : mixed
-- $classCastCache : mixed
-- $attributeCastCache : mixed
-- $primitiveCastTypes : mixed
-- $dateFormat : mixed
-- $appends : mixed
-- $snakeAttributes : mixed
-- $mutatorCache : mixed
-- $attributeMutatorCache : mixed
-- $getAttributeMutatorCache : mixed
-- $setAttributeMutatorCache : mixed
-- $castTypeCache : mixed
-- $encrypter : mixed
-- $dispatchesEvents : mixed
-- $observables : mixed
-- $relations : mixed
-- $touches : mixed
-- $relationAutoloadCallback : mixed
-- $relationAutoloadContext : mixed
-- $manyMethods : mixed
-- $relationResolvers : mixed
-- $timestamps : mixed
-- $ignoreTimestampsOn : mixed
-- $usesUniqueIds : mixed
-- $hidden : mixed
-- $visible : mixed
-- $guarded : mixed
-- $unguarded : mixed
-- $guardableColumns : mixed
-- $recursionCache : mixed
-- $resolvedCollectionClasses : array
-
-**Methods**
-
-- tenant()
-- isLowStock()
-
----
-
 ## Invoice
 
 **Namespace**
 
 ```
-App\Models
+App\Modules\Invoice\Infrastructure\Persistence\Models
 ```
 
 **File**
 
 ```
-/var/www/app/Models/Invoice.php
+/var/www/app/Modules/Invoice/Infrastructure/Persistence/Models/Invoice.php
 ```
 
 **Properties**
@@ -1393,6 +862,15 @@ App\Models
 - $guardableColumns : mixed
 - $recursionCache : mixed
 - $resolvedCollectionClasses : array
+
+**Methods**
+
+- tenant()
+- customer()
+- subscription()
+- payments()
+- hotspotSubscription()
+- factory()
 
 ---
 
@@ -1401,13 +879,13 @@ App\Models
 **Namespace**
 
 ```
-App\Models
+App\Modules\Accounting\Infrastructure\Persistence\Models
 ```
 
 **File**
 
 ```
-/var/www/app/Models/JournalEntry.php
+/var/www/app/Modules/Accounting/Infrastructure/Persistence/Models/JournalEntry.php
 ```
 
 **Properties**
@@ -1482,15 +960,6 @@ App\Models
 - $guardableColumns : mixed
 - $recursionCache : mixed
 - $resolvedCollectionClasses : array
-
-**Methods**
-
-- tenant()
-- creator()
-- approver()
-- lines()
-- postedBy()
-- factory()
 
 ---
 
@@ -1499,13 +968,13 @@ App\Models
 **Namespace**
 
 ```
-App\Models
+App\Modules\Accounting\Infrastructure\Persistence\Models
 ```
 
 **File**
 
 ```
-/var/www/app/Models/JournalEntryLine.php
+/var/www/app/Modules/Accounting/Infrastructure/Persistence/Models/JournalEntryLine.php
 ```
 
 **Properties**
@@ -1581,12 +1050,6 @@ App\Models
 - $recursionCache : mixed
 - $resolvedCollectionClasses : array
 
-**Methods**
-
-- journalEntry()
-- account()
-- factory()
-
 ---
 
 ## NetworkDevice
@@ -1594,13 +1057,13 @@ App\Models
 **Namespace**
 
 ```
-App\Models
+App\Modules\Network\Infrastructure\Persistence\Models
 ```
 
 **File**
 
 ```
-/var/www/app/Models/NetworkDevice.php
+/var/www/app/Modules/Network/Infrastructure/Persistence/Models/NetworkDevice.php
 ```
 
 **Properties**
@@ -1710,13 +1173,13 @@ App\Models
 **Namespace**
 
 ```
-App\Models
+App\Modules\Notification\Infrastructure\Persistence\Models
 ```
 
 **File**
 
 ```
-/var/www/app/Models/Notification.php
+/var/www/app/Modules/Notification/Infrastructure/Persistence/Models/Notification.php
 ```
 
 **Properties**
@@ -1799,13 +1262,13 @@ App\Models
 **Namespace**
 
 ```
-App\Models
+App\Modules\Network\Infrastructure\Persistence\Models
 ```
 
 **File**
 
 ```
-/var/www/app/Models/PPPoEUser.php
+/var/www/app/Modules/Network/Infrastructure/Persistence/Models/PPPoEUser.php
 ```
 
 **Properties**
@@ -1882,34 +1345,6 @@ App\Models
 - $resolvedCollectionClasses : array
 - $forceDeleting : mixed
 
-**Methods**
-
-- customer()
-- device()
-- isActive()
-- isOnline()
-- updateOnlineStatus()
-- scopeActive()
-- scopeOnline()
-- scopeDisabled()
-- forceDelete()
-- forceDestroy()
-- factory()
-- bootSoftDeletes()
-- initializeSoftDeletes()
-- forceDeleteQuietly()
-- restore()
-- restoreQuietly()
-- trashed()
-- softDeleted()
-- restoring()
-- restored()
-- forceDeleting()
-- forceDeleted()
-- isForceDeleting()
-- getDeletedAtColumn()
-- getQualifiedDeletedAtColumn()
-
 ---
 
 ## Package
@@ -1917,13 +1352,13 @@ App\Models
 **Namespace**
 
 ```
-App\Models
+App\Modules\Package\Infrastructure\Persistence\Models
 ```
 
 **File**
 
 ```
-/var/www/app/Models/Package.php
+/var/www/app/Modules/Package/Infrastructure/Persistence/Models/Package.php
 ```
 
 **Properties**
@@ -2011,13 +1446,13 @@ App\Models
 **Namespace**
 
 ```
-App\Models
+App\Modules\Payment\Infrastructure\Persistence\Models
 ```
 
 **File**
 
 ```
-/var/www/app/Models/Payment.php
+/var/www/app/Modules/Payment/Infrastructure/Persistence/Models/Payment.php
 ```
 
 **Properties**
@@ -2106,13 +1541,13 @@ App\Models
 **Namespace**
 
 ```
-App\Models
+App\Modules\Reports\Infrastructure\Persistence\Models
 ```
 
 **File**
 
 ```
-/var/www/app/Models/Report.php
+/var/www/app/Modules/Reports/Infrastructure/Persistence/Models/Report.php
 ```
 
 **Properties**
@@ -2187,11 +1622,6 @@ App\Models
 - $guardableColumns : mixed
 - $recursionCache : mixed
 - $resolvedCollectionClasses : array
-
-**Methods**
-
-- exports()
-- user()
 
 ---
 
@@ -2200,13 +1630,13 @@ App\Models
 **Namespace**
 
 ```
-App\Models
+App\Modules\Reports\Infrastructure\Persistence\Models
 ```
 
 **File**
 
 ```
-/var/www/app/Models/ReportExport.php
+/var/www/app/Modules/Reports/Infrastructure/Persistence/Models/ReportExport.php
 ```
 
 **Properties**
@@ -2281,11 +1711,6 @@ App\Models
 - $guardableColumns : mixed
 - $recursionCache : mixed
 - $resolvedCollectionClasses : array
-
-**Methods**
-
-- report()
-- user()
 
 ---
 
@@ -2294,13 +1719,13 @@ App\Models
 **Namespace**
 
 ```
-App\Models
+App\Modules\Reports\Infrastructure\Persistence\Models
 ```
 
 **File**
 
 ```
-/var/www/app/Models/ScheduledReport.php
+/var/www/app/Modules/Reports/Infrastructure/Persistence/Models/ScheduledReport.php
 ```
 
 **Properties**
@@ -2376,11 +1801,6 @@ App\Models
 - $recursionCache : mixed
 - $resolvedCollectionClasses : array
 
-**Methods**
-
-- user()
-- factory()
-
 ---
 
 ## Subscription
@@ -2388,13 +1808,13 @@ App\Models
 **Namespace**
 
 ```
-App\Models
+App\Modules\Subscription\Infrastructure\Persistence\Models
 ```
 
 **File**
 
 ```
-/var/www/app/Models/Subscription.php
+/var/www/app/Modules/Subscription/Infrastructure/Persistence/Models/Subscription.php
 ```
 
 **Properties**
@@ -2516,13 +1936,13 @@ App\Models
 **Namespace**
 
 ```
-App\Models
+App\Modules\Task\Infrastructure\Persistence\Models
 ```
 
 **File**
 
 ```
-/var/www/app/Models/Task.php
+/var/www/app/Modules/Task/Infrastructure/Persistence/Models/Task.php
 ```
 
 **Properties**
@@ -2597,105 +2017,6 @@ App\Models
 - $guardableColumns : mixed
 - $recursionCache : mixed
 - $resolvedCollectionClasses : array
-
-**Methods**
-
-- tenant()
-- user()
-- factory()
-
----
-
-## Tenant
-
-**Namespace**
-
-```
-App\Models
-```
-
-**File**
-
-```
-/var/www/app/Models/Tenant.php
-```
-
-**Properties**
-
-- $fillable : mixed
-- $connection : mixed
-- $table : mixed
-- $primaryKey : mixed
-- $keyType : mixed
-- $incrementing : mixed
-- $with : mixed
-- $withCount : mixed
-- $preventsLazyLoading : mixed
-- $perPage : mixed
-- $exists : mixed
-- $wasRecentlyCreated : mixed
-- $escapeWhenCastingToString : mixed
-- $resolver : mixed
-- $dispatcher : mixed
-- $booting : mixed
-- $booted : mixed
-- $bootedCallbacks : mixed
-- $traitInitializers : mixed
-- $globalScopes : mixed
-- $ignoreOnTouch : mixed
-- $modelsShouldPreventLazyLoading : mixed
-- $modelsShouldAutomaticallyEagerLoadRelationships : mixed
-- $lazyLoadingViolationCallback : mixed
-- $modelsShouldPreventSilentlyDiscardingAttributes : mixed
-- $discardedAttributeViolationCallback : mixed
-- $modelsShouldPreventAccessingMissingAttributes : mixed
-- $missingAttributeViolationCallback : mixed
-- $isBroadcasting : mixed
-- $builder : string
-- $collectionClass : string
-- $isSoftDeletable : array
-- $isPrunable : array
-- $isMassPrunable : array
-- $classAttributes : array
-- $attributes : mixed
-- $original : mixed
-- $changes : mixed
-- $previous : mixed
-- $casts : mixed
-- $classCastCache : mixed
-- $attributeCastCache : mixed
-- $primitiveCastTypes : mixed
-- $dateFormat : mixed
-- $appends : mixed
-- $snakeAttributes : mixed
-- $mutatorCache : mixed
-- $attributeMutatorCache : mixed
-- $getAttributeMutatorCache : mixed
-- $setAttributeMutatorCache : mixed
-- $castTypeCache : mixed
-- $encrypter : mixed
-- $dispatchesEvents : mixed
-- $observables : mixed
-- $relations : mixed
-- $touches : mixed
-- $relationAutoloadCallback : mixed
-- $relationAutoloadContext : mixed
-- $manyMethods : mixed
-- $relationResolvers : mixed
-- $timestamps : mixed
-- $ignoreTimestampsOn : mixed
-- $usesUniqueIds : mixed
-- $hidden : mixed
-- $visible : mixed
-- $guarded : mixed
-- $unguarded : mixed
-- $guardableColumns : mixed
-- $recursionCache : mixed
-- $resolvedCollectionClasses : array
-
-**Methods**
-
-- factory()
 
 ---
 
@@ -2704,13 +2025,13 @@ App\Models
 **Namespace**
 
 ```
-App\Models
+App\Modules\Ticket\Infrastructure\Persistence\Models
 ```
 
 **File**
 
 ```
-/var/www/app/Models/Ticket.php
+/var/www/app/Modules/Ticket/Infrastructure/Persistence/Models/Ticket.php
 ```
 
 **Properties**
@@ -2785,13 +2106,6 @@ App\Models
 - $guardableColumns : mixed
 - $recursionCache : mixed
 - $resolvedCollectionClasses : array
-
-**Methods**
-
-- tenant()
-- customer()
-- user()
-- replies()
 
 ---
 
@@ -2800,13 +2114,13 @@ App\Models
 **Namespace**
 
 ```
-App\Models
+App\Modules\Ticket\Infrastructure\Persistence\Models
 ```
 
 **File**
 
 ```
-/var/www/app/Models/TicketReply.php
+/var/www/app/Modules/Ticket/Infrastructure/Persistence/Models/TicketReply.php
 ```
 
 **Properties**
@@ -2881,259 +2195,6 @@ App\Models
 - $guardableColumns : mixed
 - $recursionCache : mixed
 - $resolvedCollectionClasses : array
-
-**Methods**
-
-- ticket()
-- customer()
-- user()
-
----
-
-## UsageSnapshot
-
-**Namespace**
-
-```
-App\Models
-```
-
-**File**
-
-```
-/var/www/app/Models/UsageSnapshot.php
-```
-
-**Properties**
-
-- $fillable : mixed
-- $casts : mixed
-- $connection : mixed
-- $table : mixed
-- $primaryKey : mixed
-- $keyType : mixed
-- $incrementing : mixed
-- $with : mixed
-- $withCount : mixed
-- $preventsLazyLoading : mixed
-- $perPage : mixed
-- $exists : mixed
-- $wasRecentlyCreated : mixed
-- $escapeWhenCastingToString : mixed
-- $resolver : mixed
-- $dispatcher : mixed
-- $booting : mixed
-- $booted : mixed
-- $bootedCallbacks : mixed
-- $traitInitializers : mixed
-- $globalScopes : mixed
-- $ignoreOnTouch : mixed
-- $modelsShouldPreventLazyLoading : mixed
-- $modelsShouldAutomaticallyEagerLoadRelationships : mixed
-- $lazyLoadingViolationCallback : mixed
-- $modelsShouldPreventSilentlyDiscardingAttributes : mixed
-- $discardedAttributeViolationCallback : mixed
-- $modelsShouldPreventAccessingMissingAttributes : mixed
-- $missingAttributeViolationCallback : mixed
-- $isBroadcasting : mixed
-- $builder : string
-- $collectionClass : string
-- $isSoftDeletable : array
-- $isPrunable : array
-- $isMassPrunable : array
-- $classAttributes : array
-- $attributes : mixed
-- $original : mixed
-- $changes : mixed
-- $previous : mixed
-- $classCastCache : mixed
-- $attributeCastCache : mixed
-- $primitiveCastTypes : mixed
-- $dateFormat : mixed
-- $appends : mixed
-- $snakeAttributes : mixed
-- $mutatorCache : mixed
-- $attributeMutatorCache : mixed
-- $getAttributeMutatorCache : mixed
-- $setAttributeMutatorCache : mixed
-- $castTypeCache : mixed
-- $encrypter : mixed
-- $dispatchesEvents : mixed
-- $observables : mixed
-- $relations : mixed
-- $touches : mixed
-- $relationAutoloadCallback : mixed
-- $relationAutoloadContext : mixed
-- $manyMethods : mixed
-- $relationResolvers : mixed
-- $timestamps : mixed
-- $ignoreTimestampsOn : mixed
-- $usesUniqueIds : mixed
-- $hidden : mixed
-- $visible : mixed
-- $guarded : mixed
-- $unguarded : mixed
-- $guardableColumns : mixed
-- $recursionCache : mixed
-- $resolvedCollectionClasses : array
-
-**Methods**
-
-- customer()
-
----
-
-## User
-
-**Namespace**
-
-```
-App\Models
-```
-
-**File**
-
-```
-/var/www/app/Models/User.php
-```
-
-**Properties**
-
-- $fillable : mixed
-- $connection : mixed
-- $table : mixed
-- $primaryKey : mixed
-- $keyType : mixed
-- $incrementing : mixed
-- $with : mixed
-- $withCount : mixed
-- $preventsLazyLoading : mixed
-- $perPage : mixed
-- $exists : mixed
-- $wasRecentlyCreated : mixed
-- $escapeWhenCastingToString : mixed
-- $resolver : mixed
-- $dispatcher : mixed
-- $booting : mixed
-- $booted : mixed
-- $bootedCallbacks : mixed
-- $traitInitializers : mixed
-- $globalScopes : mixed
-- $ignoreOnTouch : mixed
-- $modelsShouldPreventLazyLoading : mixed
-- $modelsShouldAutomaticallyEagerLoadRelationships : mixed
-- $lazyLoadingViolationCallback : mixed
-- $modelsShouldPreventSilentlyDiscardingAttributes : mixed
-- $discardedAttributeViolationCallback : mixed
-- $modelsShouldPreventAccessingMissingAttributes : mixed
-- $missingAttributeViolationCallback : mixed
-- $isBroadcasting : mixed
-- $builder : string
-- $collectionClass : string
-- $isSoftDeletable : array
-- $isPrunable : array
-- $isMassPrunable : array
-- $classAttributes : array
-- $attributes : mixed
-- $original : mixed
-- $changes : mixed
-- $previous : mixed
-- $casts : mixed
-- $classCastCache : mixed
-- $attributeCastCache : mixed
-- $primitiveCastTypes : mixed
-- $dateFormat : mixed
-- $appends : mixed
-- $snakeAttributes : mixed
-- $mutatorCache : mixed
-- $attributeMutatorCache : mixed
-- $getAttributeMutatorCache : mixed
-- $setAttributeMutatorCache : mixed
-- $castTypeCache : mixed
-- $encrypter : mixed
-- $dispatchesEvents : mixed
-- $observables : mixed
-- $relations : mixed
-- $touches : mixed
-- $relationAutoloadCallback : mixed
-- $relationAutoloadContext : mixed
-- $manyMethods : mixed
-- $relationResolvers : mixed
-- $timestamps : mixed
-- $ignoreTimestampsOn : mixed
-- $usesUniqueIds : mixed
-- $hidden : mixed
-- $visible : mixed
-- $guarded : mixed
-- $unguarded : mixed
-- $guardableColumns : mixed
-- $recursionCache : mixed
-- $resolvedCollectionClasses : array
-- $authPasswordName : mixed
-- $rememberTokenName : mixed
-- $accessToken : mixed
-- $roleClass : ?string
-- $permissionClass : ?string
-- $wildcardClass : ?string
-- $wildcardPermissionsIndex : array
-
-**Methods**
-
-- tenant()
-- scopeForCurrentTenant()
-- tokens()
-- tokenCan()
-- tokenCant()
-- createToken()
-- generateTokenString()
-- currentAccessToken()
-- withAccessToken()
-- factory()
-- notifications()
-- readNotifications()
-- unreadNotifications()
-- notify()
-- notifyNow()
-- routeNotificationFor()
-- bootHasRoles()
-- getRoleClass()
-- roles()
-- scopeRole()
-- scopeWithoutRole()
-- teams()
-- scopeTeam()
-- scopeWithoutTeam()
-- assignRole()
-- removeRole()
-- syncRoles()
-- hasRole()
-- hasAnyRole()
-- hasAllRoles()
-- hasExactRoles()
-- getDirectPermissions()
-- getRoleNames()
-- bootHasPermissions()
-- getPermissionClass()
-- getWildcardClass()
-- permissions()
-- scopePermission()
-- scopeWithoutPermission()
-- filterPermission()
-- hasPermissionTo()
-- checkPermissionTo()
-- hasAnyPermission()
-- hasAllPermissions()
-- hasDirectPermission()
-- getPermissionsViaRoles()
-- getAllPermissions()
-- givePermissionTo()
-- forgetWildcardPermissionIndex()
-- syncPermissions()
-- revokePermissionTo()
-- getPermissionNames()
-- forgetCachedPermissions()
-- hasAllDirectPermissions()
-- hasAnyDirectPermission()
 
 ---
 
@@ -3142,13 +2203,13 @@ App\Models
 **Namespace**
 
 ```
-App\Models
+App\Modules\Wallet\Infrastructure\Persistence\Models
 ```
 
 **File**
 
 ```
-/var/www/app/Models/WalletTransaction.php
+/var/www/app/Modules/Wallet/Infrastructure/Persistence/Models/WalletTransaction.php
 ```
 
 **Properties**
@@ -3223,10 +2284,6 @@ App\Models
 - $guardableColumns : mixed
 - $recursionCache : mixed
 - $resolvedCollectionClasses : array
-
-**Methods**
-
-- customer()
 
 ---
 
@@ -3311,40 +2368,6 @@ App\Modules\Dashboard\Application\Services
 **Methods**
 
 - getDashboardData() : array
-
----
-
-## CustomerService
-
-**Namespace**
-
-```
-App\Modules\Customer\Application\Services
-```
-
-**File**
-
-```
-/var/www/app/Modules/Customer/Application/Services/CustomerService.php
-```
-
-**Constructor Dependencies**
-
-- CreateCustomerAction $createCustomer
-- UpdateCustomerAction $updateCustomer
-- DeleteCustomerAction $deleteCustomer
-
-**Properties**
-
-- $createCustomer : App\Modules\Customer\Application\Actions\CreateCustomerAction
-- $updateCustomer : App\Modules\Customer\Application\Actions\UpdateCustomerAction
-- $deleteCustomer : App\Modules\Customer\Application\Actions\DeleteCustomerAction
-
-**Methods**
-
-- create() : App\Modules\Customer\Infrastructure\Persistence\Models\Customer
-- update() : App\Modules\Customer\Infrastructure\Persistence\Models\Customer
-- delete() : bool
 
 ---
 
@@ -3452,15 +2475,15 @@ App\Modules\Invoice\Application\Services
 
 **Constructor Dependencies**
 
-- CreateInvoiceWorkflow $createInvoice
-- UpdateInvoiceWorkflow $updateInvoice
-- DeleteInvoiceWorkflow $deleteInvoice
+- CreateInvoiceAction $createInvoice
+- UpdateInvoiceAction $updateInvoice
+- DeleteInvoiceAction $deleteInvoice
 
 **Properties**
 
-- $createInvoice : App\Modules\Invoice\Application\Workflows\CreateInvoiceWorkflow
-- $updateInvoice : App\Modules\Invoice\Application\Workflows\UpdateInvoiceWorkflow
-- $deleteInvoice : App\Modules\Invoice\Application\Workflows\DeleteInvoiceWorkflow
+- $createInvoice : App\Modules\Invoice\Application\Actions\CreateInvoiceAction
+- $updateInvoice : App\Modules\Invoice\Application\Actions\UpdateInvoiceAction
+- $deleteInvoice : App\Modules\Invoice\Application\Actions\DeleteInvoiceAction
 
 **Methods**
 
@@ -3554,17 +2577,17 @@ App\Modules\Notification\Application\Services
 
 **Constructor Dependencies**
 
-- CreateNotificationWorkflow $createNotification
-- CreateReminderWorkflow $createReminder
-- BillingFailedNotificationWorkflow $billingFailed
-- SubscriptionRenewedNotificationWorkflow $subscriptionRenewed
+- CreateNotificationAction $createNotification
+- CreateReminderAction $createReminder
+- BillingFailedNotificationAction $billingFailed
+- SubscriptionRenewedNotificationAction $subscriptionRenewed
 
 **Properties**
 
-- $createNotification : App\Modules\Notification\Application\Workflows\CreateNotificationWorkflow
-- $createReminder : App\Modules\Notification\Application\Workflows\CreateReminderWorkflow
-- $billingFailed : App\Modules\Notification\Application\Workflows\BillingFailedNotificationWorkflow
-- $subscriptionRenewed : App\Modules\Notification\Application\Workflows\SubscriptionRenewedNotificationWorkflow
+- $createNotification : App\Modules\Notification\Application\Actions\CreateNotificationAction
+- $createReminder : App\Modules\Notification\Application\Actions\CreateReminderAction
+- $billingFailed : App\Modules\Notification\Application\Actions\BillingFailedNotificationAction
+- $subscriptionRenewed : App\Modules\Notification\Application\Actions\SubscriptionRenewedNotificationAction
 
 **Methods**
 
@@ -3592,16 +2615,16 @@ App\Modules\Package\Application\Services
 **Constructor Dependencies**
 
 - PackageRepositoryInterface $repository
-- CreatePackageWorkflow $createWorkflow
-- UpdatePackageWorkflow $updateWorkflow
-- DeletePackageWorkflow $deleteWorkflow
+- CreatePackageAction $createWorkflow
+- UpdatePackageAction $updateWorkflow
+- DeletePackageAction $deleteWorkflow
 
 **Properties**
 
 - $repository : App\Modules\Package\Domain\Contracts\PackageRepositoryInterface
-- $createWorkflow : App\Modules\Package\Application\Workflows\CreatePackageWorkflow
-- $updateWorkflow : App\Modules\Package\Application\Workflows\UpdatePackageWorkflow
-- $deleteWorkflow : App\Modules\Package\Application\Workflows\DeletePackageWorkflow
+- $createWorkflow : App\Modules\Package\Application\Actions\CreatePackageAction
+- $updateWorkflow : App\Modules\Package\Application\Actions\UpdatePackageAction
+- $deleteWorkflow : App\Modules\Package\Application\Actions\DeletePackageAction
 
 **Methods**
 
@@ -3628,11 +2651,11 @@ App\Modules\Payment\Application\Services
 
 **Constructor Dependencies**
 
-- CreatePaymentWorkflow $createPayment
+- CreatePaymentAction $createPayment
 
 **Properties**
 
-- $createPayment : App\Modules\Payment\Application\Workflows\CreatePaymentWorkflow
+- $createPayment : App\Modules\Payment\Application\Actions\CreatePaymentAction
 
 **Methods**
 
@@ -3780,11 +2803,11 @@ App\Modules\Activity\Application\Services
 
 **Constructor Dependencies**
 
-- CreateActivityLogWorkflow $workflow
+- CreateActivityLogAction $action
 
 **Properties**
 
-- $workflow : App\Modules\Activity\Application\Workflows\CreateActivityLogWorkflow
+- $action : App\Modules\Activity\Application\Actions\CreateActivityLogAction
 
 **Methods**
 
@@ -3865,23 +2888,23 @@ App\Modules\Task\Application\Services
 
 **Constructor Dependencies**
 
-- CreateTaskWorkflow $createTask
-- UpdateTaskWorkflow $updateTask
-- DeleteTaskWorkflow $deleteTask
-- StartTaskWorkflow $startTask
-- CompleteTaskWorkflow $completeTask
-- CancelTaskWorkflow $cancelTask
-- ReopenTaskWorkflow $reopenTask
+- CreateTaskAction $createTask
+- UpdateTaskAction $updateTask
+- DeleteTaskAction $deleteTask
+- StartTaskAction $startTask
+- CompleteTaskAction $completeTask
+- CancelTaskAction $cancelTask
+- ReopenTaskAction $reopenTask
 
 **Properties**
 
-- $createTask : App\Modules\Task\Application\Workflows\CreateTaskWorkflow
-- $updateTask : App\Modules\Task\Application\Workflows\UpdateTaskWorkflow
-- $deleteTask : App\Modules\Task\Application\Workflows\DeleteTaskWorkflow
-- $startTask : App\Modules\Task\Application\Workflows\StartTaskWorkflow
-- $completeTask : App\Modules\Task\Application\Workflows\CompleteTaskWorkflow
-- $cancelTask : App\Modules\Task\Application\Workflows\CancelTaskWorkflow
-- $reopenTask : App\Modules\Task\Application\Workflows\ReopenTaskWorkflow
+- $createTask : App\Modules\Task\Application\Actions\CreateTaskAction
+- $updateTask : App\Modules\Task\Application\Actions\UpdateTaskAction
+- $deleteTask : App\Modules\Task\Application\Actions\DeleteTaskAction
+- $startTask : App\Modules\Task\Application\Actions\StartTaskAction
+- $completeTask : App\Modules\Task\Application\Actions\CompleteTaskAction
+- $cancelTask : App\Modules\Task\Application\Actions\CancelTaskAction
+- $reopenTask : App\Modules\Task\Application\Actions\ReopenTaskAction
 
 **Methods**
 
@@ -4050,7 +3073,7 @@ App\Http\Controllers\Api
 
 **Dependencies**
 
-- CustomerService $customerService
+- CommandDispatcher $commandDispatcher
 - QueryDispatcher $queryDispatcher
 
 **Public Methods**
@@ -4556,7 +3579,8 @@ App\Http\Controllers\Api
 
 **Dependencies**
 
-- InvoiceService $invoiceService
+- CommandDispatcher $commandDispatcher
+- QueryDispatcher $queryDispatcher
 
 **Public Methods**
 

@@ -42,21 +42,6 @@ App\Modules\Dashboard\Application\Services\CustomerDashboardService
 - __construct
 - getDashboardData
 
-## CustomerService
-
-**Class**
-
-```
-App\Modules\Customer\Application\Services\CustomerService
-```
-
-**Public Methods**
-
-- __construct
-- create
-- delete
-- update
-
 ## DashboardService
 
 **Class**

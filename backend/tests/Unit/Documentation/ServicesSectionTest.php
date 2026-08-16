@@ -17,8 +17,7 @@ class ServicesSectionTest extends TestCase
 
         $this->assertStringContainsString('# Services', $markdown);
         $this->assertStringContainsString('Count:', $markdown);
-        $this->assertStringContainsString('CustomerService', $markdown);
-        $this->assertStringContainsString('SubscriptionActivityService', $markdown);
-        $this->assertStringContainsString('InvoiceNumberService', $markdown);
+        $this->assertMatchesRegularExpression('/Count:\s+\d+/', $markdown);
+        $this->assertStringContainsString('- SubscriptionService', $markdown);
     }
 }

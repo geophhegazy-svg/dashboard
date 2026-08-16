@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Customer;
-use App\Models\Invoice;
+use App\Modules\Customer\Infrastructure\Persistence\Models\Customer;
+use App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice;
 use App\Models\Payment;
 use App\Models\Ticket;
 use App\Models\Inventory;

@@ -3,8 +3,8 @@
 namespace Database\Factories\Modules\Subscription\Infrastructure\Persistence\Models;
 
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
-use App\Models\Customer;
-use App\Models\Package;
+use App\Modules\Customer\Infrastructure\Persistence\Models\Customer;
+use App\Modules\Package\Infrastructure\Persistence\Models\Package;
 use App\Models\Tenant;
 use Illuminate\Database\Eloquent\Factories\Factory;
 

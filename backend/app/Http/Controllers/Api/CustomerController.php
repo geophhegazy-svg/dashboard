@@ -7,17 +7,19 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Resources\CustomerResource;
-use App\Models\Customer;
-use App\Modules\Customer\Application\Services\CustomerService;
-use Illuminate\Http\JsonResponse;
+use App\Modules\Customer\Infrastructure\Persistence\Models\Customer;
 use App\Core\QueryBus\QueryDispatcher;
 use App\Modules\Customer\Application\Queries\PaginateCustomersQuery;
+use App\Core\CommandBus\CommandDispatcher;
+use App\Modules\Customer\Application\Commands\CreateCustomerCommand;
+use App\Modules\Customer\Application\Commands\UpdateCustomerCommand;
+use App\Modules\Customer\Application\Commands\DeleteCustomerCommand;
 
 
 class CustomerController extends Controller
 {
     public function __construct(
-        private readonly CustomerService $customerService,
+        private readonly CommandDispatcher $commandDispatcher,
         private readonly QueryDispatcher $queryDispatcher,
     ) {}
 
@@ -36,8 +38,10 @@ class CustomerController extends Controller
     {
         $this->authorize('create', Customer::class);
 
-        $customer = $this->customerService->create(
-            $request->validated()
+        $customer = $this->commandDispatcher->dispatch(
+            new CreateCustomerCommand(
+                $request->validated()
+            )
         );
 
         return new CustomerResource($customer);
@@ -56,9 +60,11 @@ class CustomerController extends Controller
     ) {
         $this->authorize('update', $customer);
 
-        $customer = $this->customerService->update(
-            $customer,
-            $request->validated()
+        $customer = $this->commandDispatcher->dispatch(
+            new UpdateCustomerCommand(
+                $customer,
+                $request->validated(),
+            )
         );
 
         return new CustomerResource($customer);
@@ -68,7 +74,11 @@ class CustomerController extends Controller
     {
         $this->authorize('delete', $customer);
 
-        $this->customerService->delete($customer);
+        $this->commandDispatcher->dispatch(
+            new DeleteCustomerCommand(
+                $customer,
+            )
+        );
 
         return response()->json([
             'message' => 'Customer deleted successfully'

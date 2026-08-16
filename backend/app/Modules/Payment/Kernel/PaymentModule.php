@@ -26,9 +26,11 @@ final class PaymentModule extends Module
         return ModuleManifest::make()
 
             ->services([
-
                 PaymentRepositoryInterface::class
                 => PaymentRepository::class,
+            ])
+
+            ->listeners([
 
             ]);
     }

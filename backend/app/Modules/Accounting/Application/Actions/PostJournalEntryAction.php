@@ -7,7 +7,7 @@ namespace App\Modules\Accounting\Application\Actions;
 use App\Modules\Accounting\Infrastructure\Persistence\Models\JournalEntry;
 use App\Exceptions\Accounting\JournalPostingException;
 use App\Modules\Accounting\Application\Services\JournalValidationService;
-use App\Modules\Activity\Application\Workflows\LogActivityWorkflow;
+use App\Modules\Activity\Application\Actions\LogActivityAction;
 use App\Modules\Accounting\Domain\Events\JournalEntryPosted;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -18,7 +18,7 @@ final readonly class PostJournalEntryAction
     public function __construct(
         private JournalValidationService $validationService,
         private readonly JournalEntryRepositoryInterface $journalEntries,
-        private readonly LogActivityWorkflow $logActivity,
+        private readonly LogActivityAction $logActivity,
     ) {}
 
     public function execute(

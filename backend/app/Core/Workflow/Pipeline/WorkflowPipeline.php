@@ -38,6 +38,12 @@ final class WorkflowPipeline
         $destination = function (
             WorkflowContextInterface $context,
         ): WorkflowResultInterface {
+            $result = $context->get('result');
+
+            if ($result instanceof WorkflowResultInterface) {
+                return $result;
+            }
+
             return new WorkflowResult(
                 successful: true,
             );

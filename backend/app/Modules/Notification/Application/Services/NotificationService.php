@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace App\Modules\Notification\Application\Services;
 
+use App\Modules\Notification\Application\Actions\BillingFailedNotificationAction;
+use App\Modules\Notification\Application\Actions\CreateNotificationAction;
+use App\Modules\Notification\Application\Actions\CreateReminderAction;
+use App\Modules\Notification\Application\Actions\SubscriptionRenewedNotificationAction;
 use App\Modules\Notification\Infrastructure\Persistence\Models\Notification;
-use App\Modules\Notification\Application\Workflows\BillingFailedNotificationWorkflow;
-use App\Modules\Notification\Application\Workflows\CreateNotificationWorkflow;
-use App\Modules\Notification\Application\Workflows\CreateReminderWorkflow;
-use App\Modules\Notification\Application\Workflows\SubscriptionRenewedNotificationWorkflow;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 
 class NotificationService
 {
     public function __construct(
-        private readonly CreateNotificationWorkflow $createNotification,
-        private readonly CreateReminderWorkflow $createReminder,
-        private readonly BillingFailedNotificationWorkflow $billingFailed,
-        private readonly SubscriptionRenewedNotificationWorkflow $subscriptionRenewed,
+        private readonly CreateNotificationAction $createNotification,
+        private readonly CreateReminderAction $createReminder,
+        private readonly BillingFailedNotificationAction $billingFailed,
+        private readonly SubscriptionRenewedNotificationAction $subscriptionRenewed,
     ) {}
 
     public function create(
@@ -25,7 +25,7 @@ class NotificationService
     ): Notification {
 
         return $this->createNotification->execute(
-            $data,
+            new Notification($data),
         );
     }
 

@@ -8,36 +8,36 @@ use App\Modules\Customer\Infrastructure\Persistence\Models\Customer;
 use App\Modules\Ticket\Infrastructure\Persistence\Models\Ticket;
 use App\Modules\Ticket\Infrastructure\Persistence\Models\TicketReply;
 use App\Models\User;
-use App\Modules\Activity\Application\Workflows\LogActivityWorkflow;
-use App\Modules\Ticket\Application\Workflows\UpdateTicketWorkflow;
-use App\Modules\Ticket\Application\Workflows\CreateTicketWorkflow;
-use App\Modules\Ticket\Application\Workflows\DeleteTicketWorkflow;
-use App\Modules\Ticket\Application\Workflows\CreateTicketReplyWorkflow;
-use App\Modules\Ticket\Application\Workflows\ChangeTicketStatusWorkflow;
-use App\Modules\Ticket\Application\Workflows\AssignTicketWorkflow;
-use App\Modules\Ticket\Application\Workflows\GetAdminTicketStatisticsWorkflow;
-use App\Modules\Ticket\Application\Workflows\GetCustomerTicketStatisticsWorkflow;
+use App\Modules\Activity\Application\Actions\LogActivityAction;
+use App\Modules\Ticket\Application\Actions\UpdateTicketAction;
+use App\Modules\Ticket\Application\Actions\CreateTicketAction;
+use App\Modules\Ticket\Application\Actions\DeleteTicketAction;
+use App\Modules\Ticket\Application\Actions\CreateTicketReplyAction;
+use App\Modules\Ticket\Application\Actions\ChangeTicketStatusAction;
+use App\Modules\Ticket\Application\Actions\AssignTicketAction;
+use App\Modules\Ticket\Application\Actions\GetAdminTicketStatisticsAction;
+use App\Modules\Ticket\Application\Actions\GetCustomerTicketStatisticsAction;
 
 class TicketService
 {
 
     public function __construct(
-        private readonly CreateTicketWorkflow $createTicketWorkflow,
-        private readonly UpdateTicketWorkflow $updateTicketWorkflow,
-        private readonly DeleteTicketWorkflow $deleteTicketWorkflow,
-        private readonly CreateTicketReplyWorkflow $createTicketReplyWorkflow,
-        private readonly ChangeTicketStatusWorkflow $changeTicketStatusWorkflow,
-        private readonly LogActivityWorkflow $logActivity,
-        private readonly AssignTicketWorkflow $assignTicketWorkflow,
-        private readonly GetAdminTicketStatisticsWorkflow $adminStatisticsWorkflow,
-        private readonly GetCustomerTicketStatisticsWorkflow $customerStatisticsWorkflow,
+        private readonly CreateTicketAction $createTicketAction,
+        private readonly UpdateTicketAction $updateTicketAction,
+        private readonly DeleteTicketAction $deleteTicketAction,
+        private readonly CreateTicketReplyAction $createTicketReplyAction,
+        private readonly ChangeTicketStatusAction $changeTicketStatusAction,
+        private readonly LogActivityAction $logActivity,
+        private readonly AssignTicketAction $assignTicketAction,
+        private readonly GetAdminTicketStatisticsAction $adminStatisticsAction,
+        private readonly GetCustomerTicketStatisticsAction $customerStatisticsAction,
     ) {}
     /**
      * إنشاء تذكرة جديدة من لوحة تحكم الموظفين (Admin).
      */
     public function createFromAdmin(array $data, ?int $actingUserId): Ticket
     {
-        $ticket = $this->createTicketWorkflow->execute(
+        $ticket = $this->createTicketAction->execute(
             $data,
         );
 
@@ -62,7 +62,7 @@ class TicketService
      */
     public function createFromCustomer(Customer $customer, array $data): Ticket
     {
-        $ticket = $this->createTicketWorkflow->execute([
+        $ticket = $this->createTicketAction->execute([
 
             'tenant_id'     => $customer->tenant_id,
             'customer_id'   => $customer->id,
@@ -105,7 +105,7 @@ class TicketService
      */
     public function updateFromAdmin(Ticket $ticket, array $data, ?int $actingUserId): Ticket
     {
-        $ticket = $this->updateTicketWorkflow->execute(
+        $ticket = $this->updateTicketAction->execute(
             $ticket,
             $data,
         );
@@ -144,7 +144,7 @@ class TicketService
             ],
         );
 
-        $this->deleteTicketWorkflow->execute(
+        $this->deleteTicketAction->execute(
             $ticket,
         );
     }
@@ -160,7 +160,7 @@ class TicketService
             throw new \RuntimeException('Ticket is already closed.');
         }
 
-        $reply = $this->createTicketReplyWorkflow->execute([
+        $reply = $this->createTicketReplyAction->execute([
             'ticket_id'   => $ticket->id,
             'customer_id' => null,
             'user_id'     => $userId,
@@ -196,7 +196,7 @@ class TicketService
             throw new \RuntimeException('Cannot reply to closed ticket.');
         }
 
-        $reply = $this->createTicketReplyWorkflow->execute([
+        $reply = $this->createTicketReplyAction->execute([
             'ticket_id'   => $ticket->id,
             'customer_id' => $customer->id,
             'user_id'     => null,
@@ -226,7 +226,7 @@ class TicketService
      */
     public function changeStatus(Ticket $ticket, string $status, ?int $actingUserId): Ticket
     {
-        $ticket = $this->changeTicketStatusWorkflow->execute(
+        $ticket = $this->changeTicketStatusAction->execute(
             $ticket,
             $status,
         );
@@ -258,7 +258,7 @@ class TicketService
             throw new \RuntimeException('Ticket already closed.');
         }
 
-        $ticket = $this->changeTicketStatusWorkflow->execute(
+        $ticket = $this->changeTicketStatusAction->execute(
             $ticket,
             'closed',
         );
@@ -284,7 +284,7 @@ class TicketService
      */
     public function assign(Ticket $ticket, User $user, ?int $actingUserId): Ticket
     {
-        $ticket = $this->assignTicketWorkflow->execute(
+        $ticket = $this->assignTicketAction->execute(
             $ticket,
             $user,
         );
@@ -310,7 +310,7 @@ class TicketService
      */
     public function adminDashboardStats(): array
     {
-        return $this->adminStatisticsWorkflow->execute();
+        return $this->adminStatisticsAction->execute();
     }
 
     /**
@@ -320,7 +320,7 @@ class TicketService
         Customer $customer,
     ): array {
 
-        return $this->customerStatisticsWorkflow->execute(
+        return $this->customerStatisticsAction->execute(
             $customer,
         );
     }

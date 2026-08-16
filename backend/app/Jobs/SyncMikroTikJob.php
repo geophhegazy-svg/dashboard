@@ -11,7 +11,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use App\Modules\Network\Domain\Contracts\MikrotikServiceInterface;
 use App\Models\NetworkDevice;
 use App\Models\PPPoEUser;
-use App\Models\Customer;
+use App\Modules\Customer\Infrastructure\Persistence\Models\Customer;
 use Illuminate\Support\Facades\Log;
 
 class SyncMikroTikJob implements ShouldQueue

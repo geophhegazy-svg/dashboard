@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\Wallet\Application\Actions;
 
 use App\Modules\Wallet\Infrastructure\Persistence\Models\WalletTransaction;
-use App\Modules\Activity\Application\Workflows\LogActivityWorkflow;
+use App\Modules\Activity\Application\Actions\LogActivityAction;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 use App\Modules\Wallet\Domain\Contracts\WalletRepositoryInterface;
 use Illuminate\Support\Facades\DB;
@@ -16,7 +16,7 @@ final readonly class DeductWalletAction
 {
     public function __construct(
         private WalletRepositoryInterface $repository,
-        private readonly LogActivityWorkflow $logActivity,
+        private readonly LogActivityAction $logActivity,
     ) {}
 
     public function execute(

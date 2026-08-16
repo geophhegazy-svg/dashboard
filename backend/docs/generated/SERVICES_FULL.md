@@ -82,40 +82,6 @@ App\Modules\Dashboard\Application\Services
 
 ---
 
-## CustomerService
-
-**Namespace**
-
-```
-App\Modules\Customer\Application\Services
-```
-
-**File**
-
-```
-/var/www/app/Modules/Customer/Application/Services/CustomerService.php
-```
-
-**Constructor Dependencies**
-
-- CreateCustomerAction $createCustomer
-- UpdateCustomerAction $updateCustomer
-- DeleteCustomerAction $deleteCustomer
-
-**Properties**
-
-- $createCustomer : App\Modules\Customer\Application\Actions\CreateCustomerAction
-- $updateCustomer : App\Modules\Customer\Application\Actions\UpdateCustomerAction
-- $deleteCustomer : App\Modules\Customer\Application\Actions\DeleteCustomerAction
-
-**Methods**
-
-- create() : App\Modules\Customer\Infrastructure\Persistence\Models\Customer
-- update() : App\Modules\Customer\Infrastructure\Persistence\Models\Customer
-- delete() : bool
-
----
-
 ## DashboardService
 
 **Namespace**
@@ -220,15 +186,15 @@ App\Modules\Invoice\Application\Services
 
 **Constructor Dependencies**
 
-- CreateInvoiceWorkflow $createInvoice
-- UpdateInvoiceWorkflow $updateInvoice
-- DeleteInvoiceWorkflow $deleteInvoice
+- CreateInvoiceAction $createInvoice
+- UpdateInvoiceAction $updateInvoice
+- DeleteInvoiceAction $deleteInvoice
 
 **Properties**
 
-- $createInvoice : App\Modules\Invoice\Application\Workflows\CreateInvoiceWorkflow
-- $updateInvoice : App\Modules\Invoice\Application\Workflows\UpdateInvoiceWorkflow
-- $deleteInvoice : App\Modules\Invoice\Application\Workflows\DeleteInvoiceWorkflow
+- $createInvoice : App\Modules\Invoice\Application\Actions\CreateInvoiceAction
+- $updateInvoice : App\Modules\Invoice\Application\Actions\UpdateInvoiceAction
+- $deleteInvoice : App\Modules\Invoice\Application\Actions\DeleteInvoiceAction
 
 **Methods**
 
@@ -322,17 +288,17 @@ App\Modules\Notification\Application\Services
 
 **Constructor Dependencies**
 
-- CreateNotificationWorkflow $createNotification
-- CreateReminderWorkflow $createReminder
-- BillingFailedNotificationWorkflow $billingFailed
-- SubscriptionRenewedNotificationWorkflow $subscriptionRenewed
+- CreateNotificationAction $createNotification
+- CreateReminderAction $createReminder
+- BillingFailedNotificationAction $billingFailed
+- SubscriptionRenewedNotificationAction $subscriptionRenewed
 
 **Properties**
 
-- $createNotification : App\Modules\Notification\Application\Workflows\CreateNotificationWorkflow
-- $createReminder : App\Modules\Notification\Application\Workflows\CreateReminderWorkflow
-- $billingFailed : App\Modules\Notification\Application\Workflows\BillingFailedNotificationWorkflow
-- $subscriptionRenewed : App\Modules\Notification\Application\Workflows\SubscriptionRenewedNotificationWorkflow
+- $createNotification : App\Modules\Notification\Application\Actions\CreateNotificationAction
+- $createReminder : App\Modules\Notification\Application\Actions\CreateReminderAction
+- $billingFailed : App\Modules\Notification\Application\Actions\BillingFailedNotificationAction
+- $subscriptionRenewed : App\Modules\Notification\Application\Actions\SubscriptionRenewedNotificationAction
 
 **Methods**
 
@@ -360,16 +326,16 @@ App\Modules\Package\Application\Services
 **Constructor Dependencies**
 
 - PackageRepositoryInterface $repository
-- CreatePackageWorkflow $createWorkflow
-- UpdatePackageWorkflow $updateWorkflow
-- DeletePackageWorkflow $deleteWorkflow
+- CreatePackageAction $createWorkflow
+- UpdatePackageAction $updateWorkflow
+- DeletePackageAction $deleteWorkflow
 
 **Properties**
 
 - $repository : App\Modules\Package\Domain\Contracts\PackageRepositoryInterface
-- $createWorkflow : App\Modules\Package\Application\Workflows\CreatePackageWorkflow
-- $updateWorkflow : App\Modules\Package\Application\Workflows\UpdatePackageWorkflow
-- $deleteWorkflow : App\Modules\Package\Application\Workflows\DeletePackageWorkflow
+- $createWorkflow : App\Modules\Package\Application\Actions\CreatePackageAction
+- $updateWorkflow : App\Modules\Package\Application\Actions\UpdatePackageAction
+- $deleteWorkflow : App\Modules\Package\Application\Actions\DeletePackageAction
 
 **Methods**
 
@@ -396,11 +362,11 @@ App\Modules\Payment\Application\Services
 
 **Constructor Dependencies**
 
-- CreatePaymentWorkflow $createPayment
+- CreatePaymentAction $createPayment
 
 **Properties**
 
-- $createPayment : App\Modules\Payment\Application\Workflows\CreatePaymentWorkflow
+- $createPayment : App\Modules\Payment\Application\Actions\CreatePaymentAction
 
 **Methods**
 
@@ -548,11 +514,11 @@ App\Modules\Activity\Application\Services
 
 **Constructor Dependencies**
 
-- CreateActivityLogWorkflow $workflow
+- CreateActivityLogAction $action
 
 **Properties**
 
-- $workflow : App\Modules\Activity\Application\Workflows\CreateActivityLogWorkflow
+- $action : App\Modules\Activity\Application\Actions\CreateActivityLogAction
 
 **Methods**
 
@@ -633,23 +599,23 @@ App\Modules\Task\Application\Services
 
 **Constructor Dependencies**
 
-- CreateTaskWorkflow $createTask
-- UpdateTaskWorkflow $updateTask
-- DeleteTaskWorkflow $deleteTask
-- StartTaskWorkflow $startTask
-- CompleteTaskWorkflow $completeTask
-- CancelTaskWorkflow $cancelTask
-- ReopenTaskWorkflow $reopenTask
+- CreateTaskAction $createTask
+- UpdateTaskAction $updateTask
+- DeleteTaskAction $deleteTask
+- StartTaskAction $startTask
+- CompleteTaskAction $completeTask
+- CancelTaskAction $cancelTask
+- ReopenTaskAction $reopenTask
 
 **Properties**
 
-- $createTask : App\Modules\Task\Application\Workflows\CreateTaskWorkflow
-- $updateTask : App\Modules\Task\Application\Workflows\UpdateTaskWorkflow
-- $deleteTask : App\Modules\Task\Application\Workflows\DeleteTaskWorkflow
-- $startTask : App\Modules\Task\Application\Workflows\StartTaskWorkflow
-- $completeTask : App\Modules\Task\Application\Workflows\CompleteTaskWorkflow
-- $cancelTask : App\Modules\Task\Application\Workflows\CancelTaskWorkflow
-- $reopenTask : App\Modules\Task\Application\Workflows\ReopenTaskWorkflow
+- $createTask : App\Modules\Task\Application\Actions\CreateTaskAction
+- $updateTask : App\Modules\Task\Application\Actions\UpdateTaskAction
+- $deleteTask : App\Modules\Task\Application\Actions\DeleteTaskAction
+- $startTask : App\Modules\Task\Application\Actions\StartTaskAction
+- $completeTask : App\Modules\Task\Application\Actions\CompleteTaskAction
+- $cancelTask : App\Modules\Task\Application\Actions\CancelTaskAction
+- $reopenTask : App\Modules\Task\Application\Actions\ReopenTaskAction
 
 **Methods**
 

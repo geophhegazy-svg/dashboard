@@ -11,6 +11,7 @@ use App\Modules\Wallet\Infrastructure\Persistence\Models\WalletTransaction;
 use App\Traits\BelongsToTenant;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Database\Factories\Modules\Customer\Infrastructure\Persistence\Models\CustomerFactory;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
@@ -20,6 +21,11 @@ class Customer extends Authenticatable
     use HasApiTokens;
     use Notifiable;
     use BelongsToTenant;
+
+    protected static function newFactory()
+    {
+        return CustomerFactory::new();
+    }
 
     protected $fillable = [
         'tenant_id',

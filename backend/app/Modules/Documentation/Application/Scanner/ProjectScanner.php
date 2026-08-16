@@ -14,7 +14,25 @@ class ProjectScanner
 
     public function models(): array
     {
-        return $this->scanDirectory(app_path('Models'));
+        $models = [];
+
+        $modulesPath = app_path('Modules');
+
+        if (is_dir($modulesPath)) {
+            foreach (glob($modulesPath . '/*/Infrastructure/Persistence/Models', GLOB_ONLYDIR) as $modelsPath) {
+                $models = array_merge(
+                    $models,
+                    $this->scanDirectory($modelsPath)
+                );
+            }
+        }
+
+        usort(
+            $models,
+            fn($a, $b) => strcmp($a['name'], $b['name'])
+        );
+
+        return $models;
     }
 
     public function services(): array
