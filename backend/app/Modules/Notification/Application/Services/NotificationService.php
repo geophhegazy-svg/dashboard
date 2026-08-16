@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Notification\Application\Services;
 
+use App\Modules\Notification\Application\Contracts\NotificationServiceInterface;
 use App\Modules\Notification\Application\Actions\BillingFailedNotificationAction;
 use App\Modules\Notification\Application\Actions\CreateNotificationAction;
 use App\Modules\Notification\Application\Actions\CreateReminderAction;
@@ -11,7 +12,7 @@ use App\Modules\Notification\Application\Actions\SubscriptionRenewedNotification
 use App\Modules\Notification\Infrastructure\Persistence\Models\Notification;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 
-class NotificationService
+class NotificationService implements NotificationServiceInterface
 {
     public function __construct(
         private readonly CreateNotificationAction $createNotification,

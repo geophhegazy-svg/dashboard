@@ -107,12 +107,15 @@ App\Modules\Invoice\Application\Services
 - App\Modules\Invoice\Application\Actions\CreateInvoiceAction
 - App\Modules\Invoice\Application\Actions\UpdateInvoiceAction
 - App\Modules\Invoice\Application\Actions\DeleteInvoiceAction
+- App\Modules\Invoice\Application\Actions\SettleInvoiceAction
 
 **Methods**
-- __construct(3 params) : mixed
+- __construct(4 params) : mixed
+- findForPayment(1 params) : App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice
 - create(1 params) : App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice
 - update(2 params) : App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice
 - delete(1 params) : bool
+- settle(2 params) : App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice
 
 ---
 
@@ -372,5 +375,19 @@ App\Modules\Notification\Application\Services
 - __construct(0 params) : mixed
 - sendMessage(1 params) : mixed
 - sendDeviceAlert(1 params) : mixed
+
+---
+
+## WalletService
+
+**Namespace**
+App\Modules\Wallet\Application\Services
+
+**Dependencies**
+- App\Modules\Wallet\Application\Actions\DepositWalletAction
+
+**Methods**
+- __construct(1 params) : mixed
+- credit(4 params) : void
 
 ---

@@ -8,6 +8,10 @@ use App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice;
 
 interface InvoiceServiceInterface
 {
+    public function findForPayment(
+        int $invoiceId,
+    ): Invoice;
+
     public function create(
         array $data,
     ): Invoice;
@@ -20,4 +24,9 @@ interface InvoiceServiceInterface
     public function delete(
         Invoice $invoice,
     ): bool;
+
+    public function settle(
+        Invoice $invoice,
+        float $totalPaid,
+    ): Invoice;
 }

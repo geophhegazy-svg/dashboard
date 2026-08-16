@@ -9,7 +9,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use App\Modules\Network\Domain\Contracts\MikrotikServiceInterface;
-use App\Models\NetworkDevice;
+use App\Modules\Network\Infrastructure\Persistence\Models\NetworkDevice;
 use App\Models\PPPoEUser;
 use App\Modules\Customer\Infrastructure\Persistence\Models\Customer;
 use Illuminate\Support\Facades\Log;

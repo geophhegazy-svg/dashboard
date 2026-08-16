@@ -26,6 +26,7 @@
                         "App\\Modules\\Invoice\\Application\\Actions\\CreateInvoiceAction": "App\\Modules\\Invoice\\Application\\Actions\\CreateInvoiceAction",
                         "App\\Modules\\Invoice\\Application\\Actions\\UpdateInvoiceAction": "App\\Modules\\Invoice\\Application\\Actions\\UpdateInvoiceAction",
                         "App\\Modules\\Invoice\\Application\\Actions\\DeleteInvoiceAction": "App\\Modules\\Invoice\\Application\\Actions\\DeleteInvoiceAction",
+                        "App\\Modules\\Invoice\\Application\\Actions\\SettleInvoiceAction": "App\\Modules\\Invoice\\Application\\Actions\\SettleInvoiceAction",
                         "App\\Modules\\Invoice\\Application\\Contracts\\InvoiceServiceInterface": "App\\Modules\\Invoice\\Application\\Services\\InvoiceService"
                     }
                 },
@@ -96,7 +97,8 @@
             "class": "App\\Modules\\Billing\\Kernel\\BillingModule",
             "name": "Billing",
             "dependencies": [
-                "App\\Modules\\Subscription\\Kernel\\SubscriptionModule"
+                "App\\Modules\\Subscription\\Kernel\\SubscriptionModule",
+                "App\\Modules\\Invoice\\Kernel\\InvoiceModule"
             ],
             "resources": [
                 {
@@ -243,7 +245,8 @@
                 {
                     "type": "services",
                     "bindings": {
-                        "App\\Modules\\Notification\\Domain\\Contracts\\NotificationRepositoryInterface": "App\\Modules\\Notification\\Infrastructure\\Repositories\\NotificationRepository"
+                        "App\\Modules\\Notification\\Domain\\Contracts\\NotificationRepositoryInterface": "App\\Modules\\Notification\\Infrastructure\\Repositories\\NotificationRepository",
+                        "App\\Modules\\Notification\\Application\\Contracts\\NotificationServiceInterface": "App\\Modules\\Notification\\Application\\Services\\NotificationService"
                     }
                 },
                 {
@@ -288,9 +291,36 @@
             ]
         },
         {
+            "class": "App\\Modules\\Wallet\\Kernel\\WalletModule",
+            "name": "Wallet",
+            "dependencies": [
+                "App\\Modules\\Subscription\\Kernel\\SubscriptionModule",
+                "App\\Modules\\Activity\\Kernel\\ActivityModule"
+            ],
+            "resources": [
+                {
+                    "type": "services",
+                    "bindings": {
+                        "App\\Modules\\Wallet\\Domain\\Contracts\\WalletRepositoryInterface": "App\\Modules\\Wallet\\Infrastructure\\Repositories\\WalletRepository",
+                        "App\\Modules\\Wallet\\Application\\Contracts\\WalletServiceInterface": "App\\Modules\\Wallet\\Application\\Services\\WalletService"
+                    }
+                },
+                {
+                    "type": "actions",
+                    "actions": [
+                        "App\\Modules\\Wallet\\Application\\Actions\\DepositWalletAction",
+                        "App\\Modules\\Wallet\\Application\\Actions\\DeductWalletAction"
+                    ]
+                }
+            ]
+        },
+        {
             "class": "App\\Modules\\Payment\\Kernel\\PaymentModule",
             "name": "Payment",
-            "dependencies": [],
+            "dependencies": [
+                "App\\Modules\\Invoice\\Kernel\\InvoiceModule",
+                "App\\Modules\\Wallet\\Kernel\\WalletModule"
+            ],
             "resources": [
                 {
                     "type": "services",
@@ -350,29 +380,6 @@
                         "App\\Modules\\Ticket\\Application\\Actions\\GetAdminTicketStatisticsAction": "App\\Modules\\Ticket\\Application\\Actions\\GetAdminTicketStatisticsAction",
                         "App\\Modules\\Ticket\\Application\\Actions\\GetCustomerTicketStatisticsAction": "App\\Modules\\Ticket\\Application\\Actions\\GetCustomerTicketStatisticsAction"
                     }
-                }
-            ]
-        },
-        {
-            "class": "App\\Modules\\Wallet\\Kernel\\WalletModule",
-            "name": "Wallet",
-            "dependencies": [
-                "App\\Modules\\Subscription\\Kernel\\SubscriptionModule",
-                "App\\Modules\\Activity\\Kernel\\ActivityModule"
-            ],
-            "resources": [
-                {
-                    "type": "services",
-                    "bindings": {
-                        "App\\Modules\\Wallet\\Domain\\Contracts\\WalletRepositoryInterface": "App\\Modules\\Wallet\\Infrastructure\\Repositories\\WalletRepository"
-                    }
-                },
-                {
-                    "type": "actions",
-                    "actions": [
-                        "App\\Modules\\Wallet\\Application\\Actions\\DepositWalletAction",
-                        "App\\Modules\\Wallet\\Application\\Actions\\DeductWalletAction"
-                    ]
                 }
             ]
         }

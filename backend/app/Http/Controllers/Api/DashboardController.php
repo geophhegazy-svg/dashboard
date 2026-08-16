@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\HotspotUser;
-use App\Models\NetworkDevice;
+use App\Modules\Network\Infrastructure\Persistence\Models\NetworkDevice;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller

@@ -55,7 +55,7 @@ class Invoice extends \Illuminate\Database\Eloquent\Model
     public function subscription()
     {
         return $this->belongsTo(
-            \App\Models\Subscription::class
+            \App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription::class
         );
     }
 

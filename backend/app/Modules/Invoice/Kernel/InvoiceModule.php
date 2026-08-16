@@ -12,6 +12,7 @@ use App\Modules\Invoice\Infrastructure\Repositories\InvoiceRepository;
 use App\Modules\Invoice\Application\Actions\CreateInvoiceAction;
 use App\Modules\Invoice\Application\Actions\UpdateInvoiceAction;
 use App\Modules\Invoice\Application\Actions\DeleteInvoiceAction;
+use App\Modules\Invoice\Application\Actions\SettleInvoiceAction;
 
 use App\Modules\Invoice\Application\Services\InvoiceService;
 
@@ -56,6 +57,9 @@ final class InvoiceModule extends Module
 
                 DeleteInvoiceAction::class
                 => DeleteInvoiceAction::class,
+
+                SettleInvoiceAction::class
+                => SettleInvoiceAction::class,
 
                 InvoiceServiceInterface::class
                 => InvoiceService::class,

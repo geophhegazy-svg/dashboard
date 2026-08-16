@@ -10,7 +10,7 @@ use App\Modules\Dashboard\Application\Services\DashboardService;
 use App\Modules\Customer\Infrastructure\Persistence\Models\Customer;
 use App\Modules\Package\Infrastructure\Persistence\Models\Package;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
-use App\Models\Payment;
+use App\Modules\Payment\Infrastructure\Persistence\Models\Payment;
 use App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice;
 use Carbon\Carbon;
 

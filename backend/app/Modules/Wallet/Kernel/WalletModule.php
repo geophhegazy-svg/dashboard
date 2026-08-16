@@ -8,6 +8,8 @@ use App\Core\Kernel\ModuleManifest;
 use App\Core\Kernel\Modules\Module;
 use App\Modules\Wallet\Application\Actions\DeductWalletAction;
 use App\Modules\Wallet\Application\Actions\DepositWalletAction;
+use App\Modules\Wallet\Application\Contracts\WalletServiceInterface;
+use App\Modules\Wallet\Application\Services\WalletService;
 use App\Modules\Wallet\Domain\Contracts\WalletRepositoryInterface;
 use App\Modules\Wallet\Infrastructure\Repositories\WalletRepository;
 
@@ -34,6 +36,9 @@ final class WalletModule extends Module
 
                 WalletRepositoryInterface::class
                 => WalletRepository::class,
+
+                WalletServiceInterface::class
+                => WalletService::class,
 
             ])
 

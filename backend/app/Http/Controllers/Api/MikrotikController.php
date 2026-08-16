@@ -11,7 +11,7 @@ use App\Modules\Customer\Infrastructure\Persistence\Models\Customer;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 use App\Models\HotspotSubscription;
 use App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice;
-use App\Models\NetworkDevice;
+use App\Modules\Network\Infrastructure\Persistence\Models\NetworkDevice;
 
 class MikrotikController extends Controller
 {

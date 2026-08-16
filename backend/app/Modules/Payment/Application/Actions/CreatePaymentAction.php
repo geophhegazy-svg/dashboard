@@ -4,25 +4,27 @@ declare(strict_types=1);
 
 namespace App\Modules\Payment\Application\Actions;
 
-use App\Modules\Payment\Infrastructure\Persistence\Models\Payment;
-use App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice;
+use App\Modules\Invoice\Application\Contracts\InvoiceServiceInterface;
 use App\Modules\Payment\Domain\Contracts\PaymentRepositoryInterface;
+use App\Modules\Payment\Infrastructure\Persistence\Models\Payment;
+use App\Modules\Wallet\Application\Contracts\WalletServiceInterface;
 use Illuminate\Support\Facades\DB;
 
 final readonly class CreatePaymentAction
 {
     public function __construct(
         private PaymentRepositoryInterface $repository,
+        private InvoiceServiceInterface $invoiceService,
+        private WalletServiceInterface $walletService,
     ) {}
 
     public function execute(
         array $data,
     ): Payment {
-
         return DB::transaction(function () use ($data): Payment {
 
-            $invoice = Invoice::findOrFail(
-                $data['invoice_id']
+            $invoice = $this->invoiceService->findForPayment(
+                $data['invoice_id'],
             );
 
             if ($invoice->status === 'paid') {
@@ -40,35 +42,31 @@ final readonly class CreatePaymentAction
             ]);
 
             $totalPaidAfter =
-                $totalPaidBefore + $payment->amount;
+                (float) $totalPaidBefore
+                + (float) $payment->amount;
 
-            if ($totalPaidAfter >= $invoice->amount) {
+            $this->invoiceService->settle(
+                $invoice,
+                $totalPaidAfter,
+            );
 
-                $invoice->update([
-                    'status' => 'paid',
-                    'paid_at' => now(),
-                ]);
+            if ($totalPaidAfter >= (float) $invoice->amount) {
 
                 $extraCredit = max(
                     0,
-                    $totalPaidAfter - $invoice->amount
+                    $totalPaidAfter - (float) $invoice->amount,
                 );
 
-                if ($extraCredit > 0) {
-
-                    if ($invoice->subscription) {
-                        $invoice->subscription->increment(
-                            'wallet_balance',
-                            $extraCredit
-                        );
-                    }
-
-                    if ($invoice->hotspotSubscription) {
-                        $invoice->hotspotSubscription->increment(
-                            'wallet_balance',
-                            $extraCredit
-                        );
-                    }
+                if (
+                    $extraCredit > 0
+                    && $invoice->subscription
+                ) {
+                    $this->walletService->credit(
+                        subscription: $invoice->subscription,
+                        amount: $extraCredit,
+                        description: 'Invoice overpayment credit',
+                        reference: $invoice->invoice_number,
+                    );
                 }
             }
 

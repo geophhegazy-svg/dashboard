@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Models\NetworkDevice;
+use App\Modules\Network\Infrastructure\Persistence\Models\NetworkDevice;
 use App\Modules\Notification\Application\Services\TelegramNotificationService;
 use Illuminate\Support\Facades\Log;
 

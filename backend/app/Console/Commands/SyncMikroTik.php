@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Modules\Network\Domain\Contracts\MikrotikServiceInterface;
 use App\Models\PPPoEUser;
-use App\Models\NetworkDevice;
+use App\Modules\Network\Infrastructure\Persistence\Models\NetworkDevice;
 use Illuminate\Support\Facades\Log;
 
 class SyncMikroTik extends Command

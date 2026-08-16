@@ -29,6 +29,7 @@ final class BillingModule extends Module
     {
         return [
             \App\Modules\Subscription\Kernel\SubscriptionModule::class,
+            \App\Modules\Invoice\Kernel\InvoiceModule::class,
         ];
     }
 

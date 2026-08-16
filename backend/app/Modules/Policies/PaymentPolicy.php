@@ -2,7 +2,7 @@
 
 namespace App\Modules\Policies;
 
-use App\Models\Payment;
+use App\Modules\Payment\Infrastructure\Persistence\Models\Payment;
 use App\Models\User;
 use App\Core\Security\Authorization\Concerns\AuthorizesByPermission;
 

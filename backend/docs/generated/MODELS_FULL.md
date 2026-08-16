@@ -476,6 +476,15 @@ App\Modules\Accounting\Infrastructure\Persistence\Models
 - $recursionCache : mixed
 - $resolvedCollectionClasses : array
 
+**Methods**
+
+- tenant()
+- creator()
+- approver()
+- lines()
+- postedBy()
+- factory()
+
 ---
 
 ## JournalEntryLine
@@ -564,6 +573,12 @@ App\Modules\Accounting\Infrastructure\Persistence\Models
 - $guardableColumns : mixed
 - $recursionCache : mixed
 - $resolvedCollectionClasses : array
+
+**Methods**
+
+- journalEntry()
+- account()
+- factory()
 
 ---
 

@@ -104,6 +104,8 @@ App\Modules\Invoice\Application\Services\InvoiceService
 - __construct
 - create
 - delete
+- findForPayment
+- settle
 - update
 
 ## JournalEntryNumberService
@@ -329,3 +331,16 @@ App\Modules\Notification\Application\Services\TelegramNotificationService
 - __construct
 - sendDeviceAlert
 - sendMessage
+
+## WalletService
+
+**Class**
+
+```
+App\Modules\Wallet\Application\Services\WalletService
+```
+
+**Public Methods**
+
+- __construct
+- credit

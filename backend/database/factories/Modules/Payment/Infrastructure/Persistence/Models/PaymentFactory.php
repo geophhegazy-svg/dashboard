@@ -1,17 +1,19 @@
 <?php
 
-namespace Database\Factories;
+declare(strict_types=1);
+
+namespace Database\Factories\Modules\Payment\Infrastructure\Persistence\Models;
 
 use App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice;
-use App\Models\Payment;
+use App\Modules\Payment\Infrastructure\Persistence\Models\Payment;
 use App\Models\Tenant;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+/**
+ * @extends Factory<Payment>
+ */
 class PaymentFactory extends Factory
 {
-    use HasFactory;
-
     protected $model = Payment::class;
 
     public function definition(): array

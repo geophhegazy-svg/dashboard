@@ -6,13 +6,13 @@ namespace App\Modules\Notification\Application\Listeners;
 
 use App\Core\EventBus\Contracts\EventContract;
 use App\Core\EventBus\Contracts\EventListenerInterface;
-use App\Modules\Notification\Application\Services\NotificationService;
+use App\Modules\Notification\Application\Contracts\NotificationServiceInterface;
 use App\Modules\Subscription\Domain\Events\SubscriptionRenewed;
 
 final readonly class SubscriptionRenewedNotificationListener implements EventListenerInterface
 {
     public function __construct(
-        private NotificationService $notificationService,
+        private NotificationServiceInterface $notificationService,
     ) {}
 
     public function handle(EventContract $event): void

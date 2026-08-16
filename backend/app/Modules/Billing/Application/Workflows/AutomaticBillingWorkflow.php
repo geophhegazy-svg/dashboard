@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Log;
 use App\Core\Workflow\AbstractWorkflow;
 use App\Enums\BillingStatus;
 use App\Modules\Billing\Domain\Services\BillingEngine;
-use App\Modules\Notification\Application\Services\NotificationService;
+use App\Modules\Notification\Application\Contracts\NotificationServiceInterface;
 use App\Modules\Subscription\Domain\Contracts\SubscriptionRenewalServiceInterface;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 
@@ -19,7 +19,7 @@ final class AutomaticBillingWorkflow extends AbstractWorkflow
     public function __construct(
         private readonly BillingEngine $billingEngine,
         private readonly SubscriptionRenewalServiceInterface $renewalService,
-        private readonly NotificationService $notificationService,
+        private readonly NotificationServiceInterface $notificationService,
     ) {}
 
     protected function perform(

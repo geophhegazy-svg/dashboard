@@ -189,18 +189,22 @@ App\Modules\Invoice\Application\Services
 - CreateInvoiceAction $createInvoice
 - UpdateInvoiceAction $updateInvoice
 - DeleteInvoiceAction $deleteInvoice
+- SettleInvoiceAction $settleInvoice
 
 **Properties**
 
 - $createInvoice : App\Modules\Invoice\Application\Actions\CreateInvoiceAction
 - $updateInvoice : App\Modules\Invoice\Application\Actions\UpdateInvoiceAction
 - $deleteInvoice : App\Modules\Invoice\Application\Actions\DeleteInvoiceAction
+- $settleInvoice : App\Modules\Invoice\Application\Actions\SettleInvoiceAction
 
 **Methods**
 
+- findForPayment() : App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice
 - create() : App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice
 - update() : App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice
 - delete() : bool
+- settle() : App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice
 
 ---
 
@@ -653,3 +657,31 @@ App\Modules\Notification\Application\Services
 
 - sendMessage() : mixed
 - sendDeviceAlert() : mixed
+
+---
+
+## WalletService
+
+**Namespace**
+
+```
+App\Modules\Wallet\Application\Services
+```
+
+**File**
+
+```
+/var/www/app/Modules/Wallet/Application/Services/WalletService.php
+```
+
+**Constructor Dependencies**
+
+- DepositWalletAction $depositWallet
+
+**Properties**
+
+- $depositWallet : App\Modules\Wallet\Application\Actions\DepositWalletAction
+
+**Methods**
+
+- credit() : void

@@ -9,11 +9,18 @@ use Illuminate\Database\Eloquent\Model;
 use App\Traits\BelongsToTenant;
 use App\Models\Tenant;
 use App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice;
+use Database\Factories\Modules\Payment\Infrastructure\Persistence\Models\PaymentFactory;
 
 class Payment extends Model
 {
     use HasFactory;
     use BelongsToTenant;
+
+
+    protected static function newFactory()
+    {
+        return PaymentFactory::new();
+    }
 
     protected $fillable = [
         'tenant_id',

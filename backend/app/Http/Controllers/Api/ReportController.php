@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Modules\Customer\Infrastructure\Persistence\Models\Customer;
 use App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice;
-use App\Models\Payment;
+use App\Modules\Payment\Infrastructure\Persistence\Models\Payment;
 use App\Models\Ticket;
 use App\Models\Inventory;
 use Illuminate\Http\Request;

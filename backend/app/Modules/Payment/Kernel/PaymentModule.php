@@ -18,7 +18,10 @@ final class PaymentModule extends Module
 
     public function dependencies(): array
     {
-        return [];
+        return [
+            \App\Modules\Invoice\Kernel\InvoiceModule::class,
+            \App\Modules\Wallet\Kernel\WalletModule::class,
+        ];
     }
 
     public function manifest(): ModuleManifest

@@ -11,7 +11,7 @@ use App\Enums\BillingStatus;
 use App\Modules\Billing\Application\Services\AutomaticBillingService;
 use App\Modules\Billing\Domain\Services\BillingEngine;
 use App\Modules\Subscription\Domain\Contracts\SubscriptionRenewalServiceInterface;
-use App\Modules\Notification\Application\Services\NotificationService;
+use App\Modules\Notification\Application\Contracts\NotificationServiceInterface;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 use App\Modules\Billing\Application\Workflows\AutomaticBillingWorkflow;
 
@@ -56,7 +56,7 @@ class AutomaticBillingServiceTest extends TestCase
             ->method('renewPppoe');
 
         $notification = $this->createMock(
-            NotificationService::class
+            NotificationServiceInterface::class
         );
 
         $workflow = new AutomaticBillingWorkflow(
@@ -98,7 +98,7 @@ class AutomaticBillingServiceTest extends TestCase
             ->with($subscription);
 
         $notification = $this->createMock(
-            NotificationService::class
+            NotificationServiceInterface::class
         );
 
         $workflow = new AutomaticBillingWorkflow(
@@ -139,7 +139,7 @@ class AutomaticBillingServiceTest extends TestCase
             );
 
         $notification = $this->createMock(
-            NotificationService::class
+            NotificationServiceInterface::class
         );
 
         $notification
@@ -186,7 +186,7 @@ class AutomaticBillingServiceTest extends TestCase
             ->method('renewPppoe');
 
         $notification = $this->createMock(
-            NotificationService::class
+            NotificationServiceInterface::class
         );
 
         $workflow = new AutomaticBillingWorkflow(
