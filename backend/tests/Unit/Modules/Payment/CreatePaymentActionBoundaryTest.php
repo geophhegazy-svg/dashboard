@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Modules\Payment;
 
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Modules\Customer\Infrastructure\Persistence\Models\Customer;
 use App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice;
-use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
-use App\Modules\Payment\Infrastructure\Persistence\Models\Payment;
 use App\Modules\Payment\Application\Actions\CreatePaymentAction;
+use App\Modules\Payment\Infrastructure\Persistence\Models\Payment;
+use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
+use App\Modules\Wallet\Infrastructure\Persistence\Models\Wallet;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 final class CreatePaymentActionBoundaryTest extends TestCase
 {
@@ -41,11 +43,22 @@ final class CreatePaymentActionBoundaryTest extends TestCase
 
     public function test_overpayment_is_delegated_to_wallet_service(): void
     {
+        $customer = Customer::factory()->create();
+
         $subscription = Subscription::factory()->create([
-            'wallet_balance' => 100,
+            'tenant_id' => $customer->tenant_id,
+            'customer_id' => $customer->id,
+        ]);
+
+        $wallet = Wallet::create([
+            'tenant_id' => $customer->tenant_id,
+            'customer_id' => $customer->id,
+            'balance' => 100,
         ]);
 
         $invoice = Invoice::factory()->create([
+            'tenant_id' => $customer->tenant_id,
+            'customer_id' => $customer->id,
             'subscription_id' => $subscription->id,
             'amount' => 500,
             'status' => 'pending',
@@ -57,16 +70,30 @@ final class CreatePaymentActionBoundaryTest extends TestCase
             'payment_method' => 'cash',
         ]);
 
-        $subscription->refresh();
+        $wallet->refresh();
 
         $this->assertEquals(
             150,
-            (float) $subscription->wallet_balance,
+            (float) $wallet->balance,
         );
+
+        $this->assertDatabaseHas('wallet_transactions', [
+            'tenant_id' => $customer->tenant_id,
+            'customer_id' => $customer->id,
+            'amount' => 50,
+            'type' => 'deposit',
+            'description' => 'Invoice overpayment credit',
+            'reference' => $invoice->invoice_number,
+        ]);
 
         $this->assertDatabaseHas('invoices', [
             'id' => $invoice->id,
             'status' => 'paid',
+        ]);
+
+        $this->assertDatabaseMissing('wallets', [
+            'customer_id' => $subscription->id,
+            'balance' => 150,
         ]);
     }
 }

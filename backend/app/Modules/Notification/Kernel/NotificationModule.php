@@ -9,6 +9,9 @@ use App\Core\Kernel\Modules\Module;
 use App\Modules\Notification\Application\Contracts\NotificationServiceInterface;
 use App\Modules\Notification\Application\Services\NotificationService;
 use App\Modules\Notification\Application\Actions\BillingFailedNotificationAction;
+use App\Modules\Notification\Application\Actions\DeleteNotificationAction;
+use App\Modules\Notification\Application\Actions\MarkAllNotificationsAsReadAction;
+use App\Modules\Notification\Application\Actions\MarkNotificationAsReadAction;
 use App\Modules\Notification\Application\Actions\CreateNotificationAction;
 use App\Modules\Notification\Application\Actions\CreateReminderAction;
 use App\Modules\Notification\Application\Actions\SubscriptionRenewedNotificationAction;
@@ -26,7 +29,9 @@ final class NotificationModule extends Module
 
     public function dependencies(): array
     {
-        return [];
+        return [
+            \App\Modules\Subscription\Kernel\SubscriptionModule::class,
+        ];
     }
 
     public function manifest(): ModuleManifest
@@ -54,6 +59,9 @@ final class NotificationModule extends Module
             ->actions([
 
                 BillingFailedNotificationAction::class,
+                DeleteNotificationAction::class,
+                MarkAllNotificationsAsReadAction::class,
+                MarkNotificationAsReadAction::class,
                 CreateNotificationAction::class,
                 CreateReminderAction::class,
                 SubscriptionRenewedNotificationAction::class,

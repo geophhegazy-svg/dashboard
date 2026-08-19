@@ -13,6 +13,11 @@ use App\Modules\Wallet\Application\Services\WalletService;
 use App\Modules\Wallet\Domain\Contracts\WalletRepositoryInterface;
 use App\Modules\Wallet\Infrastructure\Repositories\WalletRepository;
 
+use App\Modules\Wallet\Application\Queries\FindCustomerWalletQuery;
+use App\Modules\Wallet\Application\Queries\PaginateWalletTransactionsQuery;
+use App\Modules\Wallet\Application\Queries\Handlers\FindCustomerWalletQueryHandler;
+use App\Modules\Wallet\Application\Queries\Handlers\PaginateWalletTransactionsQueryHandler;
+
 final class WalletModule extends Module
 {
     public function name(): string
@@ -23,7 +28,6 @@ final class WalletModule extends Module
     public function dependencies(): array
     {
         return [
-            \App\Modules\Subscription\Kernel\SubscriptionModule::class,
             \App\Modules\Activity\Kernel\ActivityModule::class,
         ];
     }
@@ -47,6 +51,16 @@ final class WalletModule extends Module
                 DepositWalletAction::class,
 
                 DeductWalletAction::class,
+
+            ])
+
+            ->queries([
+
+                FindCustomerWalletQuery::class
+                    => FindCustomerWalletQueryHandler::class,
+
+                PaginateWalletTransactionsQuery::class
+                    => PaginateWalletTransactionsQueryHandler::class,
 
             ]);
     }

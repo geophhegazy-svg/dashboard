@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\Billing\Application\Workflows;
 
 use App\Core\Workflow\AbstractWorkflow;
+use App\Core\Workflow\Contracts\WorkflowContextInterface;
 use App\Modules\Invoice\Application\Contracts\InvoiceServiceInterface;
 use App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
@@ -16,11 +17,11 @@ final class GenerateInvoiceWorkflow extends AbstractWorkflow
     ) {}
 
     protected function perform(
-        mixed ...$arguments
+        WorkflowContextInterface $context,
     ): Invoice {
 
         /** @var Subscription $subscription */
-        $subscription = $arguments[0];
+        $subscription = $context->dto()[0] ?? null;
 
         return $this->invoiceService->create([
             'tenant_id'       => $subscription->tenant_id,

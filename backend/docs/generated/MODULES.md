@@ -2,7 +2,7 @@
 
 ## Models
 
-Total: 19
+Total: 20
 
 - Account
 - ActivityLog
@@ -22,11 +22,12 @@ Total: 19
 - Task
 - Ticket
 - TicketReply
+- Wallet
 - WalletTransaction
 
 ## Services
 
-Total: 23
+Total: 24
 
 - AutomaticBillingService
 - BillingCycleService
@@ -47,6 +48,7 @@ Total: 23
 - ReportService
 - ScheduledReportService
 - SubscriptionActivityService
+- SubscriptionRenewalService
 - SubscriptionService
 - TaskService
 - TelegramNotificationService

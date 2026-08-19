@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Modules\Billing\Application\Services;
 
+use App\Core\Workflow\WorkflowEngine;
+
 use Illuminate\Support\Collection;
 use App\Modules\Billing\Application\Workflows\AutomaticBillingWorkflow;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
@@ -13,6 +15,7 @@ final class AutomaticBillingService
 implements AutomaticBillingServiceInterface
 {
     public function __construct(
+        private readonly WorkflowEngine $engine,
         private readonly AutomaticBillingWorkflow $workflow,
     ) {}
 
@@ -20,7 +23,8 @@ implements AutomaticBillingServiceInterface
         Collection $subscriptions,
     ): void {
 
-        $this->workflow->execute(
+        $this->engine->run(
+            $this->workflow,
             $subscriptions,
         );
     }
@@ -29,7 +33,8 @@ implements AutomaticBillingServiceInterface
         Subscription $subscription,
     ): void {
 
-        $this->workflow->execute(
+        $this->engine->run(
+            $this->workflow,
             collect([$subscription]),
         );
     }

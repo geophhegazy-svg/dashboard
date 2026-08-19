@@ -18,10 +18,12 @@ App\Modules\Billing\Application\Services
 
 **Constructor Dependencies**
 
+- WorkflowEngine $engine
 - AutomaticBillingWorkflow $workflow
 
 **Properties**
 
+- $engine : App\Core\Workflow\WorkflowEngine
 - $workflow : App\Modules\Billing\Application\Workflows\AutomaticBillingWorkflow
 
 **Methods**
@@ -71,10 +73,12 @@ App\Modules\Dashboard\Application\Services
 **Constructor Dependencies**
 
 - UsageService $usageService
+- QueryDispatcher $queryDispatcher
 
 **Properties**
 
 - $usageService : App\Modules\Usage\UsageService
+- $queryDispatcher : App\Core\QueryBus\QueryDispatcher
 
 **Methods**
 
@@ -138,10 +142,12 @@ App\Modules\Billing\Application\Services
 
 **Constructor Dependencies**
 
+- WorkflowEngine $engine
 - GenerateInvoiceWorkflow $workflow
 
 **Properties**
 
+- $engine : App\Core\Workflow\WorkflowEngine
 - $workflow : App\Modules\Billing\Application\Workflows\GenerateInvoiceWorkflow
 
 **Methods**
@@ -202,6 +208,7 @@ App\Modules\Invoice\Application\Services
 
 - findForPayment() : App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice
 - create() : App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice
+- createRenewal() : App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice
 - update() : App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice
 - delete() : bool
 - settle() : App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice
@@ -244,10 +251,12 @@ App\Modules\Accounting\Application\Services
 
 **Constructor Dependencies**
 
+- WorkflowEngine $engine
 - PostJournalEntryWorkflow $workflow
 
 **Properties**
 
+- $engine : App\Core\Workflow\WorkflowEngine
 - $workflow : App\Modules\Accounting\Application\Workflows\PostJournalEntryWorkflow
 
 **Methods**
@@ -530,6 +539,36 @@ App\Modules\Activity\Application\Services
 
 ---
 
+## SubscriptionRenewalService
+
+**Namespace**
+
+```
+App\Modules\Subscription\Application\Services
+```
+
+**File**
+
+```
+/var/www/app/Modules/Subscription/Application/Services/SubscriptionRenewalService.php
+```
+
+**Constructor Dependencies**
+
+- WorkflowEngine $engine
+- RenewWorkflow $workflow
+
+**Properties**
+
+- $engine : App\Core\Workflow\WorkflowEngine
+- $workflow : App\Modules\Subscription\Application\Workflows\RenewWorkflow
+
+**Methods**
+
+- renew() : bool
+
+---
+
 ## SubscriptionService
 
 **Namespace**
@@ -547,22 +586,26 @@ App\Modules\Subscription\Application\Services
 **Constructor Dependencies**
 
 - SubscriptionRepositoryInterface $subscriptions
+- CreateSubscriptionAction $createSubscriptionAction
+- WorkflowEngine $engine
 - ActivateWorkflow $activateWorkflow
 - SuspendWorkflow $suspendWorkflow
 - ExpireWorkflow $expireWorkflow
 - RestoreWorkflow $restoreWorkflow
 - RenewWorkflow $renewWorkflow
-- AutoExpireSubscriptionsWorkflow $autoExpireSubscriptionsWorkflow
+- AutoExpireSubscriptionsOrchestrator $autoExpireSubscriptionsOrchestrator
 
 **Properties**
 
 - $subscriptions : App\Modules\Subscription\Domain\Contracts\SubscriptionRepositoryInterface
+- $createSubscriptionAction : App\Modules\Subscription\Application\Actions\CreateSubscriptionAction
+- $engine : App\Core\Workflow\WorkflowEngine
 - $activateWorkflow : App\Modules\Subscription\Application\Workflows\ActivateWorkflow
 - $suspendWorkflow : App\Modules\Subscription\Application\Workflows\SuspendWorkflow
 - $expireWorkflow : App\Modules\Subscription\Application\Workflows\ExpireWorkflow
 - $restoreWorkflow : App\Modules\Subscription\Application\Workflows\RestoreWorkflow
 - $renewWorkflow : App\Modules\Subscription\Application\Workflows\RenewWorkflow
-- $autoExpireSubscriptionsWorkflow : App\Modules\Subscription\Application\Workflows\AutoExpireSubscriptionsWorkflow
+- $autoExpireSubscriptionsOrchestrator : App\Modules\Subscription\Application\Orchestrators\AutoExpireSubscriptionsOrchestrator
 
 **Methods**
 
@@ -676,10 +719,12 @@ App\Modules\Wallet\Application\Services
 
 **Constructor Dependencies**
 
+- WalletRepositoryInterface $repository
 - DepositWalletAction $depositWallet
 
 **Properties**
 
+- $repository : App\Modules\Wallet\Domain\Contracts\WalletRepositoryInterface
 - $depositWallet : App\Modules\Wallet\Application\Actions\DepositWalletAction
 
 **Methods**

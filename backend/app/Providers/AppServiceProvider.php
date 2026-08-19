@@ -85,11 +85,4 @@ class AppServiceProvider extends ServiceProvider
         );
     }
 
-    public function boot(): void
-    {
-        \Illuminate\Support\Facades\Event::listen(
-            \App\Core\EventBus\Contracts\EventContract::class,
-            \App\Core\EventBus\Bridge\EventBridge::class
-        );
-    }
 }

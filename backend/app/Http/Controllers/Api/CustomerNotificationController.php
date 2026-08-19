@@ -3,10 +3,16 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Modules\Notification\Application\Actions\MarkNotificationAsReadAction;
 use Illuminate\Http\Request;
+use App\Modules\Notification\Application\Actions\MarkAllNotificationsAsReadAction;
 
 class CustomerNotificationController extends Controller
 {
+    public function __construct(
+        private readonly MarkNotificationAsReadAction $markAsRead,
+        private readonly MarkAllNotificationsAsReadAction $markAllAsRead,
+    ) {}
     /**
      * قائمة إشعارات العميل
      */
@@ -33,9 +39,9 @@ class CustomerNotificationController extends Controller
             ->notifications()
             ->findOrFail($id);
 
-        $notification->update([
-            'is_read' => true,
-        ]);
+        $this->markAsRead->execute(
+            $notification,
+        );
 
         return response()->json([
             'message' => 'Notification marked as read.'
@@ -49,12 +55,9 @@ class CustomerNotificationController extends Controller
     {
         $customer = $request->user();
 
-        $customer
-            ->notifications()
-            ->where('is_read', false)
-            ->update([
-                'is_read' => true,
-            ]);
+        $this->markAllAsRead->execute(
+            $customer->id,
+        );
 
         return response()->json([
             'message' => 'All notifications marked as read.'

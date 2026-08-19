@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Billing;
 
+use App\Core\Workflow\WorkflowEngine;
 use App\Modules\Billing\Application\Workflows\GenerateInvoiceWorkflow;
 use App\Modules\Invoice\Application\Contracts\InvoiceServiceInterface;
 use App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice;
@@ -62,13 +63,16 @@ class GenerateInvoiceWorkflowTest extends TestCase
             $invoiceService
         );
 
-        $result = $workflow->execute(
-            $subscription
-        );
+        $result = $this->app
+            ->make(WorkflowEngine::class)
+            ->run(
+                $workflow,
+                $subscription,
+            );
 
         $this->assertSame(
             $invoice,
-            $result
+            $result->payload()
         );
     }
 }

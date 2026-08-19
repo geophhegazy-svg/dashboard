@@ -2,16 +2,19 @@
 
 declare(strict_types=1);
 
-namespace App\Modules\Subscription\Application\Workflows;
+namespace App\Modules\Subscription\Application\Orchestrators;
+
+use App\Core\Workflow\WorkflowEngine;
 
 use App\Modules\Subscription\Domain\Contracts\SubscriptionRepositoryInterface;
-use App\Modules\Subscription\Domain\Enums\SubscriptionStatus;
+use App\Modules\Subscription\Application\Workflows\ExpireWorkflow;
 use Illuminate\Support\Facades\Log;
 
-final readonly class AutoExpireSubscriptionsWorkflow
+final readonly class AutoExpireSubscriptionsOrchestrator
 {
     public function __construct(
         private SubscriptionRepositoryInterface $subscriptions,
+        private WorkflowEngine $engine,
         private ExpireWorkflow $expireWorkflow,
     ) {}
 
@@ -23,7 +26,8 @@ final readonly class AutoExpireSubscriptionsWorkflow
 
         foreach ($subscriptions as $subscription) {
 
-            $this->expireWorkflow->execute(
+            $this->engine->run(
+                $this->expireWorkflow,
                 $subscription,
             );
 

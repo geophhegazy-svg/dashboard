@@ -28,8 +28,6 @@ class CustomerSubscriptionResource extends JsonResource
                 'quota_gb' => $this->package->quota_gb,
             ],
 
-            'wallet_balance' => $this->wallet_balance,
-
             'start_date' => $this->start_date,
 
             'end_date' => $this->end_date,

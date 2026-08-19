@@ -415,3 +415,19 @@
 ```
 /var/www/database/migrations/2026_07_19_225800_make_invoice_number_nullable.php
 ```
+
+## 2026_08_18_000001_create_wallets_table.php
+
+**File**
+
+```
+/var/www/database/migrations/2026_08_18_000001_create_wallets_table.php
+```
+
+## 2026_08_19_000002_remove_legacy_wallet_balance_columns.php
+
+**File**
+
+```
+/var/www/database/migrations/2026_08_19_000002_remove_legacy_wallet_balance_columns.php
+```

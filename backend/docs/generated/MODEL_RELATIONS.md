@@ -144,6 +144,14 @@ App\Modules\Ticket\Infrastructure\Persistence\Models\Ticket
 App\Modules\Ticket\Infrastructure\Persistence\Models\TicketReply
 ```
 
+## Wallet
+
+**Class**
+
+```
+App\Modules\Wallet\Infrastructure\Persistence\Models\Wallet
+```
+
 ## WalletTransaction
 
 **Class**

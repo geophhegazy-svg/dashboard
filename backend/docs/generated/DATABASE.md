@@ -310,7 +310,6 @@
 - start_date (date)
 - end_date (date)
 - monthly_price (decimal)
-- wallet_balance (decimal) default=0.00
 - status (enum) default=active
 - created_at (timestamp) nullable
 - updated_at (timestamp) nullable
@@ -331,7 +330,6 @@
 - start_date (date)
 - end_date (date)
 - monthly_price (decimal)
-- wallet_balance (decimal) default=0.00
 - status (enum) default=active
 - created_at (timestamp) nullable
 - updated_at (timestamp) nullable
@@ -602,7 +600,7 @@
 
 ## migrations
 
-**Rows:** 52
+**Rows:** 54
 
 ### Columns
 
@@ -612,7 +610,7 @@
 
 ## migrations
 
-**Rows:** 52
+**Rows:** 54
 
 ### Columns
 
@@ -1145,7 +1143,6 @@
 - start_date (date)
 - end_date (date) nullable
 - monthly_price (decimal)
-- wallet_balance (decimal) default=0.00
 - status (enum) default=active
 - notes (text) nullable
 - pppoe_username (varchar) nullable
@@ -1167,7 +1164,6 @@
 - start_date (date)
 - end_date (date) nullable
 - monthly_price (decimal)
-- wallet_balance (decimal) default=0.00
 - status (enum) default=active
 - notes (text) nullable
 - pppoe_username (varchar) nullable
@@ -1423,5 +1419,31 @@
 - type (varchar)
 - reference (varchar) nullable
 - description (text) nullable
+- created_at (timestamp) nullable
+- updated_at (timestamp) nullable
+
+## wallets
+
+**Rows:** 0
+
+### Columns
+
+- id (bigint)
+- tenant_id (bigint)
+- customer_id (bigint)
+- balance (decimal) default=0.00
+- created_at (timestamp) nullable
+- updated_at (timestamp) nullable
+
+## wallets
+
+**Rows:** 0
+
+### Columns
+
+- id (bigint)
+- tenant_id (bigint)
+- customer_id (bigint)
+- balance (decimal) default=0.00
 - created_at (timestamp) nullable
 - updated_at (timestamp) nullable

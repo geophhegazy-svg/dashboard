@@ -7,22 +7,24 @@ namespace App\Modules\Subscription\Kernel;
 use App\Core\Kernel\ModuleManifest;
 use App\Core\Kernel\Modules\Module;
 use App\Modules\Subscription\Application\Actions\ActivateSubscriptionAction;
+use App\Modules\Subscription\Application\Actions\CreateSubscriptionAction;
 use App\Modules\Subscription\Application\Listeners\EnableMikrotikUserListener;
 use App\Modules\Subscription\Application\Queries\FindSubscriptionQuery;
 use App\Modules\Subscription\Domain\Events\SubscriptionActivated;
 use App\Modules\Subscription\Application\Queries\Handlers\FindSubscriptionQueryHandler;
 use App\Modules\Subscription\Domain\Contracts\SubscriptionRepositoryInterface;
 use App\Modules\Subscription\Infrastructure\Repositories\SubscriptionRepository;
-use App\Modules\Subscription\Domain\Contracts\SubscriptionRenewalServiceInterface;
-use App\Modules\Subscription\Domain\Services\SubscriptionRenewalService;
+use App\Modules\Subscription\Application\Contracts\SubscriptionRenewalServiceInterface;
+use App\Modules\Subscription\Application\Services\SubscriptionRenewalService;
 use App\Modules\Subscription\Domain\Events\SubscriptionRenewed;
+use App\Modules\Subscription\Domain\Events\SubscriptionRestored;
 use App\Modules\Subscription\Application\Listeners\SubscriptionRenewedListener;
 use App\Modules\Subscription\Application\Actions\ChangeSubscriptionStatusAction;
 use App\Modules\Subscription\Application\Actions\ExpireSubscriptionAction;
 use App\Modules\Subscription\Application\Actions\RenewSubscriptionAction;
 use App\Modules\Subscription\Application\Actions\RestoreSubscriptionAction;
 use App\Modules\Subscription\Application\Actions\SuspendSubscriptionAction;
-use App\Modules\Subscription\Application\Workflows\AutoExpireSubscriptionsWorkflow;
+use App\Modules\Subscription\Application\Orchestrators\AutoExpireSubscriptionsOrchestrator;
 use App\Modules\Subscription\Application\Services\SubscriptionService;
 
 
@@ -53,8 +55,8 @@ final class SubscriptionModule extends Module
                 SubscriptionRenewalServiceInterface::class =>
                 SubscriptionRenewalService::class,
 
-                AutoExpireSubscriptionsWorkflow::class =>
-                AutoExpireSubscriptionsWorkflow::class,
+                AutoExpireSubscriptionsOrchestrator::class =>
+                AutoExpireSubscriptionsOrchestrator::class,
 
                 SubscriptionService::class
                 => SubscriptionService::class,
@@ -64,6 +66,8 @@ final class SubscriptionModule extends Module
             ->actions([
 
                 ActivateSubscriptionAction::class,
+
+                CreateSubscriptionAction::class,
 
                 ChangeSubscriptionStatusAction::class,
 
@@ -90,7 +94,12 @@ final class SubscriptionModule extends Module
                     EnableMikrotikUserListener::class,
                 ],
 
+                SubscriptionRestored::class => [
+                    EnableMikrotikUserListener::class,
+                ],
+
                 SubscriptionRenewed::class => [
+                    EnableMikrotikUserListener::class,
                     SubscriptionRenewedListener::class,
                 ],
 

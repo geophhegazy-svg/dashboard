@@ -8,10 +8,11 @@ use Throwable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use App\Core\Workflow\AbstractWorkflow;
+use App\Core\Workflow\Contracts\WorkflowContextInterface;
 use App\Enums\BillingStatus;
 use App\Modules\Billing\Domain\Services\BillingEngine;
 use App\Modules\Notification\Application\Contracts\NotificationServiceInterface;
-use App\Modules\Subscription\Domain\Contracts\SubscriptionRenewalServiceInterface;
+use App\Modules\Subscription\Application\Contracts\SubscriptionRenewalServiceInterface;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 
 final class AutomaticBillingWorkflow extends AbstractWorkflow
@@ -23,11 +24,11 @@ final class AutomaticBillingWorkflow extends AbstractWorkflow
     ) {}
 
     protected function perform(
-        mixed ...$arguments
+        WorkflowContextInterface $context,
     ): mixed {
 
         /** @var \Illuminate\Support\Collection $subscriptions */
-        $subscriptions = $arguments[0];
+        $subscriptions = $context->dto()[0] ?? collect();
 
         foreach ($subscriptions as $subscription) {
 
@@ -73,7 +74,7 @@ final class AutomaticBillingWorkflow extends AbstractWorkflow
 
         try {
 
-            $this->renewalService->renewPppoe(
+            $this->renewalService->renew(
                 $subscription,
             );
         } catch (Throwable $exception) {

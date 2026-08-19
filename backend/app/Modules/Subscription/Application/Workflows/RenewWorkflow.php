@@ -4,28 +4,58 @@ declare(strict_types=1);
 
 namespace App\Modules\Subscription\Application\Workflows;
 
+use App\Core\ActionBus\ActionDispatcher;
 use App\Core\Workflow\AbstractWorkflow;
+use App\Core\Workflow\Contracts\WorkflowContextInterface;
+use App\Core\EventBus\Contracts\EventDispatcherInterface;
 use App\Modules\Subscription\Application\Actions\RenewSubscriptionAction;
+use App\Modules\Subscription\Domain\Events\SubscriptionRenewed;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
+use Illuminate\Support\Str;
 
 final class RenewWorkflow extends AbstractWorkflow
 {
+    private string $renewalKey;
     public function __construct(
-        private readonly RenewSubscriptionAction $action,
+        private readonly ActionDispatcher $dispatcher,
+        private readonly EventDispatcherInterface $events,
     ) {}
 
     protected function perform(
-        mixed ...$arguments
+        WorkflowContextInterface $context,
     ): Subscription {
 
         /** @var Subscription $subscription */
-        $subscription = $arguments[0];
+        $subscription = $context->dto()[0] ?? null;
 
-        $days = $arguments[1] ?? 30;
+        $days = (int) ($context->dto()[1] ?? 30);
 
-        return $this->action->execute(
+        $renewalKey = Str::uuid()->toString();
+
+        $result = $this->dispatcher->dispatch(
+            RenewSubscriptionAction::class,
             $subscription,
-            $days
+            $days,
+        );
+
+        $this->renewalKey = $renewalKey;
+
+        return $result;
+    }
+
+    protected function after(
+        mixed $result,
+        WorkflowContextInterface $context,
+    ): void {
+
+        /** @var Subscription $subscription */
+        $subscription = $result;
+
+        $this->events->dispatch(
+            new SubscriptionRenewed(
+                $subscription,
+                $this->renewalKey,
+            )
         );
     }
 }

@@ -22,13 +22,8 @@ final readonly class WorkflowExecutionStep implements WorkflowStepInterface
         Closure $next,
     ): WorkflowResultInterface {
 
-        $arguments = $context->get(
-            'arguments',
-            [],
-        );
-
         $payload = $this->workflow->execute(
-            ...$arguments,
+            $context,
         );
 
         $result = new WorkflowResult(

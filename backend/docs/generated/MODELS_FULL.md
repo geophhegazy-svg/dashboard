@@ -89,6 +89,13 @@ App\Modules\Accounting\Infrastructure\Persistence\Models
 - $recursionCache : mixed
 - $resolvedCollectionClasses : array
 
+**Methods**
+
+- parent()
+- children()
+- journalEntryLines()
+- factory()
+
 ---
 
 ## ActivityLog
@@ -177,6 +184,14 @@ App\Modules\Activity\Infrastructure\Persistence\Models
 - $guardableColumns : mixed
 - $recursionCache : mixed
 - $resolvedCollectionClasses : array
+
+**Methods**
+
+- getIconAttribute()
+- getColorAttribute()
+- getTitleAttribute()
+- tenant()
+- user()
 
 ---
 
@@ -273,7 +288,6 @@ App\Modules\Customer\Infrastructure\Persistence\Models
 **Methods**
 
 - subscriptions()
-- walletTransactions()
 - notifications()
 - factory()
 - tokens()
@@ -785,6 +799,12 @@ App\Modules\Notification\Infrastructure\Persistence\Models
 - $recursionCache : mixed
 - $resolvedCollectionClasses : array
 
+**Methods**
+
+- tenant()
+- customer()
+- subscription()
+
 ---
 
 ## PPPoEUser
@@ -1153,6 +1173,12 @@ App\Modules\Reports\Infrastructure\Persistence\Models
 - $recursionCache : mixed
 - $resolvedCollectionClasses : array
 
+**Methods**
+
+- exports()
+- user()
+- factory()
+
 ---
 
 ## ReportExport
@@ -1241,6 +1267,12 @@ App\Modules\Reports\Infrastructure\Persistence\Models
 - $guardableColumns : mixed
 - $recursionCache : mixed
 - $resolvedCollectionClasses : array
+
+**Methods**
+
+- report()
+- user()
+- factory()
 
 ---
 
@@ -1728,6 +1760,99 @@ App\Modules\Ticket\Infrastructure\Persistence\Models
 
 ---
 
+## Wallet
+
+**Namespace**
+
+```
+App\Modules\Wallet\Infrastructure\Persistence\Models
+```
+
+**File**
+
+```
+/var/www/app/Modules/Wallet/Infrastructure/Persistence/Models/Wallet.php
+```
+
+**Properties**
+
+- $table : mixed
+- $fillable : mixed
+- $casts : mixed
+- $connection : mixed
+- $primaryKey : mixed
+- $keyType : mixed
+- $incrementing : mixed
+- $with : mixed
+- $withCount : mixed
+- $preventsLazyLoading : mixed
+- $perPage : mixed
+- $exists : mixed
+- $wasRecentlyCreated : mixed
+- $escapeWhenCastingToString : mixed
+- $resolver : mixed
+- $dispatcher : mixed
+- $booting : mixed
+- $booted : mixed
+- $bootedCallbacks : mixed
+- $traitInitializers : mixed
+- $globalScopes : mixed
+- $ignoreOnTouch : mixed
+- $modelsShouldPreventLazyLoading : mixed
+- $modelsShouldAutomaticallyEagerLoadRelationships : mixed
+- $lazyLoadingViolationCallback : mixed
+- $modelsShouldPreventSilentlyDiscardingAttributes : mixed
+- $discardedAttributeViolationCallback : mixed
+- $modelsShouldPreventAccessingMissingAttributes : mixed
+- $missingAttributeViolationCallback : mixed
+- $isBroadcasting : mixed
+- $builder : string
+- $collectionClass : string
+- $isSoftDeletable : array
+- $isPrunable : array
+- $isMassPrunable : array
+- $classAttributes : array
+- $attributes : mixed
+- $original : mixed
+- $changes : mixed
+- $previous : mixed
+- $classCastCache : mixed
+- $attributeCastCache : mixed
+- $primitiveCastTypes : mixed
+- $dateFormat : mixed
+- $appends : mixed
+- $snakeAttributes : mixed
+- $mutatorCache : mixed
+- $attributeMutatorCache : mixed
+- $getAttributeMutatorCache : mixed
+- $setAttributeMutatorCache : mixed
+- $castTypeCache : mixed
+- $encrypter : mixed
+- $dispatchesEvents : mixed
+- $observables : mixed
+- $relations : mixed
+- $touches : mixed
+- $relationAutoloadCallback : mixed
+- $relationAutoloadContext : mixed
+- $manyMethods : mixed
+- $relationResolvers : mixed
+- $timestamps : mixed
+- $ignoreTimestampsOn : mixed
+- $usesUniqueIds : mixed
+- $hidden : mixed
+- $visible : mixed
+- $guarded : mixed
+- $unguarded : mixed
+- $guardableColumns : mixed
+- $recursionCache : mixed
+- $resolvedCollectionClasses : array
+
+**Methods**
+
+- customer()
+
+---
+
 ## WalletTransaction
 
 **Namespace**
@@ -1745,6 +1870,7 @@ App\Modules\Wallet\Infrastructure\Persistence\Models
 **Properties**
 
 - $fillable : mixed
+- $casts : mixed
 - $connection : mixed
 - $table : mixed
 - $primaryKey : mixed
@@ -1783,7 +1909,6 @@ App\Modules\Wallet\Infrastructure\Persistence\Models
 - $original : mixed
 - $changes : mixed
 - $previous : mixed
-- $casts : mixed
 - $classCastCache : mixed
 - $attributeCastCache : mixed
 - $primitiveCastTypes : mixed
@@ -1814,3 +1939,7 @@ App\Modules\Wallet\Infrastructure\Persistence\Models
 - $guardableColumns : mixed
 - $recursionCache : mixed
 - $resolvedCollectionClasses : array
+
+**Methods**
+
+- customer()

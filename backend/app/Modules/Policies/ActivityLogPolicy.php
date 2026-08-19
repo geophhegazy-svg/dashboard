@@ -2,7 +2,7 @@
 
 namespace App\Modules\Policies;
 
-use App\Models\ActivityLog;
+use App\Modules\Activity\Infrastructure\Persistence\Models\ActivityLog;
 use App\Models\User;
 use App\Core\Security\Authorization\Concerns\AuthorizesByPermission;
 

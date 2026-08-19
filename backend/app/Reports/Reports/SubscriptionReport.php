@@ -37,7 +37,6 @@ class SubscriptionReport extends BaseReport
             'Package',
             'Monthly Price',
             'Status',
-            'Wallet Balance',
             'PPPoE Username',
             'MikroTik Profile',
             'Start Date',
@@ -66,8 +65,6 @@ class SubscriptionReport extends BaseReport
                 'status' => $subscription->status instanceof \BackedEnum
                     ? $subscription->status->value
                     : $subscription->status,
-
-                'wallet_balance' => (float) ($subscription->wallet_balance ?? 0),
 
                 'pppoe_username' => $subscription->pppoe_username,
 
@@ -114,9 +111,6 @@ class SubscriptionReport extends BaseReport
                 collect($rows)->avg('monthly_price') ?? 0,
                 2
             ),
-
-            'total_wallet_balance' => collect($rows)
-                ->sum('wallet_balance'),
 
         ];
     }

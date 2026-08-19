@@ -14,7 +14,8 @@ use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 use App\Modules\Subscription\Application\Services\SubscriptionService;
 use App\Modules\Network\Domain\Contracts\MikrotikServiceInterface;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Event;
+use App\Core\EventBus\Contracts\EventDispatcherInterface;
+use Tests\Fakes\Core\FakeEventDispatcher;
 use Tests\Fakes\FakeMikrotikService;
 use Tests\TestCase;
 
@@ -28,6 +29,18 @@ class SubscriptionServiceTest extends TestCase
 
         $this->app->instance(
             MikrotikServiceInterface::class,
+            $fake
+        );
+
+        return $fake;
+    }
+
+    private function fakeEvents(): FakeEventDispatcher
+    {
+        $fake = new FakeEventDispatcher();
+
+        $this->app->instance(
+            EventDispatcherInterface::class,
             $fake
         );
 
@@ -256,7 +269,7 @@ class SubscriptionServiceTest extends TestCase
 
     public function test_activate_dispatches_event(): void
     {
-        Event::fake();
+        $events = $this->fakeEvents();
 
         $this->fakeMikrotik();
 
@@ -267,14 +280,14 @@ class SubscriptionServiceTest extends TestCase
         app(SubscriptionService::class)
             ->activate($subscription);
 
-        Event::assertDispatched(
-            SubscriptionActivated::class
+        $this->assertTrue(
+            $events->has(SubscriptionActivated::class)
         );
     }
 
     public function test_suspend_dispatches_event(): void
     {
-        Event::fake();
+        $events = $this->fakeEvents();
 
         $this->fakeMikrotik();
 
@@ -283,14 +296,14 @@ class SubscriptionServiceTest extends TestCase
         app(SubscriptionService::class)
             ->suspend($subscription);
 
-        Event::assertDispatched(
-            SubscriptionSuspended::class
+        $this->assertTrue(
+            $events->has(SubscriptionSuspended::class)
         );
     }
 
     public function test_expire_dispatches_event(): void
     {
-        Event::fake();
+        $events = $this->fakeEvents();
 
         $this->fakeMikrotik();
 
@@ -299,14 +312,14 @@ class SubscriptionServiceTest extends TestCase
         app(SubscriptionService::class)
             ->expire($subscription);
 
-        Event::assertDispatched(
-            SubscriptionExpired::class
+        $this->assertTrue(
+            $events->has(SubscriptionExpired::class)
         );
     }
 
     public function test_restore_dispatches_event(): void
     {
-        Event::fake();
+        $events = $this->fakeEvents();
 
         $this->fakeMikrotik();
 
@@ -317,14 +330,14 @@ class SubscriptionServiceTest extends TestCase
         app(SubscriptionService::class)
             ->restore($subscription);
 
-        Event::assertDispatched(
-            SubscriptionRestored::class
+        $this->assertTrue(
+            $events->has(SubscriptionRestored::class)
         );
     }
 
     public function test_renew_dispatches_event(): void
     {
-        Event::fake();
+        $events = $this->fakeEvents();
 
         $this->fakeMikrotik();
 
@@ -335,8 +348,8 @@ class SubscriptionServiceTest extends TestCase
         app(SubscriptionService::class)
             ->renew($subscription);
 
-        Event::assertDispatched(
-            SubscriptionRenewed::class
+        $this->assertTrue(
+            $events->has(SubscriptionRenewed::class)
         );
     }
 

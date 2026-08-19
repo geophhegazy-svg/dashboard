@@ -239,6 +239,11 @@ App\Http\Controllers\Api
 /var/www/app/Http/Controllers/Api/CustomerNotificationController.php
 ```
 
+**Dependencies**
+
+- MarkNotificationAsReadAction $markAsRead
+- MarkAllNotificationsAsReadAction $markAllAsRead
+
 **Public Methods**
 
 - index()
@@ -358,9 +363,14 @@ App\Http\Controllers\Api
 /var/www/app/Http/Controllers/Api/CustomerWalletController.php
 ```
 
+**Dependencies**
+
+- QueryDispatcher $queryDispatcher
+
 **Public Methods**
 
 - show()
+- transactions()
 
 ---
 
@@ -686,6 +696,12 @@ App\Http\Controllers\Api
 ```
 /var/www/app/Http/Controllers/Api/NotificationController.php
 ```
+
+**Dependencies**
+
+- MarkNotificationAsReadAction $markAsRead
+- MarkAllNotificationsAsReadAction $markAllAsRead
+- DeleteNotificationAction $delete
 
 **Public Methods**
 

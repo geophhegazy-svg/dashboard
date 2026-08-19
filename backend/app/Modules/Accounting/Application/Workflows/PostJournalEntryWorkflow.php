@@ -6,6 +6,7 @@ namespace App\Modules\Accounting\Application\Workflows;
 
 use App\Modules\Accounting\Infrastructure\Persistence\Models\JournalEntry;
 use App\Core\Workflow\AbstractWorkflow;
+use App\Core\Workflow\Contracts\WorkflowContextInterface;
 use App\Modules\Accounting\Application\Actions\PostJournalEntryAction;
 
 final class PostJournalEntryWorkflow extends AbstractWorkflow
@@ -15,11 +16,11 @@ final class PostJournalEntryWorkflow extends AbstractWorkflow
     ) {}
 
     protected function perform(
-        mixed ...$arguments
+        WorkflowContextInterface $context,
     ): JournalEntry {
 
         /** @var JournalEntry $entry */
-        $entry = $arguments[0];
+        $entry = $context->dto()[0] ?? null;
 
         return $this->action->execute(
             $entry

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Services;
 
-use App\Models\ActivityLog;
+use App\Modules\Activity\Infrastructure\Persistence\Models\ActivityLog;
 use App\Models\Tenant;
 use App\Modules\Activity\Application\Actions\LogActivityAction;
 use Illuminate\Foundation\Testing\RefreshDatabase;

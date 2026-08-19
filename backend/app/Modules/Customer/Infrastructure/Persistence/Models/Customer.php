@@ -6,7 +6,6 @@ namespace App\Modules\Customer\Infrastructure\Persistence\Models;
 
 use App\Modules\Notification\Infrastructure\Persistence\Models\Notification;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
-use App\Modules\Wallet\Infrastructure\Persistence\Models\WalletTransaction;
 
 use App\Traits\BelongsToTenant;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -49,11 +48,6 @@ class Customer extends Authenticatable
     public function subscriptions()
     {
         return $this->hasMany(Subscription::class);
-    }
-
-    public function walletTransactions()
-    {
-        return $this->hasMany(WalletTransaction::class);
     }
 
     public function notifications()

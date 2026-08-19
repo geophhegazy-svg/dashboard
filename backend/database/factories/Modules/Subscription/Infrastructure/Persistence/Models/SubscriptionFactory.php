@@ -23,7 +23,6 @@ class SubscriptionFactory extends Factory
             'end_date' => now()->addMonth(),
 
             'monthly_price' => 350,
-            'wallet_balance' => 0,
 
             'status' => 'active',
 

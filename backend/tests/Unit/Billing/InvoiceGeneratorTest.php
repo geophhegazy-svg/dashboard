@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Billing;
 
+use App\Core\Workflow\WorkflowEngine;
 use App\Modules\Billing\Application\Services\InvoiceGenerator;
 use App\Modules\Billing\Application\Workflows\GenerateInvoiceWorkflow;
 use App\Modules\Invoice\Application\Contracts\InvoiceServiceInterface;
@@ -60,7 +61,8 @@ class InvoiceGeneratorTest extends TestCase
         );
 
         $generator = new InvoiceGenerator(
-            $workflow
+            $this->app->make(WorkflowEngine::class),
+            $workflow,
         );
 
         $result = $generator->generate(

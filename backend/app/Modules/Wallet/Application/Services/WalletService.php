@@ -4,24 +4,40 @@ declare(strict_types=1);
 
 namespace App\Modules\Wallet\Application\Services;
 
-use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 use App\Modules\Wallet\Application\Actions\DepositWalletAction;
 use App\Modules\Wallet\Application\Contracts\WalletServiceInterface;
+use App\Modules\Wallet\Domain\Contracts\WalletRepositoryInterface;
+use App\Modules\Wallet\Infrastructure\Persistence\Models\Wallet;
 
 final readonly class WalletService implements WalletServiceInterface
 {
     public function __construct(
+        private WalletRepositoryInterface $repository,
         private DepositWalletAction $depositWallet,
     ) {}
 
     public function credit(
-        Subscription $subscription,
+        int $tenantId,
+        int $customerId,
         float $amount,
         string $description,
         ?string $reference = null,
     ): void {
+        $wallet = $this->repository->findByCustomerId(
+            tenantId: $tenantId,
+            customerId: $customerId,
+        );
+
+        if ($wallet === null) {
+            $wallet = $this->repository->create([
+                'tenant_id' => $tenantId,
+                'customer_id' => $customerId,
+                'balance' => 0,
+            ]);
+        }
+
         $this->depositWallet->execute(
-            subscription: $subscription,
+            wallet: $wallet,
             amount: $amount,
             description: $description,
             reference: $reference,

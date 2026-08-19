@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace Tests\Unit\Modules\Billing;
 
 use Tests\TestCase;
+use App\Core\Workflow\WorkflowEngine;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Enums\BillingStatus;
 use App\Modules\Billing\Application\Services\AutomaticBillingService;
 use App\Modules\Billing\Domain\Services\BillingEngine;
-use App\Modules\Subscription\Domain\Contracts\SubscriptionRenewalServiceInterface;
+use App\Modules\Subscription\Application\Contracts\SubscriptionRenewalServiceInterface;
 use App\Modules\Notification\Application\Contracts\NotificationServiceInterface;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 use App\Modules\Billing\Application\Workflows\AutomaticBillingWorkflow;
@@ -53,7 +54,7 @@ class AutomaticBillingServiceTest extends TestCase
 
         $renewal
             ->expects($this->never())
-            ->method('renewPppoe');
+            ->method('renew');
 
         $notification = $this->createMock(
             NotificationServiceInterface::class
@@ -66,6 +67,7 @@ class AutomaticBillingServiceTest extends TestCase
         );
 
         $service = new AutomaticBillingService(
+            $this->app->make(WorkflowEngine::class),
             $workflow,
         );
 
@@ -94,7 +96,7 @@ class AutomaticBillingServiceTest extends TestCase
 
         $renewal
             ->expects($this->once())
-            ->method('renewPppoe')
+            ->method('renew')
             ->with($subscription);
 
         $notification = $this->createMock(
@@ -108,6 +110,7 @@ class AutomaticBillingServiceTest extends TestCase
         );
 
         $service = new AutomaticBillingService(
+            $this->app->make(WorkflowEngine::class),
             $workflow,
         );
 
@@ -133,7 +136,7 @@ class AutomaticBillingServiceTest extends TestCase
         );
 
         $renewal
-            ->method('renewPppoe')
+            ->method('renew')
             ->willThrowException(
                 new \RuntimeException('Failure')
             );
@@ -154,6 +157,7 @@ class AutomaticBillingServiceTest extends TestCase
         );
 
         $service = new AutomaticBillingService(
+            $this->app->make(WorkflowEngine::class),
             $workflow,
         );
 
@@ -183,7 +187,7 @@ class AutomaticBillingServiceTest extends TestCase
 
         $renewal
             ->expects($this->exactly(3))
-            ->method('renewPppoe');
+            ->method('renew');
 
         $notification = $this->createMock(
             NotificationServiceInterface::class
@@ -196,6 +200,7 @@ class AutomaticBillingServiceTest extends TestCase
         );
 
         $service = new AutomaticBillingService(
+            $this->app->make(WorkflowEngine::class),
             $workflow,
         );
 

@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace App\Modules\Wallet\Application\Actions;
 
-use App\Modules\Wallet\Infrastructure\Persistence\Models\WalletTransaction;
 use App\Modules\Activity\Application\Actions\LogActivityAction;
-use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 use App\Modules\Wallet\Domain\Contracts\WalletRepositoryInterface;
+use App\Modules\Wallet\Infrastructure\Persistence\Models\Wallet;
 use Illuminate\Support\Facades\DB;
 use InvalidArgumentException;
 
@@ -15,71 +14,65 @@ final readonly class DepositWalletAction
 {
     public function __construct(
         private WalletRepositoryInterface $repository,
-        private readonly LogActivityAction $logActivity,
+        private LogActivityAction $logActivity,
     ) {}
 
     public function execute(
-        Subscription $subscription,
+        Wallet $wallet,
         float $amount,
         string $description,
         ?string $reference = null,
     ): void {
-
         if ($amount <= 0) {
             throw new InvalidArgumentException(
                 'Amount must be greater than zero.'
             );
         }
 
-        $subscription = DB::transaction(function () use (
-            $subscription,
+        $wallet = DB::transaction(function () use (
+            $wallet,
             $amount,
             $description,
             $reference,
-        ) {
+        ): Wallet {
+            $wallet = $this->repository->lock($wallet);
 
-            $subscription = $this->repository->lockSubscription(
-                $subscription->id,
-            );
-
-            $before = $subscription->wallet_balance;
-
+            $before = (float) $wallet->balance;
             $after = $before + $amount;
 
             $this->repository->updateBalance(
-                $subscription,
+                $wallet,
                 $after,
             );
 
             $this->repository->createTransaction([
-                'tenant_id'      => $subscription->tenant_id,
-                'customer_id'    => $subscription->customer_id,
-                'amount'         => $amount,
+                'tenant_id' => $wallet->tenant_id,
+                'customer_id' => $wallet->customer_id,
+                'amount' => $amount,
                 'balance_before' => $before,
-                'balance_after'  => $after,
-                'type'           => 'deposit',
-                'reference'      => $reference,
-                'description'    => $description,
+                'balance_after' => $after,
+                'type' => 'deposit',
+                'reference' => $reference,
+                'description' => $description,
             ]);
 
-            return $subscription;
+            return $wallet->refresh();
         });
 
         DB::afterCommit(function () use (
-            $subscription,
+            $wallet,
             $description,
-        ) {
-
+        ): void {
             $this->logActivity->execute(
                 [
-                    'tenant_id' => $subscription->tenant_id,
-                    'module'    => 'wallet',
-                    'action'    => 'deposit', // أو deduct
+                    'tenant_id' => $wallet->tenant_id,
+                    'module' => 'wallet',
+                    'action' => 'deposit',
                 ],
                 [
-                    'user_id'     => null,
+                    'user_id' => null,
                     'description' => $description,
-                    'ip_address'  => request()->ip(),
+                    'ip_address' => request()->ip(),
                 ],
             );
         });

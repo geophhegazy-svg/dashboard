@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Modules\Subscription\Application\Workflows;
 
+use App\Core\ActionBus\ActionDispatcher;
 use App\Core\Workflow\AbstractWorkflow;
+use App\Core\Workflow\Contracts\WorkflowContextInterface;
+use App\Core\EventBus\Contracts\EventDispatcherInterface;
 use App\Modules\Network\Domain\Contracts\MikrotikServiceInterface;
 use App\Modules\Subscription\Application\Actions\SuspendSubscriptionAction;
 use App\Modules\Subscription\Domain\Events\SubscriptionSuspended;
@@ -13,25 +16,27 @@ use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 final class SuspendWorkflow extends AbstractWorkflow
 {
     public function __construct(
-        private readonly SuspendSubscriptionAction $action,
+        private readonly ActionDispatcher $dispatcher,
         private readonly MikrotikServiceInterface $mikrotik,
+        private readonly EventDispatcherInterface $events,
     ) {}
 
     protected function perform(
-        mixed ...$arguments
+        WorkflowContextInterface $context,
     ): Subscription {
 
         /** @var Subscription $subscription */
-        $subscription = $arguments[0];
+        $subscription = $context->dto()[0] ?? null;
 
-        return $this->action->execute(
-            $subscription
+        return $this->dispatcher->dispatch(
+            SuspendSubscriptionAction::class,
+            $subscription,
         );
     }
 
     protected function after(
         mixed $result,
-        mixed ...$arguments
+        WorkflowContextInterface $context,
     ): void {
 
         /** @var Subscription $subscription */
@@ -44,8 +49,10 @@ final class SuspendWorkflow extends AbstractWorkflow
             );
         }
 
-        SubscriptionSuspended::dispatch(
-            $subscription
+        $this->events->dispatch(
+            new SubscriptionSuspended(
+                $subscription
+            )
         );
     }
 }

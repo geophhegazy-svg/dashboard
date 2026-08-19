@@ -103,6 +103,7 @@ App\Modules\Invoice\Application\Services\InvoiceService
 
 - __construct
 - create
+- createRenewal
 - delete
 - findForPayment
 - settle
@@ -267,6 +268,19 @@ App\Modules\Activity\Application\Services\SubscriptionActivityService
 
 - __construct
 - log
+
+## SubscriptionRenewalService
+
+**Class**
+
+```
+App\Modules\Subscription\Application\Services\SubscriptionRenewalService
+```
+
+**Public Methods**
+
+- __construct
+- renew
 
 ## SubscriptionService
 

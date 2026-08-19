@@ -64,6 +64,7 @@
 - App\Modules\Reports\Application\Services\ReportService
 - App\Modules\Reports\Application\Services\ScheduledReportService
 - App\Modules\Activity\Application\Services\SubscriptionActivityService
+- App\Modules\Subscription\Application\Services\SubscriptionRenewalService
 - App\Modules\Subscription\Application\Services\SubscriptionService
 - App\Modules\Task\Application\Services\TaskService
 - App\Modules\Notification\Application\Services\TelegramNotificationService
@@ -89,4 +90,5 @@
 - App\Modules\Task\Infrastructure\Persistence\Models\Task
 - App\Modules\Ticket\Infrastructure\Persistence\Models\Ticket
 - App\Modules\Ticket\Infrastructure\Persistence\Models\TicketReply
+- App\Modules\Wallet\Infrastructure\Persistence\Models\Wallet
 - App\Modules\Wallet\Infrastructure\Persistence\Models\WalletTransaction

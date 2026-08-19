@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace App\Modules\Subscription\Application\Listeners;
 
-
 use App\Core\EventBus\Contracts\EventContract;
 use App\Core\EventBus\Contracts\EventListenerInterface;
-use App\Modules\Subscription\Domain\Events\SubscriptionRenewed;
 use App\Modules\Invoice\Application\Contracts\InvoiceServiceInterface;
+use App\Modules\Subscription\Domain\Events\SubscriptionRenewed;
 
 final readonly class SubscriptionRenewedListener implements EventListenerInterface
 {
@@ -26,16 +25,14 @@ final readonly class SubscriptionRenewedListener implements EventListenerInterfa
 
         $subscription = $event->subscription;
 
-        $invoice = $this->invoiceService->create([
+        $this->invoiceService->createRenewal([
             'tenant_id'       => $subscription->tenant_id,
             'customer_id'     => $subscription->customer_id,
             'subscription_id' => $subscription->id,
+            'renewal_key'     => $event->renewalKey,
             'amount'          => $subscription->monthly_price,
             'status'          => 'pending',
-            'issued_at'       => now(),
             'due_date'        => $subscription->end_date,
         ]);
-
-
     }
 }

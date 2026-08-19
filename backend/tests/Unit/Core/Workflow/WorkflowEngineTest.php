@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Core\Workflow;
 
 use App\Core\Workflow\AbstractWorkflow;
+use App\Core\Workflow\Contracts\WorkflowContextInterface;
 use App\Core\Workflow\Contracts\TransactionManagerInterface;
 use App\Core\Workflow\Contracts\WorkflowResultInterface;
 use App\Core\Workflow\Pipeline\WorkflowExecutor;
@@ -17,8 +18,10 @@ final class WorkflowEngineTest extends TestCase
     {
         $workflow = new class extends AbstractWorkflow {
             protected function perform(
-                mixed ...$arguments
+                WorkflowContextInterface $context,
             ): mixed {
+                $arguments = $context->dto();
+
                 return [
                     'subscription_id' => $arguments[0],
                     'days' => $arguments[1],
@@ -78,7 +81,7 @@ final class WorkflowEngineTest extends TestCase
             ) {}
 
             protected function perform(
-                mixed ...$arguments
+                WorkflowContextInterface $context,
             ): mixed {
                 if (! $this->state->insideTransaction) {
                     throw new \RuntimeException(
@@ -137,7 +140,7 @@ final class WorkflowEngineTest extends TestCase
     {
         $workflow = new class extends AbstractWorkflow {
             protected function perform(
-                mixed ...$arguments
+                WorkflowContextInterface $context,
             ): mixed {
                 throw new \RuntimeException(
                     'Workflow execution failed.'

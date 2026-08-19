@@ -13,8 +13,8 @@ Technology
 - MikroTik RouterOS
 
 Statistics
-- Models: 19
-- Services: 23
+- Models: 20
+- Services: 24
 
 
 ---
@@ -47,8 +47,8 @@ app/
 
 # Project Statistics
 
-Models: 19
-Services: 23
+Models: 20
+Services: 24
 
 ---
 
@@ -99,8 +99,8 @@ Development Rules
 - Update generated documentation after structural changes.
 
 Current Statistics
-Models: 19
-Services: 23
+Models: 20
+Services: 24
 
 ---
 
@@ -112,10 +112,11 @@ Services: 23
 App\Modules\Billing\Application\Services
 
 **Dependencies**
+- App\Core\Workflow\WorkflowEngine
 - App\Modules\Billing\Application\Workflows\AutomaticBillingWorkflow
 
 **Methods**
-- __construct(1 params) : mixed
+- __construct(2 params) : mixed
 - run(1 params) : void
 - processSubscription(1 params) : void
 
@@ -144,9 +145,10 @@ App\Modules\Dashboard\Application\Services
 
 **Dependencies**
 - App\Modules\Usage\UsageService
+- App\Core\QueryBus\QueryDispatcher
 
 **Methods**
-- __construct(1 params) : mixed
+- __construct(2 params) : mixed
 - getDashboardData(1 params) : array
 
 ---
@@ -183,10 +185,11 @@ App\Modules\Finance\Application\Services
 App\Modules\Billing\Application\Services
 
 **Dependencies**
+- App\Core\Workflow\WorkflowEngine
 - App\Modules\Billing\Application\Workflows\GenerateInvoiceWorkflow
 
 **Methods**
-- __construct(1 params) : mixed
+- __construct(2 params) : mixed
 - generate(1 params) : App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice
 
 ---
@@ -219,6 +222,7 @@ App\Modules\Invoice\Application\Services
 - __construct(4 params) : mixed
 - findForPayment(1 params) : App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice
 - create(1 params) : App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice
+- createRenewal(1 params) : App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice
 - update(2 params) : App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice
 - delete(1 params) : bool
 - settle(2 params) : App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice
@@ -244,10 +248,11 @@ App\Modules\Accounting\Application\Services
 App\Modules\Accounting\Application\Services
 
 **Dependencies**
+- App\Core\Workflow\WorkflowEngine
 - App\Modules\Accounting\Application\Workflows\PostJournalEntryWorkflow
 
 **Methods**
-- __construct(1 params) : mixed
+- __construct(2 params) : mixed
 - post(1 params) : App\Modules\Accounting\Infrastructure\Persistence\Models\JournalEntry
 
 ---
@@ -405,6 +410,21 @@ App\Modules\Activity\Application\Services
 
 ---
 
+## SubscriptionRenewalService
+
+**Namespace**
+App\Modules\Subscription\Application\Services
+
+**Dependencies**
+- App\Core\Workflow\WorkflowEngine
+- App\Modules\Subscription\Application\Workflows\RenewWorkflow
+
+**Methods**
+- __construct(2 params) : mixed
+- renew(1 params) : bool
+
+---
+
 ## SubscriptionService
 
 **Namespace**
@@ -412,15 +432,17 @@ App\Modules\Subscription\Application\Services
 
 **Dependencies**
 - App\Modules\Subscription\Domain\Contracts\SubscriptionRepositoryInterface
+- App\Modules\Subscription\Application\Actions\CreateSubscriptionAction
+- App\Core\Workflow\WorkflowEngine
 - App\Modules\Subscription\Application\Workflows\ActivateWorkflow
 - App\Modules\Subscription\Application\Workflows\SuspendWorkflow
 - App\Modules\Subscription\Application\Workflows\ExpireWorkflow
 - App\Modules\Subscription\Application\Workflows\RestoreWorkflow
 - App\Modules\Subscription\Application\Workflows\RenewWorkflow
-- App\Modules\Subscription\Application\Workflows\AutoExpireSubscriptionsWorkflow
+- App\Modules\Subscription\Application\Orchestrators\AutoExpireSubscriptionsOrchestrator
 
 **Methods**
-- __construct(7 params) : mixed
+- __construct(9 params) : mixed
 - paginate(2 params) : Illuminate\Pagination\LengthAwarePaginator
 - find(1 params) : ?App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
 - findOrFail(1 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
@@ -490,11 +512,12 @@ App\Modules\Notification\Application\Services
 App\Modules\Wallet\Application\Services
 
 **Dependencies**
+- App\Modules\Wallet\Domain\Contracts\WalletRepositoryInterface
 - App\Modules\Wallet\Application\Actions\DepositWalletAction
 
 **Methods**
-- __construct(1 params) : mixed
-- credit(4 params) : void
+- __construct(2 params) : mixed
+- credit(5 params) : void
 
 ---
 
@@ -591,6 +614,13 @@ App\Modules\Accounting\Infrastructure\Persistence\Models
 - $recursionCache : mixed
 - $resolvedCollectionClasses : array
 
+**Methods**
+
+- parent()
+- children()
+- journalEntryLines()
+- factory()
+
 ---
 
 ## ActivityLog
@@ -679,6 +709,14 @@ App\Modules\Activity\Infrastructure\Persistence\Models
 - $guardableColumns : mixed
 - $recursionCache : mixed
 - $resolvedCollectionClasses : array
+
+**Methods**
+
+- getIconAttribute()
+- getColorAttribute()
+- getTitleAttribute()
+- tenant()
+- user()
 
 ---
 
@@ -775,7 +813,6 @@ App\Modules\Customer\Infrastructure\Persistence\Models
 **Methods**
 
 - subscriptions()
-- walletTransactions()
 - notifications()
 - factory()
 - tokens()
@@ -1287,6 +1324,12 @@ App\Modules\Notification\Infrastructure\Persistence\Models
 - $recursionCache : mixed
 - $resolvedCollectionClasses : array
 
+**Methods**
+
+- tenant()
+- customer()
+- subscription()
+
 ---
 
 ## PPPoEUser
@@ -1655,6 +1698,12 @@ App\Modules\Reports\Infrastructure\Persistence\Models
 - $recursionCache : mixed
 - $resolvedCollectionClasses : array
 
+**Methods**
+
+- exports()
+- user()
+- factory()
+
 ---
 
 ## ReportExport
@@ -1743,6 +1792,12 @@ App\Modules\Reports\Infrastructure\Persistence\Models
 - $guardableColumns : mixed
 - $recursionCache : mixed
 - $resolvedCollectionClasses : array
+
+**Methods**
+
+- report()
+- user()
+- factory()
 
 ---
 
@@ -2230,6 +2285,99 @@ App\Modules\Ticket\Infrastructure\Persistence\Models
 
 ---
 
+## Wallet
+
+**Namespace**
+
+```
+App\Modules\Wallet\Infrastructure\Persistence\Models
+```
+
+**File**
+
+```
+/var/www/app/Modules/Wallet/Infrastructure/Persistence/Models/Wallet.php
+```
+
+**Properties**
+
+- $table : mixed
+- $fillable : mixed
+- $casts : mixed
+- $connection : mixed
+- $primaryKey : mixed
+- $keyType : mixed
+- $incrementing : mixed
+- $with : mixed
+- $withCount : mixed
+- $preventsLazyLoading : mixed
+- $perPage : mixed
+- $exists : mixed
+- $wasRecentlyCreated : mixed
+- $escapeWhenCastingToString : mixed
+- $resolver : mixed
+- $dispatcher : mixed
+- $booting : mixed
+- $booted : mixed
+- $bootedCallbacks : mixed
+- $traitInitializers : mixed
+- $globalScopes : mixed
+- $ignoreOnTouch : mixed
+- $modelsShouldPreventLazyLoading : mixed
+- $modelsShouldAutomaticallyEagerLoadRelationships : mixed
+- $lazyLoadingViolationCallback : mixed
+- $modelsShouldPreventSilentlyDiscardingAttributes : mixed
+- $discardedAttributeViolationCallback : mixed
+- $modelsShouldPreventAccessingMissingAttributes : mixed
+- $missingAttributeViolationCallback : mixed
+- $isBroadcasting : mixed
+- $builder : string
+- $collectionClass : string
+- $isSoftDeletable : array
+- $isPrunable : array
+- $isMassPrunable : array
+- $classAttributes : array
+- $attributes : mixed
+- $original : mixed
+- $changes : mixed
+- $previous : mixed
+- $classCastCache : mixed
+- $attributeCastCache : mixed
+- $primitiveCastTypes : mixed
+- $dateFormat : mixed
+- $appends : mixed
+- $snakeAttributes : mixed
+- $mutatorCache : mixed
+- $attributeMutatorCache : mixed
+- $getAttributeMutatorCache : mixed
+- $setAttributeMutatorCache : mixed
+- $castTypeCache : mixed
+- $encrypter : mixed
+- $dispatchesEvents : mixed
+- $observables : mixed
+- $relations : mixed
+- $touches : mixed
+- $relationAutoloadCallback : mixed
+- $relationAutoloadContext : mixed
+- $manyMethods : mixed
+- $relationResolvers : mixed
+- $timestamps : mixed
+- $ignoreTimestampsOn : mixed
+- $usesUniqueIds : mixed
+- $hidden : mixed
+- $visible : mixed
+- $guarded : mixed
+- $unguarded : mixed
+- $guardableColumns : mixed
+- $recursionCache : mixed
+- $resolvedCollectionClasses : array
+
+**Methods**
+
+- customer()
+
+---
+
 ## WalletTransaction
 
 **Namespace**
@@ -2247,6 +2395,7 @@ App\Modules\Wallet\Infrastructure\Persistence\Models
 **Properties**
 
 - $fillable : mixed
+- $casts : mixed
 - $connection : mixed
 - $table : mixed
 - $primaryKey : mixed
@@ -2285,7 +2434,6 @@ App\Modules\Wallet\Infrastructure\Persistence\Models
 - $original : mixed
 - $changes : mixed
 - $previous : mixed
-- $casts : mixed
 - $classCastCache : mixed
 - $attributeCastCache : mixed
 - $primitiveCastTypes : mixed
@@ -2317,6 +2465,10 @@ App\Modules\Wallet\Infrastructure\Persistence\Models
 - $recursionCache : mixed
 - $resolvedCollectionClasses : array
 
+**Methods**
+
+- customer()
+
 ---
 
 # Services
@@ -2339,10 +2491,12 @@ App\Modules\Billing\Application\Services
 
 **Constructor Dependencies**
 
+- WorkflowEngine $engine
 - AutomaticBillingWorkflow $workflow
 
 **Properties**
 
+- $engine : App\Core\Workflow\WorkflowEngine
 - $workflow : App\Modules\Billing\Application\Workflows\AutomaticBillingWorkflow
 
 **Methods**
@@ -2392,10 +2546,12 @@ App\Modules\Dashboard\Application\Services
 **Constructor Dependencies**
 
 - UsageService $usageService
+- QueryDispatcher $queryDispatcher
 
 **Properties**
 
 - $usageService : App\Modules\Usage\UsageService
+- $queryDispatcher : App\Core\QueryBus\QueryDispatcher
 
 **Methods**
 
@@ -2459,10 +2615,12 @@ App\Modules\Billing\Application\Services
 
 **Constructor Dependencies**
 
+- WorkflowEngine $engine
 - GenerateInvoiceWorkflow $workflow
 
 **Properties**
 
+- $engine : App\Core\Workflow\WorkflowEngine
 - $workflow : App\Modules\Billing\Application\Workflows\GenerateInvoiceWorkflow
 
 **Methods**
@@ -2523,6 +2681,7 @@ App\Modules\Invoice\Application\Services
 
 - findForPayment() : App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice
 - create() : App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice
+- createRenewal() : App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice
 - update() : App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice
 - delete() : bool
 - settle() : App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice
@@ -2565,10 +2724,12 @@ App\Modules\Accounting\Application\Services
 
 **Constructor Dependencies**
 
+- WorkflowEngine $engine
 - PostJournalEntryWorkflow $workflow
 
 **Properties**
 
+- $engine : App\Core\Workflow\WorkflowEngine
 - $workflow : App\Modules\Accounting\Application\Workflows\PostJournalEntryWorkflow
 
 **Methods**
@@ -2851,6 +3012,36 @@ App\Modules\Activity\Application\Services
 
 ---
 
+## SubscriptionRenewalService
+
+**Namespace**
+
+```
+App\Modules\Subscription\Application\Services
+```
+
+**File**
+
+```
+/var/www/app/Modules/Subscription/Application/Services/SubscriptionRenewalService.php
+```
+
+**Constructor Dependencies**
+
+- WorkflowEngine $engine
+- RenewWorkflow $workflow
+
+**Properties**
+
+- $engine : App\Core\Workflow\WorkflowEngine
+- $workflow : App\Modules\Subscription\Application\Workflows\RenewWorkflow
+
+**Methods**
+
+- renew() : bool
+
+---
+
 ## SubscriptionService
 
 **Namespace**
@@ -2868,22 +3059,26 @@ App\Modules\Subscription\Application\Services
 **Constructor Dependencies**
 
 - SubscriptionRepositoryInterface $subscriptions
+- CreateSubscriptionAction $createSubscriptionAction
+- WorkflowEngine $engine
 - ActivateWorkflow $activateWorkflow
 - SuspendWorkflow $suspendWorkflow
 - ExpireWorkflow $expireWorkflow
 - RestoreWorkflow $restoreWorkflow
 - RenewWorkflow $renewWorkflow
-- AutoExpireSubscriptionsWorkflow $autoExpireSubscriptionsWorkflow
+- AutoExpireSubscriptionsOrchestrator $autoExpireSubscriptionsOrchestrator
 
 **Properties**
 
 - $subscriptions : App\Modules\Subscription\Domain\Contracts\SubscriptionRepositoryInterface
+- $createSubscriptionAction : App\Modules\Subscription\Application\Actions\CreateSubscriptionAction
+- $engine : App\Core\Workflow\WorkflowEngine
 - $activateWorkflow : App\Modules\Subscription\Application\Workflows\ActivateWorkflow
 - $suspendWorkflow : App\Modules\Subscription\Application\Workflows\SuspendWorkflow
 - $expireWorkflow : App\Modules\Subscription\Application\Workflows\ExpireWorkflow
 - $restoreWorkflow : App\Modules\Subscription\Application\Workflows\RestoreWorkflow
 - $renewWorkflow : App\Modules\Subscription\Application\Workflows\RenewWorkflow
-- $autoExpireSubscriptionsWorkflow : App\Modules\Subscription\Application\Workflows\AutoExpireSubscriptionsWorkflow
+- $autoExpireSubscriptionsOrchestrator : App\Modules\Subscription\Application\Orchestrators\AutoExpireSubscriptionsOrchestrator
 
 **Methods**
 
@@ -2997,10 +3192,12 @@ App\Modules\Wallet\Application\Services
 
 **Constructor Dependencies**
 
+- WalletRepositoryInterface $repository
 - DepositWalletAction $depositWallet
 
 **Properties**
 
+- $repository : App\Modules\Wallet\Domain\Contracts\WalletRepositoryInterface
 - $depositWallet : App\Modules\Wallet\Application\Actions\DepositWalletAction
 
 **Methods**
@@ -3250,6 +3447,11 @@ App\Http\Controllers\Api
 /var/www/app/Http/Controllers/Api/CustomerNotificationController.php
 ```
 
+**Dependencies**
+
+- MarkNotificationAsReadAction $markAsRead
+- MarkAllNotificationsAsReadAction $markAllAsRead
+
 **Public Methods**
 
 - index()
@@ -3369,9 +3571,14 @@ App\Http\Controllers\Api
 /var/www/app/Http/Controllers/Api/CustomerWalletController.php
 ```
 
+**Dependencies**
+
+- QueryDispatcher $queryDispatcher
+
 **Public Methods**
 
 - show()
+- transactions()
 
 ---
 
@@ -3697,6 +3904,12 @@ App\Http\Controllers\Api
 ```
 /var/www/app/Http/Controllers/Api/NotificationController.php
 ```
+
+**Dependencies**
+
+- MarkNotificationAsReadAction $markAsRead
+- MarkAllNotificationsAsReadAction $markAllAsRead
+- DeleteNotificationAction $delete
 
 **Public Methods**
 

@@ -47,17 +47,15 @@ class Subscription extends Model
         'pppoe_password',
         'mikrotik_profile',
 
-        'wallet_balance',
     ];
 
     protected $casts = [
-        'start_date' => 'datetime',
-        'end_date'   => 'datetime',
+        'start_date' => 'date',
+        'end_date'   => 'date',
 
         'status' => SubscriptionStatus::class,
 
         'monthly_price' => 'decimal:2',
-        'wallet_balance' => 'decimal:2',
     ];
 
     /*
@@ -181,13 +179,22 @@ class Subscription extends Model
         int $days = 30
     ): self {
 
-        $this->transitionTo(
-            SubscriptionStatus::ACTIVE
-        );
+        if (! $this->status->canRenew()) {
+            throw InvalidStateTransitionException::fromStates(
+                $this->status,
+                SubscriptionStatus::ACTIVE
+            );
+        }
+
+        if ($this->status !== SubscriptionStatus::ACTIVE) {
+            $this->transitionTo(
+                SubscriptionStatus::ACTIVE
+            );
+        }
 
         $this->end_date = $this->end_date
             ? $this->end_date->copy()->addDays($days)
-            : now()->addDays($days);
+            : today()->addDays($days);
 
         return $this;
     }

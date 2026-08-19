@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Database\Factories;
+namespace Database\Factories\Modules\Reports\Infrastructure\Persistence\Models;
 
-use App\Models\Report;
-use App\Models\ReportExport;
 use App\Models\User;
+use App\Modules\Reports\Infrastructure\Persistence\Models\Report;
+use App\Modules\Reports\Infrastructure\Persistence\Models\ReportExport;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class ReportExportFactory extends Factory
+final class ReportExportFactory extends Factory
 {
     protected $model = ReportExport::class;
 

@@ -36,8 +36,6 @@ class SubscriptionResource extends JsonResource
 
             'monthly_price' => (float) $this->monthly_price,
 
-            'wallet_balance' => (float) $this->wallet_balance,
-
             'status' => $this->status,
 
             'notes' => $this->notes,

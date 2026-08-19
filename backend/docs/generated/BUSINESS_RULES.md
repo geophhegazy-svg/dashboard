@@ -6,10 +6,11 @@
 App\Modules\Billing\Application\Services
 
 **Dependencies**
+- App\Core\Workflow\WorkflowEngine
 - App\Modules\Billing\Application\Workflows\AutomaticBillingWorkflow
 
 **Methods**
-- __construct(1 params) : mixed
+- __construct(2 params) : mixed
 - run(1 params) : void
 - processSubscription(1 params) : void
 
@@ -38,9 +39,10 @@ App\Modules\Dashboard\Application\Services
 
 **Dependencies**
 - App\Modules\Usage\UsageService
+- App\Core\QueryBus\QueryDispatcher
 
 **Methods**
-- __construct(1 params) : mixed
+- __construct(2 params) : mixed
 - getDashboardData(1 params) : array
 
 ---
@@ -77,10 +79,11 @@ App\Modules\Finance\Application\Services
 App\Modules\Billing\Application\Services
 
 **Dependencies**
+- App\Core\Workflow\WorkflowEngine
 - App\Modules\Billing\Application\Workflows\GenerateInvoiceWorkflow
 
 **Methods**
-- __construct(1 params) : mixed
+- __construct(2 params) : mixed
 - generate(1 params) : App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice
 
 ---
@@ -113,6 +116,7 @@ App\Modules\Invoice\Application\Services
 - __construct(4 params) : mixed
 - findForPayment(1 params) : App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice
 - create(1 params) : App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice
+- createRenewal(1 params) : App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice
 - update(2 params) : App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice
 - delete(1 params) : bool
 - settle(2 params) : App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice
@@ -138,10 +142,11 @@ App\Modules\Accounting\Application\Services
 App\Modules\Accounting\Application\Services
 
 **Dependencies**
+- App\Core\Workflow\WorkflowEngine
 - App\Modules\Accounting\Application\Workflows\PostJournalEntryWorkflow
 
 **Methods**
-- __construct(1 params) : mixed
+- __construct(2 params) : mixed
 - post(1 params) : App\Modules\Accounting\Infrastructure\Persistence\Models\JournalEntry
 
 ---
@@ -299,6 +304,21 @@ App\Modules\Activity\Application\Services
 
 ---
 
+## SubscriptionRenewalService
+
+**Namespace**
+App\Modules\Subscription\Application\Services
+
+**Dependencies**
+- App\Core\Workflow\WorkflowEngine
+- App\Modules\Subscription\Application\Workflows\RenewWorkflow
+
+**Methods**
+- __construct(2 params) : mixed
+- renew(1 params) : bool
+
+---
+
 ## SubscriptionService
 
 **Namespace**
@@ -306,15 +326,17 @@ App\Modules\Subscription\Application\Services
 
 **Dependencies**
 - App\Modules\Subscription\Domain\Contracts\SubscriptionRepositoryInterface
+- App\Modules\Subscription\Application\Actions\CreateSubscriptionAction
+- App\Core\Workflow\WorkflowEngine
 - App\Modules\Subscription\Application\Workflows\ActivateWorkflow
 - App\Modules\Subscription\Application\Workflows\SuspendWorkflow
 - App\Modules\Subscription\Application\Workflows\ExpireWorkflow
 - App\Modules\Subscription\Application\Workflows\RestoreWorkflow
 - App\Modules\Subscription\Application\Workflows\RenewWorkflow
-- App\Modules\Subscription\Application\Workflows\AutoExpireSubscriptionsWorkflow
+- App\Modules\Subscription\Application\Orchestrators\AutoExpireSubscriptionsOrchestrator
 
 **Methods**
-- __construct(7 params) : mixed
+- __construct(9 params) : mixed
 - paginate(2 params) : Illuminate\Pagination\LengthAwarePaginator
 - find(1 params) : ?App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
 - findOrFail(1 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
@@ -384,10 +406,11 @@ App\Modules\Notification\Application\Services
 App\Modules\Wallet\Application\Services
 
 **Dependencies**
+- App\Modules\Wallet\Domain\Contracts\WalletRepositoryInterface
 - App\Modules\Wallet\Application\Actions\DepositWalletAction
 
 **Methods**
-- __construct(1 params) : mixed
-- credit(4 params) : void
+- __construct(2 params) : mixed
+- credit(5 params) : void
 
 ---

@@ -17,7 +17,6 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\SyncHotspotUsers::class,
         \App\Console\Commands\PingMikroTik::class,
         \App\Console\Commands\CleanupMikroTik::class,
-        \App\Console\Commands\AutoRenewSubscriptionsCommand::class,
         \App\Console\Commands\SubscriptionsAutoExpireCommand::class,
     ];
 
@@ -52,10 +51,6 @@ class Kernel extends ConsoleKernel
             ->dailyAt('09:00')
             ->appendOutputTo(storage_path('logs/daily-report.log'));
 
-        $schedule
-            ->command('subscriptions:auto-renew')
-            ->hourly()
-            ->withoutOverlapping();
     }
 
     /**

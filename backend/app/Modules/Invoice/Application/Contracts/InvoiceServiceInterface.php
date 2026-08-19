@@ -16,6 +16,10 @@ interface InvoiceServiceInterface
         array $data,
     ): Invoice;
 
+    public function createRenewal(
+        array $data,
+    ): Invoice;
+
     public function update(
         Invoice $invoice,
         array $data,

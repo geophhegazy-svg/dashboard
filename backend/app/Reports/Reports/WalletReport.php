@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Reports\Reports;
 
-use App\Models\WalletTransaction;
+use App\Modules\Wallet\Infrastructure\Persistence\Models\WalletTransaction;
 use App\Reports\Abstracts\BaseReport;
 use Illuminate\Database\Eloquent\Builder;
 

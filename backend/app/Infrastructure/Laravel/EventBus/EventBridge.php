@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Core\EventBus\Bridge;
+namespace App\Infrastructure\Laravel\EventBus;
 
 use App\Core\EventBus\Contracts\EventContract;
 use App\Core\EventBus\Contracts\EventDispatcherInterface;

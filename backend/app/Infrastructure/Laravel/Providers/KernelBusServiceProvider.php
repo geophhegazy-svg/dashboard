@@ -12,6 +12,7 @@ use App\Core\ActionBus\ActionRegistry;
 
 use App\Core\QueryBus\QueryDispatcher;
 use App\Core\QueryBus\QueryRegistry;
+use App\Core\Workflow\WorkflowEngine;
 
 final class KernelBusServiceProvider extends ServiceProvider
 {
@@ -39,6 +40,10 @@ final class KernelBusServiceProvider extends ServiceProvider
 
         $this->app->singleton(
             CommandDispatcher::class,
+        );
+
+        $this->app->singleton(
+            WorkflowEngine::class,
         );
     }
 }

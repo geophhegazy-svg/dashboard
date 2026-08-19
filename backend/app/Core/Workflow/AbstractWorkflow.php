@@ -6,50 +6,55 @@ namespace App\Core\Workflow;
 
 use App\Core\Contracts\RuleInterface;
 use App\Core\Contracts\WorkflowInterface;
-
+use App\Core\Workflow\Contracts\WorkflowContextInterface;
 
 abstract class AbstractWorkflow implements WorkflowInterface
 {
-    
-
-    public function execute(
-        mixed ...$arguments
+    final public function execute(
+        WorkflowContextInterface $context,
     ): mixed {
 
-        foreach ($this->rules() as $rule) {
+        foreach ($this->rules($context) as $rule) {
 
             if ($rule instanceof RuleInterface) {
-                $rule->validate(...$arguments);
+                $rule->validate(
+                    $context,
+                );
             }
         }
 
-        $this->before(...$arguments);
+        $this->before(
+            $context,
+        );
 
-        $result = $this->perform(...$arguments);
+        $result = $this->perform(
+            $context,
+        );
 
         $this->after(
             $result,
-            ...$arguments
+            $context,
         );
 
         return $result;
     }
 
     protected function before(
-        mixed ...$arguments
+        WorkflowContextInterface $context,
     ): void {}
 
     abstract protected function perform(
-        mixed ...$arguments
+        WorkflowContextInterface $context,
     ): mixed;
 
     protected function after(
         mixed $result,
-        mixed ...$arguments
+        WorkflowContextInterface $context,
     ): void {}
 
-    protected function rules(): iterable
-    {
+    protected function rules(
+        WorkflowContextInterface $context,
+    ): iterable {
         return [];
     }
 }

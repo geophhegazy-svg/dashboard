@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Modules\Dashboard\Application\Services;
 
+use App\Core\QueryBus\QueryDispatcher;
 use App\Modules\Customer\Infrastructure\Persistence\Models\Customer;
+use App\Modules\Wallet\Application\Queries\FindCustomerWalletQuery;
 use App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice;
 use App\Modules\Notification\Infrastructure\Persistence\Models\Notification;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
@@ -14,7 +16,8 @@ use Carbon\Carbon;
 class CustomerDashboardService
 {
     public function __construct(
-        private readonly UsageService $usageService
+        private readonly UsageService $usageService,
+        private readonly QueryDispatcher $queryDispatcher,
     ) {}
 
     public function getDashboardData(Customer $customer): array
@@ -24,6 +27,13 @@ class CustomerDashboardService
             ->where('customer_id', $customer->id)
             ->latest()
             ->first();
+
+        $wallet = $this->queryDispatcher->dispatch(
+            new FindCustomerWalletQuery(
+                tenantId: (int) $customer->tenant_id,
+                customerId: (int) $customer->id,
+            )
+        );
 
         // آخر فاتورة
         $lastInvoice = Invoice::where('customer_id', $customer->id)
@@ -106,11 +116,14 @@ class CustomerDashboardService
                 ],
                 'wallet' => [
 
-                    'balance' => (float) $subscription->wallet_balance,
+                    'balance' => $wallet
+                        ? (float) $wallet->balance
+                        : 0.0,
 
                     'currency' => 'EGP',
 
-                    'can_renew' => $subscription->wallet_balance >= $subscription->monthly_price,
+                    'can_renew' => $wallet !== null
+                        && (float) $wallet->balance >= (float) $subscription->monthly_price,
 
                 ],
 
@@ -164,7 +177,8 @@ class CustomerDashboardService
             'actions' => [
 
                 'renew' => $subscription
-                    ? $subscription->wallet_balance >= $subscription->monthly_price
+                    ? $wallet !== null
+                        && (float) $wallet->balance >= (float) $subscription->monthly_price
                     : false,
 
                 'open_ticket' => true,

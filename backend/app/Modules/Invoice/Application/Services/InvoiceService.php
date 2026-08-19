@@ -43,6 +43,23 @@ final readonly class InvoiceService implements InvoiceServiceInterface
         return $this->createInvoice->execute($data);
     }
 
+    public function createRenewal(array $data): Invoice
+    {
+        $invoice = Invoice::where(
+            'renewal_key',
+            $data['renewal_key']
+        )->first();
+
+        if ($invoice) {
+            return $invoice->fresh([
+                'customer',
+                'subscription',
+            ]);
+        }
+
+        return $this->createInvoice->execute($data);
+    }
+
     public function update(
         Invoice $invoice,
         array $data,

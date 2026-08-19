@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Modules\Subscription\Application\Services;
 
+use App\Core\Workflow\WorkflowEngine;
+
+use App\Modules\Subscription\Application\Actions\CreateSubscriptionAction;
 use App\Modules\Subscription\Application\Workflows\ActivateWorkflow;
 use App\Modules\Subscription\Application\Workflows\ExpireWorkflow;
 use App\Modules\Subscription\Application\Workflows\RenewWorkflow;
@@ -11,25 +14,25 @@ use App\Modules\Subscription\Application\Workflows\RestoreWorkflow;
 use App\Modules\Subscription\Application\Workflows\SuspendWorkflow;
 use App\Modules\Subscription\Domain\Contracts\SubscriptionRepositoryInterface;
 use App\Modules\Subscription\Domain\Enums\SubscriptionStatus;
-use App\Modules\Customer\Infrastructure\Persistence\Models\Customer;
-use App\Modules\Package\Infrastructure\Persistence\Models\Package;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use App\Modules\Subscription\Application\Workflows\AutoExpireSubscriptionsWorkflow;
+use App\Modules\Subscription\Application\Orchestrators\AutoExpireSubscriptionsOrchestrator;
 
 class SubscriptionService
 {
     public function __construct(
         private readonly SubscriptionRepositoryInterface $subscriptions,
+        private readonly CreateSubscriptionAction $createSubscriptionAction,
+        private readonly WorkflowEngine $engine,
         private readonly ActivateWorkflow $activateWorkflow,
         private readonly SuspendWorkflow $suspendWorkflow,
         private readonly ExpireWorkflow $expireWorkflow,
         private readonly RestoreWorkflow $restoreWorkflow,
         private readonly RenewWorkflow $renewWorkflow,
-        private readonly AutoExpireSubscriptionsWorkflow $autoExpireSubscriptionsWorkflow,
+        private readonly AutoExpireSubscriptionsOrchestrator $autoExpireSubscriptionsOrchestrator,
     ) {
     }
 
@@ -111,34 +114,9 @@ class SubscriptionService
 
         return DB::transaction(function () use ($attributes): Subscription {
 
-            $customer = Customer::findOrFail(
-                $attributes['customer_id']
+            $subscription = $this->createSubscriptionAction->execute(
+                $attributes
             );
-
-            $package = Package::findOrFail(
-                $attributes['package_id']
-            );
-
-            $duration = (int) (
-                $attributes['duration_days']
-                ?? ($package->duration_days ?? 30)
-            );
-
-            $subscription = $this->subscriptions->create([
-                'tenant_id'         => $customer->tenant_id,
-                'customer_id'       => $customer->id,
-                'package_id'        => $package->id,
-                'start_date'        => now(),
-                'end_date'          => now()->addDays($duration),
-                'monthly_price'     => $attributes['monthly_price']
-                    ?? $package->price,
-                'status'            => SubscriptionStatus::ACTIVE,
-                'notes'             => $attributes['notes'] ?? null,
-                'pppoe_username'    => $attributes['pppoe_username'] ?? null,
-                'pppoe_password'    => $attributes['pppoe_password'] ?? null,
-                'mikrotik_profile'  => $package->mikrotik_profile,
-                'wallet_balance'    => 0,
-            ]);
 
             Log::info(
                 'Subscription created.',
@@ -166,36 +144,60 @@ class SubscriptionService
         Subscription $subscription
     ): Subscription {
 
-        return $this->activateWorkflow->execute(
-            $subscription
+        $result = $this->engine->run(
+            $this->activateWorkflow,
+            $subscription,
         );
+
+        /** @var Subscription $activated */
+        $activated = $result->payload();
+
+        return $activated;
     }
 
     public function suspend(
         Subscription $subscription
     ): Subscription {
 
-        return $this->suspendWorkflow->execute(
-            $subscription
+        $result = $this->engine->run(
+            $this->suspendWorkflow,
+            $subscription,
         );
+
+        /** @var Subscription $suspended */
+        $suspended = $result->payload();
+
+        return $suspended;
     }
 
     public function expire(
         Subscription $subscription
     ): Subscription {
 
-        return $this->expireWorkflow->execute(
-            $subscription
+        $result = $this->engine->run(
+            $this->expireWorkflow,
+            $subscription,
         );
+
+        /** @var Subscription $expired */
+        $expired = $result->payload();
+
+        return $expired;
     }
 
     public function restore(
         Subscription $subscription
     ): Subscription {
 
-        return $this->restoreWorkflow->execute(
-            $subscription
+        $result = $this->engine->run(
+            $this->restoreWorkflow,
+            $subscription,
         );
+
+        /** @var Subscription $restored */
+        $restored = $result->payload();
+
+        return $restored;
     }
 
     public function renew(
@@ -203,10 +205,16 @@ class SubscriptionService
         int $days = 30
     ): Subscription {
 
-        return $this->renewWorkflow->execute(
+        $result = $this->engine->run(
+            $this->renewWorkflow,
             $subscription,
-            $days
+            $days,
         );
+
+        /** @var Subscription $renewed */
+        $renewed = $result->payload();
+
+        return $renewed;
     }
 
     /*
@@ -252,7 +260,7 @@ class SubscriptionService
 
     public function autoExpire(): int
     {
-        return $this->autoExpireSubscriptionsWorkflow->execute();
+        return $this->autoExpireSubscriptionsOrchestrator->execute();
     }
 
     /*

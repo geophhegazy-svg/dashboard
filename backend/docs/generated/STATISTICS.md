@@ -1,4 +1,4 @@
 # Project Statistics
 
-Models: 19
-Services: 23
+Models: 20
+Services: 24

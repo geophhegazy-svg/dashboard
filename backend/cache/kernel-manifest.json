@@ -58,8 +58,8 @@
                     "type": "services",
                     "bindings": {
                         "App\\Modules\\Subscription\\Domain\\Contracts\\SubscriptionRepositoryInterface": "App\\Modules\\Subscription\\Infrastructure\\Repositories\\SubscriptionRepository",
-                        "App\\Modules\\Subscription\\Domain\\Contracts\\SubscriptionRenewalServiceInterface": "App\\Modules\\Subscription\\Domain\\Services\\SubscriptionRenewalService",
-                        "App\\Modules\\Subscription\\Application\\Workflows\\AutoExpireSubscriptionsWorkflow": "App\\Modules\\Subscription\\Application\\Workflows\\AutoExpireSubscriptionsWorkflow",
+                        "App\\Modules\\Subscription\\Application\\Contracts\\SubscriptionRenewalServiceInterface": "App\\Modules\\Subscription\\Application\\Services\\SubscriptionRenewalService",
+                        "App\\Modules\\Subscription\\Application\\Orchestrators\\AutoExpireSubscriptionsOrchestrator": "App\\Modules\\Subscription\\Application\\Orchestrators\\AutoExpireSubscriptionsOrchestrator",
                         "App\\Modules\\Subscription\\Application\\Services\\SubscriptionService": "App\\Modules\\Subscription\\Application\\Services\\SubscriptionService"
                     }
                 },
@@ -67,6 +67,7 @@
                     "type": "actions",
                     "actions": [
                         "App\\Modules\\Subscription\\Application\\Actions\\ActivateSubscriptionAction",
+                        "App\\Modules\\Subscription\\Application\\Actions\\CreateSubscriptionAction",
                         "App\\Modules\\Subscription\\Application\\Actions\\ChangeSubscriptionStatusAction",
                         "App\\Modules\\Subscription\\Application\\Actions\\ExpireSubscriptionAction",
                         "App\\Modules\\Subscription\\Application\\Actions\\RenewSubscriptionAction",
@@ -86,7 +87,11 @@
                         "App\\Modules\\Subscription\\Domain\\Events\\SubscriptionActivated": [
                             "App\\Modules\\Subscription\\Application\\Listeners\\EnableMikrotikUserListener"
                         ],
+                        "App\\Modules\\Subscription\\Domain\\Events\\SubscriptionRestored": [
+                            "App\\Modules\\Subscription\\Application\\Listeners\\EnableMikrotikUserListener"
+                        ],
                         "App\\Modules\\Subscription\\Domain\\Events\\SubscriptionRenewed": [
+                            "App\\Modules\\Subscription\\Application\\Listeners\\EnableMikrotikUserListener",
                             "App\\Modules\\Subscription\\Application\\Listeners\\SubscriptionRenewedListener"
                         ]
                     }
@@ -240,7 +245,9 @@
         {
             "class": "App\\Modules\\Notification\\Kernel\\NotificationModule",
             "name": "Notification",
-            "dependencies": [],
+            "dependencies": [
+                "App\\Modules\\Subscription\\Kernel\\SubscriptionModule"
+            ],
             "resources": [
                 {
                     "type": "services",
@@ -261,6 +268,9 @@
                     "type": "actions",
                     "actions": [
                         "App\\Modules\\Notification\\Application\\Actions\\BillingFailedNotificationAction",
+                        "App\\Modules\\Notification\\Application\\Actions\\DeleteNotificationAction",
+                        "App\\Modules\\Notification\\Application\\Actions\\MarkAllNotificationsAsReadAction",
+                        "App\\Modules\\Notification\\Application\\Actions\\MarkNotificationAsReadAction",
                         "App\\Modules\\Notification\\Application\\Actions\\CreateNotificationAction",
                         "App\\Modules\\Notification\\Application\\Actions\\CreateReminderAction",
                         "App\\Modules\\Notification\\Application\\Actions\\SubscriptionRenewedNotificationAction"
@@ -294,7 +304,6 @@
             "class": "App\\Modules\\Wallet\\Kernel\\WalletModule",
             "name": "Wallet",
             "dependencies": [
-                "App\\Modules\\Subscription\\Kernel\\SubscriptionModule",
                 "App\\Modules\\Activity\\Kernel\\ActivityModule"
             ],
             "resources": [
@@ -311,6 +320,13 @@
                         "App\\Modules\\Wallet\\Application\\Actions\\DepositWalletAction",
                         "App\\Modules\\Wallet\\Application\\Actions\\DeductWalletAction"
                     ]
+                },
+                {
+                    "type": "queries",
+                    "queries": {
+                        "App\\Modules\\Wallet\\Application\\Queries\\FindCustomerWalletQuery": "App\\Modules\\Wallet\\Application\\Queries\\Handlers\\FindCustomerWalletQueryHandler",
+                        "App\\Modules\\Wallet\\Application\\Queries\\PaginateWalletTransactionsQuery": "App\\Modules\\Wallet\\Application\\Queries\\Handlers\\PaginateWalletTransactionsQueryHandler"
+                    }
                 }
             ]
         },

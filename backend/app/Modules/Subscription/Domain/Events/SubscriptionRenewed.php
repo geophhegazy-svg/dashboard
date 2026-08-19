@@ -10,12 +10,13 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class SubscriptionRenewed implements EventContract, ShouldQueue
+final class SubscriptionRenewed implements EventContract, ShouldQueue
 {
     use Dispatchable;
     use SerializesModels;
 
     public function __construct(
-        public readonly Subscription $subscription
+        public readonly Subscription $subscription,
+        public readonly string $renewalKey,
     ) {}
 }

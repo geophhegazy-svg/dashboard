@@ -4,65 +4,61 @@ declare(strict_types=1);
 
 namespace App\Modules\Subscription\Application\Workflows;
 
+use App\Core\Workflow\Contracts\WorkflowContextInterface;
+
 use App\Core\Workflow\AbstractWorkflow;
+use App\Core\EventBus\Contracts\EventDispatcherInterface;
 use App\Modules\Subscription\Application\Actions\ActivateSubscriptionAction;
 use App\Modules\Subscription\Domain\Events\SubscriptionActivated;
 use App\Modules\Subscription\Domain\Rules\CanActivateSubscriptionRule;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 use App\Core\ActionBus\ActionDispatcher;
-use App\Core\ActionBus\ActionRegistry;
 
 final class ActivateWorkflow extends AbstractWorkflow
 {
     public function __construct(
-        private readonly ActivateSubscriptionAction $action,
+        private readonly ActionDispatcher $dispatcher,
+        private readonly EventDispatcherInterface $events,
     ) {}
 
 
 
     protected function perform(
-        mixed ...$arguments
+        WorkflowContextInterface $context,
     ): Subscription {
 
         /** @var Subscription $subscription */
-        $subscription = $arguments[0];
-
-        $registry = app(ActionRegistry::class);
-
-        if (! $registry->has(
-            ActivateSubscriptionAction::class
-        )) {
-            $registry->register(
-                ActivateSubscriptionAction::class
-            );
-        }
+        $subscription = $context->dto()[0] ?? null;
 
         /** @var Subscription */
-        return app(ActionDispatcher::class)
-            ->dispatch(
-                ActivateSubscriptionAction::class,
-                $subscription,
-            );
+        return $this->dispatcher->dispatch(
+            ActivateSubscriptionAction::class,
+            $subscription,
+        );
     }
 
 
 
     protected function after(
         mixed $result,
-        mixed ...$arguments
+        WorkflowContextInterface $context,
     ): void {
 
         /** @var Subscription $subscription */
         $subscription = $result;
 
-        SubscriptionActivated::dispatch(
-            $subscription
+        $this->events->dispatch(
+            new SubscriptionActivated(
+                $subscription
+            )
         );
     }
 
 
 
-    protected function rules(): iterable
+    protected function rules(
+        WorkflowContextInterface $context,
+    ): iterable
     {
         return [
             new CanActivateSubscriptionRule(),

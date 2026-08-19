@@ -62,7 +62,8 @@ final readonly class CreatePaymentAction
                     && $invoice->subscription
                 ) {
                     $this->walletService->credit(
-                        subscription: $invoice->subscription,
+                        tenantId: $invoice->tenant_id,
+                        customerId: $invoice->customer_id,
                         amount: $extraCredit,
                         description: 'Invoice overpayment credit',
                         reference: $invoice->invoice_number,

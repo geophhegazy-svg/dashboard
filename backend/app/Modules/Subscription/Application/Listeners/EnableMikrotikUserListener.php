@@ -8,6 +8,8 @@ use App\Modules\Network\Domain\Contracts\MikrotikServiceInterface;
 use App\Core\EventBus\Contracts\EventContract;
 use App\Core\EventBus\Contracts\EventListenerInterface;
 use App\Modules\Subscription\Domain\Events\SubscriptionActivated;
+use App\Modules\Subscription\Domain\Events\SubscriptionRestored;
+use App\Modules\Subscription\Domain\Events\SubscriptionRenewed;
 
 final readonly class EnableMikrotikUserListener implements EventListenerInterface
 {
@@ -19,7 +21,11 @@ final readonly class EnableMikrotikUserListener implements EventListenerInterfac
         EventContract $event
     ): void {
 
-        if (! $event instanceof SubscriptionActivated) {
+        if (
+            ! $event instanceof SubscriptionActivated
+            && ! $event instanceof SubscriptionRestored
+            && ! $event instanceof SubscriptionRenewed
+        ) {
             return;
         }
 
