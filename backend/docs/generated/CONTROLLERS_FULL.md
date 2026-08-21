@@ -438,14 +438,19 @@ App\Http\Controllers\Api
 /var/www/app/Http/Controllers/Api/DeviceAssignmentController.php
 ```
 
+**Dependencies**
+
+- CommandDispatcher $commandDispatcher
+- QueryDispatcher $queryDispatcher
+
 **Public Methods**
 
 - index()
 - store()
-- returnDevice()
 - show()
 - update()
 - destroy()
+- returnDevice()
 
 ---
 
@@ -462,6 +467,11 @@ App\Http\Controllers\Api
 ```
 /var/www/app/Http/Controllers/Api/DeviceController.php
 ```
+
+**Dependencies**
+
+- CommandDispatcher $commandDispatcher
+- QueryDispatcher $queryDispatcher
 
 **Public Methods**
 
@@ -615,6 +625,11 @@ App\Http\Controllers\Api
 ```
 /var/www/app/Http/Controllers/Api/InventoryController.php
 ```
+
+**Dependencies**
+
+- CommandDispatcher $commandDispatcher
+- QueryDispatcher $queryDispatcher
 
 **Public Methods**
 
@@ -867,7 +882,12 @@ App\Http\Controllers\Api
 
 **Dependencies**
 
-- ScheduledReportService $service
+- ScheduledReportRepositoryInterface $repository
+- CreateScheduledReportAction $createAction
+- UpdateScheduledReportAction $updateAction
+- DeleteScheduledReportAction $deleteAction
+- ActivateScheduledReportAction $activateAction
+- DeactivateScheduledReportAction $deactivateAction
 
 **Public Methods**
 

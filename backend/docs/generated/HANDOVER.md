@@ -13,8 +13,8 @@ Technology
 - MikroTik RouterOS
 
 Statistics
-- Models: 20
-- Services: 24
+- Models: 24
+- Services: 20
 
 
 ---
@@ -47,8 +47,8 @@ app/
 
 # Project Statistics
 
-Models: 20
-Services: 24
+Models: 24
+Services: 20
 
 ---
 
@@ -99,8 +99,8 @@ Development Rules
 - Update generated documentation after structural changes.
 
 Current Statistics
-Models: 20
-Services: 24
+Models: 24
+Services: 20
 
 ---
 
@@ -322,77 +322,6 @@ App\Modules\Payment\Application\Services
 - __construct(1 params) : mixed
 - create(1 params) : App\Modules\Payment\Infrastructure\Persistence\Models\Payment
 - createFromInvoice(5 params) : App\Modules\Payment\Infrastructure\Persistence\Models\Payment
-
----
-
-## ReportExecutionService
-
-**Namespace**
-App\Modules\Reports\Application\Services
-
-**Dependencies**
-- App\Reports\Manager\ReportManager
-- App\Reports\Export\ExportManager
-- App\Modules\Reports\Domain\Contracts\ReportRepositoryInterface
-- App\Modules\Reports\Domain\Contracts\ReportExportRepositoryInterface
-
-**Methods**
-- __construct(4 params) : mixed
-- execute(3 params) : App\Reports\DTO\ExportResult
-
----
-
-## ReportExportService
-
-**Namespace**
-App\Modules\Reports\Application\Services
-
-**Dependencies**
-- App\Modules\Reports\Domain\Contracts\ReportExportRepositoryInterface
-
-**Methods**
-- __construct(1 params) : mixed
-- paginate(0 params) : Illuminate\Contracts\Pagination\LengthAwarePaginator
-- create(1 params) : App\Modules\Reports\Infrastructure\Persistence\Models\ReportExport
-- find(1 params) : ?App\Modules\Reports\Infrastructure\Persistence\Models\ReportExport
-
----
-
-## ReportService
-
-**Namespace**
-App\Modules\Reports\Application\Services
-
-**Dependencies**
-- App\Modules\Reports\Domain\Contracts\ReportRepositoryInterface
-
-**Methods**
-- __construct(1 params) : mixed
-- paginate(0 params) : Illuminate\Contracts\Pagination\LengthAwarePaginator
-- create(1 params) : App\Modules\Reports\Infrastructure\Persistence\Models\Report
-- update(2 params) : App\Modules\Reports\Infrastructure\Persistence\Models\Report
-- delete(1 params) : bool
-- find(1 params) : ?App\Modules\Reports\Infrastructure\Persistence\Models\Report
-
----
-
-## ScheduledReportService
-
-**Namespace**
-App\Modules\Reports\Application\Services
-
-**Dependencies**
-- None
-
-**Methods**
-- paginate(0 params) : Illuminate\Contracts\Pagination\LengthAwarePaginator
-- create(1 params) : App\Modules\Reports\Infrastructure\Persistence\Models\ScheduledReport
-- update(2 params) : App\Modules\Reports\Infrastructure\Persistence\Models\ScheduledReport
-- delete(1 params) : void
-- activate(1 params) : App\Modules\Reports\Infrastructure\Persistence\Models\ScheduledReport
-- deactivate(1 params) : App\Modules\Reports\Infrastructure\Persistence\Models\ScheduledReport
-- updateLastRun(1 params) : App\Modules\Reports\Infrastructure\Persistence\Models\ScheduledReport
-- updateNextRun(2 params) : App\Modules\Reports\Infrastructure\Persistence\Models\ScheduledReport
 
 ---
 
@@ -827,6 +756,411 @@ App\Modules\Customer\Infrastructure\Persistence\Models
 - notify()
 - notifyNow()
 - routeNotificationFor()
+
+---
+
+## Device
+
+**Namespace**
+
+```
+App\Modules\Inventory\Infrastructure\Persistence\Models
+```
+
+**File**
+
+```
+/var/www/app/Modules/Inventory/Infrastructure/Persistence/Models/Device.php
+```
+
+**Properties**
+
+- $fillable : mixed
+- $connection : mixed
+- $table : mixed
+- $primaryKey : mixed
+- $keyType : mixed
+- $incrementing : mixed
+- $with : mixed
+- $withCount : mixed
+- $preventsLazyLoading : mixed
+- $perPage : mixed
+- $exists : mixed
+- $wasRecentlyCreated : mixed
+- $escapeWhenCastingToString : mixed
+- $resolver : mixed
+- $dispatcher : mixed
+- $booting : mixed
+- $booted : mixed
+- $bootedCallbacks : mixed
+- $traitInitializers : mixed
+- $globalScopes : mixed
+- $ignoreOnTouch : mixed
+- $modelsShouldPreventLazyLoading : mixed
+- $modelsShouldAutomaticallyEagerLoadRelationships : mixed
+- $lazyLoadingViolationCallback : mixed
+- $modelsShouldPreventSilentlyDiscardingAttributes : mixed
+- $discardedAttributeViolationCallback : mixed
+- $modelsShouldPreventAccessingMissingAttributes : mixed
+- $missingAttributeViolationCallback : mixed
+- $isBroadcasting : mixed
+- $builder : string
+- $collectionClass : string
+- $isSoftDeletable : array
+- $isPrunable : array
+- $isMassPrunable : array
+- $classAttributes : array
+- $attributes : mixed
+- $original : mixed
+- $changes : mixed
+- $previous : mixed
+- $casts : mixed
+- $classCastCache : mixed
+- $attributeCastCache : mixed
+- $primitiveCastTypes : mixed
+- $dateFormat : mixed
+- $appends : mixed
+- $snakeAttributes : mixed
+- $mutatorCache : mixed
+- $attributeMutatorCache : mixed
+- $getAttributeMutatorCache : mixed
+- $setAttributeMutatorCache : mixed
+- $castTypeCache : mixed
+- $encrypter : mixed
+- $dispatchesEvents : mixed
+- $observables : mixed
+- $relations : mixed
+- $touches : mixed
+- $relationAutoloadCallback : mixed
+- $relationAutoloadContext : mixed
+- $manyMethods : mixed
+- $relationResolvers : mixed
+- $timestamps : mixed
+- $ignoreTimestampsOn : mixed
+- $usesUniqueIds : mixed
+- $hidden : mixed
+- $visible : mixed
+- $guarded : mixed
+- $unguarded : mixed
+- $guardableColumns : mixed
+- $recursionCache : mixed
+- $resolvedCollectionClasses : array
+
+**Methods**
+
+- tenant()
+- customer()
+- factory()
+
+---
+
+## DeviceAssignment
+
+**Namespace**
+
+```
+App\Modules\Inventory\Infrastructure\Persistence\Models
+```
+
+**File**
+
+```
+/var/www/app/Modules/Inventory/Infrastructure/Persistence/Models/DeviceAssignment.php
+```
+
+**Properties**
+
+- $fillable : mixed
+- $casts : mixed
+- $connection : mixed
+- $table : mixed
+- $primaryKey : mixed
+- $keyType : mixed
+- $incrementing : mixed
+- $with : mixed
+- $withCount : mixed
+- $preventsLazyLoading : mixed
+- $perPage : mixed
+- $exists : mixed
+- $wasRecentlyCreated : mixed
+- $escapeWhenCastingToString : mixed
+- $resolver : mixed
+- $dispatcher : mixed
+- $booting : mixed
+- $booted : mixed
+- $bootedCallbacks : mixed
+- $traitInitializers : mixed
+- $globalScopes : mixed
+- $ignoreOnTouch : mixed
+- $modelsShouldPreventLazyLoading : mixed
+- $modelsShouldAutomaticallyEagerLoadRelationships : mixed
+- $lazyLoadingViolationCallback : mixed
+- $modelsShouldPreventSilentlyDiscardingAttributes : mixed
+- $discardedAttributeViolationCallback : mixed
+- $modelsShouldPreventAccessingMissingAttributes : mixed
+- $missingAttributeViolationCallback : mixed
+- $isBroadcasting : mixed
+- $builder : string
+- $collectionClass : string
+- $isSoftDeletable : array
+- $isPrunable : array
+- $isMassPrunable : array
+- $classAttributes : array
+- $attributes : mixed
+- $original : mixed
+- $changes : mixed
+- $previous : mixed
+- $classCastCache : mixed
+- $attributeCastCache : mixed
+- $primitiveCastTypes : mixed
+- $dateFormat : mixed
+- $appends : mixed
+- $snakeAttributes : mixed
+- $mutatorCache : mixed
+- $attributeMutatorCache : mixed
+- $getAttributeMutatorCache : mixed
+- $setAttributeMutatorCache : mixed
+- $castTypeCache : mixed
+- $encrypter : mixed
+- $dispatchesEvents : mixed
+- $observables : mixed
+- $relations : mixed
+- $touches : mixed
+- $relationAutoloadCallback : mixed
+- $relationAutoloadContext : mixed
+- $manyMethods : mixed
+- $relationResolvers : mixed
+- $timestamps : mixed
+- $ignoreTimestampsOn : mixed
+- $usesUniqueIds : mixed
+- $hidden : mixed
+- $visible : mixed
+- $guarded : mixed
+- $unguarded : mixed
+- $guardableColumns : mixed
+- $recursionCache : mixed
+- $resolvedCollectionClasses : array
+
+**Methods**
+
+- tenant()
+- customer()
+- device()
+- factory()
+
+---
+
+## HotspotUser
+
+**Namespace**
+
+```
+App\Modules\Network\Infrastructure\Persistence\Models
+```
+
+**File**
+
+```
+/var/www/app/Modules/Network/Infrastructure/Persistence/Models/HotspotUser.php
+```
+
+**Properties**
+
+- $table : mixed
+- $fillable : mixed
+- $casts : mixed
+- $hidden : mixed
+- $connection : mixed
+- $primaryKey : mixed
+- $keyType : mixed
+- $incrementing : mixed
+- $with : mixed
+- $withCount : mixed
+- $preventsLazyLoading : mixed
+- $perPage : mixed
+- $exists : mixed
+- $wasRecentlyCreated : mixed
+- $escapeWhenCastingToString : mixed
+- $resolver : mixed
+- $dispatcher : mixed
+- $booting : mixed
+- $booted : mixed
+- $bootedCallbacks : mixed
+- $traitInitializers : mixed
+- $globalScopes : mixed
+- $ignoreOnTouch : mixed
+- $modelsShouldPreventLazyLoading : mixed
+- $modelsShouldAutomaticallyEagerLoadRelationships : mixed
+- $lazyLoadingViolationCallback : mixed
+- $modelsShouldPreventSilentlyDiscardingAttributes : mixed
+- $discardedAttributeViolationCallback : mixed
+- $modelsShouldPreventAccessingMissingAttributes : mixed
+- $missingAttributeViolationCallback : mixed
+- $isBroadcasting : mixed
+- $builder : string
+- $collectionClass : string
+- $isSoftDeletable : array
+- $isPrunable : array
+- $isMassPrunable : array
+- $classAttributes : array
+- $attributes : mixed
+- $original : mixed
+- $changes : mixed
+- $previous : mixed
+- $classCastCache : mixed
+- $attributeCastCache : mixed
+- $primitiveCastTypes : mixed
+- $dateFormat : mixed
+- $appends : mixed
+- $snakeAttributes : mixed
+- $mutatorCache : mixed
+- $attributeMutatorCache : mixed
+- $getAttributeMutatorCache : mixed
+- $setAttributeMutatorCache : mixed
+- $castTypeCache : mixed
+- $encrypter : mixed
+- $dispatchesEvents : mixed
+- $observables : mixed
+- $relations : mixed
+- $touches : mixed
+- $relationAutoloadCallback : mixed
+- $relationAutoloadContext : mixed
+- $manyMethods : mixed
+- $relationResolvers : mixed
+- $timestamps : mixed
+- $ignoreTimestampsOn : mixed
+- $usesUniqueIds : mixed
+- $visible : mixed
+- $guarded : mixed
+- $unguarded : mixed
+- $guardableColumns : mixed
+- $recursionCache : mixed
+- $resolvedCollectionClasses : array
+- $forceDeleting : mixed
+
+**Methods**
+
+- customer()
+- device()
+- scopeActive()
+- scopeOnline()
+- scopeExpired()
+- isActive()
+- isOnline()
+- getUptimeFormatted()
+- getTrafficFormatted()
+- forceDelete()
+- forceDestroy()
+- factory()
+- bootSoftDeletes()
+- initializeSoftDeletes()
+- forceDeleteQuietly()
+- restore()
+- restoreQuietly()
+- trashed()
+- softDeleted()
+- restoring()
+- restored()
+- forceDeleting()
+- forceDeleted()
+- isForceDeleting()
+- getDeletedAtColumn()
+- getQualifiedDeletedAtColumn()
+
+---
+
+## Inventory
+
+**Namespace**
+
+```
+App\Modules\Inventory\Infrastructure\Persistence\Models
+```
+
+**File**
+
+```
+/var/www/app/Modules/Inventory/Infrastructure/Persistence/Models/Inventory.php
+```
+
+**Properties**
+
+- $fillable : mixed
+- $connection : mixed
+- $table : mixed
+- $primaryKey : mixed
+- $keyType : mixed
+- $incrementing : mixed
+- $with : mixed
+- $withCount : mixed
+- $preventsLazyLoading : mixed
+- $perPage : mixed
+- $exists : mixed
+- $wasRecentlyCreated : mixed
+- $escapeWhenCastingToString : mixed
+- $resolver : mixed
+- $dispatcher : mixed
+- $booting : mixed
+- $booted : mixed
+- $bootedCallbacks : mixed
+- $traitInitializers : mixed
+- $globalScopes : mixed
+- $ignoreOnTouch : mixed
+- $modelsShouldPreventLazyLoading : mixed
+- $modelsShouldAutomaticallyEagerLoadRelationships : mixed
+- $lazyLoadingViolationCallback : mixed
+- $modelsShouldPreventSilentlyDiscardingAttributes : mixed
+- $discardedAttributeViolationCallback : mixed
+- $modelsShouldPreventAccessingMissingAttributes : mixed
+- $missingAttributeViolationCallback : mixed
+- $isBroadcasting : mixed
+- $builder : string
+- $collectionClass : string
+- $isSoftDeletable : array
+- $isPrunable : array
+- $isMassPrunable : array
+- $classAttributes : array
+- $attributes : mixed
+- $original : mixed
+- $changes : mixed
+- $previous : mixed
+- $casts : mixed
+- $classCastCache : mixed
+- $attributeCastCache : mixed
+- $primitiveCastTypes : mixed
+- $dateFormat : mixed
+- $appends : mixed
+- $snakeAttributes : mixed
+- $mutatorCache : mixed
+- $attributeMutatorCache : mixed
+- $getAttributeMutatorCache : mixed
+- $setAttributeMutatorCache : mixed
+- $castTypeCache : mixed
+- $encrypter : mixed
+- $dispatchesEvents : mixed
+- $observables : mixed
+- $relations : mixed
+- $touches : mixed
+- $relationAutoloadCallback : mixed
+- $relationAutoloadContext : mixed
+- $manyMethods : mixed
+- $relationResolvers : mixed
+- $timestamps : mixed
+- $ignoreTimestampsOn : mixed
+- $usesUniqueIds : mixed
+- $hidden : mixed
+- $visible : mixed
+- $guarded : mixed
+- $unguarded : mixed
+- $guardableColumns : mixed
+- $recursionCache : mixed
+- $resolvedCollectionClasses : array
+
+**Methods**
+
+- tenant()
+- isLowStock()
+- factory()
 
 ---
 
@@ -1420,6 +1754,34 @@ App\Modules\Network\Infrastructure\Persistence\Models
 - $resolvedCollectionClasses : array
 - $forceDeleting : mixed
 
+**Methods**
+
+- customer()
+- device()
+- isActive()
+- isOnline()
+- updateOnlineStatus()
+- scopeActive()
+- scopeOnline()
+- scopeDisabled()
+- forceDelete()
+- forceDestroy()
+- factory()
+- bootSoftDeletes()
+- initializeSoftDeletes()
+- forceDeleteQuietly()
+- restore()
+- restoreQuietly()
+- trashed()
+- softDeleted()
+- restoring()
+- restored()
+- forceDeleting()
+- forceDeleted()
+- isForceDeleting()
+- getDeletedAtColumn()
+- getQualifiedDeletedAtColumn()
+
 ---
 
 ## Package
@@ -1817,9 +2179,9 @@ App\Modules\Reports\Infrastructure\Persistence\Models
 
 **Properties**
 
+- $table : mixed
 - $fillable : mixed
 - $connection : mixed
-- $table : mixed
 - $primaryKey : mixed
 - $keyType : mixed
 - $incrementing : mixed
@@ -1887,6 +2249,11 @@ App\Modules\Reports\Infrastructure\Persistence\Models
 - $guardableColumns : mixed
 - $recursionCache : mixed
 - $resolvedCollectionClasses : array
+
+**Methods**
+
+- user()
+- factory()
 
 ---
 
@@ -2861,129 +3228,6 @@ App\Modules\Payment\Application\Services
 
 ---
 
-## ReportExecutionService
-
-**Namespace**
-
-```
-App\Modules\Reports\Application\Services
-```
-
-**File**
-
-```
-/var/www/app/Modules/Reports/Application/Services/ReportExecutionService.php
-```
-
-**Constructor Dependencies**
-
-- ReportManager $reportManager
-- ExportManager $exportManager
-- ReportRepositoryInterface $reportRepository
-- ReportExportRepositoryInterface $reportExportRepository
-
-**Properties**
-
-- $reportManager : App\Reports\Manager\ReportManager
-- $exportManager : App\Reports\Export\ExportManager
-- $reportRepository : App\Modules\Reports\Domain\Contracts\ReportRepositoryInterface
-- $reportExportRepository : App\Modules\Reports\Domain\Contracts\ReportExportRepositoryInterface
-
-**Methods**
-
-- execute() : App\Reports\DTO\ExportResult
-
----
-
-## ReportExportService
-
-**Namespace**
-
-```
-App\Modules\Reports\Application\Services
-```
-
-**File**
-
-```
-/var/www/app/Modules/Reports/Application/Services/ReportExportService.php
-```
-
-**Constructor Dependencies**
-
-- ReportExportRepositoryInterface $exports
-
-**Properties**
-
-- $exports : App\Modules\Reports\Domain\Contracts\ReportExportRepositoryInterface
-
-**Methods**
-
-- paginate() : Illuminate\Contracts\Pagination\LengthAwarePaginator
-- create() : App\Modules\Reports\Infrastructure\Persistence\Models\ReportExport
-- find() : ?App\Modules\Reports\Infrastructure\Persistence\Models\ReportExport
-
----
-
-## ReportService
-
-**Namespace**
-
-```
-App\Modules\Reports\Application\Services
-```
-
-**File**
-
-```
-/var/www/app/Modules/Reports/Application/Services/ReportService.php
-```
-
-**Constructor Dependencies**
-
-- ReportRepositoryInterface $reports
-
-**Properties**
-
-- $reports : App\Modules\Reports\Domain\Contracts\ReportRepositoryInterface
-
-**Methods**
-
-- paginate() : Illuminate\Contracts\Pagination\LengthAwarePaginator
-- create() : App\Modules\Reports\Infrastructure\Persistence\Models\Report
-- update() : App\Modules\Reports\Infrastructure\Persistence\Models\Report
-- delete() : bool
-- find() : ?App\Modules\Reports\Infrastructure\Persistence\Models\Report
-
----
-
-## ScheduledReportService
-
-**Namespace**
-
-```
-App\Modules\Reports\Application\Services
-```
-
-**File**
-
-```
-/var/www/app/Modules/Reports/Application/Services/ScheduledReportService.php
-```
-
-**Methods**
-
-- paginate() : Illuminate\Contracts\Pagination\LengthAwarePaginator
-- create() : App\Modules\Reports\Infrastructure\Persistence\Models\ScheduledReport
-- update() : App\Modules\Reports\Infrastructure\Persistence\Models\ScheduledReport
-- delete() : void
-- activate() : App\Modules\Reports\Infrastructure\Persistence\Models\ScheduledReport
-- deactivate() : App\Modules\Reports\Infrastructure\Persistence\Models\ScheduledReport
-- updateLastRun() : App\Modules\Reports\Infrastructure\Persistence\Models\ScheduledReport
-- updateNextRun() : App\Modules\Reports\Infrastructure\Persistence\Models\ScheduledReport
-
----
-
 ## SubscriptionActivityService
 
 **Namespace**
@@ -3646,14 +3890,19 @@ App\Http\Controllers\Api
 /var/www/app/Http/Controllers/Api/DeviceAssignmentController.php
 ```
 
+**Dependencies**
+
+- CommandDispatcher $commandDispatcher
+- QueryDispatcher $queryDispatcher
+
 **Public Methods**
 
 - index()
 - store()
-- returnDevice()
 - show()
 - update()
 - destroy()
+- returnDevice()
 
 ---
 
@@ -3670,6 +3919,11 @@ App\Http\Controllers\Api
 ```
 /var/www/app/Http/Controllers/Api/DeviceController.php
 ```
+
+**Dependencies**
+
+- CommandDispatcher $commandDispatcher
+- QueryDispatcher $queryDispatcher
 
 **Public Methods**
 
@@ -3823,6 +4077,11 @@ App\Http\Controllers\Api
 ```
 /var/www/app/Http/Controllers/Api/InventoryController.php
 ```
+
+**Dependencies**
+
+- CommandDispatcher $commandDispatcher
+- QueryDispatcher $queryDispatcher
 
 **Public Methods**
 
@@ -4075,7 +4334,12 @@ App\Http\Controllers\Api
 
 **Dependencies**
 
-- ScheduledReportService $service
+- ScheduledReportRepositoryInterface $repository
+- CreateScheduledReportAction $createAction
+- UpdateScheduledReportAction $updateAction
+- DeleteScheduledReportAction $deleteAction
+- ActivateScheduledReportAction $activateAction
+- DeactivateScheduledReportAction $deactivateAction
 
 **Public Methods**
 

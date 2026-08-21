@@ -5,13 +5,7 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Modules\Reports\Domain\Contracts\ReportRepositoryInterface;
-use App\Modules\Reports\Domain\Contracts\ReportExportRepositoryInterface;
-use App\Modules\Reports\Domain\Contracts\ScheduledReportRepositoryInterface;
 
-use App\Modules\Reports\Infrastructure\Repositories\ReportRepository;
-use App\Modules\Reports\Infrastructure\Repositories\ReportExportRepository;
-use App\Modules\Reports\Infrastructure\Repositories\ScheduledReportRepository;
 
 use App\Modules\Accounting\Application\Services\JournalEntryNumberService;
 use App\Modules\Accounting\Application\Services\JournalPostingService;
@@ -34,21 +28,6 @@ class AppServiceProvider extends ServiceProvider
         |--------------------------------------------------------------------------
         */
 
-
-        $this->app->bind(
-            ReportRepositoryInterface::class,
-            ReportRepository::class
-        );
-
-        $this->app->bind(
-            ReportExportRepositoryInterface::class,
-            ReportExportRepository::class
-        );
-
-        $this->app->bind(
-            ScheduledReportRepositoryInterface::class,
-            ScheduledReportRepository::class
-        );
 
         $this->app->bind(
             PluginSourceInterface::class,

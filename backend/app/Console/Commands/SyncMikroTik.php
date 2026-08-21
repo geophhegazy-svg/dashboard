@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Modules\Network\Domain\Contracts\MikrotikServiceInterface;
-use App\Models\PPPoEUser;
+use App\Modules\Network\Infrastructure\Persistence\Models\PPPoEUser;
 use App\Modules\Network\Infrastructure\Persistence\Models\NetworkDevice;
 use Illuminate\Support\Facades\Log;
 

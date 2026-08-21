@@ -59,10 +59,6 @@
 - App\Modules\Notification\Application\Services\NotificationService
 - App\Modules\Package\Application\Services\PackageService
 - App\Modules\Payment\Application\Services\PaymentService
-- App\Modules\Reports\Application\Services\ReportExecutionService
-- App\Modules\Reports\Application\Services\ReportExportService
-- App\Modules\Reports\Application\Services\ReportService
-- App\Modules\Reports\Application\Services\ScheduledReportService
 - App\Modules\Activity\Application\Services\SubscriptionActivityService
 - App\Modules\Subscription\Application\Services\SubscriptionRenewalService
 - App\Modules\Subscription\Application\Services\SubscriptionService
@@ -75,6 +71,10 @@
 - App\Modules\Accounting\Infrastructure\Persistence\Models\Account
 - App\Modules\Activity\Infrastructure\Persistence\Models\ActivityLog
 - App\Modules\Customer\Infrastructure\Persistence\Models\Customer
+- App\Modules\Inventory\Infrastructure\Persistence\Models\Device
+- App\Modules\Inventory\Infrastructure\Persistence\Models\DeviceAssignment
+- App\Modules\Network\Infrastructure\Persistence\Models\HotspotUser
+- App\Modules\Inventory\Infrastructure\Persistence\Models\Inventory
 - App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice
 - App\Modules\Accounting\Infrastructure\Persistence\Models\JournalEntry
 - App\Modules\Accounting\Infrastructure\Persistence\Models\JournalEntryLine

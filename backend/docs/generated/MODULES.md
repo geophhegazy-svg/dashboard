@@ -2,11 +2,15 @@
 
 ## Models
 
-Total: 20
+Total: 24
 
 - Account
 - ActivityLog
 - Customer
+- Device
+- DeviceAssignment
+- HotspotUser
+- Inventory
 - Invoice
 - JournalEntry
 - JournalEntryLine
@@ -27,7 +31,7 @@ Total: 20
 
 ## Services
 
-Total: 24
+Total: 20
 
 - AutomaticBillingService
 - BillingCycleService
@@ -43,10 +47,6 @@ Total: 24
 - NotificationService
 - PackageService
 - PaymentService
-- ReportExecutionService
-- ReportExportService
-- ReportService
-- ScheduledReportService
 - SubscriptionActivityService
 - SubscriptionRenewalService
 - SubscriptionService

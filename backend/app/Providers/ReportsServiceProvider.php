@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
-use App\Reports\Export\CsvExporter;
-use App\Reports\Export\ExcelExporter;
-use App\Reports\Export\ExportManager;
-use App\Reports\Manager\ReportManager;
-use App\Reports\Registry\ReportRegistry;
-use App\Reports\Reports\CustomerReport;
-use App\Reports\Reports\InvoiceReport;
-use App\Reports\Reports\PaymentReport;
-use App\Reports\Reports\SubscriptionReport;
-use App\Reports\Reports\WalletReport;
+use App\Modules\Reports\Application\Export\CsvExporter;
+use App\Modules\Reports\Application\Manager\ExportManager;
+use App\Modules\Reports\Application\Manager\ReportManager;
+use App\Modules\Reports\Application\Registry\ReportRegistry;
+use App\Modules\Reports\Application\Reports\CustomerReport;
+use App\Modules\Reports\Application\Reports\InvoiceReport;
+use App\Modules\Reports\Application\Reports\PaymentReport;
+use App\Modules\Reports\Application\Reports\SubscriptionReport;
+use App\Modules\Reports\Application\Reports\WalletReport;
+use App\Modules\Reports\Infrastructure\Export\ExcelExporter;
 use Illuminate\Support\ServiceProvider;
 
 class ReportsServiceProvider extends ServiceProvider
@@ -21,7 +21,6 @@ class ReportsServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->singleton(ReportRegistry::class, function () {
-
             $registry = new ReportRegistry();
 
             $registry->register(new CustomerReport());
@@ -34,14 +33,12 @@ class ReportsServiceProvider extends ServiceProvider
         });
 
         $this->app->singleton(ReportManager::class, function ($app) {
-
             return new ReportManager(
                 $app->make(ReportRegistry::class)
             );
         });
 
         $this->app->singleton(ExportManager::class, function () {
-
             $manager = new ExportManager();
 
             $manager->register(new CsvExporter());

@@ -26,15 +26,6 @@ class DashboardServiceTest extends TestCase
 
         $service = new DashboardService();
 
-        dump(
-            now()->toDateString(),
-            Payment::query()
-                ->select('amount', 'payment_date')
-                ->orderBy('payment_date')
-                ->get()
-                ->toArray()
-        );
-
         $data = $service->getDashboardData();
 
         $this->assertEquals(3, $data['business']['total_customers']);

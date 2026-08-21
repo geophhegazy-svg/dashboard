@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Models\HotspotUser;
+use App\Modules\Network\Infrastructure\Persistence\Models\HotspotUser;
 use Illuminate\Support\Facades\Mail;
 
 class SendDailyReport extends Command

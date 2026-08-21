@@ -305,6 +305,411 @@ App\Modules\Customer\Infrastructure\Persistence\Models
 
 ---
 
+## Device
+
+**Namespace**
+
+```
+App\Modules\Inventory\Infrastructure\Persistence\Models
+```
+
+**File**
+
+```
+/var/www/app/Modules/Inventory/Infrastructure/Persistence/Models/Device.php
+```
+
+**Properties**
+
+- $fillable : mixed
+- $connection : mixed
+- $table : mixed
+- $primaryKey : mixed
+- $keyType : mixed
+- $incrementing : mixed
+- $with : mixed
+- $withCount : mixed
+- $preventsLazyLoading : mixed
+- $perPage : mixed
+- $exists : mixed
+- $wasRecentlyCreated : mixed
+- $escapeWhenCastingToString : mixed
+- $resolver : mixed
+- $dispatcher : mixed
+- $booting : mixed
+- $booted : mixed
+- $bootedCallbacks : mixed
+- $traitInitializers : mixed
+- $globalScopes : mixed
+- $ignoreOnTouch : mixed
+- $modelsShouldPreventLazyLoading : mixed
+- $modelsShouldAutomaticallyEagerLoadRelationships : mixed
+- $lazyLoadingViolationCallback : mixed
+- $modelsShouldPreventSilentlyDiscardingAttributes : mixed
+- $discardedAttributeViolationCallback : mixed
+- $modelsShouldPreventAccessingMissingAttributes : mixed
+- $missingAttributeViolationCallback : mixed
+- $isBroadcasting : mixed
+- $builder : string
+- $collectionClass : string
+- $isSoftDeletable : array
+- $isPrunable : array
+- $isMassPrunable : array
+- $classAttributes : array
+- $attributes : mixed
+- $original : mixed
+- $changes : mixed
+- $previous : mixed
+- $casts : mixed
+- $classCastCache : mixed
+- $attributeCastCache : mixed
+- $primitiveCastTypes : mixed
+- $dateFormat : mixed
+- $appends : mixed
+- $snakeAttributes : mixed
+- $mutatorCache : mixed
+- $attributeMutatorCache : mixed
+- $getAttributeMutatorCache : mixed
+- $setAttributeMutatorCache : mixed
+- $castTypeCache : mixed
+- $encrypter : mixed
+- $dispatchesEvents : mixed
+- $observables : mixed
+- $relations : mixed
+- $touches : mixed
+- $relationAutoloadCallback : mixed
+- $relationAutoloadContext : mixed
+- $manyMethods : mixed
+- $relationResolvers : mixed
+- $timestamps : mixed
+- $ignoreTimestampsOn : mixed
+- $usesUniqueIds : mixed
+- $hidden : mixed
+- $visible : mixed
+- $guarded : mixed
+- $unguarded : mixed
+- $guardableColumns : mixed
+- $recursionCache : mixed
+- $resolvedCollectionClasses : array
+
+**Methods**
+
+- tenant()
+- customer()
+- factory()
+
+---
+
+## DeviceAssignment
+
+**Namespace**
+
+```
+App\Modules\Inventory\Infrastructure\Persistence\Models
+```
+
+**File**
+
+```
+/var/www/app/Modules/Inventory/Infrastructure/Persistence/Models/DeviceAssignment.php
+```
+
+**Properties**
+
+- $fillable : mixed
+- $casts : mixed
+- $connection : mixed
+- $table : mixed
+- $primaryKey : mixed
+- $keyType : mixed
+- $incrementing : mixed
+- $with : mixed
+- $withCount : mixed
+- $preventsLazyLoading : mixed
+- $perPage : mixed
+- $exists : mixed
+- $wasRecentlyCreated : mixed
+- $escapeWhenCastingToString : mixed
+- $resolver : mixed
+- $dispatcher : mixed
+- $booting : mixed
+- $booted : mixed
+- $bootedCallbacks : mixed
+- $traitInitializers : mixed
+- $globalScopes : mixed
+- $ignoreOnTouch : mixed
+- $modelsShouldPreventLazyLoading : mixed
+- $modelsShouldAutomaticallyEagerLoadRelationships : mixed
+- $lazyLoadingViolationCallback : mixed
+- $modelsShouldPreventSilentlyDiscardingAttributes : mixed
+- $discardedAttributeViolationCallback : mixed
+- $modelsShouldPreventAccessingMissingAttributes : mixed
+- $missingAttributeViolationCallback : mixed
+- $isBroadcasting : mixed
+- $builder : string
+- $collectionClass : string
+- $isSoftDeletable : array
+- $isPrunable : array
+- $isMassPrunable : array
+- $classAttributes : array
+- $attributes : mixed
+- $original : mixed
+- $changes : mixed
+- $previous : mixed
+- $classCastCache : mixed
+- $attributeCastCache : mixed
+- $primitiveCastTypes : mixed
+- $dateFormat : mixed
+- $appends : mixed
+- $snakeAttributes : mixed
+- $mutatorCache : mixed
+- $attributeMutatorCache : mixed
+- $getAttributeMutatorCache : mixed
+- $setAttributeMutatorCache : mixed
+- $castTypeCache : mixed
+- $encrypter : mixed
+- $dispatchesEvents : mixed
+- $observables : mixed
+- $relations : mixed
+- $touches : mixed
+- $relationAutoloadCallback : mixed
+- $relationAutoloadContext : mixed
+- $manyMethods : mixed
+- $relationResolvers : mixed
+- $timestamps : mixed
+- $ignoreTimestampsOn : mixed
+- $usesUniqueIds : mixed
+- $hidden : mixed
+- $visible : mixed
+- $guarded : mixed
+- $unguarded : mixed
+- $guardableColumns : mixed
+- $recursionCache : mixed
+- $resolvedCollectionClasses : array
+
+**Methods**
+
+- tenant()
+- customer()
+- device()
+- factory()
+
+---
+
+## HotspotUser
+
+**Namespace**
+
+```
+App\Modules\Network\Infrastructure\Persistence\Models
+```
+
+**File**
+
+```
+/var/www/app/Modules/Network/Infrastructure/Persistence/Models/HotspotUser.php
+```
+
+**Properties**
+
+- $table : mixed
+- $fillable : mixed
+- $casts : mixed
+- $hidden : mixed
+- $connection : mixed
+- $primaryKey : mixed
+- $keyType : mixed
+- $incrementing : mixed
+- $with : mixed
+- $withCount : mixed
+- $preventsLazyLoading : mixed
+- $perPage : mixed
+- $exists : mixed
+- $wasRecentlyCreated : mixed
+- $escapeWhenCastingToString : mixed
+- $resolver : mixed
+- $dispatcher : mixed
+- $booting : mixed
+- $booted : mixed
+- $bootedCallbacks : mixed
+- $traitInitializers : mixed
+- $globalScopes : mixed
+- $ignoreOnTouch : mixed
+- $modelsShouldPreventLazyLoading : mixed
+- $modelsShouldAutomaticallyEagerLoadRelationships : mixed
+- $lazyLoadingViolationCallback : mixed
+- $modelsShouldPreventSilentlyDiscardingAttributes : mixed
+- $discardedAttributeViolationCallback : mixed
+- $modelsShouldPreventAccessingMissingAttributes : mixed
+- $missingAttributeViolationCallback : mixed
+- $isBroadcasting : mixed
+- $builder : string
+- $collectionClass : string
+- $isSoftDeletable : array
+- $isPrunable : array
+- $isMassPrunable : array
+- $classAttributes : array
+- $attributes : mixed
+- $original : mixed
+- $changes : mixed
+- $previous : mixed
+- $classCastCache : mixed
+- $attributeCastCache : mixed
+- $primitiveCastTypes : mixed
+- $dateFormat : mixed
+- $appends : mixed
+- $snakeAttributes : mixed
+- $mutatorCache : mixed
+- $attributeMutatorCache : mixed
+- $getAttributeMutatorCache : mixed
+- $setAttributeMutatorCache : mixed
+- $castTypeCache : mixed
+- $encrypter : mixed
+- $dispatchesEvents : mixed
+- $observables : mixed
+- $relations : mixed
+- $touches : mixed
+- $relationAutoloadCallback : mixed
+- $relationAutoloadContext : mixed
+- $manyMethods : mixed
+- $relationResolvers : mixed
+- $timestamps : mixed
+- $ignoreTimestampsOn : mixed
+- $usesUniqueIds : mixed
+- $visible : mixed
+- $guarded : mixed
+- $unguarded : mixed
+- $guardableColumns : mixed
+- $recursionCache : mixed
+- $resolvedCollectionClasses : array
+- $forceDeleting : mixed
+
+**Methods**
+
+- customer()
+- device()
+- scopeActive()
+- scopeOnline()
+- scopeExpired()
+- isActive()
+- isOnline()
+- getUptimeFormatted()
+- getTrafficFormatted()
+- forceDelete()
+- forceDestroy()
+- factory()
+- bootSoftDeletes()
+- initializeSoftDeletes()
+- forceDeleteQuietly()
+- restore()
+- restoreQuietly()
+- trashed()
+- softDeleted()
+- restoring()
+- restored()
+- forceDeleting()
+- forceDeleted()
+- isForceDeleting()
+- getDeletedAtColumn()
+- getQualifiedDeletedAtColumn()
+
+---
+
+## Inventory
+
+**Namespace**
+
+```
+App\Modules\Inventory\Infrastructure\Persistence\Models
+```
+
+**File**
+
+```
+/var/www/app/Modules/Inventory/Infrastructure/Persistence/Models/Inventory.php
+```
+
+**Properties**
+
+- $fillable : mixed
+- $connection : mixed
+- $table : mixed
+- $primaryKey : mixed
+- $keyType : mixed
+- $incrementing : mixed
+- $with : mixed
+- $withCount : mixed
+- $preventsLazyLoading : mixed
+- $perPage : mixed
+- $exists : mixed
+- $wasRecentlyCreated : mixed
+- $escapeWhenCastingToString : mixed
+- $resolver : mixed
+- $dispatcher : mixed
+- $booting : mixed
+- $booted : mixed
+- $bootedCallbacks : mixed
+- $traitInitializers : mixed
+- $globalScopes : mixed
+- $ignoreOnTouch : mixed
+- $modelsShouldPreventLazyLoading : mixed
+- $modelsShouldAutomaticallyEagerLoadRelationships : mixed
+- $lazyLoadingViolationCallback : mixed
+- $modelsShouldPreventSilentlyDiscardingAttributes : mixed
+- $discardedAttributeViolationCallback : mixed
+- $modelsShouldPreventAccessingMissingAttributes : mixed
+- $missingAttributeViolationCallback : mixed
+- $isBroadcasting : mixed
+- $builder : string
+- $collectionClass : string
+- $isSoftDeletable : array
+- $isPrunable : array
+- $isMassPrunable : array
+- $classAttributes : array
+- $attributes : mixed
+- $original : mixed
+- $changes : mixed
+- $previous : mixed
+- $casts : mixed
+- $classCastCache : mixed
+- $attributeCastCache : mixed
+- $primitiveCastTypes : mixed
+- $dateFormat : mixed
+- $appends : mixed
+- $snakeAttributes : mixed
+- $mutatorCache : mixed
+- $attributeMutatorCache : mixed
+- $getAttributeMutatorCache : mixed
+- $setAttributeMutatorCache : mixed
+- $castTypeCache : mixed
+- $encrypter : mixed
+- $dispatchesEvents : mixed
+- $observables : mixed
+- $relations : mixed
+- $touches : mixed
+- $relationAutoloadCallback : mixed
+- $relationAutoloadContext : mixed
+- $manyMethods : mixed
+- $relationResolvers : mixed
+- $timestamps : mixed
+- $ignoreTimestampsOn : mixed
+- $usesUniqueIds : mixed
+- $hidden : mixed
+- $visible : mixed
+- $guarded : mixed
+- $unguarded : mixed
+- $guardableColumns : mixed
+- $recursionCache : mixed
+- $resolvedCollectionClasses : array
+
+**Methods**
+
+- tenant()
+- isLowStock()
+- factory()
+
+---
+
 ## Invoice
 
 **Namespace**
@@ -895,6 +1300,34 @@ App\Modules\Network\Infrastructure\Persistence\Models
 - $resolvedCollectionClasses : array
 - $forceDeleting : mixed
 
+**Methods**
+
+- customer()
+- device()
+- isActive()
+- isOnline()
+- updateOnlineStatus()
+- scopeActive()
+- scopeOnline()
+- scopeDisabled()
+- forceDelete()
+- forceDestroy()
+- factory()
+- bootSoftDeletes()
+- initializeSoftDeletes()
+- forceDeleteQuietly()
+- restore()
+- restoreQuietly()
+- trashed()
+- softDeleted()
+- restoring()
+- restored()
+- forceDeleting()
+- forceDeleted()
+- isForceDeleting()
+- getDeletedAtColumn()
+- getQualifiedDeletedAtColumn()
+
 ---
 
 ## Package
@@ -1292,9 +1725,9 @@ App\Modules\Reports\Infrastructure\Persistence\Models
 
 **Properties**
 
+- $table : mixed
 - $fillable : mixed
 - $connection : mixed
-- $table : mixed
 - $primaryKey : mixed
 - $keyType : mixed
 - $incrementing : mixed
@@ -1362,6 +1795,11 @@ App\Modules\Reports\Infrastructure\Persistence\Models
 - $guardableColumns : mixed
 - $recursionCache : mixed
 - $resolvedCollectionClasses : array
+
+**Methods**
+
+- user()
+- factory()
 
 ---
 

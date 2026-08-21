@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\HotspotUser;
+use App\Modules\Network\Infrastructure\Persistence\Models\HotspotUser;
 use Illuminate\Http\Request;
 
 class HotspotController extends Controller

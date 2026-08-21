@@ -9,5 +9,5 @@ Technology
 - MikroTik RouterOS
 
 Statistics
-- Models: 20
-- Services: 24
+- Models: 24
+- Services: 20

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Reports;
 
-use App\Reports\DTO\ReportResult;
-use App\Reports\Export\CsvExporter;
-use App\Reports\Export\ExportManager;
+use App\Modules\Reports\Application\DTO\ReportResult;
+use App\Modules\Reports\Application\Export\CsvExporter;
+use App\Modules\Reports\Application\Manager\ExportManager;
 use PHPUnit\Framework\TestCase;
 
 class ExportManagerTest extends TestCase
@@ -58,7 +58,7 @@ class ExportManagerTest extends TestCase
         );
 
         $this->assertInstanceOf(
-            \App\Reports\DTO\ExportResult::class,
+            \App\Modules\Reports\Application\DTO\ExportResult::class,
             $result
         );
 

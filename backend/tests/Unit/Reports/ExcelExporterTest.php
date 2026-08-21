@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Reports;
 
-use App\Reports\DTO\ExportResult;
-use App\Reports\DTO\ReportResult;
-use App\Reports\Export\ExcelExporter;
+use App\Modules\Reports\Application\DTO\ExportResult;
+use App\Modules\Reports\Application\DTO\ReportResult;
+use App\Modules\Reports\Infrastructure\Export\ExcelExporter;
 use PHPUnit\Framework\TestCase;
 
 class ExcelExporterTest extends TestCase

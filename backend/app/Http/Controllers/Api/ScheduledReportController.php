@@ -8,8 +8,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Reports\StoreScheduledReportRequest;
 use App\Http\Requests\Reports\UpdateScheduledReportRequest;
 use App\Http\Resources\ScheduledReportResource;
+use App\Modules\Reports\Application\Actions\ActivateScheduledReportAction;
+use App\Modules\Reports\Application\Actions\CreateScheduledReportAction;
+use App\Modules\Reports\Application\Actions\DeactivateScheduledReportAction;
+use App\Modules\Reports\Application\Actions\DeleteScheduledReportAction;
+use App\Modules\Reports\Application\Actions\UpdateScheduledReportAction;
 use App\Modules\Reports\Infrastructure\Persistence\Models\ScheduledReport;
-use App\Modules\Reports\Application\Services\ScheduledReportService;
+use App\Modules\Reports\Domain\Contracts\ScheduledReportRepositoryInterface;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,22 +22,26 @@ use Symfony\Component\HttpFoundation\Response;
 class ScheduledReportController extends Controller
 {
     public function __construct(
-        private readonly ScheduledReportService $service,
+        private readonly ScheduledReportRepositoryInterface $repository,
+        private readonly CreateScheduledReportAction $createAction,
+        private readonly UpdateScheduledReportAction $updateAction,
+        private readonly DeleteScheduledReportAction $deleteAction,
+        private readonly ActivateScheduledReportAction $activateAction,
+        private readonly DeactivateScheduledReportAction $deactivateAction,
     ) {}
 
     public function index(): AnonymousResourceCollection
     {
         return ScheduledReportResource::collection(
-            $this->service->paginate()
+            $this->repository->paginate()
         );
     }
 
     public function store(
         StoreScheduledReportRequest $request
     ): JsonResponse {
-
         return (new ScheduledReportResource(
-            $this->service->create(
+            $this->createAction->execute(
                 $request->validated()
             )
         ))->response()->setStatusCode(
@@ -43,7 +52,6 @@ class ScheduledReportController extends Controller
     public function show(
         ScheduledReport $scheduledReport
     ): ScheduledReportResource {
-
         return new ScheduledReportResource(
             $scheduledReport
         );
@@ -53,9 +61,8 @@ class ScheduledReportController extends Controller
         UpdateScheduledReportRequest $request,
         ScheduledReport $scheduledReport
     ): ScheduledReportResource {
-
         return new ScheduledReportResource(
-            $this->service->update(
+            $this->updateAction->execute(
                 $scheduledReport,
                 $request->validated()
             )
@@ -64,20 +71,22 @@ class ScheduledReportController extends Controller
 
     public function destroy(
         ScheduledReport $scheduledReport
-    ) {
-        $this->service->delete(
+    ): JsonResponse {
+        $this->deleteAction->execute(
             $scheduledReport
         );
 
-        return response()->noContent();
+        return response()->json(
+            null,
+            Response::HTTP_NO_CONTENT
+        );
     }
 
     public function activate(
         ScheduledReport $scheduledReport
     ): ScheduledReportResource {
-
         return new ScheduledReportResource(
-            $this->service->activate(
+            $this->activateAction->execute(
                 $scheduledReport
             )
         );
@@ -86,9 +95,8 @@ class ScheduledReportController extends Controller
     public function deactivate(
         ScheduledReport $scheduledReport
     ): ScheduledReportResource {
-
         return new ScheduledReportResource(
-            $this->service->deactivate(
+            $this->deactivateAction->execute(
                 $scheduledReport
             )
         );

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Reports;
 
-use App\Reports\DTO\ReportResult;
-use App\Reports\Export\ExportManager;
+use App\Modules\Reports\Application\DTO\ReportResult;
+use App\Modules\Reports\Application\Manager\ExportManager;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 

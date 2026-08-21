@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Reports;
 
-use App\Reports\Manager\ReportManager;
-use App\Reports\Registry\ReportRegistry;
-use App\Reports\Filters\ReportFilter;
+use App\Modules\Reports\Application\Manager\ReportManager;
+use App\Modules\Reports\Application\Registry\ReportRegistry;
+use App\Modules\Reports\Application\Filters\ReportFilter;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 

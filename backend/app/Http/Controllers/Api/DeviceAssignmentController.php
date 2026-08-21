@@ -1,85 +1,127 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Api;
 
-use App\Models\Device;
-use App\Models\Inventory;
-use App\Models\DeviceAssignment;
+use App\Core\CommandBus\CommandDispatcher;
+use App\Core\QueryBus\QueryDispatcher;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreDeviceAssignmentRequest;
 use App\Http\Resources\DeviceAssignmentResource;
+use App\Modules\Inventory\Application\Commands\AssignDeviceCommand;
+use App\Modules\Inventory\Application\Commands\DeleteDeviceAssignmentCommand;
+use App\Modules\Inventory\Application\Commands\ReturnDeviceCommand;
+use App\Modules\Inventory\Application\Commands\UpdateDeviceAssignmentCommand;
+use App\Modules\Inventory\Application\Queries\PaginateDeviceAssignmentsQuery;
+use App\Modules\Inventory\Infrastructure\Persistence\Models\DeviceAssignment;
 
-class DeviceAssignmentController extends Controller
+final class DeviceAssignmentController extends Controller
 {
+    public function __construct(
+        private readonly CommandDispatcher $commandDispatcher,
+        private readonly QueryDispatcher $queryDispatcher,
+    ) {}
+
     public function index()
     {
-        return DeviceAssignmentResource::collection(DeviceAssignment::latest()->paginate());
+        $this->authorize(
+            'viewAny',
+            DeviceAssignment::class
+        );
+
+        return DeviceAssignmentResource::collection(
+            $this->queryDispatcher->dispatch(
+                new PaginateDeviceAssignmentsQuery()
+            )
+        );
     }
+
     public function store(StoreDeviceAssignmentRequest $request)
     {
-        $data = $request->validated();
-        $device = Device::findOrFail($data['device_id']);
-        $inventory = Inventory::where('tenant_id', $data['tenant_id'])->where('device_type', $device->device_type)->where('brand', $device->brand)->where('model', $device->model)->first();
-        if ($inventory && $inventory->quantity > 0) {
-            $inventory->decrement('quantity');
-        }
-        $assignment = DeviceAssignment::create($data);
-        return response()->json(['data' => new DeviceAssignmentResource($assignment)]);
+        $this->authorize(
+            'create',
+            DeviceAssignment::class
+        );
+
+        $assignment = $this->commandDispatcher->dispatch(
+            new AssignDeviceCommand(
+                $request->validated()
+            )
+        );
+
+        return new DeviceAssignmentResource($assignment);
     }
+
+    public function show(
+        DeviceAssignment $deviceAssignment
+    ): DeviceAssignmentResource {
+        $this->authorize(
+            'view',
+            $deviceAssignment
+        );
+
+        return new DeviceAssignmentResource(
+            $deviceAssignment
+        );
+    }
+
+    public function update(
+        StoreDeviceAssignmentRequest $request,
+        DeviceAssignment $deviceAssignment
+    ) {
+        $this->authorize(
+            'update',
+            $deviceAssignment
+        );
+
+        $assignment = $this->commandDispatcher->dispatch(
+            new UpdateDeviceAssignmentCommand(
+                $deviceAssignment,
+                $request->validated(),
+            )
+        );
+
+        return new DeviceAssignmentResource(
+            $assignment
+        );
+    }
+
+    public function destroy(
+        DeviceAssignment $deviceAssignment
+    ) {
+        $this->authorize(
+            'delete',
+            $deviceAssignment
+        );
+
+        $this->commandDispatcher->dispatch(
+            new DeleteDeviceAssignmentCommand(
+                $deviceAssignment,
+            )
+        );
+
+        return response()->json([
+            'message' => 'Assignment deleted successfully',
+        ]);
+    }
+
     public function returnDevice(
         DeviceAssignment $deviceAssignment
     ) {
-        if ($deviceAssignment->status === 'returned') {
+        $this->authorize(
+            'update',
+            $deviceAssignment
+        );
 
-            return response()->json([
-                'message' => 'Device already returned'
-            ], 422);
-        }
-
-        $deviceAssignment->update([
-            'status'      => 'returned',
-            'returned_at' => now(),
-        ]);
-
-        $inventory = Inventory::where(
-            'tenant_id',
-            $deviceAssignment->tenant_id
-        )
-            ->where(
-                'device_type',
-                $deviceAssignment->device->device_type
+        $this->commandDispatcher->dispatch(
+            new ReturnDeviceCommand(
+                $deviceAssignment,
             )
-            ->where(
-                'brand',
-                $deviceAssignment->device->brand
-            )
-            ->where(
-                'model',
-                $deviceAssignment->device->model
-            )
-            ->first();
-
-        if ($inventory) {
-            $inventory->increment('quantity');
-        }
+        );
 
         return response()->json([
-            'message' => 'Device returned successfully'
+            'message' => 'Device returned successfully',
         ]);
     }
-    public function show(DeviceAssignment $deviceAssignment)
-    {
-        return new DeviceAssignmentResource($deviceAssignment);
-    }
-    public function update(StoreDeviceAssignmentRequest $request, DeviceAssignment $deviceAssignment)
-    {
-        $deviceAssignment->update($request->validated());
-        return new DeviceAssignmentResource($deviceAssignment);
-    }
-    public function destroy(DeviceAssignment $deviceAssignment)
-    {
-        $deviceAssignment->delete();
-        return response()->json(['message' => 'Assignment deleted successfully']);
-    }
-    
 }

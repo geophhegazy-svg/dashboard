@@ -3,8 +3,8 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Models\PPPoEUser;
-use App\Models\HotspotUser;
+use App\Modules\Network\Infrastructure\Persistence\Models\PPPoEUser;
+use App\Modules\Network\Infrastructure\Persistence\Models\HotspotUser;
 
 class CleanupMikroTik extends Command
 {

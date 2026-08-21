@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Reports;
 
-use App\Reports\Filters\ReportFilter;
-use App\Reports\Manager\ReportManager;
-use App\Reports\Registry\ReportRegistry;
-use App\Reports\Reports\CustomerReport;
-use App\Reports\Reports\SubscriptionReport;
+use App\Modules\Reports\Application\Filters\ReportFilter;
+use App\Modules\Reports\Application\Manager\ReportManager;
+use App\Modules\Reports\Application\Registry\ReportRegistry;
+use App\Modules\Reports\Application\Reports\CustomerReport;
+use App\Modules\Reports\Application\Reports\SubscriptionReport;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use App\Reports\Reports\InvoiceReport;
-use App\Reports\Reports\PaymentReport;
-use App\Reports\Reports\WalletReport;
+use App\Modules\Reports\Application\Reports\InvoiceReport;
+use App\Modules\Reports\Application\Reports\PaymentReport;
+use App\Modules\Reports\Application\Reports\WalletReport;
 
 
 class ReportManagerTest extends TestCase

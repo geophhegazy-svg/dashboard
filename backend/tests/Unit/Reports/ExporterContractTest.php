@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Reports;
 
-use App\Reports\Export\Contracts\ExporterInterface;
-use App\Reports\Export\CsvExporter;
+use App\Modules\Reports\Application\Contracts\ExporterInterface;
+use App\Modules\Reports\Application\Export\CsvExporter;
 use PHPUnit\Framework\TestCase;
 
 class ExporterContractTest extends TestCase

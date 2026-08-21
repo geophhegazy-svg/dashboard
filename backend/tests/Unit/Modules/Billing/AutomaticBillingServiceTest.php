@@ -56,7 +56,7 @@ class AutomaticBillingServiceTest extends TestCase
             ->expects($this->never())
             ->method('renew');
 
-        $notification = $this->createMock(
+        $notification = $this->createStub(
             NotificationServiceInterface::class
         );
 
@@ -99,7 +99,7 @@ class AutomaticBillingServiceTest extends TestCase
             ->method('renew')
             ->with($subscription);
 
-        $notification = $this->createMock(
+        $notification = $this->createStub(
             NotificationServiceInterface::class
         );
 
@@ -123,7 +123,7 @@ class AutomaticBillingServiceTest extends TestCase
     {
         $subscription = $this->expiredSubscription();
 
-        $billing = $this->createMock(
+        $billing = $this->createStub(
             BillingEngine::class
         );
 
@@ -131,7 +131,7 @@ class AutomaticBillingServiceTest extends TestCase
             ->method('status')
             ->willReturn(BillingStatus::EXPIRED);
 
-        $renewal = $this->createMock(
+        $renewal = $this->createStub(
             SubscriptionRenewalServiceInterface::class
         );
 
@@ -173,7 +173,7 @@ class AutomaticBillingServiceTest extends TestCase
             $this->expiredSubscription(),
         ]);
 
-        $billing = $this->createMock(
+        $billing = $this->createStub(
             BillingEngine::class
         );
 
@@ -189,7 +189,7 @@ class AutomaticBillingServiceTest extends TestCase
             ->expects($this->exactly(3))
             ->method('renew');
 
-        $notification = $this->createMock(
+        $notification = $this->createStub(
             NotificationServiceInterface::class
         );
 

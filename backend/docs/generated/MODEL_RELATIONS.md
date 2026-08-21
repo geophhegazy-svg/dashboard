@@ -24,6 +24,38 @@ App\Modules\Activity\Infrastructure\Persistence\Models\ActivityLog
 App\Modules\Customer\Infrastructure\Persistence\Models\Customer
 ```
 
+## Device
+
+**Class**
+
+```
+App\Modules\Inventory\Infrastructure\Persistence\Models\Device
+```
+
+## DeviceAssignment
+
+**Class**
+
+```
+App\Modules\Inventory\Infrastructure\Persistence\Models\DeviceAssignment
+```
+
+## HotspotUser
+
+**Class**
+
+```
+App\Modules\Network\Infrastructure\Persistence\Models\HotspotUser
+```
+
+## Inventory
+
+**Class**
+
+```
+App\Modules\Inventory\Infrastructure\Persistence\Models\Inventory
+```
+
 ## Invoice
 
 **Class**

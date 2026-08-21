@@ -243,6 +243,69 @@
             ]
         },
         {
+            "class": "App\\Modules\\Inventory\\Kernel\\InventoryModule",
+            "name": "Inventory",
+            "dependencies": [
+                "App\\Modules\\Customer\\Kernel\\CustomerModule"
+            ],
+            "resources": [
+                {
+                    "type": "services",
+                    "bindings": {
+                        "App\\Modules\\Inventory\\Domain\\Contracts\\DeviceRepositoryInterface": "App\\Modules\\Inventory\\Infrastructure\\Repositories\\DeviceRepository",
+                        "App\\Modules\\Inventory\\Domain\\Contracts\\DeviceAssignmentRepositoryInterface": "App\\Modules\\Inventory\\Infrastructure\\Repositories\\DeviceAssignmentRepository",
+                        "App\\Modules\\Inventory\\Domain\\Contracts\\InventoryRepositoryInterface": "App\\Modules\\Inventory\\Infrastructure\\Repositories\\InventoryRepository"
+                    }
+                },
+                {
+                    "type": "actions",
+                    "actions": [
+                        "App\\Modules\\Inventory\\Application\\Actions\\CreateInventoryAction",
+                        "App\\Modules\\Inventory\\Application\\Actions\\UpdateInventoryAction",
+                        "App\\Modules\\Inventory\\Application\\Actions\\DeleteInventoryAction",
+                        "App\\Modules\\Inventory\\Application\\Actions\\CreateDeviceAction",
+                        "App\\Modules\\Inventory\\Application\\Actions\\UpdateDeviceAction",
+                        "App\\Modules\\Inventory\\Application\\Actions\\DeleteDeviceAction",
+                        "App\\Modules\\Inventory\\Application\\Actions\\UpdateDeviceAssignmentAction",
+                        "App\\Modules\\Inventory\\Application\\Actions\\DeleteDeviceAssignmentAction",
+                        "App\\Modules\\Inventory\\Application\\Actions\\AssignDeviceAction",
+                        "App\\Modules\\Inventory\\Application\\Actions\\ReturnDeviceAction"
+                    ]
+                },
+                {
+                    "type": "queries",
+                    "queries": {
+                        "App\\Modules\\Inventory\\Application\\Queries\\PaginateInventoriesQuery": "App\\Modules\\Inventory\\Application\\Queries\\Handlers\\PaginateInventoriesQueryHandler",
+                        "App\\Modules\\Inventory\\Application\\Queries\\PaginateDevicesQuery": "App\\Modules\\Inventory\\Application\\Queries\\Handlers\\PaginateDevicesQueryHandler",
+                        "App\\Modules\\Inventory\\Application\\Queries\\PaginateDeviceAssignmentsQuery": "App\\Modules\\Inventory\\Application\\Queries\\Handlers\\PaginateDeviceAssignmentsQueryHandler"
+                    }
+                },
+                {
+                    "type": "command_handlers",
+                    "handlers": {
+                        "App\\Modules\\Inventory\\Application\\Commands\\CreateInventoryCommand": "App\\Modules\\Inventory\\Application\\Commands\\Handlers\\CreateInventoryCommandHandler",
+                        "App\\Modules\\Inventory\\Application\\Commands\\UpdateInventoryCommand": "App\\Modules\\Inventory\\Application\\Commands\\Handlers\\UpdateInventoryCommandHandler",
+                        "App\\Modules\\Inventory\\Application\\Commands\\DeleteInventoryCommand": "App\\Modules\\Inventory\\Application\\Commands\\Handlers\\DeleteInventoryCommandHandler",
+                        "App\\Modules\\Inventory\\Application\\Commands\\CreateDeviceCommand": "App\\Modules\\Inventory\\Application\\Commands\\Handlers\\CreateDeviceCommandHandler",
+                        "App\\Modules\\Inventory\\Application\\Commands\\UpdateDeviceCommand": "App\\Modules\\Inventory\\Application\\Commands\\Handlers\\UpdateDeviceCommandHandler",
+                        "App\\Modules\\Inventory\\Application\\Commands\\DeleteDeviceCommand": "App\\Modules\\Inventory\\Application\\Commands\\Handlers\\DeleteDeviceCommandHandler",
+                        "App\\Modules\\Inventory\\Application\\Commands\\UpdateDeviceAssignmentCommand": "App\\Modules\\Inventory\\Application\\Commands\\Handlers\\UpdateDeviceAssignmentCommandHandler",
+                        "App\\Modules\\Inventory\\Application\\Commands\\DeleteDeviceAssignmentCommand": "App\\Modules\\Inventory\\Application\\Commands\\Handlers\\DeleteDeviceAssignmentCommandHandler",
+                        "App\\Modules\\Inventory\\Application\\Commands\\AssignDeviceCommand": "App\\Modules\\Inventory\\Application\\Commands\\Handlers\\AssignDeviceCommandHandler",
+                        "App\\Modules\\Inventory\\Application\\Commands\\ReturnDeviceCommand": "App\\Modules\\Inventory\\Application\\Commands\\Handlers\\ReturnDeviceCommandHandler"
+                    }
+                },
+                {
+                    "type": "policies",
+                    "policies": {
+                        "App\\Modules\\Inventory\\Infrastructure\\Persistence\\Models\\Device": "App\\Modules\\Inventory\\Policies\\DevicePolicy",
+                        "App\\Modules\\Inventory\\Infrastructure\\Persistence\\Models\\DeviceAssignment": "App\\Modules\\Inventory\\Policies\\DeviceAssignmentPolicy",
+                        "App\\Modules\\Inventory\\Infrastructure\\Persistence\\Models\\Inventory": "App\\Modules\\Inventory\\Policies\\InventoryPolicy"
+                    }
+                }
+            ]
+        },
+        {
             "class": "App\\Modules\\Notification\\Kernel\\NotificationModule",
             "name": "Notification",
             "dependencies": [
