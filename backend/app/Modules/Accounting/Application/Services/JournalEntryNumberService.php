@@ -4,18 +4,21 @@ declare(strict_types=1);
 
 namespace App\Modules\Accounting\Application\Services;
 
-use App\Modules\Accounting\Infrastructure\Persistence\Models\JournalEntry;
+use App\Modules\Accounting\Domain\Contracts\JournalEntryRepositoryInterface;
 
-class JournalEntryNumberService
+final readonly class JournalEntryNumberService
 {
+    public function __construct(
+        private JournalEntryRepositoryInterface $journalEntries,
+    ) {}
+
     public function generate(): string
     {
         $year = now()->year;
 
-        $last = JournalEntry::query()
-            ->whereYear('entry_date', $year)
-            ->orderByDesc('id')
-            ->first();
+        $last = $this->journalEntries->findLatestForYear(
+            $year
+        );
 
         $next = 1;
 

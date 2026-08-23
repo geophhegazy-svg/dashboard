@@ -99,58 +99,11 @@
             ]
         },
         {
-            "class": "App\\Modules\\Billing\\Kernel\\BillingModule",
-            "name": "Billing",
-            "dependencies": [
-                "App\\Modules\\Subscription\\Kernel\\SubscriptionModule",
-                "App\\Modules\\Invoice\\Kernel\\InvoiceModule"
-            ],
-            "resources": [
-                {
-                    "type": "services",
-                    "bindings": {
-                        "App\\Modules\\Billing\\Domain\\Contracts\\BillingCycleServiceInterface": "App\\Modules\\Billing\\Application\\Services\\BillingCycleService",
-                        "App\\Modules\\Billing\\Domain\\Contracts\\AutomaticBillingServiceInterface": "App\\Modules\\Billing\\Application\\Services\\AutomaticBillingService",
-                        "App\\Modules\\Billing\\Domain\\Contracts\\InvoiceGeneratorInterface": "App\\Modules\\Billing\\Application\\Services\\InvoiceGenerator"
-                    }
-                },
-                {
-                    "type": "policies",
-                    "policies": {
-                        "App\\Modules\\Invoice\\Infrastructure\\Persistence\\Models\\Invoice": "App\\Modules\\Billing\\Policies\\InvoicePolicy"
-                    }
-                }
-            ]
-        },
-        {
-            "class": "App\\Modules\\Accounting\\Kernel\\AccountingModule",
-            "name": "Accounting",
-            "dependencies": [
-                "App\\Modules\\Billing\\Kernel\\BillingModule"
-            ],
-            "resources": [
-                {
-                    "type": "services",
-                    "bindings": {
-                        "App\\Modules\\Accounting\\Domain\\Contracts\\AccountRepositoryInterface": "App\\Modules\\Accounting\\Infrastructure\\Repositories\\AccountRepository",
-                        "App\\Modules\\Accounting\\Domain\\Contracts\\JournalEntryRepositoryInterface": "App\\Modules\\Accounting\\Infrastructure\\Repositories\\JournalEntryRepository",
-                        "App\\Modules\\Accounting\\Domain\\Contracts\\JournalEntryLineRepositoryInterface": "App\\Modules\\Accounting\\Infrastructure\\Repositories\\JournalEntryLineRepository"
-                    }
-                },
-                {
-                    "type": "listeners",
-                    "listeners": {
-                        "App\\Modules\\Accounting\\Domain\\Events\\JournalEntryPosted": [
-                            "App\\Modules\\Accounting\\Listeners\\JournalEntryPostedListener"
-                        ]
-                    }
-                }
-            ]
-        },
-        {
             "class": "App\\Modules\\Activity\\Kernel\\ActivityModule",
             "name": "Activity",
-            "dependencies": [],
+            "dependencies": [
+                "App\\Modules\\Subscription\\Kernel\\SubscriptionModule"
+            ],
             "resources": [
                 {
                     "type": "services",
@@ -176,6 +129,56 @@
             ]
         },
         {
+            "class": "App\\Modules\\Accounting\\Kernel\\AccountingModule",
+            "name": "Accounting",
+            "dependencies": [
+                "App\\Modules\\Activity\\Kernel\\ActivityModule"
+            ],
+            "resources": [
+                {
+                    "type": "services",
+                    "bindings": {
+                        "App\\Modules\\Accounting\\Domain\\Contracts\\JournalEntryRepositoryInterface": "App\\Modules\\Accounting\\Infrastructure\\Repositories\\JournalEntryRepository",
+                        "App\\Modules\\Accounting\\Application\\Services\\JournalEntryNumberService": "App\\Modules\\Accounting\\Application\\Services\\JournalEntryNumberService",
+                        "App\\Modules\\Accounting\\Application\\Services\\JournalPostingService": "App\\Modules\\Accounting\\Application\\Services\\JournalPostingService",
+                        "App\\Modules\\Accounting\\Application\\Services\\JournalValidationService": "App\\Modules\\Accounting\\Application\\Services\\JournalValidationService"
+                    }
+                },
+                {
+                    "type": "listeners",
+                    "listeners": {
+                        "App\\Modules\\Accounting\\Domain\\Events\\JournalEntryPosted": [
+                            "App\\Modules\\Accounting\\Listeners\\JournalEntryPostedListener"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "class": "App\\Modules\\Billing\\Kernel\\BillingModule",
+            "name": "Billing",
+            "dependencies": [
+                "App\\Modules\\Subscription\\Kernel\\SubscriptionModule",
+                "App\\Modules\\Invoice\\Kernel\\InvoiceModule"
+            ],
+            "resources": [
+                {
+                    "type": "services",
+                    "bindings": {
+                        "App\\Modules\\Billing\\Domain\\Contracts\\BillingCycleServiceInterface": "App\\Modules\\Billing\\Application\\Services\\BillingCycleService",
+                        "App\\Modules\\Billing\\Domain\\Contracts\\AutomaticBillingServiceInterface": "App\\Modules\\Billing\\Application\\Services\\AutomaticBillingService",
+                        "App\\Modules\\Billing\\Domain\\Contracts\\InvoiceGeneratorInterface": "App\\Modules\\Billing\\Application\\Services\\InvoiceGenerator"
+                    }
+                },
+                {
+                    "type": "policies",
+                    "policies": {
+                        "App\\Modules\\Invoice\\Infrastructure\\Persistence\\Models\\Invoice": "App\\Modules\\Billing\\Policies\\InvoicePolicy"
+                    }
+                }
+            ]
+        },
+        {
             "class": "App\\Modules\\Customer\\Kernel\\CustomerModule",
             "name": "Customer",
             "dependencies": [],
@@ -183,8 +186,7 @@
                 {
                     "type": "services",
                     "bindings": {
-                        "App\\Modules\\Customer\\Domain\\Contracts\\CustomerRepositoryInterface": "App\\Modules\\Customer\\Infrastructure\\Repositories\\CustomerRepository",
-                        "App\\Modules\\Customer\\Domain\\Contracts\\CustomerActivationServiceInterface": "App\\Modules\\Customer\\Domain\\Services\\CustomerActivationService"
+                        "App\\Modules\\Customer\\Domain\\Contracts\\CustomerRepositoryInterface": "App\\Modules\\Customer\\Infrastructure\\Repositories\\CustomerRepository"
                     }
                 },
                 {

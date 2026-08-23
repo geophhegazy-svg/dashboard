@@ -60,9 +60,9 @@ final class KernelValidatorSemanticsTest extends TestCase
                     return true;
                 }
 
-                public function make(string $id): mixed
+                public function make(string $abstract): object
                 {
-                    return new $id();
+                    return new $abstract();
                 }
             },
             [
@@ -120,9 +120,9 @@ final class KernelValidatorSemanticsTest extends TestCase
                     return true;
                 }
 
-                public function make(string $id): mixed
+                public function make(string $abstract): object
                 {
-                    return new $id();
+                    return new $abstract();
                 }
             },
             [

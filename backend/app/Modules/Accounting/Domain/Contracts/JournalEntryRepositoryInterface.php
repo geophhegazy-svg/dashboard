@@ -20,5 +20,7 @@ interface JournalEntryRepositoryInterface
 
     public function find(int $id): ?JournalEntry;
 
+    public function findLatestForYear(int $year): ?JournalEntry;
+
     public function all(): Collection;
 }

@@ -204,6 +204,8 @@ implements KernelBootstrapperInterface
 
         } catch (Throwable $exception) {
 
+            $this->runtime->reset();
+
             if (
                 $this->lifecycle->state()
                 !== KernelLifecycleState::Failed

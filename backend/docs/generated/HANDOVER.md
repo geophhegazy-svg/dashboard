@@ -235,9 +235,10 @@ App\Modules\Invoice\Application\Services
 App\Modules\Accounting\Application\Services
 
 **Dependencies**
-- None
+- App\Modules\Accounting\Domain\Contracts\JournalEntryRepositoryInterface
 
 **Methods**
+- __construct(1 params) : mixed
 - generate(0 params) : string
 
 ---
@@ -248,11 +249,10 @@ App\Modules\Accounting\Application\Services
 App\Modules\Accounting\Application\Services
 
 **Dependencies**
-- App\Core\Workflow\WorkflowEngine
-- App\Modules\Accounting\Application\Workflows\PostJournalEntryWorkflow
+- App\Modules\Accounting\Application\Actions\PostJournalEntryAction
 
 **Methods**
-- __construct(2 params) : mixed
+- __construct(1 params) : mixed
 - post(1 params) : App\Modules\Accounting\Infrastructure\Persistence\Models\JournalEntry
 
 ---
@@ -3069,6 +3069,14 @@ App\Modules\Accounting\Application\Services
 /var/www/app/Modules/Accounting/Application/Services/JournalEntryNumberService.php
 ```
 
+**Constructor Dependencies**
+
+- JournalEntryRepositoryInterface $journalEntries
+
+**Properties**
+
+- $journalEntries : App\Modules\Accounting\Domain\Contracts\JournalEntryRepositoryInterface
+
 **Methods**
 
 - generate() : string
@@ -3091,13 +3099,11 @@ App\Modules\Accounting\Application\Services
 
 **Constructor Dependencies**
 
-- WorkflowEngine $engine
-- PostJournalEntryWorkflow $workflow
+- PostJournalEntryAction $action
 
 **Properties**
 
-- $engine : App\Core\Workflow\WorkflowEngine
-- $workflow : App\Modules\Accounting\Application\Workflows\PostJournalEntryWorkflow
+- $action : App\Modules\Accounting\Application\Actions\PostJournalEntryAction
 
 **Methods**
 

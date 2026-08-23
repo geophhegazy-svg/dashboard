@@ -13,8 +13,6 @@ use App\Modules\Customer\Application\Actions\UpdateCustomerAction;
 use App\Modules\Customer\Application\Actions\ActivateCustomerAction;
 use App\Modules\Customer\Application\Actions\DeactivateCustomerAction;
 use App\Modules\Customer\Application\Actions\DeleteCustomerAction;
-use App\Modules\Customer\Domain\Contracts\CustomerActivationServiceInterface;
-use App\Modules\Customer\Domain\Services\CustomerActivationService;
 use App\Modules\Customer\Application\Listeners\CustomerCreatedListener;
 use App\Modules\Customer\Domain\Events\CustomerCreated;
 
@@ -47,9 +45,6 @@ final class CustomerModule extends Module
 
                 CustomerRepositoryInterface::class
                 => CustomerRepository::class,
-
-                CustomerActivationServiceInterface::class
-                => CustomerActivationService::class,
 
             ])
 

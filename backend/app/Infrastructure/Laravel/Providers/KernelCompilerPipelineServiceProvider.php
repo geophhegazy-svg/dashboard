@@ -15,9 +15,12 @@ use App\Core\Kernel\Compiler\ModuleManifestCompiler;
 
 use App\Core\Kernel\Registration\CompiledManifestRegistrationService;
 use App\Core\Kernel\Registration\CompiledResourceRegistrar;
+use App\Core\Kernel\Registration\RuntimeResourceRegistrar;
 
 use App\Core\Kernel\Registration\Handlers\ActionResourceHandler;
 use App\Core\Kernel\Registration\Handlers\CommandHandlerResourceHandler;
+use App\Core\Kernel\Registration\Handlers\CommandResourceHandler;
+use App\Core\Kernel\Registration\Handlers\MigrationResourceHandler;
 use App\Core\Kernel\Registration\Handlers\ListenerResourceHandler;
 use App\Core\Kernel\Registration\Handlers\PolicyResourceHandler;
 use App\Core\Kernel\Registration\Handlers\QueryResourceHandler;
@@ -58,6 +61,8 @@ final class KernelCompilerPipelineServiceProvider extends ServiceProvider
                 new ServiceResourceHandler(),
                 new SingletonResourceHandler(),
                 new ActionResourceHandler(),
+                new CommandResourceHandler(),
+                new MigrationResourceHandler(),
                 new QueryResourceHandler(),
                 new ListenerResourceHandler(),
                 new CommandHandlerResourceHandler(),
@@ -66,10 +71,15 @@ final class KernelCompilerPipelineServiceProvider extends ServiceProvider
         );
 
         $this->app->singleton(
+            RuntimeResourceRegistrar::class,
+        );
+
+        $this->app->singleton(
             CompiledManifestRegistrationService::class,
             function ($app) {
                 return new CompiledManifestRegistrationService(
                     $app->make(CompiledResourceRegistrar::class),
+                    $app->make(RuntimeResourceRegistrar::class),
                     $app->make(EventDispatcherInterface::class),
                     $app->make(ContainerInterface::class),
                 );

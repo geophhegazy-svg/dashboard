@@ -25,7 +25,9 @@ final class ActivityModule extends Module
 
     public function dependencies(): array
     {
-        return [];
+        return [
+            \App\Modules\Subscription\Kernel\SubscriptionModule::class,
+        ];
     }
 
     public function manifest(): ModuleManifest

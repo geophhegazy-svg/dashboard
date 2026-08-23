@@ -20,9 +20,12 @@ class JournalEntryRepository implements JournalEntryRepositoryInterface
         return JournalEntry::find($id);
     }
 
-    public function findByEntryNumber(string $entryNumber): ?JournalEntry
+    public function findLatestForYear(int $year): ?JournalEntry
     {
-        return JournalEntry::where('entry_number', $entryNumber)->first();
+        return JournalEntry::query()
+            ->whereYear('entry_date', $year)
+            ->orderByDesc('id')
+            ->first();
     }
 
     public function create(array $data): JournalEntry
@@ -45,8 +48,4 @@ class JournalEntryRepository implements JournalEntryRepositoryInterface
         return (bool) $entry->delete();
     }
 
-    public function findWithLines(int $id): ?JournalEntry
-    {
-        return JournalEntry::with('lines.account')->find($id);
-    }
 }

@@ -229,6 +229,14 @@ App\Modules\Accounting\Application\Services
 /var/www/app/Modules/Accounting/Application/Services/JournalEntryNumberService.php
 ```
 
+**Constructor Dependencies**
+
+- JournalEntryRepositoryInterface $journalEntries
+
+**Properties**
+
+- $journalEntries : App\Modules\Accounting\Domain\Contracts\JournalEntryRepositoryInterface
+
 **Methods**
 
 - generate() : string
@@ -251,13 +259,11 @@ App\Modules\Accounting\Application\Services
 
 **Constructor Dependencies**
 
-- WorkflowEngine $engine
-- PostJournalEntryWorkflow $workflow
+- PostJournalEntryAction $action
 
 **Properties**
 
-- $engine : App\Core\Workflow\WorkflowEngine
-- $workflow : App\Modules\Accounting\Application\Workflows\PostJournalEntryWorkflow
+- $action : App\Modules\Accounting\Application\Actions\PostJournalEntryAction
 
 **Methods**
 

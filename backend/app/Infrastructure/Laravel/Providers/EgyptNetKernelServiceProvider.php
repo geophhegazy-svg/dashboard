@@ -10,10 +10,12 @@ use App\Core\Kernel\Contracts\KernelBootstrapperInterface;
 use App\Core\Kernel\Contracts\KernelCommandRegistrarInterface;
 
 use App\Infrastructure\Laravel\Console\Kernel\KernelCacheCommand;
+use App\Infrastructure\Laravel\Console\Kernel\KernelCacheClearCommand;
 use App\Infrastructure\Laravel\Console\Kernel\KernelCacheStatusCommand;
 use App\Infrastructure\Laravel\Console\Kernel\KernelDiagnosticsCommand;
 use App\Infrastructure\Laravel\Console\Kernel\KernelHealthCommand;
 use App\Infrastructure\Laravel\Console\Kernel\KernelModulesCommand;
+use App\Infrastructure\Laravel\Console\Kernel\KernelValidateCommand;
 
 final class EgyptNetKernelServiceProvider extends ServiceProvider
 {
@@ -62,9 +64,11 @@ final class EgyptNetKernelServiceProvider extends ServiceProvider
             [
                 KernelModulesCommand::class,
                 KernelCacheCommand::class,
+                KernelCacheClearCommand::class,
                 KernelCacheStatusCommand::class,
                 KernelDiagnosticsCommand::class,
                 KernelHealthCommand::class,
+                KernelValidateCommand::class,
             ] as $command
         ) {
             $registrar->register($command);

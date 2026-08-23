@@ -119,6 +119,7 @@ App\Modules\Accounting\Application\Services\JournalEntryNumberService
 
 **Public Methods**
 
+- __construct
 - generate
 
 ## JournalPostingService

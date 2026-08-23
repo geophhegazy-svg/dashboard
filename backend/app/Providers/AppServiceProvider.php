@@ -7,9 +7,6 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 
 
-use App\Modules\Accounting\Application\Services\JournalEntryNumberService;
-use App\Modules\Accounting\Application\Services\JournalPostingService;
-use App\Modules\Accounting\Application\Services\JournalValidationService;
 use App\Core\Kernel\Discovery\Contracts\ModuleSourceInterface;
 use App\Infrastructure\Laravel\Discovery\LaravelModuleSource;
 use App\Core\Kernel\Discovery\Contracts\PluginSourceInterface;
@@ -43,24 +40,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             ModuleSourceInterface::class,
             LaravelModuleSource::class,
-        );
-
-        /*
-        |--------------------------------------------------------------------------
-        | Accounting Services
-        |--------------------------------------------------------------------------
-        */
-
-        $this->app->singleton(
-            JournalEntryNumberService::class
-        );
-
-        $this->app->singleton(
-            JournalValidationService::class
-        );
-
-        $this->app->singleton(
-            JournalPostingService::class
         );
     }
 

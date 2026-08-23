@@ -8,13 +8,12 @@ use App\Core\Kernel\ModuleManifest;
 use App\Core\Kernel\Modules\Module;
 use App\Modules\Accounting\Domain\Events\JournalEntryPosted;
 use App\Modules\Accounting\Listeners\JournalEntryPostedListener;
-use App\Modules\Accounting\Domain\Contracts\AccountRepositoryInterface;
 use App\Modules\Accounting\Domain\Contracts\JournalEntryRepositoryInterface;
-use App\Modules\Accounting\Domain\Contracts\JournalEntryLineRepositoryInterface;
+use App\Modules\Accounting\Application\Services\JournalEntryNumberService;
+use App\Modules\Accounting\Application\Services\JournalPostingService;
+use App\Modules\Accounting\Application\Services\JournalValidationService;
 
-use App\Modules\Accounting\Infrastructure\Repositories\AccountRepository;
 use App\Modules\Accounting\Infrastructure\Repositories\JournalEntryRepository;
-use App\Modules\Accounting\Infrastructure\Repositories\JournalEntryLineRepository;
 
 final class AccountingModule extends Module
 {
@@ -26,7 +25,7 @@ final class AccountingModule extends Module
     public function dependencies(): array
     {
         return [
-            \App\Modules\Billing\Kernel\BillingModule::class,
+            \App\Modules\Activity\Kernel\ActivityModule::class,
         ];
     }
 
@@ -36,14 +35,17 @@ final class AccountingModule extends Module
 
             ->services([
 
-                AccountRepositoryInterface::class
-                => AccountRepository::class,
-
                 JournalEntryRepositoryInterface::class
                 => JournalEntryRepository::class,
 
-                JournalEntryLineRepositoryInterface::class
-                => JournalEntryLineRepository::class,
+                JournalEntryNumberService::class
+                => JournalEntryNumberService::class,
+
+                JournalPostingService::class
+                => JournalPostingService::class,
+
+                JournalValidationService::class
+                => JournalValidationService::class,
 
             ])
 

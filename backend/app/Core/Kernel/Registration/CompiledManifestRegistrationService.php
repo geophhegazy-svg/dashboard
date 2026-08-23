@@ -15,10 +15,11 @@ use App\Core\Kernel\Events\ModuleBooting;
 final readonly class CompiledManifestRegistrationService
 {
     public function __construct(
-        private CompiledResourceRegistrar $registrar,
-        private EventDispatcherInterface $events,
-        private ContainerInterface $container,
-    ) {}
+    private CompiledResourceRegistrar $registrar,
+    private RuntimeResourceRegistrar $runtimeRegistrar,
+    private EventDispatcherInterface $events,
+    private ContainerInterface $container,
+) {}
 
     public function register(
         CompiledModuleManifest $manifest,
@@ -35,6 +36,11 @@ final readonly class CompiledManifestRegistrationService
                 new ModuleBooting(
                     $moduleInstance,
                 ),
+            );
+
+            $this->runtimeRegistrar->register(
+                $moduleInstance->manifest(),
+                $moduleRegistrar,
             );
 
             foreach ($module->resources() as $resource) {

@@ -129,9 +129,10 @@ App\Modules\Invoice\Application\Services
 App\Modules\Accounting\Application\Services
 
 **Dependencies**
-- None
+- App\Modules\Accounting\Domain\Contracts\JournalEntryRepositoryInterface
 
 **Methods**
+- __construct(1 params) : mixed
 - generate(0 params) : string
 
 ---
@@ -142,11 +143,10 @@ App\Modules\Accounting\Application\Services
 App\Modules\Accounting\Application\Services
 
 **Dependencies**
-- App\Core\Workflow\WorkflowEngine
-- App\Modules\Accounting\Application\Workflows\PostJournalEntryWorkflow
+- App\Modules\Accounting\Application\Actions\PostJournalEntryAction
 
 **Methods**
-- __construct(2 params) : mixed
+- __construct(1 params) : mixed
 - post(1 params) : App\Modules\Accounting\Infrastructure\Persistence\Models\JournalEntry
 
 ---
