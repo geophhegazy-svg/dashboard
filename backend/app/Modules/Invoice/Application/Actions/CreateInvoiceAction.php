@@ -23,10 +23,6 @@ final readonly class CreateInvoiceAction
             $data
         );
 
-        $this->repository->save(
-            $invoice
-        );
-
         $invoice->invoice_number =
             InvoiceNumberService::generate($invoice);
 

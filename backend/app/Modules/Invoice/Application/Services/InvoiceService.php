@@ -10,10 +10,12 @@ use App\Modules\Invoice\Application\Actions\UpdateInvoiceAction;
 use App\Modules\Invoice\Application\Actions\DeleteInvoiceAction;
 use App\Modules\Invoice\Application\Actions\SettleInvoiceAction;
 use App\Modules\Invoice\Application\Contracts\InvoiceServiceInterface;
+use App\Modules\Invoice\Domain\Contracts\InvoiceRepositoryInterface;
 
 final readonly class InvoiceService implements InvoiceServiceInterface
 {
     public function __construct(
+        private InvoiceRepositoryInterface $repository,
         private CreateInvoiceAction $createInvoice,
         private UpdateInvoiceAction $updateInvoice,
         private DeleteInvoiceAction $deleteInvoice,
@@ -23,18 +25,16 @@ final readonly class InvoiceService implements InvoiceServiceInterface
     public function findForPayment(
         int $invoiceId,
     ): Invoice {
-        return Invoice::query()
-            ->with('subscription')
-            ->lockForUpdate()
-            ->findOrFail($invoiceId);
+        return $this->repository->findForPayment(
+            $invoiceId,
+        );
     }
 
     public function create(array $data): Invoice
     {
-        $invoice = Invoice::where(
-            'subscription_id',
-            $data['subscription_id']
-        )->first();
+        $invoice = $this->repository->findBySubscriptionId(
+            $data['subscription_id'],
+        );
 
         if ($invoice) {
             return $invoice;
@@ -45,10 +45,9 @@ final readonly class InvoiceService implements InvoiceServiceInterface
 
     public function createRenewal(array $data): Invoice
     {
-        $invoice = Invoice::where(
-            'renewal_key',
-            $data['renewal_key']
-        )->first();
+        $invoice = $this->repository->findByRenewalKey(
+            $data['renewal_key'],
+        );
 
         if ($invoice) {
             return $invoice->fresh([

@@ -85,6 +85,10 @@ class KnowledgeGeneratorRegistry
         );
 
         $this->register(
+            new ProjectBibleGenerator()
+        );
+
+        $this->register(
             new HandoverDocumentGenerator()
         );
 

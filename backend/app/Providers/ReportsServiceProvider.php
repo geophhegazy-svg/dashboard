@@ -20,12 +20,14 @@ class ReportsServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        $this->app->singleton(ReportRegistry::class, function () {
+        $this->app->singleton(ReportRegistry::class, function ($app) {
             $registry = new ReportRegistry();
 
             $registry->register(new CustomerReport());
             $registry->register(new SubscriptionReport());
-            $registry->register(new InvoiceReport());
+            $registry->register(
+                $app->make(InvoiceReport::class)
+            );
             $registry->register(new PaymentReport());
             $registry->register(new WalletReport());
 

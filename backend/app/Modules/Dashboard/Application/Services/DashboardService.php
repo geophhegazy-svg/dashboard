@@ -6,7 +6,8 @@ namespace App\Modules\Dashboard\Application\Services;
 
 use App\Modules\Customer\Infrastructure\Persistence\Models\Customer;
 use App\Models\HotspotSubscription;
-use App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice;
+use App\Core\QueryBus\QueryDispatcher;
+use App\Modules\Invoice\Application\Queries\GetInvoiceDashboardMetricsQuery;
 use App\Modules\Package\Infrastructure\Persistence\Models\Package;
 use App\Modules\Payment\Infrastructure\Persistence\Models\Payment;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
@@ -14,6 +15,10 @@ use App\Modules\Subscription\Domain\Enums\SubscriptionStatus;
 
 class DashboardService
 {
+    public function __construct(
+        private readonly QueryDispatcher $queryDispatcher,
+    ) {}
+
     public function getDashboardData(): array
     {
         return [
@@ -92,7 +97,9 @@ class DashboardService
     private function getFinancialMetrics(): array
     {
         return [
-            'total_invoices' => Invoice::count(),
+            'total_invoices' => $this->queryDispatcher->dispatch(
+                new GetInvoiceDashboardMetricsQuery()
+            )['total_invoices'],
 
             'total_revenue' => Payment::sum('amount'),
 

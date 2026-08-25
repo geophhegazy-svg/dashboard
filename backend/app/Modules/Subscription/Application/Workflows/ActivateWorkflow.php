@@ -10,7 +10,7 @@ use App\Core\Workflow\AbstractWorkflow;
 use App\Core\EventBus\Contracts\EventDispatcherInterface;
 use App\Modules\Subscription\Application\Actions\ActivateSubscriptionAction;
 use App\Modules\Subscription\Domain\Events\SubscriptionActivated;
-use App\Modules\Subscription\Domain\Rules\CanActivateSubscriptionRule;
+
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 use App\Core\ActionBus\ActionDispatcher;
 
@@ -54,14 +54,4 @@ final class ActivateWorkflow extends AbstractWorkflow
         );
     }
 
-
-
-    protected function rules(
-        WorkflowContextInterface $context,
-    ): iterable
-    {
-        return [
-            new CanActivateSubscriptionRule(),
-        ];
-    }
 }

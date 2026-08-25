@@ -31,9 +31,8 @@ Total: 24
 
 ## Services
 
-Total: 20
+Total: 18
 
-- AutomaticBillingService
 - BillingCycleService
 - CustomerDashboardService
 - DashboardService
@@ -48,7 +47,6 @@ Total: 20
 - PackageService
 - PaymentService
 - SubscriptionActivityService
-- SubscriptionRenewalService
 - SubscriptionService
 - TaskService
 - TelegramNotificationService

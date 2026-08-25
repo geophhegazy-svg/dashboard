@@ -14,7 +14,7 @@ Technology
 
 Statistics
 - Models: 24
-- Services: 20
+- Services: 18
 
 
 ---
@@ -48,7 +48,7 @@ app/
 # Project Statistics
 
 Models: 24
-Services: 20
+Services: 18
 
 ---
 
@@ -100,27 +100,11 @@ Development Rules
 
 Current Statistics
 Models: 24
-Services: 20
+Services: 18
 
 ---
 
 # Business Rules
-
-## AutomaticBillingService
-
-**Namespace**
-App\Modules\Billing\Application\Services
-
-**Dependencies**
-- App\Core\Workflow\WorkflowEngine
-- App\Modules\Billing\Application\Workflows\AutomaticBillingWorkflow
-
-**Methods**
-- __construct(2 params) : mixed
-- run(1 params) : void
-- processSubscription(1 params) : void
-
----
 
 ## BillingCycleService
 
@@ -159,9 +143,10 @@ App\Modules\Dashboard\Application\Services
 App\Modules\Dashboard\Application\Services
 
 **Dependencies**
-- None
+- App\Core\QueryBus\QueryDispatcher
 
 **Methods**
+- __construct(1 params) : mixed
 - getDashboardData(0 params) : array
 
 ---
@@ -213,13 +198,14 @@ App\Modules\Invoice\Application\Services
 App\Modules\Invoice\Application\Services
 
 **Dependencies**
+- App\Modules\Invoice\Domain\Contracts\InvoiceRepositoryInterface
 - App\Modules\Invoice\Application\Actions\CreateInvoiceAction
 - App\Modules\Invoice\Application\Actions\UpdateInvoiceAction
 - App\Modules\Invoice\Application\Actions\DeleteInvoiceAction
 - App\Modules\Invoice\Application\Actions\SettleInvoiceAction
 
 **Methods**
-- __construct(4 params) : mixed
+- __construct(5 params) : mixed
 - findForPayment(1 params) : App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice
 - create(1 params) : App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice
 - createRenewal(1 params) : App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice
@@ -339,21 +325,6 @@ App\Modules\Activity\Application\Services
 
 ---
 
-## SubscriptionRenewalService
-
-**Namespace**
-App\Modules\Subscription\Application\Services
-
-**Dependencies**
-- App\Core\Workflow\WorkflowEngine
-- App\Modules\Subscription\Application\Workflows\RenewWorkflow
-
-**Methods**
-- __construct(2 params) : mixed
-- renew(1 params) : bool
-
----
-
 ## SubscriptionService
 
 **Namespace**
@@ -368,10 +339,9 @@ App\Modules\Subscription\Application\Services
 - App\Modules\Subscription\Application\Workflows\ExpireWorkflow
 - App\Modules\Subscription\Application\Workflows\RestoreWorkflow
 - App\Modules\Subscription\Application\Workflows\RenewWorkflow
-- App\Modules\Subscription\Application\Orchestrators\AutoExpireSubscriptionsOrchestrator
 
 **Methods**
-- __construct(9 params) : mixed
+- __construct(8 params) : mixed
 - paginate(2 params) : Illuminate\Pagination\LengthAwarePaginator
 - find(1 params) : ?App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
 - findOrFail(1 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
@@ -388,7 +358,6 @@ App\Modules\Subscription\Application\Services
 - restore(1 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
 - renew(2 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
 - statistics(0 params) : array
-- autoExpire(0 params) : int
 - expiringSoon(1 params) : Illuminate\Database\Eloquent\Collection
 
 ---
@@ -2842,37 +2811,6 @@ App\Modules\Wallet\Infrastructure\Persistence\Models
 
 ---
 
-## AutomaticBillingService
-
-**Namespace**
-
-```
-App\Modules\Billing\Application\Services
-```
-
-**File**
-
-```
-/var/www/app/Modules/Billing/Application/Services/AutomaticBillingService.php
-```
-
-**Constructor Dependencies**
-
-- WorkflowEngine $engine
-- AutomaticBillingWorkflow $workflow
-
-**Properties**
-
-- $engine : App\Core\Workflow\WorkflowEngine
-- $workflow : App\Modules\Billing\Application\Workflows\AutomaticBillingWorkflow
-
-**Methods**
-
-- run() : void
-- processSubscription() : void
-
----
-
 ## BillingCycleService
 
 **Namespace**
@@ -2939,6 +2877,14 @@ App\Modules\Dashboard\Application\Services
 ```
 /var/www/app/Modules/Dashboard/Application/Services/DashboardService.php
 ```
+
+**Constructor Dependencies**
+
+- QueryDispatcher $queryDispatcher
+
+**Properties**
+
+- $queryDispatcher : App\Core\QueryBus\QueryDispatcher
 
 **Methods**
 
@@ -3032,6 +2978,7 @@ App\Modules\Invoice\Application\Services
 
 **Constructor Dependencies**
 
+- InvoiceRepositoryInterface $repository
 - CreateInvoiceAction $createInvoice
 - UpdateInvoiceAction $updateInvoice
 - DeleteInvoiceAction $deleteInvoice
@@ -3039,6 +2986,7 @@ App\Modules\Invoice\Application\Services
 
 **Properties**
 
+- $repository : App\Modules\Invoice\Domain\Contracts\InvoiceRepositoryInterface
 - $createInvoice : App\Modules\Invoice\Application\Actions\CreateInvoiceAction
 - $updateInvoice : App\Modules\Invoice\Application\Actions\UpdateInvoiceAction
 - $deleteInvoice : App\Modules\Invoice\Application\Actions\DeleteInvoiceAction
@@ -3262,36 +3210,6 @@ App\Modules\Activity\Application\Services
 
 ---
 
-## SubscriptionRenewalService
-
-**Namespace**
-
-```
-App\Modules\Subscription\Application\Services
-```
-
-**File**
-
-```
-/var/www/app/Modules/Subscription/Application/Services/SubscriptionRenewalService.php
-```
-
-**Constructor Dependencies**
-
-- WorkflowEngine $engine
-- RenewWorkflow $workflow
-
-**Properties**
-
-- $engine : App\Core\Workflow\WorkflowEngine
-- $workflow : App\Modules\Subscription\Application\Workflows\RenewWorkflow
-
-**Methods**
-
-- renew() : bool
-
----
-
 ## SubscriptionService
 
 **Namespace**
@@ -3316,7 +3234,6 @@ App\Modules\Subscription\Application\Services
 - ExpireWorkflow $expireWorkflow
 - RestoreWorkflow $restoreWorkflow
 - RenewWorkflow $renewWorkflow
-- AutoExpireSubscriptionsOrchestrator $autoExpireSubscriptionsOrchestrator
 
 **Properties**
 
@@ -3328,7 +3245,6 @@ App\Modules\Subscription\Application\Services
 - $expireWorkflow : App\Modules\Subscription\Application\Workflows\ExpireWorkflow
 - $restoreWorkflow : App\Modules\Subscription\Application\Workflows\RestoreWorkflow
 - $renewWorkflow : App\Modules\Subscription\Application\Workflows\RenewWorkflow
-- $autoExpireSubscriptionsOrchestrator : App\Modules\Subscription\Application\Orchestrators\AutoExpireSubscriptionsOrchestrator
 
 **Methods**
 
@@ -3348,7 +3264,6 @@ App\Modules\Subscription\Application\Services
 - restore() : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
 - renew() : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
 - statistics() : array
-- autoExpire() : int
 - expiringSoon() : Illuminate\Database\Eloquent\Collection
 
 ---

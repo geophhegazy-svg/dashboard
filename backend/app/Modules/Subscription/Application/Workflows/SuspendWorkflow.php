@@ -8,7 +8,6 @@ use App\Core\ActionBus\ActionDispatcher;
 use App\Core\Workflow\AbstractWorkflow;
 use App\Core\Workflow\Contracts\WorkflowContextInterface;
 use App\Core\EventBus\Contracts\EventDispatcherInterface;
-use App\Modules\Network\Domain\Contracts\MikrotikServiceInterface;
 use App\Modules\Subscription\Application\Actions\SuspendSubscriptionAction;
 use App\Modules\Subscription\Domain\Events\SubscriptionSuspended;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
@@ -17,7 +16,6 @@ final class SuspendWorkflow extends AbstractWorkflow
 {
     public function __construct(
         private readonly ActionDispatcher $dispatcher,
-        private readonly MikrotikServiceInterface $mikrotik,
         private readonly EventDispatcherInterface $events,
     ) {}
 
@@ -41,13 +39,6 @@ final class SuspendWorkflow extends AbstractWorkflow
 
         /** @var Subscription $subscription */
         $subscription = $result;
-
-        if (! empty($subscription->pppoe_username)) {
-
-            $this->mikrotik->disableUser(
-                $subscription->pppoe_username
-            );
-        }
 
         $this->events->dispatch(
             new SubscriptionSuspended(

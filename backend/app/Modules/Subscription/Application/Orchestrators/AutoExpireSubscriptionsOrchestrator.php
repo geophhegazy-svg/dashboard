@@ -10,7 +10,7 @@ use App\Modules\Subscription\Domain\Contracts\SubscriptionRepositoryInterface;
 use App\Modules\Subscription\Application\Workflows\ExpireWorkflow;
 use Illuminate\Support\Facades\Log;
 
-final readonly class AutoExpireSubscriptionsOrchestrator
+final readonly class AutoExpireSubscriptionsOrchestrator implements AutoExpireSubscriptionsOrchestratorInterface
 {
     public function __construct(
         private SubscriptionRepositoryInterface $subscriptions,

@@ -7,6 +7,7 @@ namespace App\Infrastructure\Laravel\Providers;
 use Illuminate\Support\ServiceProvider;
 
 use App\Core\Kernel\Health\Checks\KernelBootCheck;
+use App\Core\Kernel\Health\Checks\KernelLifecycleCheck;
 use App\Core\Kernel\Health\Checks\ManifestAvailabilityCheck;
 use App\Core\Kernel\Health\KernelHealthService;
 
@@ -23,10 +24,15 @@ final class KernelHealthServiceProvider extends ServiceProvider
         );
 
         $this->app->singleton(
+            KernelLifecycleCheck::class,
+        );
+
+        $this->app->singleton(
             KernelHealthService::class,
             fn($app) => new KernelHealthService([
                 $app->make(KernelBootCheck::class),
                 $app->make(ManifestAvailabilityCheck::class),
+                $app->make(KernelLifecycleCheck::class),
             ]),
         );
     }

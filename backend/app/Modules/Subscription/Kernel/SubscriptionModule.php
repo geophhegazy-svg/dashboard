@@ -6,25 +6,32 @@ namespace App\Modules\Subscription\Kernel;
 
 use App\Core\Kernel\ModuleManifest;
 use App\Core\Kernel\Modules\Module;
+use App\Console\Commands\AutoGraceSubscriptionsCommand;
+use App\Console\Commands\AutoRenewSubscriptionsCommand;
+use App\Console\Commands\AutoExpireSubscriptionsCommand;
 use App\Modules\Subscription\Application\Actions\ActivateSubscriptionAction;
 use App\Modules\Subscription\Application\Actions\CreateSubscriptionAction;
-use App\Modules\Subscription\Application\Listeners\EnableMikrotikUserListener;
 use App\Modules\Subscription\Application\Queries\FindSubscriptionQuery;
 use App\Modules\Subscription\Domain\Events\SubscriptionActivated;
 use App\Modules\Subscription\Application\Queries\Handlers\FindSubscriptionQueryHandler;
 use App\Modules\Subscription\Domain\Contracts\SubscriptionRepositoryInterface;
 use App\Modules\Subscription\Infrastructure\Repositories\SubscriptionRepository;
-use App\Modules\Subscription\Application\Contracts\SubscriptionRenewalServiceInterface;
-use App\Modules\Subscription\Application\Services\SubscriptionRenewalService;
+
 use App\Modules\Subscription\Domain\Events\SubscriptionRenewed;
 use App\Modules\Subscription\Domain\Events\SubscriptionRestored;
 use App\Modules\Subscription\Application\Listeners\SubscriptionRenewedListener;
-use App\Modules\Subscription\Application\Actions\ChangeSubscriptionStatusAction;
+
+use App\Modules\Subscription\Application\Actions\EnterGraceSubscriptionAction;
 use App\Modules\Subscription\Application\Actions\ExpireSubscriptionAction;
 use App\Modules\Subscription\Application\Actions\RenewSubscriptionAction;
 use App\Modules\Subscription\Application\Actions\RestoreSubscriptionAction;
 use App\Modules\Subscription\Application\Actions\SuspendSubscriptionAction;
 use App\Modules\Subscription\Application\Orchestrators\AutoExpireSubscriptionsOrchestrator;
+use App\Modules\Subscription\Application\Orchestrators\AutoExpireSubscriptionsOrchestratorInterface;
+use App\Modules\Subscription\Application\Orchestrators\AutoGraceSubscriptionsOrchestrator;
+use App\Modules\Subscription\Application\Orchestrators\AutoRenewSubscriptionsOrchestrator;
+use App\Modules\Subscription\Application\Orchestrators\AutoGraceSubscriptionsOrchestratorInterface;
+use App\Modules\Subscription\Application\Orchestrators\AutoRenewSubscriptionsOrchestratorInterface;
 use App\Modules\Subscription\Application\Services\SubscriptionService;
 
 
@@ -38,7 +45,6 @@ final class SubscriptionModule extends Module
     public function dependencies(): array
     {
         return [
-            \App\Modules\Network\Kernel\NetworkModule::class,
             \App\Modules\Invoice\Kernel\InvoiceModule::class,
         ];
     }
@@ -52,15 +58,24 @@ final class SubscriptionModule extends Module
                 SubscriptionRepositoryInterface::class =>
                 SubscriptionRepository::class,
 
-                SubscriptionRenewalServiceInterface::class =>
-                SubscriptionRenewalService::class,
-
-                AutoExpireSubscriptionsOrchestrator::class =>
+                AutoExpireSubscriptionsOrchestratorInterface::class =>
                 AutoExpireSubscriptionsOrchestrator::class,
+
+                AutoGraceSubscriptionsOrchestratorInterface::class =>
+                AutoGraceSubscriptionsOrchestrator::class,
+
+                AutoRenewSubscriptionsOrchestratorInterface::class =>
+                AutoRenewSubscriptionsOrchestrator::class,
 
                 SubscriptionService::class
                 => SubscriptionService::class,
 
+            ])
+
+            ->commands([
+                AutoGraceSubscriptionsCommand::class,
+                AutoExpireSubscriptionsCommand::class,
+                AutoRenewSubscriptionsCommand::class,
             ])
 
             ->actions([
@@ -68,8 +83,8 @@ final class SubscriptionModule extends Module
                 ActivateSubscriptionAction::class,
 
                 CreateSubscriptionAction::class,
-
-                ChangeSubscriptionStatusAction::class,
+                
+                EnterGraceSubscriptionAction::class,
 
                 ExpireSubscriptionAction::class,
 
@@ -90,16 +105,7 @@ final class SubscriptionModule extends Module
 
             ->listeners([
 
-                SubscriptionActivated::class => [
-                    EnableMikrotikUserListener::class,
-                ],
-
-                SubscriptionRestored::class => [
-                    EnableMikrotikUserListener::class,
-                ],
-
                 SubscriptionRenewed::class => [
-                    EnableMikrotikUserListener::class,
                     SubscriptionRenewedListener::class,
                 ],
 

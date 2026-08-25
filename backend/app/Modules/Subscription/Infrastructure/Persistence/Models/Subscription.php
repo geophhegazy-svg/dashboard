@@ -36,6 +36,8 @@ class Subscription extends Model
 
         'start_date',
         'end_date',
+        'grace_start_date',
+        'grace_end_date',
 
         'monthly_price',
 
@@ -50,8 +52,10 @@ class Subscription extends Model
     ];
 
     protected $casts = [
-        'start_date' => 'date',
-        'end_date'   => 'date',
+        'start_date'      => 'date',
+        'end_date'        => 'date',
+        'grace_start_date' => 'date',
+        'grace_end_date'   => 'date',
 
         'status' => SubscriptionStatus::class,
 

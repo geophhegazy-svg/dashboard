@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Core\Kernel\Health;
 
 use App\Core\Kernel\Health\Checks\KernelBootCheck;
+use App\Core\Kernel\Health\Checks\KernelLifecycleCheck;
 use App\Core\Kernel\Health\Checks\ManifestAvailabilityCheck;
 use App\Core\Kernel\Health\KernelHealthService;
 use Tests\TestCase;
@@ -59,6 +60,19 @@ final class KernelHealthServiceProviderTest extends TestCase
             $manifestFirst,
             $manifestSecond,
         );
+
+        $lifecycleFirst = $this->app->make(
+            KernelLifecycleCheck::class,
+        );
+
+        $lifecycleSecond = $this->app->make(
+            KernelLifecycleCheck::class,
+        );
+
+        self::assertSame(
+            $lifecycleFirst,
+            $lifecycleSecond,
+        );
     }
 
     public function test_kernel_health_service_is_operational_through_container(): void
@@ -79,8 +93,20 @@ final class KernelHealthServiceProviderTest extends TestCase
         );
 
         self::assertCount(
-            2,
+            3,
             $report->results(),
+        );
+
+        self::assertSame(
+            [
+                'Kernel Boot',
+                'Manifest',
+                'Kernel Lifecycle',
+            ],
+            array_map(
+                static fn ($result): string => $result->name(),
+                $report->results(),
+            ),
         );
     }
 }

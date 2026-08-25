@@ -17,7 +17,6 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\SyncHotspotUsers::class,
         \App\Console\Commands\PingMikroTik::class,
         \App\Console\Commands\CleanupMikroTik::class,
-        \App\Console\Commands\SubscriptionsAutoExpireCommand::class,
     ];
 
     /**

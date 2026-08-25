@@ -1,32 +1,110 @@
 # EgyptNet ISP Project Bible
 
-
-
-Generated: 2026-07-04 19:31:03
-
-
-
----
-
-
+Generated from the current project structure.
 
 ## Models
 
-Count: 16
+Count: 24
 
+- Account
 - ActivityLog
 - Customer
 - Device
 - DeviceAssignment
-- HotspotSubscription
+- HotspotUser
 - Inventory
 - Invoice
+- JournalEntry
+- JournalEntryLine
+- NetworkDevice
 - Notification
+- PPPoEUser
 - Package
 - Payment
+- Report
+- ReportExport
+- ScheduledReport
 - Subscription
-- Tenant
+- Task
 - Ticket
 - TicketReply
-- User
+- Wallet
 - WalletTransaction
+
+## Services
+
+Count: 18
+
+- BillingCycleService
+- CustomerDashboardService
+- DashboardService
+- FinanceService
+- InvoiceGenerator
+- InvoiceNumberService
+- InvoiceService
+- JournalEntryNumberService
+- JournalPostingService
+- JournalValidationService
+- NotificationService
+- PackageService
+- PaymentService
+- SubscriptionActivityService
+- SubscriptionService
+- TaskService
+- TelegramNotificationService
+- WalletService
+
+## Controllers
+
+Count: 40
+
+- ActivityLogController
+- AuthController
+- Controller
+- CustomerAuthController
+- CustomerAuthController
+- CustomerController
+- CustomerDashboardController
+- CustomerDashboardController
+- CustomerInvoiceController
+- CustomerInvoiceController
+- CustomerNotificationController
+- CustomerProfileController
+- CustomerSubscriptionController
+- CustomerTicketController
+- CustomerTicketController
+- CustomerWalletController
+- DHCPController
+- DashboardController
+- DeviceAssignmentController
+- DeviceController
+- DhcpApiController
+- FirewallApiController
+- FirewallController
+- HotspotController
+- HotspotSubscriptionController
+- InventoryController
+- InvoiceController
+- MikrotikController
+- NotificationController
+- PackageController
+- PaymentController
+- QueueApiController
+- QueueController
+- ReportController
+- ScheduledReportController
+- SubscriptionController
+- TaskController
+- TenantController
+- TicketController
+- UserController
+
+## Repositories
+
+Count: 0
+
+
+## Actions
+
+Count: 0
+

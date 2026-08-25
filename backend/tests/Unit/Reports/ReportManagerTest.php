@@ -95,7 +95,7 @@ class ReportManagerTest extends TestCase
         );
 
         $registry->register(
-            new InvoiceReport()
+            app(InvoiceReport::class)
         );
 
         $registry->register(
@@ -197,7 +197,7 @@ class ReportManagerTest extends TestCase
         $registry = new ReportRegistry();
 
         $registry->register(
-            new InvoiceReport()
+            app(InvoiceReport::class)
         );
 
         $manager = new ReportManager($registry);

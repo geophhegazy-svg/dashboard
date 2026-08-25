@@ -11,10 +11,12 @@ use App\Core\Contracts\ContainerInterface;
 use App\Core\Kernel\Contracts\KernelCommandRegistrarInterface;
 use App\Core\Kernel\Contracts\ManifestFingerprintGeneratorInterface;
 use App\Core\Kernel\Contracts\ModuleManifestCacheInterface;
+use App\Core\Kernel\Discovery\Contracts\ModuleSourceInterface;
 
 use App\Core\Kernel\Fingerprint\ManifestFingerprintGenerator;
 
 use App\Infrastructure\Laravel\Container\LaravelContainerAdapter;
+use App\Infrastructure\Laravel\Discovery\LaravelModuleSource;
 use App\Infrastructure\Laravel\Kernel\FileModuleManifestCache;
 use App\Infrastructure\Laravel\Kernel\LaravelKernelCommandRegistrar;
 
@@ -22,6 +24,11 @@ final class KernelInfrastructureServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
+        $this->app->singleton(
+            ModuleSourceInterface::class,
+            LaravelModuleSource::class,
+        );
+
         $this->app->singleton(
             ModuleManifestCacheInterface::class,
             FileModuleManifestCache::class,

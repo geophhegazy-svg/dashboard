@@ -21,6 +21,8 @@ class SubscriptionFactory extends Factory
 
             'start_date' => now(),
             'end_date' => now()->addMonth(),
+            'grace_start_date' => null,
+            'grace_end_date' => null,
 
             'monthly_price' => 350,
 

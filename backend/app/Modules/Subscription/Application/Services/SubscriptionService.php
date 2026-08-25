@@ -19,7 +19,6 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use App\Modules\Subscription\Application\Orchestrators\AutoExpireSubscriptionsOrchestrator;
 
 class SubscriptionService
 {
@@ -32,7 +31,6 @@ class SubscriptionService
         private readonly ExpireWorkflow $expireWorkflow,
         private readonly RestoreWorkflow $restoreWorkflow,
         private readonly RenewWorkflow $renewWorkflow,
-        private readonly AutoExpireSubscriptionsOrchestrator $autoExpireSubscriptionsOrchestrator,
     ) {
     }
 
@@ -250,17 +248,6 @@ class SubscriptionService
             'expired' => $expired,
             'cancelled' => $cancelled,
         ];
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Scheduler
-    |--------------------------------------------------------------------------
-    */
-
-    public function autoExpire(): int
-    {
-        return $this->autoExpireSubscriptionsOrchestrator->execute();
     }
 
     /*

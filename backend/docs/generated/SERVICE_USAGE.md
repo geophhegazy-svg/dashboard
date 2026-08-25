@@ -1,19 +1,5 @@
 # Service Usage
 
-## AutomaticBillingService
-
-**Class**
-
-```
-App\Modules\Billing\Application\Services\AutomaticBillingService
-```
-
-**Public Methods**
-
-- __construct
-- processSubscription
-- run
-
 ## BillingCycleService
 
 **Class**
@@ -52,6 +38,7 @@ App\Modules\Dashboard\Application\Services\DashboardService
 
 **Public Methods**
 
+- __construct
 - getDashboardData
 
 ## FinanceService
@@ -206,19 +193,6 @@ App\Modules\Activity\Application\Services\SubscriptionActivityService
 - __construct
 - log
 
-## SubscriptionRenewalService
-
-**Class**
-
-```
-App\Modules\Subscription\Application\Services\SubscriptionRenewalService
-```
-
-**Public Methods**
-
-- __construct
-- renew
-
 ## SubscriptionService
 
 **Class**
@@ -232,7 +206,6 @@ App\Modules\Subscription\Application\Services\SubscriptionService
 - __construct
 - activate
 - active
-- autoExpire
 - byCustomer
 - byStatus
 - create

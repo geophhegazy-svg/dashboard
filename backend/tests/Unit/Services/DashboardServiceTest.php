@@ -24,7 +24,7 @@ class DashboardServiceTest extends TestCase
 
         Package::factory()->count(2)->create();
 
-        $service = new DashboardService();
+        $service = app(DashboardService::class);
 
         $data = $service->getDashboardData();
 
@@ -54,7 +54,7 @@ class DashboardServiceTest extends TestCase
             'tenant_id' => $suspended->tenant_id,
         ]);
 
-        $service = new DashboardService();
+        $service = app(DashboardService::class);
 
         $data = $service->getDashboardData();
 
@@ -71,7 +71,7 @@ class DashboardServiceTest extends TestCase
 
         Subscription::factory()->count(1)->suspended()->create();
 
-        $service = new DashboardService();
+        $service = app(DashboardService::class);
 
         $data = $service->getDashboardData();
 
@@ -120,7 +120,7 @@ class DashboardServiceTest extends TestCase
                 'payment_date' => now()->subMonth(),
             ]);
 
-            $service = new DashboardService();
+            $service = app(DashboardService::class);
 
             $data = $service->getDashboardData();
 

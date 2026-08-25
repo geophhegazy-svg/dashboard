@@ -14,19 +14,79 @@ use App\Core\Kernel\Contracts\ModuleRegistrarInterface;
 use App\Core\Kernel\Lifecycle\Events\KernelFailed;
 use App\Core\Kernel\Lifecycle\Events\KernelStarting;
 use App\Core\Kernel\Lifecycle\Events\KernelStarted;
+use App\Core\Kernel\Events\KernelBooted;
+use App\Core\Kernel\Events\KernelBooting;
 use App\Core\Kernel\Lifecycle\KernelLifecycleManager;
 use App\Core\Kernel\Lifecycle\KernelLifecycleState;
 use App\Core\Kernel\Lifecycle\Listeners\KernelLifecycleListener;
 use App\Core\Kernel\Lifecycle\Registration\LifecycleEventRegistrar;
 use App\Core\Kernel\Monitoring\KernelBootTimeline;
+use App\Core\Kernel\Monitoring\KernelBootStage;
 use App\Core\Kernel\Registration\CompiledManifestRegistrationService;
 use App\Core\Kernel\Runtime\KernelRuntimeState;
 use App\Core\Kernel\ModuleRegistry;
 use RuntimeException;
 use Tests\TestCase;
+use Tests\Fakes\Core\FakeEventDispatcher;
 
 final class KernelBootstrapperLifecycleRegistrationTest extends TestCase
 {
+    public function test_successful_boot_dispatches_lifecycle_events_in_order(): void
+    {
+        $loader = $this->createMock(ModuleLoaderInterface::class);
+
+        $loader
+            ->expects(self::once())
+            ->method('reset');
+
+        $loader
+            ->expects(self::once())
+            ->method('load')
+            ->willReturn(new ModuleRegistry());
+
+        $runtime = new KernelRuntimeState();
+        $lifecycle = new KernelLifecycleManager();
+        $events = new FakeEventDispatcher();
+        $timeline = new KernelBootTimeline();
+
+        $bootstrapper = new KernelBootstrapper(
+            $loader,
+            $this->validatingKernelValidator(),
+            $this->app->make(CompiledManifestProvider::class),
+            $this->app->make(CompiledManifestRegistrationService::class),
+            $this->createStub(ModuleRegistrarInterface::class),
+            $runtime,
+            $lifecycle,
+            $timeline,
+            $events,
+            $this->app->make(LifecycleEventRegistrar::class),
+        );
+
+        $bootstrapper->boot();
+
+        self::assertSame(KernelLifecycleState::Ready, $lifecycle->state());
+        self::assertTrue($runtime->isBooted());
+        self::assertSame(
+            KernelBootStage::cases(),
+            array_map(
+                static fn ($metric): KernelBootStage => $metric->stage(),
+                $timeline->metrics(),
+            ),
+        );
+        self::assertSame(
+            [
+                KernelStarting::class,
+                KernelBooting::class,
+                KernelStarted::class,
+                KernelBooted::class,
+            ],
+            array_map(
+                static fn (object $event): string => $event::class,
+                $events->all(),
+            ),
+        );
+    }
+
     public function test_lifecycle_listeners_are_registered_before_boot_events(): void
     {
         $registry = $this->app->make(EventRegistry::class);
@@ -124,19 +184,9 @@ final class KernelBootstrapperLifecycleRegistrationTest extends TestCase
     private function makeBootstrapper(
         ModuleLoaderInterface $loader,
     ): KernelBootstrapper {
-        $validator = $this->createStub(
-            KernelValidatorInterface::class,
-        );
-
-        $validator
-            ->method('validate')
-            ->willReturn(
-                new \App\Core\Kernel\Validation\ValidationResult(),
-            );
-
         return new KernelBootstrapper(
             $loader,
-            $validator,
+            $this->validatingKernelValidator(),
             $this->app->make(CompiledManifestProvider::class),
             $this->app->make(CompiledManifestRegistrationService::class),
             $this->createStub(ModuleRegistrarInterface::class),
@@ -146,5 +196,16 @@ final class KernelBootstrapperLifecycleRegistrationTest extends TestCase
             $this->app->make(EventDispatcherInterface::class),
             $this->app->make(LifecycleEventRegistrar::class),
         );
+    }
+
+    private function validatingKernelValidator(): KernelValidatorInterface
+    {
+        $validator = $this->createStub(KernelValidatorInterface::class);
+
+        $validator
+            ->method('validate')
+            ->willReturn(new \App\Core\Kernel\Validation\ValidationResult());
+
+        return $validator;
     }
 }

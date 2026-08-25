@@ -17,7 +17,18 @@ use App\Modules\Invoice\Application\Actions\SettleInvoiceAction;
 use App\Modules\Invoice\Application\Services\InvoiceService;
 
 use App\Modules\Invoice\Application\Queries\PaginateInvoicesQuery;
+use App\Modules\Invoice\Application\Queries\GetCustomerInvoiceSummaryQuery;
+use App\Modules\Invoice\Application\Queries\PaginateCustomerInvoicesQuery;
+use App\Modules\Invoice\Application\Queries\FindCustomerInvoiceQuery;
+use App\Modules\Invoice\Application\Queries\Handlers\PaginateCustomerInvoicesQueryHandler;
+use App\Modules\Invoice\Application\Queries\Handlers\FindCustomerInvoiceQueryHandler;
+use App\Modules\Invoice\Application\Queries\GetInvoiceDashboardMetricsQuery;
+use App\Modules\Invoice\Application\Queries\BuildInvoiceReportQuery;
+
 use App\Modules\Invoice\Application\Queries\Handlers\PaginateInvoicesQueryHandler;
+use App\Modules\Invoice\Application\Queries\Handlers\GetCustomerInvoiceSummaryQueryHandler;
+use App\Modules\Invoice\Application\Queries\Handlers\GetInvoiceDashboardMetricsQueryHandler;
+use App\Modules\Invoice\Application\Queries\Handlers\BuildInvoiceReportQueryHandler;
 
 use App\Modules\Invoice\Application\Commands\CreateInvoiceCommand;
 use App\Modules\Invoice\Application\Commands\UpdateInvoiceCommand;
@@ -70,6 +81,21 @@ final class InvoiceModule extends Module
 
                 PaginateInvoicesQuery::class
                 => PaginateInvoicesQueryHandler::class,
+
+                GetCustomerInvoiceSummaryQuery::class
+                => GetCustomerInvoiceSummaryQueryHandler::class,
+
+                PaginateCustomerInvoicesQuery::class
+                => PaginateCustomerInvoicesQueryHandler::class,
+
+                FindCustomerInvoiceQuery::class
+                => FindCustomerInvoiceQueryHandler::class,
+
+                GetInvoiceDashboardMetricsQuery::class
+                => GetInvoiceDashboardMetricsQueryHandler::class,
+
+                BuildInvoiceReportQuery::class
+                => BuildInvoiceReportQueryHandler::class,
 
             ])
 

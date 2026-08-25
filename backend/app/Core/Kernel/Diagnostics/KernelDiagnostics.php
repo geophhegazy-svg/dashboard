@@ -25,9 +25,15 @@ final readonly class KernelDiagnostics
     {
         $statistics = $this->inspector->statistics();
 
-        $manifest = $this->cache->load();
+        $runtimeBooted = $this->runtime->isBooted();
 
-        $context = $this->runtime->context();
+        $manifest = $runtimeBooted
+            ? $this->runtime->manifest()
+            : null;
+
+        $bootedAt = $runtimeBooted
+            ? $this->runtime->bootedAt()
+            : null;
 
         $lifecycle = $this->lifecycle
             ->state()
@@ -42,8 +48,8 @@ final readonly class KernelDiagnostics
             fingerprint: $manifest
                 ? $this->fingerprint->generate($manifest)
                 : null,
-            booted: $this->runtime->isBooted(),
-            bootedAt: $context->bootedAt(),
+            booted: $runtimeBooted,
+            bootedAt: $bootedAt,
             lifecycle: $lifecycle,
         );
     }

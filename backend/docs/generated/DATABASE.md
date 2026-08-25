@@ -600,7 +600,7 @@
 
 ## migrations
 
-**Rows:** 54
+**Rows:** 56
 
 ### Columns
 
@@ -610,7 +610,7 @@
 
 ## migrations
 
-**Rows:** 54
+**Rows:** 56
 
 ### Columns
 
@@ -1142,6 +1142,8 @@
 - package_id (bigint)
 - start_date (date)
 - end_date (date) nullable
+- grace_start_date (date) nullable
+- grace_end_date (date) nullable
 - monthly_price (decimal)
 - status (enum) default=active
 - notes (text) nullable
@@ -1163,6 +1165,8 @@
 - package_id (bigint)
 - start_date (date)
 - end_date (date) nullable
+- grace_start_date (date) nullable
+- grace_end_date (date) nullable
 - monthly_price (decimal)
 - status (enum) default=active
 - notes (text) nullable

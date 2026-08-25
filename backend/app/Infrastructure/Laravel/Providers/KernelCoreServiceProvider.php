@@ -17,6 +17,8 @@ use App\Core\Kernel\Monitoring\KernelBootTimeline;
 use App\Core\Kernel\Monitoring\KernelMonitoringService;
 
 use App\Core\Kernel\Runtime\KernelRuntimeState;
+use App\Core\Kernel\Contracts\KernelShutdownManagerInterface;
+use App\Core\Kernel\Shutdown\KernelShutdownManager;
 use App\Core\Kernel\ModuleRegistry;
 use App\Infrastructure\Laravel\Kernel\LaravelModuleRegistrar;
 
@@ -58,6 +60,11 @@ final class KernelCoreServiceProvider extends ServiceProvider
 
         $this->app->singleton(
             KernelLifecycleManager::class,
+        );
+
+        $this->app->singleton(
+            KernelShutdownManagerInterface::class,
+            KernelShutdownManager::class,
         );
 
         $this->app->singleton(

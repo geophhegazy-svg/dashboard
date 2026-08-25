@@ -7,7 +7,7 @@ namespace App\Modules\Dashboard\Application\Services;
 use App\Core\QueryBus\QueryDispatcher;
 use App\Modules\Customer\Infrastructure\Persistence\Models\Customer;
 use App\Modules\Wallet\Application\Queries\FindCustomerWalletQuery;
-use App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice;
+use App\Modules\Invoice\Application\Queries\GetCustomerInvoiceSummaryQuery;
 use App\Modules\Notification\Infrastructure\Persistence\Models\Notification;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 use App\Modules\Usage\UsageService;
@@ -35,21 +35,15 @@ class CustomerDashboardService
             )
         );
 
-        // آخر فاتورة
-        $lastInvoice = Invoice::where('customer_id', $customer->id)
-            ->latest()
-            ->first();
+        $invoiceSummary = $this->queryDispatcher->dispatch(
+            new GetCustomerInvoiceSummaryQuery(
+                customerId: (int) $customer->id,
+            )
+        );
 
-        // آخر 3 فواتير
-        $latestInvoices = Invoice::where('customer_id', $customer->id)
-            ->latest()
-            ->take(3)
-            ->get([
-                'invoice_number',
-                'amount',
-                'status',
-                'paid_at'
-            ]);
+        $lastInvoice = $invoiceSummary['last_invoice'];
+        $latestInvoices = $invoiceSummary['recent_invoices'];
+        $totalInvoices = $invoiceSummary['total_invoices'];
 
         // آخر 3 إشعارات
         $latestNotifications = Notification::where('customer_id', $customer->id)
@@ -144,13 +138,9 @@ class CustomerDashboardService
 
                 'total_invoices' => $totalInvoices,
 
-                'paid_invoices' => Invoice::where('customer_id', $customer->id)
-                    ->where('status', 'paid')
-                    ->count(),
+                'paid_invoices' => $invoiceSummary['paid_invoices'],
 
-                'unpaid_invoices' => Invoice::where('customer_id', $customer->id)
-                    ->where('status', 'unpaid')
-                    ->count(),
+                'unpaid_invoices' => $invoiceSummary['unpaid_invoices'],
 
                 'unread_notifications' => $unreadNotifications,
 

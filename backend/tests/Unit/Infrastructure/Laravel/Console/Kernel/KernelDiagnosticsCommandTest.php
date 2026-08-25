@@ -153,4 +153,104 @@ final class KernelDiagnosticsCommandTest extends TestCase
             $output,
         );
     }
+
+    public function test_command_displays_na_when_runtime_has_not_booted(): void
+    {
+        $manifest = new CompiledModuleManifest([]);
+
+        $cache = new class implements ModuleManifestCacheInterface {
+            public function has(): bool
+            {
+                return true;
+            }
+
+            public function load(): ?CompiledModuleManifest
+            {
+                return $this->manifest();
+            }
+
+            public function save(
+                CompiledModuleManifest $manifest,
+            ): void {
+            }
+
+            public function clear(): void
+            {
+            }
+
+            private function manifest(): CompiledModuleManifest
+            {
+                return new CompiledModuleManifest([]);
+            }
+        };
+
+        $fingerprint = new class
+            implements ManifestFingerprintGeneratorInterface
+        {
+            public function generate(
+                CompiledModuleManifest $manifest,
+            ): string {
+                return 'should-not-be-visible';
+            }
+        };
+
+        $inspector = new KernelInspector(
+            new ModuleRegistry(),
+        );
+
+        $runtime = new KernelRuntimeState();
+
+        $lifecycle = new KernelLifecycleManager();
+
+        $diagnostics = new KernelDiagnostics(
+            inspector: $inspector,
+            cache: $cache,
+            fingerprint: $fingerprint,
+            runtime: $runtime,
+            lifecycle: $lifecycle,
+        );
+
+        $this->app->instance(
+            KernelDiagnostics::class,
+            $diagnostics,
+        );
+
+        $command = $this->app->make(
+            KernelDiagnosticsCommand::class,
+        );
+
+        $application = new Application(
+            $this->app,
+            $this->app->make('events'),
+            'Testing',
+        );
+
+        $application->add($command);
+
+        $tester = new CommandTester(
+            $application->find('kernel:diagnostics'),
+        );
+
+        $exitCode = $tester->execute([]);
+
+        self::assertSame(0, $exitCode);
+
+        $output = $tester->getDisplay();
+
+        self::assertStringContainsString(
+            'Not Booted',
+            $output,
+        );
+
+        self::assertStringContainsString(
+            'N/A',
+            $output,
+        );
+
+        self::assertStringContainsString(
+            'Missing',
+            $output,
+        );
+    }
+
 }

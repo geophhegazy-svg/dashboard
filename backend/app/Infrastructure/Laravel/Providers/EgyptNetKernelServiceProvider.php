@@ -7,6 +7,7 @@ namespace App\Infrastructure\Laravel\Providers;
 use Illuminate\Support\ServiceProvider;
 
 use App\Core\Kernel\Contracts\KernelBootstrapperInterface;
+use App\Core\Kernel\Contracts\KernelShutdownManagerInterface;
 use App\Core\Kernel\Contracts\KernelCommandRegistrarInterface;
 
 use App\Infrastructure\Laravel\Console\Kernel\KernelCacheCommand;
@@ -73,6 +74,14 @@ final class EgyptNetKernelServiceProvider extends ServiceProvider
         ) {
             $registrar->register($command);
         }
+
+        $this->app->terminating(
+            function (): void {
+                $this->app
+                    ->make(KernelShutdownManagerInterface::class)
+                    ->shutdown();
+            },
+        );
 
         $this->app
             ->make(KernelBootstrapperInterface::class)

@@ -4,19 +4,27 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice;
+use App\Core\QueryBus\QueryDispatcher;
+use App\Modules\Invoice\Application\Queries\FindCustomerInvoiceQuery;
+use App\Modules\Invoice\Application\Queries\PaginateCustomerInvoicesQuery;
 use Illuminate\Support\Facades\Auth;
 
 class CustomerInvoiceController extends Controller
 {
+    public function __construct(
+        private readonly QueryDispatcher $queryDispatcher,
+    ) {}
+
     public function index()
     {
         $customer = Auth::guard('customer')->user();
 
-        $invoices = Invoice::query()
-            ->where('customer_id', $customer->id)
-            ->latest()
-            ->paginate(10);
+        $invoices = $this->queryDispatcher->dispatch(
+            new PaginateCustomerInvoicesQuery(
+                customerId: (int) $customer->id,
+                perPage: 10,
+            )
+        );
 
         return view(
             'customer.invoices',
@@ -24,15 +32,18 @@ class CustomerInvoiceController extends Controller
         );
     }
 
-    public function show(
-        int $id
-    ) {
+    public function show(int $id)
+    {
         $customer = Auth::guard('customer')->user();
 
-        $invoice = Invoice::query()
-            ->where('customer_id', $customer->id)
-            ->where('id', $id)
-            ->firstOrFail();
+        $invoice = $this->queryDispatcher->dispatch(
+            new FindCustomerInvoiceQuery(
+                customerId: (int) $customer->id,
+                invoiceId: $id,
+            )
+        );
+
+        abort_if($invoice === null, 404);
 
         return view(
             'customer.invoice-detail',

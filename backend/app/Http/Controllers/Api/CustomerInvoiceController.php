@@ -1,31 +1,49 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CustomerInvoiceResource;
-use App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice;
+use App\Core\QueryBus\QueryDispatcher;
+use App\Modules\Invoice\Application\Queries\FindCustomerInvoiceQuery;
+use App\Modules\Invoice\Application\Queries\PaginateCustomerInvoicesQuery;
 use Illuminate\Http\Request;
 
 class CustomerInvoiceController extends Controller
 {
+    public function __construct(
+        private readonly QueryDispatcher $queryDispatcher,
+    ) {}
+
     public function index(Request $request)
     {
         $customer = $request->user();
 
-        $invoices = Invoice::where('customer_id', $customer->id)
-            ->latest()
-            ->paginate(10);
+        $invoices = $this->queryDispatcher->dispatch(
+            new PaginateCustomerInvoicesQuery(
+                customerId: (int) $customer->id,
+                perPage: 10,
+            )
+        );
 
         return CustomerInvoiceResource::collection($invoices);
     }
 
-    public function show(Request $request, Invoice $invoice)
+    public function show(Request $request, int $invoice)
     {
-        if ($invoice->customer_id != $request->user()->id) {
-            abort(403);
-        }
+        $customer = $request->user();
 
-        return new CustomerInvoiceResource($invoice);
+        $invoiceModel = $this->queryDispatcher->dispatch(
+            new FindCustomerInvoiceQuery(
+                customerId: (int) $customer->id,
+                invoiceId: $invoice,
+            )
+        );
+
+        abort_if($invoiceModel === null, 404);
+
+        return new CustomerInvoiceResource($invoiceModel);
     }
 }

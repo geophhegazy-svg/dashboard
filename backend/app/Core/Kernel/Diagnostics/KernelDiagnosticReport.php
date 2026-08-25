@@ -16,7 +16,7 @@ final readonly class KernelDiagnosticReport
         private bool $manifestAvailable,
         private ?string $fingerprint,
         private bool $booted,
-        private DateTimeImmutable $bootedAt,
+        private ?DateTimeImmutable $bootedAt,
         private string $lifecycle,
     ) {}
 
@@ -63,7 +63,7 @@ final readonly class KernelDiagnosticReport
     }
 
 
-    public function bootedAt(): DateTimeImmutable
+    public function bootedAt(): ?DateTimeImmutable
     {
         return $this->bootedAt;
     }

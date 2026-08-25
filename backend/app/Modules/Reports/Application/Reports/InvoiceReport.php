@@ -4,12 +4,17 @@ declare(strict_types=1);
 
 namespace App\Modules\Reports\Application\Reports;
 
-use App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice;
+use App\Core\QueryBus\QueryDispatcher;
+use App\Modules\Invoice\Application\Queries\BuildInvoiceReportQuery;
 use App\Modules\Reports\Application\Reports\Abstracts\BaseReport;
 use Illuminate\Database\Eloquent\Builder;
 
 class InvoiceReport extends BaseReport
 {
+    public function __construct(
+        private readonly QueryDispatcher $queryDispatcher,
+    ) {}
+
     public function name(): string
     {
         return 'invoices';
@@ -22,11 +27,9 @@ class InvoiceReport extends BaseReport
 
     protected function query(): Builder
     {
-        return Invoice::query()
-            ->with([
-                'customer',
-                'subscription',
-            ]);
+        return $this->queryDispatcher->dispatch(
+            new BuildInvoiceReportQuery()
+        );
     }
 
     protected function headers(): array

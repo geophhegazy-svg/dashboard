@@ -431,3 +431,19 @@
 ```
 /var/www/database/migrations/2026_08_19_000002_remove_legacy_wallet_balance_columns.php
 ```
+
+## 2026_08_24_000001_add_grace_dates_to_subscriptions_table.php
+
+**File**
+
+```
+/var/www/database/migrations/2026_08_24_000001_add_grace_dates_to_subscriptions_table.php
+```
+
+## 2026_08_24_000002_align_subscription_status_enum.php
+
+**File**
+
+```
+/var/www/database/migrations/2026_08_24_000002_align_subscription_status_enum.php
+```

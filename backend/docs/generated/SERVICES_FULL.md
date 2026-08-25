@@ -2,37 +2,6 @@
 
 ---
 
-## AutomaticBillingService
-
-**Namespace**
-
-```
-App\Modules\Billing\Application\Services
-```
-
-**File**
-
-```
-/var/www/app/Modules/Billing/Application/Services/AutomaticBillingService.php
-```
-
-**Constructor Dependencies**
-
-- WorkflowEngine $engine
-- AutomaticBillingWorkflow $workflow
-
-**Properties**
-
-- $engine : App\Core\Workflow\WorkflowEngine
-- $workflow : App\Modules\Billing\Application\Workflows\AutomaticBillingWorkflow
-
-**Methods**
-
-- run() : void
-- processSubscription() : void
-
----
-
 ## BillingCycleService
 
 **Namespace**
@@ -99,6 +68,14 @@ App\Modules\Dashboard\Application\Services
 ```
 /var/www/app/Modules/Dashboard/Application/Services/DashboardService.php
 ```
+
+**Constructor Dependencies**
+
+- QueryDispatcher $queryDispatcher
+
+**Properties**
+
+- $queryDispatcher : App\Core\QueryBus\QueryDispatcher
 
 **Methods**
 
@@ -192,6 +169,7 @@ App\Modules\Invoice\Application\Services
 
 **Constructor Dependencies**
 
+- InvoiceRepositoryInterface $repository
 - CreateInvoiceAction $createInvoice
 - UpdateInvoiceAction $updateInvoice
 - DeleteInvoiceAction $deleteInvoice
@@ -199,6 +177,7 @@ App\Modules\Invoice\Application\Services
 
 **Properties**
 
+- $repository : App\Modules\Invoice\Domain\Contracts\InvoiceRepositoryInterface
 - $createInvoice : App\Modules\Invoice\Application\Actions\CreateInvoiceAction
 - $updateInvoice : App\Modules\Invoice\Application\Actions\UpdateInvoiceAction
 - $deleteInvoice : App\Modules\Invoice\Application\Actions\DeleteInvoiceAction
@@ -422,36 +401,6 @@ App\Modules\Activity\Application\Services
 
 ---
 
-## SubscriptionRenewalService
-
-**Namespace**
-
-```
-App\Modules\Subscription\Application\Services
-```
-
-**File**
-
-```
-/var/www/app/Modules/Subscription/Application/Services/SubscriptionRenewalService.php
-```
-
-**Constructor Dependencies**
-
-- WorkflowEngine $engine
-- RenewWorkflow $workflow
-
-**Properties**
-
-- $engine : App\Core\Workflow\WorkflowEngine
-- $workflow : App\Modules\Subscription\Application\Workflows\RenewWorkflow
-
-**Methods**
-
-- renew() : bool
-
----
-
 ## SubscriptionService
 
 **Namespace**
@@ -476,7 +425,6 @@ App\Modules\Subscription\Application\Services
 - ExpireWorkflow $expireWorkflow
 - RestoreWorkflow $restoreWorkflow
 - RenewWorkflow $renewWorkflow
-- AutoExpireSubscriptionsOrchestrator $autoExpireSubscriptionsOrchestrator
 
 **Properties**
 
@@ -488,7 +436,6 @@ App\Modules\Subscription\Application\Services
 - $expireWorkflow : App\Modules\Subscription\Application\Workflows\ExpireWorkflow
 - $restoreWorkflow : App\Modules\Subscription\Application\Workflows\RestoreWorkflow
 - $renewWorkflow : App\Modules\Subscription\Application\Workflows\RenewWorkflow
-- $autoExpireSubscriptionsOrchestrator : App\Modules\Subscription\Application\Orchestrators\AutoExpireSubscriptionsOrchestrator
 
 **Methods**
 
@@ -508,7 +455,6 @@ App\Modules\Subscription\Application\Services
 - restore() : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
 - renew() : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
 - statistics() : array
-- autoExpire() : int
 - expiringSoon() : Illuminate\Database\Eloquent\Collection
 
 ---

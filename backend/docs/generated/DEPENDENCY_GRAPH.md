@@ -45,7 +45,6 @@
 
 ## Services
 
-- App\Modules\Billing\Application\Services\AutomaticBillingService
 - App\Modules\Billing\Application\Services\BillingCycleService
 - App\Modules\Dashboard\Application\Services\CustomerDashboardService
 - App\Modules\Dashboard\Application\Services\DashboardService
@@ -60,7 +59,6 @@
 - App\Modules\Package\Application\Services\PackageService
 - App\Modules\Payment\Application\Services\PaymentService
 - App\Modules\Activity\Application\Services\SubscriptionActivityService
-- App\Modules\Subscription\Application\Services\SubscriptionRenewalService
 - App\Modules\Subscription\Application\Services\SubscriptionService
 - App\Modules\Task\Application\Services\TaskService
 - App\Modules\Notification\Application\Services\TelegramNotificationService

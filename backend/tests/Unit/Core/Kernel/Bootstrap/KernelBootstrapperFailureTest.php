@@ -19,6 +19,7 @@ use App\Core\Kernel\Events\KernelBooting;
 use App\Core\Kernel\Lifecycle\KernelLifecycleManager;
 use App\Core\Kernel\Lifecycle\KernelLifecycleState;
 use App\Core\Kernel\Monitoring\KernelBootTimeline;
+use App\Core\Kernel\Monitoring\KernelBootStage;
 use App\Core\Kernel\Registration\CompiledManifestRegistrationService;
 use App\Core\Kernel\Runtime\KernelRuntimeState;
 use App\Core\Kernel\Validation\ValidationError;
@@ -352,6 +353,17 @@ final class KernelBootstrapperFailureTest extends TestCase
         self::assertSame(
             KernelLifecycleState::Failed,
             $lifecycle->state(),
+        );
+
+        self::assertSame(
+            [
+                KernelBootStage::Discovery,
+                KernelBootStage::Validation,
+            ],
+            array_map(
+                static fn ($metric): KernelBootStage => $metric->stage(),
+                $timeline->metrics(),
+            ),
         );
 
         $types = array_map(

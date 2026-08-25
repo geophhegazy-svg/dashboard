@@ -8,6 +8,7 @@ use App\Modules\Invoice\Domain\Contracts\InvoiceRepositoryInterface;
 use App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Builder;
 
 
 class InvoiceRepository implements InvoiceRepositoryInterface
@@ -20,6 +21,90 @@ class InvoiceRepository implements InvoiceRepositoryInterface
     public function find(int $id): ?Invoice
     {
         return Invoice::find($id);
+    }
+
+    public function findForPayment(
+        int $invoiceId,
+    ): Invoice {
+        return Invoice::query()
+            ->with('subscription')
+            ->lockForUpdate()
+            ->findOrFail($invoiceId);
+    }
+
+    public function findBySubscriptionId(
+        int $subscriptionId,
+    ): ?Invoice {
+        return Invoice::where(
+            'subscription_id',
+            $subscriptionId,
+        )->first();
+    }
+
+    public function findByRenewalKey(
+        string $renewalKey,
+    ): ?Invoice {
+        return Invoice::where(
+            'renewal_key',
+            $renewalKey,
+        )->first();
+    }
+
+    public function findByCustomerId(
+        int $customerId,
+        int $limit = 3,
+    ): Collection {
+        return Invoice::query()
+            ->where('customer_id', $customerId)
+            ->latest()
+            ->take($limit)
+            ->get([
+                'invoice_number',
+                'amount',
+                'status',
+                'paid_at',
+            ]);
+    }
+
+    public function findByCustomerIdAndId(
+        int $customerId,
+        int $invoiceId,
+    ): ?Invoice {
+        return Invoice::query()
+            ->where('customer_id', $customerId)
+            ->whereKey($invoiceId)
+            ->first();
+    }
+
+    public function countByCustomerId(
+        int $customerId,
+    ): int {
+        return Invoice::query()
+            ->where('customer_id', $customerId)
+            ->count();
+    }
+
+    public function countByCustomerAndStatus(
+        int $customerId,
+        string $status,
+    ): int {
+        return Invoice::query()
+            ->where('customer_id', $customerId)
+            ->where('status', $status)
+            ->count();
+    }
+
+    public function countAll(): int
+    {
+        return Invoice::query()->count();
+    }
+
+    public function queryForReport(): Builder
+    {
+        return Invoice::query()->with([
+            'customer',
+            'subscription',
+        ]);
     }
 
     public function create(
@@ -58,6 +143,16 @@ class InvoiceRepository implements InvoiceRepositoryInterface
         Invoice $invoice,
     ): bool {
         return (bool) $invoice->delete();
+    }
+
+    public function paginateByCustomerId(
+        int $customerId,
+        int $perPage = 10,
+    ): LengthAwarePaginator {
+        return Invoice::query()
+            ->where('customer_id', $customerId)
+            ->latest()
+            ->paginate($perPage);
     }
 
     public function paginate(

@@ -51,11 +51,17 @@ implements KernelBootstrapperInterface
     {
         try {
 
-            $this->timeline->start();
+            /*
+             * Lifecycle listeners must exist before the first lifecycle
+             * event and before any boot stage can fail.
+             */
+            $this->lifecycleEvents->register();
 
             $this->lifecycle->transition(
                 KernelLifecycleState::Starting,
             );
+
+            $this->timeline->start();
 
             $this->events->dispatch(
                 new KernelStarting(
@@ -143,8 +149,6 @@ implements KernelBootstrapperInterface
         */
 
             $start = microtime(true);
-
-            $this->lifecycleEvents->register();
 
             $this->registration->register(
                 $manifest,

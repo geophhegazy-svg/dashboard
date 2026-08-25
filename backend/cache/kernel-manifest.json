@@ -2,19 +2,6 @@
     "version": 1,
     "modules": [
         {
-            "class": "App\\Modules\\Network\\Kernel\\NetworkModule",
-            "name": "Network",
-            "dependencies": [],
-            "resources": [
-                {
-                    "type": "services",
-                    "bindings": {
-                        "App\\Modules\\Network\\Domain\\Contracts\\MikrotikServiceInterface": "App\\Modules\\Network\\Application\\MikrotikServiceAdapter"
-                    }
-                }
-            ]
-        },
-        {
             "class": "App\\Modules\\Invoice\\Kernel\\InvoiceModule",
             "name": "Invoice",
             "dependencies": [],
@@ -33,7 +20,12 @@
                 {
                     "type": "queries",
                     "queries": {
-                        "App\\Modules\\Invoice\\Application\\Queries\\PaginateInvoicesQuery": "App\\Modules\\Invoice\\Application\\Queries\\Handlers\\PaginateInvoicesQueryHandler"
+                        "App\\Modules\\Invoice\\Application\\Queries\\PaginateInvoicesQuery": "App\\Modules\\Invoice\\Application\\Queries\\Handlers\\PaginateInvoicesQueryHandler",
+                        "App\\Modules\\Invoice\\Application\\Queries\\GetCustomerInvoiceSummaryQuery": "App\\Modules\\Invoice\\Application\\Queries\\Handlers\\GetCustomerInvoiceSummaryQueryHandler",
+                        "App\\Modules\\Invoice\\Application\\Queries\\PaginateCustomerInvoicesQuery": "App\\Modules\\Invoice\\Application\\Queries\\Handlers\\PaginateCustomerInvoicesQueryHandler",
+                        "App\\Modules\\Invoice\\Application\\Queries\\FindCustomerInvoiceQuery": "App\\Modules\\Invoice\\Application\\Queries\\Handlers\\FindCustomerInvoiceQueryHandler",
+                        "App\\Modules\\Invoice\\Application\\Queries\\GetInvoiceDashboardMetricsQuery": "App\\Modules\\Invoice\\Application\\Queries\\Handlers\\GetInvoiceDashboardMetricsQueryHandler",
+                        "App\\Modules\\Invoice\\Application\\Queries\\BuildInvoiceReportQuery": "App\\Modules\\Invoice\\Application\\Queries\\Handlers\\BuildInvoiceReportQueryHandler"
                     }
                 },
                 {
@@ -50,7 +42,6 @@
             "class": "App\\Modules\\Subscription\\Kernel\\SubscriptionModule",
             "name": "Subscription",
             "dependencies": [
-                "App\\Modules\\Network\\Kernel\\NetworkModule",
                 "App\\Modules\\Invoice\\Kernel\\InvoiceModule"
             ],
             "resources": [
@@ -58,17 +49,26 @@
                     "type": "services",
                     "bindings": {
                         "App\\Modules\\Subscription\\Domain\\Contracts\\SubscriptionRepositoryInterface": "App\\Modules\\Subscription\\Infrastructure\\Repositories\\SubscriptionRepository",
-                        "App\\Modules\\Subscription\\Application\\Contracts\\SubscriptionRenewalServiceInterface": "App\\Modules\\Subscription\\Application\\Services\\SubscriptionRenewalService",
-                        "App\\Modules\\Subscription\\Application\\Orchestrators\\AutoExpireSubscriptionsOrchestrator": "App\\Modules\\Subscription\\Application\\Orchestrators\\AutoExpireSubscriptionsOrchestrator",
+                        "App\\Modules\\Subscription\\Application\\Orchestrators\\AutoExpireSubscriptionsOrchestratorInterface": "App\\Modules\\Subscription\\Application\\Orchestrators\\AutoExpireSubscriptionsOrchestrator",
+                        "App\\Modules\\Subscription\\Application\\Orchestrators\\AutoGraceSubscriptionsOrchestratorInterface": "App\\Modules\\Subscription\\Application\\Orchestrators\\AutoGraceSubscriptionsOrchestrator",
+                        "App\\Modules\\Subscription\\Application\\Orchestrators\\AutoRenewSubscriptionsOrchestratorInterface": "App\\Modules\\Subscription\\Application\\Orchestrators\\AutoRenewSubscriptionsOrchestrator",
                         "App\\Modules\\Subscription\\Application\\Services\\SubscriptionService": "App\\Modules\\Subscription\\Application\\Services\\SubscriptionService"
                     }
+                },
+                {
+                    "type": "commands",
+                    "commands": [
+                        "App\\Console\\Commands\\AutoGraceSubscriptionsCommand",
+                        "App\\Console\\Commands\\AutoExpireSubscriptionsCommand",
+                        "App\\Console\\Commands\\AutoRenewSubscriptionsCommand"
+                    ]
                 },
                 {
                     "type": "actions",
                     "actions": [
                         "App\\Modules\\Subscription\\Application\\Actions\\ActivateSubscriptionAction",
                         "App\\Modules\\Subscription\\Application\\Actions\\CreateSubscriptionAction",
-                        "App\\Modules\\Subscription\\Application\\Actions\\ChangeSubscriptionStatusAction",
+                        "App\\Modules\\Subscription\\Application\\Actions\\EnterGraceSubscriptionAction",
                         "App\\Modules\\Subscription\\Application\\Actions\\ExpireSubscriptionAction",
                         "App\\Modules\\Subscription\\Application\\Actions\\RenewSubscriptionAction",
                         "App\\Modules\\Subscription\\Application\\Actions\\RestoreSubscriptionAction",
@@ -84,14 +84,7 @@
                 {
                     "type": "listeners",
                     "listeners": {
-                        "App\\Modules\\Subscription\\Domain\\Events\\SubscriptionActivated": [
-                            "App\\Modules\\Subscription\\Application\\Listeners\\EnableMikrotikUserListener"
-                        ],
-                        "App\\Modules\\Subscription\\Domain\\Events\\SubscriptionRestored": [
-                            "App\\Modules\\Subscription\\Application\\Listeners\\EnableMikrotikUserListener"
-                        ],
                         "App\\Modules\\Subscription\\Domain\\Events\\SubscriptionRenewed": [
-                            "App\\Modules\\Subscription\\Application\\Listeners\\EnableMikrotikUserListener",
                             "App\\Modules\\Subscription\\Application\\Listeners\\SubscriptionRenewedListener"
                         ]
                     }
@@ -166,7 +159,6 @@
                     "type": "services",
                     "bindings": {
                         "App\\Modules\\Billing\\Domain\\Contracts\\BillingCycleServiceInterface": "App\\Modules\\Billing\\Application\\Services\\BillingCycleService",
-                        "App\\Modules\\Billing\\Domain\\Contracts\\AutomaticBillingServiceInterface": "App\\Modules\\Billing\\Application\\Services\\AutomaticBillingService",
                         "App\\Modules\\Billing\\Domain\\Contracts\\InvoiceGeneratorInterface": "App\\Modules\\Billing\\Application\\Services\\InvoiceGenerator"
                     }
                 },
@@ -303,6 +295,41 @@
                         "App\\Modules\\Inventory\\Infrastructure\\Persistence\\Models\\Device": "App\\Modules\\Inventory\\Policies\\DevicePolicy",
                         "App\\Modules\\Inventory\\Infrastructure\\Persistence\\Models\\DeviceAssignment": "App\\Modules\\Inventory\\Policies\\DeviceAssignmentPolicy",
                         "App\\Modules\\Inventory\\Infrastructure\\Persistence\\Models\\Inventory": "App\\Modules\\Inventory\\Policies\\InventoryPolicy"
+                    }
+                }
+            ]
+        },
+        {
+            "class": "App\\Modules\\Network\\Kernel\\NetworkModule",
+            "name": "Network",
+            "dependencies": [
+                "App\\Modules\\Subscription\\Kernel\\SubscriptionModule"
+            ],
+            "resources": [
+                {
+                    "type": "services",
+                    "bindings": {
+                        "App\\Modules\\Network\\Domain\\Contracts\\MikrotikServiceInterface": "App\\Modules\\Network\\Application\\MikrotikServiceAdapter"
+                    }
+                },
+                {
+                    "type": "listeners",
+                    "listeners": {
+                        "App\\Modules\\Subscription\\Domain\\Events\\SubscriptionActivated": [
+                            "App\\Modules\\Network\\Application\\Listeners\\SubscriptionNetworkLifecycleListener"
+                        ],
+                        "App\\Modules\\Subscription\\Domain\\Events\\SubscriptionSuspended": [
+                            "App\\Modules\\Network\\Application\\Listeners\\SubscriptionNetworkLifecycleListener"
+                        ],
+                        "App\\Modules\\Subscription\\Domain\\Events\\SubscriptionExpired": [
+                            "App\\Modules\\Network\\Application\\Listeners\\SubscriptionNetworkLifecycleListener"
+                        ],
+                        "App\\Modules\\Subscription\\Domain\\Events\\SubscriptionRestored": [
+                            "App\\Modules\\Network\\Application\\Listeners\\SubscriptionNetworkLifecycleListener"
+                        ],
+                        "App\\Modules\\Subscription\\Domain\\Events\\SubscriptionRenewed": [
+                            "App\\Modules\\Network\\Application\\Listeners\\SubscriptionNetworkLifecycleListener"
+                        ]
                     }
                 }
             ]
