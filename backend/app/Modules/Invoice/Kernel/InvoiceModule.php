@@ -23,11 +23,13 @@ use App\Modules\Invoice\Application\Queries\FindCustomerInvoiceQuery;
 use App\Modules\Invoice\Application\Queries\Handlers\PaginateCustomerInvoicesQueryHandler;
 use App\Modules\Invoice\Application\Queries\Handlers\FindCustomerInvoiceQueryHandler;
 use App\Modules\Invoice\Application\Queries\GetInvoiceDashboardMetricsQuery;
+use App\Modules\Invoice\Application\Queries\GetInvoiceStatusMetricsQuery;
 use App\Modules\Invoice\Application\Queries\BuildInvoiceReportQuery;
 
 use App\Modules\Invoice\Application\Queries\Handlers\PaginateInvoicesQueryHandler;
 use App\Modules\Invoice\Application\Queries\Handlers\GetCustomerInvoiceSummaryQueryHandler;
 use App\Modules\Invoice\Application\Queries\Handlers\GetInvoiceDashboardMetricsQueryHandler;
+use App\Modules\Invoice\Application\Queries\Handlers\GetInvoiceStatusMetricsQueryHandler;
 use App\Modules\Invoice\Application\Queries\Handlers\BuildInvoiceReportQueryHandler;
 
 use App\Modules\Invoice\Application\Commands\CreateInvoiceCommand;
@@ -93,6 +95,9 @@ final class InvoiceModule extends Module
 
                 GetInvoiceDashboardMetricsQuery::class
                 => GetInvoiceDashboardMetricsQueryHandler::class,
+
+                GetInvoiceStatusMetricsQuery::class
+                => GetInvoiceStatusMetricsQueryHandler::class,
 
                 BuildInvoiceReportQuery::class
                 => BuildInvoiceReportQueryHandler::class,

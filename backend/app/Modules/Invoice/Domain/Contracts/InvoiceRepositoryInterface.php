@@ -47,6 +47,12 @@ interface InvoiceRepositoryInterface
 
     public function countAll(): int;
 
+    public function countByStatus(
+        string $status,
+    ): int;
+
+    public function sumPaidForCurrentMonth(): float;
+
     public function queryForReport(): \Illuminate\Database\Eloquent\Builder;
 
     public function create(

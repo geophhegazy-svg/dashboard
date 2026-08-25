@@ -68,9 +68,6 @@ Route::prefix('customer')->name('customer.')->group(function () {
     Route::post('/login', [App\Http\Controllers\CustomerAuthController::class, 'login'])->name('login.post');
     Route::post('/logout', [App\Http\Controllers\CustomerAuthController::class, 'logout'])->name('logout');
 
-    // Dashboard
-    Route::get('/dashboard', [App\Http\Controllers\CustomerDashboardController::class, 'index'])->name('dashboard');
-
     // Invoices
     Route::get('/invoices', [App\Http\Controllers\CustomerInvoiceController::class, 'index'])->name('invoices');
     Route::get('/invoices/{id}', [App\Http\Controllers\CustomerInvoiceController::class, 'show'])->name('invoice.show');

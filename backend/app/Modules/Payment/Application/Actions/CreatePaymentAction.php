@@ -31,9 +31,9 @@ final readonly class CreatePaymentAction
                 abort(422, 'Invoice already paid');
             }
 
-            $totalPaidBefore = $invoice
-                ->payments()
-                ->sum('amount');
+            $totalPaidBefore = $this->repository->sumByInvoiceId(
+                $invoice->id,
+            );
 
             $payment = $this->repository->create([
                 ...$data,

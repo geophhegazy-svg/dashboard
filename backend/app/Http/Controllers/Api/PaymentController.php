@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Modules\Payment\Infrastructure\Persistence\Models\Payment;
+use App\Core\QueryBus\QueryDispatcher;
+use App\Modules\Payment\Application\Queries\PaginatePaymentsQuery;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePaymentRequest;
 use App\Http\Resources\PaymentResource;
@@ -12,12 +14,18 @@ use App\Modules\Payment\Application\Services\PaymentService;
 class PaymentController extends Controller
 {
     public function __construct(
-        private readonly PaymentService $paymentService
+        private readonly PaymentService $paymentService,
+        private readonly QueryDispatcher $queryDispatcher,
     ) {}
     public function index()
     {
         $this->authorize('viewAny', Payment::class);
-        return PaymentResource::collection(Payment::latest()->paginate());
+
+        $payments = $this->queryDispatcher->dispatch(
+            new PaginatePaymentsQuery()
+        );
+
+        return PaymentResource::collection($payments);
     }
     public function store(StorePaymentRequest $request)
     {

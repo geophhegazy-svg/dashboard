@@ -99,6 +99,23 @@ class InvoiceRepository implements InvoiceRepositoryInterface
         return Invoice::query()->count();
     }
 
+    public function countByStatus(
+        string $status,
+    ): int {
+        return Invoice::query()
+            ->where('status', $status)
+            ->count();
+    }
+
+    public function sumPaidForCurrentMonth(): float
+    {
+        return (float) Invoice::query()
+            ->where('status', 'paid')
+            ->whereYear('paid_at', now()->year)
+            ->whereMonth('paid_at', now()->month)
+            ->sum('amount');
+    }
+
     public function queryForReport(): Builder
     {
         return Invoice::query()->with([

@@ -9,7 +9,7 @@ use App\Models\HotspotSubscription;
 use App\Core\QueryBus\QueryDispatcher;
 use App\Modules\Invoice\Application\Queries\GetInvoiceDashboardMetricsQuery;
 use App\Modules\Package\Infrastructure\Persistence\Models\Package;
-use App\Modules\Payment\Infrastructure\Persistence\Models\Payment;
+use App\Modules\Payment\Application\Queries\GetPaymentDashboardMetricsQuery;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 use App\Modules\Subscription\Domain\Enums\SubscriptionStatus;
 
@@ -101,12 +101,9 @@ class DashboardService
                 new GetInvoiceDashboardMetricsQuery()
             )['total_invoices'],
 
-            'total_revenue' => Payment::sum('amount'),
-
-            'monthly_revenue' => Payment::query()
-                ->whereYear('payment_date', now()->year)
-                ->whereMonth('payment_date', now()->month)
-                ->sum('amount'),
+            ...$this->queryDispatcher->dispatch(
+                new GetPaymentDashboardMetricsQuery()
+            ),
         ];
     }
 

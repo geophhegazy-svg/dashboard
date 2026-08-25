@@ -10,13 +10,15 @@ use App\Modules\Network\Application\NetworkManager;
 use App\Modules\Customer\Infrastructure\Persistence\Models\Customer;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 use App\Models\HotspotSubscription;
-use App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice;
 use App\Modules\Network\Infrastructure\Persistence\Models\NetworkDevice;
+use App\Core\QueryBus\QueryDispatcher;
+use App\Modules\Invoice\Application\Queries\GetInvoiceDashboardMetricsQuery;
 
 class MikrotikController extends Controller
 {
     public function __construct(
         protected NetworkManager $networkManager
+        , protected QueryDispatcher $queryDispatcher
     ) {}
 
 
@@ -154,8 +156,11 @@ class MikrotikController extends Controller
      */
     public function dashboardStats()
     {
-        return response()->json([
+        $invoiceMetrics = $this->queryDispatcher->dispatch(
+            new GetInvoiceDashboardMetricsQuery()
+        );
 
+        return response()->json([
             'customers' => Customer::count(),
 
             'active_pppoe' => Subscription::where(
@@ -168,25 +173,11 @@ class MikrotikController extends Controller
                 'active'
             )->count(),
 
-            'pending_invoices' => Invoice::where(
-                'status',
-                'pending'
-            )->count(),
+            'pending_invoices' => $invoiceMetrics['pending_invoices'],
 
-            'paid_invoices' => Invoice::where(
-                'status',
-                'paid'
-            )->count(),
+            'paid_invoices' => $invoiceMetrics['paid_invoices'],
 
-            'monthly_revenue' => Invoice::where(
-                'status',
-                'paid'
-            )
-                ->whereMonth(
-                    'paid_at',
-                    now()->month
-                )
-                ->sum('amount'),
+            'monthly_revenue' => $invoiceMetrics['monthly_revenue'],
         ]);
     }
 }

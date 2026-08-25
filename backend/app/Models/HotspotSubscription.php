@@ -23,8 +23,4 @@ class HotspotSubscription extends Model
     {
         return $this->belongsTo(Package::class);
     }
-    public function invoices()
-    {
-        return $this->hasMany(Invoice::class);
-    }
 }

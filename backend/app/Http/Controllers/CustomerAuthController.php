@@ -28,7 +28,9 @@ class CustomerAuthController extends Controller
             'username' => $request->username,
             'password' => $request->password,
         ])) {
-            return redirect()->route('customer.dashboard');
+            return response()->json([
+                'message' => 'Customer authentication is available through the API.',
+            ]);
         }
 
         return back()->withErrors([

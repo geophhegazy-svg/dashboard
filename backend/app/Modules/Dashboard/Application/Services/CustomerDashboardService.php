@@ -57,9 +57,6 @@ class CustomerDashboardService
                 'created_at'
             ]);
 
-        // عدد الفواتير
-        $totalInvoices = Invoice::where('customer_id', $customer->id)->count();
-
         // عدد الإشعارات غير المقروءة
         $unreadNotifications = Notification::where('customer_id', $customer->id)
             ->where('is_read', false)

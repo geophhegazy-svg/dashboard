@@ -9,6 +9,14 @@ use App\Core\Kernel\Modules\Module;
 use App\Modules\Payment\Domain\Contracts\PaymentRepositoryInterface;
 use App\Modules\Payment\Infrastructure\Repositories\PaymentRepository;
 
+use App\Modules\Payment\Application\Queries\GetPaymentDashboardMetricsQuery;
+use App\Modules\Payment\Application\Queries\PaginatePaymentsQuery;
+use App\Modules\Payment\Application\Queries\GetRecentPaymentsQuery;
+
+use App\Modules\Payment\Application\Queries\Handlers\GetPaymentDashboardMetricsQueryHandler;
+use App\Modules\Payment\Application\Queries\Handlers\PaginatePaymentsQueryHandler;
+use App\Modules\Payment\Application\Queries\Handlers\GetRecentPaymentsQueryHandler;
+
 final class PaymentModule extends Module
 {
     public function name(): string
@@ -31,6 +39,19 @@ final class PaymentModule extends Module
             ->services([
                 PaymentRepositoryInterface::class
                 => PaymentRepository::class,
+            ])
+
+            ->queries([
+
+                GetPaymentDashboardMetricsQuery::class
+                => GetPaymentDashboardMetricsQueryHandler::class,
+
+                PaginatePaymentsQuery::class
+                => PaginatePaymentsQueryHandler::class,
+
+                GetRecentPaymentsQuery::class
+                => GetRecentPaymentsQueryHandler::class,
+
             ])
 
             ->listeners([

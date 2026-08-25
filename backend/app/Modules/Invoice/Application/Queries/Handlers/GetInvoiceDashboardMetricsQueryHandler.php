@@ -18,6 +18,16 @@ final readonly class GetInvoiceDashboardMetricsQueryHandler
     ): array {
         return [
             'total_invoices' => $this->repository->countAll(),
+
+            'pending_invoices' => $this->repository->countByStatus(
+                'pending',
+            ),
+
+            'paid_invoices' => $this->repository->countByStatus(
+                'paid',
+            ),
+
+            'monthly_revenue' => $this->repository->sumPaidForCurrentMonth(),
         ];
     }
 }

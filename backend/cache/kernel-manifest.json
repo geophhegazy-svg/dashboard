@@ -25,6 +25,7 @@
                         "App\\Modules\\Invoice\\Application\\Queries\\PaginateCustomerInvoicesQuery": "App\\Modules\\Invoice\\Application\\Queries\\Handlers\\PaginateCustomerInvoicesQueryHandler",
                         "App\\Modules\\Invoice\\Application\\Queries\\FindCustomerInvoiceQuery": "App\\Modules\\Invoice\\Application\\Queries\\Handlers\\FindCustomerInvoiceQueryHandler",
                         "App\\Modules\\Invoice\\Application\\Queries\\GetInvoiceDashboardMetricsQuery": "App\\Modules\\Invoice\\Application\\Queries\\Handlers\\GetInvoiceDashboardMetricsQueryHandler",
+                        "App\\Modules\\Invoice\\Application\\Queries\\GetInvoiceStatusMetricsQuery": "App\\Modules\\Invoice\\Application\\Queries\\Handlers\\GetInvoiceStatusMetricsQueryHandler",
                         "App\\Modules\\Invoice\\Application\\Queries\\BuildInvoiceReportQuery": "App\\Modules\\Invoice\\Application\\Queries\\Handlers\\BuildInvoiceReportQueryHandler"
                     }
                 },
@@ -434,6 +435,14 @@
                     "type": "services",
                     "bindings": {
                         "App\\Modules\\Payment\\Domain\\Contracts\\PaymentRepositoryInterface": "App\\Modules\\Payment\\Infrastructure\\Repositories\\PaymentRepository"
+                    }
+                },
+                {
+                    "type": "queries",
+                    "queries": {
+                        "App\\Modules\\Payment\\Application\\Queries\\GetPaymentDashboardMetricsQuery": "App\\Modules\\Payment\\Application\\Queries\\Handlers\\GetPaymentDashboardMetricsQueryHandler",
+                        "App\\Modules\\Payment\\Application\\Queries\\PaginatePaymentsQuery": "App\\Modules\\Payment\\Application\\Queries\\Handlers\\PaginatePaymentsQueryHandler",
+                        "App\\Modules\\Payment\\Application\\Queries\\GetRecentPaymentsQuery": "App\\Modules\\Payment\\Application\\Queries\\Handlers\\GetRecentPaymentsQueryHandler"
                     }
                 },
                 {
