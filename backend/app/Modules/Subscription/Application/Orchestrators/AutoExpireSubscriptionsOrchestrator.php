@@ -20,7 +20,7 @@ final readonly class AutoExpireSubscriptionsOrchestrator implements AutoExpireSu
 
     public function execute(): int
     {
-        $subscriptions = $this->subscriptions->expiredCandidates();
+        $subscriptions = $this->subscriptions->findEligibleForExpiration();
 
         $count = 0;
 

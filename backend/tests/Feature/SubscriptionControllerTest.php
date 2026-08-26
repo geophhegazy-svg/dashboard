@@ -5,17 +5,27 @@ declare(strict_types=1);
 namespace Tests\Feature;
 
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
+use App\Modules\Network\Domain\Contracts\MikrotikServiceInterface;
+use Tests\Fakes\FakeMikrotikService;
 use App\Models\User;
-use App\Modules\Subscription\Application\Services\SubscriptionService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Sanctum\Sanctum;
-use Mockery;
 use Spatie\Permission\Models\Permission;
 use Tests\TestCase;
 
 class SubscriptionControllerTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->app->instance(
+            MikrotikServiceInterface::class,
+            new FakeMikrotikService()
+        );
+    }
 
     private function actingAsUser(): void
     {
@@ -42,19 +52,7 @@ class SubscriptionControllerTest extends TestCase
     {
         $this->actingAsUser();
 
-        $subscription = Subscription::factory()->create();
-
-        $service = Mockery::mock(SubscriptionService::class);
-
-        $service->shouldReceive('activate')
-            ->once()
-            ->with(Mockery::type(Subscription::class))
-            ->andReturn($subscription);
-
-        $this->app->instance(
-            SubscriptionService::class,
-            $service
-        );
+        $subscription = Subscription::factory()->suspended()->create();
 
         $this->postJson(
             "/api/subscriptions/{$subscription->id}/activate"
@@ -70,19 +68,7 @@ class SubscriptionControllerTest extends TestCase
     {
         $this->actingAsUser();
 
-        $subscription = Subscription::factory()->create();
-
-        $service = Mockery::mock(SubscriptionService::class);
-
-        $service->shouldReceive('suspend')
-            ->once()
-            ->with(Mockery::type(Subscription::class))
-            ->andReturn($subscription);
-
-        $this->app->instance(
-            SubscriptionService::class,
-            $service
-        );
+        $subscription = Subscription::factory()->active()->create();
 
         $this->postJson(
             "/api/subscriptions/{$subscription->id}/suspend"
@@ -98,22 +84,7 @@ class SubscriptionControllerTest extends TestCase
     {
         $this->actingAsUser();
 
-        $subscription = Subscription::factory()->create();
-
-        $service = Mockery::mock(SubscriptionService::class);
-
-        $service->shouldReceive('renew')
-            ->once()
-            ->with(
-                Mockery::type(Subscription::class),
-                30
-            )
-            ->andReturn($subscription);
-
-        $this->app->instance(
-            SubscriptionService::class,
-            $service
-        );
+        $subscription = Subscription::factory()->expired()->create();
 
         $this->postJson(
             "/api/subscriptions/{$subscription->id}/renew",
@@ -132,19 +103,7 @@ class SubscriptionControllerTest extends TestCase
     {
         $this->actingAsUser();
 
-        $subscription = Subscription::factory()->create();
-
-        $service = Mockery::mock(SubscriptionService::class);
-
-        $service->shouldReceive('restore')
-            ->once()
-            ->with(Mockery::type(Subscription::class))
-            ->andReturn($subscription);
-
-        $this->app->instance(
-            SubscriptionService::class,
-            $service
-        );
+        $subscription = Subscription::factory()->expired()->create();
 
         $this->postJson(
             "/api/subscriptions/{$subscription->id}/restore"
@@ -160,19 +119,7 @@ class SubscriptionControllerTest extends TestCase
     {
         $this->actingAsUser();
 
-        $subscription = Subscription::factory()->create();
-
-        $service = Mockery::mock(SubscriptionService::class);
-
-        $service->shouldReceive('expire')
-            ->once()
-            ->with(Mockery::type(Subscription::class))
-            ->andReturn($subscription);
-
-        $this->app->instance(
-            SubscriptionService::class,
-            $service
-        );
+        $subscription = Subscription::factory()->active()->create();
 
         $this->postJson(
             "/api/subscriptions/{$subscription->id}/expire"
@@ -182,12 +129,5 @@ class SubscriptionControllerTest extends TestCase
                 'success' => true,
                 'message' => 'Subscription expired successfully',
             ]);
-    }
-
-    protected function tearDown(): void
-    {
-        Mockery::close();
-
-        parent::tearDown();
     }
 }

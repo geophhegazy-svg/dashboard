@@ -109,19 +109,6 @@ App\Modules\Accounting\Application\Services\JournalEntryNumberService
 - __construct
 - generate
 
-## JournalPostingService
-
-**Class**
-
-```
-App\Modules\Accounting\Application\Services\JournalPostingService
-```
-
-**Public Methods**
-
-- __construct
-- post
-
 ## JournalValidationService
 
 **Class**
@@ -205,22 +192,10 @@ App\Modules\Subscription\Application\Services\SubscriptionService
 
 - __construct
 - activate
-- active
-- byCustomer
-- byStatus
-- create
 - expire
-- expired
-- expiringSoon
-- find
-- findOrFail
-- paginate
 - renew
 - restore
-- search
-- statistics
 - suspend
-- update
 
 ## TaskService
 

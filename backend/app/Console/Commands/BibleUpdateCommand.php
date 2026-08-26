@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
+use App\Modules\Documentation\Application\Knowledge\KnowledgeExporter;
 use Illuminate\Console\Command;
-use App\Modules\Documentation\Application\ProjectBibleService;
 
 class BibleUpdateCommand extends Command
 {
@@ -13,14 +13,9 @@ class BibleUpdateCommand extends Command
 
     protected $description = 'Update Project Bible documentation';
 
-    public function handle(ProjectBibleService $service): int
+    public function handle(KnowledgeExporter $exporter): int
     {
-        $markdown = $service->generate();
-
-        file_put_contents(
-            base_path('docs/generated/PROJECT_BIBLE.md'),
-            $markdown
-        );
+        $exporter->export();
 
         $this->info('Project Bible updated successfully.');
 

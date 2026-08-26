@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Services;
+namespace Tests\Unit\Actions;
 
 use App\Modules\Accounting\Domain\Events\JournalEntryPosted;
 use App\Modules\Accounting\Infrastructure\Persistence\Models\Account;
@@ -11,23 +11,23 @@ use App\Modules\Accounting\Infrastructure\Persistence\Models\JournalEntryLine;
 
 use App\Models\Tenant;
 use App\Models\User;
-use App\Modules\Accounting\Application\Services\JournalPostingService;
+use App\Modules\Accounting\Application\Actions\PostJournalEntryAction;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
-class JournalPostingServiceTest extends TestCase
+class PostJournalEntryActionTest extends TestCase
 {
     use RefreshDatabase;
 
-    private JournalPostingService $service;
+    private PostJournalEntryAction $action;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->service = app(JournalPostingService::class);
+        $this->action = app(PostJournalEntryAction::class);
     }
 
     private function createBalancedEntry(): JournalEntry
@@ -79,7 +79,7 @@ class JournalPostingServiceTest extends TestCase
 
         $entry = $this->createBalancedEntry();
 
-        $posted = $this->service->post($entry);
+        $posted = $this->action->execute($entry);
 
         $this->assertEquals('posted', $posted->status);
         $this->assertNotNull($posted->posted_at);
@@ -92,18 +92,18 @@ class JournalPostingServiceTest extends TestCase
     {
         $entry = $this->createBalancedEntry();
 
-        $this->service->post($entry);
+        $this->action->execute($entry);
 
         $this->expectException(\App\Exceptions\Accounting\JournalPostingException::class);
 
-        $this->service->post($entry->fresh());
+        $this->action->execute($entry->fresh());
     }
 
     public function test_posting_updates_database(): void
     {
         $entry = $this->createBalancedEntry();
 
-        $this->service->post($entry);
+        $this->action->execute($entry);
 
         $this->assertDatabaseHas('journal_entries', [
             'id' => $entry->id,
@@ -115,7 +115,7 @@ class JournalPostingServiceTest extends TestCase
     {
         $entry = $this->createBalancedEntry();
 
-        $this->service->post($entry);
+        $this->action->execute($entry);
 
         $this->assertNotNull(
             $entry->fresh()->posted_at
@@ -126,7 +126,7 @@ class JournalPostingServiceTest extends TestCase
     {
         $entry = $this->createBalancedEntry();
 
-        $this->service->post($entry);
+        $this->action->execute($entry);
 
         $this->assertEquals(
             Auth::id(),

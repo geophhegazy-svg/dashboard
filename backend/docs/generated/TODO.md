@@ -1,7 +1,6 @@
 # TODO
 
 - **app/Modules/Documentation/Application/Exports/AiStartPromptExport.php**:36 — - TODO.md
-- **app/Modules/Documentation/Application/Knowledge/KnowledgeExporter.php**:65 — - TODO.md
 - **app/Modules/Documentation/Application/Knowledge/KnowledgeGeneratorRegistry.php**:96 — new TodoKnowledgeGenerator()
 - **app/Modules/Documentation/Application/Knowledge/TodoGenerator.php**:7 — class TodoGenerator implements KnowledgeExtractorInterface
 - **app/Modules/Documentation/Application/Knowledge/TodoGenerator.php**:11 — $todos = [];

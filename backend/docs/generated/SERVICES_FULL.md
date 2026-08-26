@@ -222,34 +222,6 @@ App\Modules\Accounting\Application\Services
 
 ---
 
-## JournalPostingService
-
-**Namespace**
-
-```
-App\Modules\Accounting\Application\Services
-```
-
-**File**
-
-```
-/var/www/app/Modules/Accounting/Application/Services/JournalPostingService.php
-```
-
-**Constructor Dependencies**
-
-- PostJournalEntryAction $action
-
-**Properties**
-
-- $action : App\Modules\Accounting\Application\Actions\PostJournalEntryAction
-
-**Methods**
-
-- post() : App\Modules\Accounting\Infrastructure\Persistence\Models\JournalEntry
-
----
-
 ## JournalValidationService
 
 **Namespace**
@@ -417,8 +389,6 @@ App\Modules\Subscription\Application\Services
 
 **Constructor Dependencies**
 
-- SubscriptionRepositoryInterface $subscriptions
-- CreateSubscriptionAction $createSubscriptionAction
 - WorkflowEngine $engine
 - ActivateWorkflow $activateWorkflow
 - SuspendWorkflow $suspendWorkflow
@@ -428,8 +398,6 @@ App\Modules\Subscription\Application\Services
 
 **Properties**
 
-- $subscriptions : App\Modules\Subscription\Domain\Contracts\SubscriptionRepositoryInterface
-- $createSubscriptionAction : App\Modules\Subscription\Application\Actions\CreateSubscriptionAction
 - $engine : App\Core\Workflow\WorkflowEngine
 - $activateWorkflow : App\Modules\Subscription\Application\Workflows\ActivateWorkflow
 - $suspendWorkflow : App\Modules\Subscription\Application\Workflows\SuspendWorkflow
@@ -439,23 +407,11 @@ App\Modules\Subscription\Application\Services
 
 **Methods**
 
-- paginate() : Illuminate\Pagination\LengthAwarePaginator
-- find() : ?App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
-- findOrFail() : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
-- byCustomer() : Illuminate\Database\Eloquent\Collection
-- active() : Illuminate\Database\Eloquent\Collection
-- expired() : Illuminate\Database\Eloquent\Collection
-- byStatus() : Illuminate\Database\Eloquent\Collection
-- search() : Illuminate\Pagination\LengthAwarePaginator
-- create() : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
-- update() : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
 - activate() : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
 - suspend() : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
 - expire() : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
 - restore() : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
 - renew() : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
-- statistics() : array
-- expiringSoon() : Illuminate\Database\Eloquent\Collection
 
 ---
 

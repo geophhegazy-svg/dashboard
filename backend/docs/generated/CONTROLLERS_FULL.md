@@ -163,26 +163,6 @@ App\Http\Controllers\Api
 
 ---
 
-## CustomerDashboardController
-
-**Namespace**
-
-```
-App\Http\Controllers
-```
-
-**File**
-
-```
-/var/www/app/Http/Controllers/CustomerDashboardController.php
-```
-
-**Public Methods**
-
-- index()
-
----
-
 ## CustomerInvoiceController
 
 **Namespace**
@@ -196,6 +176,10 @@ App\Http\Controllers\Api
 ```
 /var/www/app/Http/Controllers/Api/CustomerInvoiceController.php
 ```
+
+**Dependencies**
+
+- QueryDispatcher $queryDispatcher
 
 **Public Methods**
 
@@ -217,6 +201,10 @@ App\Http\Controllers
 ```
 /var/www/app/Http/Controllers/CustomerInvoiceController.php
 ```
+
+**Dependencies**
+
+- QueryDispatcher $queryDispatcher
 
 **Public Methods**
 
@@ -687,6 +675,7 @@ App\Http\Controllers\Api
 **Dependencies**
 
 - NetworkManager $networkManager
+- QueryDispatcher $queryDispatcher
 
 **Public Methods**
 
@@ -773,6 +762,7 @@ App\Http\Controllers\Api
 **Dependencies**
 
 - PaymentService $paymentService
+- QueryDispatcher $queryDispatcher
 
 **Public Methods**
 
@@ -856,6 +846,10 @@ App\Http\Controllers\Api
 /var/www/app/Http/Controllers/Api/ReportController.php
 ```
 
+**Dependencies**
+
+- QueryDispatcher $queryDispatcher
+
 **Public Methods**
 
 - dashboard()
@@ -917,7 +911,12 @@ App\Http\Controllers\Api
 
 **Dependencies**
 
-- SubscriptionService $subscriptionService
+- WorkflowEngine $engine
+- ActivateWorkflow $activateWorkflow
+- SuspendWorkflow $suspendWorkflow
+- ExpireWorkflow $expireWorkflow
+- RestoreWorkflow $restoreWorkflow
+- RenewWorkflow $renewWorkflow
 
 **Public Methods**
 

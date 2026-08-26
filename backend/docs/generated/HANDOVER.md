@@ -14,7 +14,7 @@ Technology
 
 Statistics
 - Models: 24
-- Services: 18
+- Services: 17
 
 
 ---
@@ -48,7 +48,7 @@ app/
 # Project Statistics
 
 Models: 24
-Services: 18
+Services: 17
 
 ---
 
@@ -100,7 +100,7 @@ Development Rules
 
 Current Statistics
 Models: 24
-Services: 18
+Services: 17
 
 ---
 
@@ -229,20 +229,6 @@ App\Modules\Accounting\Application\Services
 
 ---
 
-## JournalPostingService
-
-**Namespace**
-App\Modules\Accounting\Application\Services
-
-**Dependencies**
-- App\Modules\Accounting\Application\Actions\PostJournalEntryAction
-
-**Methods**
-- __construct(1 params) : mixed
-- post(1 params) : App\Modules\Accounting\Infrastructure\Persistence\Models\JournalEntry
-
----
-
 ## JournalValidationService
 
 **Namespace**
@@ -331,8 +317,6 @@ App\Modules\Activity\Application\Services
 App\Modules\Subscription\Application\Services
 
 **Dependencies**
-- App\Modules\Subscription\Domain\Contracts\SubscriptionRepositoryInterface
-- App\Modules\Subscription\Application\Actions\CreateSubscriptionAction
 - App\Core\Workflow\WorkflowEngine
 - App\Modules\Subscription\Application\Workflows\ActivateWorkflow
 - App\Modules\Subscription\Application\Workflows\SuspendWorkflow
@@ -341,24 +325,12 @@ App\Modules\Subscription\Application\Services
 - App\Modules\Subscription\Application\Workflows\RenewWorkflow
 
 **Methods**
-- __construct(8 params) : mixed
-- paginate(2 params) : Illuminate\Pagination\LengthAwarePaginator
-- find(1 params) : ?App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
-- findOrFail(1 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
-- byCustomer(1 params) : Illuminate\Database\Eloquent\Collection
-- active(0 params) : Illuminate\Database\Eloquent\Collection
-- expired(0 params) : Illuminate\Database\Eloquent\Collection
-- byStatus(1 params) : Illuminate\Database\Eloquent\Collection
-- search(2 params) : Illuminate\Pagination\LengthAwarePaginator
-- create(1 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
-- update(2 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
+- __construct(6 params) : mixed
 - activate(1 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
 - suspend(1 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
 - expire(1 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
 - restore(1 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
 - renew(2 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
-- statistics(0 params) : array
-- expiringSoon(1 params) : Illuminate\Database\Eloquent\Collection
 
 ---
 
@@ -3031,34 +3003,6 @@ App\Modules\Accounting\Application\Services
 
 ---
 
-## JournalPostingService
-
-**Namespace**
-
-```
-App\Modules\Accounting\Application\Services
-```
-
-**File**
-
-```
-/var/www/app/Modules/Accounting/Application/Services/JournalPostingService.php
-```
-
-**Constructor Dependencies**
-
-- PostJournalEntryAction $action
-
-**Properties**
-
-- $action : App\Modules\Accounting\Application\Actions\PostJournalEntryAction
-
-**Methods**
-
-- post() : App\Modules\Accounting\Infrastructure\Persistence\Models\JournalEntry
-
----
-
 ## JournalValidationService
 
 **Namespace**
@@ -3226,8 +3170,6 @@ App\Modules\Subscription\Application\Services
 
 **Constructor Dependencies**
 
-- SubscriptionRepositoryInterface $subscriptions
-- CreateSubscriptionAction $createSubscriptionAction
 - WorkflowEngine $engine
 - ActivateWorkflow $activateWorkflow
 - SuspendWorkflow $suspendWorkflow
@@ -3237,8 +3179,6 @@ App\Modules\Subscription\Application\Services
 
 **Properties**
 
-- $subscriptions : App\Modules\Subscription\Domain\Contracts\SubscriptionRepositoryInterface
-- $createSubscriptionAction : App\Modules\Subscription\Application\Actions\CreateSubscriptionAction
 - $engine : App\Core\Workflow\WorkflowEngine
 - $activateWorkflow : App\Modules\Subscription\Application\Workflows\ActivateWorkflow
 - $suspendWorkflow : App\Modules\Subscription\Application\Workflows\SuspendWorkflow
@@ -3248,23 +3188,11 @@ App\Modules\Subscription\Application\Services
 
 **Methods**
 
-- paginate() : Illuminate\Pagination\LengthAwarePaginator
-- find() : ?App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
-- findOrFail() : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
-- byCustomer() : Illuminate\Database\Eloquent\Collection
-- active() : Illuminate\Database\Eloquent\Collection
-- expired() : Illuminate\Database\Eloquent\Collection
-- byStatus() : Illuminate\Database\Eloquent\Collection
-- search() : Illuminate\Pagination\LengthAwarePaginator
-- create() : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
-- update() : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
 - activate() : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
 - suspend() : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
 - expire() : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
 - restore() : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
 - renew() : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
-- statistics() : array
-- expiringSoon() : Illuminate\Database\Eloquent\Collection
 
 ---
 
@@ -3536,26 +3464,6 @@ App\Http\Controllers\Api
 
 ---
 
-## CustomerDashboardController
-
-**Namespace**
-
-```
-App\Http\Controllers
-```
-
-**File**
-
-```
-/var/www/app/Http/Controllers/CustomerDashboardController.php
-```
-
-**Public Methods**
-
-- index()
-
----
-
 ## CustomerInvoiceController
 
 **Namespace**
@@ -3569,6 +3477,10 @@ App\Http\Controllers\Api
 ```
 /var/www/app/Http/Controllers/Api/CustomerInvoiceController.php
 ```
+
+**Dependencies**
+
+- QueryDispatcher $queryDispatcher
 
 **Public Methods**
 
@@ -3590,6 +3502,10 @@ App\Http\Controllers
 ```
 /var/www/app/Http/Controllers/CustomerInvoiceController.php
 ```
+
+**Dependencies**
+
+- QueryDispatcher $queryDispatcher
 
 **Public Methods**
 
@@ -4060,6 +3976,7 @@ App\Http\Controllers\Api
 **Dependencies**
 
 - NetworkManager $networkManager
+- QueryDispatcher $queryDispatcher
 
 **Public Methods**
 
@@ -4146,6 +4063,7 @@ App\Http\Controllers\Api
 **Dependencies**
 
 - PaymentService $paymentService
+- QueryDispatcher $queryDispatcher
 
 **Public Methods**
 
@@ -4229,6 +4147,10 @@ App\Http\Controllers\Api
 /var/www/app/Http/Controllers/Api/ReportController.php
 ```
 
+**Dependencies**
+
+- QueryDispatcher $queryDispatcher
+
 **Public Methods**
 
 - dashboard()
@@ -4290,7 +4212,12 @@ App\Http\Controllers\Api
 
 **Dependencies**
 
-- SubscriptionService $subscriptionService
+- WorkflowEngine $engine
+- ActivateWorkflow $activateWorkflow
+- SuspendWorkflow $suspendWorkflow
+- ExpireWorkflow $expireWorkflow
+- RestoreWorkflow $restoreWorkflow
+- RenewWorkflow $renewWorkflow
 
 **Public Methods**
 
@@ -5571,13 +5498,6 @@ App\Http\Controllers\Api
 - Method: POST
 - Name: customer.logout
 - Action: App\Http\Controllers\CustomerAuthController@logout
-- Middleware: web
-
-## customer/dashboard
-
-- Method: GET|HEAD
-- Name: customer.dashboard
-- Action: App\Http\Controllers\CustomerDashboardController@index
 - Middleware: web
 
 ## customer/invoices

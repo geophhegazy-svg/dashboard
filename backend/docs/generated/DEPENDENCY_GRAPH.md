@@ -9,7 +9,6 @@
 - App\Http\Controllers\CustomerAuthController
 - App\Http\Controllers\Api\CustomerController
 - App\Http\Controllers\Api\CustomerDashboardController
-- App\Http\Controllers\CustomerDashboardController
 - App\Http\Controllers\Api\CustomerInvoiceController
 - App\Http\Controllers\CustomerInvoiceController
 - App\Http\Controllers\Api\CustomerNotificationController
@@ -53,7 +52,6 @@
 - App\Modules\Invoice\Application\Services\InvoiceNumberService
 - App\Modules\Invoice\Application\Services\InvoiceService
 - App\Modules\Accounting\Application\Services\JournalEntryNumberService
-- App\Modules\Accounting\Application\Services\JournalPostingService
 - App\Modules\Accounting\Application\Services\JournalValidationService
 - App\Modules\Notification\Application\Services\NotificationService
 - App\Modules\Package\Application\Services\PackageService

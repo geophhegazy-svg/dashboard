@@ -19,11 +19,11 @@ final class AutoExpireSubscriptionsOrchestratorTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_execute_runs_workflow_for_expired_candidates(): void
+    public function test_execute_runs_workflow_for_expired_grace_subscriptions(): void
     {
         $subscription = Subscription::factory()->create([
-            'status' => 'active',
-            'end_date' => now()->subDay(),
+            'status' => 'grace',
+            'grace_end_date' => now()->subDay(),
             'pppoe_username' => 'test-expire-user',
         ]);
 
@@ -47,7 +47,7 @@ final class AutoExpireSubscriptionsOrchestratorTest extends TestCase
         );
 
         $repository
-            ->shouldReceive('expiredCandidates')
+            ->shouldReceive('findEligibleForExpiration')
             ->once()
             ->andReturn(
                 new Collection([$subscription])
@@ -97,14 +97,14 @@ final class AutoExpireSubscriptionsOrchestratorTest extends TestCase
         );
     }
 
-    public function test_execute_returns_zero_when_no_candidates_exist(): void
+    public function test_execute_returns_zero_when_no_expiration_candidates_exist(): void
     {
         $repository = Mockery::mock(
             SubscriptionRepositoryInterface::class
         );
 
         $repository
-            ->shouldReceive('expiredCandidates')
+            ->shouldReceive('findEligibleForExpiration')
             ->once()
             ->andReturn(
                 new Collection()

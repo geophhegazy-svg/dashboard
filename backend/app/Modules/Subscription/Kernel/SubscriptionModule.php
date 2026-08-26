@@ -10,7 +10,6 @@ use App\Console\Commands\AutoGraceSubscriptionsCommand;
 use App\Console\Commands\AutoRenewSubscriptionsCommand;
 use App\Console\Commands\AutoExpireSubscriptionsCommand;
 use App\Modules\Subscription\Application\Actions\ActivateSubscriptionAction;
-use App\Modules\Subscription\Application\Actions\CreateSubscriptionAction;
 use App\Modules\Subscription\Application\Queries\FindSubscriptionQuery;
 use App\Modules\Subscription\Domain\Events\SubscriptionActivated;
 use App\Modules\Subscription\Application\Queries\Handlers\FindSubscriptionQueryHandler;
@@ -32,7 +31,6 @@ use App\Modules\Subscription\Application\Orchestrators\AutoGraceSubscriptionsOrc
 use App\Modules\Subscription\Application\Orchestrators\AutoRenewSubscriptionsOrchestrator;
 use App\Modules\Subscription\Application\Orchestrators\AutoGraceSubscriptionsOrchestratorInterface;
 use App\Modules\Subscription\Application\Orchestrators\AutoRenewSubscriptionsOrchestratorInterface;
-use App\Modules\Subscription\Application\Services\SubscriptionService;
 
 
 final class SubscriptionModule extends Module
@@ -67,9 +65,6 @@ final class SubscriptionModule extends Module
                 AutoRenewSubscriptionsOrchestratorInterface::class =>
                 AutoRenewSubscriptionsOrchestrator::class,
 
-                SubscriptionService::class
-                => SubscriptionService::class,
-
             ])
 
             ->commands([
@@ -82,7 +77,6 @@ final class SubscriptionModule extends Module
 
                 ActivateSubscriptionAction::class,
 
-                CreateSubscriptionAction::class,
                 
                 EnterGraceSubscriptionAction::class,
 

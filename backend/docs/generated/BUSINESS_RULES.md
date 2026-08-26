@@ -123,20 +123,6 @@ App\Modules\Accounting\Application\Services
 
 ---
 
-## JournalPostingService
-
-**Namespace**
-App\Modules\Accounting\Application\Services
-
-**Dependencies**
-- App\Modules\Accounting\Application\Actions\PostJournalEntryAction
-
-**Methods**
-- __construct(1 params) : mixed
-- post(1 params) : App\Modules\Accounting\Infrastructure\Persistence\Models\JournalEntry
-
----
-
 ## JournalValidationService
 
 **Namespace**
@@ -225,8 +211,6 @@ App\Modules\Activity\Application\Services
 App\Modules\Subscription\Application\Services
 
 **Dependencies**
-- App\Modules\Subscription\Domain\Contracts\SubscriptionRepositoryInterface
-- App\Modules\Subscription\Application\Actions\CreateSubscriptionAction
 - App\Core\Workflow\WorkflowEngine
 - App\Modules\Subscription\Application\Workflows\ActivateWorkflow
 - App\Modules\Subscription\Application\Workflows\SuspendWorkflow
@@ -235,24 +219,12 @@ App\Modules\Subscription\Application\Services
 - App\Modules\Subscription\Application\Workflows\RenewWorkflow
 
 **Methods**
-- __construct(8 params) : mixed
-- paginate(2 params) : Illuminate\Pagination\LengthAwarePaginator
-- find(1 params) : ?App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
-- findOrFail(1 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
-- byCustomer(1 params) : Illuminate\Database\Eloquent\Collection
-- active(0 params) : Illuminate\Database\Eloquent\Collection
-- expired(0 params) : Illuminate\Database\Eloquent\Collection
-- byStatus(1 params) : Illuminate\Database\Eloquent\Collection
-- search(2 params) : Illuminate\Pagination\LengthAwarePaginator
-- create(1 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
-- update(2 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
+- __construct(6 params) : mixed
 - activate(1 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
 - suspend(1 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
 - expire(1 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
 - restore(1 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
 - renew(2 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
-- statistics(0 params) : array
-- expiringSoon(1 params) : Illuminate\Database\Eloquent\Collection
 
 ---
 

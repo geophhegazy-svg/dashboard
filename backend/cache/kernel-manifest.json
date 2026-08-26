@@ -52,8 +52,7 @@
                         "App\\Modules\\Subscription\\Domain\\Contracts\\SubscriptionRepositoryInterface": "App\\Modules\\Subscription\\Infrastructure\\Repositories\\SubscriptionRepository",
                         "App\\Modules\\Subscription\\Application\\Orchestrators\\AutoExpireSubscriptionsOrchestratorInterface": "App\\Modules\\Subscription\\Application\\Orchestrators\\AutoExpireSubscriptionsOrchestrator",
                         "App\\Modules\\Subscription\\Application\\Orchestrators\\AutoGraceSubscriptionsOrchestratorInterface": "App\\Modules\\Subscription\\Application\\Orchestrators\\AutoGraceSubscriptionsOrchestrator",
-                        "App\\Modules\\Subscription\\Application\\Orchestrators\\AutoRenewSubscriptionsOrchestratorInterface": "App\\Modules\\Subscription\\Application\\Orchestrators\\AutoRenewSubscriptionsOrchestrator",
-                        "App\\Modules\\Subscription\\Application\\Services\\SubscriptionService": "App\\Modules\\Subscription\\Application\\Services\\SubscriptionService"
+                        "App\\Modules\\Subscription\\Application\\Orchestrators\\AutoRenewSubscriptionsOrchestratorInterface": "App\\Modules\\Subscription\\Application\\Orchestrators\\AutoRenewSubscriptionsOrchestrator"
                     }
                 },
                 {
@@ -68,7 +67,6 @@
                     "type": "actions",
                     "actions": [
                         "App\\Modules\\Subscription\\Application\\Actions\\ActivateSubscriptionAction",
-                        "App\\Modules\\Subscription\\Application\\Actions\\CreateSubscriptionAction",
                         "App\\Modules\\Subscription\\Application\\Actions\\EnterGraceSubscriptionAction",
                         "App\\Modules\\Subscription\\Application\\Actions\\ExpireSubscriptionAction",
                         "App\\Modules\\Subscription\\Application\\Actions\\RenewSubscriptionAction",
@@ -134,7 +132,6 @@
                     "bindings": {
                         "App\\Modules\\Accounting\\Domain\\Contracts\\JournalEntryRepositoryInterface": "App\\Modules\\Accounting\\Infrastructure\\Repositories\\JournalEntryRepository",
                         "App\\Modules\\Accounting\\Application\\Services\\JournalEntryNumberService": "App\\Modules\\Accounting\\Application\\Services\\JournalEntryNumberService",
-                        "App\\Modules\\Accounting\\Application\\Services\\JournalPostingService": "App\\Modules\\Accounting\\Application\\Services\\JournalPostingService",
                         "App\\Modules\\Accounting\\Application\\Services\\JournalValidationService": "App\\Modules\\Accounting\\Application\\Services\\JournalValidationService"
                     }
                 },

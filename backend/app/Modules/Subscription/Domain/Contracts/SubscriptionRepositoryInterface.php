@@ -49,34 +49,6 @@ interface SubscriptionRepositoryInterface
 
     /*
     |--------------------------------------------------------------------------
-    | Queries
-    |--------------------------------------------------------------------------
-    */
-
-    public function byCustomer(
-        int $customerId
-    ): Collection;
-
-    public function byStatus(
-        SubscriptionStatus $status
-    ): Collection;
-
-    public function active(): Collection;
-
-    public function suspended(): Collection;
-
-    public function expired(): Collection;
-
-    public function cancelled(): Collection;
-
-    public function expiringSoon(
-        int $days = 7
-    ): Collection;
-
-    public function expiredCandidates(): Collection;
-
-    /*
-    |--------------------------------------------------------------------------
     | Statistics
     |--------------------------------------------------------------------------
     */

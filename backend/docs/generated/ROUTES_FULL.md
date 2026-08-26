@@ -1162,13 +1162,6 @@
 - Action: App\Http\Controllers\CustomerAuthController@logout
 - Middleware: web
 
-## customer/dashboard
-
-- Method: GET|HEAD
-- Name: customer.dashboard
-- Action: App\Http\Controllers\CustomerDashboardController@index
-- Middleware: web
-
 ## customer/invoices
 
 - Method: GET|HEAD

@@ -33,7 +33,7 @@ Count: 24
 
 ## Services
 
-Count: 18
+Count: 17
 
 - BillingCycleService
 - CustomerDashboardService
@@ -43,7 +43,6 @@ Count: 18
 - InvoiceNumberService
 - InvoiceService
 - JournalEntryNumberService
-- JournalPostingService
 - JournalValidationService
 - NotificationService
 - PackageService
@@ -56,7 +55,7 @@ Count: 18
 
 ## Controllers
 
-Count: 40
+Count: 39
 
 - ActivityLogController
 - AuthController
@@ -64,7 +63,6 @@ Count: 40
 - CustomerAuthController
 - CustomerAuthController
 - CustomerController
-- CustomerDashboardController
 - CustomerDashboardController
 - CustomerInvoiceController
 - CustomerInvoiceController

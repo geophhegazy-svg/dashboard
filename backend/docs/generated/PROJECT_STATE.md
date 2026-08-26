@@ -6,11 +6,11 @@
 
 ## Services
 
-18
+17
 
 ## Controllers
 
-40
+39
 
 ## Repositories
 
@@ -22,4 +22,4 @@
 
 ## Generated At
 
-2026-08-24 23:38:41
+2026-08-26 21:22:00

@@ -7,7 +7,12 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\SubscriptionResource;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
-use App\Modules\Subscription\Application\Services\SubscriptionService;
+use App\Core\Workflow\WorkflowEngine;
+use App\Modules\Subscription\Application\Workflows\ActivateWorkflow;
+use App\Modules\Subscription\Application\Workflows\ExpireWorkflow;
+use App\Modules\Subscription\Application\Workflows\RenewWorkflow;
+use App\Modules\Subscription\Application\Workflows\RestoreWorkflow;
+use App\Modules\Subscription\Application\Workflows\SuspendWorkflow;
 use App\Support\ApiResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -15,7 +20,12 @@ use Illuminate\Http\Request;
 class SubscriptionController extends Controller
 {
     public function __construct(
-        private readonly SubscriptionService $subscriptionService,
+        private readonly WorkflowEngine $engine,
+        private readonly ActivateWorkflow $activateWorkflow,
+        private readonly SuspendWorkflow $suspendWorkflow,
+        private readonly ExpireWorkflow $expireWorkflow,
+        private readonly RestoreWorkflow $restoreWorkflow,
+        private readonly RenewWorkflow $renewWorkflow,
     ) {}
 
     /**
@@ -26,9 +36,13 @@ class SubscriptionController extends Controller
     ): JsonResponse {
         $this->authorize('activate', $subscription);
 
-        $subscription = $this->subscriptionService->activate(
-            $subscription
+        $result = $this->engine->run(
+            $this->activateWorkflow,
+            $subscription,
         );
+
+        /** @var Subscription $subscription */
+        $subscription = $result->payload();
 
         return ApiResponse::success(
             new SubscriptionResource($subscription),
@@ -44,9 +58,13 @@ class SubscriptionController extends Controller
     ): JsonResponse {
         $this->authorize('suspend', $subscription);
 
-        $subscription = $this->subscriptionService->suspend(
-            $subscription
+        $result = $this->engine->run(
+            $this->suspendWorkflow,
+            $subscription,
         );
+
+        /** @var Subscription $subscription */
+        $subscription = $result->payload();
 
         return ApiResponse::success(
             new SubscriptionResource($subscription),
@@ -68,10 +86,14 @@ class SubscriptionController extends Controller
             30
         );
 
-        $subscription = $this->subscriptionService->renew(
+        $result = $this->engine->run(
+            $this->renewWorkflow,
             $subscription,
-            $days
+            $days,
         );
+
+        /** @var Subscription $subscription */
+        $subscription = $result->payload();
 
         return ApiResponse::success(
             new SubscriptionResource($subscription),
@@ -87,9 +109,13 @@ class SubscriptionController extends Controller
     ): JsonResponse {
         $this->authorize('restore', $subscription);
 
-        $subscription = $this->subscriptionService->restore(
-            $subscription
+        $result = $this->engine->run(
+            $this->restoreWorkflow,
+            $subscription,
         );
+
+        /** @var Subscription $subscription */
+        $subscription = $result->payload();
 
         return ApiResponse::success(
             new SubscriptionResource($subscription),
@@ -105,9 +131,13 @@ class SubscriptionController extends Controller
     ): JsonResponse {
         $this->authorize('expire', $subscription);
 
-        $subscription = $this->subscriptionService->expire(
-            $subscription
+        $result = $this->engine->run(
+            $this->expireWorkflow,
+            $subscription,
         );
+
+        /** @var Subscription $subscription */
+        $subscription = $result->payload();
 
         return ApiResponse::success(
             new SubscriptionResource($subscription),

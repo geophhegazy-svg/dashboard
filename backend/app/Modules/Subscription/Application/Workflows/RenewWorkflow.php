@@ -15,7 +15,6 @@ use Illuminate\Support\Str;
 
 final class RenewWorkflow extends AbstractWorkflow
 {
-    private string $renewalKey;
     public function __construct(
         private readonly ActionDispatcher $dispatcher,
         private readonly EventDispatcherInterface $events,
@@ -38,7 +37,10 @@ final class RenewWorkflow extends AbstractWorkflow
             $days,
         );
 
-        $this->renewalKey = $renewalKey;
+        $context->set(
+            'renewal_key',
+            $renewalKey,
+        );
 
         return $result;
     }
@@ -51,10 +53,14 @@ final class RenewWorkflow extends AbstractWorkflow
         /** @var Subscription $subscription */
         $subscription = $result;
 
+        $renewalKey = (string) $context->get(
+            'renewal_key'
+        );
+
         $this->events->dispatch(
             new SubscriptionRenewed(
                 $subscription,
-                $this->renewalKey,
+                $renewalKey,
             )
         );
     }
