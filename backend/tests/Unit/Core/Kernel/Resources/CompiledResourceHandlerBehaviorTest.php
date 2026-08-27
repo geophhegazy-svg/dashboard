@@ -8,6 +8,8 @@ use App\Core\Kernel\Contracts\CompiledResourceHandlerInterface;
 use App\Core\Kernel\Contracts\ModuleRegistrarInterface;
 use App\Core\Kernel\Registration\Handlers\ActionResourceHandler;
 use App\Core\Kernel\Registration\Handlers\CommandHandlerResourceHandler;
+use App\Core\Kernel\Registration\Handlers\CommandResourceHandler;
+use App\Core\Kernel\Registration\Handlers\MigrationResourceHandler;
 use App\Core\Kernel\Registration\Handlers\ListenerResourceHandler;
 use App\Core\Kernel\Registration\Handlers\PolicyResourceHandler;
 use App\Core\Kernel\Registration\Handlers\QueryResourceHandler;
@@ -46,6 +48,28 @@ final class CompiledResourceHandlerBehaviorTest extends TestCase
                 [
                     ['registerAction', ActionHandlerBehaviorActionOne::class],
                     ['registerAction', ActionHandlerBehaviorActionTwo::class],
+                ],
+            ],
+            [
+                new CommandResourceHandler(),
+                ResourceType::Commands->value,
+                [
+                    'type' => ResourceType::Commands->value,
+                    'commands' => [
+                        CommandHandlerBehaviorCommand::class,
+                        CommandHandlerBehaviorSecondCommand::class,
+                    ],
+                ],
+                'registerCommand',
+                [
+                    [
+                        'registerCommand',
+                        CommandHandlerBehaviorCommand::class,
+                    ],
+                    [
+                        'registerCommand',
+                        CommandHandlerBehaviorSecondCommand::class,
+                    ],
                 ],
             ],
             [
@@ -90,6 +114,27 @@ final class CompiledResourceHandlerBehaviorTest extends TestCase
                         'registerListener',
                         ListenerHandlerBehaviorEvent::class,
                         ListenerHandlerBehaviorListenerTwo::class,
+                    ],
+                ],
+            ],
+            [
+                new MigrationResourceHandler(),
+                ResourceType::Migrations->value,
+                [
+                    'type' => ResourceType::Migrations->value,
+                    'paths' => [
+                        'database/migrations/module-one',
+                        'database/migrations/module-two',
+                    ],
+                ],
+                'registerMigration',
+                [
+                    [
+                        'registerMigration',
+                        [
+                            'database/migrations/module-one',
+                            'database/migrations/module-two',
+                        ],
                     ],
                 ],
             ],
@@ -218,6 +263,10 @@ final class ActionHandlerBehaviorActionTwo
 }
 
 final class CommandHandlerBehaviorCommand
+{
+}
+
+final class CommandHandlerBehaviorSecondCommand
 {
 }
 

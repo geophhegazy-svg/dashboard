@@ -99,6 +99,28 @@ final class EventDispatcherTest extends TestCase
         );
     }
 
+    public function test_it_does_not_register_the_same_listener_more_than_once(): void
+    {
+        $registry = new EventRegistry();
+
+        $registry->register(
+            TestEvent::class,
+            TestListener::class,
+        );
+
+        $registry->register(
+            TestEvent::class,
+            TestListener::class,
+        );
+
+        self::assertSame(
+            [TestListener::class],
+            $registry->listenersFor(
+                new TestEvent(),
+            ),
+        );
+    }
+
     public function test_it_does_not_resolve_when_no_listener_is_registered(): void
     {
         $event = new TestEvent();

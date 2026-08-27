@@ -222,6 +222,44 @@
             ]
         },
         {
+            "class": "App\\Modules\\Documentation\\Kernel\\DocumentationModule",
+            "name": "Documentation",
+            "dependencies": [],
+            "resources": [
+                {
+                    "type": "singletons",
+                    "bindings": {
+                        "App\\Modules\\Documentation\\Application\\Knowledge\\AIContextGenerator": "App\\Modules\\Documentation\\Application\\Knowledge\\AIContextGenerator",
+                        "App\\Modules\\Documentation\\Application\\Knowledge\\ProjectSummaryGenerator": "App\\Modules\\Documentation\\Application\\Knowledge\\ProjectSummaryGenerator",
+                        "App\\Modules\\Documentation\\Application\\Knowledge\\ArchitectureGenerator": "App\\Modules\\Documentation\\Application\\Knowledge\\ArchitectureGenerator",
+                        "App\\Modules\\Documentation\\Application\\Knowledge\\StatisticsGenerator": "App\\Modules\\Documentation\\Application\\Knowledge\\StatisticsGenerator",
+                        "App\\Modules\\Documentation\\Application\\Knowledge\\BusinessRulesGenerator": "App\\Modules\\Documentation\\Application\\Knowledge\\BusinessRulesGenerator",
+                        "App\\Modules\\Documentation\\Application\\Knowledge\\ModelsKnowledgeGenerator": "App\\Modules\\Documentation\\Application\\Knowledge\\ModelsKnowledgeGenerator",
+                        "App\\Modules\\Documentation\\Application\\Knowledge\\ServicesKnowledgeGenerator": "App\\Modules\\Documentation\\Application\\Knowledge\\ServicesKnowledgeGenerator",
+                        "App\\Modules\\Documentation\\Application\\Knowledge\\ControllersKnowledgeGenerator": "App\\Modules\\Documentation\\Application\\Knowledge\\ControllersKnowledgeGenerator",
+                        "App\\Modules\\Documentation\\Application\\Knowledge\\RoutesKnowledgeGenerator": "App\\Modules\\Documentation\\Application\\Knowledge\\RoutesKnowledgeGenerator",
+                        "App\\Modules\\Documentation\\Application\\Knowledge\\ServiceUsageKnowledgeGenerator": "App\\Modules\\Documentation\\Application\\Knowledge\\ServiceUsageKnowledgeGenerator",
+                        "App\\Modules\\Documentation\\Application\\Knowledge\\ModelRelationsKnowledgeGenerator": "App\\Modules\\Documentation\\Application\\Knowledge\\ModelRelationsKnowledgeGenerator",
+                        "App\\Modules\\Documentation\\Application\\Knowledge\\DependencyGraphKnowledgeGenerator": "App\\Modules\\Documentation\\Application\\Knowledge\\DependencyGraphKnowledgeGenerator",
+                        "App\\Modules\\Documentation\\Application\\Knowledge\\DatabaseKnowledgeGenerator": "App\\Modules\\Documentation\\Application\\Knowledge\\DatabaseKnowledgeGenerator",
+                        "App\\Modules\\Documentation\\Application\\Knowledge\\MigrationsKnowledgeGenerator": "App\\Modules\\Documentation\\Application\\Knowledge\\MigrationsKnowledgeGenerator",
+                        "App\\Modules\\Documentation\\Application\\Knowledge\\ModulesKnowledgeGenerator": "App\\Modules\\Documentation\\Application\\Knowledge\\ModulesKnowledgeGenerator",
+                        "App\\Modules\\Documentation\\Application\\Knowledge\\ProjectStateKnowledgeGenerator": "App\\Modules\\Documentation\\Application\\Knowledge\\ProjectStateKnowledgeGenerator",
+                        "App\\Modules\\Documentation\\Application\\Knowledge\\ProjectBibleGenerator": "App\\Modules\\Documentation\\Application\\Knowledge\\ProjectBibleGenerator",
+                        "App\\Modules\\Documentation\\Application\\Knowledge\\HandoverDocumentGenerator": "App\\Modules\\Documentation\\Application\\Knowledge\\HandoverDocumentGenerator",
+                        "App\\Modules\\Documentation\\Application\\Knowledge\\TodoKnowledgeGenerator": "App\\Modules\\Documentation\\Application\\Knowledge\\TodoKnowledgeGenerator",
+                        "App\\Modules\\Documentation\\Application\\Knowledge\\KnowledgeIndexGenerator": "App\\Modules\\Documentation\\Application\\Knowledge\\KnowledgeIndexGenerator"
+                    }
+                },
+                {
+                    "type": "services",
+                    "bindings": {
+                        "App\\Modules\\Documentation\\Application\\Knowledge\\KnowledgeGeneratorRegistry": "App\\Modules\\Documentation\\Application\\Knowledge\\DocumentationKnowledgeGeneratorRegistry"
+                    }
+                }
+            ]
+        },
+        {
             "class": "App\\Modules\\Finance\\Kernel\\FinanceModule",
             "name": "Finance",
             "dependencies": [],

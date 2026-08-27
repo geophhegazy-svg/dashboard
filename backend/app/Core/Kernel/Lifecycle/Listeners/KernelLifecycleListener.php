@@ -9,6 +9,8 @@ use App\Core\EventBus\Contracts\EventListenerInterface;
 use App\Core\Kernel\Lifecycle\Events\KernelFailed;
 use App\Core\Kernel\Lifecycle\Events\KernelStarted;
 use App\Core\Kernel\Lifecycle\Events\KernelStarting;
+use App\Core\Kernel\Lifecycle\Events\KernelStopping;
+use App\Core\Kernel\Lifecycle\Events\KernelStopped;
 
 final readonly class KernelLifecycleListener
 implements EventListenerInterface
@@ -27,6 +29,12 @@ implements EventListenerInterface
 
             $event instanceof KernelFailed =>
             $this->onFailed(),
+
+            $event instanceof KernelStopping =>
+            $this->onStopping(),
+
+            $event instanceof KernelStopped =>
+            $this->onStopped(),
 
             default => null,
         };
@@ -48,5 +56,17 @@ implements EventListenerInterface
     private function onFailed(): void
     {
         // reserved for failure metrics
+    }
+
+
+    private function onStopping(): void
+    {
+        // reserved for lifecycle metrics
+    }
+
+
+    private function onStopped(): void
+    {
+        // reserved for lifecycle metrics
     }
 }

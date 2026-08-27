@@ -8,6 +8,8 @@ use App\Core\EventBus\EventRegistry;
 use App\Core\Kernel\Lifecycle\Events\KernelFailed;
 use App\Core\Kernel\Lifecycle\Events\KernelStarted;
 use App\Core\Kernel\Lifecycle\Events\KernelStarting;
+use App\Core\Kernel\Lifecycle\Events\KernelStopping;
+use App\Core\Kernel\Lifecycle\Events\KernelStopped;
 use App\Core\Kernel\Lifecycle\Listeners\KernelLifecycleListener;
 
 final readonly class LifecycleEventRegistrar
@@ -33,6 +35,16 @@ final readonly class LifecycleEventRegistrar
 
         $this->registry->register(
             KernelFailed::class,
+            KernelLifecycleListener::class,
+        );
+
+        $this->registry->register(
+            KernelStopping::class,
+            KernelLifecycleListener::class,
+        );
+
+        $this->registry->register(
+            KernelStopped::class,
             KernelLifecycleListener::class,
         );
     }

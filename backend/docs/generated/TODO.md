@@ -1,7 +1,8 @@
 # TODO
 
 - **app/Modules/Documentation/Application/Exports/AiStartPromptExport.php**:36 — - TODO.md
-- **app/Modules/Documentation/Application/Knowledge/KnowledgeGeneratorRegistry.php**:96 — new TodoKnowledgeGenerator()
+- **app/Modules/Documentation/Application/Knowledge/DocumentationKnowledgeGeneratorRegistry.php**:28 — TodoKnowledgeGenerator $todo,
+- **app/Modules/Documentation/Application/Knowledge/DocumentationKnowledgeGeneratorRegistry.php**:50 — $todo,
 - **app/Modules/Documentation/Application/Knowledge/TodoGenerator.php**:7 — class TodoGenerator implements KnowledgeExtractorInterface
 - **app/Modules/Documentation/Application/Knowledge/TodoGenerator.php**:11 — $todos = [];
 - **app/Modules/Documentation/Application/Knowledge/TodoGenerator.php**:27 — if (preg_match('/TODO|FIXME|XXX/i', $line)) {
@@ -16,3 +17,6 @@
 - **app/Modules/Documentation/Application/Knowledge/TodoKnowledgeGenerator.php**:29 — $md[] = 'No TODO items found.';
 - **app/Modules/Documentation/Application/Knowledge/TodoKnowledgeGenerator.php**:34 — foreach ($todos as $todo) {
 - **app/Modules/Documentation/Application/Knowledge/TodoKnowledgeGenerator.php**:37 — "- **{$todo['file']}**:{$todo['line']} — {$todo['text']}";
+- **app/Modules/Documentation/Kernel/DocumentationModule.php**:30 — use App\Modules\Documentation\Application\Knowledge\TodoKnowledgeGenerator;
+- **app/Modules/Documentation/Kernel/DocumentationModule.php**:104 — TodoKnowledgeGenerator::class
+- **app/Modules/Documentation/Kernel/DocumentationModule.php**:105 — => TodoKnowledgeGenerator::class,
