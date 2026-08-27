@@ -14,7 +14,7 @@ Technology
 
 Statistics
 - Models: 24
-- Services: 17
+- Services: 16
 
 
 ---
@@ -48,7 +48,7 @@ app/
 # Project Statistics
 
 Models: 24
-Services: 17
+Services: 16
 
 ---
 
@@ -100,7 +100,7 @@ Development Rules
 
 Current Statistics
 Models: 24
-Services: 17
+Services: 16
 
 ---
 
@@ -212,20 +212,6 @@ App\Modules\Invoice\Application\Services
 - update(2 params) : App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice
 - delete(1 params) : bool
 - settle(2 params) : App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice
-
----
-
-## JournalEntryNumberService
-
-**Namespace**
-App\Modules\Accounting\Application\Services
-
-**Dependencies**
-- App\Modules\Accounting\Domain\Contracts\JournalEntryRepositoryInterface
-
-**Methods**
-- __construct(1 params) : mixed
-- generate(0 params) : string
 
 ---
 
@@ -2413,6 +2399,12 @@ App\Modules\Task\Infrastructure\Persistence\Models
 - $recursionCache : mixed
 - $resolvedCollectionClasses : array
 
+**Methods**
+
+- tenant()
+- user()
+- factory()
+
 ---
 
 ## Ticket
@@ -2502,6 +2494,14 @@ App\Modules\Ticket\Infrastructure\Persistence\Models
 - $recursionCache : mixed
 - $resolvedCollectionClasses : array
 
+**Methods**
+
+- tenant()
+- customer()
+- user()
+- replies()
+- factory()
+
 ---
 
 ## TicketReply
@@ -2590,6 +2590,13 @@ App\Modules\Ticket\Infrastructure\Persistence\Models
 - $guardableColumns : mixed
 - $recursionCache : mixed
 - $resolvedCollectionClasses : array
+
+**Methods**
+
+- ticket()
+- customer()
+- user()
+- factory()
 
 ---
 
@@ -2972,34 +2979,6 @@ App\Modules\Invoice\Application\Services
 - update() : App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice
 - delete() : bool
 - settle() : App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice
-
----
-
-## JournalEntryNumberService
-
-**Namespace**
-
-```
-App\Modules\Accounting\Application\Services
-```
-
-**File**
-
-```
-/var/www/app/Modules/Accounting/Application/Services/JournalEntryNumberService.php
-```
-
-**Constructor Dependencies**
-
-- JournalEntryRepositoryInterface $journalEntries
-
-**Properties**
-
-- $journalEntries : App\Modules\Accounting\Domain\Contracts\JournalEntryRepositoryInterface
-
-**Methods**
-
-- generate() : string
 
 ---
 
@@ -3599,7 +3578,10 @@ App\Http\Controllers\Api
 
 **Dependencies**
 
-- TicketService $ticketService
+- CreateCustomerTicketAction $createCustomerTicket
+- ReplyAsCustomerAction $replyAsCustomer
+- CloseTicketByCustomerAction $closeTicketByCustomer
+- QueryDispatcher $queryDispatcher
 
 **Public Methods**
 
@@ -3626,6 +3608,13 @@ App\Http\Controllers
 ```
 /var/www/app/Http/Controllers/CustomerTicketController.php
 ```
+
+**Dependencies**
+
+- CreateCustomerTicketAction $createCustomerTicket
+- ReplyAsCustomerAction $replyAsCustomer
+- CloseTicketByCustomerAction $closeTicketByCustomer
+- QueryDispatcher $queryDispatcher
 
 **Public Methods**
 
@@ -4296,7 +4285,13 @@ App\Http\Controllers\Api
 
 **Dependencies**
 
-- TicketService $ticketService
+- CreateAdminTicketAction $createAdminTicket
+- UpdateTicketFromAdminAction $updateTicket
+- DeleteTicketAction $deleteTicket
+- ReplyAsStaffAction $replyAsStaff
+- ChangeTicketStatusAction $changeTicketStatus
+- AssignTicketAction $assignTicket
+- QueryDispatcher $queryDispatcher
 
 **Public Methods**
 

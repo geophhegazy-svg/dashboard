@@ -33,7 +33,7 @@ Count: 24
 
 ## Services
 
-Count: 17
+Count: 16
 
 - BillingCycleService
 - CustomerDashboardService
@@ -42,7 +42,6 @@ Count: 17
 - InvoiceGenerator
 - InvoiceNumberService
 - InvoiceService
-- JournalEntryNumberService
 - JournalValidationService
 - NotificationService
 - PackageService

@@ -2018,6 +2018,12 @@ App\Modules\Task\Infrastructure\Persistence\Models
 - $recursionCache : mixed
 - $resolvedCollectionClasses : array
 
+**Methods**
+
+- tenant()
+- user()
+- factory()
+
 ---
 
 ## Ticket
@@ -2107,6 +2113,14 @@ App\Modules\Ticket\Infrastructure\Persistence\Models
 - $recursionCache : mixed
 - $resolvedCollectionClasses : array
 
+**Methods**
+
+- tenant()
+- customer()
+- user()
+- replies()
+- factory()
+
 ---
 
 ## TicketReply
@@ -2195,6 +2209,13 @@ App\Modules\Ticket\Infrastructure\Persistence\Models
 - $guardableColumns : mixed
 - $recursionCache : mixed
 - $resolvedCollectionClasses : array
+
+**Methods**
+
+- ticket()
+- customer()
+- user()
+- factory()
 
 ---
 

@@ -298,7 +298,10 @@ App\Http\Controllers\Api
 
 **Dependencies**
 
-- TicketService $ticketService
+- CreateCustomerTicketAction $createCustomerTicket
+- ReplyAsCustomerAction $replyAsCustomer
+- CloseTicketByCustomerAction $closeTicketByCustomer
+- QueryDispatcher $queryDispatcher
 
 **Public Methods**
 
@@ -325,6 +328,13 @@ App\Http\Controllers
 ```
 /var/www/app/Http/Controllers/CustomerTicketController.php
 ```
+
+**Dependencies**
+
+- CreateCustomerTicketAction $createCustomerTicket
+- ReplyAsCustomerAction $replyAsCustomer
+- CloseTicketByCustomerAction $closeTicketByCustomer
+- QueryDispatcher $queryDispatcher
 
 **Public Methods**
 
@@ -995,7 +1005,13 @@ App\Http\Controllers\Api
 
 **Dependencies**
 
-- TicketService $ticketService
+- CreateAdminTicketAction $createAdminTicket
+- UpdateTicketFromAdminAction $updateTicket
+- DeleteTicketAction $deleteTicket
+- ReplyAsStaffAction $replyAsStaff
+- ChangeTicketStatusAction $changeTicketStatus
+- AssignTicketAction $assignTicket
+- QueryDispatcher $queryDispatcher
 
 **Public Methods**
 

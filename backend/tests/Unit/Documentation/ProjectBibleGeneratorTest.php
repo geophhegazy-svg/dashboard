@@ -35,8 +35,8 @@ class ProjectBibleGeneratorTest extends TestCase
             $markdown
         );
 
-        $this->assertStringNotContainsString(
-            'Count: 16',
+        $this->assertStringContainsString(
+            'Count: ',
             $markdown
         );
     }

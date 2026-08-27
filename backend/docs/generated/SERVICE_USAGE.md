@@ -96,19 +96,6 @@ App\Modules\Invoice\Application\Services\InvoiceService
 - settle
 - update
 
-## JournalEntryNumberService
-
-**Class**
-
-```
-App\Modules\Accounting\Application\Services\JournalEntryNumberService
-```
-
-**Public Methods**
-
-- __construct
-- generate
-
 ## JournalValidationService
 
 **Class**

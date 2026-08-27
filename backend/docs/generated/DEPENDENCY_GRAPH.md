@@ -51,7 +51,6 @@
 - App\Modules\Billing\Application\Services\InvoiceGenerator
 - App\Modules\Invoice\Application\Services\InvoiceNumberService
 - App\Modules\Invoice\Application\Services\InvoiceService
-- App\Modules\Accounting\Application\Services\JournalEntryNumberService
 - App\Modules\Accounting\Application\Services\JournalValidationService
 - App\Modules\Notification\Application\Services\NotificationService
 - App\Modules\Package\Application\Services\PackageService

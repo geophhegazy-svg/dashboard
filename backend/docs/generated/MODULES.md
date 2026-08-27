@@ -31,7 +31,7 @@ Total: 24
 
 ## Services
 
-Total: 17
+Total: 16
 
 - BillingCycleService
 - CustomerDashboardService
@@ -40,7 +40,6 @@ Total: 17
 - InvoiceGenerator
 - InvoiceNumberService
 - InvoiceService
-- JournalEntryNumberService
 - JournalValidationService
 - NotificationService
 - PackageService

@@ -194,34 +194,6 @@ App\Modules\Invoice\Application\Services
 
 ---
 
-## JournalEntryNumberService
-
-**Namespace**
-
-```
-App\Modules\Accounting\Application\Services
-```
-
-**File**
-
-```
-/var/www/app/Modules/Accounting/Application/Services/JournalEntryNumberService.php
-```
-
-**Constructor Dependencies**
-
-- JournalEntryRepositoryInterface $journalEntries
-
-**Properties**
-
-- $journalEntries : App\Modules\Accounting\Domain\Contracts\JournalEntryRepositoryInterface
-
-**Methods**
-
-- generate() : string
-
----
-
 ## JournalValidationService
 
 **Namespace**

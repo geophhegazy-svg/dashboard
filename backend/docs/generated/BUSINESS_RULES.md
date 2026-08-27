@@ -109,20 +109,6 @@ App\Modules\Invoice\Application\Services
 
 ---
 
-## JournalEntryNumberService
-
-**Namespace**
-App\Modules\Accounting\Application\Services
-
-**Dependencies**
-- App\Modules\Accounting\Domain\Contracts\JournalEntryRepositoryInterface
-
-**Methods**
-- __construct(1 params) : mixed
-- generate(0 params) : string
-
----
-
 ## JournalValidationService
 
 **Namespace**
