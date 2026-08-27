@@ -2,23 +2,22 @@
 
 declare(strict_types=1);
 
-namespace App\Modules\Ticket\Application\Actions;
+namespace App\Modules\Ticket\Application\Queries\Handlers;
 
-use App\Modules\Customer\Infrastructure\Persistence\Models\Customer;
+use App\Modules\Ticket\Application\Queries\GetCustomerTicketStatisticsQuery;
 use App\Modules\Ticket\Domain\Contracts\TicketRepositoryInterface;
 
-final readonly class GetCustomerTicketStatisticsAction
+final readonly class GetCustomerTicketStatisticsQueryHandler
 {
     public function __construct(
         private TicketRepositoryInterface $repository,
     ) {}
 
-    public function execute(
-        Customer $customer,
+    public function handle(
+        GetCustomerTicketStatisticsQuery $query,
     ): array {
-
         $tickets = $this->repository->customerTickets(
-            $customer->id,
+            $query->customerId,
         );
 
         $lastTicket = (clone $tickets)
@@ -26,27 +25,19 @@ final readonly class GetCustomerTicketStatisticsAction
             ->first();
 
         return [
-
             'statistics' => [
-
                 'total' => (clone $tickets)->count(),
-
                 'open' => (clone $tickets)
                     ->where('status', 'open')
                     ->count(),
-
                 'closed' => (clone $tickets)
                     ->where('status', 'closed')
                     ->count(),
-
                 'high_priority' => (clone $tickets)
                     ->where('priority', 'high')
                     ->count(),
-
             ],
-
             'last_ticket' => $lastTicket,
-
         ];
     }
 }

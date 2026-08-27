@@ -3,66 +3,85 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Core\QueryBus\QueryDispatcher;
+use App\Modules\Ticket\Application\Queries\PaginateCustomerTicketsQuery;
+use App\Modules\Ticket\Application\Queries\FindCustomerTicketQuery;
+use App\Modules\Ticket\Application\Queries\GetTicketRepliesQuery;
+use App\Modules\Ticket\Application\Queries\GetCustomerTicketStatisticsQuery;
 use Illuminate\Http\Request;
-use App\Models\Ticket;
-use App\Models\TicketReply;
+use App\Modules\Ticket\Infrastructure\Persistence\Models\Ticket;
 use App\Http\Resources\TicketResource;
 use App\Http\Resources\TicketReplyResource;
-use App\Services\Ticket\TicketService;
+use App\Modules\Ticket\Application\Actions\CreateCustomerTicketAction;
+use App\Modules\Ticket\Application\Actions\ReplyAsCustomerAction;
+use App\Modules\Ticket\Application\Actions\CloseTicketByCustomerAction;
 
 class CustomerTicketController extends Controller
 {
     public function __construct(
-        private readonly TicketService $ticketService
+        private readonly CreateCustomerTicketAction $createCustomerTicket,
+        private readonly ReplyAsCustomerAction $replyAsCustomer,
+        private readonly CloseTicketByCustomerAction $closeTicketByCustomer,
+        private readonly QueryDispatcher $queryDispatcher,
     ) {}
 
     public function index(Request $request)
     {
         return TicketResource::collection(
-
-            Ticket::where('customer_id', $request->user()->id)
-                ->latest()
-                ->paginate(10)
-
+            $this->queryDispatcher->dispatch(
+                new PaginateCustomerTicketsQuery(
+                    customerId: (int) $request->user()->id,
+                    perPage: 10,
+                )
+            )
         );
     }
 
     public function dashboard(Request $request)
     {
         return response()->json(
-            $this->ticketService->customerDashboardStats($request->user())
+            $this->queryDispatcher->dispatch(
+                new GetCustomerTicketStatisticsQuery(
+                    customerId: (int) $request->user()->id,
+                )
+            )
         );
     }
 
     public function show(Request $request, Ticket $ticket)
     {
-        abort_if(
-            $ticket->customer_id != $request->user()->id,
-            403
+        $ticket = $this->queryDispatcher->dispatch(
+            new FindCustomerTicketQuery(
+                customerId: (int) $request->user()->id,
+                ticketId: (int) $ticket->id,
+                relations: [
+                    'replies.customer',
+                    'replies.user',
+                ],
+            )
         );
 
-        $ticket->load(
-            'replies.customer',
-            'replies.user'
-        );
+        abort_if($ticket === null, 404);
 
         return new TicketResource($ticket);
     }
 
     public function messages(Request $request, Ticket $ticket)
     {
-        abort_if(
-            $ticket->customer_id != $request->user()->id,
-            403
+        $ticket = $this->queryDispatcher->dispatch(
+            new FindCustomerTicketQuery(
+                customerId: (int) $request->user()->id,
+                ticketId: (int) $ticket->id,
+            )
         );
 
-        $messages = TicketReply::with([
-            'customer:id,name',
-            'user:id,name'
-        ])
-            ->where('ticket_id', $ticket->id)
-            ->orderBy('created_at')
-            ->get();
+        abort_if($ticket === null, 404);
+
+        $messages = $this->queryDispatcher->dispatch(
+            new GetTicketRepliesQuery(
+                ticketId: (int) $ticket->id,
+            )
+        );
 
         return response()->json([
 
@@ -96,9 +115,9 @@ class CustomerTicketController extends Controller
 
         ]);
 
-        $ticket = $this->ticketService->createFromCustomer(
+        $ticket = $this->createCustomerTicket->execute(
             $request->user(),
-            $request->only(['subject', 'description', 'priority'])
+            $request->only(['subject', 'description', 'priority']),
         );
 
         return response()->json([
@@ -112,10 +131,14 @@ class CustomerTicketController extends Controller
 
     public function reply(Request $request, Ticket $ticket)
     {
-        abort_if(
-            $ticket->customer_id != $request->user()->id,
-            403
+        $ticket = $this->queryDispatcher->dispatch(
+            new FindCustomerTicketQuery(
+                customerId: (int) $request->user()->id,
+                ticketId: (int) $ticket->id,
+            )
         );
+
+        abort_if($ticket === null, 404);
 
         $request->validate([
 
@@ -124,10 +147,10 @@ class CustomerTicketController extends Controller
         ]);
 
         try {
-            $reply = $this->ticketService->replyAsCustomer(
+            $reply = $this->replyAsCustomer->execute(
                 $ticket,
                 $request->user(),
-                $request->message
+                $request->message,
             );
         } catch (\RuntimeException $e) {
             return response()->json([
@@ -146,13 +169,17 @@ class CustomerTicketController extends Controller
 
     public function close(Request $request, Ticket $ticket)
     {
-        abort_if(
-            $ticket->customer_id != $request->user()->id,
-            403
+        $ticket = $this->queryDispatcher->dispatch(
+            new FindCustomerTicketQuery(
+                customerId: (int) $request->user()->id,
+                ticketId: (int) $ticket->id,
+            )
         );
 
+        abort_if($ticket === null, 404);
+
         try {
-            $ticket = $this->ticketService->closeByCustomer($ticket);
+            $ticket = $this->closeTicketByCustomer->execute($ticket);
         } catch (\RuntimeException $e) {
             return response()->json([
                 'message' => $e->getMessage()

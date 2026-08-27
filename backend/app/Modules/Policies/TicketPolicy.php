@@ -2,7 +2,7 @@
 
 namespace App\Modules\Policies;
 
-use App\Models\Ticket;
+use App\Modules\Ticket\Infrastructure\Persistence\Models\Ticket;
 use App\Models\User;
 use App\Core\Security\Authorization\Concerns\AuthorizesByPermission;
 class TicketPolicy

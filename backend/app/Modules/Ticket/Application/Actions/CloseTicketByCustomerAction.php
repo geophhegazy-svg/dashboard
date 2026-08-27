@@ -4,24 +4,27 @@ declare(strict_types=1);
 
 namespace App\Modules\Ticket\Application\Actions;
 
-use App\Models\User;
 use App\Modules\Activity\Application\Actions\LogActivityAction;
 use App\Modules\Ticket\Domain\Contracts\TicketRepositoryInterface;
 use App\Modules\Ticket\Infrastructure\Persistence\Models\Ticket;
 
-final readonly class AssignTicketAction
+final readonly class CloseTicketByCustomerAction
 {
     public function __construct(
         private TicketRepositoryInterface $repository,
         private LogActivityAction $logActivity,
     ) {}
 
-    public function execute(
-        Ticket $ticket,
-        User $user,
-        ?int $actingUserId,
-    ): Ticket {
-        $this->repository->assign($ticket, $user);
+    public function execute(Ticket $ticket): Ticket
+    {
+        if ($ticket->status === 'closed') {
+            throw new \RuntimeException('Ticket already closed.');
+        }
+
+        $this->repository->update($ticket, [
+            'status' => 'closed',
+            'closed_at' => now(),
+        ]);
 
         $ticket = $this->repository->fresh($ticket);
 
@@ -29,11 +32,11 @@ final readonly class AssignTicketAction
             [
                 'tenant_id' => $ticket->tenant_id,
                 'module' => 'ticket',
-                'action' => 'assigned',
+                'action' => 'closed',
             ],
             [
-                'user_id' => $actingUserId,
-                'description' => "Assigned {$ticket->ticket_number} to {$user->name}",
+                'user_id' => null,
+                'description' => "Customer closed ticket {$ticket->ticket_number}",
                 'ip_address' => request()->ip(),
             ],
         );

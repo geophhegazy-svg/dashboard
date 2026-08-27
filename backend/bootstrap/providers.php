@@ -8,7 +8,6 @@ return [
 
     App\Providers\ReportsServiceProvider::class,
 
-    App\Providers\NetworkServiceProvider::class,
 
 
     App\Providers\AuthServiceProvider::class,

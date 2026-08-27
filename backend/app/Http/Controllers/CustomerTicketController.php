@@ -4,23 +4,35 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Models\Ticket;
-use App\Models\TicketReply;
+use App\Core\QueryBus\QueryDispatcher;
+use App\Modules\Ticket\Application\Queries\PaginateCustomerTicketsQuery;
+use App\Modules\Ticket\Application\Queries\FindCustomerTicketQuery;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Modules\Ticket\TicketService;
+use App\Modules\Ticket\Application\Actions\CreateCustomerTicketAction;
+use App\Modules\Ticket\Application\Actions\ReplyAsCustomerAction;
+use App\Modules\Ticket\Application\Actions\CloseTicketByCustomerAction;
 
 
 class CustomerTicketController extends Controller
 {
+    public function __construct(
+        private readonly CreateCustomerTicketAction $createCustomerTicket,
+        private readonly ReplyAsCustomerAction $replyAsCustomer,
+        private readonly CloseTicketByCustomerAction $closeTicketByCustomer,
+        private readonly QueryDispatcher $queryDispatcher,
+    ) {}
+
     public function index()
     {
         $customer = Auth::guard('customer')->user();
 
-        $tickets = Ticket::query()
-            ->where('customer_id', $customer->id)
-            ->latest()
-            ->paginate(10);
+        $tickets = $this->queryDispatcher->dispatch(
+            new PaginateCustomerTicketsQuery(
+                customerId: (int) $customer->id,
+                perPage: 10,
+            )
+        );
 
         return view(
             'customer.tickets',
@@ -44,14 +56,14 @@ class CustomerTicketController extends Controller
 
         $customer = Auth::guard('customer')->user();
 
-        Ticket::create([
-            'customer_id' => $customer->id,
-            'subject'     => $request->subject,
-            'message'     => $request->message,
-            'priority'    => $request->priority,
-            'status'      => 'open',
-            'created_by'  => 'customer',
-        ]);
+        $this->createCustomerTicket->execute(
+            $customer,
+            [
+                'subject'     => $request->subject,
+                'description' => $request->message,
+                'priority'    => $request->priority,
+            ],
+        );
 
         return redirect()
             ->route('customer.tickets')
@@ -66,10 +78,14 @@ class CustomerTicketController extends Controller
     ) {
         $customer = Auth::guard('customer')->user();
 
-        $ticket = Ticket::query()
-            ->where('customer_id', $customer->id)
-            ->where('id', $id)
-            ->firstOrFail();
+        $ticket = $this->queryDispatcher->dispatch(
+            new FindCustomerTicketQuery(
+                customerId: (int) $customer->id,
+                ticketId: $id,
+            )
+        );
+
+        abort_if($ticket === null, 404);
 
         return view(
             'customer.ticket-detail',
@@ -87,22 +103,20 @@ class CustomerTicketController extends Controller
 
         $customer = Auth::guard('customer')->user();
 
-        $ticket = Ticket::query()
-            ->where('customer_id', $customer->id)
-            ->where('id', $id)
-            ->firstOrFail();
+        $ticket = $this->queryDispatcher->dispatch(
+            new FindCustomerTicketQuery(
+                customerId: (int) $customer->id,
+                ticketId: $id,
+            )
+        );
 
-        TicketReply::create([
-            'ticket_id'   => $ticket->id,
-            'user_id'     => null,
-            'customer_id' => $customer->id,
-            'message'     => $request->message,
-            'is_customer' => true,
-        ]);
+        abort_if($ticket === null, 404);
 
-        $ticket->update([
-            'status' => 'in_progress',
-        ]);
+        $this->replyAsCustomer->execute(
+            $ticket,
+            $customer,
+            $request->message,
+        );
 
         return back()->with(
             'success',
@@ -115,14 +129,18 @@ class CustomerTicketController extends Controller
     ) {
         $customer = Auth::guard('customer')->user();
 
-        $ticket = Ticket::query()
-            ->where('customer_id', $customer->id)
-            ->where('id', $id)
-            ->firstOrFail();
+        $ticket = $this->queryDispatcher->dispatch(
+            new FindCustomerTicketQuery(
+                customerId: (int) $customer->id,
+                ticketId: $id,
+            )
+        );
 
-        $ticket->update([
-            'status' => 'closed',
-        ]);
+        abort_if($ticket === null, 404);
+
+        $this->closeTicketByCustomer->execute(
+            $ticket,
+        );
 
         return back()->with(
             'success',

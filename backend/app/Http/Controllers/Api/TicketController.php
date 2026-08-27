@@ -3,35 +3,53 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Core\QueryBus\QueryDispatcher;
 use App\Http\Requests\StoreTicketRequest;
 use App\Http\Resources\TicketResource;
 use App\Http\Resources\TicketReplyResource;
+use App\Modules\Ticket\Application\Queries\GetTicketRepliesQuery;
+use App\Modules\Ticket\Application\Queries\GetAdminTicketStatisticsQuery;
+use App\Modules\Ticket\Application\Queries\PaginateTicketsQuery;
+use App\Modules\Ticket\Application\Queries\FindTicketQuery;
 use Illuminate\Http\Request;
-use App\Models\Ticket;
+use App\Modules\Ticket\Infrastructure\Persistence\Models\Ticket;
 use App\Models\User;
-use App\Modules\Ticket\TicketService;
+use App\Modules\Ticket\Application\Actions\CreateAdminTicketAction;
+use App\Modules\Ticket\Application\Actions\UpdateTicketFromAdminAction;
+use App\Modules\Ticket\Application\Actions\DeleteTicketAction;
+use App\Modules\Ticket\Application\Actions\ReplyAsStaffAction;
+use App\Modules\Ticket\Application\Actions\ChangeTicketStatusAction;
+use App\Modules\Ticket\Application\Actions\AssignTicketAction;
 use Illuminate\Support\Facades\Auth;
 
 class TicketController extends Controller
 {
     public function __construct(
-        private readonly TicketService $ticketService
+        private readonly CreateAdminTicketAction $createAdminTicket,
+        private readonly UpdateTicketFromAdminAction $updateTicket,
+        private readonly DeleteTicketAction $deleteTicket,
+        private readonly ReplyAsStaffAction $replyAsStaff,
+        private readonly ChangeTicketStatusAction $changeTicketStatus,
+        private readonly AssignTicketAction $assignTicket,
+        private readonly QueryDispatcher $queryDispatcher,
     ) {}
 
     public function index()
     {
-        return TicketResource::collection(
-            Ticket::with('customer')
-                ->latest()
-                ->paginate(20)
+        $tickets = $this->queryDispatcher->dispatch(
+            new PaginateTicketsQuery(
+                perPage: 20,
+            )
         );
+
+        return TicketResource::collection($tickets);
     }
 
     public function store(StoreTicketRequest $request)
     {
-        $ticket = $this->ticketService->createFromAdmin(
+        $ticket = $this->createAdminTicket->execute(
             $request->validated(),
-            auth::id()
+            auth::id(),
         );
 
         return new TicketResource($ticket);
@@ -39,22 +57,29 @@ class TicketController extends Controller
 
     public function show(Ticket $ticket)
     {
-        $ticket->load([
-            'customer',
-            'user',
-            'replies.customer',
-            'replies.user'
-        ]);
+        $ticket = $this->queryDispatcher->dispatch(
+            new FindTicketQuery(
+                ticketId: (int) $ticket->id,
+                relations: [
+                    'customer',
+                    'user',
+                    'replies.customer',
+                    'replies.user',
+                ],
+            )
+        );
+
+        abort_if($ticket === null, 404);
 
         return new TicketResource($ticket);
     }
 
     public function update(StoreTicketRequest $request, Ticket $ticket)
     {
-        $ticket = $this->ticketService->updateFromAdmin(
+        $ticket = $this->updateTicket->execute(
             $ticket,
             $request->validated(),
-            auth::id()
+            auth::id(),
         );
 
         return new TicketResource($ticket);
@@ -62,7 +87,7 @@ class TicketController extends Controller
 
     public function destroy(Ticket $ticket)
     {
-        $this->ticketService->delete($ticket, auth::id());
+        $this->deleteTicket->execute($ticket, auth::id());
 
         return response()->json([
             'message' => 'Ticket deleted successfully'
@@ -78,7 +103,9 @@ class TicketController extends Controller
     public function dashboard()
     {
         return response()->json(
-            $this->ticketService->adminDashboardStats()
+            $this->queryDispatcher->dispatch(
+                new GetAdminTicketStatisticsQuery()
+            )
         );
     }
 
@@ -90,10 +117,11 @@ class TicketController extends Controller
 
     public function messages(Ticket $ticket)
     {
-        $ticket->load([
-            'replies.customer',
-            'replies.user'
-        ]);
+        $messages = $this->queryDispatcher->dispatch(
+            new GetTicketRepliesQuery(
+                ticketId: (int) $ticket->id,
+            )
+        );
 
         return response()->json([
 
@@ -112,7 +140,7 @@ class TicketController extends Controller
             ],
 
             'messages' => TicketReplyResource::collection(
-                $ticket->replies()->oldest()->get()
+                $messages
             ),
 
         ]);
@@ -131,10 +159,10 @@ class TicketController extends Controller
         ]);
 
         try {
-            $reply = $this->ticketService->replyAsStaff(
+            $reply = $this->replyAsStaff->execute(
                 $ticket,
                 auth::id(),
-                $request->message
+                $request->message,
             );
         } catch (\RuntimeException $e) {
             return response()->json([
@@ -164,10 +192,10 @@ class TicketController extends Controller
             'status' => 'required|in:open,in_progress,resolved,closed'
         ]);
 
-        $ticket = $this->ticketService->changeStatus(
+        $ticket = $this->changeTicketStatus->execute(
             $ticket,
             $request->status,
-            auth::id()
+            auth::id(),
         );
 
         return new TicketResource($ticket);
@@ -189,10 +217,10 @@ class TicketController extends Controller
 
         $user = User::findOrFail($request->user_id);
 
-        $ticket = $this->ticketService->assign(
+        $ticket = $this->assignTicket->execute(
             $ticket,
             $user,
-            auth::id()
+            auth::id(),
         );
 
         return response()->json([

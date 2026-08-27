@@ -7,7 +7,16 @@ namespace App\Modules\Network\Kernel;
 use App\Core\Kernel\ModuleManifest;
 use App\Core\Kernel\Modules\Module;
 use App\Modules\Network\Application\MikrotikServiceAdapter;
+use App\Modules\Network\Application\NetworkProviderResolver;
 use App\Modules\Network\Domain\Contracts\MikrotikServiceInterface;
+use App\Modules\Network\Infrastructure\Providers\MikroTik\MikroTikConnectionService;
+use App\Modules\Network\Infrastructure\Providers\MikroTik\MikroTikDhcpService;
+use App\Modules\Network\Infrastructure\Providers\MikroTik\MikroTikFirewallService;
+use App\Modules\Network\Infrastructure\Providers\MikroTik\MikroTikHotspotService;
+use App\Modules\Network\Infrastructure\Providers\MikroTik\MikroTikMonitoringService;
+use App\Modules\Network\Infrastructure\Providers\MikroTik\MikroTikPppoeService;
+use App\Modules\Network\Infrastructure\Providers\MikroTik\MikroTikQueryService;
+use App\Modules\Network\Infrastructure\Providers\MikroTik\MikroTikQueueService;
 use App\Modules\Network\Application\Listeners\SubscriptionNetworkLifecycleListener;
 use App\Modules\Subscription\Domain\Events\SubscriptionActivated;
 use App\Modules\Subscription\Domain\Events\SubscriptionExpired;
@@ -36,7 +45,38 @@ final class NetworkModule extends Module
             ->services([
 
                 MikrotikServiceInterface::class
-                => MikrotikServiceAdapter::class,
+                    => MikrotikServiceAdapter::class,
+
+            ])
+
+            ->singletons([
+
+                NetworkProviderResolver::class
+                    => NetworkProviderResolver::class,
+
+                MikroTikConnectionService::class
+                    => MikroTikConnectionService::class,
+
+                MikroTikQueryService::class
+                    => MikroTikQueryService::class,
+
+                MikroTikPppoeService::class
+                    => MikroTikPppoeService::class,
+
+                MikroTikQueueService::class
+                    => MikroTikQueueService::class,
+
+                MikroTikHotspotService::class
+                    => MikroTikHotspotService::class,
+
+                MikroTikFirewallService::class
+                    => MikroTikFirewallService::class,
+
+                MikroTikDhcpService::class
+                    => MikroTikDhcpService::class,
+
+                MikroTikMonitoringService::class
+                    => MikroTikMonitoringService::class,
 
             ])
 

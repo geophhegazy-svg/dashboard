@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Modules\Customer\Infrastructure\Persistence\Models\Customer;
 use App\Modules\Payment\Application\Queries\GetPaymentDashboardMetricsQuery;
 use App\Modules\Payment\Application\Queries\GetRecentPaymentsQuery;
-use App\Models\Ticket;
+use App\Modules\Ticket\Application\Queries\GetTicketStatusMetricsQuery;
 use App\Models\Inventory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -40,10 +40,8 @@ class ReportController extends Controller
 
             'payments' => $paymentMetrics['total_payments'],
 
-            'tickets_open' => Ticket::where(
-                'status',
-                'open'
-            )->count(),
+            'tickets_open' => $this->queryDispatcher
+                ->dispatch(new GetTicketStatusMetricsQuery())['open'],
 
             'revenue' => $paymentMetrics['total_revenue'],
         ]);
@@ -79,6 +77,10 @@ class ReportController extends Controller
     }
     public function tickets()
     {
-        return response()->json(['open' => Ticket::where('status', 'open')->count(), 'closed' => Ticket::where('status', 'closed')->count(), 'pending' => Ticket::where('status', 'pending')->count(),]);
+        return response()->json(
+            $this->queryDispatcher->dispatch(
+                new GetTicketStatusMetricsQuery()
+            )
+        );
     }
 }

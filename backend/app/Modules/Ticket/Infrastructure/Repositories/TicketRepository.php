@@ -58,6 +58,47 @@ final class TicketRepository implements TicketRepositoryInterface
         );
     }
 
+    public function paginateByCustomerId(
+        int $customerId,
+        int $perPage = 10,
+    ): \Illuminate\Contracts\Pagination\LengthAwarePaginator {
+        return Ticket::query()
+            ->where('customer_id', $customerId)
+            ->latest()
+            ->paginate($perPage);
+    }
+
+    public function paginateTickets(
+        int $perPage = 20,
+    ): \Illuminate\Contracts\Pagination\LengthAwarePaginator {
+        return Ticket::query()
+            ->with('customer')
+            ->latest()
+            ->paginate($perPage);
+    }
+
+    public function findById(
+        int $ticketId,
+        array $relations = [],
+    ): ?Ticket {
+        return Ticket::query()
+            ->with($relations)
+            ->whereKey($ticketId)
+            ->first();
+    }
+
+    public function findByCustomerIdAndId(
+        int $customerId,
+        int $ticketId,
+        array $relations = [],
+    ): ?Ticket {
+        return Ticket::query()
+            ->with($relations)
+            ->where('customer_id', $customerId)
+            ->whereKey($ticketId)
+            ->first();
+    }
+
     public function adminTickets(): Builder
     {
         return Ticket::query();
@@ -100,6 +141,18 @@ final class TicketRepository implements TicketRepositoryInterface
             'created_at',
             today(),
         )->count();
+    }
+
+    public function ticketReplies(
+        int $ticketId,
+    ): \Illuminate\Support\Collection {
+        return TicketReply::with([
+            'customer:id,name',
+            'user:id,name',
+        ])
+            ->where('ticket_id', $ticketId)
+            ->orderBy('created_at')
+            ->get();
     }
 
     public function freshReply(

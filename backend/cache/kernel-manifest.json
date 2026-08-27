@@ -131,7 +131,6 @@
                     "type": "services",
                     "bindings": {
                         "App\\Modules\\Accounting\\Domain\\Contracts\\JournalEntryRepositoryInterface": "App\\Modules\\Accounting\\Infrastructure\\Repositories\\JournalEntryRepository",
-                        "App\\Modules\\Accounting\\Application\\Services\\JournalEntryNumberService": "App\\Modules\\Accounting\\Application\\Services\\JournalEntryNumberService",
                         "App\\Modules\\Accounting\\Application\\Services\\JournalValidationService": "App\\Modules\\Accounting\\Application\\Services\\JournalValidationService"
                     }
                 },
@@ -349,6 +348,20 @@
                     }
                 },
                 {
+                    "type": "singletons",
+                    "bindings": {
+                        "App\\Modules\\Network\\Application\\NetworkProviderResolver": "App\\Modules\\Network\\Application\\NetworkProviderResolver",
+                        "App\\Modules\\Network\\Infrastructure\\Providers\\MikroTik\\MikroTikConnectionService": "App\\Modules\\Network\\Infrastructure\\Providers\\MikroTik\\MikroTikConnectionService",
+                        "App\\Modules\\Network\\Infrastructure\\Providers\\MikroTik\\MikroTikQueryService": "App\\Modules\\Network\\Infrastructure\\Providers\\MikroTik\\MikroTikQueryService",
+                        "App\\Modules\\Network\\Infrastructure\\Providers\\MikroTik\\MikroTikPppoeService": "App\\Modules\\Network\\Infrastructure\\Providers\\MikroTik\\MikroTikPppoeService",
+                        "App\\Modules\\Network\\Infrastructure\\Providers\\MikroTik\\MikroTikQueueService": "App\\Modules\\Network\\Infrastructure\\Providers\\MikroTik\\MikroTikQueueService",
+                        "App\\Modules\\Network\\Infrastructure\\Providers\\MikroTik\\MikroTikHotspotService": "App\\Modules\\Network\\Infrastructure\\Providers\\MikroTik\\MikroTikHotspotService",
+                        "App\\Modules\\Network\\Infrastructure\\Providers\\MikroTik\\MikroTikFirewallService": "App\\Modules\\Network\\Infrastructure\\Providers\\MikroTik\\MikroTikFirewallService",
+                        "App\\Modules\\Network\\Infrastructure\\Providers\\MikroTik\\MikroTikDhcpService": "App\\Modules\\Network\\Infrastructure\\Providers\\MikroTik\\MikroTikDhcpService",
+                        "App\\Modules\\Network\\Infrastructure\\Providers\\MikroTik\\MikroTikMonitoringService": "App\\Modules\\Network\\Infrastructure\\Providers\\MikroTik\\MikroTikMonitoringService"
+                    }
+                },
+                {
                     "type": "listeners",
                     "listeners": {
                         "App\\Modules\\Subscription\\Domain\\Events\\SubscriptionActivated": [
@@ -523,14 +536,34 @@
                     "type": "services",
                     "bindings": {
                         "App\\Modules\\Ticket\\Domain\\Contracts\\TicketRepositoryInterface": "App\\Modules\\Ticket\\Infrastructure\\Repositories\\TicketRepository",
-                        "App\\Modules\\Ticket\\Application\\Actions\\CreateTicketAction": "App\\Modules\\Ticket\\Application\\Actions\\CreateTicketAction",
-                        "App\\Modules\\Ticket\\Application\\Actions\\UpdateTicketAction": "App\\Modules\\Ticket\\Application\\Actions\\UpdateTicketAction",
+                        "App\\Modules\\Ticket\\Application\\Actions\\CreateAdminTicketAction": "App\\Modules\\Ticket\\Application\\Actions\\CreateAdminTicketAction",
+                        "App\\Modules\\Ticket\\Application\\Actions\\CreateCustomerTicketAction": "App\\Modules\\Ticket\\Application\\Actions\\CreateCustomerTicketAction",
+                        "App\\Modules\\Ticket\\Application\\Actions\\UpdateTicketFromAdminAction": "App\\Modules\\Ticket\\Application\\Actions\\UpdateTicketFromAdminAction",
                         "App\\Modules\\Ticket\\Application\\Actions\\DeleteTicketAction": "App\\Modules\\Ticket\\Application\\Actions\\DeleteTicketAction",
-                        "App\\Modules\\Ticket\\Application\\Actions\\CreateTicketReplyAction": "App\\Modules\\Ticket\\Application\\Actions\\CreateTicketReplyAction",
+                        "App\\Modules\\Ticket\\Application\\Actions\\ReplyAsStaffAction": "App\\Modules\\Ticket\\Application\\Actions\\ReplyAsStaffAction",
+                        "App\\Modules\\Ticket\\Application\\Actions\\ReplyAsCustomerAction": "App\\Modules\\Ticket\\Application\\Actions\\ReplyAsCustomerAction",
                         "App\\Modules\\Ticket\\Application\\Actions\\ChangeTicketStatusAction": "App\\Modules\\Ticket\\Application\\Actions\\ChangeTicketStatusAction",
-                        "App\\Modules\\Ticket\\Application\\Actions\\AssignTicketAction": "App\\Modules\\Ticket\\Application\\Actions\\AssignTicketAction",
-                        "App\\Modules\\Ticket\\Application\\Actions\\GetAdminTicketStatisticsAction": "App\\Modules\\Ticket\\Application\\Actions\\GetAdminTicketStatisticsAction",
-                        "App\\Modules\\Ticket\\Application\\Actions\\GetCustomerTicketStatisticsAction": "App\\Modules\\Ticket\\Application\\Actions\\GetCustomerTicketStatisticsAction"
+                        "App\\Modules\\Ticket\\Application\\Actions\\CloseTicketByCustomerAction": "App\\Modules\\Ticket\\Application\\Actions\\CloseTicketByCustomerAction",
+                        "App\\Modules\\Ticket\\Application\\Actions\\AssignTicketAction": "App\\Modules\\Ticket\\Application\\Actions\\AssignTicketAction"
+                    }
+                },
+                {
+                    "type": "queries",
+                    "queries": {
+                        "App\\Modules\\Ticket\\Application\\Queries\\PaginateCustomerTicketsQuery": "App\\Modules\\Ticket\\Application\\Queries\\Handlers\\PaginateCustomerTicketsQueryHandler",
+                        "App\\Modules\\Ticket\\Application\\Queries\\PaginateTicketsQuery": "App\\Modules\\Ticket\\Application\\Queries\\Handlers\\PaginateTicketsQueryHandler",
+                        "App\\Modules\\Ticket\\Application\\Queries\\FindTicketQuery": "App\\Modules\\Ticket\\Application\\Queries\\Handlers\\FindTicketQueryHandler",
+                        "App\\Modules\\Ticket\\Application\\Queries\\FindCustomerTicketQuery": "App\\Modules\\Ticket\\Application\\Queries\\Handlers\\FindCustomerTicketQueryHandler",
+                        "App\\Modules\\Ticket\\Application\\Queries\\GetTicketRepliesQuery": "App\\Modules\\Ticket\\Application\\Queries\\Handlers\\GetTicketRepliesQueryHandler",
+                        "App\\Modules\\Ticket\\Application\\Queries\\GetTicketStatusMetricsQuery": "App\\Modules\\Ticket\\Application\\Queries\\Handlers\\GetTicketStatusMetricsQueryHandler",
+                        "App\\Modules\\Ticket\\Application\\Queries\\GetAdminTicketStatisticsQuery": "App\\Modules\\Ticket\\Application\\Queries\\Handlers\\GetAdminTicketStatisticsQueryHandler",
+                        "App\\Modules\\Ticket\\Application\\Queries\\GetCustomerTicketStatisticsQuery": "App\\Modules\\Ticket\\Application\\Queries\\Handlers\\GetCustomerTicketStatisticsQueryHandler"
+                    }
+                },
+                {
+                    "type": "policies",
+                    "policies": {
+                        "App\\Modules\\Ticket\\Infrastructure\\Persistence\\Models\\Ticket": "App\\Modules\\Policies\\TicketPolicy"
                     }
                 }
             ]

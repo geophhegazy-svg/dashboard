@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace App\Modules\Ticket\Application\Actions;
 
-use App\Models\User;
 use App\Modules\Activity\Application\Actions\LogActivityAction;
 use App\Modules\Ticket\Domain\Contracts\TicketRepositoryInterface;
 use App\Modules\Ticket\Infrastructure\Persistence\Models\Ticket;
 
-final readonly class AssignTicketAction
+final readonly class UpdateTicketFromAdminAction
 {
     public function __construct(
         private TicketRepositoryInterface $repository,
@@ -18,10 +17,10 @@ final readonly class AssignTicketAction
 
     public function execute(
         Ticket $ticket,
-        User $user,
+        array $data,
         ?int $actingUserId,
     ): Ticket {
-        $this->repository->assign($ticket, $user);
+        $this->repository->update($ticket, $data);
 
         $ticket = $this->repository->fresh($ticket);
 
@@ -29,11 +28,11 @@ final readonly class AssignTicketAction
             [
                 'tenant_id' => $ticket->tenant_id,
                 'module' => 'ticket',
-                'action' => 'assigned',
+                'action' => 'updated',
             ],
             [
                 'user_id' => $actingUserId,
-                'description' => "Assigned {$ticket->ticket_number} to {$user->name}",
+                'description' => "Updated ticket {$ticket->ticket_number}",
                 'ip_address' => request()->ip(),
             ],
         );

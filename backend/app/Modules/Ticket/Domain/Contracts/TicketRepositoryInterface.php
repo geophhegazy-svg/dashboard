@@ -39,6 +39,26 @@ interface TicketRepositoryInterface
         int $customerId,
     ): Builder;
 
+    public function paginateByCustomerId(
+        int $customerId,
+        int $perPage = 10,
+    ): \Illuminate\Contracts\Pagination\LengthAwarePaginator;
+
+    public function paginateTickets(
+        int $perPage = 20,
+    ): \Illuminate\Contracts\Pagination\LengthAwarePaginator;
+
+    public function findById(
+        int $ticketId,
+        array $relations = [],
+    ): ?Ticket;
+
+    public function findByCustomerIdAndId(
+        int $customerId,
+        int $ticketId,
+        array $relations = [],
+    ): ?Ticket;
+
     public function adminTickets(): Builder;
 
     public function assign(
@@ -49,6 +69,10 @@ interface TicketRepositoryInterface
     public function freshReply(
         TicketReply $reply,
     ): TicketReply;
+
+    public function ticketReplies(
+        int $ticketId,
+    ): \Illuminate\Support\Collection;
 
     public function count(): int;
 
