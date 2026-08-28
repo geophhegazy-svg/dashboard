@@ -69,7 +69,7 @@ class Invoice extends \Illuminate\Database\Eloquent\Model
     public function hotspotSubscription()
     {
         return $this->belongsTo(
-            \App\Models\HotspotSubscription::class,
+            \App\Modules\Subscription\Infrastructure\Persistence\Models\HotspotSubscription::class,
             'hotspot_subscription_id'
         );
     }

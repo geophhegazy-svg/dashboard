@@ -9,7 +9,7 @@ use App\Modules\Network\Domain\Contracts\NetworkProviderInterface;
 use App\Modules\Network\Application\NetworkManager;
 use App\Modules\Customer\Infrastructure\Persistence\Models\Customer;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
-use App\Models\HotspotSubscription;
+use App\Modules\Subscription\Infrastructure\Persistence\Models\HotspotSubscription;
 use App\Modules\Network\Infrastructure\Persistence\Models\NetworkDevice;
 use App\Core\QueryBus\QueryDispatcher;
 use App\Modules\Invoice\Application\Queries\GetInvoiceDashboardMetricsQuery;

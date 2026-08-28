@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\Dashboard\Application\Services;
 
 use App\Modules\Customer\Infrastructure\Persistence\Models\Customer;
-use App\Models\HotspotSubscription;
+use App\Modules\Subscription\Infrastructure\Persistence\Models\HotspotSubscription;
 use App\Core\QueryBus\QueryDispatcher;
 use App\Modules\Invoice\Application\Queries\GetInvoiceDashboardMetricsQuery;
 use App\Modules\Package\Infrastructure\Persistence\Models\Package;

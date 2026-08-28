@@ -6,7 +6,7 @@ use App\Modules\Customer\Infrastructure\Persistence\Models\Customer;
 use App\Modules\Payment\Application\Queries\GetPaymentDashboardMetricsQuery;
 use App\Modules\Payment\Application\Queries\GetRecentPaymentsQuery;
 use App\Modules\Ticket\Application\Queries\GetTicketStatusMetricsQuery;
-use App\Models\Inventory;
+use App\Modules\Inventory\Infrastructure\Persistence\Models\Inventory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Core\QueryBus\QueryDispatcher;

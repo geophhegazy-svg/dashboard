@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\HotspotSubscription;
+use App\Modules\Subscription\Infrastructure\Persistence\Models\HotspotSubscription;
 use App\Modules\Customer\Infrastructure\Persistence\Models\Customer;
 use Illuminate\Http\Request;
 use RouterOS\Client;

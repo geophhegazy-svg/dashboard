@@ -6,7 +6,7 @@ namespace App\Modules\Usage;
 
 use App\Modules\Customer\Infrastructure\Persistence\Models\Customer;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
-use App\Models\HotspotSubscription;
+use App\Modules\Subscription\Infrastructure\Persistence\Models\HotspotSubscription;
 use App\Modules\Usage\UsageSnapshot;
 use Illuminate\Support\Collection;
 
