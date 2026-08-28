@@ -4,13 +4,14 @@ Generated from the current project structure.
 
 ## Models
 
-Count: 24
+Count: 25
 
 - Account
 - ActivityLog
 - Customer
 - Device
 - DeviceAssignment
+- HotspotSubscription
 - HotspotUser
 - Inventory
 - Invoice

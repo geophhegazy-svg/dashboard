@@ -2,13 +2,14 @@
 
 ## Models
 
-Total: 24
+Total: 25
 
 - Account
 - ActivityLog
 - Customer
 - Device
 - DeviceAssignment
+- HotspotSubscription
 - HotspotUser
 - Inventory
 - Invoice

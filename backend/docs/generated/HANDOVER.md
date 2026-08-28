@@ -13,7 +13,7 @@ Technology
 - MikroTik RouterOS
 
 Statistics
-- Models: 24
+- Models: 25
 - Services: 16
 
 
@@ -47,7 +47,7 @@ app/
 
 # Project Statistics
 
-Models: 24
+Models: 25
 Services: 16
 
 ---
@@ -99,7 +99,7 @@ Development Rules
 - Update generated documentation after structural changes.
 
 Current Statistics
-Models: 24
+Models: 25
 Services: 16
 
 ---
@@ -873,6 +873,102 @@ App\Modules\Inventory\Infrastructure\Persistence\Models
 - tenant()
 - customer()
 - device()
+- factory()
+
+---
+
+## HotspotSubscription
+
+**Namespace**
+
+```
+App\Modules\Subscription\Infrastructure\Persistence\Models
+```
+
+**File**
+
+```
+/var/www/app/Modules/Subscription/Infrastructure/Persistence/Models/HotspotSubscription.php
+```
+
+**Properties**
+
+- $table : mixed
+- $fillable : mixed
+- $casts : mixed
+- $connection : mixed
+- $primaryKey : mixed
+- $keyType : mixed
+- $incrementing : mixed
+- $with : mixed
+- $withCount : mixed
+- $preventsLazyLoading : mixed
+- $perPage : mixed
+- $exists : mixed
+- $wasRecentlyCreated : mixed
+- $escapeWhenCastingToString : mixed
+- $resolver : mixed
+- $dispatcher : mixed
+- $booting : mixed
+- $booted : mixed
+- $bootedCallbacks : mixed
+- $traitInitializers : mixed
+- $globalScopes : mixed
+- $ignoreOnTouch : mixed
+- $modelsShouldPreventLazyLoading : mixed
+- $modelsShouldAutomaticallyEagerLoadRelationships : mixed
+- $lazyLoadingViolationCallback : mixed
+- $modelsShouldPreventSilentlyDiscardingAttributes : mixed
+- $discardedAttributeViolationCallback : mixed
+- $modelsShouldPreventAccessingMissingAttributes : mixed
+- $missingAttributeViolationCallback : mixed
+- $isBroadcasting : mixed
+- $builder : string
+- $collectionClass : string
+- $isSoftDeletable : array
+- $isPrunable : array
+- $isMassPrunable : array
+- $classAttributes : array
+- $attributes : mixed
+- $original : mixed
+- $changes : mixed
+- $previous : mixed
+- $classCastCache : mixed
+- $attributeCastCache : mixed
+- $primitiveCastTypes : mixed
+- $dateFormat : mixed
+- $appends : mixed
+- $snakeAttributes : mixed
+- $mutatorCache : mixed
+- $attributeMutatorCache : mixed
+- $getAttributeMutatorCache : mixed
+- $setAttributeMutatorCache : mixed
+- $castTypeCache : mixed
+- $encrypter : mixed
+- $dispatchesEvents : mixed
+- $observables : mixed
+- $relations : mixed
+- $touches : mixed
+- $relationAutoloadCallback : mixed
+- $relationAutoloadContext : mixed
+- $manyMethods : mixed
+- $relationResolvers : mixed
+- $timestamps : mixed
+- $ignoreTimestampsOn : mixed
+- $usesUniqueIds : mixed
+- $hidden : mixed
+- $visible : mixed
+- $guarded : mixed
+- $unguarded : mixed
+- $guardableColumns : mixed
+- $recursionCache : mixed
+- $resolvedCollectionClasses : array
+
+**Methods**
+
+- tenant()
+- customer()
+- package()
 - factory()
 
 ---

@@ -40,6 +40,14 @@ App\Modules\Inventory\Infrastructure\Persistence\Models\Device
 App\Modules\Inventory\Infrastructure\Persistence\Models\DeviceAssignment
 ```
 
+## HotspotSubscription
+
+**Class**
+
+```
+App\Modules\Subscription\Infrastructure\Persistence\Models\HotspotSubscription
+```
+
 ## HotspotUser
 
 **Class**

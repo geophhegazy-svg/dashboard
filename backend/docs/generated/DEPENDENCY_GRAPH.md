@@ -68,6 +68,7 @@
 - App\Modules\Customer\Infrastructure\Persistence\Models\Customer
 - App\Modules\Inventory\Infrastructure\Persistence\Models\Device
 - App\Modules\Inventory\Infrastructure\Persistence\Models\DeviceAssignment
+- App\Modules\Subscription\Infrastructure\Persistence\Models\HotspotSubscription
 - App\Modules\Network\Infrastructure\Persistence\Models\HotspotUser
 - App\Modules\Inventory\Infrastructure\Persistence\Models\Inventory
 - App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice
