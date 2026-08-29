@@ -259,19 +259,6 @@
             ]
         },
         {
-            "class": "App\\Modules\\Finance\\Kernel\\FinanceModule",
-            "name": "Finance",
-            "dependencies": [],
-            "resources": [
-                {
-                    "type": "singletons",
-                    "bindings": {
-                        "App\\Modules\\Finance\\Domain\\Contracts\\FinanceServiceInterface": "App\\Modules\\Finance\\Application\\Services\\FinanceService"
-                    }
-                }
-            ]
-        },
-        {
             "class": "App\\Modules\\Inventory\\Kernel\\InventoryModule",
             "name": "Inventory",
             "dependencies": [

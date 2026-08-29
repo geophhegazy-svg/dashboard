@@ -14,7 +14,7 @@ Technology
 
 Statistics
 - Models: 25
-- Services: 16
+- Services: 15
 
 
 ---
@@ -48,7 +48,7 @@ app/
 # Project Statistics
 
 Models: 25
-Services: 16
+Services: 15
 
 ---
 
@@ -100,7 +100,7 @@ Development Rules
 
 Current Statistics
 Models: 25
-Services: 16
+Services: 15
 
 ---
 
@@ -148,19 +148,6 @@ App\Modules\Dashboard\Application\Services
 **Methods**
 - __construct(1 params) : mixed
 - getDashboardData(0 params) : array
-
----
-
-## FinanceService
-
-**Namespace**
-App\Modules\Finance\Application\Services
-
-**Dependencies**
-- None
-
-**Methods**
-- record(1 params) : void
 
 ---
 
@@ -2964,26 +2951,6 @@ App\Modules\Dashboard\Application\Services
 **Methods**
 
 - getDashboardData() : array
-
----
-
-## FinanceService
-
-**Namespace**
-
-```
-App\Modules\Finance\Application\Services
-```
-
-**File**
-
-```
-/var/www/app/Modules/Finance/Application/Services/FinanceService.php
-```
-
-**Methods**
-
-- record() : void
 
 ---
 

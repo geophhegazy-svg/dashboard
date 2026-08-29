@@ -34,12 +34,11 @@ Count: 25
 
 ## Services
 
-Count: 16
+Count: 15
 
 - BillingCycleService
 - CustomerDashboardService
 - DashboardService
-- FinanceService
 - InvoiceGenerator
 - InvoiceNumberService
 - InvoiceService

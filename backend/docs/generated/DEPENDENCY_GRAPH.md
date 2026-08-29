@@ -47,7 +47,6 @@
 - App\Modules\Billing\Application\Services\BillingCycleService
 - App\Modules\Dashboard\Application\Services\CustomerDashboardService
 - App\Modules\Dashboard\Application\Services\DashboardService
-- App\Modules\Finance\Application\Services\FinanceService
 - App\Modules\Billing\Application\Services\InvoiceGenerator
 - App\Modules\Invoice\Application\Services\InvoiceNumberService
 - App\Modules\Invoice\Application\Services\InvoiceService

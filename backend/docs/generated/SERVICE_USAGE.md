@@ -41,18 +41,6 @@ App\Modules\Dashboard\Application\Services\DashboardService
 - __construct
 - getDashboardData
 
-## FinanceService
-
-**Class**
-
-```
-App\Modules\Finance\Application\Services\FinanceService
-```
-
-**Public Methods**
-
-- record
-
 ## InvoiceGenerator
 
 **Class**

@@ -45,19 +45,6 @@ App\Modules\Dashboard\Application\Services
 
 ---
 
-## FinanceService
-
-**Namespace**
-App\Modules\Finance\Application\Services
-
-**Dependencies**
-- None
-
-**Methods**
-- record(1 params) : void
-
----
-
 ## InvoiceGenerator
 
 **Namespace**

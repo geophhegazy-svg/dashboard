@@ -83,26 +83,6 @@ App\Modules\Dashboard\Application\Services
 
 ---
 
-## FinanceService
-
-**Namespace**
-
-```
-App\Modules\Finance\Application\Services
-```
-
-**File**
-
-```
-/var/www/app/Modules/Finance/Application/Services/FinanceService.php
-```
-
-**Methods**
-
-- record() : void
-
----
-
 ## InvoiceGenerator
 
 **Namespace**

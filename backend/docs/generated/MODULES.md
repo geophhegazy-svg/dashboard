@@ -32,12 +32,11 @@ Total: 25
 
 ## Services
 
-Total: 16
+Total: 15
 
 - BillingCycleService
 - CustomerDashboardService
 - DashboardService
-- FinanceService
 - InvoiceGenerator
 - InvoiceNumberService
 - InvoiceService
