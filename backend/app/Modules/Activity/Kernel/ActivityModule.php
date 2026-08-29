@@ -14,6 +14,7 @@ use App\Modules\Activity\Application\Actions\LogActivityAction;
 
 use App\Modules\Activity\Application\Actions\CreateActivityLogAction;
 use App\Modules\Subscription\Domain\Events\SubscriptionRenewed;
+use App\Modules\Activity\Application\Listeners\SubscriptionActivatedActivityListener;
 use App\Modules\Activity\Application\Listeners\SubscriptionRenewedActivityListener;
 
 final class ActivityModule extends Module
@@ -43,13 +44,15 @@ final class ActivityModule extends Module
 
             ])
 
-            ->listeners(
-                [
-                    SubscriptionRenewed::class => [
-                        SubscriptionRenewedActivityListener::class,
-                    ],
-                ]
-            )
+            ->listeners([
+                \App\Modules\Subscription\Domain\Events\SubscriptionActivated::class => [
+                    SubscriptionActivatedActivityListener::class,
+                ],
+
+                SubscriptionRenewed::class => [
+                    SubscriptionRenewedActivityListener::class,
+                ],
+            ])
 
             ->actions([
 

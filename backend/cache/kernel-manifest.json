@@ -106,6 +106,9 @@
                 {
                     "type": "listeners",
                     "listeners": {
+                        "App\\Modules\\Subscription\\Domain\\Events\\SubscriptionActivated": [
+                            "App\\Modules\\Activity\\Application\\Listeners\\SubscriptionActivatedActivityListener"
+                        ],
                         "App\\Modules\\Subscription\\Domain\\Events\\SubscriptionRenewed": [
                             "App\\Modules\\Activity\\Application\\Listeners\\SubscriptionRenewedActivityListener"
                         ]
@@ -155,8 +158,7 @@
                 {
                     "type": "services",
                     "bindings": {
-                        "App\\Modules\\Billing\\Domain\\Contracts\\BillingCycleServiceInterface": "App\\Modules\\Billing\\Application\\Services\\BillingCycleService",
-                        "App\\Modules\\Billing\\Domain\\Contracts\\InvoiceGeneratorInterface": "App\\Modules\\Billing\\Application\\Services\\InvoiceGenerator"
+                        "App\\Modules\\Billing\\Domain\\Contracts\\BillingCycleServiceInterface": "App\\Modules\\Billing\\Application\\Services\\BillingCycleService"
                     }
                 },
                 {

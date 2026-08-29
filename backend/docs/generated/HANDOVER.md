@@ -14,7 +14,7 @@ Technology
 
 Statistics
 - Models: 25
-- Services: 15
+- Services: 13
 
 
 ---
@@ -48,7 +48,7 @@ app/
 # Project Statistics
 
 Models: 25
-Services: 15
+Services: 13
 
 ---
 
@@ -100,7 +100,7 @@ Development Rules
 
 Current Statistics
 Models: 25
-Services: 15
+Services: 13
 
 ---
 
@@ -148,21 +148,6 @@ App\Modules\Dashboard\Application\Services
 **Methods**
 - __construct(1 params) : mixed
 - getDashboardData(0 params) : array
-
----
-
-## InvoiceGenerator
-
-**Namespace**
-App\Modules\Billing\Application\Services
-
-**Dependencies**
-- App\Core\Workflow\WorkflowEngine
-- App\Modules\Billing\Application\Workflows\GenerateInvoiceWorkflow
-
-**Methods**
-- __construct(2 params) : mixed
-- generate(1 params) : App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice
 
 ---
 
@@ -267,20 +252,6 @@ App\Modules\Payment\Application\Services
 - __construct(1 params) : mixed
 - create(1 params) : App\Modules\Payment\Infrastructure\Persistence\Models\Payment
 - createFromInvoice(5 params) : App\Modules\Payment\Infrastructure\Persistence\Models\Payment
-
----
-
-## SubscriptionActivityService
-
-**Namespace**
-App\Modules\Activity\Application\Services
-
-**Dependencies**
-- App\Modules\Activity\Application\Actions\CreateActivityLogAction
-
-**Methods**
-- __construct(1 params) : mixed
-- log(4 params) : App\Modules\Activity\Infrastructure\Persistence\Models\ActivityLog
 
 ---
 
@@ -2954,36 +2925,6 @@ App\Modules\Dashboard\Application\Services
 
 ---
 
-## InvoiceGenerator
-
-**Namespace**
-
-```
-App\Modules\Billing\Application\Services
-```
-
-**File**
-
-```
-/var/www/app/Modules/Billing/Application/Services/InvoiceGenerator.php
-```
-
-**Constructor Dependencies**
-
-- WorkflowEngine $engine
-- GenerateInvoiceWorkflow $workflow
-
-**Properties**
-
-- $engine : App\Core\Workflow\WorkflowEngine
-- $workflow : App\Modules\Billing\Application\Workflows\GenerateInvoiceWorkflow
-
-**Methods**
-
-- generate() : App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice
-
----
-
 ## InvoiceNumberService
 
 **Namespace**
@@ -3165,34 +3106,6 @@ App\Modules\Payment\Application\Services
 
 - create() : App\Modules\Payment\Infrastructure\Persistence\Models\Payment
 - createFromInvoice() : App\Modules\Payment\Infrastructure\Persistence\Models\Payment
-
----
-
-## SubscriptionActivityService
-
-**Namespace**
-
-```
-App\Modules\Activity\Application\Services
-```
-
-**File**
-
-```
-/var/www/app/Modules/Activity/Application/Services/SubscriptionActivityService.php
-```
-
-**Constructor Dependencies**
-
-- CreateActivityLogAction $action
-
-**Properties**
-
-- $action : App\Modules\Activity\Application\Actions\CreateActivityLogAction
-
-**Methods**
-
-- log() : App\Modules\Activity\Infrastructure\Persistence\Models\ActivityLog
 
 ---
 

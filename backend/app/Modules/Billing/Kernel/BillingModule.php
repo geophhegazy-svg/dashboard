@@ -8,10 +8,8 @@ use App\Core\Kernel\ModuleManifest;
 use App\Core\Kernel\Modules\Module;
 
 use App\Modules\Billing\Application\Services\BillingCycleService;
-use App\Modules\Billing\Application\Services\InvoiceGenerator;
 
 use App\Modules\Billing\Domain\Contracts\BillingCycleServiceInterface;
-use App\Modules\Billing\Domain\Contracts\InvoiceGeneratorInterface;
 
 use App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice;
 use App\Modules\Billing\Policies\InvoicePolicy;
@@ -39,10 +37,6 @@ final class BillingModule extends Module
 
                 BillingCycleServiceInterface::class
                 => BillingCycleService::class,
-
-                InvoiceGeneratorInterface::class
-                => InvoiceGenerator::class,
-
             ])
 
             ->policies([

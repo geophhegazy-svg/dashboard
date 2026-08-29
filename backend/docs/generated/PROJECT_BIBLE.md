@@ -34,19 +34,17 @@ Count: 25
 
 ## Services
 
-Count: 15
+Count: 13
 
 - BillingCycleService
 - CustomerDashboardService
 - DashboardService
-- InvoiceGenerator
 - InvoiceNumberService
 - InvoiceService
 - JournalValidationService
 - NotificationService
 - PackageService
 - PaymentService
-- SubscriptionActivityService
 - SubscriptionService
 - TaskService
 - TelegramNotificationService

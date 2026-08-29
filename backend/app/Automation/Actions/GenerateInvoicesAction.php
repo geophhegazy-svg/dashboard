@@ -4,17 +4,24 @@ declare(strict_types=1);
 
 namespace App\Automation\Actions;
 
+use App\Modules\Invoice\Application\Contracts\InvoiceServiceInterface;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
-use App\Modules\Billing\InvoiceGenerator;
 
 final readonly class GenerateInvoicesAction
 {
     public function __construct(
-        private InvoiceGenerator $invoiceGenerator,
+        private InvoiceServiceInterface $invoiceService,
     ) {}
 
     public function execute(Subscription $subscription): void
     {
-        $this->invoiceGenerator->generate($subscription);
+        $this->invoiceService->create([
+            'tenant_id'       => $subscription->tenant_id,
+            'customer_id'     => $subscription->customer_id,
+            'subscription_id' => $subscription->id,
+            'amount'          => $subscription->package->price,
+            'due_date'        => now()->toDateString(),
+            'status'          => 'pending',
+        ]);
     }
 }

@@ -83,36 +83,6 @@ App\Modules\Dashboard\Application\Services
 
 ---
 
-## InvoiceGenerator
-
-**Namespace**
-
-```
-App\Modules\Billing\Application\Services
-```
-
-**File**
-
-```
-/var/www/app/Modules/Billing/Application/Services/InvoiceGenerator.php
-```
-
-**Constructor Dependencies**
-
-- WorkflowEngine $engine
-- GenerateInvoiceWorkflow $workflow
-
-**Properties**
-
-- $engine : App\Core\Workflow\WorkflowEngine
-- $workflow : App\Modules\Billing\Application\Workflows\GenerateInvoiceWorkflow
-
-**Methods**
-
-- generate() : App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice
-
----
-
 ## InvoiceNumberService
 
 **Namespace**
@@ -294,34 +264,6 @@ App\Modules\Payment\Application\Services
 
 - create() : App\Modules\Payment\Infrastructure\Persistence\Models\Payment
 - createFromInvoice() : App\Modules\Payment\Infrastructure\Persistence\Models\Payment
-
----
-
-## SubscriptionActivityService
-
-**Namespace**
-
-```
-App\Modules\Activity\Application\Services
-```
-
-**File**
-
-```
-/var/www/app/Modules/Activity/Application/Services/SubscriptionActivityService.php
-```
-
-**Constructor Dependencies**
-
-- CreateActivityLogAction $action
-
-**Properties**
-
-- $action : App\Modules\Activity\Application\Actions\CreateActivityLogAction
-
-**Methods**
-
-- log() : App\Modules\Activity\Infrastructure\Persistence\Models\ActivityLog
 
 ---
 

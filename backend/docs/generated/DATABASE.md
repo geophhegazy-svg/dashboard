@@ -2,7 +2,7 @@
 
 ## accounts
 
-**Rows:** 11
+**Rows:** 0
 
 ### Columns
 
@@ -22,7 +22,7 @@
 
 ## accounts
 
-**Rows:** 11
+**Rows:** 0
 
 ### Columns
 
@@ -80,7 +80,7 @@
 
 ## activity_logs
 
-**Rows:** 1
+**Rows:** 0
 
 ### Columns
 
@@ -96,7 +96,7 @@
 
 ## activity_logs
 
-**Rows:** 1
+**Rows:** 0
 
 ### Columns
 
@@ -152,7 +152,7 @@
 
 ## customers
 
-**Rows:** 23
+**Rows:** 0
 
 ### Columns
 
@@ -173,7 +173,7 @@
 
 ## customers
 
-**Rows:** 23
+**Rows:** 0
 
 ### Columns
 
@@ -296,7 +296,7 @@
 
 ## hotspot_subscriptions
 
-**Rows:** 1
+**Rows:** 0
 
 ### Columns
 
@@ -316,7 +316,7 @@
 
 ## hotspot_subscriptions
 
-**Rows:** 1
+**Rows:** 0
 
 ### Columns
 
@@ -336,7 +336,7 @@
 
 ## hotspot_users
 
-**Rows:** 706
+**Rows:** 0
 
 ### Columns
 
@@ -363,7 +363,7 @@
 
 ## hotspot_users
 
-**Rows:** 706
+**Rows:** 0
 
 ### Columns
 
@@ -424,7 +424,7 @@
 
 ## invoices
 
-**Rows:** 2
+**Rows:** 0
 
 ### Columns
 
@@ -445,7 +445,7 @@
 
 ## invoices
 
-**Rows:** 2
+**Rows:** 0
 
 ### Columns
 
@@ -528,7 +528,7 @@
 
 ## journal_entries
 
-**Rows:** 1
+**Rows:** 0
 
 ### Columns
 
@@ -549,7 +549,7 @@
 
 ## journal_entries
 
-**Rows:** 1
+**Rows:** 0
 
 ### Columns
 
@@ -570,7 +570,7 @@
 
 ## journal_entry_lines
 
-**Rows:** 2
+**Rows:** 0
 
 ### Columns
 
@@ -585,7 +585,7 @@
 
 ## journal_entry_lines
 
-**Rows:** 2
+**Rows:** 0
 
 ### Columns
 
@@ -660,7 +660,7 @@
 
 ## network_devices
 
-**Rows:** 1
+**Rows:** 0
 
 ### Columns
 
@@ -684,7 +684,7 @@
 
 ## network_devices
 
-**Rows:** 1
+**Rows:** 0
 
 ### Columns
 
@@ -746,7 +746,7 @@
 
 ## packages
 
-**Rows:** 9
+**Rows:** 0
 
 ### Columns
 
@@ -770,7 +770,7 @@
 
 ## packages
 
-**Rows:** 9
+**Rows:** 0
 
 ### Columns
 
@@ -848,7 +848,7 @@
 
 ## permissions
 
-**Rows:** 0
+**Rows:** 77
 
 ### Columns
 
@@ -860,7 +860,7 @@
 
 ## permissions
 
-**Rows:** 0
+**Rows:** 77
 
 ### Columns
 
@@ -990,7 +990,7 @@
 
 ## reports
 
-**Rows:** 2
+**Rows:** 0
 
 ### Columns
 
@@ -1007,7 +1007,7 @@
 
 ## reports
 
-**Rows:** 2
+**Rows:** 0
 
 ### Columns
 
@@ -1024,7 +1024,7 @@
 
 ## role_has_permissions
 
-**Rows:** 0
+**Rows:** 203
 
 ### Columns
 
@@ -1033,7 +1033,7 @@
 
 ## role_has_permissions
 
-**Rows:** 0
+**Rows:** 203
 
 ### Columns
 
@@ -1042,7 +1042,7 @@
 
 ## roles
 
-**Rows:** 0
+**Rows:** 7
 
 ### Columns
 
@@ -1054,7 +1054,7 @@
 
 ## roles
 
-**Rows:** 0
+**Rows:** 7
 
 ### Columns
 
@@ -1106,7 +1106,7 @@
 
 ## sessions
 
-**Rows:** 19
+**Rows:** 0
 
 ### Columns
 
@@ -1119,7 +1119,7 @@
 
 ## sessions
 
-**Rows:** 19
+**Rows:** 0
 
 ### Columns
 
@@ -1132,7 +1132,7 @@
 
 ## subscriptions
 
-**Rows:** 5
+**Rows:** 0
 
 ### Columns
 
@@ -1155,7 +1155,7 @@
 
 ## subscriptions
 
-**Rows:** 5
+**Rows:** 0
 
 ### Columns
 
@@ -1218,7 +1218,7 @@
 
 ## tenants
 
-**Rows:** 43
+**Rows:** 0
 
 ### Columns
 
@@ -1235,7 +1235,7 @@
 
 ## tenants
 
-**Rows:** 43
+**Rows:** 0
 
 ### Columns
 
@@ -1284,7 +1284,7 @@
 
 ## tickets
 
-**Rows:** 1
+**Rows:** 0
 
 ### Columns
 
@@ -1305,7 +1305,7 @@
 
 ## tickets
 
-**Rows:** 1
+**Rows:** 0
 
 ### Columns
 
@@ -1360,7 +1360,7 @@
 
 ## users
 
-**Rows:** 6
+**Rows:** 0
 
 ### Columns
 
@@ -1376,7 +1376,7 @@
 
 ## users
 
-**Rows:** 6
+**Rows:** 0
 
 ### Columns
 
@@ -1428,7 +1428,7 @@
 
 ## wallets
 
-**Rows:** 2
+**Rows:** 0
 
 ### Columns
 
@@ -1441,7 +1441,7 @@
 
 ## wallets
 
-**Rows:** 2
+**Rows:** 0
 
 ### Columns
 

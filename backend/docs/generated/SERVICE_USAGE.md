@@ -41,19 +41,6 @@ App\Modules\Dashboard\Application\Services\DashboardService
 - __construct
 - getDashboardData
 
-## InvoiceGenerator
-
-**Class**
-
-```
-App\Modules\Billing\Application\Services\InvoiceGenerator
-```
-
-**Public Methods**
-
-- __construct
-- generate
-
 ## InvoiceNumberService
 
 **Class**
@@ -141,19 +128,6 @@ App\Modules\Payment\Application\Services\PaymentService
 - __construct
 - create
 - createFromInvoice
-
-## SubscriptionActivityService
-
-**Class**
-
-```
-App\Modules\Activity\Application\Services\SubscriptionActivityService
-```
-
-**Public Methods**
-
-- __construct
-- log
 
 ## SubscriptionService
 

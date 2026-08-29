@@ -45,21 +45,6 @@ App\Modules\Dashboard\Application\Services
 
 ---
 
-## InvoiceGenerator
-
-**Namespace**
-App\Modules\Billing\Application\Services
-
-**Dependencies**
-- App\Core\Workflow\WorkflowEngine
-- App\Modules\Billing\Application\Workflows\GenerateInvoiceWorkflow
-
-**Methods**
-- __construct(2 params) : mixed
-- generate(1 params) : App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice
-
----
-
 ## InvoiceNumberService
 
 **Namespace**
@@ -161,20 +146,6 @@ App\Modules\Payment\Application\Services
 - __construct(1 params) : mixed
 - create(1 params) : App\Modules\Payment\Infrastructure\Persistence\Models\Payment
 - createFromInvoice(5 params) : App\Modules\Payment\Infrastructure\Persistence\Models\Payment
-
----
-
-## SubscriptionActivityService
-
-**Namespace**
-App\Modules\Activity\Application\Services
-
-**Dependencies**
-- App\Modules\Activity\Application\Actions\CreateActivityLogAction
-
-**Methods**
-- __construct(1 params) : mixed
-- log(4 params) : App\Modules\Activity\Infrastructure\Persistence\Models\ActivityLog
 
 ---
 
