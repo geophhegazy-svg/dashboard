@@ -50,6 +50,7 @@
                     "type": "services",
                     "bindings": {
                         "App\\Modules\\Subscription\\Domain\\Contracts\\SubscriptionRepositoryInterface": "App\\Modules\\Subscription\\Infrastructure\\Repositories\\SubscriptionRepository",
+                        "App\\Modules\\Subscription\\Domain\\Contracts\\HotspotSubscriptionRepositoryInterface": "App\\Modules\\Subscription\\Infrastructure\\Repositories\\HotspotSubscriptionRepository",
                         "App\\Modules\\Subscription\\Application\\Orchestrators\\AutoExpireSubscriptionsOrchestratorInterface": "App\\Modules\\Subscription\\Application\\Orchestrators\\AutoExpireSubscriptionsOrchestrator",
                         "App\\Modules\\Subscription\\Application\\Orchestrators\\AutoGraceSubscriptionsOrchestratorInterface": "App\\Modules\\Subscription\\Application\\Orchestrators\\AutoGraceSubscriptionsOrchestrator",
                         "App\\Modules\\Subscription\\Application\\Orchestrators\\AutoRenewSubscriptionsOrchestratorInterface": "App\\Modules\\Subscription\\Application\\Orchestrators\\AutoRenewSubscriptionsOrchestrator"
@@ -58,15 +59,25 @@
                 {
                     "type": "commands",
                     "commands": [
-                        "App\\Console\\Commands\\AutoGraceSubscriptionsCommand",
-                        "App\\Console\\Commands\\AutoExpireSubscriptionsCommand",
-                        "App\\Console\\Commands\\AutoRenewSubscriptionsCommand"
+                        "App\\Modules\\Subscription\\Presentation\\Console\\Commands\\AutoGraceSubscriptionsCommand",
+                        "App\\Modules\\Subscription\\Presentation\\Console\\Commands\\AutoExpireSubscriptionsCommand",
+                        "App\\Modules\\Subscription\\Presentation\\Console\\Commands\\AutoRenewSubscriptionsCommand"
                     ]
+                },
+                {
+                    "type": "policies",
+                    "policies": {
+                        "App\\Modules\\Subscription\\Infrastructure\\Persistence\\Models\\HotspotSubscription": "App\\Modules\\Subscription\\Policies\\HotspotSubscriptionPolicy"
+                    }
                 },
                 {
                     "type": "actions",
                     "actions": [
                         "App\\Modules\\Subscription\\Application\\Actions\\ActivateSubscriptionAction",
+                        "App\\Modules\\Subscription\\Application\\Actions\\CreateHotspotSubscriptionAction",
+                        "App\\Modules\\Subscription\\Application\\Actions\\ActivateHotspotSubscriptionAction",
+                        "App\\Modules\\Subscription\\Application\\Actions\\SuspendHotspotSubscriptionAction",
+                        "App\\Modules\\Subscription\\Application\\Actions\\DeleteHotspotSubscriptionAction",
                         "App\\Modules\\Subscription\\Application\\Actions\\EnterGraceSubscriptionAction",
                         "App\\Modules\\Subscription\\Application\\Actions\\ExpireSubscriptionAction",
                         "App\\Modules\\Subscription\\Application\\Actions\\RenewSubscriptionAction",
@@ -333,7 +344,8 @@
                 {
                     "type": "services",
                     "bindings": {
-                        "App\\Modules\\Network\\Domain\\Contracts\\MikrotikServiceInterface": "App\\Modules\\Network\\Application\\MikrotikServiceAdapter"
+                        "App\\Modules\\Network\\Domain\\Contracts\\MikrotikServiceInterface": "App\\Modules\\Network\\Application\\MikrotikServiceAdapter",
+                        "App\\Modules\\Network\\Domain\\Contracts\\Services\\HotspotServiceInterface": "App\\Modules\\Network\\Infrastructure\\Providers\\MikroTik\\MikroTikHotspotService"
                     }
                 },
                 {

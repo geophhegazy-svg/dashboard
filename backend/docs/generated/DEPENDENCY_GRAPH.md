@@ -51,7 +51,6 @@
 - App\Modules\Invoice\Application\Services\InvoiceService
 - App\Modules\Accounting\Application\Services\JournalValidationService
 - App\Modules\Notification\Application\Services\NotificationService
-- App\Modules\Package\Application\Services\PackageService
 - App\Modules\Payment\Application\Services\PaymentService
 - App\Modules\Task\Application\Services\TaskService
 - App\Modules\Notification\Application\Services\TelegramNotificationService

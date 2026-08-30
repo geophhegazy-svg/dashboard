@@ -9,6 +9,7 @@ use App\Core\Kernel\Modules\Module;
 use App\Modules\Network\Application\MikrotikServiceAdapter;
 use App\Modules\Network\Application\NetworkProviderResolver;
 use App\Modules\Network\Domain\Contracts\MikrotikServiceInterface;
+use App\Modules\Network\Domain\Contracts\Services\HotspotServiceInterface;
 use App\Modules\Network\Infrastructure\Providers\MikroTik\MikroTikConnectionService;
 use App\Modules\Network\Infrastructure\Providers\MikroTik\MikroTikDhcpService;
 use App\Modules\Network\Infrastructure\Providers\MikroTik\MikroTikFirewallService;
@@ -46,6 +47,9 @@ final class NetworkModule extends Module
 
                 MikrotikServiceInterface::class
                     => MikrotikServiceAdapter::class,
+
+                HotspotServiceInterface::class
+                    => MikroTikHotspotService::class,
 
             ])
 

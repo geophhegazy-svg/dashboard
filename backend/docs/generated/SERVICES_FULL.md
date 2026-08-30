@@ -201,43 +201,6 @@ App\Modules\Notification\Application\Services
 
 ---
 
-## PackageService
-
-**Namespace**
-
-```
-App\Modules\Package\Application\Services
-```
-
-**File**
-
-```
-/var/www/app/Modules/Package/Application/Services/PackageService.php
-```
-
-**Constructor Dependencies**
-
-- PackageRepositoryInterface $repository
-- CreatePackageAction $createWorkflow
-- UpdatePackageAction $updateWorkflow
-- DeletePackageAction $deleteWorkflow
-
-**Properties**
-
-- $repository : App\Modules\Package\Domain\Contracts\PackageRepositoryInterface
-- $createWorkflow : App\Modules\Package\Application\Actions\CreatePackageAction
-- $updateWorkflow : App\Modules\Package\Application\Actions\UpdatePackageAction
-- $deleteWorkflow : App\Modules\Package\Application\Actions\DeletePackageAction
-
-**Methods**
-
-- paginate() : Illuminate\Contracts\Pagination\LengthAwarePaginator
-- create() : App\Modules\Package\Infrastructure\Persistence\Models\Package
-- update() : App\Modules\Package\Infrastructure\Persistence\Models\Package
-- delete() : void
-
----
-
 ## PaymentService
 
 **Namespace**

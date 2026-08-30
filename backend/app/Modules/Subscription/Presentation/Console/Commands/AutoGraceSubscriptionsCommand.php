@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Console\Commands;
+namespace App\Modules\Subscription\Presentation\Console\Commands;
 
 use App\Modules\Subscription\Application\Orchestrators\AutoGraceSubscriptionsOrchestratorInterface;
 use Illuminate\Console\Command;

@@ -99,22 +99,6 @@ App\Modules\Notification\Application\Services\NotificationService
 - createReminder
 - subscriptionRenewed
 
-## PackageService
-
-**Class**
-
-```
-App\Modules\Package\Application\Services\PackageService
-```
-
-**Public Methods**
-
-- __construct
-- create
-- delete
-- paginate
-- update
-
 ## PaymentService
 
 **Class**

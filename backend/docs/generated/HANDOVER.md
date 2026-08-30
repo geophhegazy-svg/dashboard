@@ -14,7 +14,7 @@ Technology
 
 Statistics
 - Models: 25
-- Services: 12
+- Services: 11
 
 
 ---
@@ -48,7 +48,7 @@ app/
 # Project Statistics
 
 Models: 25
-Services: 12
+Services: 11
 
 ---
 
@@ -100,7 +100,7 @@ Development Rules
 
 Current Statistics
 Models: 25
-Services: 12
+Services: 11
 
 ---
 
@@ -217,26 +217,6 @@ App\Modules\Notification\Application\Services
 - createReminder(2 params) : App\Modules\Notification\Infrastructure\Persistence\Models\Notification
 - billingFailed(1 params) : App\Modules\Notification\Infrastructure\Persistence\Models\Notification
 - subscriptionRenewed(1 params) : App\Modules\Notification\Infrastructure\Persistence\Models\Notification
-
----
-
-## PackageService
-
-**Namespace**
-App\Modules\Package\Application\Services
-
-**Dependencies**
-- App\Modules\Package\Domain\Contracts\PackageRepositoryInterface
-- App\Modules\Package\Application\Actions\CreatePackageAction
-- App\Modules\Package\Application\Actions\UpdatePackageAction
-- App\Modules\Package\Application\Actions\DeletePackageAction
-
-**Methods**
-- __construct(4 params) : mixed
-- paginate(0 params) : Illuminate\Contracts\Pagination\LengthAwarePaginator
-- create(1 params) : App\Modules\Package\Infrastructure\Persistence\Models\Package
-- update(2 params) : App\Modules\Package\Infrastructure\Persistence\Models\Package
-- delete(1 params) : void
 
 ---
 
@@ -3018,43 +2998,6 @@ App\Modules\Notification\Application\Services
 
 ---
 
-## PackageService
-
-**Namespace**
-
-```
-App\Modules\Package\Application\Services
-```
-
-**File**
-
-```
-/var/www/app/Modules/Package/Application/Services/PackageService.php
-```
-
-**Constructor Dependencies**
-
-- PackageRepositoryInterface $repository
-- CreatePackageAction $createWorkflow
-- UpdatePackageAction $updateWorkflow
-- DeletePackageAction $deleteWorkflow
-
-**Properties**
-
-- $repository : App\Modules\Package\Domain\Contracts\PackageRepositoryInterface
-- $createWorkflow : App\Modules\Package\Application\Actions\CreatePackageAction
-- $updateWorkflow : App\Modules\Package\Application\Actions\UpdatePackageAction
-- $deleteWorkflow : App\Modules\Package\Application\Actions\DeletePackageAction
-
-**Methods**
-
-- paginate() : Illuminate\Contracts\Pagination\LengthAwarePaginator
-- create() : App\Modules\Package\Infrastructure\Persistence\Models\Package
-- update() : App\Modules\Package\Infrastructure\Persistence\Models\Package
-- delete() : void
-
----
-
 ## PaymentService
 
 **Namespace**
@@ -3932,7 +3875,10 @@ App\Http\Controllers\Api
 
 **Dependencies**
 
-- PackageService $packageService
+- PackageRepositoryInterface $repository
+- CreatePackageAction $createAction
+- UpdatePackageAction $updateAction
+- DeletePackageAction $deleteAction
 
 **Public Methods**
 

@@ -114,26 +114,6 @@ App\Modules\Notification\Application\Services
 
 ---
 
-## PackageService
-
-**Namespace**
-App\Modules\Package\Application\Services
-
-**Dependencies**
-- App\Modules\Package\Domain\Contracts\PackageRepositoryInterface
-- App\Modules\Package\Application\Actions\CreatePackageAction
-- App\Modules\Package\Application\Actions\UpdatePackageAction
-- App\Modules\Package\Application\Actions\DeletePackageAction
-
-**Methods**
-- __construct(4 params) : mixed
-- paginate(0 params) : Illuminate\Contracts\Pagination\LengthAwarePaginator
-- create(1 params) : App\Modules\Package\Infrastructure\Persistence\Models\Package
-- update(2 params) : App\Modules\Package\Infrastructure\Persistence\Models\Package
-- delete(1 params) : void
-
----
-
 ## PaymentService
 
 **Namespace**

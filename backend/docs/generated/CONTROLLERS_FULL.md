@@ -743,7 +743,10 @@ App\Http\Controllers\Api
 
 **Dependencies**
 
-- PackageService $packageService
+- PackageRepositoryInterface $repository
+- CreatePackageAction $createAction
+- UpdatePackageAction $updateAction
+- DeletePackageAction $deleteAction
 
 **Public Methods**
 

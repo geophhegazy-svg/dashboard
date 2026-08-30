@@ -8,12 +8,18 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePackageRequest;
 use App\Http\Resources\PackageResource;
 use App\Modules\Package\Infrastructure\Persistence\Models\Package;
-use App\Modules\Package\Application\Services\PackageService;
+use App\Modules\Package\Domain\Contracts\PackageRepositoryInterface;
+use App\Modules\Package\Application\Actions\CreatePackageAction;
+use App\Modules\Package\Application\Actions\UpdatePackageAction;
+use App\Modules\Package\Application\Actions\DeletePackageAction;
 
 final class PackageController extends Controller
 {
     public function __construct(
-        private readonly PackageService $packageService,
+        private readonly PackageRepositoryInterface $repository,
+        private readonly CreatePackageAction $createAction,
+        private readonly UpdatePackageAction $updateAction,
+        private readonly DeletePackageAction $deleteAction,
     ) {}
 
     public function index()
@@ -21,7 +27,7 @@ final class PackageController extends Controller
         $this->authorize('viewAny', Package::class);
 
         return PackageResource::collection(
-            $this->packageService->paginate()
+            $this->repository->paginate()
         );
     }
 
@@ -29,7 +35,7 @@ final class PackageController extends Controller
     {
         $this->authorize('create', Package::class);
 
-        $package = $this->packageService->create(
+        $package = $this->createAction->execute(
             $request->validated()
         );
 
@@ -39,7 +45,6 @@ final class PackageController extends Controller
     public function show(
         Package $package,
     ): PackageResource {
-
         $this->authorize('view', $package);
 
         return new PackageResource($package);
@@ -49,10 +54,9 @@ final class PackageController extends Controller
         StorePackageRequest $request,
         Package $package,
     ): PackageResource {
-
         $this->authorize('update', $package);
 
-        $package = $this->packageService->update(
+        $package = $this->updateAction->execute(
             $package,
             $request->validated()
         );
@@ -63,10 +67,9 @@ final class PackageController extends Controller
     public function destroy(
         Package $package,
     ) {
-
         $this->authorize('delete', $package);
 
-        $this->packageService->delete($package);
+        $this->deleteAction->execute($package);
 
         return response()->noContent();
     }

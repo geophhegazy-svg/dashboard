@@ -46,4 +46,4 @@ Development Rules
 
 Current Statistics
 Models: 25
-Services: 12
+Services: 11

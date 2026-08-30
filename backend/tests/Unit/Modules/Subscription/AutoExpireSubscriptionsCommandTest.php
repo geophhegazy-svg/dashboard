@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Modules\Subscription;
 
-use App\Console\Commands\AutoExpireSubscriptionsCommand;
+use App\Modules\Subscription\Presentation\Console\Commands\AutoExpireSubscriptionsCommand;
 use App\Modules\Subscription\Application\Orchestrators\AutoExpireSubscriptionsOrchestratorInterface;
 use Mockery;
 use Symfony\Component\Console\Tester\CommandTester;

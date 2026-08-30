@@ -32,7 +32,7 @@ Total: 25
 
 ## Services
 
-Total: 12
+Total: 11
 
 - BillingCycleService
 - CustomerDashboardService
@@ -41,7 +41,6 @@ Total: 12
 - InvoiceService
 - JournalValidationService
 - NotificationService
-- PackageService
 - PaymentService
 - TaskService
 - TelegramNotificationService

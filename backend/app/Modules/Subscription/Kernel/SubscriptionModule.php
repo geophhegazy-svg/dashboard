@@ -6,15 +6,22 @@ namespace App\Modules\Subscription\Kernel;
 
 use App\Core\Kernel\ModuleManifest;
 use App\Core\Kernel\Modules\Module;
-use App\Console\Commands\AutoGraceSubscriptionsCommand;
-use App\Console\Commands\AutoRenewSubscriptionsCommand;
-use App\Console\Commands\AutoExpireSubscriptionsCommand;
+use App\Modules\Subscription\Presentation\Console\Commands\AutoGraceSubscriptionsCommand;
+use App\Modules\Subscription\Presentation\Console\Commands\AutoRenewSubscriptionsCommand;
+use App\Modules\Subscription\Presentation\Console\Commands\AutoExpireSubscriptionsCommand;
 use App\Modules\Subscription\Application\Actions\ActivateSubscriptionAction;
+use App\Modules\Subscription\Application\Actions\CreateHotspotSubscriptionAction;
+use App\Modules\Subscription\Application\Actions\ActivateHotspotSubscriptionAction;
+use App\Modules\Subscription\Application\Actions\SuspendHotspotSubscriptionAction;
+use App\Modules\Subscription\Application\Actions\DeleteHotspotSubscriptionAction;
+use App\Modules\Subscription\Policies\HotspotSubscriptionPolicy;
 use App\Modules\Subscription\Application\Queries\FindSubscriptionQuery;
 use App\Modules\Subscription\Domain\Events\SubscriptionActivated;
 use App\Modules\Subscription\Application\Queries\Handlers\FindSubscriptionQueryHandler;
 use App\Modules\Subscription\Domain\Contracts\SubscriptionRepositoryInterface;
+use App\Modules\Subscription\Domain\Contracts\HotspotSubscriptionRepositoryInterface;
 use App\Modules\Subscription\Infrastructure\Repositories\SubscriptionRepository;
+use App\Modules\Subscription\Infrastructure\Repositories\HotspotSubscriptionRepository;
 
 use App\Modules\Subscription\Domain\Events\SubscriptionRenewed;
 use App\Modules\Subscription\Domain\Events\SubscriptionRestored;
@@ -56,6 +63,9 @@ final class SubscriptionModule extends Module
                 SubscriptionRepositoryInterface::class =>
                 SubscriptionRepository::class,
 
+                HotspotSubscriptionRepositoryInterface::class =>
+                HotspotSubscriptionRepository::class,
+
                 AutoExpireSubscriptionsOrchestratorInterface::class =>
                 AutoExpireSubscriptionsOrchestrator::class,
 
@@ -73,9 +83,19 @@ final class SubscriptionModule extends Module
                 AutoRenewSubscriptionsCommand::class,
             ])
 
+            ->policies([
+                \App\Modules\Subscription\Infrastructure\Persistence\Models\HotspotSubscription::class =>
+                HotspotSubscriptionPolicy::class,
+            ])
+
             ->actions([
 
                 ActivateSubscriptionAction::class,
+
+                CreateHotspotSubscriptionAction::class,
+                ActivateHotspotSubscriptionAction::class,
+                SuspendHotspotSubscriptionAction::class,
+                DeleteHotspotSubscriptionAction::class,
 
                 
                 EnterGraceSubscriptionAction::class,
