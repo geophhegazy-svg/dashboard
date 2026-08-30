@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Core\Security\Authorization\Concerns;
 
-use App\Models\User;
+use App\Core\Security\Authorization\Contracts\AuthorizableInterface;
 
 trait AuthorizesByPermission
 {
-    public function before(User $user): ?bool
+    public function before(AuthorizableInterface $user): ?bool
     {
         return $user->hasRole('Super Admin') ? true : null;
     }
 
-    protected function can(User $user, string $permission): bool
+    protected function can(AuthorizableInterface $user, string $permission): bool
     {
         return $user->can($permission);
     }

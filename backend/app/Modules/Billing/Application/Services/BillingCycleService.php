@@ -4,60 +4,43 @@ declare(strict_types=1);
 
 namespace App\Modules\Billing\Application\Services;
 
-use App\Modules\Package\Infrastructure\Persistence\Models\Package;
-use Carbon\Carbon;
 use App\Modules\Billing\Domain\Contracts\BillingCycleServiceInterface;
+use Carbon\Carbon;
 
 class BillingCycleService implements BillingCycleServiceInterface
 {
     public function calculateNextBillingDate(
         Carbon $from,
-        Package $package
+        string $billingCycle,
+        int $billingInterval
     ): Carbon {
-
-        return match ($package->billing_cycle) {
-
-            'day' => $from->copy()->addDays(
-                $package->billing_interval
-            ),
-
-            'week' => $from->copy()->addWeeks(
-                $package->billing_interval
-            ),
-
-            'month' => $from->copy()->addMonths(
-                $package->billing_interval
-            ),
-
-            'year' => $from->copy()->addYears(
-                $package->billing_interval
-            ),
-
+        return match ($billingCycle) {
+            'day' => $from->copy()->addDays($billingInterval),
+            'week' => $from->copy()->addWeeks($billingInterval),
+            'month' => $from->copy()->addMonths($billingInterval),
+            'year' => $from->copy()->addYears($billingInterval),
             default => $from->copy()->addMonth(),
         };
     }
 
     public function calculateGraceDate(
         Carbon $billingDate,
-        Package $package
+        int $graceDays
     ): Carbon {
-
         return $billingDate
             ->copy()
-            ->addDays($package->grace_days);
+            ->addDays($graceDays);
     }
 
     public function isDue(
         Carbon $nextBillingDate
     ): bool {
-
         return $nextBillingDate->lte(now());
     }
 
     public function isExpired(
         Carbon $graceDate
     ): bool {
-
         return $graceDate->lt(now());
     }
 }

@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace App\Modules\Billing\Domain\Contracts;
 
-use App\Modules\Package\Infrastructure\Persistence\Models\Package;
 use Carbon\Carbon;
 
 interface BillingCycleServiceInterface
 {
     public function calculateNextBillingDate(
         Carbon $from,
-        Package $package
+        string $billingCycle,
+        int $billingInterval
     ): Carbon;
 
     public function calculateGraceDate(
         Carbon $billingDate,
-        Package $package
+        int $graceDays
     ): Carbon;
 
     public function isDue(

@@ -115,7 +115,7 @@ App\Modules\Billing\Application\Services
 - None
 
 **Methods**
-- calculateNextBillingDate(2 params) : Carbon\Carbon
+- calculateNextBillingDate(3 params) : Carbon\Carbon
 - calculateGraceDate(2 params) : Carbon\Carbon
 - isDue(1 params) : bool
 - isExpired(1 params) : bool
@@ -1214,7 +1214,6 @@ App\Modules\Invoice\Infrastructure\Persistence\Models
 - tenant()
 - customer()
 - subscription()
-- payments()
 - hotspotSubscription()
 - factory()
 
@@ -2310,7 +2309,6 @@ App\Modules\Subscription\Infrastructure\Persistence\Models
 - invoices()
 - payments()
 - notifications()
-- activityLogs()
 - transitionTo()
 - activate()
 - suspend()

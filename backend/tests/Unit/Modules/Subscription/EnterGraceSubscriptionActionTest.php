@@ -61,7 +61,7 @@ class EnterGraceSubscriptionActionTest extends TestCase
                         static fn ($date): bool =>
                             $date->toDateString() === '2026-08-24'
                     ),
-                    $subscription->package,
+                    $subscription->package->grace_days,
                 )
                 ->andReturn(
                     Carbon::parse('2026-08-29')

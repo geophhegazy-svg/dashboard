@@ -898,7 +898,6 @@ App\Modules\Invoice\Infrastructure\Persistence\Models
 - tenant()
 - customer()
 - subscription()
-- payments()
 - hotspotSubscription()
 - factory()
 
@@ -1994,7 +1993,6 @@ App\Modules\Subscription\Infrastructure\Persistence\Models
 - invoices()
 - payments()
 - notifications()
-- activityLogs()
 - transitionTo()
 - activate()
 - suspend()

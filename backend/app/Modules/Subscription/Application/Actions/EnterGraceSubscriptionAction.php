@@ -31,7 +31,7 @@ final readonly class EnterGraceSubscriptionAction implements ActionInterface
         $subscription->grace_end_date = $this->billingCycle
             ->calculateGraceDate(
                 $billingDate,
-                $subscription->package,
+                $subscription->package->grace_days,
             )
             ->toDateString();
 

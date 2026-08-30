@@ -59,13 +59,6 @@ class Invoice extends \Illuminate\Database\Eloquent\Model
         );
     }
 
-    public function payments()
-    {
-        return $this->hasMany(
-            \App\Modules\Payment\Infrastructure\Persistence\Models\Payment::class
-        );
-    }
-
     public function hotspotSubscription()
     {
         return $this->belongsTo(

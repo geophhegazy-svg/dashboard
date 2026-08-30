@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Modules\Billing;
 
-use App\Modules\Package\Infrastructure\Persistence\Models\Package;
 use App\Modules\Billing\Application\Services\BillingCycleService;
 use Carbon\Carbon;
 use Tests\TestCase;
@@ -22,84 +21,60 @@ class BillingCycleServiceTest extends TestCase
 
     public function test_daily_cycle(): void
     {
-        $package = new Package([
-            'billing_cycle' => 'day',
-            'billing_interval' => 10,
-        ]);
-
         $date = Carbon::parse('2026-01-01');
 
         $this->assertEquals(
             '2026-01-11',
             $this->service
-                ->calculateNextBillingDate($date, $package)
+                ->calculateNextBillingDate($date, 'day', 10)
                 ->toDateString()
         );
     }
 
     public function test_weekly_cycle(): void
     {
-        $package = new Package([
-            'billing_cycle' => 'week',
-            'billing_interval' => 2,
-        ]);
-
         $date = Carbon::parse('2026-01-01');
 
         $this->assertEquals(
             '2026-01-15',
             $this->service
-                ->calculateNextBillingDate($date, $package)
+                ->calculateNextBillingDate($date, 'week', 2)
                 ->toDateString()
         );
     }
 
     public function test_monthly_cycle(): void
     {
-        $package = new Package([
-            'billing_cycle' => 'month',
-            'billing_interval' => 1,
-        ]);
-
         $date = Carbon::parse('2026-01-01');
 
         $this->assertEquals(
             '2026-02-01',
             $this->service
-                ->calculateNextBillingDate($date, $package)
+                ->calculateNextBillingDate($date, 'month', 1)
                 ->toDateString()
         );
     }
 
     public function test_yearly_cycle(): void
     {
-        $package = new Package([
-            'billing_cycle' => 'year',
-            'billing_interval' => 1,
-        ]);
-
         $date = Carbon::parse('2026-01-01');
 
         $this->assertEquals(
             '2027-01-01',
             $this->service
-                ->calculateNextBillingDate($date, $package)
+                ->calculateNextBillingDate($date, 'year', 1)
                 ->toDateString()
         );
     }
 
     public function test_grace_period(): void
     {
-        $package = new Package([
-            'grace_days' => 5,
-        ]);
-
         $billing = Carbon::parse('2026-01-01');
 
         $this->assertEquals(
             '2026-01-06',
             $this->service
-                ->calculateGraceDate($billing, $package)
+                ->calculateGraceDate($billing, 5)
                 ->toDateString()
         );
     }

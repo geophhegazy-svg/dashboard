@@ -12,7 +12,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Database\Factories\Modules\Subscription\Infrastructure\Persistence\Models\SubscriptionFactory;
 use App\Modules\Customer\Infrastructure\Persistence\Models\Customer;
 use App\Modules\Package\Infrastructure\Persistence\Models\Package;
@@ -97,14 +96,6 @@ class Subscription extends Model
     public function notifications(): HasMany
     {
         return $this->hasMany(Notification::class);
-    }
-
-    public function activityLogs(): MorphMany
-    {
-        return $this->morphMany(
-            ActivityLog::class,
-            'subject'
-        );
     }
 
     /*

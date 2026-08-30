@@ -60,9 +60,7 @@ class EnterGraceWorkflowTest extends TestCase
             ->once()
             ->with(
                 Mockery::type(\Carbon\Carbon::class),
-                Mockery::type(
-                    \App\Modules\Package\Infrastructure\Persistence\Models\Package::class
-                ),
+                Mockery::type('int'),
             )
             ->andReturn(
                 now()->addDays(5)

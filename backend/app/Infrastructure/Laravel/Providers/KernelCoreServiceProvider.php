@@ -23,7 +23,9 @@ use App\Core\Kernel\ModuleRegistry;
 use App\Infrastructure\Laravel\Kernel\LaravelModuleRegistrar;
 
 use App\Core\Workflow\Contracts\TransactionManagerInterface;
+use App\Core\Tenancy\Contracts\TenantContextInterface;
 use App\Infrastructure\Laravel\Database\LaravelTransactionManager;
+use App\Infrastructure\Laravel\Tenancy\LaravelTenantContext;
 
 
 final class KernelCoreServiceProvider extends ServiceProvider
@@ -38,6 +40,11 @@ final class KernelCoreServiceProvider extends ServiceProvider
         $this->app->bind(
             TransactionManagerInterface::class,
             LaravelTransactionManager::class,
+        );
+
+        $this->app->bind(
+            TenantContextInterface::class,
+            LaravelTenantContext::class,
         );
 
         $this->app->singleton(
