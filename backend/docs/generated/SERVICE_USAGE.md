@@ -129,23 +129,6 @@ App\Modules\Payment\Application\Services\PaymentService
 - create
 - createFromInvoice
 
-## SubscriptionService
-
-**Class**
-
-```
-App\Modules\Subscription\Application\Services\SubscriptionService
-```
-
-**Public Methods**
-
-- __construct
-- activate
-- expire
-- renew
-- restore
-- suspend
-
 ## TaskService
 
 **Class**

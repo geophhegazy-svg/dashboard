@@ -18,6 +18,6 @@ class ServicesSectionTest extends TestCase
         $this->assertStringContainsString('# Services', $markdown);
         $this->assertStringContainsString('Count:', $markdown);
         $this->assertMatchesRegularExpression('/Count:\s+\d+/', $markdown);
-        $this->assertStringContainsString('- SubscriptionService', $markdown);
+        $this->assertStringContainsString('- InvoiceService', $markdown);
     }
 }

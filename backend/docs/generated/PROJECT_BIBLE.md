@@ -34,7 +34,7 @@ Count: 25
 
 ## Services
 
-Count: 13
+Count: 12
 
 - BillingCycleService
 - CustomerDashboardService
@@ -45,7 +45,6 @@ Count: 13
 - NotificationService
 - PackageService
 - PaymentService
-- SubscriptionService
 - TaskService
 - TelegramNotificationService
 - WalletService

@@ -149,29 +149,6 @@ App\Modules\Payment\Application\Services
 
 ---
 
-## SubscriptionService
-
-**Namespace**
-App\Modules\Subscription\Application\Services
-
-**Dependencies**
-- App\Core\Workflow\WorkflowEngine
-- App\Modules\Subscription\Application\Workflows\ActivateWorkflow
-- App\Modules\Subscription\Application\Workflows\SuspendWorkflow
-- App\Modules\Subscription\Application\Workflows\ExpireWorkflow
-- App\Modules\Subscription\Application\Workflows\RestoreWorkflow
-- App\Modules\Subscription\Application\Workflows\RenewWorkflow
-
-**Methods**
-- __construct(6 params) : mixed
-- activate(1 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
-- suspend(1 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
-- expire(1 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
-- restore(1 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
-- renew(2 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
-
----
-
 ## TaskService
 
 **Namespace**

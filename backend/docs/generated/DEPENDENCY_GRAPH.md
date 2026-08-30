@@ -53,7 +53,6 @@
 - App\Modules\Notification\Application\Services\NotificationService
 - App\Modules\Package\Application\Services\PackageService
 - App\Modules\Payment\Application\Services\PaymentService
-- App\Modules\Subscription\Application\Services\SubscriptionService
 - App\Modules\Task\Application\Services\TaskService
 - App\Modules\Notification\Application\Services\TelegramNotificationService
 - App\Modules\Wallet\Application\Services\WalletService

@@ -267,48 +267,6 @@ App\Modules\Payment\Application\Services
 
 ---
 
-## SubscriptionService
-
-**Namespace**
-
-```
-App\Modules\Subscription\Application\Services
-```
-
-**File**
-
-```
-/var/www/app/Modules/Subscription/Application/Services/SubscriptionService.php
-```
-
-**Constructor Dependencies**
-
-- WorkflowEngine $engine
-- ActivateWorkflow $activateWorkflow
-- SuspendWorkflow $suspendWorkflow
-- ExpireWorkflow $expireWorkflow
-- RestoreWorkflow $restoreWorkflow
-- RenewWorkflow $renewWorkflow
-
-**Properties**
-
-- $engine : App\Core\Workflow\WorkflowEngine
-- $activateWorkflow : App\Modules\Subscription\Application\Workflows\ActivateWorkflow
-- $suspendWorkflow : App\Modules\Subscription\Application\Workflows\SuspendWorkflow
-- $expireWorkflow : App\Modules\Subscription\Application\Workflows\ExpireWorkflow
-- $restoreWorkflow : App\Modules\Subscription\Application\Workflows\RestoreWorkflow
-- $renewWorkflow : App\Modules\Subscription\Application\Workflows\RenewWorkflow
-
-**Methods**
-
-- activate() : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
-- suspend() : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
-- expire() : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
-- restore() : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
-- renew() : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
-
----
-
 ## TaskService
 
 **Namespace**

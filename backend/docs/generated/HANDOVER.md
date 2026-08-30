@@ -14,7 +14,7 @@ Technology
 
 Statistics
 - Models: 25
-- Services: 13
+- Services: 12
 
 
 ---
@@ -48,7 +48,7 @@ app/
 # Project Statistics
 
 Models: 25
-Services: 13
+Services: 12
 
 ---
 
@@ -100,7 +100,7 @@ Development Rules
 
 Current Statistics
 Models: 25
-Services: 13
+Services: 12
 
 ---
 
@@ -252,29 +252,6 @@ App\Modules\Payment\Application\Services
 - __construct(1 params) : mixed
 - create(1 params) : App\Modules\Payment\Infrastructure\Persistence\Models\Payment
 - createFromInvoice(5 params) : App\Modules\Payment\Infrastructure\Persistence\Models\Payment
-
----
-
-## SubscriptionService
-
-**Namespace**
-App\Modules\Subscription\Application\Services
-
-**Dependencies**
-- App\Core\Workflow\WorkflowEngine
-- App\Modules\Subscription\Application\Workflows\ActivateWorkflow
-- App\Modules\Subscription\Application\Workflows\SuspendWorkflow
-- App\Modules\Subscription\Application\Workflows\ExpireWorkflow
-- App\Modules\Subscription\Application\Workflows\RestoreWorkflow
-- App\Modules\Subscription\Application\Workflows\RenewWorkflow
-
-**Methods**
-- __construct(6 params) : mixed
-- activate(1 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
-- suspend(1 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
-- expire(1 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
-- restore(1 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
-- renew(2 params) : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
 
 ---
 
@@ -3106,48 +3083,6 @@ App\Modules\Payment\Application\Services
 
 - create() : App\Modules\Payment\Infrastructure\Persistence\Models\Payment
 - createFromInvoice() : App\Modules\Payment\Infrastructure\Persistence\Models\Payment
-
----
-
-## SubscriptionService
-
-**Namespace**
-
-```
-App\Modules\Subscription\Application\Services
-```
-
-**File**
-
-```
-/var/www/app/Modules/Subscription/Application/Services/SubscriptionService.php
-```
-
-**Constructor Dependencies**
-
-- WorkflowEngine $engine
-- ActivateWorkflow $activateWorkflow
-- SuspendWorkflow $suspendWorkflow
-- ExpireWorkflow $expireWorkflow
-- RestoreWorkflow $restoreWorkflow
-- RenewWorkflow $renewWorkflow
-
-**Properties**
-
-- $engine : App\Core\Workflow\WorkflowEngine
-- $activateWorkflow : App\Modules\Subscription\Application\Workflows\ActivateWorkflow
-- $suspendWorkflow : App\Modules\Subscription\Application\Workflows\SuspendWorkflow
-- $expireWorkflow : App\Modules\Subscription\Application\Workflows\ExpireWorkflow
-- $restoreWorkflow : App\Modules\Subscription\Application\Workflows\RestoreWorkflow
-- $renewWorkflow : App\Modules\Subscription\Application\Workflows\RenewWorkflow
-
-**Methods**
-
-- activate() : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
-- suspend() : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
-- expire() : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
-- restore() : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
-- renew() : App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription
 
 ---
 
