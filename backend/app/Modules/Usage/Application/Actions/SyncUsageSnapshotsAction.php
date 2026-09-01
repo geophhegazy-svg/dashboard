@@ -1,93 +1,79 @@
 <?php
 
-namespace App\Console\Commands;
+declare(strict_types=1);
 
-use Illuminate\Console\Command;
+namespace App\Modules\Usage\Application\Actions;
+
 use App\Modules\Network\Domain\Contracts\MikrotikServiceInterface;
 use App\Modules\Network\Infrastructure\Persistence\Models\NetworkDevice;
-use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\HotspotSubscription;
+use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 use App\Modules\Usage\UsageSnapshot;
 use Illuminate\Support\Facades\Log;
 
-class SyncUsageSnapshots extends Command
+final readonly class SyncUsageSnapshotsAction
 {
-    protected $signature = 'usage:sync';
-    protected $description = 'أخذ لقطة دورية من استهلاك كل عملاء PPPoE و Hotspot من كل الأجهزة النشطة';
-
-    protected MikrotikServiceInterface $mikrotikService;
-
     public function __construct(
-    MikrotikServiceInterface $mikrotikService)
-    {
-        parent::__construct();
-        $this->mikrotikService = $mikrotikService;
-    }
+        private MikrotikServiceInterface $mikrotikService,
+    ) {}
 
-    public function handle()
+    public function execute(): int
     {
-        $this->info('🔄 بدء مزامنة الاستهلاك...');
-
         $devices = NetworkDevice::where('status', 'active')->get();
 
         if ($devices->isEmpty()) {
-            $this->error('❌ لا توجد أجهزة MikroTik نشطة');
-            return 1;
+            return 0;
         }
 
         $now = now();
         $totalSnapshots = 0;
 
         foreach ($devices as $device) {
-
-            $this->info("📡 مزامنة استهلاك الجهاز: {$device->name}");
-
             try {
                 $connected = $this->mikrotikService->connect(
                     $device->ip_address,
                     $device->username,
                     $device->password,
-                    $device->port ?? 8728
+                    $device->port ?? 8728,
                 );
 
-                if (!$connected) {
-                    $this->error("❌ فشل الاتصال بالجهاز: {$device->name}");
+                if (! $connected) {
                     continue;
                 }
 
                 $totalSnapshots += $this->syncPppoeUsage($device, $now);
                 $totalSnapshots += $this->syncHotspotUsage($device, $now);
             } catch (\Exception $e) {
-                $this->error("❌ خطأ في مزامنة الاستهلاك: " . $e->getMessage());
-                Log::error("Usage Sync Error: " . $e->getMessage());
+                Log::error(
+                    'Usage Sync Error: ' . $e->getMessage(),
+                );
             }
         }
 
-        $this->info("✅ تم تسجيل {$totalSnapshots} لقطة استهلاك بنجاح");
-        return 0;
+        return $totalSnapshots;
     }
 
-    /**
-     * تسجيل لقطات استهلاك عملاء PPPoE (من الـ Simple Queue على الجهاز).
-     */
-    protected function syncPppoeUsage(NetworkDevice $device, $now): int
-    {
+    private function syncPppoeUsage(
+        NetworkDevice $device,
+        $now,
+    ): int {
         $count = 0;
 
         $queues = $this->mikrotikService->getQueueUsage();
 
         foreach ($queues as $queue) {
-
             $username = $queue['name'];
 
-            if (!$username) {
+            if (! $username) {
                 continue;
             }
 
-            $subscription = Subscription::where('pppoe_username', $username)->first();
+            $subscription = Subscription::where(
+                'pppoe_username',
+                $username,
+            )->first();
 
-            if (!$subscription) {
-                // Queue على الراوتر مش متربطة بأي اشتراك عندنا، تجاهلها
+            if (! $subscription) {
                 continue;
             }
 
@@ -107,26 +93,28 @@ class SyncUsageSnapshots extends Command
         return $count;
     }
 
-    /**
-     * تسجيل لقطات استهلاك عملاء Hotspot المتصلين حاليًا (من الجلسات النشطة).
-     */
-    protected function syncHotspotUsage(NetworkDevice $device, $now): int
-    {
+    private function syncHotspotUsage(
+        NetworkDevice $device,
+        $now,
+    ): int {
         $count = 0;
 
-        $sessions = $this->mikrotikService->getHotspotActiveSessions();
+        $sessions = $this->mikrotikService
+            ->getHotspotActiveSessions();
 
         foreach ($sessions as $session) {
+            $username = $session['name'] ?? null;
 
-            $username = $session['name'];
-
-            if (!$username) {
+            if (! $username) {
                 continue;
             }
 
-            $subscription = HotspotSubscription::where('hotspot_username', $username)->first();
+            $subscription = HotspotSubscription::where(
+                'hotspot_username',
+                $username,
+            )->first();
 
-            if (!$subscription) {
+            if (! $subscription) {
                 continue;
             }
 

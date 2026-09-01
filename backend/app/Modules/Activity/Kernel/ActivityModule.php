@@ -9,6 +9,8 @@ use App\Core\Kernel\Modules\Module;
 
 use App\Modules\Activity\Domain\Contracts\ActivityRepositoryInterface;
 use App\Modules\Activity\Infrastructure\Repositories\ActivityRepository;
+use App\Modules\Activity\Infrastructure\Persistence\Models\ActivityLog;
+use App\Modules\Activity\Policies\ActivityLogPolicy;
 
 use App\Modules\Activity\Application\Actions\LogActivityAction;
 
@@ -42,6 +44,10 @@ final class ActivityModule extends Module
 
 
 
+            ])
+
+            ->policies([
+                ActivityLog::class => ActivityLogPolicy::class,
             ])
 
             ->listeners([

@@ -67,6 +67,7 @@
                 {
                     "type": "policies",
                     "policies": {
+                        "App\\Modules\\Subscription\\Infrastructure\\Persistence\\Models\\Subscription": "App\\Modules\\Subscription\\Policies\\SubscriptionPolicy",
                         "App\\Modules\\Subscription\\Infrastructure\\Persistence\\Models\\HotspotSubscription": "App\\Modules\\Subscription\\Policies\\HotspotSubscriptionPolicy"
                     }
                 },
@@ -112,6 +113,12 @@
                     "type": "services",
                     "bindings": {
                         "App\\Modules\\Activity\\Domain\\Contracts\\ActivityRepositoryInterface": "App\\Modules\\Activity\\Infrastructure\\Repositories\\ActivityRepository"
+                    }
+                },
+                {
+                    "type": "policies",
+                    "policies": {
+                        "App\\Modules\\Activity\\Infrastructure\\Persistence\\Models\\ActivityLog": "App\\Modules\\Activity\\Policies\\ActivityLogPolicy"
                     }
                 },
                 {
@@ -189,6 +196,12 @@
                     "type": "services",
                     "bindings": {
                         "App\\Modules\\Customer\\Domain\\Contracts\\CustomerRepositoryInterface": "App\\Modules\\Customer\\Infrastructure\\Repositories\\CustomerRepository"
+                    }
+                },
+                {
+                    "type": "policies",
+                    "policies": {
+                        "App\\Modules\\Customer\\Infrastructure\\Persistence\\Models\\Customer": "App\\Modules\\Customer\\Policies\\CustomerPolicy"
                     }
                 },
                 {
@@ -351,7 +364,7 @@
                 {
                     "type": "singletons",
                     "bindings": {
-                        "App\\Modules\\Network\\Application\\NetworkProviderResolver": "App\\Modules\\Network\\Application\\NetworkProviderResolver",
+                        "App\\Modules\\Network\\Domain\\Contracts\\NetworkProviderResolverInterface": "App\\Modules\\Network\\Infrastructure\\Providers\\NetworkProviderResolver",
                         "App\\Modules\\Network\\Infrastructure\\Providers\\MikroTik\\MikroTikConnectionService": "App\\Modules\\Network\\Infrastructure\\Providers\\MikroTik\\MikroTikConnectionService",
                         "App\\Modules\\Network\\Infrastructure\\Providers\\MikroTik\\MikroTikQueryService": "App\\Modules\\Network\\Infrastructure\\Providers\\MikroTik\\MikroTikQueryService",
                         "App\\Modules\\Network\\Infrastructure\\Providers\\MikroTik\\MikroTikPppoeService": "App\\Modules\\Network\\Infrastructure\\Providers\\MikroTik\\MikroTikPppoeService",
@@ -437,7 +450,7 @@
                 {
                     "type": "policies",
                     "policies": {
-                        "App\\Modules\\Package\\Infrastructure\\Persistence\\Models\\Package": "App\\Modules\\Policies\\PackagePolicy"
+                        "App\\Modules\\Package\\Infrastructure\\Persistence\\Models\\Package": "App\\Modules\\Package\\Policies\\PackagePolicy"
                     }
                 }
             ]
@@ -484,6 +497,12 @@
                     "type": "services",
                     "bindings": {
                         "App\\Modules\\Payment\\Domain\\Contracts\\PaymentRepositoryInterface": "App\\Modules\\Payment\\Infrastructure\\Repositories\\PaymentRepository"
+                    }
+                },
+                {
+                    "type": "policies",
+                    "policies": {
+                        "App\\Modules\\Payment\\Infrastructure\\Persistence\\Models\\Payment": "App\\Modules\\Payment\\Policies\\PaymentPolicy"
                     }
                 },
                 {
@@ -564,7 +583,29 @@
                 {
                     "type": "policies",
                     "policies": {
-                        "App\\Modules\\Ticket\\Infrastructure\\Persistence\\Models\\Ticket": "App\\Modules\\Policies\\TicketPolicy"
+                        "App\\Modules\\Ticket\\Infrastructure\\Persistence\\Models\\Ticket": "App\\Modules\\Ticket\\Policies\\TicketPolicy"
+                    }
+                }
+            ]
+        },
+        {
+            "class": "App\\Modules\\Usage\\Kernel\\UsageModule",
+            "name": "Usage",
+            "dependencies": [
+                "App\\Modules\\Network\\Kernel\\NetworkModule",
+                "App\\Modules\\Subscription\\Kernel\\SubscriptionModule"
+            ],
+            "resources": [
+                {
+                    "type": "commands",
+                    "commands": [
+                        "App\\Modules\\Usage\\Presentation\\Console\\Commands\\SyncUsageSnapshotsCommand"
+                    ]
+                },
+                {
+                    "type": "command_handlers",
+                    "handlers": {
+                        "App\\Modules\\Usage\\Application\\Commands\\SyncUsageSnapshotsCommand": "App\\Modules\\Usage\\Application\\Commands\\Handlers\\SyncUsageSnapshotsCommandHandler"
                     }
                 }
             ]

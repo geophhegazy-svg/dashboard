@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Modules\Policies;
+namespace App\Core\Security\Authorization\Policies;
 
-use App\Modules\Activity\Infrastructure\Persistence\Models\ActivityLog;
+use App\Models\Tenant;
 use App\Models\User;
+use Illuminate\Auth\Access\Response;
 use App\Core\Security\Authorization\Concerns\AuthorizesByPermission;
 
-class ActivityLogPolicy
+class TenantPolicy
 {
     use AuthorizesByPermission;
     /**
@@ -14,16 +15,16 @@ class ActivityLogPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $this->can($user, 'activity-logs.viewAny');
+        return $this->can($user, 'tenants.view');
         return false;
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, ActivityLog $activityLog): bool
+    public function view(User $user, Tenant $tenant): bool
     {
-        return $this->can($user, 'activity-logs.view');
+        return $this->can($user, 'tenants.view');
         return false;
     }
 
@@ -32,43 +33,43 @@ class ActivityLogPolicy
      */
     public function create(User $user): bool
     {
-        return $this->can($user, 'activity-logs.create');
+        return $this->can($user, 'tenants.create');
         return false;
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, ActivityLog $activityLog): bool
+    public function update(User $user, Tenant $tenant): bool
     {
-        return $this->can($user, 'activity-logs.update');
+        return $this->can($user, 'tenants.update');
         return false;
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, ActivityLog $activityLog): bool
+    public function delete(User $user, Tenant $tenant): bool
     {
-        return $this->can($user, 'activity-logs.delete');
+        return $this->can($user, 'tenants.delete');
         return false;
     }
 
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, ActivityLog $activityLog): bool
+    public function restore(User $user, Tenant $tenant): bool
     {
-        return $this->can($user, 'activity-logs.restore');
+        return $this->can($user, 'tenants.update');
         return false;
     }
 
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, ActivityLog $activityLog): bool
+    public function forceDelete(User $user, Tenant $tenant): bool
     {
-        return $this->can($user, 'activity-logs.forceDelete');
+        return $this->can($user, 'tenants.delete');
         return false;
     }
 }

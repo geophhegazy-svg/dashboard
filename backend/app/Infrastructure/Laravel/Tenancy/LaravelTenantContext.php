@@ -5,18 +5,18 @@ declare(strict_types=1);
 namespace App\Infrastructure\Laravel\Tenancy;
 
 use App\Core\Tenancy\Contracts\TenantContextInterface;
-use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Http\Request;
 
 final readonly class LaravelTenantContext implements TenantContextInterface
 {
     public function __construct(
-        private Guard $auth,
+        private Request $request,
     ) {
     }
 
     public function tenantId(): ?int
     {
-        $user = $this->auth->user();
+        $user = $this->request->user();
 
         if ($user === null || $user->tenant_id === null) {
             return null;
@@ -27,7 +27,7 @@ final readonly class LaravelTenantContext implements TenantContextInterface
 
     public function isGlobal(): bool
     {
-        $user = $this->auth->user();
+        $user = $this->request->user();
 
         if ($user === null) {
             return true;

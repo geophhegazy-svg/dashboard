@@ -209,6 +209,8 @@ class TicketController extends Controller
 
     public function assign(Request $request, Ticket $ticket)
     {
+        $this->authorize('update', $ticket);
+
         $request->validate([
 
             'user_id' => 'required|exists:users,id'

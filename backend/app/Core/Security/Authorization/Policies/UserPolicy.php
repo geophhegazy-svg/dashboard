@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\Policies;
+namespace App\Core\Security\Authorization\Policies;
 
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
@@ -14,7 +14,7 @@ class UserPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $this->can($user, 'users.viewAny');
+        return $this->can($user, 'users.view');
         return false;
     }
 
@@ -23,9 +23,24 @@ class UserPolicy
      */
     public function view(User $user, User $model): bool
     {
-        return $this->can($user, 'users.view');
-        return false;
+        return $this->sameTenantOrSuperAdmin($user, $model)
+            && $this->can($user, 'users.view');
     }
+
+
+    private function sameTenantOrSuperAdmin(User $user, User $model): bool
+    {
+        if ($user->hasRole('Super Admin')) {
+            return true;
+        }
+
+        if ($user->tenant_id === null) {
+            return true;
+        }
+
+        return $user->tenant_id === $model->tenant_id;
+    }
+
 
     /**
      * Determine whether the user can create models.
@@ -41,8 +56,8 @@ class UserPolicy
      */
     public function update(User $user, User $model): bool
     {
-        return $this->can($user, 'users.update');
-        return false;
+        return $this->sameTenantOrSuperAdmin($user, $model)
+            && $this->can($user, 'users.update');
     }
 
     /**
@@ -50,8 +65,8 @@ class UserPolicy
      */
     public function delete(User $user, User $model): bool
     {
-        return $this->can($user, 'users.delete');
-        return false;
+        return $this->sameTenantOrSuperAdmin($user, $model)
+            && $this->can($user, 'users.delete');
     }
 
     /**
@@ -59,7 +74,7 @@ class UserPolicy
      */
     public function restore(User $user, User $model): bool
     {
-        return $this->can($user, 'users.restore');
+        return $this->can($user, 'users.update');
         return false;
     }
 
@@ -68,7 +83,7 @@ class UserPolicy
      */
     public function forceDelete(User $user, User $model): bool
     {
-        return $this->can($user, 'users.forceDelete');
+        return $this->can($user, 'users.delete');
         return false;
     }
 }

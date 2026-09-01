@@ -33,11 +33,20 @@ class RolesAndPermissionsSeeder extends Seeder
             'users.update',
             'users.delete',
 
+            // Tenants
+            'tenants.view',
+            'tenants.create',
+            'tenants.update',
+            'tenants.delete',
+
             // Customers
             'customers.view',
             'customers.create',
             'customers.update',
             'customers.delete',
+
+            // Activity
+            'activity.view',
 
             // Packages
             'packages.view',

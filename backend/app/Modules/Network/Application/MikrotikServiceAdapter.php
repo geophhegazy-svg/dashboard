@@ -34,12 +34,15 @@ class MikrotikServiceAdapter implements MikrotikServiceInterface
         int $port = 8728
     ): bool {
 
-        return $this->provider()->connect(
-            $ip,
-            $username,
-            $password,
-            $port
-        );
+        $device = new NetworkDevice([
+            'ip_address' => $ip,
+            'username' => $username,
+            'password' => $password,
+            'type' => 'mikrotik',
+            'port' => $port,
+        ]);
+
+        return $this->networkManager->connect($device);
     }
 
 
@@ -187,19 +190,6 @@ class MikrotikServiceAdapter implements MikrotikServiceInterface
             ->disconnectUser($username);
     }
 
-
-
-    public function updateDeviceStatus(
-        NetworkDevice $device
-    ): void {
-
-        $device->update([
-            'status' =>
-            $this->provider()->isConnected()
-                ? 'online'
-                : 'offline',
-        ]);
-    }
 
 
 

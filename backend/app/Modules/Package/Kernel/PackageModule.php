@@ -14,7 +14,7 @@ use App\Modules\Package\Application\Actions\UpdatePackageAction;
 use App\Modules\Package\Application\Actions\DeletePackageAction;
 
 use App\Modules\Package\Infrastructure\Persistence\Models\Package;
-use App\Modules\Policies\PackagePolicy;
+use App\Modules\Package\Policies\PackagePolicy;
 
 final class PackageModule extends Module
 {

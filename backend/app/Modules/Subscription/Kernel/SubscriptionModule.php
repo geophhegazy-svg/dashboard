@@ -38,7 +38,8 @@ use App\Modules\Subscription\Application\Orchestrators\AutoGraceSubscriptionsOrc
 use App\Modules\Subscription\Application\Orchestrators\AutoRenewSubscriptionsOrchestrator;
 use App\Modules\Subscription\Application\Orchestrators\AutoGraceSubscriptionsOrchestratorInterface;
 use App\Modules\Subscription\Application\Orchestrators\AutoRenewSubscriptionsOrchestratorInterface;
-
+use App\Modules\Subscription\Policies\SubscriptionPolicy;
+use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 
 final class SubscriptionModule extends Module
 {
@@ -84,6 +85,8 @@ final class SubscriptionModule extends Module
             ])
 
             ->policies([
+                Subscription::class => SubscriptionPolicy::class,
+
                 \App\Modules\Subscription\Infrastructure\Persistence\Models\HotspotSubscription::class =>
                 HotspotSubscriptionPolicy::class,
             ])
@@ -97,7 +100,7 @@ final class SubscriptionModule extends Module
                 SuspendHotspotSubscriptionAction::class,
                 DeleteHotspotSubscriptionAction::class,
 
-                
+
                 EnterGraceSubscriptionAction::class,
 
                 ExpireSubscriptionAction::class,

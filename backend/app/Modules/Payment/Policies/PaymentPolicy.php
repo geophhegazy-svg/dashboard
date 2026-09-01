@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\Policies;
+namespace App\Modules\Payment\Policies;
 
 use App\Modules\Payment\Infrastructure\Persistence\Models\Payment;
 use App\Models\User;

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\Network\Application;
 
 use App\Modules\Network\Domain\Contracts\NetworkProviderInterface;
+use App\Modules\Network\Domain\Contracts\NetworkProviderResolverInterface;
 use App\Modules\Network\Infrastructure\Persistence\Models\NetworkDevice;
 use Illuminate\Support\Facades\Log;
 
@@ -24,7 +25,7 @@ class NetworkManager
 
 
     public function __construct(
-        protected NetworkProviderResolver $resolver
+        protected NetworkProviderResolverInterface $resolver
     ) {}
 
 
@@ -42,14 +43,14 @@ class NetworkManager
         try {
 
             $this->provider =
-                $this->resolver->resolve($device);
+                $this->resolver->resolve($device->type);
 
 
 
             $connected = $this->provider->connect(
                 $device->ip_address,
                 $device->username,
-                decrypt($device->password),
+                $device->password,
                 $device->port ?? 8728
             );
 

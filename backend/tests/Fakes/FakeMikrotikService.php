@@ -100,11 +100,6 @@ class FakeMikrotikService implements MikrotikServiceInterface
         return true;
     }
 
-    public function updateDeviceStatus(NetworkDevice $device): void
-    {
-        // Fake
-    }
-
     /*
     |--------------------------------------------------------------------------
     | Hotspot

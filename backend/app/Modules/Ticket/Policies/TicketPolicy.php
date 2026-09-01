@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\Policies;
+namespace App\Modules\Ticket\Policies;
 
 use App\Modules\Ticket\Infrastructure\Persistence\Models\Ticket;
 use App\Models\User;

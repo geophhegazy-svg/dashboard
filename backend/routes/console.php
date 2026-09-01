@@ -10,10 +10,6 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 // ->everyMinute();
 
-Schedule::command('usage:sync')
-    ->everyFifteenMinutes()
-    ->withoutOverlapping();
-
 Schedule::command('subscriptions:auto-renew')
     ->dailyAt('00:05')
     ->withoutOverlapping();

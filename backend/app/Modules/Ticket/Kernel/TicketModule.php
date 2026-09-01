@@ -34,7 +34,7 @@ use App\Modules\Ticket\Application\Queries\Handlers\GetTicketRepliesQueryHandler
 use App\Modules\Ticket\Application\Queries\Handlers\GetAdminTicketStatisticsQueryHandler;
 use App\Modules\Ticket\Application\Queries\Handlers\GetCustomerTicketStatisticsQueryHandler;
 use App\Modules\Ticket\Infrastructure\Persistence\Models\Ticket;
-use App\Modules\Policies\TicketPolicy;
+use App\Modules\Ticket\Policies\TicketPolicy;
 
 final class TicketModule extends Module
 {

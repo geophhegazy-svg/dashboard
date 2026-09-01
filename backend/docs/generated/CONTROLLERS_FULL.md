@@ -1050,4 +1050,5 @@ App\Http\Controllers\Api
 - index()
 - store()
 - show()
+- update()
 - destroy()

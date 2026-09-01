@@ -11,18 +11,15 @@ use Illuminate\Database\Eloquent\Scope;
 
 final class TenantScope implements Scope
 {
-    public function __construct(
-        private readonly TenantContextInterface $tenantContext,
-    ) {
-    }
-
     public function apply(Builder $builder, Model $model): void
     {
-        if ($this->tenantContext->isGlobal()) {
+        $tenantContext = app(TenantContextInterface::class);
+
+        if ($tenantContext->isGlobal()) {
             return;
         }
 
-        $tenantId = $this->tenantContext->tenantId();
+        $tenantId = $tenantContext->tenantId();
 
         if ($tenantId === null) {
             return;

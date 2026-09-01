@@ -8,6 +8,7 @@ use App\Core\Kernel\ModuleManifest;
 use App\Core\Kernel\Modules\Module;
 use App\Modules\Customer\Domain\Contracts\CustomerRepositoryInterface;
 use App\Modules\Customer\Infrastructure\Repositories\CustomerRepository;
+use App\Modules\Customer\Policies\CustomerPolicy;
 use App\Modules\Customer\Application\Actions\CreateCustomerAction;
 use App\Modules\Customer\Application\Actions\UpdateCustomerAction;
 use App\Modules\Customer\Application\Actions\ActivateCustomerAction;
@@ -46,6 +47,11 @@ final class CustomerModule extends Module
                 CustomerRepositoryInterface::class
                 => CustomerRepository::class,
 
+            ])
+
+            ->policies([
+                \App\Modules\Customer\Infrastructure\Persistence\Models\Customer::class
+                    => CustomerPolicy::class,
             ])
 
             ->actions([

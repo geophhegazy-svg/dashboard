@@ -8,6 +8,8 @@ use App\Core\Kernel\ModuleManifest;
 use App\Core\Kernel\Modules\Module;
 use App\Modules\Payment\Domain\Contracts\PaymentRepositoryInterface;
 use App\Modules\Payment\Infrastructure\Repositories\PaymentRepository;
+use App\Modules\Payment\Infrastructure\Persistence\Models\Payment;
+use App\Modules\Payment\Policies\PaymentPolicy;
 
 use App\Modules\Payment\Application\Queries\GetPaymentDashboardMetricsQuery;
 use App\Modules\Payment\Application\Queries\PaginatePaymentsQuery;
@@ -39,6 +41,10 @@ final class PaymentModule extends Module
             ->services([
                 PaymentRepositoryInterface::class
                 => PaymentRepository::class,
+            ])
+
+            ->policies([
+                Payment::class => PaymentPolicy::class,
             ])
 
             ->queries([

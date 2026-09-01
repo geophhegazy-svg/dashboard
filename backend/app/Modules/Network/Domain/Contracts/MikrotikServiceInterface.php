@@ -2,8 +2,6 @@
 
 namespace App\Modules\Network\Domain\Contracts;
 
-use App\Modules\Network\Infrastructure\Persistence\Models\NetworkDevice;
-
 interface MikrotikServiceInterface
 {
     /**
@@ -66,11 +64,6 @@ interface MikrotikServiceInterface
      * فصل مستخدم عن الجلسة النشطة
      */
     public function disconnectUser(string $username): bool;
-
-    /**
-     * تحديث حالة الجهاز في قاعدة البيانات
-     */
-    public function updateDeviceStatus(NetworkDevice $device): void;
 
     // ========== دوال Hotspot ==========
     public function getHotspotUsers(): array;

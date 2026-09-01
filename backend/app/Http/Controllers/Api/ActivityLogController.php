@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ActivityLogResource;
 use App\Modules\Activity\Infrastructure\Persistence\Models\ActivityLog;
 use Illuminate\Http\Request;
 
@@ -10,9 +13,11 @@ class ActivityLogController extends Controller
 {
     public function index(Request $request)
     {
+        $this->authorize('viewAny', ActivityLog::class);
+
         $query = ActivityLog::with([
             'tenant',
-            'user'
+            'user',
         ]);
 
         if ($request->filled('module')) {
@@ -31,13 +36,17 @@ class ActivityLogController extends Controller
             $query->where('user_id', $request->user_id);
         }
 
-        return $query
-            ->latest()
-            ->paginate(20);
+        return ActivityLogResource::collection(
+            $query
+                ->latest()
+                ->paginate(20)
+        );
     }
 
-    public function show(ActivityLog $activityLog)
+    public function show(ActivityLog $activityLog): ActivityLogResource
     {
-        return $activityLog;
+        $this->authorize('view', $activityLog);
+
+        return new ActivityLogResource($activityLog);
     }
 }
