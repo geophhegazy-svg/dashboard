@@ -8,7 +8,6 @@ use App\Models\Tenant;
 use App\Models\User;
 use App\Modules\Package\Infrastructure\Persistence\Models\Package;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -35,7 +34,7 @@ final class TenantScopeTest extends TestCase
             'name' => 'Tenant B Package',
         ]);
 
-        Auth::login($user);
+        app('request')->setUserResolver(fn () => $user);
 
         $packages = Package::query()->get();
 
@@ -65,7 +64,7 @@ final class TenantScopeTest extends TestCase
             'name' => 'Tenant B Package',
         ]);
 
-        Auth::login($user);
+        app('request')->setUserResolver(fn () => $user);
 
         $packages = Package::query()->get();
 
@@ -92,7 +91,7 @@ final class TenantScopeTest extends TestCase
             'tenant_id' => $tenantB->id,
         ]);
 
-        Auth::logout();
+        app('request')->setUserResolver(fn () => null);
 
         self::assertCount(2, Package::query()->get());
     }
@@ -105,7 +104,7 @@ final class TenantScopeTest extends TestCase
             'tenant_id' => $tenant->id,
         ]);
 
-        Auth::login($user);
+        app('request')->setUserResolver(fn () => $user);
 
         $package = Package::query()->create([
             'name' => 'Auto Tenant Package',
@@ -128,7 +127,7 @@ final class TenantScopeTest extends TestCase
             'tenant_id' => $tenantA->id,
         ]);
 
-        Auth::login($user);
+        app('request')->setUserResolver(fn () => $user);
 
         $package = Package::query()->create([
             'tenant_id' => $tenantB->id,

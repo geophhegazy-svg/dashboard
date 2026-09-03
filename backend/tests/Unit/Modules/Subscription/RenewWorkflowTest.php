@@ -179,6 +179,85 @@ class RenewWorkflowTest extends TestCase
         );
     }
 
+    public function test_workflow_rolls_back_subscription_when_after_event_fails(): void
+    {
+        $subscription = Subscription::factory()->create([
+            'status' => \App\Modules\Subscription\Domain\Enums\SubscriptionStatus::ACTIVE,
+            'end_date' => Carbon::parse('2026-01-01'),
+        ]);
+
+        $originalEndDate = $subscription->end_date->format('Y-m-d');
+
+        $repository = Mockery::mock(
+            SubscriptionRepositoryInterface::class
+        );
+
+        $repository
+            ->shouldReceive('save')
+            ->once()
+            ->with($subscription)
+            ->andReturnUsing(
+                static function (Subscription $subscription): Subscription {
+                    $subscription->save();
+
+                    return $subscription->fresh([
+                        'customer',
+                        'package',
+                    ]);
+                }
+            );
+
+        $this->app->instance(
+            SubscriptionRepositoryInterface::class,
+            $repository
+        );
+
+        $events = Mockery::mock(
+            EventDispatcherInterface::class
+        );
+
+        $events
+            ->shouldReceive('dispatch')
+            ->once()
+            ->andThrow(
+                new \RuntimeException(
+                    'Renewal event failed.'
+                )
+            );
+
+        $workflow = new RenewWorkflow(
+            $this->app->make(ActionDispatcher::class),
+            $events
+        );
+
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage(
+            'Renewal event failed.'
+        );
+
+        try {
+            $this->app
+                ->make(WorkflowEngine::class)
+                ->run(
+                    $workflow,
+                    $subscription,
+                    30,
+                );
+        } finally {
+            $subscription->refresh();
+
+            $this->assertSame(
+                \App\Modules\Subscription\Domain\Enums\SubscriptionStatus::ACTIVE,
+                $subscription->status,
+            );
+
+            $this->assertSame(
+                $originalEndDate,
+                $subscription->end_date->format('Y-m-d'),
+            );
+        }
+    }
+
     protected function tearDown(): void
     {
         Mockery::close();

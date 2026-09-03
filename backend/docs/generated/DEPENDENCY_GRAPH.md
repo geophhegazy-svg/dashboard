@@ -81,5 +81,6 @@
 - App\Modules\Task\Infrastructure\Persistence\Models\Task
 - App\Modules\Ticket\Infrastructure\Persistence\Models\Ticket
 - App\Modules\Ticket\Infrastructure\Persistence\Models\TicketReply
+- App\Modules\Usage\Infrastructure\Persistence\Models\UsageSnapshot
 - App\Modules\Wallet\Infrastructure\Persistence\Models\Wallet
 - App\Modules\Wallet\Infrastructure\Persistence\Models\WalletTransaction

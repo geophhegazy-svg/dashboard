@@ -7,7 +7,7 @@ namespace App\Modules\Accounting\Kernel;
 use App\Core\Kernel\ModuleManifest;
 use App\Core\Kernel\Modules\Module;
 use App\Modules\Accounting\Domain\Events\JournalEntryPosted;
-use App\Modules\Accounting\Listeners\JournalEntryPostedListener;
+use App\Modules\Accounting\Application\Listeners\JournalEntryPostedListener;
 use App\Modules\Accounting\Domain\Contracts\JournalEntryRepositoryInterface;
 use App\Modules\Accounting\Application\Services\JournalValidationService;
 

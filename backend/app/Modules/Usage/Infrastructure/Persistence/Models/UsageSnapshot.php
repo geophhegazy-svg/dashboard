@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Modules\Usage;
+namespace App\Modules\Usage\Infrastructure\Persistence\Models;
 
 use App\Modules\Customer\Infrastructure\Persistence\Models\Customer;
 use App\Traits\BelongsToTenant;

@@ -4,7 +4,7 @@ Generated from the current project structure.
 
 ## Models
 
-Count: 25
+Count: 26
 
 - Account
 - ActivityLog
@@ -29,6 +29,7 @@ Count: 25
 - Task
 - Ticket
 - TicketReply
+- UsageSnapshot
 - Wallet
 - WalletTransaction
 

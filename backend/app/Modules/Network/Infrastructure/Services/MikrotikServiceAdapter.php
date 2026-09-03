@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Modules\Network\Application;
+namespace App\Modules\Network\Infrastructure\Services;
 
 use App\Modules\Network\Domain\Contracts\MikrotikServiceInterface;
 use App\Modules\Network\Infrastructure\Persistence\Models\NetworkDevice;

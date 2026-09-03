@@ -8,7 +8,7 @@ use App\Modules\Network\Domain\Contracts\MikrotikServiceInterface;
 use App\Modules\Network\Infrastructure\Persistence\Models\NetworkDevice;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\HotspotSubscription;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
-use App\Modules\Usage\UsageSnapshot;
+use App\Modules\Usage\Infrastructure\Persistence\Models\UsageSnapshot;
 use Illuminate\Support\Facades\Log;
 
 final readonly class SyncUsageSnapshotsAction

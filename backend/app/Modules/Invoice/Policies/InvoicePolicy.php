@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Modules\Billing\Policies;
+namespace App\Modules\Invoice\Policies;
 
 use App\Core\Security\Authorization\BasePolicy;
 use App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice;

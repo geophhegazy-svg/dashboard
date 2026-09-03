@@ -5,14 +5,15 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\Network;
 
 use App\Http\Controllers\Controller;
-use App\Modules\Network\Infrastructure\Persistence\Models\NetworkDevice;
-use App\Modules\Network\Application\NetworkManager;
+use App\Modules\Network\Infrastructure\Services\NetworkManager;
+use App\Modules\Network\Domain\Contracts\NetworkDeviceRepositoryInterface;
 use Illuminate\Http\Request;
 
 class FirewallController extends Controller
 {
     public function __construct(
-        protected NetworkManager $networkManager
+        protected NetworkManager $networkManager,
+        protected NetworkDeviceRepositoryInterface $networkDeviceRepository,
     ) {}
 
 
@@ -21,7 +22,7 @@ class FirewallController extends Controller
      */
     protected function provider(int $deviceId)
     {
-        $device = NetworkDevice::findOrFail($deviceId);
+        $device = $this->networkDeviceRepository->findOrFail($deviceId);
 
 
         if (! $this->networkManager->connect($device)) {
@@ -45,13 +46,10 @@ class FirewallController extends Controller
         );
 
 
-        $device = NetworkDevice::find($deviceId);
+        $device = $this->networkDeviceRepository->find($deviceId);
 
 
-        $devices = NetworkDevice::where(
-            'status',
-            'active'
-        )->get();
+        $devices = $this->networkDeviceRepository->active();
 
 
 
@@ -73,7 +71,7 @@ class FirewallController extends Controller
 
                 $rules = $provider
                     ->firewall()
-                    ->getAll();
+                    ->getRules();
             }
         }
 
@@ -104,13 +102,10 @@ class FirewallController extends Controller
         );
 
 
-        $device = NetworkDevice::find($deviceId);
+        $device = $this->networkDeviceRepository->find($deviceId);
 
 
-        $devices = NetworkDevice::where(
-            'status',
-            'active'
-        )->get();
+        $devices = $this->networkDeviceRepository->active();
 
 
 
@@ -236,13 +231,10 @@ class FirewallController extends Controller
         );
 
 
-        $device = NetworkDevice::find($deviceId);
+        $device = $this->networkDeviceRepository->find($deviceId);
 
 
-        $devices = NetworkDevice::where(
-            'status',
-            'active'
-        )->get();
+        $devices = $this->networkDeviceRepository->active();
 
 
 

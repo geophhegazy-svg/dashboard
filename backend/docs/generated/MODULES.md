@@ -2,7 +2,7 @@
 
 ## Models
 
-Total: 25
+Total: 26
 
 - Account
 - ActivityLog
@@ -27,6 +27,7 @@ Total: 25
 - Task
 - Ticket
 - TicketReply
+- UsageSnapshot
 - Wallet
 - WalletTransaction
 

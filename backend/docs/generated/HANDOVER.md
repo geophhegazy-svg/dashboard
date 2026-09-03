@@ -13,7 +13,7 @@ Technology
 - MikroTik RouterOS
 
 Statistics
-- Models: 25
+- Models: 26
 - Services: 11
 
 
@@ -47,7 +47,7 @@ app/
 
 # Project Statistics
 
-Models: 25
+Models: 26
 Services: 11
 
 ---
@@ -99,7 +99,7 @@ Development Rules
 - Update generated documentation after structural changes.
 
 Current Statistics
-Models: 25
+Models: 26
 Services: 11
 
 ---
@@ -2609,6 +2609,99 @@ App\Modules\Ticket\Infrastructure\Persistence\Models
 
 ---
 
+## UsageSnapshot
+
+**Namespace**
+
+```
+App\Modules\Usage\Infrastructure\Persistence\Models
+```
+
+**File**
+
+```
+/var/www/app/Modules/Usage/Infrastructure/Persistence/Models/UsageSnapshot.php
+```
+
+**Properties**
+
+- $fillable : mixed
+- $casts : mixed
+- $connection : mixed
+- $table : mixed
+- $primaryKey : mixed
+- $keyType : mixed
+- $incrementing : mixed
+- $with : mixed
+- $withCount : mixed
+- $preventsLazyLoading : mixed
+- $perPage : mixed
+- $exists : mixed
+- $wasRecentlyCreated : mixed
+- $escapeWhenCastingToString : mixed
+- $resolver : mixed
+- $dispatcher : mixed
+- $booting : mixed
+- $booted : mixed
+- $bootedCallbacks : mixed
+- $traitInitializers : mixed
+- $globalScopes : mixed
+- $ignoreOnTouch : mixed
+- $modelsShouldPreventLazyLoading : mixed
+- $modelsShouldAutomaticallyEagerLoadRelationships : mixed
+- $lazyLoadingViolationCallback : mixed
+- $modelsShouldPreventSilentlyDiscardingAttributes : mixed
+- $discardedAttributeViolationCallback : mixed
+- $modelsShouldPreventAccessingMissingAttributes : mixed
+- $missingAttributeViolationCallback : mixed
+- $isBroadcasting : mixed
+- $builder : string
+- $collectionClass : string
+- $isSoftDeletable : array
+- $isPrunable : array
+- $isMassPrunable : array
+- $classAttributes : array
+- $attributes : mixed
+- $original : mixed
+- $changes : mixed
+- $previous : mixed
+- $classCastCache : mixed
+- $attributeCastCache : mixed
+- $primitiveCastTypes : mixed
+- $dateFormat : mixed
+- $appends : mixed
+- $snakeAttributes : mixed
+- $mutatorCache : mixed
+- $attributeMutatorCache : mixed
+- $getAttributeMutatorCache : mixed
+- $setAttributeMutatorCache : mixed
+- $castTypeCache : mixed
+- $encrypter : mixed
+- $dispatchesEvents : mixed
+- $observables : mixed
+- $relations : mixed
+- $touches : mixed
+- $relationAutoloadCallback : mixed
+- $relationAutoloadContext : mixed
+- $manyMethods : mixed
+- $relationResolvers : mixed
+- $timestamps : mixed
+- $ignoreTimestampsOn : mixed
+- $usesUniqueIds : mixed
+- $hidden : mixed
+- $visible : mixed
+- $guarded : mixed
+- $unguarded : mixed
+- $guardableColumns : mixed
+- $recursionCache : mixed
+- $resolvedCollectionClasses : array
+
+**Methods**
+
+- customer()
+
+---
+
 ## Wallet
 
 **Namespace**
@@ -3521,6 +3614,7 @@ App\Http\Controllers\Api\Network
 **Dependencies**
 
 - NetworkManager $networkManager
+- NetworkDeviceRepositoryInterface $networkDeviceRepository
 
 **Public Methods**
 
@@ -3630,6 +3724,7 @@ App\Http\Controllers\Api
 **Dependencies**
 
 - NetworkManager $networkManager
+- NetworkDeviceRepositoryInterface $networkDeviceRepository
 
 **Public Methods**
 
@@ -3657,6 +3752,7 @@ App\Http\Controllers\Api
 **Dependencies**
 
 - NetworkManager $networkManager
+- NetworkDeviceRepositoryInterface $networkDeviceRepository
 
 **Public Methods**
 
@@ -3684,6 +3780,7 @@ App\Http\Controllers\Api\Network
 **Dependencies**
 
 - NetworkManager $networkManager
+- NetworkDeviceRepositoryInterface $networkDeviceRepository
 
 **Public Methods**
 
@@ -3817,6 +3914,8 @@ App\Http\Controllers\Api
 **Dependencies**
 
 - NetworkManager $networkManager
+- NetworkDeviceRepositoryInterface $networkDeviceRepository
+- DashboardService $dashboardService
 - QueryDispatcher $queryDispatcher
 
 **Public Methods**
@@ -3936,6 +4035,7 @@ App\Http\Controllers\Api
 **Dependencies**
 
 - NetworkManager $networkManager
+- NetworkDeviceRepositoryInterface $networkDeviceRepository
 
 **Public Methods**
 
@@ -3964,6 +4064,7 @@ App\Http\Controllers\Api\Network
 **Dependencies**
 
 - NetworkManager $networkManager
+- NetworkDeviceRepositoryInterface $networkDeviceRepository
 
 **Public Methods**
 

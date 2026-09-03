@@ -6,19 +6,19 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Modules\Network\Domain\Contracts\NetworkProviderInterface;
-use App\Modules\Network\Application\NetworkManager;
-use App\Modules\Customer\Infrastructure\Persistence\Models\Customer;
-use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
-use App\Modules\Subscription\Infrastructure\Persistence\Models\HotspotSubscription;
-use App\Modules\Network\Infrastructure\Persistence\Models\NetworkDevice;
+use App\Modules\Network\Infrastructure\Services\NetworkManager;
+use App\Modules\Network\Domain\Contracts\NetworkDeviceRepositoryInterface;
+use App\Modules\Dashboard\Application\Services\DashboardService;
 use App\Core\QueryBus\QueryDispatcher;
 use App\Modules\Invoice\Application\Queries\GetInvoiceDashboardMetricsQuery;
 
 class MikrotikController extends Controller
 {
     public function __construct(
-        protected NetworkManager $networkManager
-        , protected QueryDispatcher $queryDispatcher
+        protected NetworkManager $networkManager,
+        protected NetworkDeviceRepositoryInterface $networkDeviceRepository,
+        protected DashboardService $dashboardService,
+        protected QueryDispatcher $queryDispatcher,
     ) {}
 
 
@@ -61,7 +61,7 @@ class MikrotikController extends Controller
 
     protected function provider(int $deviceId): ?NetworkProviderInterface
     {
-        $device = NetworkDevice::find($deviceId);
+        $device = $this->networkDeviceRepository->find($deviceId);
 
 
         if (!$device) {
@@ -156,22 +156,18 @@ class MikrotikController extends Controller
      */
     public function dashboardStats()
     {
+        $dashboard = $this->dashboardService->getDashboardData();
+
         $invoiceMetrics = $this->queryDispatcher->dispatch(
             new GetInvoiceDashboardMetricsQuery()
         );
 
         return response()->json([
-            'customers' => Customer::count(),
+            'customers' => $dashboard['business']['total_customers'],
 
-            'active_pppoe' => Subscription::where(
-                'status',
-                'active'
-            )->count(),
+            'active_pppoe' => $dashboard['subscriptions']['pppoe']['active'],
 
-            'active_hotspot' => HotspotSubscription::where(
-                'status',
-                'active'
-            )->count(),
+            'active_hotspot' => $dashboard['subscriptions']['hotspot']['active'],
 
             'pending_invoices' => $invoiceMetrics['pending_invoices'],
 

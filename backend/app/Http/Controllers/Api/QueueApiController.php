@@ -5,21 +5,22 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Modules\Network\Infrastructure\Persistence\Models\NetworkDevice;
-use App\Modules\Network\Application\NetworkManager;
+use App\Modules\Network\Domain\Contracts\NetworkDeviceRepositoryInterface;
+use App\Modules\Network\Infrastructure\Services\NetworkManager;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class QueueApiController extends Controller
 {
     public function __construct(
-        protected NetworkManager $networkManager
+        protected NetworkManager $networkManager,
+        protected NetworkDeviceRepositoryInterface $networkDeviceRepository,
     ) {
     }
 
     protected function provider(int $deviceId)
     {
-        $device = NetworkDevice::findOrFail($deviceId);
+        $device = $this->networkDeviceRepository->findOrFail($deviceId);
 
         if (! $this->networkManager->connect($device)) {
             abort(500, 'Unable to connect to network device.');

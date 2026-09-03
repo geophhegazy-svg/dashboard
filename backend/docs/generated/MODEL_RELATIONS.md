@@ -184,6 +184,14 @@ App\Modules\Ticket\Infrastructure\Persistence\Models\Ticket
 App\Modules\Ticket\Infrastructure\Persistence\Models\TicketReply
 ```
 
+## UsageSnapshot
+
+**Class**
+
+```
+App\Modules\Usage\Infrastructure\Persistence\Models\UsageSnapshot
+```
+
 ## Wallet
 
 **Class**

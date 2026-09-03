@@ -1,15 +1,15 @@
 # EgyptNet — Master Project Completion Roadmap
 
 > **Status:** FROZEN FOR EXECUTION
->
+
 > **Purpose:** This document is the single canonical source of truth for
 > completing the EgyptNet Enterprise ISP Platform.
->
+
 > **Rule:** Never invent historical work or historical phase numbers.
->
+
 > **Rule:** Never reopen a GREEN completed phase unless new evidence proves
 > that its contract has regressed.
->
+
 > **Completion Rule:** EgyptNet is complete only when all required phases
 > reach GREEN / DONE and the Final Architecture Certification passes.
 
@@ -19,21 +19,16 @@
 
 EgyptNet follows the Fast Architecture Loop:
 
+```text
 Quick Audit
-
 → Gap / No Gap
-
 → Minimal Fix
-
 → Targeted Tests
-
 → Regression
-
 → Green Gate
-
 → DONE
-
 → STOP
+```
 
 ### Status Markers
 
@@ -145,7 +140,7 @@ without new regression evidence.
 
 **Phase Status:** GREEN / DONE
 
-**Important:**
+### Important
 
 Historical phase `2.3D` is NOT reconstructed.
 
@@ -179,12 +174,13 @@ only real remaining architectural gaps.
 * [x] Module Source — audited / NO GAP
 * [x] Manifest Collection / Compilation — audited / NO GAP
 * [x] Network Provider registration boundary — audited / NO GAP
+* [x] Network Controller / NetworkDevice persistence boundary — audited / GREEN / CLOSED
 * [x] Security / Authorization Policy boundary — audited / NO GAP
 * [x] Subscription Lifecycle boundary — audited / NO GAP
 * [x] Legacy `app/Models` audit — NO GAP; `User` and `Tenant` are Core platform models
+* [x] Duplicate wrappers — audited / NO GAP
 * [ ] Legacy `app/Services`
 * [ ] Legacy Workflows
-* [x] Duplicate wrappers — audited / NO GAP
 * [ ] Modules
 * [ ] Aggregate ownership
 * [ ] Actions
@@ -211,23 +207,197 @@ Every finding must follow:
 | Core / Kernel                            | Core contracts and Kernel implementation are separated from Laravel-specific Infrastructure                                                    | Core owns abstractions; Infrastructure owns framework bindings                                                           | **NO GAP**   | `app/Core/Kernel` tree; no legacy Core references found                                                                                                                          | No change | Existing Core/Kernel test suite                                                |
 | Module Registry                          | Runtime collection only; does not own discovery or ordering                                                                                    | Registry stores loaded Modules; Discovery owns ordering                                                                  | **NO GAP**   | `ModuleRegistry.php`; previous 40C.81 ordering evidence                                                                                                                          | No change | `ModuleRegistryTest`, `ModuleLoaderTest`                                       |
 | Module Loader                            | Loads discovered Modules into Registry                                                                                                         | Loader delegates discovery/loading; does not become discovery authority                                                  | **NO GAP**   | `ModuleLoader.php` + `ModuleLoaderInterface`                                                                                                                                     | No change | `ModuleLoaderTest`                                                             |
-| Module Discovery                         | Owns Module discovery and dependency/topological ordering                                                                                      | Discovery is authoritative for source ordering                                                                           | **NO GAP**   | `ModuleDiscovery.php`; `ModuleSourceInterface`; previous `SOURCE_COUNT=18` evidence                                                                                              | No change | `ModuleDiscoveryTest`                                                          |
+| Module Discovery                         | Owns Module discovery and dependency/topological ordering                                                                                      | Discovery is authoritative for source ordering                                                                           | **NO GAP**   | `ModuleDiscovery.php`; `ModuleSourceInterface`; `SOURCE_COUNT=18` evidence                                                                                                       | No change | `ModuleDiscoveryTest`                                                          |
 | Module Source                            | Core depends on `ModuleSourceInterface`; Laravel implementation lives in Infrastructure                                                        | Framework-specific source implementation outside Core                                                                    | **NO GAP**   | `LaravelModuleSource.php`; Infrastructure binding                                                                                                                                | No change | `LaravelModuleSourceTest`                                                      |
 | Module Manifest                          | Declarative Module resource definition                                                                                                         | Modules declare resources through typed Manifest API                                                                     | **NO GAP**   | `ModuleManifest.php`; `ResourceType.php`                                                                                                                                         | No change | Manifest/compiler tests                                                        |
 | Module Resources                         | Typed resource definitions with matching compilation handlers                                                                                  | Resource type → matching handler                                                                                         | **NO GAP**   | 9 compilable resource types covered                                                                                                                                              | No change | `CompilableResourceHandlerCoverageTest`, `CompiledResourceHandlerBehaviorTest` |
 | Manifest Collection / Compilation        | Collection and compilation preserve Module semantics and ordering                                                                              | Compiler produces derived compiled representation                                                                        | **NO GAP**   | 26 targeted tests / 57 assertions                                                                                                                                                | No change | `ManifestCollectorTest`, `ModuleManifestCompilerTest`                          |
 | Network Provider Boundary                | MikroTik provider implements Network Provider contract and is exposed through compiled Module registration                                     | Provider remains Infrastructure; Module registration remains Kernel boundary                                             | **NO GAP**   | `NETWORK_MODULE=FOUND`, `COMPILED_NETWORK=FOUND`, `COMPILED_RESOURCES=3`, `PROVIDER_CONTRACT=PASS`, `PROVIDER_NAME=mikrotik`                                                     | No change | `MikroTikProviderTest` + Kernel compilation tests                              |
 | Security / Authorization Policy Boundary | Core User/Tenant policies are owned by Core; Module policies remain Module-owned and are registered through Kernel PolicyResource registration | Core-owned authorization policies belong under Core Security; Module-specific policies remain inside their owning Module | **NO GAP**   | `UserPolicy` and `TenantPolicy` moved to `app/Core/Security/Authorization/Policies`; runtime Gate map resolves both Core policies; Module PolicyResource pipeline remains active | No change | 22 targeted tests / 49 assertions                                              |
-| Legacy `app/Models`                     | `app/Models` contains only `User` and `Tenant`; both are platform-level identity/tenant persistence models, not obsolete Module models | Core platform identity and tenancy models remain centrally owned; obsolete duplicate models should not remain | **NO GAP**   | `User extends Authenticatable` and implements Core `AuthorizableInterface`; `Tenant extends Model`; canonical users/tenants migrations and factories exist; active Core/Module/Test references confirmed | No change | Existing authorization, tenancy, controller, and model test coverage |
-| Duplicate Wrappers                         | No duplicate model wrappers found; Module models have canonical locations under their owning Modules | Each aggregate/persistence model has one canonical owner; compatibility wrappers only remain when explicitly justified | **NO GAP**   | Model tree contains canonical Module models only; wrapper searches returned no model-wrapper matches; duplicate class-name results were non-model classes (`Customer*Controller`, `Kernel`, validation classes) | No change | Existing Module model and regression coverage |
+| Legacy `app/Models`                      | `app/Models` contains only `User` and `Tenant`; both are platform-level identity/tenant persistence models, not obsolete Module models         | Core platform identity and tenancy models remain centrally owned; obsolete duplicate models should not remain            | **NO GAP**   | `User` implements Core authorization contract; `Tenant` remains platform model; canonical migrations/factories and active references confirmed                                   | No change | Existing authorization, tenancy, controller, and model coverage                |
+| Duplicate Wrappers                       | No duplicate model wrappers found; Module models have canonical locations under their owning Modules                                           | Each aggregate/persistence model has one canonical owner; compatibility wrappers only remain when explicitly justified   | **NO GAP**   | Model tree contains canonical Module models only; wrapper searches returned no model-wrapper matches                                                                             | No change | Existing Module model and regression coverage                                  |
+| Network Provider Resolver                | Provider resolution is owned by Network Infrastructure and exposed through the domain contract                                                 | Core/Domain consumes resolver contract; provider implementation remains Infrastructure                                   | **NO GAP**   | `NetworkProviderResolverInterface`; Infrastructure implementation; runtime `AVAILABLE=mikrotik`; unsupported provider throws expected exception                                  | No change | 5 tests / 7 assertions                                                         |
+| Network Services Boundary                | `NetworkManager` and `MikrotikServiceAdapter` moved from Application to Infrastructure                                                         | RouterOS/provider/framework integration belongs to Infrastructure                                                        | **NO GAP**   | Both classes live under `Network/Infrastructure/Services`; Module binding verified; runtime service resolution successful                                                        | No change | Targeted Network tests                                                         |
+| NetworkDevice Repository                 | NetworkDevice persistence access is exposed through a module-owned repository contract                                                         | Controllers/Application consume repository contract; Eloquent persistence remains Infrastructure                         | **NO GAP**   | `NetworkDeviceRepositoryInterface`; Infrastructure implementation; NetworkModule binding; runtime binding and repository behavior verified                                       | No change | Targeted repository/controller tests                                           |
+| Network Controllers                      | Network API and web controllers no longer access `NetworkDevice` directly                                                                      | Presentation consumes repository/application boundaries rather than direct persistence                                   | **NO GAP**   | 7 controllers migrated; direct `NetworkDevice` access removed; repository injected and used                                                                                      | No change | 14 tests / 83 assertions                                                       |
 
-## Rules
+---
 
-* No speculative refactoring.
-* No cleanup merely for aesthetics.
-* No reopening GREEN work.
-* No historical reconstruction.
-* No phase completion without evidence.
+## Verified Evidence — Network Provider / NetworkDevice Boundary
+
+### Network Provider Resolver
+
+* [x] Network Provider Resolver boundary audited.
+* [x] `NetworkProviderResolverInterface` remains in Network Domain Contracts.
+* [x] `NetworkProviderResolver` remains in Network Infrastructure.
+* [x] Resolver no longer depends directly on `NetworkDevice`.
+* [x] `resolve()` delegates provider lookup through the resolver contract.
+* [x] `resolveByName()` validates provider implementation against `NetworkProviderInterface`.
+* [x] Runtime available provider verified as `mikrotik`.
+* [x] Runtime MikroTik provider resolution verified.
+* [x] Unsupported provider behavior verified.
+
+**Targeted evidence:**
+
+```text
+5 passed
+7 assertions
+```
+
+### Network Services
+
+* [x] `NetworkManager` moved to Infrastructure.
+* [x] `MikrotikServiceAdapter` moved to Infrastructure.
+* [x] Application layer no longer owns RouterOS/provider infrastructure services.
+* [x] `NetworkModule` binds `MikrotikServiceInterface` to the Infrastructure adapter.
+* [x] Composer autoload regenerated successfully.
+* [x] Runtime service resolution verified.
+
+Runtime:
+
+```text
+MIKROTIK_SERVICE_CLASS=App\Modules\Network\Infrastructure\Services\MikrotikServiceAdapter
+SERVICE_OK=YES
+NETWORK_MANAGER_CLASS=App\Modules\Network\Infrastructure\Services\NetworkManager
+CONNECTED=NO
+PROVIDER=NULL
+```
+
+`CONNECTED=NO` and `PROVIDER=NULL` represent the runtime environment's
+current RouterOS connection state and are not classified as an architectural
+failure of the service boundary.
+
+### NetworkDevice Repository
+
+* [x] `NetworkDeviceRepositoryInterface` established under Network Domain Contracts.
+* [x] `NetworkDeviceRepository` established under Network Infrastructure.
+* [x] Repository registered through `NetworkModule`.
+* [x] `find()` verified.
+* [x] `findOrFail()` verified.
+* [x] `active()` verified using the existing `NetworkDevice::active()` scope.
+* [x] No speculative `getActive()` repository API introduced.
+
+Runtime:
+
+```text
+REPOSITORY=App\Modules\Network\Infrastructure\Repositories\NetworkDeviceRepository
+ACTIVE_TYPE=Illuminate\Database\Eloquent\Collection
+ACTIVE_COUNT=1
+FIND_1=FOUND
+FIND_OR_FAIL_1=OK
+```
+
+Binding:
+
+```text
+REPOSITORY_CLASS=App\Modules\Network\Infrastructure\Repositories\NetworkDeviceRepository
+CONTRACT_OK=YES
+```
+
+### Network API Controllers
+
+* [x] `DhcpApiController` migrated away from direct NetworkDevice persistence.
+* [x] `FirewallApiController` migrated away from direct NetworkDevice persistence.
+* [x] `QueueApiController` migrated away from direct NetworkDevice persistence.
+* [x] `MikrotikController` migrated away from direct NetworkDevice persistence.
+* [x] Existing `FirewallServiceInterface::getRules()` contract verified and respected.
+* [x] `QueueServiceInterface::getAll()` contract verified and respected.
+* [x] `MikrotikController` uses `QueryDispatcher` for invoice dashboard metrics.
+* [x] Invoice dashboard query handler registration verified at runtime.
+
+Runtime QueryBus evidence:
+
+```text
+DISPATCHER=App\Core\QueryBus\QueryDispatcher
+QUERY_REGISTERED=YES
+HANDLER=App\Modules\Invoice\Application\Queries\Handlers\GetInvoiceDashboardMetricsQueryHandler
+```
+
+Targeted API controller evidence:
+
+```text
+DhcpApiControllerTest       2 tests / 16 assertions
+FirewallApiControllerTest   2 tests / 14 assertions
+QueueApiControllerTest      2 tests / 14 assertions
+MikrotikControllerTest      2 tests / 12 assertions
+```
+
+### Network Web Controllers
+
+* [x] `Network/DHCPController` migrated away from direct NetworkDevice persistence.
+* [x] `Network/FirewallController` migrated away from direct NetworkDevice persistence.
+* [x] `Network/QueueController` migrated away from direct NetworkDevice persistence.
+* [x] All use `NetworkDeviceRepositoryInterface`.
+* [x] `find()`, `findOrFail()`, and `active()` repository usage verified.
+* [x] Direct NetworkDevice model access removed.
+
+Targeted web controller evidence:
+
+```text
+Network/DHCPControllerTest       2 tests / 9 assertions
+Network/FirewallControllerTest   2 tests / 9 assertions
+Network/QueueControllerTest      2 tests / 9 assertions
+```
+
+### Targeted Network Controller Regression
+
+```text
+14 passed
+83 assertions
+24.77s
+```
+
+Covered:
+
+```text
+DhcpApiControllerTest
+FirewallApiControllerTest
+QueueApiControllerTest
+MikrotikControllerTest
+Network/DHCPControllerTest
+Network/FirewallControllerTest
+Network/QueueControllerTest
+```
+
+### Full Regression Evidence
+
+Latest full regression after the Network controller boundary work:
+
+```text
+528 passed
+2 failed
+1245 assertions
+```
+
+The two failures are both in `Tests\Unit\Scopes\TenantScopeTest` and were
+independently confirmed as unrelated to the Network boundary:
+
+```text
+2 failed
+3 passed
+5 assertions
+```
+
+Known failures:
+
+1. Tenant user sees only packages belonging to their tenant.
+   Expected `1`, actual `2`.
+
+2. Tenant user automatically receives tenant ID when creating a package.
+   Database error: missing `tenant_id` default.
+
+These failures are explicitly classified as **unrelated baseline failures**
+and are not to be fixed inside the current Network boundary audit.
+
+### Network Boundary Verdict
+
+**Network Controller → NetworkDevice persistence boundary: GREEN / CLOSED.**
+
+**Important:** This closes only the audited Network controller/device-persistence
+boundary. The broader Network / RouterOS / infrastructure scope remains
+subject to its own evidence-based audit.
+
+---
 
 ## Verified Progress — Core / Kernel
 
@@ -243,23 +413,54 @@ Every finding must follow:
 * [x] Module Resources audited — **NO GAP**
 * [x] Manifest Collection / Compilation audited — **NO GAP**
 * [x] Network Provider registration boundary verified — **NO GAP**
+* [x] Network Provider Resolver boundary verified — **NO GAP**
+* [x] Network services Infrastructure boundary verified — **NO GAP**
+* [x] NetworkDevice repository boundary verified — **NO GAP**
+* [x] Network Controller / NetworkDevice persistence boundary — **GREEN / CLOSED**
 
 ### Evidence
 
-* Targeted tests: **26 passed / 57 assertions**
-* Runtime: `NETWORK_MODULE=FOUND`
-* Runtime: `COMPILED_NETWORK=FOUND`
-* Runtime: `COMPILED_RESOURCES=3`
-* Runtime: `PROVIDER_CONTRACT=PASS`
-* Runtime: `PROVIDER_NAME=mikrotik`
+```text
+26 passed
+57 assertions
+```
+
+Runtime:
+
+```text
+NETWORK_MODULE=FOUND
+COMPILED_NETWORK=FOUND
+COMPILED_RESOURCES=3
+PROVIDER_CONTRACT=PASS
+PROVIDER_NAME=mikrotik
+```
+
+Network resolver:
+
+```text
+AVAILABLE=mikrotik
+MIKROTIK_CLASS=App\Modules\Network\Infrastructure\Providers\MikroTik\MikroTikProvider
+UNSUPPORTED_PROVIDER=RuntimeException
+MESSAGE=Unsupported network provider: unsupported
+```
+
+Network controller regression:
+
+```text
+14 passed
+83 assertions
+```
 
 ### Architectural Decision
 
-No implementation change is required for the audited Core / Kernel boundary.
+No further implementation change is required for the already audited
+Core / Kernel or closed Network controller boundary.
 
-Previously GREEN Kernel work remains closed and is not reopened.
+Previously GREEN work remains closed.
 
-## Verified Progress — Security / Authorization Policy Boundary
+---
+
+# Verified Progress — Security / Authorization Policy Boundary
 
 ### Completed Audit
 
@@ -335,7 +536,7 @@ Module-specific policies remain inside their respective Modules.
 
 No further change is required for this audited boundary.
 
-**Security / Authorization Policy Boundary:** GREEN / NO GAP — STOP.
+**Security / Authorization Policy Boundary: GREEN / NO GAP — STOP.**
 
 ### Important Boundary Rule
 
@@ -347,12 +548,49 @@ Phase 2 records the architecture-map audit only.
 The broader Phase 9 Authorization audit remains pending until the complete
 API / Presentation / Authorization surface has been reviewed.
 
-**Phase 2 remains IN PROGRESS** because the complete Architecture Map has
-not yet been audited.
+---
+
+# Legacy `app/Models` Boundary
+
+* [x] `app/Models` audited.
+* [x] Only platform-level `User` and `Tenant` models remain there.
+* [x] `User` remains a Core platform identity model.
+* [x] `Tenant` remains a Core platform tenancy model.
+* [x] Module-owned obsolete models are not retained under `app/Models`.
+* [x] Active references verified.
+* [x] Canonical migrations/factories verified.
+
+**Verdict: NO GAP / CLOSED.**
+
+This boundary must not be reopened unless new evidence demonstrates regression.
 
 ---
 
-## Exit Gate
+# Duplicate Wrappers Boundary
+
+* [x] Duplicate model wrapper audit completed.
+* [x] No duplicate Module model wrappers found.
+* [x] Canonical Module model ownership verified.
+* [x] Compatibility wrappers remain only where explicitly justified.
+* [x] Duplicate class-name search results that were not model wrappers were
+  correctly classified as unrelated classes.
+
+**Verdict: NO GAP / CLOSED.**
+
+---
+
+## Rules
+
+* No speculative refactoring.
+* No cleanup merely for aesthetics.
+* No reopening GREEN work.
+* No historical reconstruction.
+* No phase completion without evidence.
+* No unrelated fixes inside the current audit.
+
+---
+
+# Phase 2 Exit Gate
 
 * [ ] Current architecture map complete.
 * [ ] Every relevant area classified.
@@ -360,6 +598,10 @@ not yet been audited.
 * [ ] No-Gap areas recorded.
 * [ ] Deferred items recorded.
 * [ ] Targeted tests identified.
+* [ ] Final Phase 2 regression position reconciled.
+* [ ] Phase 2 Green Gate achieved.
+
+**Phase 2 remains IN PROGRESS.**
 
 ---
 
@@ -374,7 +616,7 @@ they are obsolete.
 
 ## Targets
 
-* [ ] Legacy `app/Models`
+* [x] Legacy `app/Models` — audited / NO GAP
 * [ ] Legacy `app/Services`
 * [ ] Legacy Workflows
 * [ ] Duplicate model wrappers
@@ -448,23 +690,17 @@ Every business use case must have a clear application boundary.
 
 Preferred structure:
 
+```text
 Command
-
 ↓
-
 Handler
-
 ↓
-
 Action / Workflow
-
 ↓
-
 Domain
-
 ↓
-
 Repository
+```
 
 ## Audit
 
@@ -586,6 +822,19 @@ Ensure Infrastructure owns framework and external-system concerns.
 * [ ] RouterOS integration.
 * [ ] External integrations.
 
+## Verified Sub-boundaries
+
+The following Network-related sub-boundaries have already been audited
+inside Phase 2:
+
+* [x] Network Provider registration boundary — NO GAP.
+* [x] Network Provider Resolver boundary — NO GAP.
+* [x] Network services Infrastructure boundary — NO GAP.
+* [x] NetworkDevice repository boundary — NO GAP.
+* [x] Network Controller → NetworkDevice persistence boundary — GREEN / CLOSED.
+
+These do **not** close the entire Infrastructure / Network phase.
+
 ## Special Rule
 
 Schedule is a runtime resource.
@@ -623,16 +872,27 @@ Audit all scheduled commands, including:
 * [ ] Sanctum.
 * [ ] Validation.
 
-## Verified Sub-boundary
+## Verified Sub-boundaries
 
 The Core / Module **Policy Ownership and Registration Boundary** has already
 been audited and is GREEN / NO GAP.
 
-This does not complete the entire Phase 9 Authorization audit.
+The Network Controller → NetworkDevice persistence boundary has also been
+audited and is GREEN / CLOSED.
+
+These do not complete the entire Phase 9 audit.
 
 Remaining Phase 9 work must verify the complete presentation and security
-surface, including runtime authorization behavior, route protection,
-permissions, roles, Sanctum, request validation, and controller boundaries.
+surface, including:
+
+* runtime authorization behavior,
+* route protection,
+* permissions,
+* roles,
+* Sanctum,
+* request validation,
+* controller boundaries,
+* API responses/resources.
 
 ## Rules
 
@@ -668,23 +928,39 @@ Create final confidence that the architecture and behavior are GREEN.
 
 ## Required sequence
 
+```text
 Targeted Tests
-
 ↓
-
 Module Regression
-
 ↓
-
 Full Test Suite
-
 ↓
-
 GREEN
+```
 
 ## Rule
 
 Every architectural change requires targeted tests before completion.
+
+### Current Regression Baseline
+
+Latest regression checkpoint after the Network controller boundary work:
+
+```text
+528 passed
+2 failed
+1245 assertions
+```
+
+The two failures are known `TenantScopeTest` baseline failures:
+
+```text
+2 failed
+3 passed
+5 assertions
+```
+
+They remain classified as unrelated to the Network boundary sprint.
 
 **Exit Gate:** Full regression GREEN with no unexplained failures.
 
@@ -810,23 +1086,21 @@ A phase is not DONE until its targeted tests are GREEN.
 
 When:
 
+```text
 Contract ✓
-
 Implementation ✓
-
 Evidence ✓
-
 Targeted Tests ✓
-
 Regression ✓
+```
 
 Then:
 
+```text
 GREEN
-
 DONE
-
 STOP
+```
 
 ## Rule 7 — No Speculation
 
@@ -870,7 +1144,7 @@ At the end of every phase record:
 
 **Status:** `[~] IN PROGRESS`
 
-**Completed in Current Phase:**
+## Completed in Current Phase
 
 * Core / Kernel boundary — **NO GAP**
 * Module Registry — **NO GAP**
@@ -881,9 +1155,44 @@ At the end of every phase record:
 * Module Resources — **NO GAP**
 * Manifest Collection / Compilation — **NO GAP**
 * Network Provider registration boundary — **NO GAP**
+* Network Provider Resolver boundary — **NO GAP**
+* Network services Infrastructure boundary — **NO GAP**
+* NetworkDevice repository boundary — **NO GAP**
+* Network Controller / NetworkDevice persistence boundary — **GREEN / CLOSED**
 * Security / Authorization Policy boundary — **NO GAP**
+* Subscription Lifecycle boundary — **NO GAP**
+* Legacy `app/Models` audit — **NO GAP**
+* Duplicate wrappers — **NO GAP**
 
-**Security / Authorization Evidence:**
+## Network Evidence
+
+```text
+Network Provider Resolver:
+5 passed / 7 assertions
+
+Network Controller targeted regression:
+14 passed / 83 assertions
+
+Latest full regression:
+528 passed
+2 failed
+1245 assertions
+```
+
+Known unrelated regression failures:
+
+```text
+Tests\Unit\Scopes\TenantScopeTest
+
+2 failed
+3 passed
+5 assertions
+```
+
+These failures remain outside the Network boundary and must not be fixed
+inside the current audit scope.
+
+## Security / Authorization Evidence
 
 ```text
 22 passed
@@ -900,84 +1209,115 @@ App\Models\Tenant
     => App\Core\Security\Authorization\Policies\TenantPolicy
 ```
 
-**Next Action:**
+## Architectural Position
 
-Continue Phase 2 Architecture Map with the Legacy Boundary audit:
+The following audited boundaries are closed and must not be reopened without
+new regression evidence:
 
 ```text
-app/Models
-→ app/Services
-→ Legacy Workflows
-→ Duplicate Wrappers
+Core / Kernel
+Module Registry
+Module Loader
+Module Discovery
+Module Source
+Module Manifest
+Module Resources
+Manifest Collection / Compilation
+Network Provider registration
+Network Provider Resolver
+Network Infrastructure service placement
+NetworkDevice repository boundary
+Network Controller → NetworkDevice persistence
+Security / Authorization Policy ownership
+Subscription Lifecycle
+Legacy app/Models
+Duplicate Wrappers
 ```
 
-No implementation change until the audit identifies a real Gap.
+## Next Action
+
+Continue Phase 2 Architecture Map with the remaining Legacy Boundary audit:
+
+```text
+Legacy app/Services
+→ Legacy Workflows
+→ Modules
+→ Aggregate ownership
+→ Actions
+→ Commands / Handlers
+→ Queries / Handlers
+→ Workflows
+→ Domain Services
+→ Repositories
+→ Events / Listeners
+→ Infrastructure
+→ Presentation
+→ Authorization
+→ Scheduling
+→ RouterOS integration
+→ Documentation
+→ Tests
+```
+
+### Immediate Next Step
+
+**Quick Audit — Legacy `app/Services`**
+
+Audit only:
+
+```text
+Inventory
+→ Namespace classification
+→ Class/interface/trait classification
+→ Application references
+→ Test references
+→ Duplicate/compatibility analysis
+→ Replacement/ownership evidence
+→ Gap / No Gap
+```
+
+**No implementation change until the audit identifies a real Gap.**
+
+No deletion, movement, replacement, or refactoring is authorized merely
+because a file exists under `app/Services`.
 
 ---
 
 # PROJECT COMPLETION EQUATION
 
+```text
 Architecture
-
 *
-
 Core
-
 *
-
 Kernel
-
 *
-
 Modules
-
 *
-
 Ownership
-
 *
-
 Application
-
 *
-
 Business Rules
-
 *
-
 Infrastructure
-
 *
-
 Network
-
 *
-
 Presentation
-
 *
-
 Authorization
-
 *
-
 Tests
-
 *
-
 Documentation
-
 *
-
 Operational Readiness
-
 *
-
 Roadmap
-
 =
-
 GREEN
+```
 
 ---
 

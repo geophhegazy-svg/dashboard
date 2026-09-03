@@ -389,6 +389,7 @@ App\Http\Controllers\Api\Network
 **Dependencies**
 
 - NetworkManager $networkManager
+- NetworkDeviceRepositoryInterface $networkDeviceRepository
 
 **Public Methods**
 
@@ -498,6 +499,7 @@ App\Http\Controllers\Api
 **Dependencies**
 
 - NetworkManager $networkManager
+- NetworkDeviceRepositoryInterface $networkDeviceRepository
 
 **Public Methods**
 
@@ -525,6 +527,7 @@ App\Http\Controllers\Api
 **Dependencies**
 
 - NetworkManager $networkManager
+- NetworkDeviceRepositoryInterface $networkDeviceRepository
 
 **Public Methods**
 
@@ -552,6 +555,7 @@ App\Http\Controllers\Api\Network
 **Dependencies**
 
 - NetworkManager $networkManager
+- NetworkDeviceRepositoryInterface $networkDeviceRepository
 
 **Public Methods**
 
@@ -685,6 +689,8 @@ App\Http\Controllers\Api
 **Dependencies**
 
 - NetworkManager $networkManager
+- NetworkDeviceRepositoryInterface $networkDeviceRepository
+- DashboardService $dashboardService
 - QueryDispatcher $queryDispatcher
 
 **Public Methods**
@@ -804,6 +810,7 @@ App\Http\Controllers\Api
 **Dependencies**
 
 - NetworkManager $networkManager
+- NetworkDeviceRepositoryInterface $networkDeviceRepository
 
 **Public Methods**
 
@@ -832,6 +839,7 @@ App\Http\Controllers\Api\Network
 **Dependencies**
 
 - NetworkManager $networkManager
+- NetworkDeviceRepositoryInterface $networkDeviceRepository
 
 **Public Methods**
 

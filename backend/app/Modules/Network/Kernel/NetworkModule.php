@@ -6,9 +6,13 @@ namespace App\Modules\Network\Kernel;
 
 use App\Core\Kernel\ModuleManifest;
 use App\Core\Kernel\Modules\Module;
-use App\Modules\Network\Application\MikrotikServiceAdapter;
+use App\Modules\Network\Infrastructure\Services\MikrotikServiceAdapter;
 use App\Modules\Network\Domain\Contracts\NetworkProviderResolverInterface;
+use App\Modules\Network\Domain\Contracts\NetworkDeviceRepositoryInterface;
+
 use App\Modules\Network\Infrastructure\Providers\NetworkProviderResolver;
+use App\Modules\Network\Infrastructure\Repositories\NetworkDeviceRepository;
+
 use App\Modules\Network\Domain\Contracts\MikrotikServiceInterface;
 use App\Modules\Network\Domain\Contracts\Services\HotspotServiceInterface;
 use App\Modules\Network\Infrastructure\Providers\MikroTik\MikroTikConnectionService;
@@ -45,6 +49,9 @@ final class NetworkModule extends Module
         return ModuleManifest::make()
 
             ->services([
+
+                NetworkDeviceRepositoryInterface::class
+                    => NetworkDeviceRepository::class,
 
                 MikrotikServiceInterface::class
                     => MikrotikServiceAdapter::class,

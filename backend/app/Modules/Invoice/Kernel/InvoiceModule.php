@@ -40,6 +40,8 @@ use App\Modules\Invoice\Application\Commands\Handlers\CreateInvoiceCommandHandle
 use App\Modules\Invoice\Application\Commands\Handlers\UpdateInvoiceCommandHandler;
 use App\Modules\Invoice\Application\Commands\Handlers\DeleteInvoiceCommandHandler;
 use App\Modules\Invoice\Application\Contracts\InvoiceServiceInterface;
+use App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice;
+use App\Modules\Invoice\Policies\InvoicePolicy;
 
 final class InvoiceModule extends Module
 {
@@ -114,6 +116,12 @@ final class InvoiceModule extends Module
 
                 DeleteInvoiceCommand::class
                 => DeleteInvoiceCommandHandler::class,
+
+            ])
+
+            ->policies([
+
+                Invoice::class => InvoicePolicy::class,
 
             ]);
     }

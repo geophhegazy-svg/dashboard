@@ -5,14 +5,15 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\Network;
 
 use App\Http\Controllers\Controller;
-use App\Modules\Network\Infrastructure\Persistence\Models\NetworkDevice;
-use App\Modules\Network\Application\NetworkManager;
+use App\Modules\Network\Infrastructure\Services\NetworkManager;
+use App\Modules\Network\Domain\Contracts\NetworkDeviceRepositoryInterface;
 use Illuminate\Http\Request;
 
 class QueueController extends Controller
 {
     public function __construct(
-        protected NetworkManager $networkManager
+        protected NetworkManager $networkManager,
+        protected NetworkDeviceRepositoryInterface $networkDeviceRepository,
     ) {}
 
 
@@ -21,7 +22,7 @@ class QueueController extends Controller
      */
     protected function provider(int $deviceId)
     {
-        $device = NetworkDevice::findOrFail($deviceId);
+        $device = $this->networkDeviceRepository->findOrFail($deviceId);
 
         $connected = $this->networkManager->connect($device);
 
@@ -41,12 +42,9 @@ class QueueController extends Controller
     {
         $deviceId = (int) $request->input('device_id', 1);
 
-        $device = NetworkDevice::find($deviceId);
+        $device = $this->networkDeviceRepository->find($deviceId);
 
-        $devices = NetworkDevice::where(
-            'status',
-            'active'
-        )->get();
+        $devices = $this->networkDeviceRepository->active();
 
 
         $queues = [];
@@ -91,13 +89,10 @@ class QueueController extends Controller
     {
         $deviceId = (int) $request->input('device_id', 1);
 
-        $device = NetworkDevice::find($deviceId);
+        $device = $this->networkDeviceRepository->find($deviceId);
 
 
-        $devices = NetworkDevice::where(
-            'status',
-            'active'
-        )->get();
+        $devices = $this->networkDeviceRepository->active();
 
 
         return view(
@@ -210,13 +205,10 @@ class QueueController extends Controller
         );
 
 
-        $device = NetworkDevice::find($deviceId);
+        $device = $this->networkDeviceRepository->find($deviceId);
 
 
-        $devices = NetworkDevice::where(
-            'status',
-            'active'
-        )->get();
+        $devices = $this->networkDeviceRepository->active();
 
 
 

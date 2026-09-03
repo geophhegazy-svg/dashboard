@@ -36,6 +36,12 @@
                         "App\\Modules\\Invoice\\Application\\Commands\\UpdateInvoiceCommand": "App\\Modules\\Invoice\\Application\\Commands\\Handlers\\UpdateInvoiceCommandHandler",
                         "App\\Modules\\Invoice\\Application\\Commands\\DeleteInvoiceCommand": "App\\Modules\\Invoice\\Application\\Commands\\Handlers\\DeleteInvoiceCommandHandler"
                     }
+                },
+                {
+                    "type": "policies",
+                    "policies": {
+                        "App\\Modules\\Invoice\\Infrastructure\\Persistence\\Models\\Invoice": "App\\Modules\\Invoice\\Policies\\InvoicePolicy"
+                    }
                 }
             ]
         },
@@ -135,8 +141,7 @@
                 {
                     "type": "actions",
                     "actions": [
-                        "App\\Modules\\Activity\\Application\\Actions\\LogActivityAction",
-                        "App\\Modules\\Activity\\Application\\Actions\\CreateActivityLogAction"
+                        "App\\Modules\\Activity\\Application\\Actions\\LogActivityAction"
                     ]
                 }
             ]
@@ -159,7 +164,7 @@
                     "type": "listeners",
                     "listeners": {
                         "App\\Modules\\Accounting\\Domain\\Events\\JournalEntryPosted": [
-                            "App\\Modules\\Accounting\\Listeners\\JournalEntryPostedListener"
+                            "App\\Modules\\Accounting\\Application\\Listeners\\JournalEntryPostedListener"
                         ]
                     }
                 }
@@ -177,12 +182,6 @@
                     "type": "services",
                     "bindings": {
                         "App\\Modules\\Billing\\Domain\\Contracts\\BillingCycleServiceInterface": "App\\Modules\\Billing\\Application\\Services\\BillingCycleService"
-                    }
-                },
-                {
-                    "type": "policies",
-                    "policies": {
-                        "App\\Modules\\Invoice\\Infrastructure\\Persistence\\Models\\Invoice": "App\\Modules\\Billing\\Policies\\InvoicePolicy"
                     }
                 }
             ]
@@ -357,7 +356,8 @@
                 {
                     "type": "services",
                     "bindings": {
-                        "App\\Modules\\Network\\Domain\\Contracts\\MikrotikServiceInterface": "App\\Modules\\Network\\Application\\MikrotikServiceAdapter",
+                        "App\\Modules\\Network\\Domain\\Contracts\\NetworkDeviceRepositoryInterface": "App\\Modules\\Network\\Infrastructure\\Repositories\\NetworkDeviceRepository",
+                        "App\\Modules\\Network\\Domain\\Contracts\\MikrotikServiceInterface": "App\\Modules\\Network\\Infrastructure\\Services\\MikrotikServiceAdapter",
                         "App\\Modules\\Network\\Domain\\Contracts\\Services\\HotspotServiceInterface": "App\\Modules\\Network\\Infrastructure\\Providers\\MikroTik\\MikroTikHotspotService"
                     }
                 },
