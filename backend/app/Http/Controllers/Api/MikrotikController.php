@@ -6,19 +6,14 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Modules\Network\Domain\Contracts\NetworkProviderInterface;
-use App\Modules\Network\Infrastructure\Services\NetworkManager;
+use App\Modules\Network\Application\Contracts\NetworkManagerInterface;
 use App\Modules\Network\Domain\Contracts\NetworkDeviceRepositoryInterface;
-use App\Modules\Dashboard\Application\Services\DashboardService;
-use App\Core\QueryBus\QueryDispatcher;
-use App\Modules\Invoice\Application\Queries\GetInvoiceDashboardMetricsQuery;
 
 class MikrotikController extends Controller
 {
     public function __construct(
-        protected NetworkManager $networkManager,
+        protected NetworkManagerInterface $networkManager,
         protected NetworkDeviceRepositoryInterface $networkDeviceRepository,
-        protected DashboardService $dashboardService,
-        protected QueryDispatcher $queryDispatcher,
     ) {}
 
 
@@ -69,7 +64,7 @@ class MikrotikController extends Controller
         }
 
 
-        if (!$this->networkManager->connect($device)) {
+        if (!$this->networkManager->connect($device->id)) {
             return null;
         }
 
@@ -127,53 +122,8 @@ class MikrotikController extends Controller
 
 
 
-    /**
-     * DHCP
-     */
-    public function dhcpLeases()
-    {
-        $provider = $this->provider(
-            request()->input('device_id', 1)
-        );
-
-
-        if (!$provider) {
-            return response()->json([]);
-        }
-
-
-        return response()->json(
-            $provider->dhcp()->getAll()
-        );
-    }
-
-
-
-
-
-    /**
+   /**
      * Dashboard
      */
-    public function dashboardStats()
-    {
-        $dashboard = $this->dashboardService->getDashboardData();
 
-        $invoiceMetrics = $this->queryDispatcher->dispatch(
-            new GetInvoiceDashboardMetricsQuery()
-        );
-
-        return response()->json([
-            'customers' => $dashboard['business']['total_customers'],
-
-            'active_pppoe' => $dashboard['subscriptions']['pppoe']['active'],
-
-            'active_hotspot' => $dashboard['subscriptions']['hotspot']['active'],
-
-            'pending_invoices' => $invoiceMetrics['pending_invoices'],
-
-            'paid_invoices' => $invoiceMetrics['paid_invoices'],
-
-            'monthly_revenue' => $invoiceMetrics['monthly_revenue'],
-        ]);
-    }
 }

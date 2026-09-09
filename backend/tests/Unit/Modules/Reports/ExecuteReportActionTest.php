@@ -11,7 +11,6 @@ use App\Modules\Reports\Application\Filters\ReportFilter;
 use App\Modules\Reports\Application\Manager\ExportManager;
 use App\Modules\Reports\Application\Manager\ReportManager;
 use App\Modules\Reports\Application\Actions\ExecuteReportAction;
-use App\Modules\Reports\Domain\Contracts\ReportExportRepositoryInterface;
 use Carbon\Carbon;
 use PHPUnit\Framework\TestCase;
 
@@ -94,60 +93,9 @@ class ExecuteReportActionTest extends TestCase
             )
             ->willReturn($reportResult);
 
-        $reportExportRepository = $this->createMock(
-            ReportExportRepositoryInterface::class
-        );
-
-        $reportExportRepository
-            ->expects($this->once())
-            ->method('create')
-            ->with(
-                $this->callback(
-                    function (array $data): bool {
-                        $this->assertSame(
-                            'customer',
-                            $data['report_name']
-                        );
-
-                        $this->assertSame(
-                            'csv',
-                            $data['format']
-                        );
-
-                        $this->assertSame(
-                            'customer.csv',
-                            $data['file_name']
-                        );
-
-                        $this->assertSame(
-                            'text/csv',
-                            $data['mime_type']
-                        );
-
-                        $this->assertSame(
-                            1,
-                            $data['records_count']
-                        );
-
-                        $this->assertSame(
-                            '2026-01-01',
-                            $data['filters']['from']
-                        );
-
-                        $this->assertSame(
-                            '2026-01-31',
-                            $data['filters']['to']
-                        );
-
-                        return true;
-                    }
-                )
-            );
-
         $service = new ExecuteReportAction(
             reportManager: $reportManager,
             exportManager: $this->createExportManager(),
-            reportExportRepository: $reportExportRepository,
         );
 
         $result = $service->execute(
@@ -203,18 +151,10 @@ class ExecuteReportActionTest extends TestCase
             )
             ->willReturn($reportResult);
 
-        $reportExportRepository = $this->createMock(
-            ReportExportRepositoryInterface::class
-        );
-
-        $reportExportRepository
-            ->expects($this->once())
-            ->method('create');
 
         $service = new ExecuteReportAction(
             reportManager: $reportManager,
             exportManager: $this->createExportManager(),
-            reportExportRepository: $reportExportRepository,
         );
 
         $service->execute(
@@ -259,18 +199,10 @@ class ExecuteReportActionTest extends TestCase
             )
             ->willReturn($reportResult);
 
-        $reportExportRepository = $this->createMock(
-            ReportExportRepositoryInterface::class
-        );
-
-        $reportExportRepository
-            ->expects($this->once())
-            ->method('create');
 
         $service = new ExecuteReportAction(
             reportManager: $reportManager,
             exportManager: $this->createExportManager(),
-            reportExportRepository: $reportExportRepository,
         );
 
         $service->execute(

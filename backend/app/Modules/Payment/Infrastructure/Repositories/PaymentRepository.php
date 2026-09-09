@@ -38,11 +38,6 @@ class PaymentRepository implements PaymentRepositoryInterface
         return $payment->save();
     }
 
-    public function delete(Payment $payment): bool
-    {
-        return (bool) $payment->delete();
-    }
-
     public function countAll(): int
     {
         return Payment::count();

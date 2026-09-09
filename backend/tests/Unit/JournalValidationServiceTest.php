@@ -65,6 +65,125 @@ class JournalValidationServiceTest extends TestCase
         $this->assertTrue(true);
     }
 
+
+    public function test_account_from_another_tenant_is_rejected(): void
+    {
+        $tenant = Tenant::factory()->create();
+        $otherTenant = Tenant::factory()->create();
+
+        $account1 = Account::factory()->create([
+            'tenant_id' => $tenant->id,
+            'is_active' => true,
+        ]);
+
+        $account2 = Account::factory()->create([
+            'tenant_id' => $otherTenant->id,
+            'is_active' => true,
+        ]);
+
+        $entry = JournalEntry::create([
+            'tenant_id' => $tenant->id,
+            'entry_number' => 'JV-2026-000001',
+            'entry_date' => now(),
+            'status' => 'draft',
+        ]);
+
+        $entry->lines()->createMany([
+            [
+                'account_id' => $account1->id,
+                'debit' => 100,
+                'credit' => 0,
+            ],
+            [
+                'account_id' => $account2->id,
+                'debit' => 0,
+                'credit' => 100,
+            ],
+        ]);
+
+        $this->expectException(JournalValidationException::class);
+
+        app(JournalValidationService::class)->validate($entry);
+    }
+
+    public function test_inactive_account_is_rejected(): void
+    {
+        $tenant = Tenant::factory()->create();
+
+        $account1 = Account::factory()->create([
+            'tenant_id' => $tenant->id,
+            'is_active' => true,
+        ]);
+
+        $account2 = Account::factory()->create([
+            'tenant_id' => $tenant->id,
+            'is_active' => false,
+        ]);
+
+        $entry = JournalEntry::create([
+            'tenant_id' => $tenant->id,
+            'entry_number' => 'JV-2026-000001',
+            'entry_date' => now(),
+            'status' => 'draft',
+        ]);
+
+        $entry->lines()->createMany([
+            [
+                'account_id' => $account1->id,
+                'debit' => 100,
+                'credit' => 0,
+            ],
+            [
+                'account_id' => $account2->id,
+                'debit' => 0,
+                'credit' => 100,
+            ],
+        ]);
+
+        $this->expectException(JournalValidationException::class);
+
+        app(JournalValidationService::class)->validate($entry);
+    }
+
+    public function test_active_accounts_from_same_tenant_are_accepted(): void
+    {
+        $tenant = Tenant::factory()->create();
+
+        $account1 = Account::factory()->create([
+            'tenant_id' => $tenant->id,
+            'is_active' => true,
+        ]);
+
+        $account2 = Account::factory()->create([
+            'tenant_id' => $tenant->id,
+            'is_active' => true,
+        ]);
+
+        $entry = JournalEntry::create([
+            'tenant_id' => $tenant->id,
+            'entry_number' => 'JV-2026-000001',
+            'entry_date' => now(),
+            'status' => 'draft',
+        ]);
+
+        $entry->lines()->createMany([
+            [
+                'account_id' => $account1->id,
+                'debit' => 100,
+                'credit' => 0,
+            ],
+            [
+                'account_id' => $account2->id,
+                'debit' => 0,
+                'credit' => 100,
+            ],
+        ]);
+
+        app(JournalValidationService::class)->validate($entry);
+
+        $this->assertTrue(true);
+    }
+
     public function test_unbalanced_entry_throws_exception(): void
     {
         $tenant = Tenant::factory()->create();

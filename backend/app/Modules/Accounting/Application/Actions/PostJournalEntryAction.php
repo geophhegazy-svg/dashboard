@@ -7,6 +7,7 @@ namespace App\Modules\Accounting\Application\Actions;
 use App\Modules\Accounting\Infrastructure\Persistence\Models\JournalEntry;
 use App\Exceptions\Accounting\JournalPostingException;
 use App\Modules\Accounting\Application\Services\JournalValidationService;
+use App\Modules\Accounting\Application\Services\AccountingPeriodService;
 use App\Modules\Activity\Application\Actions\LogActivityAction;
 use App\Modules\Accounting\Domain\Events\JournalEntryPosted;
 use Illuminate\Support\Facades\Auth;
@@ -17,6 +18,7 @@ final readonly class PostJournalEntryAction
 {
     public function __construct(
         private JournalValidationService $validationService,
+        private AccountingPeriodService $periodService,
         private readonly JournalEntryRepositoryInterface $journalEntries,
         private readonly LogActivityAction $logActivity,
     ) {}
@@ -35,6 +37,10 @@ final readonly class PostJournalEntryAction
             );
         }
 
+        $this->periodService->assertOpenForDate(
+            tenantId: (int) $entry->tenant_id,
+            date: $entry->entry_date->copy(),
+        );
 
         $this->validationService->validate(
             $entry

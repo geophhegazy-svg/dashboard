@@ -13,8 +13,8 @@ Technology
 - MikroTik RouterOS
 
 Statistics
-- Models: 26
-- Services: 11
+- Models: 27
+- Services: 13
 
 
 ---
@@ -47,8 +47,8 @@ app/
 
 # Project Statistics
 
-Models: 26
-Services: 11
+Models: 27
+Services: 13
 
 ---
 
@@ -99,12 +99,26 @@ Development Rules
 - Update generated documentation after structural changes.
 
 Current Statistics
-Models: 26
-Services: 11
+Models: 27
+Services: 13
 
 ---
 
 # Business Rules
+
+## AccountingPeriodService
+
+**Namespace**
+App\Modules\Accounting\Application\Services
+
+**Dependencies**
+- App\Modules\Accounting\Domain\Contracts\AccountingPeriodRepositoryInterface
+
+**Methods**
+- __construct(1 params) : mixed
+- assertOpenForDate(2 params) : void
+
+---
 
 ## BillingCycleService
 
@@ -184,6 +198,20 @@ App\Modules\Invoice\Application\Services
 - update(2 params) : App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice
 - delete(1 params) : bool
 - settle(2 params) : App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice
+
+---
+
+## JournalNumberService
+
+**Namespace**
+App\Modules\Accounting\Application\Services
+
+**Dependencies**
+- App\Modules\Accounting\Domain\Contracts\JournalEntryRepositoryInterface
+
+**Methods**
+- __construct(1 params) : mixed
+- generate(2 params) : string
 
 ---
 
@@ -390,6 +418,99 @@ App\Modules\Accounting\Infrastructure\Persistence\Models
 - parent()
 - children()
 - journalEntryLines()
+- factory()
+
+---
+
+## AccountingPeriod
+
+**Namespace**
+
+```
+App\Modules\Accounting\Infrastructure\Persistence\Models
+```
+
+**File**
+
+```
+/var/www/app/Modules/Accounting/Infrastructure/Persistence/Models/AccountingPeriod.php
+```
+
+**Properties**
+
+- $fillable : mixed
+- $connection : mixed
+- $table : mixed
+- $primaryKey : mixed
+- $keyType : mixed
+- $incrementing : mixed
+- $with : mixed
+- $withCount : mixed
+- $preventsLazyLoading : mixed
+- $perPage : mixed
+- $exists : mixed
+- $wasRecentlyCreated : mixed
+- $escapeWhenCastingToString : mixed
+- $resolver : mixed
+- $dispatcher : mixed
+- $booting : mixed
+- $booted : mixed
+- $bootedCallbacks : mixed
+- $traitInitializers : mixed
+- $globalScopes : mixed
+- $ignoreOnTouch : mixed
+- $modelsShouldPreventLazyLoading : mixed
+- $modelsShouldAutomaticallyEagerLoadRelationships : mixed
+- $lazyLoadingViolationCallback : mixed
+- $modelsShouldPreventSilentlyDiscardingAttributes : mixed
+- $discardedAttributeViolationCallback : mixed
+- $modelsShouldPreventAccessingMissingAttributes : mixed
+- $missingAttributeViolationCallback : mixed
+- $isBroadcasting : mixed
+- $builder : string
+- $collectionClass : string
+- $isSoftDeletable : array
+- $isPrunable : array
+- $isMassPrunable : array
+- $classAttributes : array
+- $attributes : mixed
+- $original : mixed
+- $changes : mixed
+- $previous : mixed
+- $casts : mixed
+- $classCastCache : mixed
+- $attributeCastCache : mixed
+- $primitiveCastTypes : mixed
+- $dateFormat : mixed
+- $appends : mixed
+- $snakeAttributes : mixed
+- $mutatorCache : mixed
+- $attributeMutatorCache : mixed
+- $getAttributeMutatorCache : mixed
+- $setAttributeMutatorCache : mixed
+- $castTypeCache : mixed
+- $encrypter : mixed
+- $dispatchesEvents : mixed
+- $observables : mixed
+- $relations : mixed
+- $touches : mixed
+- $relationAutoloadCallback : mixed
+- $relationAutoloadContext : mixed
+- $manyMethods : mixed
+- $relationResolvers : mixed
+- $timestamps : mixed
+- $ignoreTimestampsOn : mixed
+- $usesUniqueIds : mixed
+- $hidden : mixed
+- $visible : mixed
+- $guarded : mixed
+- $unguarded : mixed
+- $guardableColumns : mixed
+- $recursionCache : mixed
+- $resolvedCollectionClasses : array
+
+**Methods**
+
 - factory()
 
 ---
@@ -2892,6 +3013,34 @@ App\Modules\Wallet\Infrastructure\Persistence\Models
 
 ---
 
+## AccountingPeriodService
+
+**Namespace**
+
+```
+App\Modules\Accounting\Application\Services
+```
+
+**File**
+
+```
+/var/www/app/Modules/Accounting/Application/Services/AccountingPeriodService.php
+```
+
+**Constructor Dependencies**
+
+- AccountingPeriodRepositoryInterface $periods
+
+**Properties**
+
+- $periods : App\Modules\Accounting\Domain\Contracts\AccountingPeriodRepositoryInterface
+
+**Methods**
+
+- assertOpenForDate() : void
+
+---
+
 ## BillingCycleService
 
 **Namespace**
@@ -3031,6 +3180,34 @@ App\Modules\Invoice\Application\Services
 - update() : App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice
 - delete() : bool
 - settle() : App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice
+
+---
+
+## JournalNumberService
+
+**Namespace**
+
+```
+App\Modules\Accounting\Application\Services
+```
+
+**File**
+
+```
+/var/www/app/Modules/Accounting/Application/Services/JournalNumberService.php
+```
+
+**Constructor Dependencies**
+
+- JournalEntryRepositoryInterface $repository
+
+**Properties**
+
+- $repository : App\Modules\Accounting\Domain\Contracts\JournalEntryRepositoryInterface
+
+**Methods**
+
+- generate() : string
 
 ---
 
@@ -3613,7 +3790,7 @@ App\Http\Controllers\Api\Network
 
 **Dependencies**
 
-- NetworkManager $networkManager
+- NetworkManagerInterface $networkManager
 - NetworkDeviceRepositoryInterface $networkDeviceRepository
 
 **Public Methods**
@@ -3707,62 +3884,6 @@ App\Http\Controllers\Api
 
 ---
 
-## DhcpApiController
-
-**Namespace**
-
-```
-App\Http\Controllers\Api
-```
-
-**File**
-
-```
-/var/www/app/Http/Controllers/Api/DhcpApiController.php
-```
-
-**Dependencies**
-
-- NetworkManager $networkManager
-- NetworkDeviceRepositoryInterface $networkDeviceRepository
-
-**Public Methods**
-
-- index()
-- store()
-- update()
-- destroy()
-
----
-
-## FirewallApiController
-
-**Namespace**
-
-```
-App\Http\Controllers\Api
-```
-
-**File**
-
-```
-/var/www/app/Http/Controllers/Api/FirewallApiController.php
-```
-
-**Dependencies**
-
-- NetworkManager $networkManager
-- NetworkDeviceRepositoryInterface $networkDeviceRepository
-
-**Public Methods**
-
-- index()
-- store()
-- update()
-- destroy()
-
----
-
 ## FirewallController
 
 **Namespace**
@@ -3779,7 +3900,7 @@ App\Http\Controllers\Api\Network
 
 **Dependencies**
 
-- NetworkManager $networkManager
+- NetworkManagerInterface $networkManager
 - NetworkDeviceRepositoryInterface $networkDeviceRepository
 
 **Public Methods**
@@ -3827,6 +3948,14 @@ App\Http\Controllers\Api
 ```
 /var/www/app/Http/Controllers/Api/HotspotSubscriptionController.php
 ```
+
+**Dependencies**
+
+- HotspotSubscriptionRepositoryInterface $repository
+- CreateHotspotSubscriptionAction $createAction
+- ActivateHotspotSubscriptionAction $activateAction
+- SuspendHotspotSubscriptionAction $suspendAction
+- DeleteHotspotSubscriptionAction $deleteAction
 
 **Public Methods**
 
@@ -3913,18 +4042,14 @@ App\Http\Controllers\Api
 
 **Dependencies**
 
-- NetworkManager $networkManager
+- NetworkManagerInterface $networkManager
 - NetworkDeviceRepositoryInterface $networkDeviceRepository
-- DashboardService $dashboardService
-- QueryDispatcher $queryDispatcher
 
 **Public Methods**
 
 - test()
 - pppoeUsers()
 - hotspotUsers()
-- dhcpLeases()
-- dashboardStats()
 
 ---
 
@@ -4013,37 +4138,6 @@ App\Http\Controllers\Api
 - index()
 - store()
 - show()
-- update()
-- destroy()
-
----
-
-## QueueApiController
-
-**Namespace**
-
-```
-App\Http\Controllers\Api
-```
-
-**File**
-
-```
-/var/www/app/Http/Controllers/Api/QueueApiController.php
-```
-
-**Dependencies**
-
-- NetworkManager $networkManager
-- NetworkDeviceRepositoryInterface $networkDeviceRepository
-
-**Public Methods**
-
-- index()
-- store()
-- update()
-- toggle()
-- destroy()
 
 ---
 
@@ -4063,7 +4157,7 @@ App\Http\Controllers\Api\Network
 
 **Dependencies**
 
-- NetworkManager $networkManager
+- NetworkManagerInterface $networkManager
 - NetworkDeviceRepositoryInterface $networkDeviceRepository
 
 **Public Methods**
@@ -4395,13 +4489,6 @@ App\Http\Controllers\Api
 - Action: App\Http\Controllers\Api\DashboardController@index
 - Middleware: api, auth:sanctum
 
-## api/dashboard/stats
-
-- Method: GET|HEAD
-- Name: -
-- Action: App\Http\Controllers\Api\DashboardController@stats
-- Middleware: api
-
 ## api/users
 
 - Method: GET|HEAD
@@ -4600,13 +4687,6 @@ App\Http\Controllers\Api
 
 ## api/hotspot-subscriptions/{hotspot_subscription}
 
-- Method: PUT|PATCH
-- Name: hotspot-subscriptions.update
-- Action: App\Http\Controllers\Api\HotspotSubscriptionController@update
-- Middleware: api, auth:sanctum
-
-## api/hotspot-subscriptions/{hotspot_subscription}
-
 - Method: DELETE
 - Name: hotspot-subscriptions.destroy
 - Action: App\Http\Controllers\Api\HotspotSubscriptionController@destroy
@@ -4666,20 +4746,6 @@ App\Http\Controllers\Api
 - Method: GET|HEAD
 - Name: payments.show
 - Action: App\Http\Controllers\Api\PaymentController@show
-- Middleware: api, auth:sanctum
-
-## api/payments/{payment}
-
-- Method: PUT|PATCH
-- Name: payments.update
-- Action: App\Http\Controllers\Api\PaymentController@update
-- Middleware: api, auth:sanctum
-
-## api/payments/{payment}
-
-- Method: DELETE
-- Name: payments.destroy
-- Action: App\Http\Controllers\Api\PaymentController@destroy
 - Middleware: api, auth:sanctum
 
 ## api/devices
@@ -5018,13 +5084,6 @@ App\Http\Controllers\Api
 - Action: App\Http\Controllers\Api\MikrotikController@test
 - Middleware: api, auth:sanctum
 
-## api/mikrotik/dashboard-stats
-
-- Method: GET|HEAD
-- Name: -
-- Action: App\Http\Controllers\Api\MikrotikController@dashboardStats
-- Middleware: api, auth:sanctum
-
 ## api/mikrotik/pppoe-users
 
 - Method: GET|HEAD
@@ -5032,53 +5091,11 @@ App\Http\Controllers\Api
 - Action: App\Http\Controllers\Api\MikrotikController@pppoeUsers
 - Middleware: api, auth:sanctum
 
-## api/mikrotik/pppoe-users
-
-- Method: POST
-- Name: -
-- Action: App\Http\Controllers\Api\MikrotikController@createPppoeUser
-- Middleware: api, auth:sanctum
-
 ## api/mikrotik/hotspot-users
 
 - Method: GET|HEAD
 - Name: -
 - Action: App\Http\Controllers\Api\MikrotikController@hotspotUsers
-- Middleware: api, auth:sanctum
-
-## api/mikrotik/hotspot-users/active
-
-- Method: GET|HEAD
-- Name: -
-- Action: App\Http\Controllers\Api\MikrotikController@activeUsers
-- Middleware: api, auth:sanctum
-
-## api/mikrotik/hotspot-users
-
-- Method: POST
-- Name: -
-- Action: App\Http\Controllers\Api\MikrotikController@createHotspotUser
-- Middleware: api, auth:sanctum
-
-## api/mikrotik/hotspot-users/{username}
-
-- Method: DELETE
-- Name: -
-- Action: App\Http\Controllers\Api\MikrotikController@deleteHotspotUser
-- Middleware: api, auth:sanctum
-
-## api/mikrotik/hotspot-users/{username}/activate
-
-- Method: POST
-- Name: -
-- Action: App\Http\Controllers\Api\MikrotikController@activateHotspotUser
-- Middleware: api, auth:sanctum
-
-## api/mikrotik/hotspot-users/{username}/suspend
-
-- Method: POST
-- Name: -
-- Action: App\Http\Controllers\Api\MikrotikController@suspendHotspotUser
 - Middleware: api, auth:sanctum
 
 ## api/customer/me
@@ -5228,13 +5245,6 @@ App\Http\Controllers\Api
 - Action: App\Http\Controllers\Api\CustomerTicketController@close
 - Middleware: api, auth:sanctum
 
-## api/network/dhcp/leases
-
-- Method: GET|HEAD
-- Name: -
-- Action: App\Http\Controllers\Api\MikrotikController@dhcpLeases
-- Middleware: api, auth:sanctum
-
 ## api/hotspot/online
 
 - Method: GET|HEAD
@@ -5247,6 +5257,13 @@ App\Http\Controllers\Api
 - Method: GET|HEAD
 - Name: -
 - Action: App\Http\Controllers\Api\HotspotController@stats
+- Middleware: api
+
+## api/dashboard/stats
+
+- Method: GET|HEAD
+- Name: -
+- Action: App\Http\Controllers\Api\DashboardController@stats
 - Middleware: api
 
 ## api/tasks
@@ -5333,6 +5350,20 @@ App\Http\Controllers\Api
 - Action: App\Http\Controllers\Api\Network\QueueController@destroy
 - Middleware: web
 
+## queues/{name}/edit
+
+- Method: GET|HEAD
+- Name: queues.edit
+- Action: App\Http\Controllers\Api\Network\QueueController@edit
+- Middleware: web
+
+## queues/{name}
+
+- Method: PUT
+- Name: queues.update
+- Action: App\Http\Controllers\Api\Network\QueueController@update
+- Middleware: web
+
 ## firewall
 
 - Method: GET|HEAD
@@ -5361,6 +5392,20 @@ App\Http\Controllers\Api
 - Action: App\Http\Controllers\Api\Network\FirewallController@destroy
 - Middleware: web
 
+## firewall/{id}/edit
+
+- Method: GET|HEAD
+- Name: firewall.edit
+- Action: App\Http\Controllers\Api\Network\FirewallController@edit
+- Middleware: web
+
+## firewall/{id}
+
+- Method: PUT
+- Name: firewall.update
+- Action: App\Http\Controllers\Api\Network\FirewallController@update
+- Middleware: web
+
 ## dhcp
 
 - Method: GET|HEAD
@@ -5382,41 +5427,6 @@ App\Http\Controllers\Api
 - Action: App\Http\Controllers\Api\Network\DHCPController@store
 - Middleware: web
 
-## dhcp/{id}
-
-- Method: DELETE
-- Name: dhcp.destroy
-- Action: App\Http\Controllers\Api\Network\DHCPController@destroy
-- Middleware: web
-
-## queues/{name}/edit
-
-- Method: GET|HEAD
-- Name: queues.edit
-- Action: App\Http\Controllers\Api\Network\QueueController@edit
-- Middleware: web
-
-## queues/{name}
-
-- Method: PUT
-- Name: queues.update
-- Action: App\Http\Controllers\Api\Network\QueueController@update
-- Middleware: web
-
-## firewall/{id}/edit
-
-- Method: GET|HEAD
-- Name: firewall.edit
-- Action: App\Http\Controllers\Api\Network\FirewallController@edit
-- Middleware: web
-
-## firewall/{id}
-
-- Method: PUT
-- Name: firewall.update
-- Action: App\Http\Controllers\Api\Network\FirewallController@update
-- Middleware: web
-
 ## dhcp/{id}/edit
 
 - Method: GET|HEAD
@@ -5429,6 +5439,13 @@ App\Http\Controllers\Api
 - Method: PUT
 - Name: dhcp.update
 - Action: App\Http\Controllers\Api\Network\DHCPController@update
+- Middleware: web
+
+## dhcp/{id}
+
+- Method: DELETE
+- Name: dhcp.destroy
+- Action: App\Http\Controllers\Api\Network\DHCPController@destroy
 - Middleware: web
 
 ## customer/login

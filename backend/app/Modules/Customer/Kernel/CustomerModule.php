@@ -11,8 +11,6 @@ use App\Modules\Customer\Infrastructure\Repositories\CustomerRepository;
 use App\Modules\Customer\Policies\CustomerPolicy;
 use App\Modules\Customer\Application\Actions\CreateCustomerAction;
 use App\Modules\Customer\Application\Actions\UpdateCustomerAction;
-use App\Modules\Customer\Application\Actions\ActivateCustomerAction;
-use App\Modules\Customer\Application\Actions\DeactivateCustomerAction;
 use App\Modules\Customer\Application\Actions\DeleteCustomerAction;
 use App\Modules\Customer\Application\Listeners\CustomerCreatedListener;
 use App\Modules\Customer\Domain\Events\CustomerCreated;
@@ -60,9 +58,7 @@ final class CustomerModule extends Module
 
                 UpdateCustomerAction::class,
 
-                ActivateCustomerAction::class,
 
-                DeactivateCustomerAction::class,
 
                 DeleteCustomerAction::class,
 

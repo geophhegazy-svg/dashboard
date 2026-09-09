@@ -28,13 +28,6 @@ interface MonitoringServiceInterface
     public function getInterfaces(): array;
 
     /**
-     * Get interface traffic.
-     *
-     * @return array<int,array<string,mixed>>
-     */
-    public function getInterfaceTraffic(): array;
-
-    /**
      * Ping host.
      */
     public function ping(

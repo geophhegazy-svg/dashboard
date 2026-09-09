@@ -23,7 +23,9 @@ use App\Modules\Network\Infrastructure\Providers\MikroTik\MikroTikMonitoringServ
 use App\Modules\Network\Infrastructure\Providers\MikroTik\MikroTikPppoeService;
 use App\Modules\Network\Infrastructure\Providers\MikroTik\MikroTikQueryService;
 use App\Modules\Network\Infrastructure\Providers\MikroTik\MikroTikQueueService;
+use App\Modules\Network\Application\Contracts\NetworkManagerInterface;
 use App\Modules\Network\Application\Listeners\SubscriptionNetworkLifecycleListener;
+use App\Modules\Network\Infrastructure\Services\NetworkManager;
 use App\Modules\Subscription\Domain\Events\SubscriptionActivated;
 use App\Modules\Subscription\Domain\Events\SubscriptionExpired;
 use App\Modules\Subscription\Domain\Events\SubscriptionRenewed;
@@ -52,6 +54,9 @@ final class NetworkModule extends Module
 
                 NetworkDeviceRepositoryInterface::class
                     => NetworkDeviceRepository::class,
+
+                NetworkManagerInterface::class
+                    => NetworkManager::class,
 
                 MikrotikServiceInterface::class
                     => MikrotikServiceAdapter::class,

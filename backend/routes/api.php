@@ -111,7 +111,6 @@ Route::middleware('auth:sanctum')->group(function () {
     */
 
     Route::get('/dashboard', [DashboardController::class, 'index']);
-    Route::get('/dashboard/stats', [MikrotikController::class, 'dashboardStats']);
 
     /*
     |------------------------------------------------------
@@ -126,10 +125,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('packages', PackageController::class);
 
     Route::apiResource('subscriptions', SubscriptionController::class);
-    Route::apiResource('hotspot-subscriptions', HotspotSubscriptionController::class);
+    Route::apiResource('hotspot-subscriptions', HotspotSubscriptionController::class)->except(['update']);
 
     Route::apiResource('invoices', InvoiceController::class);
-    Route::apiResource('payments', PaymentController::class);
+    Route::apiResource('payments', PaymentController::class)->only(['index', 'store', 'show']);
 
     Route::apiResource('devices', DeviceController::class);
     Route::apiResource('inventories', InventoryController::class);
@@ -310,30 +309,12 @@ Route::middleware('auth:sanctum')->group(function () {
 
         Route::get('/test', [MikrotikController::class, 'test']);
 
-        Route::get('/dashboard-stats', [MikrotikController::class, 'dashboardStats']);
 
         Route::get('/pppoe-users', [MikrotikController::class, 'pppoeUsers']);
-        Route::post('/pppoe-users', [MikrotikController::class, 'createPppoeUser']);
 
         Route::get('/hotspot-users', [MikrotikController::class, 'hotspotUsers']);
-        Route::get('/hotspot-users/active', [MikrotikController::class, 'activeUsers']);
 
-        Route::post('/hotspot-users', [MikrotikController::class, 'createHotspotUser']);
 
-        Route::delete(
-            '/hotspot-users/{username}',
-            [MikrotikController::class, 'deleteHotspotUser']
-        );
-
-        Route::post(
-            '/hotspot-users/{username}/activate',
-            [MikrotikController::class, 'activateHotspotUser']
-        );
-
-        Route::post(
-            '/hotspot-users/{username}/suspend',
-            [MikrotikController::class, 'suspendHotspotUser']
-        );
     });
 });
 
@@ -479,13 +460,6 @@ Route::prefix('customer')
 // Route::middleware('auth:sanctum')->prefix('network')->group(function () {
 
 
-Route::middleware('auth:sanctum')->group(function () {
-
-    Route::get(
-        '/network/dhcp/leases',
-        [MikrotikController::class, 'dhcpLeases']
-    );
-});
 Route::prefix('hotspot')->group(function () {
     Route::get('online', [HotspotController::class, 'onlineUsers']);
     Route::get('stats', [HotspotController::class, 'stats']);
@@ -499,9 +473,6 @@ Route::apiResource('tasks', TaskController::class);
 |--------------------------------------------------------------------------
 */
 
-Route::prefix('mikrotik/advanced')->middleware('auth:sanctum')->group(function () {
 
-   
-});
 
 

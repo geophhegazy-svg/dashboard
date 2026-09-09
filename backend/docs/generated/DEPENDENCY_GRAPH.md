@@ -21,8 +21,6 @@
 - App\Http\Controllers\Api\DashboardController
 - App\Http\Controllers\Api\DeviceAssignmentController
 - App\Http\Controllers\Api\DeviceController
-- App\Http\Controllers\Api\DhcpApiController
-- App\Http\Controllers\Api\FirewallApiController
 - App\Http\Controllers\Api\Network\FirewallController
 - App\Http\Controllers\Api\HotspotController
 - App\Http\Controllers\Api\HotspotSubscriptionController
@@ -32,7 +30,6 @@
 - App\Http\Controllers\Api\NotificationController
 - App\Http\Controllers\Api\PackageController
 - App\Http\Controllers\Api\PaymentController
-- App\Http\Controllers\Api\QueueApiController
 - App\Http\Controllers\Api\Network\QueueController
 - App\Http\Controllers\Api\ReportController
 - App\Http\Controllers\Api\ScheduledReportController
@@ -44,11 +41,13 @@
 
 ## Services
 
+- App\Modules\Accounting\Application\Services\AccountingPeriodService
 - App\Modules\Billing\Application\Services\BillingCycleService
 - App\Modules\Dashboard\Application\Services\CustomerDashboardService
 - App\Modules\Dashboard\Application\Services\DashboardService
 - App\Modules\Invoice\Application\Services\InvoiceNumberService
 - App\Modules\Invoice\Application\Services\InvoiceService
+- App\Modules\Accounting\Application\Services\JournalNumberService
 - App\Modules\Accounting\Application\Services\JournalValidationService
 - App\Modules\Notification\Application\Services\NotificationService
 - App\Modules\Payment\Application\Services\PaymentService
@@ -59,6 +58,7 @@
 ## Models
 
 - App\Modules\Accounting\Infrastructure\Persistence\Models\Account
+- App\Modules\Accounting\Infrastructure\Persistence\Models\AccountingPeriod
 - App\Modules\Activity\Infrastructure\Persistence\Models\ActivityLog
 - App\Modules\Customer\Infrastructure\Persistence\Models\Customer
 - App\Modules\Inventory\Infrastructure\Persistence\Models\Device

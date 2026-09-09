@@ -107,18 +107,6 @@ class MikroTikMonitoringService implements MonitoringServiceInterface
 
 
     /**
-     * Get interface traffic counters.
-     *
-     * @return array<int,array<string,mixed>>
-     */
-    public function getInterfaceTraffic(): array
-    {
-        return $this->query->execute(
-            new Query('/interface/print')
-        );
-    }
-
-    /**
      * Calculate memory usage percentage.
      *
      * @param array<string,mixed> $resource

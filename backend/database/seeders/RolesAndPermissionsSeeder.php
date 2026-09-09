@@ -83,8 +83,6 @@ class RolesAndPermissionsSeeder extends Seeder
             // Payments
             'payments.view',
             'payments.create',
-            'payments.update',
-            'payments.delete',
 
             // Wallet
             'wallet.view',

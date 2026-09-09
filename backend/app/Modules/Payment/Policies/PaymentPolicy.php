@@ -25,13 +25,4 @@ class PaymentPolicy
         return $this->can($user, 'payments.create');
     }
 
-    public function update(User $user, Payment $payment): bool
-    {
-        return $this->can($user, 'payments.update');
-    }
-
-    public function delete(User $user, Payment $payment): bool
-    {
-        return $this->can($user, 'payments.delete');
-    }
 }

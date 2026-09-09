@@ -1,5 +1,19 @@
 # Business Rules
 
+## AccountingPeriodService
+
+**Namespace**
+App\Modules\Accounting\Application\Services
+
+**Dependencies**
+- App\Modules\Accounting\Domain\Contracts\AccountingPeriodRepositoryInterface
+
+**Methods**
+- __construct(1 params) : mixed
+- assertOpenForDate(2 params) : void
+
+---
+
 ## BillingCycleService
 
 **Namespace**
@@ -78,6 +92,20 @@ App\Modules\Invoice\Application\Services
 - update(2 params) : App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice
 - delete(1 params) : bool
 - settle(2 params) : App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice
+
+---
+
+## JournalNumberService
+
+**Namespace**
+App\Modules\Accounting\Application\Services
+
+**Dependencies**
+- App\Modules\Accounting\Domain\Contracts\JournalEntryRepositoryInterface
+
+**Methods**
+- __construct(1 params) : mixed
+- generate(2 params) : string
 
 ---
 

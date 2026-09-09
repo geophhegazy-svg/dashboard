@@ -22,8 +22,6 @@ interface PaymentRepositoryInterface
 
     public function save(Payment $payment): bool;
 
-    public function delete(Payment $payment): bool;
-
     public function countAll(): int;
 
     public function sumAll(): float;

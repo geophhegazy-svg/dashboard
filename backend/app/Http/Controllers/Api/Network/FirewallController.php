@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\Network;
 
 use App\Http\Controllers\Controller;
-use App\Modules\Network\Infrastructure\Services\NetworkManager;
+use App\Modules\Network\Application\Contracts\NetworkManagerInterface;
 use App\Modules\Network\Domain\Contracts\NetworkDeviceRepositoryInterface;
 use Illuminate\Http\Request;
 
 class FirewallController extends Controller
 {
     public function __construct(
-        protected NetworkManager $networkManager,
+        protected NetworkManagerInterface $networkManager,
         protected NetworkDeviceRepositoryInterface $networkDeviceRepository,
     ) {}
 
@@ -25,7 +25,7 @@ class FirewallController extends Controller
         $device = $this->networkDeviceRepository->findOrFail($deviceId);
 
 
-        if (! $this->networkManager->connect($device)) {
+        if (! $this->networkManager->connect($device->id)) {
             return null;
         }
 

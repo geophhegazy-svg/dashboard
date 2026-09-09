@@ -10,6 +10,11 @@ use App\Modules\Accounting\Domain\Events\JournalEntryPosted;
 use App\Modules\Accounting\Application\Listeners\JournalEntryPostedListener;
 use App\Modules\Accounting\Domain\Contracts\JournalEntryRepositoryInterface;
 use App\Modules\Accounting\Application\Services\JournalValidationService;
+use App\Modules\Accounting\Application\Services\JournalNumberService;
+use App\Modules\Accounting\Application\Actions\CreateJournalEntryAction;
+use App\Modules\Accounting\Application\Services\AccountingPeriodService;
+use App\Modules\Accounting\Domain\Contracts\AccountingPeriodRepositoryInterface;
+use App\Modules\Accounting\Infrastructure\Repositories\AccountingPeriodRepository;
 
 use App\Modules\Accounting\Infrastructure\Repositories\JournalEntryRepository;
 
@@ -38,6 +43,18 @@ final class AccountingModule extends Module
 
                 JournalValidationService::class
                 => JournalValidationService::class,
+
+                JournalNumberService::class
+                => JournalNumberService::class,
+
+                CreateJournalEntryAction::class
+                => CreateJournalEntryAction::class,
+
+                AccountingPeriodRepositoryInterface::class
+                => AccountingPeriodRepository::class,
+
+                AccountingPeriodService::class
+                => AccountingPeriodService::class,
 
             ])
 

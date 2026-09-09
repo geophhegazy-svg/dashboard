@@ -105,13 +105,6 @@
 - Action: App\Http\Controllers\Api\DashboardController@index
 - Middleware: api, auth:sanctum
 
-## api/dashboard/stats
-
-- Method: GET|HEAD
-- Name: -
-- Action: App\Http\Controllers\Api\DashboardController@stats
-- Middleware: api
-
 ## api/users
 
 - Method: GET|HEAD
@@ -310,13 +303,6 @@
 
 ## api/hotspot-subscriptions/{hotspot_subscription}
 
-- Method: PUT|PATCH
-- Name: hotspot-subscriptions.update
-- Action: App\Http\Controllers\Api\HotspotSubscriptionController@update
-- Middleware: api, auth:sanctum
-
-## api/hotspot-subscriptions/{hotspot_subscription}
-
 - Method: DELETE
 - Name: hotspot-subscriptions.destroy
 - Action: App\Http\Controllers\Api\HotspotSubscriptionController@destroy
@@ -376,20 +362,6 @@
 - Method: GET|HEAD
 - Name: payments.show
 - Action: App\Http\Controllers\Api\PaymentController@show
-- Middleware: api, auth:sanctum
-
-## api/payments/{payment}
-
-- Method: PUT|PATCH
-- Name: payments.update
-- Action: App\Http\Controllers\Api\PaymentController@update
-- Middleware: api, auth:sanctum
-
-## api/payments/{payment}
-
-- Method: DELETE
-- Name: payments.destroy
-- Action: App\Http\Controllers\Api\PaymentController@destroy
 - Middleware: api, auth:sanctum
 
 ## api/devices
@@ -728,13 +700,6 @@
 - Action: App\Http\Controllers\Api\MikrotikController@test
 - Middleware: api, auth:sanctum
 
-## api/mikrotik/dashboard-stats
-
-- Method: GET|HEAD
-- Name: -
-- Action: App\Http\Controllers\Api\MikrotikController@dashboardStats
-- Middleware: api, auth:sanctum
-
 ## api/mikrotik/pppoe-users
 
 - Method: GET|HEAD
@@ -742,53 +707,11 @@
 - Action: App\Http\Controllers\Api\MikrotikController@pppoeUsers
 - Middleware: api, auth:sanctum
 
-## api/mikrotik/pppoe-users
-
-- Method: POST
-- Name: -
-- Action: App\Http\Controllers\Api\MikrotikController@createPppoeUser
-- Middleware: api, auth:sanctum
-
 ## api/mikrotik/hotspot-users
 
 - Method: GET|HEAD
 - Name: -
 - Action: App\Http\Controllers\Api\MikrotikController@hotspotUsers
-- Middleware: api, auth:sanctum
-
-## api/mikrotik/hotspot-users/active
-
-- Method: GET|HEAD
-- Name: -
-- Action: App\Http\Controllers\Api\MikrotikController@activeUsers
-- Middleware: api, auth:sanctum
-
-## api/mikrotik/hotspot-users
-
-- Method: POST
-- Name: -
-- Action: App\Http\Controllers\Api\MikrotikController@createHotspotUser
-- Middleware: api, auth:sanctum
-
-## api/mikrotik/hotspot-users/{username}
-
-- Method: DELETE
-- Name: -
-- Action: App\Http\Controllers\Api\MikrotikController@deleteHotspotUser
-- Middleware: api, auth:sanctum
-
-## api/mikrotik/hotspot-users/{username}/activate
-
-- Method: POST
-- Name: -
-- Action: App\Http\Controllers\Api\MikrotikController@activateHotspotUser
-- Middleware: api, auth:sanctum
-
-## api/mikrotik/hotspot-users/{username}/suspend
-
-- Method: POST
-- Name: -
-- Action: App\Http\Controllers\Api\MikrotikController@suspendHotspotUser
 - Middleware: api, auth:sanctum
 
 ## api/customer/me
@@ -938,13 +861,6 @@
 - Action: App\Http\Controllers\Api\CustomerTicketController@close
 - Middleware: api, auth:sanctum
 
-## api/network/dhcp/leases
-
-- Method: GET|HEAD
-- Name: -
-- Action: App\Http\Controllers\Api\MikrotikController@dhcpLeases
-- Middleware: api, auth:sanctum
-
 ## api/hotspot/online
 
 - Method: GET|HEAD
@@ -957,6 +873,13 @@
 - Method: GET|HEAD
 - Name: -
 - Action: App\Http\Controllers\Api\HotspotController@stats
+- Middleware: api
+
+## api/dashboard/stats
+
+- Method: GET|HEAD
+- Name: -
+- Action: App\Http\Controllers\Api\DashboardController@stats
 - Middleware: api
 
 ## api/tasks
@@ -1043,6 +966,20 @@
 - Action: App\Http\Controllers\Api\Network\QueueController@destroy
 - Middleware: web
 
+## queues/{name}/edit
+
+- Method: GET|HEAD
+- Name: queues.edit
+- Action: App\Http\Controllers\Api\Network\QueueController@edit
+- Middleware: web
+
+## queues/{name}
+
+- Method: PUT
+- Name: queues.update
+- Action: App\Http\Controllers\Api\Network\QueueController@update
+- Middleware: web
+
 ## firewall
 
 - Method: GET|HEAD
@@ -1071,6 +1008,20 @@
 - Action: App\Http\Controllers\Api\Network\FirewallController@destroy
 - Middleware: web
 
+## firewall/{id}/edit
+
+- Method: GET|HEAD
+- Name: firewall.edit
+- Action: App\Http\Controllers\Api\Network\FirewallController@edit
+- Middleware: web
+
+## firewall/{id}
+
+- Method: PUT
+- Name: firewall.update
+- Action: App\Http\Controllers\Api\Network\FirewallController@update
+- Middleware: web
+
 ## dhcp
 
 - Method: GET|HEAD
@@ -1092,41 +1043,6 @@
 - Action: App\Http\Controllers\Api\Network\DHCPController@store
 - Middleware: web
 
-## dhcp/{id}
-
-- Method: DELETE
-- Name: dhcp.destroy
-- Action: App\Http\Controllers\Api\Network\DHCPController@destroy
-- Middleware: web
-
-## queues/{name}/edit
-
-- Method: GET|HEAD
-- Name: queues.edit
-- Action: App\Http\Controllers\Api\Network\QueueController@edit
-- Middleware: web
-
-## queues/{name}
-
-- Method: PUT
-- Name: queues.update
-- Action: App\Http\Controllers\Api\Network\QueueController@update
-- Middleware: web
-
-## firewall/{id}/edit
-
-- Method: GET|HEAD
-- Name: firewall.edit
-- Action: App\Http\Controllers\Api\Network\FirewallController@edit
-- Middleware: web
-
-## firewall/{id}
-
-- Method: PUT
-- Name: firewall.update
-- Action: App\Http\Controllers\Api\Network\FirewallController@update
-- Middleware: web
-
 ## dhcp/{id}/edit
 
 - Method: GET|HEAD
@@ -1139,6 +1055,13 @@
 - Method: PUT
 - Name: dhcp.update
 - Action: App\Http\Controllers\Api\Network\DHCPController@update
+- Middleware: web
+
+## dhcp/{id}
+
+- Method: DELETE
+- Name: dhcp.destroy
+- Action: App\Http\Controllers\Api\Network\DHCPController@destroy
 - Middleware: web
 
 ## customer/login

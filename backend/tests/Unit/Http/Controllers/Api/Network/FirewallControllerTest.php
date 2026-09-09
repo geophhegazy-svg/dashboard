@@ -7,7 +7,7 @@ namespace Tests\Unit\Http\Controllers\Api\Network;
 use App\Http\Controllers\Api\Network\FirewallController;
 use App\Modules\Network\Domain\Contracts\NetworkDeviceRepositoryInterface;
 use App\Modules\Network\Infrastructure\Persistence\Models\NetworkDevice;
-use App\Modules\Network\Infrastructure\Services\NetworkManager;
+use App\Modules\Network\Application\Contracts\NetworkManagerInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Tests\TestCase;
@@ -17,6 +17,7 @@ class FirewallControllerTest extends TestCase
     public function test_index_uses_network_device_repository_contract(): void
     {
         $device = new NetworkDevice();
+        $device->id = 1;
 
         $repository = $this->createMock(
             NetworkDeviceRepositoryInterface::class
@@ -40,13 +41,13 @@ class FirewallControllerTest extends TestCase
             ->willReturn(new Collection([$device]));
 
         $networkManager = $this->createMock(
-            NetworkManager::class
+            NetworkManagerInterface::class
         );
 
         $networkManager
             ->expects($this->once())
             ->method('connect')
-            ->with($device)
+            ->with(1)
             ->willReturn(false);
 
         $controller = new FirewallController(
@@ -71,6 +72,7 @@ class FirewallControllerTest extends TestCase
     public function test_create_uses_network_device_repository_contract(): void
     {
         $device = new NetworkDevice();
+        $device->id = 1;
 
         $repository = $this->createMock(
             NetworkDeviceRepositoryInterface::class
@@ -88,7 +90,7 @@ class FirewallControllerTest extends TestCase
             ->willReturn(new Collection([$device]));
 
         $networkManager = $this->createMock(
-            NetworkManager::class
+            NetworkManagerInterface::class
         );
 
         $controller = new FirewallController(

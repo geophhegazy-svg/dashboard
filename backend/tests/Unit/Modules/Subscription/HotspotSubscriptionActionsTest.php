@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace Tests\Unit\Modules\Subscription;
 
 use App\Modules\Customer\Infrastructure\Persistence\Models\Customer;
-use App\Modules\Network\Domain\Contracts\Services\HotspotServiceInterface;
+use App\Core\EventBus\Contracts\EventDispatcherInterface;
+use App\Modules\Subscription\Domain\Events\HotspotSubscriptionActivated;
+use App\Modules\Subscription\Domain\Events\HotspotSubscriptionSuspended;
+use Tests\Fakes\Core\FakeEventDispatcher;
 use App\Modules\Subscription\Application\Actions\ActivateHotspotSubscriptionAction;
 use App\Modules\Subscription\Application\Actions\CreateHotspotSubscriptionAction;
 use App\Modules\Subscription\Application\Actions\DeleteHotspotSubscriptionAction;
@@ -20,27 +23,13 @@ final class HotspotSubscriptionActionsTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_create_action_creates_routeros_user_before_persisting_subscription(): void
+    public function test_create_action_persists_subscription_data(): void
     {
         $customer = Customer::factory()->create();
 
         $repository = Mockery::mock(
             HotspotSubscriptionRepositoryInterface::class
         );
-
-        $hotspot = Mockery::mock(
-            HotspotServiceInterface::class
-        );
-
-        $hotspot
-            ->shouldReceive('createUser')
-            ->once()
-            ->with(
-                'hs' . $customer->id,
-                Mockery::type('string'),
-                'default'
-            )
-            ->andReturnTrue();
 
         $repository
             ->shouldReceive('create')
@@ -60,7 +49,6 @@ final class HotspotSubscriptionActionsTest extends TestCase
 
         $action = new CreateHotspotSubscriptionAction(
             $repository,
-            $hotspot,
         );
 
         $result = $action->execute([
@@ -83,8 +71,10 @@ final class HotspotSubscriptionActionsTest extends TestCase
         );
     }
 
-    public function test_activate_action_enables_routeros_user_and_persists_status(): void
+    public function test_activate_action_persists_active_status(): void
     {
+        $events = new FakeEventDispatcher();
+
         $subscription = new HotspotSubscription([
             'hotspot_username' => 'test-user',
             'status' => 'suspended',
@@ -93,16 +83,6 @@ final class HotspotSubscriptionActionsTest extends TestCase
         $repository = Mockery::mock(
             HotspotSubscriptionRepositoryInterface::class
         );
-
-        $hotspot = Mockery::mock(
-            HotspotServiceInterface::class
-        );
-
-        $hotspot
-            ->shouldReceive('enableUser')
-            ->once()
-            ->with('test-user')
-            ->andReturnTrue();
 
         $repository
             ->shouldReceive('update')
@@ -124,19 +104,29 @@ final class HotspotSubscriptionActionsTest extends TestCase
 
         $action = new ActivateHotspotSubscriptionAction(
             $repository,
-            $hotspot,
+            $events,
         );
 
-        $result = $action->execute($subscription);
+        $result = $action->execute(
+            $subscription
+        );
 
         $this->assertSame(
             'active',
             $result->status
         );
+
+        $this->assertTrue(
+            $events->has(
+                HotspotSubscriptionActivated::class
+            )
+        );
     }
 
-    public function test_suspend_action_disables_routeros_user_and_persists_status(): void
+    public function test_suspend_action_persists_suspended_status(): void
     {
+        $events = new FakeEventDispatcher();
+
         $subscription = new HotspotSubscription([
             'hotspot_username' => 'test-user',
             'status' => 'active',
@@ -145,16 +135,6 @@ final class HotspotSubscriptionActionsTest extends TestCase
         $repository = Mockery::mock(
             HotspotSubscriptionRepositoryInterface::class
         );
-
-        $hotspot = Mockery::mock(
-            HotspotServiceInterface::class
-        );
-
-        $hotspot
-            ->shouldReceive('disableUser')
-            ->once()
-            ->with('test-user')
-            ->andReturnTrue();
 
         $repository
             ->shouldReceive('update')
@@ -176,18 +156,26 @@ final class HotspotSubscriptionActionsTest extends TestCase
 
         $action = new SuspendHotspotSubscriptionAction(
             $repository,
-            $hotspot,
+            $events,
         );
 
-        $result = $action->execute($subscription);
+        $result = $action->execute(
+            $subscription
+        );
 
         $this->assertSame(
             'suspended',
             $result->status
         );
+
+        $this->assertTrue(
+            $events->has(
+                HotspotSubscriptionSuspended::class
+            )
+        );
     }
 
-    public function test_delete_action_deletes_routeros_user_and_database_subscription(): void
+    public function test_delete_action_deletes_database_subscription(): void
     {
         $subscription = new HotspotSubscription([
             'hotspot_username' => 'test-user',
@@ -196,16 +184,6 @@ final class HotspotSubscriptionActionsTest extends TestCase
         $repository = Mockery::mock(
             HotspotSubscriptionRepositoryInterface::class
         );
-
-        $hotspot = Mockery::mock(
-            HotspotServiceInterface::class
-        );
-
-        $hotspot
-            ->shouldReceive('deleteUser')
-            ->once()
-            ->with('test-user')
-            ->andReturnTrue();
 
         $repository
             ->shouldReceive('delete')
@@ -215,56 +193,12 @@ final class HotspotSubscriptionActionsTest extends TestCase
 
         $action = new DeleteHotspotSubscriptionAction(
             $repository,
-            $hotspot,
         );
 
-        $result = $action->execute($subscription);
+        $result = $action->execute(
+            $subscription
+        );
 
         $this->assertTrue($result);
-    }
-
-    public function test_activate_does_not_persist_when_routeros_enable_fails(): void
-    {
-        $subscription = new HotspotSubscription([
-            'hotspot_username' => 'test-user',
-            'status' => 'suspended',
-        ]);
-
-        $repository = Mockery::mock(
-            HotspotSubscriptionRepositoryInterface::class
-        );
-
-        $repository
-            ->shouldNotReceive('update');
-
-        $hotspot = Mockery::mock(
-            HotspotServiceInterface::class
-        );
-
-        $hotspot
-            ->shouldReceive('enableUser')
-            ->once()
-            ->with('test-user')
-            ->andThrow(
-                new \RuntimeException('RouterOS unavailable')
-            );
-
-        $action = new ActivateHotspotSubscriptionAction(
-            $repository,
-            $hotspot,
-        );
-
-        $this->expectException(
-            \RuntimeException::class
-        );
-
-        $action->execute($subscription);
-    }
-
-    protected function tearDown(): void
-    {
-        Mockery::close();
-
-        parent::tearDown();
     }
 }

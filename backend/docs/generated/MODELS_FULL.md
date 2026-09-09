@@ -98,6 +98,99 @@ App\Modules\Accounting\Infrastructure\Persistence\Models
 
 ---
 
+## AccountingPeriod
+
+**Namespace**
+
+```
+App\Modules\Accounting\Infrastructure\Persistence\Models
+```
+
+**File**
+
+```
+/var/www/app/Modules/Accounting/Infrastructure/Persistence/Models/AccountingPeriod.php
+```
+
+**Properties**
+
+- $fillable : mixed
+- $connection : mixed
+- $table : mixed
+- $primaryKey : mixed
+- $keyType : mixed
+- $incrementing : mixed
+- $with : mixed
+- $withCount : mixed
+- $preventsLazyLoading : mixed
+- $perPage : mixed
+- $exists : mixed
+- $wasRecentlyCreated : mixed
+- $escapeWhenCastingToString : mixed
+- $resolver : mixed
+- $dispatcher : mixed
+- $booting : mixed
+- $booted : mixed
+- $bootedCallbacks : mixed
+- $traitInitializers : mixed
+- $globalScopes : mixed
+- $ignoreOnTouch : mixed
+- $modelsShouldPreventLazyLoading : mixed
+- $modelsShouldAutomaticallyEagerLoadRelationships : mixed
+- $lazyLoadingViolationCallback : mixed
+- $modelsShouldPreventSilentlyDiscardingAttributes : mixed
+- $discardedAttributeViolationCallback : mixed
+- $modelsShouldPreventAccessingMissingAttributes : mixed
+- $missingAttributeViolationCallback : mixed
+- $isBroadcasting : mixed
+- $builder : string
+- $collectionClass : string
+- $isSoftDeletable : array
+- $isPrunable : array
+- $isMassPrunable : array
+- $classAttributes : array
+- $attributes : mixed
+- $original : mixed
+- $changes : mixed
+- $previous : mixed
+- $casts : mixed
+- $classCastCache : mixed
+- $attributeCastCache : mixed
+- $primitiveCastTypes : mixed
+- $dateFormat : mixed
+- $appends : mixed
+- $snakeAttributes : mixed
+- $mutatorCache : mixed
+- $attributeMutatorCache : mixed
+- $getAttributeMutatorCache : mixed
+- $setAttributeMutatorCache : mixed
+- $castTypeCache : mixed
+- $encrypter : mixed
+- $dispatchesEvents : mixed
+- $observables : mixed
+- $relations : mixed
+- $touches : mixed
+- $relationAutoloadCallback : mixed
+- $relationAutoloadContext : mixed
+- $manyMethods : mixed
+- $relationResolvers : mixed
+- $timestamps : mixed
+- $ignoreTimestampsOn : mixed
+- $usesUniqueIds : mixed
+- $hidden : mixed
+- $visible : mixed
+- $guarded : mixed
+- $unguarded : mixed
+- $guardableColumns : mixed
+- $recursionCache : mixed
+- $resolvedCollectionClasses : array
+
+**Methods**
+
+- factory()
+
+---
+
 ## ActivityLog
 
 **Namespace**

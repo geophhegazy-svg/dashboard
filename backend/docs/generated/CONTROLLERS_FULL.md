@@ -388,7 +388,7 @@ App\Http\Controllers\Api\Network
 
 **Dependencies**
 
-- NetworkManager $networkManager
+- NetworkManagerInterface $networkManager
 - NetworkDeviceRepositoryInterface $networkDeviceRepository
 
 **Public Methods**
@@ -482,62 +482,6 @@ App\Http\Controllers\Api
 
 ---
 
-## DhcpApiController
-
-**Namespace**
-
-```
-App\Http\Controllers\Api
-```
-
-**File**
-
-```
-/var/www/app/Http/Controllers/Api/DhcpApiController.php
-```
-
-**Dependencies**
-
-- NetworkManager $networkManager
-- NetworkDeviceRepositoryInterface $networkDeviceRepository
-
-**Public Methods**
-
-- index()
-- store()
-- update()
-- destroy()
-
----
-
-## FirewallApiController
-
-**Namespace**
-
-```
-App\Http\Controllers\Api
-```
-
-**File**
-
-```
-/var/www/app/Http/Controllers/Api/FirewallApiController.php
-```
-
-**Dependencies**
-
-- NetworkManager $networkManager
-- NetworkDeviceRepositoryInterface $networkDeviceRepository
-
-**Public Methods**
-
-- index()
-- store()
-- update()
-- destroy()
-
----
-
 ## FirewallController
 
 **Namespace**
@@ -554,7 +498,7 @@ App\Http\Controllers\Api\Network
 
 **Dependencies**
 
-- NetworkManager $networkManager
+- NetworkManagerInterface $networkManager
 - NetworkDeviceRepositoryInterface $networkDeviceRepository
 
 **Public Methods**
@@ -602,6 +546,14 @@ App\Http\Controllers\Api
 ```
 /var/www/app/Http/Controllers/Api/HotspotSubscriptionController.php
 ```
+
+**Dependencies**
+
+- HotspotSubscriptionRepositoryInterface $repository
+- CreateHotspotSubscriptionAction $createAction
+- ActivateHotspotSubscriptionAction $activateAction
+- SuspendHotspotSubscriptionAction $suspendAction
+- DeleteHotspotSubscriptionAction $deleteAction
 
 **Public Methods**
 
@@ -688,18 +640,14 @@ App\Http\Controllers\Api
 
 **Dependencies**
 
-- NetworkManager $networkManager
+- NetworkManagerInterface $networkManager
 - NetworkDeviceRepositoryInterface $networkDeviceRepository
-- DashboardService $dashboardService
-- QueryDispatcher $queryDispatcher
 
 **Public Methods**
 
 - test()
 - pppoeUsers()
 - hotspotUsers()
-- dhcpLeases()
-- dashboardStats()
 
 ---
 
@@ -788,37 +736,6 @@ App\Http\Controllers\Api
 - index()
 - store()
 - show()
-- update()
-- destroy()
-
----
-
-## QueueApiController
-
-**Namespace**
-
-```
-App\Http\Controllers\Api
-```
-
-**File**
-
-```
-/var/www/app/Http/Controllers/Api/QueueApiController.php
-```
-
-**Dependencies**
-
-- NetworkManager $networkManager
-- NetworkDeviceRepositoryInterface $networkDeviceRepository
-
-**Public Methods**
-
-- index()
-- store()
-- update()
-- toggle()
-- destroy()
 
 ---
 
@@ -838,7 +755,7 @@ App\Http\Controllers\Api\Network
 
 **Dependencies**
 
-- NetworkManager $networkManager
+- NetworkManagerInterface $networkManager
 - NetworkDeviceRepositoryInterface $networkDeviceRepository
 
 **Public Methods**

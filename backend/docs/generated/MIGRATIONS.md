@@ -447,3 +447,19 @@
 ```
 /var/www/database/migrations/2026_08_24_000002_align_subscription_status_enum.php
 ```
+
+## 2026_09_06_185003_change_journal_entry_number_unique_constraint.php
+
+**File**
+
+```
+/var/www/database/migrations/2026_09_06_185003_change_journal_entry_number_unique_constraint.php
+```
+
+## 2026_09_09_000001_create_accounting_periods_table.php
+
+**File**
+
+```
+/var/www/database/migrations/2026_09_09_000001_create_accounting_periods_table.php
+```

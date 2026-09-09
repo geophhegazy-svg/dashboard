@@ -42,16 +42,4 @@ class PaymentController extends Controller
         $this->authorize('view', $payment);
         return new PaymentResource($payment);
     }
-    public function update(StorePaymentRequest $request, Payment $payment)
-    {
-        $this->authorize('update', $payment);
-        $payment->update($request->validated());
-        return new PaymentResource($payment);
-    }
-    public function destroy(Payment $payment)
-    {
-        $this->authorize('delete', $payment);
-        $payment->delete();
-        return response()->json(['message' => 'Payment deleted successfully']);
-    }
 }

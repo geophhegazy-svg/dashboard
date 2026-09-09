@@ -2,9 +2,10 @@
 
 ## Models
 
-Total: 26
+Total: 27
 
 - Account
+- AccountingPeriod
 - ActivityLog
 - Customer
 - Device
@@ -33,13 +34,15 @@ Total: 26
 
 ## Services
 
-Total: 11
+Total: 13
 
+- AccountingPeriodService
 - BillingCycleService
 - CustomerDashboardService
 - DashboardService
 - InvoiceNumberService
 - InvoiceService
+- JournalNumberService
 - JournalValidationService
 - NotificationService
 - PaymentService
@@ -49,7 +52,7 @@ Total: 11
 
 ## Controllers
 
-Total: 39
+Total: 36
 
 - ActivityLogController
 - AuthController
@@ -70,8 +73,6 @@ Total: 39
 - DashboardController
 - DeviceAssignmentController
 - DeviceController
-- DhcpApiController
-- FirewallApiController
 - FirewallController
 - HotspotController
 - HotspotSubscriptionController
@@ -81,7 +82,6 @@ Total: 39
 - NotificationController
 - PackageController
 - PaymentController
-- QueueApiController
 - QueueController
 - ReportController
 - ScheduledReportController

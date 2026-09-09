@@ -14,6 +14,35 @@ final class CreateInvoiceActionBoundaryTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function test_invoice_creation_forces_pending_status_and_null_paid_at(): void
+    {
+        $repository = app(InvoiceRepositoryInterface::class);
+
+        $action = new CreateInvoiceAction($repository);
+
+        $subscription = \App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription::factory()
+            ->create();
+
+        $invoice = $action->execute([
+            'tenant_id' => $subscription->tenant_id,
+            'customer_id' => $subscription->customer_id,
+            'subscription_id' => $subscription->id,
+            'amount' => 100,
+            'due_date' => now()->addDays(7),
+            'status' => 'paid',
+            'paid_at' => now(),
+        ]);
+
+        $this->assertSame('pending', $invoice->status);
+        $this->assertNull($invoice->paid_at);
+
+        $this->assertDatabaseHas('invoices', [
+            'id' => $invoice->id,
+            'status' => 'pending',
+            'paid_at' => null,
+        ]);
+    }
+
     public function test_invoice_number_is_generated_by_the_invoice_creation_action(): void
     {
         $repository = app(InvoiceRepositoryInterface::class);

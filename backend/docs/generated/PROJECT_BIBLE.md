@@ -4,9 +4,10 @@ Generated from the current project structure.
 
 ## Models
 
-Count: 26
+Count: 27
 
 - Account
+- AccountingPeriod
 - ActivityLog
 - Customer
 - Device
@@ -35,13 +36,15 @@ Count: 26
 
 ## Services
 
-Count: 11
+Count: 13
 
+- AccountingPeriodService
 - BillingCycleService
 - CustomerDashboardService
 - DashboardService
 - InvoiceNumberService
 - InvoiceService
+- JournalNumberService
 - JournalValidationService
 - NotificationService
 - PaymentService
@@ -51,7 +54,7 @@ Count: 11
 
 ## Controllers
 
-Count: 39
+Count: 36
 
 - ActivityLogController
 - AuthController
@@ -72,8 +75,6 @@ Count: 39
 - DashboardController
 - DeviceAssignmentController
 - DeviceController
-- DhcpApiController
-- FirewallApiController
 - FirewallController
 - HotspotController
 - HotspotSubscriptionController
@@ -83,7 +84,6 @@ Count: 39
 - NotificationController
 - PackageController
 - PaymentController
-- QueueApiController
 - QueueController
 - ReportController
 - ScheduledReportController

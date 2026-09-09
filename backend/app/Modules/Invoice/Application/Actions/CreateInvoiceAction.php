@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Modules\Invoice\Application\Actions;
 
-use App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice;
-use App\Modules\Invoice\Domain\Events\InvoiceCreated;
-use App\Modules\Invoice\Domain\Contracts\InvoiceRepositoryInterface;
 use App\Modules\Invoice\Application\Services\InvoiceNumberService;
+use App\Modules\Invoice\Domain\Contracts\InvoiceRepositoryInterface;
+use App\Modules\Invoice\Domain\Events\InvoiceCreated;
+use App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice;
 
 final readonly class CreateInvoiceAction
 {
@@ -15,24 +15,19 @@ final readonly class CreateInvoiceAction
         private InvoiceRepositoryInterface $repository,
     ) {}
 
-    public function execute(
-        array $data,
-    ): Invoice {
+    public function execute(array $data): Invoice
+    {
+        $data['status'] = 'pending';
+        $data['paid_at'] = null;
 
-        $invoice = $this->repository->create(
-            $data
-        );
+        $invoice = $this->repository->create($data);
 
         $invoice->invoice_number =
             InvoiceNumberService::generate($invoice);
 
-        $this->repository->save(
-            $invoice
-        );
+        $this->repository->save($invoice);
 
-        InvoiceCreated::dispatch(
-            $invoice
-        );
+        InvoiceCreated::dispatch($invoice);
 
         return $invoice->fresh([
             'customer',

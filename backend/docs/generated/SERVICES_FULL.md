@@ -2,6 +2,34 @@
 
 ---
 
+## AccountingPeriodService
+
+**Namespace**
+
+```
+App\Modules\Accounting\Application\Services
+```
+
+**File**
+
+```
+/var/www/app/Modules/Accounting/Application/Services/AccountingPeriodService.php
+```
+
+**Constructor Dependencies**
+
+- AccountingPeriodRepositoryInterface $periods
+
+**Properties**
+
+- $periods : App\Modules\Accounting\Domain\Contracts\AccountingPeriodRepositoryInterface
+
+**Methods**
+
+- assertOpenForDate() : void
+
+---
+
 ## BillingCycleService
 
 **Namespace**
@@ -141,6 +169,34 @@ App\Modules\Invoice\Application\Services
 - update() : App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice
 - delete() : bool
 - settle() : App\Modules\Invoice\Infrastructure\Persistence\Models\Invoice
+
+---
+
+## JournalNumberService
+
+**Namespace**
+
+```
+App\Modules\Accounting\Application\Services
+```
+
+**File**
+
+```
+/var/www/app/Modules/Accounting/Application/Services/JournalNumberService.php
+```
+
+**Constructor Dependencies**
+
+- JournalEntryRepositoryInterface $repository
+
+**Properties**
+
+- $repository : App\Modules\Accounting\Domain\Contracts\JournalEntryRepositoryInterface
+
+**Methods**
+
+- generate() : string
 
 ---
 

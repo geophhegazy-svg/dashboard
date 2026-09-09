@@ -22,8 +22,8 @@ class StorePackageRequest extends FormRequest
             'name'            => ['required', 'string', 'max:255'],
             'download_speed'  => ['required', 'integer', 'min:1'],
             'upload_speed'    => ['nullable', 'integer', 'min:0'],
-            'price'           => ['required', 'numeric'],
-            'quota_gb'        => ['nullable', 'integer'],
+            'price'           => ['required', 'numeric', 'min:0'],
+            'quota_gb'        => ['nullable', 'integer', 'min:0'],
             'status'          => ['required', 'in:active,inactive'],
             'description'     => ['nullable', 'string'],
         ];

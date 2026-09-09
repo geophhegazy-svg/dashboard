@@ -21,6 +21,10 @@ final readonly class CreatePaymentAction
     public function execute(
         array $data,
     ): Payment {
+        if ((float) ($data['amount'] ?? 0) <= 0) {
+            abort(422, 'Payment amount must be greater than zero');
+        }
+
         return DB::transaction(function () use ($data): Payment {
 
             $invoice = $this->invoiceService->findForPayment(

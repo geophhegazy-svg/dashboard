@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\Network;
 
 use App\Http\Controllers\Controller;
-use App\Modules\Network\Infrastructure\Services\NetworkManager;
+use App\Modules\Network\Application\Contracts\NetworkManagerInterface;
 use App\Modules\Network\Domain\Contracts\NetworkDeviceRepositoryInterface;
 use Illuminate\Http\Request;
 
 class QueueController extends Controller
 {
     public function __construct(
-        protected NetworkManager $networkManager,
+        protected NetworkManagerInterface $networkManager,
         protected NetworkDeviceRepositoryInterface $networkDeviceRepository,
     ) {}
 
@@ -24,7 +24,7 @@ class QueueController extends Controller
     {
         $device = $this->networkDeviceRepository->findOrFail($deviceId);
 
-        $connected = $this->networkManager->connect($device);
+        $connected = $this->networkManager->connect($device->id);
 
         if (!$connected) {
             return null;

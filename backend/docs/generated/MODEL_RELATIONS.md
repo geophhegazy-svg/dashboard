@@ -8,6 +8,14 @@
 App\Modules\Accounting\Infrastructure\Persistence\Models\Account
 ```
 
+## AccountingPeriod
+
+**Class**
+
+```
+App\Modules\Accounting\Infrastructure\Persistence\Models\AccountingPeriod
+```
+
 ## ActivityLog
 
 **Class**

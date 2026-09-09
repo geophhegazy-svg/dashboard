@@ -5,11 +5,9 @@ declare(strict_types=1);
 namespace App\Modules\Reports\Application\Actions;
 
 use App\Modules\Reports\Application\DTO\ExportResult;
-use App\Modules\Reports\Application\DTO\ReportResult;
 use App\Modules\Reports\Application\Filters\ReportFilter;
 use App\Modules\Reports\Application\Manager\ExportManager;
 use App\Modules\Reports\Application\Manager\ReportManager;
-use App\Modules\Reports\Domain\Contracts\ReportExportRepositoryInterface;
 use Carbon\Carbon;
 
 final readonly class ExecuteReportAction
@@ -17,7 +15,6 @@ final readonly class ExecuteReportAction
     public function __construct(
         private ReportManager $reportManager,
         private ExportManager $exportManager,
-        private ReportExportRepositoryInterface $reportExportRepository,
     ) {}
 
     /**
@@ -64,35 +61,7 @@ final readonly class ExecuteReportAction
             $format,
         );
 
-        $this->storeExecution(
-            reportName: $reportName,
-            format: $format,
-            report: $report,
-            export: $export,
-            filters: $filters,
-        );
-
         return $export;
     }
 
-    /**
-     * Save export history.
-     */
-    private function storeExecution(
-        string $reportName,
-        string $format,
-        ReportResult $report,
-        ExportResult $export,
-        array $filters = [],
-    ): void {
-        $this->reportExportRepository->create([
-            'report_name'   => $reportName,
-            'format'        => $format,
-            'file_name'     => $export->filename,
-            'mime_type'     => $export->mimeType,
-            'records_count' => count($report->rows),
-            'filters'       => $filters,
-            'exported_at'   => now(),
-        ]);
-    }
 }

@@ -1,5 +1,18 @@
 # Service Usage
 
+## AccountingPeriodService
+
+**Class**
+
+```
+App\Modules\Accounting\Application\Services\AccountingPeriodService
+```
+
+**Public Methods**
+
+- __construct
+- assertOpenForDate
+
 ## BillingCycleService
 
 **Class**
@@ -70,6 +83,19 @@ App\Modules\Invoice\Application\Services\InvoiceService
 - findForPayment
 - settle
 - update
+
+## JournalNumberService
+
+**Class**
+
+```
+App\Modules\Accounting\Application\Services\JournalNumberService
+```
+
+**Public Methods**
+
+- __construct
+- generate
 
 ## JournalValidationService
 

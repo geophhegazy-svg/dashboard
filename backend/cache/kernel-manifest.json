@@ -103,6 +103,12 @@
                     "listeners": {
                         "App\\Modules\\Subscription\\Domain\\Events\\SubscriptionRenewed": [
                             "App\\Modules\\Subscription\\Application\\Listeners\\SubscriptionRenewedListener"
+                        ],
+                        "App\\Modules\\Subscription\\Domain\\Events\\HotspotSubscriptionActivated": [
+                            "App\\Modules\\Network\\Application\\Listeners\\HotspotSubscriptionNetworkLifecycleListener"
+                        ],
+                        "App\\Modules\\Subscription\\Domain\\Events\\HotspotSubscriptionSuspended": [
+                            "App\\Modules\\Network\\Application\\Listeners\\HotspotSubscriptionNetworkLifecycleListener"
                         ]
                     }
                 }
@@ -157,7 +163,11 @@
                     "type": "services",
                     "bindings": {
                         "App\\Modules\\Accounting\\Domain\\Contracts\\JournalEntryRepositoryInterface": "App\\Modules\\Accounting\\Infrastructure\\Repositories\\JournalEntryRepository",
-                        "App\\Modules\\Accounting\\Application\\Services\\JournalValidationService": "App\\Modules\\Accounting\\Application\\Services\\JournalValidationService"
+                        "App\\Modules\\Accounting\\Application\\Services\\JournalValidationService": "App\\Modules\\Accounting\\Application\\Services\\JournalValidationService",
+                        "App\\Modules\\Accounting\\Application\\Services\\JournalNumberService": "App\\Modules\\Accounting\\Application\\Services\\JournalNumberService",
+                        "App\\Modules\\Accounting\\Application\\Actions\\CreateJournalEntryAction": "App\\Modules\\Accounting\\Application\\Actions\\CreateJournalEntryAction",
+                        "App\\Modules\\Accounting\\Domain\\Contracts\\AccountingPeriodRepositoryInterface": "App\\Modules\\Accounting\\Infrastructure\\Repositories\\AccountingPeriodRepository",
+                        "App\\Modules\\Accounting\\Application\\Services\\AccountingPeriodService": "App\\Modules\\Accounting\\Application\\Services\\AccountingPeriodService"
                     }
                 },
                 {
@@ -208,8 +218,6 @@
                     "actions": [
                         "App\\Modules\\Customer\\Application\\Actions\\CreateCustomerAction",
                         "App\\Modules\\Customer\\Application\\Actions\\UpdateCustomerAction",
-                        "App\\Modules\\Customer\\Application\\Actions\\ActivateCustomerAction",
-                        "App\\Modules\\Customer\\Application\\Actions\\DeactivateCustomerAction",
                         "App\\Modules\\Customer\\Application\\Actions\\DeleteCustomerAction"
                     ]
                 },
@@ -357,6 +365,7 @@
                     "type": "services",
                     "bindings": {
                         "App\\Modules\\Network\\Domain\\Contracts\\NetworkDeviceRepositoryInterface": "App\\Modules\\Network\\Infrastructure\\Repositories\\NetworkDeviceRepository",
+                        "App\\Modules\\Network\\Application\\Contracts\\NetworkManagerInterface": "App\\Modules\\Network\\Infrastructure\\Services\\NetworkManager",
                         "App\\Modules\\Network\\Domain\\Contracts\\MikrotikServiceInterface": "App\\Modules\\Network\\Infrastructure\\Services\\MikrotikServiceAdapter",
                         "App\\Modules\\Network\\Domain\\Contracts\\Services\\HotspotServiceInterface": "App\\Modules\\Network\\Infrastructure\\Providers\\MikroTik\\MikroTikHotspotService"
                     }

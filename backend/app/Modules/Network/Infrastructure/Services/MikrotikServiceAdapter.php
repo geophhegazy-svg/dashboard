@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Modules\Network\Infrastructure\Services;
 
 use App\Modules\Network\Domain\Contracts\MikrotikServiceInterface;
-use App\Modules\Network\Infrastructure\Persistence\Models\NetworkDevice;
 
 
 class MikrotikServiceAdapter implements MikrotikServiceInterface
@@ -34,15 +33,12 @@ class MikrotikServiceAdapter implements MikrotikServiceInterface
         int $port = 8728
     ): bool {
 
-        $device = new NetworkDevice([
-            'ip_address' => $ip,
-            'username' => $username,
-            'password' => $password,
-            'type' => 'mikrotik',
-            'port' => $port,
-        ]);
-
-        return $this->networkManager->connect($device);
+        return $this->networkManager->connectWithCredentials(
+            $ip,
+            $username,
+            $password,
+            $port,
+        );
     }
 
 

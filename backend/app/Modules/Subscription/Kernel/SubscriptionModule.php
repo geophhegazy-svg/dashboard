@@ -17,6 +17,9 @@ use App\Modules\Subscription\Application\Actions\DeleteHotspotSubscriptionAction
 use App\Modules\Subscription\Policies\HotspotSubscriptionPolicy;
 use App\Modules\Subscription\Application\Queries\FindSubscriptionQuery;
 use App\Modules\Subscription\Domain\Events\SubscriptionActivated;
+use App\Modules\Subscription\Domain\Events\HotspotSubscriptionActivated;
+use App\Modules\Subscription\Domain\Events\HotspotSubscriptionSuspended;
+
 use App\Modules\Subscription\Application\Queries\Handlers\FindSubscriptionQueryHandler;
 use App\Modules\Subscription\Domain\Contracts\SubscriptionRepositoryInterface;
 use App\Modules\Subscription\Domain\Contracts\HotspotSubscriptionRepositoryInterface;
@@ -26,6 +29,7 @@ use App\Modules\Subscription\Infrastructure\Repositories\HotspotSubscriptionRepo
 use App\Modules\Subscription\Domain\Events\SubscriptionRenewed;
 use App\Modules\Subscription\Domain\Events\SubscriptionRestored;
 use App\Modules\Subscription\Application\Listeners\SubscriptionRenewedListener;
+use App\Modules\Network\Application\Listeners\HotspotSubscriptionNetworkLifecycleListener;
 
 use App\Modules\Subscription\Application\Actions\EnterGraceSubscriptionAction;
 use App\Modules\Subscription\Application\Actions\ExpireSubscriptionAction;
@@ -124,6 +128,14 @@ final class SubscriptionModule extends Module
 
                 SubscriptionRenewed::class => [
                     SubscriptionRenewedListener::class,
+                ],
+
+                HotspotSubscriptionActivated::class => [
+                    HotspotSubscriptionNetworkLifecycleListener::class,
+                ],
+
+                HotspotSubscriptionSuspended::class => [
+                    HotspotSubscriptionNetworkLifecycleListener::class,
                 ],
 
             ]);

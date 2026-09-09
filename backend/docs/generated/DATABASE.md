@@ -1,5 +1,33 @@
 # Database
 
+## accounting_periods
+
+**Rows:** 0
+
+### Columns
+
+- id (bigint)
+- tenant_id (bigint)
+- start_date (date)
+- end_date (date)
+- status (enum) default=open
+- created_at (timestamp) nullable
+- updated_at (timestamp) nullable
+
+## accounting_periods
+
+**Rows:** 0
+
+### Columns
+
+- id (bigint)
+- tenant_id (bigint)
+- start_date (date)
+- end_date (date)
+- status (enum) default=open
+- created_at (timestamp) nullable
+- updated_at (timestamp) nullable
+
 ## accounts
 
 **Rows:** 0
@@ -600,7 +628,7 @@
 
 ## migrations
 
-**Rows:** 56
+**Rows:** 58
 
 ### Columns
 
@@ -610,7 +638,7 @@
 
 ## migrations
 
-**Rows:** 56
+**Rows:** 58
 
 ### Columns
 
@@ -848,7 +876,7 @@
 
 ## permissions
 
-**Rows:** 82
+**Rows:** 80
 
 ### Columns
 
@@ -860,7 +888,7 @@
 
 ## permissions
 
-**Rows:** 82
+**Rows:** 80
 
 ### Columns
 
@@ -1024,7 +1052,7 @@
 
 ## role_has_permissions
 
-**Rows:** 213
+**Rows:** 209
 
 ### Columns
 
@@ -1033,7 +1061,7 @@
 
 ## role_has_permissions
 
-**Rows:** 213
+**Rows:** 209
 
 ### Columns
 

@@ -10,8 +10,16 @@ class StoreInvoiceRequest extends FormRequest
     {
         return true;
     }
+
     public function rules(): array
     {
-        return ['tenant_id' => ['required', 'exists:tenants,id'], 'customer_id' => ['required', 'exists:customers,id'], 'subscription_id' => ['required', 'exists:subscriptions,id'], 'amount' => ['required', 'numeric', 'min:0'], 'due_date' => ['required', 'date'], 'paid_at' => ['nullable', 'date'], 'status' => ['required', 'in:pending,paid,overdue,cancelled'], 'notes' => ['nullable', 'string'],];
+        return [
+            'tenant_id' => ['required', 'exists:tenants,id'],
+            'customer_id' => ['required', 'exists:customers,id'],
+            'subscription_id' => ['required', 'exists:subscriptions,id'],
+            'amount' => ['required', 'numeric', 'min:0'],
+            'due_date' => ['required', 'date'],
+            'notes' => ['nullable', 'string'],
+        ];
     }
 }

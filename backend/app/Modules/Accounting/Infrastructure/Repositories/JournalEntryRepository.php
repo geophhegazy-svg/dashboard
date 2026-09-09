@@ -20,9 +20,12 @@ class JournalEntryRepository implements JournalEntryRepositoryInterface
         return JournalEntry::find($id);
     }
 
-    public function findLatestForYear(int $year): ?JournalEntry
-    {
+    public function findLatestForYear(
+        int $tenantId,
+        int $year,
+    ): ?JournalEntry {
         return JournalEntry::query()
+            ->where('tenant_id', $tenantId)
             ->whereYear('entry_date', $year)
             ->orderByDesc('id')
             ->first();

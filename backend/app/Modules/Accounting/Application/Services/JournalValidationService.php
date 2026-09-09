@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Modules\Accounting\Application\Services;;
+namespace App\Modules\Accounting\Application\Services;
 
 use App\Exceptions\Accounting\JournalValidationException;
+use App\Modules\Accounting\Infrastructure\Persistence\Models\Account;
 use App\Modules\Accounting\Infrastructure\Persistence\Models\JournalEntry;
 
 class JournalValidationService
@@ -33,10 +34,41 @@ class JournalValidationService
 
     private function validateAccounts(JournalEntry $entry): void
     {
+        $accountIds = $entry->lines
+            ->pluck('account_id')
+            ->filter()
+            ->unique()
+            ->values();
+
+        if ($accountIds->count() !== $entry->lines->count()) {
+            throw new JournalValidationException(
+                'Journal entry line has invalid account.'
+            );
+        }
+
+        $accounts = Account::query()
+            ->whereIn('id', $accountIds)
+            ->get()
+            ->keyBy('id');
+
         foreach ($entry->lines as $line) {
-            if (empty($line->account_id)) {
+            $account = $accounts->get($line->account_id);
+
+            if ($account === null) {
                 throw new JournalValidationException(
-                    'Journal entry line has invalid account.'
+                    'Journal entry line references a non-existent account.'
+                );
+            }
+
+            if ((int) $account->tenant_id !== (int) $entry->tenant_id) {
+                throw new JournalValidationException(
+                    'Journal entry line references an account from another tenant.'
+                );
+            }
+
+            if (!$account->is_active) {
+                throw new JournalValidationException(
+                    'Journal entry line references an inactive account.'
                 );
             }
         }

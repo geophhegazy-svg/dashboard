@@ -17,6 +17,40 @@ final class CreatePaymentActionBoundaryTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function test_zero_payment_amount_is_rejected(): void
+    {
+        $invoice = Invoice::factory()->create([
+            'amount' => 500,
+            'status' => 'pending',
+        ]);
+
+        $this->expectException(\Symfony\Component\HttpKernel\Exception\HttpException::class);
+        $this->expectExceptionMessage('Payment amount must be greater than zero');
+
+        app(CreatePaymentAction::class)->execute([
+            'invoice_id' => $invoice->id,
+            'amount' => 0,
+            'payment_method' => 'cash',
+        ]);
+    }
+
+    public function test_negative_payment_amount_is_rejected(): void
+    {
+        $invoice = Invoice::factory()->create([
+            'amount' => 500,
+            'status' => 'pending',
+        ]);
+
+        $this->expectException(\Symfony\Component\HttpKernel\Exception\HttpException::class);
+        $this->expectExceptionMessage('Payment amount must be greater than zero');
+
+        app(CreatePaymentAction::class)->execute([
+            'invoice_id' => $invoice->id,
+            'amount' => -10,
+            'payment_method' => 'cash',
+        ]);
+    }
+
     public function test_full_payment_settles_invoice(): void
     {
         $invoice = Invoice::factory()->create([
