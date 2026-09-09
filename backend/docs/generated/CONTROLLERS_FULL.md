@@ -851,6 +851,7 @@ App\Http\Controllers\Api
 
 - WorkflowEngine $engine
 - ActivateWorkflow $activateWorkflow
+- CancelWorkflow $cancelWorkflow
 - SuspendWorkflow $suspendWorkflow
 - ExpireWorkflow $expireWorkflow
 - RestoreWorkflow $restoreWorkflow
@@ -859,6 +860,7 @@ App\Http\Controllers\Api
 **Public Methods**
 
 - activate()
+- cancel()
 - suspend()
 - renew()
 - restore()

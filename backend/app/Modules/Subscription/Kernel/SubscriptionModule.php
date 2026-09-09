@@ -10,6 +10,7 @@ use App\Modules\Subscription\Presentation\Console\Commands\AutoGraceSubscription
 use App\Modules\Subscription\Presentation\Console\Commands\AutoRenewSubscriptionsCommand;
 use App\Modules\Subscription\Presentation\Console\Commands\AutoExpireSubscriptionsCommand;
 use App\Modules\Subscription\Application\Actions\ActivateSubscriptionAction;
+use App\Modules\Subscription\Application\Actions\CancelSubscriptionAction;
 use App\Modules\Subscription\Application\Actions\CreateHotspotSubscriptionAction;
 use App\Modules\Subscription\Application\Actions\ActivateHotspotSubscriptionAction;
 use App\Modules\Subscription\Application\Actions\SuspendHotspotSubscriptionAction;
@@ -17,6 +18,7 @@ use App\Modules\Subscription\Application\Actions\DeleteHotspotSubscriptionAction
 use App\Modules\Subscription\Policies\HotspotSubscriptionPolicy;
 use App\Modules\Subscription\Application\Queries\FindSubscriptionQuery;
 use App\Modules\Subscription\Domain\Events\SubscriptionActivated;
+use App\Modules\Subscription\Domain\Events\SubscriptionCancelled;
 use App\Modules\Subscription\Domain\Events\HotspotSubscriptionActivated;
 use App\Modules\Subscription\Domain\Events\HotspotSubscriptionSuspended;
 
@@ -98,6 +100,7 @@ final class SubscriptionModule extends Module
             ->actions([
 
                 ActivateSubscriptionAction::class,
+                CancelSubscriptionAction::class,
 
                 CreateHotspotSubscriptionAction::class,
                 ActivateHotspotSubscriptionAction::class,

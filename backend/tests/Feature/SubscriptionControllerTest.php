@@ -37,6 +37,7 @@ class SubscriptionControllerTest extends TestCase
             'subscriptions.renew',
             'subscriptions.restore',
             'subscriptions.expire',
+            'subscriptions.cancel',
         ];
 
         foreach ($permissions as $permission) {
@@ -113,6 +114,27 @@ class SubscriptionControllerTest extends TestCase
                 'success' => true,
                 'message' => 'Subscription restored successfully',
             ]);
+    }
+
+    public function test_cancel_endpoint_returns_success(): void
+    {
+        $this->actingAsUser();
+
+        $subscription = Subscription::factory()->active()->create();
+
+        $this->postJson(
+            "/api/subscriptions/{$subscription->id}/cancel"
+        )
+            ->assertOk()
+            ->assertJson([
+                'success' => true,
+                'message' => 'Subscription cancelled successfully',
+            ]);
+
+        $this->assertDatabaseHas('subscriptions', [
+            'id' => $subscription->id,
+            'status' => 'cancelled',
+        ]);
     }
 
     public function test_expire_endpoint_returns_success(): void

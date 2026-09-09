@@ -241,6 +241,11 @@ Route::middleware('auth:sanctum')->group(function () {
         [SubscriptionController::class, 'expire']
     );
 
+    Route::post(
+        '/subscriptions/{subscription}/cancel',
+        [SubscriptionController::class, 'cancel']
+    );
+
     /*
     |------------------------------------------------------
     | Hotspot Subscription Actions

@@ -977,9 +977,35 @@ Validate behavior, not only architecture.
 * [x] Accounting business rules — verified / NO GAP
 * [x] Network business rules — verified / NO GAP
 * [x] Package business rules — verified / NO GAP
-* [ ] Cancellation
-* [ ] Activation / Deactivation
+* [x] Cancellation — verified / GREEN
+* [x] Activation / Deactivation — verified / NO GAP
 * [ ] Remaining domain-specific rules
+
+## Activation / Deactivation Evidence
+
+- Activation verified as a complete Subscription lifecycle operation:
+  `SubscriptionStatus::ACTIVE` + `ActivateSubscriptionAction` + `ActivateWorkflow` + `SubscriptionActivated` + `SubscriptionPolicy::activate()` + controller endpoint + route + tests.
+- Deactivation was audited against the Subscription domain state machine.
+- No `DEACTIVATED` Subscription state exists in the domain.
+- No Subscription `deactivate()` transition, Action, Workflow, Event, Policy, endpoint, route, or test exists.
+- `SUSPENDED` is the existing explicit non-active Subscription lifecycle state, with `ACTIVE → SUSPENDED → ACTIVE` transitions and corresponding Network disable/enable behavior.
+- No domain evidence defines Subscription Deactivation as a separate business operation.
+- Therefore no new `DEACTIVATED` state or Deactivation use case was introduced; doing so would invent an unsupported business rule.
+- Decision: **NO GAP / GREEN**.
+
+## Cancellation Evidence
+
+- Confirmed GAP: no executable cancellation use case existed.
+- Added `CancelSubscriptionAction`.
+- Added `CancelWorkflow`.
+- Added `SubscriptionCancelled`.
+- Added `SubscriptionPolicy::cancel()`.
+- Added `POST /subscriptions/{subscription}/cancel`.
+- Added `subscriptions.cancel` permission for Super Admin.
+- Added controller feature coverage.
+- Targeted tests: **9 passed / 145 assertions**.
+- Full regression: **568 passed / 1471 assertions**.
+- No Network cancellation listener was introduced; no cross-module behavior was inferred without evidence.
 
 ## Validate
 

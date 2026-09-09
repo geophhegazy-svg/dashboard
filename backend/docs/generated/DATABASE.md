@@ -876,7 +876,7 @@
 
 ## permissions
 
-**Rows:** 80
+**Rows:** 81
 
 ### Columns
 
@@ -888,7 +888,7 @@
 
 ## permissions
 
-**Rows:** 80
+**Rows:** 81
 
 ### Columns
 
@@ -1052,7 +1052,7 @@
 
 ## role_has_permissions
 
-**Rows:** 209
+**Rows:** 211
 
 ### Columns
 
@@ -1061,7 +1061,7 @@
 
 ## role_has_permissions
 
-**Rows:** 209
+**Rows:** 211
 
 ### Columns
 

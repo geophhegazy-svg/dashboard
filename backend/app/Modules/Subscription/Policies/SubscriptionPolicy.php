@@ -75,4 +75,11 @@ final class SubscriptionPolicy extends BasePolicy
     ): bool {
         return $this->allow($user, 'subscriptions.expire');
     }
+
+    public function cancel(
+        User $user,
+        Subscription $subscription
+    ): bool {
+        return $this->allow($user, 'subscriptions.cancel');
+    }
 }

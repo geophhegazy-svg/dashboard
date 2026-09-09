@@ -9,6 +9,7 @@ use App\Http\Resources\SubscriptionResource;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
 use App\Core\Workflow\WorkflowEngine;
 use App\Modules\Subscription\Application\Workflows\ActivateWorkflow;
+use App\Modules\Subscription\Application\Workflows\CancelWorkflow;
 use App\Modules\Subscription\Application\Workflows\ExpireWorkflow;
 use App\Modules\Subscription\Application\Workflows\RenewWorkflow;
 use App\Modules\Subscription\Application\Workflows\RestoreWorkflow;
@@ -22,6 +23,7 @@ class SubscriptionController extends Controller
     public function __construct(
         private readonly WorkflowEngine $engine,
         private readonly ActivateWorkflow $activateWorkflow,
+        private readonly CancelWorkflow $cancelWorkflow,
         private readonly SuspendWorkflow $suspendWorkflow,
         private readonly ExpireWorkflow $expireWorkflow,
         private readonly RestoreWorkflow $restoreWorkflow,
@@ -47,6 +49,28 @@ class SubscriptionController extends Controller
         return ApiResponse::success(
             new SubscriptionResource($subscription),
             'Subscription activated successfully'
+        );
+    }
+
+    /**
+     * Cancel subscription.
+     */
+    public function cancel(
+        Subscription $subscription
+    ): JsonResponse {
+        $this->authorize('cancel', $subscription);
+
+        $result = $this->engine->run(
+            $this->cancelWorkflow,
+            $subscription,
+        );
+
+        /** @var Subscription $subscription */
+        $subscription = $result->payload();
+
+        return ApiResponse::success(
+            new SubscriptionResource($subscription),
+            'Subscription cancelled successfully'
         );
     }
 

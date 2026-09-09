@@ -4253,6 +4253,7 @@ App\Http\Controllers\Api
 
 - WorkflowEngine $engine
 - ActivateWorkflow $activateWorkflow
+- CancelWorkflow $cancelWorkflow
 - SuspendWorkflow $suspendWorkflow
 - ExpireWorkflow $expireWorkflow
 - RestoreWorkflow $restoreWorkflow
@@ -4261,6 +4262,7 @@ App\Http\Controllers\Api
 **Public Methods**
 
 - activate()
+- cancel()
 - suspend()
 - renew()
 - restore()
@@ -5005,6 +5007,13 @@ App\Http\Controllers\Api
 - Method: POST
 - Name: -
 - Action: App\Http\Controllers\Api\SubscriptionController@expire
+- Middleware: api, auth:sanctum
+
+## api/subscriptions/{subscription}/cancel
+
+- Method: POST
+- Name: -
+- Action: App\Http\Controllers\Api\SubscriptionController@cancel
 - Middleware: api, auth:sanctum
 
 ## api/hotspot-subscriptions/{hotspotSubscription}/activate

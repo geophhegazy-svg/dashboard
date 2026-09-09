@@ -64,6 +64,7 @@ class RolesAndPermissionsSeeder extends Seeder
             'subscriptions.renew',
             'subscriptions.restore',
             'subscriptions.expire',
+            'subscriptions.cancel',
             'subscriptions.link_pppoe',
 
             // Hotspot
