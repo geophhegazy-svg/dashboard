@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Modules\Network\Application\Listeners;
 
+use App\Exceptions\Network\MikroTikException;
+
 use App\Core\EventBus\Contracts\EventContract;
 use App\Core\EventBus\Contracts\EventListenerInterface;
 use App\Modules\Network\Domain\Contracts\Services\HotspotServiceInterface;
@@ -33,15 +35,35 @@ final readonly class HotspotSubscriptionNetworkLifecycleListener
         }
 
         if ($event instanceof HotspotSubscriptionActivated) {
-            $this->hotspot->enableUser(
+            if (! $this->hotspot->enableUser(
                 $subscription->hotspot_username
-            );
+            )) {
+                throw new MikroTikException(
+                    'Failed to enable Hotspot user on MikroTik.',
+                    500,
+                    null,
+                    [
+                        'username' => $subscription->hotspot_username,
+                        'event' => $event::class,
+                    ],
+                );
+            }
 
             return;
         }
 
-        $this->hotspot->disableUser(
+        if (! $this->hotspot->disableUser(
             $subscription->hotspot_username
-        );
+        )) {
+            throw new MikroTikException(
+                'Failed to disable Hotspot user on MikroTik.',
+                500,
+                null,
+                [
+                    'username' => $subscription->hotspot_username,
+                    'event' => $event::class,
+                ],
+            );
+        }
     }
 }

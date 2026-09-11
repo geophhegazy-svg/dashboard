@@ -386,6 +386,20 @@
                     }
                 },
                 {
+                    "type": "actions",
+                    "actions": [
+                        "App\\Modules\\Network\\Application\\Actions\\SyncMikroTikUsersAction",
+                        "App\\Modules\\Network\\Application\\Actions\\SyncHotspotUsersAction"
+                    ]
+                },
+                {
+                    "type": "commands",
+                    "commands": [
+                        "App\\Modules\\Network\\Presentation\\Console\\Commands\\SyncMikroTikCommand",
+                        "App\\Modules\\Network\\Presentation\\Console\\Commands\\SyncHotspotUsersCommand"
+                    ]
+                },
+                {
                     "type": "listeners",
                     "listeners": {
                         "App\\Modules\\Subscription\\Domain\\Events\\SubscriptionActivated": [

@@ -24,6 +24,10 @@ use App\Modules\Network\Infrastructure\Providers\MikroTik\MikroTikPppoeService;
 use App\Modules\Network\Infrastructure\Providers\MikroTik\MikroTikQueryService;
 use App\Modules\Network\Infrastructure\Providers\MikroTik\MikroTikQueueService;
 use App\Modules\Network\Application\Contracts\NetworkManagerInterface;
+use App\Modules\Network\Application\Actions\SyncMikroTikUsersAction;
+use App\Modules\Network\Application\Actions\SyncHotspotUsersAction;
+use App\Modules\Network\Presentation\Console\Commands\SyncMikroTikCommand;
+use App\Modules\Network\Presentation\Console\Commands\SyncHotspotUsersCommand;
 use App\Modules\Network\Application\Listeners\SubscriptionNetworkLifecycleListener;
 use App\Modules\Network\Infrastructure\Services\NetworkManager;
 use App\Modules\Subscription\Domain\Events\SubscriptionActivated;
@@ -96,6 +100,42 @@ final class NetworkModule extends Module
                     => MikroTikMonitoringService::class,
 
             ])
+
+            ->actions([
+
+                SyncMikroTikUsersAction::class,
+
+                SyncHotspotUsersAction::class,
+
+            ])
+
+
+            ->commands([
+
+                SyncMikroTikCommand::class,
+
+                SyncHotspotUsersCommand::class,
+
+            ])
+
+
+            ->schedules(function ($schedule): void {
+
+                $schedule->command('mikrotik:sync-hotspot')
+
+                    ->everyFiveMinutes()
+
+                    ->withoutOverlapping();
+
+
+                $schedule->command('mikrotik:sync')
+
+                    ->everyFiveMinutes()
+
+                    ->withoutOverlapping();
+
+            })
+
 
             ->listeners([
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Network\Infrastructure\Providers\MikroTik;
 
+use App\Exceptions\Network\QueryException;
 use Illuminate\Support\Facades\Log;
 use RouterOS\Client;
 use RouterOS\Query;
@@ -41,8 +42,11 @@ class MikroTikQueryService
                 $e
             );
 
-
-            return [];
+            throw QueryException::failed([
+                'operation' => 'query',
+                'query' => $query->getQuery(),
+                'error' => $e->getMessage(),
+            ]);
         }
     }
 

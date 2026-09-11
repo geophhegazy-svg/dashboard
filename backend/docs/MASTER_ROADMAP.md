@@ -95,17 +95,15 @@ This section records work already completed and must not be reopened without new
 * [x] Targeted Kernel tests GREEN.
 * [x] 40C.81 Kernel Boundary Hardening completed GREEN.
 
-### Current Kernel Evidence
+### Historical Kernel Evidence
 
 Historical Kernel checkpoints remain historical evidence only.
 
-The current project-wide Green Gate is the later full regression:
+The later project regression checkpoints supersede them as current project state.
 
 ```text
 546 passed
-
 1416 assertions
-
 0 failures
 ```
 
@@ -303,39 +301,23 @@ Discovered Modules:
 
 ```text
 Accounting
-
 Activity
-
 Billing
-
 Customer
-
 Dashboard
-
 Documentation
-
+Finance
 Inventory
-
 Invoice
-
 Network
-
 Notification
-
 Package
-
 Payment
-
 Reports
-
 Subscription
-
 Task
-
 Ticket
-
 Usage
-
 Wallet
 ```
 
@@ -398,15 +380,10 @@ Valid Subscription lifecycle Workflows:
 
 ```text
 ActivateWorkflow
-
 EnterGraceWorkflow
-
 ExpireWorkflow
-
 RenewWorkflow
-
 RestoreWorkflow
-
 SuspendWorkflow
 ```
 
@@ -414,7 +391,6 @@ Targeted subscription workflow/orchestrator evidence:
 
 ```text
 16 passed
-
 47 assertions
 ```
 
@@ -424,11 +400,8 @@ The following are intentionally deferred to their owning domains:
 
 ```text
 JournalEntry
-
 ActivityLog
-
 Notification
-
 WalletTransaction
 ```
 
@@ -477,11 +450,8 @@ The following remain intentionally deferred where they require their owning doma
 
 ```text
 JournalEntry
-
 ActivityLog
-
 Notification
-
 WalletTransaction
 ```
 
@@ -497,21 +467,13 @@ Preferred structure:
 
 ```text
 Command
-
 ↓
-
 Handler
-
 ↓
-
 Action / Workflow
-
 ↓
-
 Domain
-
 ↓
-
 Repository
 ```
 
@@ -536,15 +498,10 @@ Subscription lifecycle Actions are established:
 
 ```text
 ActivateSubscriptionAction
-
 EnterGraceSubscriptionAction
-
 ExpireSubscriptionAction
-
 RenewSubscriptionAction
-
 RestoreSubscriptionAction
-
 SuspendSubscriptionAction
 ```
 
@@ -582,15 +539,10 @@ Verified lifecycle Actions:
 
 ```text
 Activate
-
 Suspend
-
 Enter Grace
-
 Expire
-
 Renew
-
 Restore
 ```
 
@@ -600,9 +552,7 @@ Repository eligibility methods:
 
 ```text
 findEligibleForAutoRenew()
-
 findEligibleForGracePeriod()
-
 findEligibleForExpiration()
 ```
 
@@ -616,9 +566,7 @@ Runtime scheduler registration verified:
 
 ```text
 5  0 * * *  php artisan subscriptions:auto-renew
-
 10 0 * * *  php artisan subscriptions:auto-grace
-
 15 0 * * *  php artisan subscriptions:auto-expire
 ```
 
@@ -632,9 +580,7 @@ Ordering is explicitly:
 
 ```text
 Renew
-
 → Grace
-
 → Expire
 ```
 
@@ -660,29 +606,17 @@ Renewal flow:
 
 ```text
 Subscription
-
 ↓
-
 RenewWorkflow
-
 ↓
-
 SubscriptionRenewed
-
 ↓
-
 SubscriptionRenewedListener
-
 ↓
-
 InvoiceService
-
 ↓
-
 CreateInvoiceAction
-
 ↓
-
 Invoice Module
 ```
 
@@ -696,13 +630,10 @@ Verified behavior:
 
 ```text
 Same renewal key
-
 → same invoice
-
 → no duplicate invoice
 
 Different renewal keys
-
 → separate invoices
 ```
 
@@ -710,7 +641,6 @@ Targeted evidence:
 
 ```text
 9 passed
-
 21 assertions
 ```
 
@@ -718,7 +648,6 @@ Targeted evidence:
 
 ```text
 Renewal Invoice Idempotency = NO GAP
-
 Invoice Ownership = NO GAP
 ```
 
@@ -742,7 +671,6 @@ Targeted evidence:
 
 ```text
 2 passed
-
 6 assertions
 ```
 
@@ -785,39 +713,24 @@ Workflow execution is transaction-wrapped:
 
 ```text
 WorkflowExecutor
-
 ↓
-
 TransactionStep
-
 ↓
-
 DB::transaction(...)
-
 ↓
-
 WorkflowExecutionStep
-
 ↓
-
 AbstractWorkflow::execute()
 
 ├── rules
-
 ├── before
-
 ├── perform
-
 │   └── Action
-
 └── after
-
     └── EventDispatcher
-
         └── listeners
 
 ↓
-
 COMMIT
 ```
 
@@ -831,7 +744,6 @@ Evidence:
 
 ```text
 1 passed
-
 4 assertions
 ```
 
@@ -853,7 +765,6 @@ Targeted evidence included in:
 
 ```text
 9 passed
-
 21 assertions
 ```
 
@@ -898,7 +809,7 @@ Reports test suite:
 OK
 ```
 
-Full regression:
+Historical Phase 6 regression:
 
 ```text
 546 tests
@@ -907,7 +818,7 @@ Full regression:
 PHPUnit Notices: 5
 ```
 
-The 5 PHPUnit Notices are non-failing notices and do not invalidate the GREEN test gate.
+The 5 PHPUnit Notices were non-failing notices and did not invalidate the historical GREEN test gate.
 
 **Regression Correction Verdict:** GREEN / CLOSED
 
@@ -917,29 +828,25 @@ The 5 PHPUnit Notices are non-failing notices and do not invalidate the GREEN te
 
 ## Phase 6 Green Gate
 
+Historical Phase 6 evidence:
+
 ```text
 Payment Boundary
-
 2 passed / 6 assertions
 
 Renewal Invoice / Listener
-
 9 passed / 21 assertions
 
 Rollback
-
 1 passed / 4 assertions
 
 Reports ExecuteReportAction
-
 3 passed / 20 assertions
 
 Reports Module Regression
-
 24 passed / 90 assertions
 
 Full Regression
-
 546 passed / 1416 assertions
 
 0 failures
@@ -953,11 +860,11 @@ Full Regression
 
 # 7. BUSINESS RULES & STATE MACHINES
 
-**Status:** ACTIVE — BROADER DOMAIN VALIDATION
+**Status:** CLOSED / GREEN
 
-Phase 6 has already proven the Subscription lifecycle path.
+Phase 6 already proved the Subscription lifecycle path.
 
-The remaining Phase 7 scope is the broader business-rule audit across all domains.
+Phase 7 completed the broader business-rule audit across the remaining domains.
 
 ## Objective
 
@@ -979,51 +886,83 @@ Validate behavior, not only architecture.
 * [x] Package business rules — verified / NO GAP
 * [x] Cancellation — verified / GREEN
 * [x] Activation / Deactivation — verified / NO GAP
-* [ ] Remaining domain-specific rules
+* [x] Remaining domain-specific rules
+
+Remaining domain-specific evidence:
+
+```text
+Inventory business-rule coverage: 4 tests / 8 assertions.
+
+Ticket business-rule coverage: 6 tests / 13 assertions.
+
+Task: existing business-rule coverage verified — NO GAP / GREEN.
+
+Reports: no Phase-7 business-state gap.
+
+Usage: no Phase-7 business-state gap.
+```
+
+Phase 7 final regression:
+
+```text
+578 passed
+1492 assertions
+0 failures
+```
+
+Phase 7 full regression duration:
+
+```text
+406.92s
+```
 
 ## Activation / Deactivation Evidence
 
-- Activation verified as a complete Subscription lifecycle operation:
+* Activation verified as a complete Subscription lifecycle operation:
   `SubscriptionStatus::ACTIVE` + `ActivateSubscriptionAction` + `ActivateWorkflow` + `SubscriptionActivated` + `SubscriptionPolicy::activate()` + controller endpoint + route + tests.
-- Deactivation was audited against the Subscription domain state machine.
-- No `DEACTIVATED` Subscription state exists in the domain.
-- No Subscription `deactivate()` transition, Action, Workflow, Event, Policy, endpoint, route, or test exists.
-- `SUSPENDED` is the existing explicit non-active Subscription lifecycle state, with `ACTIVE → SUSPENDED → ACTIVE` transitions and corresponding Network disable/enable behavior.
-- No domain evidence defines Subscription Deactivation as a separate business operation.
-- Therefore no new `DEACTIVATED` state or Deactivation use case was introduced; doing so would invent an unsupported business rule.
-- Decision: **NO GAP / GREEN**.
+* Deactivation was audited against the Subscription domain state machine.
+* No `DEACTIVATED` Subscription state exists in the domain.
+* No Subscription `deactivate()` transition, Action, Workflow, Event, Policy, endpoint, route, or test exists.
+* `SUSPENDED` is the existing explicit non-active Subscription lifecycle state, with `ACTIVE → SUSPENDED → ACTIVE` transitions and corresponding Network disable/enable behavior.
+* No domain evidence defines Subscription Deactivation as a separate business operation.
+* Therefore no new `DEACTIVATED` state or Deactivation use case was introduced; doing so would invent an unsupported business rule.
+* Decision: **NO GAP / GREEN**.
 
 ## Cancellation Evidence
 
-- Confirmed GAP: no executable cancellation use case existed.
-- Added `CancelSubscriptionAction`.
-- Added `CancelWorkflow`.
-- Added `SubscriptionCancelled`.
-- Added `SubscriptionPolicy::cancel()`.
-- Added `POST /subscriptions/{subscription}/cancel`.
-- Added `subscriptions.cancel` permission for Super Admin.
-- Added controller feature coverage.
-- Targeted tests: **9 passed / 145 assertions**.
-- Full regression: **568 passed / 1471 assertions**.
-- No Network cancellation listener was introduced; no cross-module behavior was inferred without evidence.
+* Confirmed GAP: no executable cancellation use case existed.
+* Added `CancelSubscriptionAction`.
+* Added `CancelWorkflow`.
+* Added `SubscriptionCancelled`.
+* Added `SubscriptionPolicy::cancel()`.
+* Added `POST /subscriptions/{subscription}/cancel`.
+* Added `subscriptions.cancel` permission for Super Admin.
+* Added controller feature coverage.
+* Targeted tests: **9 passed / 145 assertions**.
+* Full regression at Phase 7 cancellation checkpoint: **568 passed / 1471 assertions**.
+* No Network cancellation listener was introduced; no cross-module behavior was inferred without evidence.
 
 ## Validate
 
-* [ ] Business rules.
-* [ ] State transitions.
-* [ ] Domain Services.
-* [ ] Aggregate transitions.
-* [ ] Domain Events.
-* [ ] Scheduled operations outside completed Phase 6 scope.
-* [ ] Error handling across remaining domains.
+* [x] Business rules.
+* [x] State transitions.
+* [x] Domain Services.
+* [x] Aggregate transitions.
+* [x] Domain Events.
+* [x] Scheduled operations outside completed Phase 6 scope — no Phase-7 GAP identified.
+* [x] Error handling across remaining domains.
 
 **Exit Gate:** Business rules have clear owners and executable tests.
+
+**Phase 7 Verdict: CLOSED / GREEN**
+
+> **Decision:** Do not reopen Phase 7 without new regression evidence or an explicit business-rule contract change.
 
 ---
 
 # 8. INFRASTRUCTURE & NETWORK INTEGRATION
 
-**Status:** PENDING — BROADER INFRASTRUCTURE / ROUTEROS SCOPE
+**Status:** [x] CLOSED / GREEN
 
 ## Objective
 
@@ -1037,7 +976,7 @@ Ensure Infrastructure owns framework and external-system concerns.
 * [x] NetworkDevice repository boundary — NO GAP.
 * [x] Network Controller → NetworkDevice persistence — GREEN / CLOSED.
 
-These completed sub-boundaries do not close the entire Infrastructure / Network phase.
+These completed sub-boundaries were followed by the complete Phase 8 Infrastructure / Network audit.
 
 ## Network Provider Resolver
 
@@ -1045,7 +984,6 @@ Targeted evidence:
 
 ```text
 5 passed
-
 7 assertions
 ```
 
@@ -1053,7 +991,6 @@ Runtime:
 
 ```text
 AVAILABLE=mikrotik
-
 MIKROTIK_CLASS=
 App\Modules\Network\Infrastructure\Providers\MikroTik\MikroTikProvider
 ```
@@ -1062,7 +999,6 @@ Unsupported provider behavior:
 
 ```text
 UNSUPPORTED_PROVIDER=RuntimeException
-
 MESSAGE=Unsupported network provider: unsupported
 ```
 
@@ -1087,16 +1023,6 @@ SERVICE_OK=YES
 NETWORK_MANAGER_CLASS=
 App\Modules\Network\Infrastructure\Services\NetworkManager
 ```
-
-Current RouterOS connection state:
-
-```text
-CONNECTED=NO
-
-PROVIDER=NULL
-```
-
-This is runtime environment state and is not classified as an architectural service-boundary failure.
 
 ## NetworkDevice Repository
 
@@ -1131,7 +1057,6 @@ Targeted regression:
 
 ```text
 14 passed
-
 83 assertions
 ```
 
@@ -1139,36 +1064,586 @@ Covered:
 
 ```text
 DhcpApiControllerTest
-
 FirewallApiControllerTest
-
 QueueApiControllerTest
-
 MikrotikControllerTest
-
 Network/DHCPControllerTest
-
 Network/FirewallControllerTest
-
 Network/QueueControllerTest
 ```
 
-### Remaining Infrastructure Scope
+---
 
-* [ ] MikroTik runtime connection behavior
-* [ ] RouterOS API integration
-* [ ] PPPoE lifecycle
-* [ ] Hotspot lifecycle
-* [ ] Profiles
-* [ ] Queues / speed enforcement
-* [ ] Synchronization
-* [ ] Disconnect / expiry enforcement
-* [ ] Runtime router evidence
-* [ ] Infrastructure failure handling
-* [ ] Fail-safe behavior
-* [ ] Remaining scheduled infrastructure operations
+## Phase 8 Audit Progress
 
-### Special Rule
+### Audit 1 — MikroTik Runtime Connection Behavior
+
+* [x] NetworkManager connection boundary verified.
+* [x] NetworkProviderResolver verified.
+* [x] MikroTikProvider verified.
+* [x] MikroTikConnectionService verified as the sole RouterOS client creator.
+* [x] Connection failure handling verified.
+* [x] NetworkModule bindings verified.
+* [x] Adapter boundary verified.
+* [x] Targeted evidence GREEN.
+* [x] No RouterOS client creation outside the Infrastructure boundary.
+
+**Status: CLOSED / GREEN**
+
+### Audit 2 — RouterOS API Integration
+
+* [x] RouterOS `Client` creation centralized.
+* [x] RouterOS `Query` creation remains inside Network Infrastructure services.
+* [x] Query execution centralized through `MikroTikQueryService`.
+* [x] No RouterOS references outside the Network boundary, except documentation evidence.
+* [x] RouterOS API integration tests GREEN.
+
+**Status: CLOSED / GREEN**
+
+### Audit 3 — PPPoE Lifecycle
+
+* [x] PPPoE service contract verified.
+* [x] `/ppp/secret/*` lifecycle verified.
+* [x] `/ppp/active/*` session handling verified.
+* [x] Subscription Network lifecycle listener verified.
+* [x] Subscription layer contains no direct RouterOS integration.
+* [x] NetworkModule/provider/adapter boundaries verified.
+* [x] Tests GREEN.
+
+**Status: CLOSED / GREEN**
+
+### Audit 4 — Hotspot Lifecycle
+
+* [x] Hotspot service contract verified.
+* [x] `/ip/hotspot/user/*` lifecycle verified.
+* [x] `/ip/hotspot/active/*` session handling verified.
+* [x] Hotspot subscription lifecycle listener verified.
+* [x] Empty username produces no RouterOS side effect.
+* [x] SubscriptionModule registration verified.
+* [x] Tests GREEN.
+
+**Status: CLOSED / GREEN**
+
+### Audit 5 — Profiles
+
+* [x] Profile references classified as assignment/configuration.
+* [x] No unsupported RouterOS profile CRUD requirement identified.
+* [x] `mikrotik_profile` classified as subscription/package/user configuration.
+* [x] No infrastructure ownership GAP identified.
+
+**Status: CLOSED / GREEN**
+
+### Audit 6 — Queues / Speed Enforcement
+
+* [x] Queue service contract verified.
+* [x] RouterOS `/queue/simple/*` boundary verified.
+* [x] `updateSpeed()` mapping verified.
+* [x] Adapter delegation verified.
+* [x] Queue controller boundary verified.
+* [x] Speed enforcement behavior verified.
+
+**Status: CLOSED / GREEN**
+
+### Audit 7 — Synchronization
+
+* [x] Synchronization ownership moved to Network Module.
+* [x] `SyncMikroTikUsersAction` established.
+* [x] `SyncHotspotUsersAction` established.
+* [x] `mikrotik:sync` established.
+* [x] `mikrotik:sync-hotspot` established.
+* [x] NetworkModule owns registration and schedules.
+* [x] Legacy Console Kernel sync registrations removed.
+* [x] Legacy sync commands/jobs removed.
+* [x] Schedule uses `withoutOverlapping()`.
+
+Evidence:
+
+```text
+Targeted gate:
+7 passed / 51 assertions
+
+Full regression at synchronization checkpoint:
+585 passed / 1543 assertions / 0 failures
+
+Runtime scheduler evidence:
+GREEN
+```
+
+**Status: CLOSED / GREEN**
+
+### Audit 8 — Disconnect / Expiry Enforcement
+
+* [x] `SubscriptionExpired` boundary audited.
+* [x] Subscription expiry disables the PPPoE user.
+* [x] Active PPPoE session is disconnected.
+* [x] PPPoE active sessions are removed through RouterOS `/ppp/active/remove`.
+* [x] `MikrotikServiceInterface::disconnectUser()` delegates correctly.
+* [x] Auto-expiry orchestrator expectation verified.
+* [x] Runtime command/schedule registration verified.
+* [x] No real RouterOS mutation side effects executed during runtime evidence.
+
+Evidence:
+
+```text
+Targeted listener gate:
+6 passed / 8 assertions
+
+AutoExpireSubscriptionsOrchestratorTest:
+2 passed / 4 assertions
+
+Full regression:
+585 passed / 1544 assertions / 0 failures
+```
+
+**Status: CLOSED / GREEN**
+
+### Audit 9 — Runtime Router Evidence
+
+Runtime device:
+
+```text
+MikroTik Router 1
+
+NetworkDevice ID: 1
+
+Type: mikrotik
+
+Endpoint: 2.2.2.2:8728
+```
+
+Runtime path verified:
+
+```text
+NetworkManagerInterface
+→ NetworkManager
+→ NetworkProviderResolver
+→ MikroTikProvider
+→ MikroTikConnectionService
+→ RouterOS
+```
+
+Runtime evidence:
+
+```text
+CONNECT_RESULT=SUCCESS
+CONNECTED_STATE=CONNECTED
+PROVIDER=mikrotik
+CONNECTED_AFTER_DISCONNECT=DISCONNECTED
+```
+
+Capabilities:
+
+```text
+pppoe,queue,hotspot,firewall,dhcp,monitoring
+```
+
+The RouterOS connection test used:
+
+```text
+/system/resource/print
+```
+
+No RouterOS mutation commands were executed.
+
+**Status: CLOSED / GREEN**
+
+### Audit 10 — Infrastructure Failure Handling
+
+* [x] RouterOS read failures no longer become silent empty collections.
+* [x] `MikroTikQueryService::execute()` raises `QueryException` on RouterOS query failure.
+* [x] `first()` preserves `null` only for a successful empty result.
+* [x] `write()` continues to return `false` on write failure.
+* [x] `MikroTikException` supports the context required by `QueryException`.
+* [x] PPPoE synchronization failure does not mark existing users offline.
+* [x] Hotspot synchronization failure does not mark existing users offline.
+* [x] Failed reads do not advance synchronization timestamps.
+
+Targeted Network regression:
+
+```text
+32 passed
+101 assertions
+0 failures
+```
+
+Historical Audit 10 regression checkpoint:
+
+```text
+587 passed
+1558 assertions
+0 failures
+```
+
+Runtime evidence:
+
+```text
+CONNECT_RESULT=SUCCESS
+CONNECTED_STATE=CONNECTED
+PROVIDER=mikrotik
+CONNECTED_AFTER_DISCONNECT=DISCONNECTED
+```
+
+Runtime evidence used only the read-only RouterOS connection health path.
+
+No RouterOS mutation commands were executed.
+
+**Status: CLOSED / GREEN**
+
+### Audit 11 — Fail-safe Behavior
+
+**Status: CLOSED / GREEN**
+
+Audit 11 verified failure behavior for RouterOS write operations and listener propagation.
+
+Audit sequence completed:
+
+```text
+Infrastructure / Network boundary inventory
+→ Runtime ownership classification
+→ Failure-state analysis
+→ Gap / No Gap
+→ Minimal Fix
+→ Targeted Tests
+→ Regression
+→ Runtime Evidence
+→ Green Gate
+→ STOP
+```
+
+Verified:
+
+* [x] MikroTik PPPoE write-result propagation.
+* [x] MikroTik Hotspot write-result propagation.
+* [x] Queue/write-result propagation through the established Network boundary.
+* [x] Adapter result propagation.
+* [x] Subscription lifecycle listeners do not silently ignore failed RouterOS writes.
+* [x] Hotspot subscription lifecycle listener does not silently ignore failed RouterOS writes.
+* [x] Existing `MikroTikException` convention reused.
+* [x] No new write-failure-specific exception hierarchy introduced.
+* [x] EventBus does not swallow listener exceptions.
+* [x] EventDispatcher exception propagation verified.
+* [x] Failure behavior is fail-fast where the infrastructure contract requires successful external state transition.
+* [x] No false successful state advancement was introduced.
+
+### Audit 11 Minimal Fix
+
+The verified GAP was limited to lifecycle listeners ignoring `false` results returned by Network infrastructure write operations.
+
+Minimal correction:
+
+```text
+SubscriptionNetworkLifecycleListener
+→ checks enableUser()
+→ checks disableUser()
+→ checks disconnectUser()
+
+HotspotSubscriptionNetworkLifecycleListener
+→ checks enableUser()
+→ checks disableUser()
+```
+
+Failed writes now raise the existing:
+
+```text
+App\Exceptions\Network\MikroTikException
+```
+
+with operation context.
+
+No unrelated Network architecture was changed.
+
+### Audit 11 Test Evidence
+
+Targeted listener tests:
+
+```text
+15 passed
+32 assertions
+```
+
+Network regression:
+
+```text
+38 passed
+121 assertions
+```
+
+Historical project-wide regression at Audit 11:
+
+```text
+593 passed
+1578 assertions
+0 failures
+Duration: 477.61s
+```
+
+### Audit 11 Runtime Evidence
+
+An isolated EventBus runtime probe registered only the Network listener and used a mocked `MikrotikServiceInterface` returning `false`.
+
+Evidence:
+
+```text
+EVENT=App\Modules\Subscription\Domain\Events\SubscriptionActivated
+
+LISTENERS=1
+
+DISPATCHING...
+
+RESULT=MIKROTIK_EXCEPTION
+
+MESSAGE=Failed to enable PPPoE user on MikroTik.
+
+CODE=500
+
+CONTEXT={"username":"runtime-a11-user","event":"App\\Modules\\Subscription\\Domain\\Events\\SubscriptionActivated"}
+```
+
+The runtime evidence confirms:
+
+```text
+EventDispatcher
+→ Network listener
+→ MikrotikServiceInterface
+→ enableUser() = false
+→ MikroTikException
+→ exception propagated
+```
+
+No real RouterOS mutation was executed during this probe.
+
+**Audit 11 Verdict: CLOSED / GREEN**
+
+> **Decision:** Do not reopen Audit 11 without new evidence of regression or an explicit infrastructure contract change.
+
+### Audit 12 — Remaining Scheduled Infrastructure Operations
+
+**Status: CLOSED / GREEN**
+
+Audit 12 completed the remaining scheduled infrastructure-operation inventory and runtime verification.
+
+### Objective
+
+Audit all remaining scheduled infrastructure operations and determine whether ownership, registration, execution boundary, and runtime behavior are correctly placed.
+
+### Inventory Findings
+
+Verified candidates included:
+
+```text
+app/Console/Kernel.php
+
+app/Console/Commands/PingMikroTik.php
+
+app/Console/Commands/CleanupMikroTik.php
+
+app/Console/Commands/SendDailyReport.php
+```
+
+Current module-owned schedules were also verified across:
+
+```text
+Network
+Subscription
+Usage
+```
+
+### Audit Findings
+
+```text
+A12.1 Module schedules
+NO GAP / GREEN
+
+A12.2 Root scheduled operations
+GAP CONFIRMED
+
+A12.3 Module runtime schedule registration
+GREEN
+
+A12.4 Runtime schedule inventory
+GREEN
+
+A12.5 Legacy command availability
+GREEN
+```
+
+### Confirmed GAP
+
+`app/Console/Kernel.php` contained stale root schedule definitions for:
+
+```text
+mikrotik:ping
+mikrotik:cleanup
+report:daily
+```
+
+Runtime evidence established that these commands were not active in the runtime scheduler.
+
+The active runtime schedule was already owned by the appropriate Modules:
+
+```text
+Network
+→ mikrotik:sync
+→ mikrotik:sync-hotspot
+
+Usage
+→ usage:sync
+
+Subscription
+→ subscriptions:auto-renew
+→ subscriptions:auto-grace
+→ subscriptions:auto-expire
+```
+
+### Minimal Fix
+
+* [x] Removed only the stale root schedule definitions from `app/Console/Kernel.php`.
+* [x] Kept `PingMikroTik.php`.
+* [x] Kept `CleanupMikroTik.php`.
+* [x] Kept `SendDailyReport.php`.
+* [x] Preserved manual availability of the legacy commands.
+* [x] Did not move commands speculatively into Modules.
+* [x] Did not delete command functionality without evidence.
+* [x] Did not modify Network, Subscription, or Usage schedule ownership.
+
+### Targeted Tests
+
+Network registration:
+
+```text
+3 passed
+8 assertions
+```
+
+Usage registration:
+
+```text
+4 passed
+10 assertions
+```
+
+### Root Schedule Verification
+
+No legacy root schedule registration remains.
+
+The only remaining references in `app/Console/Commands` are command signatures:
+
+```text
+mikrotik:cleanup
+mikrotik:ping
+report:daily
+```
+
+These remain manually available and are not registered as active runtime schedules.
+
+### Runtime Schedule Evidence
+
+After the minimal fix:
+
+```text
+*/5  * * * *  php artisan mikrotik:sync-hotspot
+*/5  * * * *  php artisan mikrotik:sync
+*/15 * * * *  php artisan usage:sync
+5    0 * * *  php artisan subscriptions:auto-renew
+10   0 * * *  php artisan subscriptions:auto-grace
+15   0 * * *  php artisan subscriptions:auto-expire
+```
+
+Exactly six runtime schedules remain.
+
+### Legacy Command Availability
+
+The following commands remain manually available:
+
+```text
+mikrotik:ping
+mikrotik:cleanup
+report:daily
+```
+
+No runtime schedule registration remains for them.
+
+### Schedule Runtime Rule
+
+Schedule is a runtime resource.
+
+It is not treated as a compiled resource.
+
+No scheduled command was executed during Audit 12 validation.
+
+No RouterOS mutation was performed.
+
+Runtime evidence used:
+
+```text
+php artisan schedule:list
+php artisan list
+```
+
+### Audit 12 Full Regression
+
+```text
+593 passed
+1578 assertions
+0 failures
+Duration: 334.18s
+```
+
+This regression is the current project-wide Green Gate after the Audit 12 production change.
+
+**Audit 12 Verdict: CLOSED / GREEN**
+
+> **Decision:** The only proven Audit 12 GAP was stale root schedule registration. It was removed minimally. Legacy command files remain available manually. No speculative command migration or deletion is authorized.
+
+---
+
+## Phase 8 Exit Gate
+
+* [x] Infrastructure runtime behavior GREEN.
+* [x] Network integration GREEN.
+* [x] RouterOS integration GREEN.
+* [x] Synchronization GREEN.
+* [x] Disconnect / expiry enforcement GREEN.
+* [x] Infrastructure failure handling GREEN.
+* [x] Fail-safe behavior GREEN.
+* [x] Remaining scheduled infrastructure operations GREEN.
+* [x] Runtime schedule inventory GREEN.
+* [x] Targeted tests GREEN.
+* [x] Full regression GREEN.
+* [x] Runtime evidence GREEN.
+* [x] Phase 8 CLOSED.
+
+### Final Phase 8 Regression
+
+```text
+593 passed
+1578 assertions
+0 failures
+Duration: 334.18s
+```
+
+**Phase 8 Verdict: CLOSED / GREEN**
+
+> **Decision:** Phase 8 is complete. Do not reopen Phase 8 or Audits 1–12 without new evidence proving regression or an explicit architectural decision change.
+
+---
+
+## Remaining Infrastructure Scope
+
+* [x] MikroTik runtime connection behavior
+* [x] RouterOS API integration
+* [x] PPPoE lifecycle
+* [x] Hotspot lifecycle
+* [x] Profiles
+* [x] Queues / speed enforcement
+* [x] Synchronization
+* [x] Disconnect / expiry enforcement
+* [x] Runtime router evidence
+* [x] Infrastructure failure handling
+* [x] Fail-safe behavior
+* [x] Remaining scheduled infrastructure operations
+
+**Special Rule**
 
 Schedule is a runtime resource.
 
@@ -1180,7 +1655,7 @@ It must not be incorrectly treated as a compiled resource.
 
 # 9. API / PRESENTATION / AUTHORIZATION
 
-**Status:** PENDING — BROADER PRESENTATION SURFACE
+**Status: [~] IN PROGRESS — BROADER PRESENTATION SURFACE**
 
 ## Already Verified
 
@@ -1195,7 +1670,6 @@ Security policy evidence:
 
 ```text
 29 passed
-
 70 assertions
 ```
 
@@ -1203,7 +1677,6 @@ Tenant runtime evidence:
 
 ```text
 1 passed
-
 3 assertions
 ```
 
@@ -1239,7 +1712,7 @@ Tenant runtime evidence:
 
 # 10. TEST ARCHITECTURE & FULL REGRESSION
 
-**Status:** ACTIVE AS A CONTINUOUS GATE / CURRENT REGRESSION GREEN
+**Status:** ACTIVE AS A CONTINUOUS GATE / CURRENT REGRESSION GREEN**
 
 ## Objective
 
@@ -1279,16 +1752,84 @@ GREEN
 ## Current Full Regression
 
 ```text
-546 passed
-
-1416 assertions
-
+593 passed
+1578 assertions
 0 failures
+Duration: 334.18s
+```
 
+This is the **current project-wide regression Green Gate**.
+
+Historical checkpoints remain historical evidence only.
+
+### Historical Regression Checkpoints
+
+Phase 6:
+
+```text
+546 passed
+1416 assertions
+0 failures
 PHPUnit Notices: 5
 ```
 
-This is the current project-wide Green Gate.
+Cancellation checkpoint:
+
+```text
+568 passed
+1471 assertions
+0 failures
+```
+
+Phase 7 final:
+
+```text
+578 passed
+1492 assertions
+0 failures
+```
+
+Synchronization checkpoint:
+
+```text
+585 passed
+1543 assertions
+0 failures
+```
+
+Disconnect / expiry checkpoint:
+
+```text
+585 passed
+1544 assertions
+0 failures
+```
+
+Audit 10 historical checkpoint:
+
+```text
+587 passed
+1558 assertions
+0 failures
+```
+
+Audit 11 historical checkpoint:
+
+```text
+593 passed
+1578 assertions
+0 failures
+Duration: 477.61s
+```
+
+Audit 12 current checkpoint:
+
+```text
+593 passed
+1578 assertions
+0 failures
+Duration: 334.18s
+```
 
 ### Reports Regression Correction
 
@@ -1310,7 +1851,7 @@ Reports regression suite:
 OK
 ```
 
-Full project regression:
+The historical Phase 6 regression was:
 
 ```text
 546 tests
@@ -1319,7 +1860,7 @@ Full project regression:
 PHPUnit Notices: 5
 ```
 
-The 5 PHPUnit Notices are non-failing notices and do not invalidate the GREEN test gate.
+The 5 PHPUnit Notices were non-failing notices and did not invalidate that historical GREEN test gate.
 
 ### Important Regression Correction
 
@@ -1327,9 +1868,7 @@ The old baseline:
 
 ```text
 528 passed
-
 2 failed
-
 1245 assertions
 ```
 
@@ -1337,13 +1876,10 @@ is historical evidence and is no longer the current regression state.
 
 The two former `TenantScopeTest` failures were resolved as test/fixture drift through a minimal test-only correction.
 
-Current state:
+Current TenantScope state:
 
 ```text
-TenantScopeTest
-
 5 passed
-
 8 assertions
 ```
 
@@ -1351,7 +1887,6 @@ Production TenantContext runtime:
 
 ```text
 1 passed
-
 3 assertions
 ```
 
@@ -1363,7 +1898,7 @@ No production Tenant Boundary change was required.
 
 # 11. DOCUMENTATION & OPERATIONAL READINESS
 
-**Status:** PENDING
+**Status:** PENDING**
 
 ## Objective
 
@@ -1401,7 +1936,7 @@ Documentation must reflect actual GREEN code.
 * [x] TenantContext runtime verified.
 * [ ] Complete queue production behavior.
 * [ ] Complete RouterOS runtime behavior.
-* [ ] Complete runtime command inventory.
+* [x] Complete runtime command inventory — Phase 8 Audit 12.
 * [ ] Error logging reviewed.
 * [ ] No unexplained recurring runtime errors remain.
 * [ ] Backup / restore operational verification.
@@ -1430,9 +1965,9 @@ Final audit after all remaining roadmap phases are completed.
 * [x] Billing / Subscription lifecycle GREEN.
 * [x] Invoice ownership GREEN.
 * [x] Subscription failure / rollback GREEN.
-* [ ] Remaining business rules GREEN.
-* [ ] Infrastructure GREEN.
-* [ ] Network integration GREEN.
+* [x] Remaining business rules GREEN.
+* [x] Infrastructure GREEN.
+* [x] Network integration GREEN.
 * [ ] Presentation GREEN.
 * [ ] Authorization GREEN across complete surface.
 * [x] Current full PHPUnit regression GREEN.
@@ -1514,9 +2049,7 @@ Then:
 
 ```text
 GREEN
-
 DONE
-
 STOP
 ```
 
@@ -1560,11 +2093,32 @@ At the end of every phase record:
 
 ## Current Phase
 
-**Phase 7 — Business Rules & State Machines**
+**Phase 9 — API / Presentation / Authorization**
 
-**Status:** `[ ] ACTIVE — BROADER DOMAIN VALIDATION`
+**Status:** `[~] IN PROGRESS`
 
-Phase 6 — Billing & Subscription Domain remains:
+Phase 8 — Infrastructure & Network Integration:
+
+```text
+[x] CLOSED / GREEN
+
+593 passed
+1578 assertions
+0 failures
+Duration: 334.18s
+```
+
+Phase 7 — Business Rules & State Machines:
+
+```text
+[x] CLOSED / GREEN
+
+578 passed
+1492 assertions
+0 failures
+```
+
+Phase 6 — Billing & Subscription Domain:
 
 ```text
 [x] CLOSED / GREEN
@@ -1572,119 +2126,126 @@ Phase 6 — Billing & Subscription Domain remains:
 
 No Phase 6 reopening has occurred.
 
-### Completed Previous Phase
+No Phase 7 reopening has occurred.
 
-* [x] Subscription lifecycle ownership.
-* [x] Activate / Suspend / Grace / Expire / Renew / Restore.
-* [x] Renewal scheduler / command lifecycle.
-* [x] Queue boundary audited.
-* [x] Failure / rollback behavior verified.
-* [x] Cross-module boundaries audited.
-* [x] Invoice creation ownership verified.
-* [x] Renewal invoice idempotency verified.
-* [x] Payment interaction audited.
-* [x] Wallet interaction audited.
-* [x] Runtime scheduler verified.
-* [x] Reports ExecuteReportAction regression correction completed.
-* [x] Targeted tests GREEN.
-* [x] Full regression GREEN.
-* [x] Green Gate achieved.
+No Phase 8 reopening has occurred.
 
-## Current Evidence
+## Phase 8 Final Evidence
 
-### Renewal / Invoice
+All Phase 8 audits are closed:
 
 ```text
-9 passed
+Audit 1  — MikroTik Runtime Connection Behavior
+[x] CLOSED / GREEN
 
-21 assertions
+Audit 2  — RouterOS API Integration
+[x] CLOSED / GREEN
+
+Audit 3  — PPPoE Lifecycle
+[x] CLOSED / GREEN
+
+Audit 4  — Hotspot Lifecycle
+[x] CLOSED / GREEN
+
+Audit 5  — Profiles
+[x] CLOSED / GREEN
+
+Audit 6  — Queues / Speed Enforcement
+[x] CLOSED / GREEN
+
+Audit 7  — Synchronization
+[x] CLOSED / GREEN
+
+Audit 8  — Disconnect / Expiry Enforcement
+[x] CLOSED / GREEN
+
+Audit 9  — Runtime Router Evidence
+[x] CLOSED / GREEN
+
+Audit 10 — Infrastructure Failure Handling
+[x] CLOSED / GREEN
+
+Audit 11 — Fail-safe Behavior
+[x] CLOSED / GREEN
+
+Audit 12 — Remaining Scheduled Infrastructure Operations
+[x] CLOSED / GREEN
 ```
 
-### Payment Boundary
+### Audit 11 Evidence
+
+Targeted listener tests:
 
 ```text
-2 passed
-
-6 assertions
+15 passed
+32 assertions
 ```
 
-### Rollback
+Network regression:
 
 ```text
-1 passed
-
-4 assertions
+38 passed
+121 assertions
 ```
 
-### Reports ExecuteReportAction
+Historical project-wide checkpoint:
 
 ```text
-3 tests
-
-20 assertions
-
-OK
+593 passed
+1578 assertions
+0 failures
+Duration: 477.61s
 ```
 
-### Reports Module Regression
+### Audit 12 Evidence
+
+Targeted Network registration:
 
 ```text
-24 tests
-
-90 assertions
-
-OK
-```
-
-### Scheduler
-
-```text
-5  0 * * *  php artisan subscriptions:auto-renew
-
-10 0 * * *  php artisan subscriptions:auto-grace
-
-15 0 * * *  php artisan subscriptions:auto-expire
-```
-
-```text
-withoutOverlapping()
-```
-
-### TenantScope
-
-```text
-5 passed
-
+3 passed
 8 assertions
 ```
 
-### TenantContext Runtime
+Targeted Usage registration:
 
 ```text
-1 passed
-
-3 assertions
+4 passed
+10 assertions
 ```
 
-### Authorization
+Runtime schedule:
 
 ```text
-29 passed
-
-70 assertions
+*/5  * * * *  php artisan mikrotik:sync-hotspot
+*/5  * * * *  php artisan mikrotik:sync
+*/15 * * * *  php artisan usage:sync
+5    0 * * *  php artisan subscriptions:auto-renew
+10   0 * * *  php artisan subscriptions:auto-grace
+15   0 * * *  php artisan subscriptions:auto-expire
 ```
 
-### Full Regression
+Exactly six active runtime schedules remain.
+
+Legacy commands remain manually available:
 
 ```text
-546 passed
+mikrotik:ping
+mikrotik:cleanup
+report:daily
+```
 
-1416 assertions
+They are not registered in the active runtime scheduler.
 
+### Current Project-Wide Green Gate
+
+```text
+593 passed
+1578 assertions
 0 failures
-
-PHPUnit Notices: 5
+Duration: 334.18s
 ```
+
+No RouterOS mutation command was executed during Audit 12 runtime validation.
 
 ---
 
@@ -1750,6 +2311,74 @@ Payment / Wallet interaction boundary
 Subscription rollback boundary
 
 Reports ExecuteReportAction persistence boundary
+
+Phase 7 Business Rules & State Machines
+
+MikroTik runtime connection behavior
+
+RouterOS API integration
+
+PPPoE lifecycle
+
+Hotspot lifecycle
+
+Profiles
+
+Queues / speed enforcement
+
+Synchronization
+
+Disconnect / expiry enforcement
+
+Runtime router evidence
+
+Infrastructure failure handling
+
+Fail-safe behavior
+
+Remaining scheduled infrastructure operations
+
+Phase 8 Infrastructure & Network Integration
+```
+
+Completed Phase 8 audits:
+
+```text
+MikroTik runtime connection behavior
+
+RouterOS API integration
+
+PPPoE lifecycle
+
+Hotspot lifecycle
+
+Profiles
+
+Queues / speed enforcement
+
+Synchronization
+
+Disconnect / expiry enforcement
+
+Runtime router evidence
+
+Infrastructure failure handling
+
+Fail-safe behavior
+
+Remaining scheduled infrastructure operations
+```
+
+Current open Phase 8 audits:
+
+```text
+NONE
+```
+
+Current active phase:
+
+```text
+Phase 9 — API / Presentation / Authorization
 ```
 
 ---
@@ -1760,7 +2389,7 @@ Deferred items are not failures.
 
 They must be handled only inside their owning roadmap phase.
 
-Current deferred/remaining architectural items include:
+Current deferred domain model boundaries:
 
 ```text
 JournalEntry
@@ -1772,15 +2401,9 @@ Notification
 WalletTransaction
 ```
 
-Additional broader remaining work:
+Current broader remaining work:
 
 ```text
-Complete Business Rules audit
-
-Complete Infrastructure audit
-
-Complete RouterOS runtime audit
-
 Complete API / Presentation audit
 
 Complete Documentation audit
@@ -1790,30 +2413,62 @@ Complete Operational Readiness
 Final Architecture Certification
 ```
 
+Phase 7 Business Rules audit is:
+
+```text
+[x] CLOSED / GREEN
+```
+
+Phase 8 Infrastructure / Network audit is:
+
+```text
+[x] CLOSED / GREEN
+```
+
+RouterOS Infrastructure runtime evidence is:
+
+```text
+[x] GREEN
+```
+
 No deferred item authorizes speculative refactoring in a completed phase.
 
 ---
 
 # NEXT CONCRETE WORK
 
-The next execution phase is:
+The current execution phase is:
 
 ```text
-Phase 7 — Business Rules & State Machines
+Phase 9 — API / Presentation / Authorization
 ```
 
 ### Immediate Action
 
 ```text
-Payment Business Rules
+Phase 9 — API / Presentation / Authorization
 
 → Quick Audit
 
-→ Business Rule Inventory
+→ Complete presentation surface inventory
 
-→ Ownership Classification
+→ Controller classification
 
-→ State Transition Audit
+→ Request validation classification
+
+→ Resource / Response classification
+
+→ Route classification
+
+→ Policy / Permission / Role classification
+
+→ Sanctum authorization classification
+
+→ API contract classification
+
+→ Pagination / Filtering / Sorting classification
+
+→ Error contract classification
 
 → Gap / No Gap
 
@@ -1821,9 +2476,9 @@ Payment Business Rules
 
 → Targeted Tests
 
-→ Regression
+→ Regression if production code changes
 
-→ Runtime Evidence where applicable
+→ Runtime Evidence
 
 → Green Gate
 
@@ -1832,16 +2487,35 @@ Payment Business Rules
 
 ### First Audit Target
 
-**Payment business rules**
+**Complete API / Presentation / Authorization surface**
 
-Customer lifecycle and Invoice business rules are CLOSED / DONE / GREEN. The next domain is Payment business rules.
+Phase 8 — Infrastructure & Network Integration is CLOSED / GREEN.
 
+Audit 12 — Remaining Scheduled Infrastructure Operations is CLOSED / GREEN.
 
-Begin with the remaining business-rule surface **outside the already-closed Subscription/Billing lifecycle scope**.
+Audit 11 — Fail-safe behavior is CLOSED / GREEN.
+
+Audit 10 — Infrastructure failure handling is CLOSED / GREEN.
+
+Audit 9 — Runtime router evidence is CLOSED / GREEN.
+
+Audit 8 — Disconnect / expiry enforcement is CLOSED / GREEN.
+
+Audit 7 — Synchronization is CLOSED / GREEN.
+
+Phase 7 — Business Rules & State Machines is CLOSED / GREEN.
+
+Do not reopen Phase 8.
+
+Do not reopen Phase 7.
 
 Do not reopen Phase 6.
 
+Do not reopen Audits 1–12 without new regression evidence.
+
 Do not modify Subscription lifecycle code without new regression evidence.
+
+Do not perform speculative migration of legacy manual commands.
 
 ---
 

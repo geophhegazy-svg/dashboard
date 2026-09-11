@@ -465,13 +465,16 @@ Route::prefix('customer')
 // Route::middleware('auth:sanctum')->prefix('network')->group(function () {
 
 
-Route::prefix('hotspot')->group(function () {
-    Route::get('online', [HotspotController::class, 'onlineUsers']);
-    Route::get('stats', [HotspotController::class, 'stats']);
-});
+Route::middleware('auth:sanctum')->group(function () {
+    Route::prefix('hotspot')->group(function () {
+        Route::get('online', [HotspotController::class, 'onlineUsers']);
+        Route::get('stats', [HotspotController::class, 'stats']);
+    });
 
-Route::get('/dashboard/stats', [DashboardController::class, 'stats']);
-Route::apiResource('tasks', TaskController::class);
+    Route::get('/dashboard/stats', [DashboardController::class, 'stats']);
+
+    Route::apiResource('tasks', TaskController::class);
+});
 /*
 |--------------------------------------------------------------------------
 | MikroTik Advanced Routes

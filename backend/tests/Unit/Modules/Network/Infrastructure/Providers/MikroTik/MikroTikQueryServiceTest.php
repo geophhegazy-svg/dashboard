@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Modules\Network\Infrastructure\Providers\MikroTik;
 
+use App\Exceptions\Network\QueryException;
 use App\Modules\Network\Infrastructure\Providers\MikroTik\MikroTikConnectionService;
 use App\Modules\Network\Infrastructure\Providers\MikroTik\MikroTikQueryService;
 use RouterOS\Query;
@@ -18,22 +19,22 @@ final class MikroTikQueryServiceTest extends TestCase
         );
     }
 
-    public function test_execute_returns_empty_array_when_not_connected(): void
+    public function test_execute_throws_query_exception_when_not_connected(): void
     {
-        $result = $this->service()->execute(
+        $this->expectException(QueryException::class);
+
+        $this->service()->execute(
             new Query('/system/resource/print')
         );
-
-        $this->assertSame([], $result);
     }
 
-    public function test_first_returns_null_when_not_connected(): void
+    public function test_first_throws_query_exception_when_not_connected(): void
     {
-        $result = $this->service()->first(
+        $this->expectException(QueryException::class);
+
+        $this->service()->first(
             new Query('/system/resource/print')
         );
-
-        $this->assertNull($result);
     }
 
     public function test_write_returns_false_when_not_connected(): void

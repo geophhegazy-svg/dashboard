@@ -37,6 +37,12 @@ final class AutoExpireSubscriptionsOrchestratorTest extends TestCase
             ->with('test-expire-user')
             ->andReturn(true);
 
+        $mikrotik
+            ->shouldReceive('disconnectUser')
+            ->once()
+            ->with('test-expire-user')
+            ->andReturn(true);
+
         $this->app->instance(
             MikrotikServiceInterface::class,
             $mikrotik
