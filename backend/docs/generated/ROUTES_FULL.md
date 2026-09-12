@@ -873,56 +873,56 @@
 - Method: GET|HEAD
 - Name: -
 - Action: App\Http\Controllers\Api\HotspotController@onlineUsers
-- Middleware: api
+- Middleware: api, auth:sanctum
 
 ## api/hotspot/stats
 
 - Method: GET|HEAD
 - Name: -
 - Action: App\Http\Controllers\Api\HotspotController@stats
-- Middleware: api
+- Middleware: api, auth:sanctum
 
 ## api/dashboard/stats
 
 - Method: GET|HEAD
 - Name: -
 - Action: App\Http\Controllers\Api\DashboardController@stats
-- Middleware: api
+- Middleware: api, auth:sanctum
 
 ## api/tasks
 
 - Method: GET|HEAD
 - Name: tasks.index
 - Action: App\Http\Controllers\Api\Task\TaskController@index
-- Middleware: api
+- Middleware: api, auth:sanctum
 
 ## api/tasks
 
 - Method: POST
 - Name: tasks.store
 - Action: App\Http\Controllers\Api\Task\TaskController@store
-- Middleware: api
+- Middleware: api, auth:sanctum
 
 ## api/tasks/{task}
 
 - Method: GET|HEAD
 - Name: tasks.show
 - Action: App\Http\Controllers\Api\Task\TaskController@show
-- Middleware: api
+- Middleware: api, auth:sanctum
 
 ## api/tasks/{task}
 
 - Method: PUT|PATCH
 - Name: tasks.update
 - Action: App\Http\Controllers\Api\Task\TaskController@update
-- Middleware: api
+- Middleware: api, auth:sanctum
 
 ## api/tasks/{task}
 
 - Method: DELETE
 - Name: tasks.destroy
 - Action: App\Http\Controllers\Api\Task\TaskController@destroy
-- Middleware: api
+- Middleware: api, auth:sanctum
 
 ## /
 

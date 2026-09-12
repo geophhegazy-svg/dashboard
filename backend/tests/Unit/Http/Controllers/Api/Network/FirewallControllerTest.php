@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace Tests\Unit\Http\Controllers\Api\Network;
 
 use App\Http\Controllers\Api\Network\FirewallController;
+use App\Modules\Network\Application\Actions\CreateFirewallRuleAction;
+use App\Modules\Network\Application\Actions\UpdateFirewallRuleAction;
+use App\Modules\Network\Application\Actions\DeleteFirewallRuleAction;
 use App\Modules\Network\Domain\Contracts\NetworkDeviceRepositoryInterface;
 use App\Modules\Network\Infrastructure\Persistence\Models\NetworkDevice;
 use App\Modules\Network\Application\Contracts\NetworkManagerInterface;
@@ -50,9 +53,16 @@ class FirewallControllerTest extends TestCase
             ->with(1)
             ->willReturn(false);
 
+        $createFirewallRuleAction = new CreateFirewallRuleAction($networkManager);
+        $updateFirewallRuleAction = new UpdateFirewallRuleAction($networkManager);
+        $deleteFirewallRuleAction = new DeleteFirewallRuleAction($networkManager);
+
         $controller = new FirewallController(
             $networkManager,
             $repository,
+            $createFirewallRuleAction,
+            $updateFirewallRuleAction,
+            $deleteFirewallRuleAction,
         );
 
         $request = Request::create(
@@ -93,9 +103,16 @@ class FirewallControllerTest extends TestCase
             NetworkManagerInterface::class
         );
 
+        $createFirewallRuleAction = new CreateFirewallRuleAction($networkManager);
+        $updateFirewallRuleAction = new UpdateFirewallRuleAction($networkManager);
+        $deleteFirewallRuleAction = new DeleteFirewallRuleAction($networkManager);
+
         $controller = new FirewallController(
             $networkManager,
             $repository,
+            $createFirewallRuleAction,
+            $updateFirewallRuleAction,
+            $deleteFirewallRuleAction,
         );
 
         $request = Request::create(

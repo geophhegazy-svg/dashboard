@@ -5,6 +5,10 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\Network;
 
 use App\Http\Controllers\Controller;
+use App\Modules\Network\Application\Actions\CreateQueueAction;
+use App\Modules\Network\Application\Actions\UpdateQueueAction;
+use App\Modules\Network\Application\Actions\ToggleQueueAction;
+use App\Modules\Network\Application\Actions\DeleteQueueAction;
 use App\Modules\Network\Application\Contracts\NetworkManagerInterface;
 use App\Modules\Network\Domain\Contracts\NetworkDeviceRepositoryInterface;
 use Illuminate\Http\Request;
@@ -14,6 +18,10 @@ class QueueController extends Controller
     public function __construct(
         protected NetworkManagerInterface $networkManager,
         protected NetworkDeviceRepositoryInterface $networkDeviceRepository,
+        protected CreateQueueAction $createQueueAction,
+        protected UpdateQueueAction $updateQueueAction,
+        protected ToggleQueueAction $toggleQueueAction,
+        protected DeleteQueueAction $deleteQueueAction,
     ) {}
 
 
@@ -133,35 +141,14 @@ class QueueController extends Controller
         ]);
 
 
-        $provider = $this->provider(
-            (int) $request->device_id
+        $result = $this->createQueueAction->execute(
+            (int) $request->device_id,
+            $request->name,
+            $request->target,
+            $request->max_limit,
+            $request->limit_at,
+            $request->priority ?? 1,
         );
-
-
-        if (!$provider) {
-
-            return back()->with(
-                'error',
-                'فشل الاتصال بالجهاز'
-            );
-        }
-
-
-
-        $result = $provider
-            ->queue()
-            ->create(
-
-                $request->name,
-
-                $request->target,
-
-                $request->max_limit,
-
-                $request->limit_at,
-
-                $request->priority ?? 1
-            );
 
 
 
@@ -292,33 +279,16 @@ class QueueController extends Controller
 
 
 
-        $provider = $this->provider(
-            (int) $request->device_id
+        $result = $this->updateQueueAction->execute(
+            (int) $request->device_id,
+            $name,
+            $request->only([
+                'max_limit',
+                'limit_at',
+                'priority',
+                'comment',
+            ]),
         );
-
-
-
-        if (!$provider) {
-
-            return back()->with(
-                'error',
-                'فشل الاتصال بالجهاز'
-            );
-        }
-
-
-
-        $result = $provider
-            ->queue()
-            ->update(
-                $name,
-                $request->only([
-                    'max_limit',
-                    'limit_at',
-                    'priority',
-                    'comment',
-                ])
-            );
 
 
 
@@ -370,29 +340,11 @@ class QueueController extends Controller
 
 
 
-        $provider = $this->provider($deviceId);
-
-
-
-        if (!$provider) {
-
-            return back()->with(
-                'error',
-                'فشل الاتصال بالجهاز'
-            );
-        }
-
-
-
-        $result = $action === 'enable'
-
-            ? $provider
-            ->queue()
-            ->enable($name)
-
-            : $provider
-            ->queue()
-            ->disable($name);
+        $result = $this->toggleQueueAction->execute(
+            $deviceId,
+            $name,
+            $action,
+        );
 
 
 
@@ -431,23 +383,10 @@ class QueueController extends Controller
 
 
 
-        $provider = $this->provider($deviceId);
-
-
-
-        if (!$provider) {
-
-            return back()->with(
-                'error',
-                'فشل الاتصال بالجهاز'
-            );
-        }
-
-
-
-        $result = $provider
-            ->queue()
-            ->delete($name);
+        $result = $this->deleteQueueAction->execute(
+            $deviceId,
+            $name,
+        );
 
 
 

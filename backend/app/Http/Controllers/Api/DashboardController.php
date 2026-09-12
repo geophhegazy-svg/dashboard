@@ -11,6 +11,8 @@ class DashboardController extends Controller
 {
     public function index()
     {
+        $this->authorize('dashboard.view');
+
         return response()->json([
             'totalUsers' => HotspotUser::count(),
             'onlineUsers' => HotspotUser::where('is_online', true)->count(),
@@ -22,6 +24,8 @@ class DashboardController extends Controller
 
     public function stats()
     {
+        $this->authorize('dashboard.statistics');
+
         return response()->json([
             'totalUsers' => HotspotUser::count(),
             'onlineUsers' => HotspotUser::where('is_online', true)->count(),

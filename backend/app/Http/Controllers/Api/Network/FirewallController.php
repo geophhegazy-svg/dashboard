@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\Network;
 
 use App\Http\Controllers\Controller;
+use App\Modules\Network\Application\Actions\CreateFirewallRuleAction;
+use App\Modules\Network\Application\Actions\UpdateFirewallRuleAction;
+use App\Modules\Network\Application\Actions\DeleteFirewallRuleAction;
 use App\Modules\Network\Application\Contracts\NetworkManagerInterface;
 use App\Modules\Network\Domain\Contracts\NetworkDeviceRepositoryInterface;
 use Illuminate\Http\Request;
@@ -14,6 +17,9 @@ class FirewallController extends Controller
     public function __construct(
         protected NetworkManagerInterface $networkManager,
         protected NetworkDeviceRepositoryInterface $networkDeviceRepository,
+        protected CreateFirewallRuleAction $createFirewallRuleAction,
+        protected UpdateFirewallRuleAction $updateFirewallRuleAction,
+        protected DeleteFirewallRuleAction $deleteFirewallRuleAction,
     ) {}
 
 
@@ -157,35 +163,18 @@ class FirewallController extends Controller
 
 
 
-        $provider = $this->provider(
-            (int) $request->device_id
+        $result = $this->createFirewallRuleAction->execute(
+            (int) $request->device_id,
+            $request->only([
+                'chain',
+                'action',
+                'src_address',
+                'dst_address',
+                'protocol',
+                'dst_port',
+                'comment',
+            ]),
         );
-
-
-
-        if (! $provider) {
-
-            return back()->with(
-                'error',
-                'فشل الاتصال بالجهاز'
-            );
-        }
-
-
-
-        $result = $provider
-            ->firewall()
-            ->create(
-                $request->only([
-                    'chain',
-                    'action',
-                    'src_address',
-                    'dst_address',
-                    'protocol',
-                    'dst_port',
-                    'comment',
-                ])
-            );
 
 
 
@@ -328,38 +317,21 @@ class FirewallController extends Controller
 
 
 
-        $provider = $this->provider(
-            (int) $request->device_id
+        $result = $this->updateFirewallRuleAction->execute(
+            (int) $request->device_id,
+            $id,
+            array_filter(
+                $request->only([
+                    'chain',
+                    'action',
+                    'src_address',
+                    'dst_address',
+                    'protocol',
+                    'dst_port',
+                    'comment',
+                ])
+            ),
         );
-
-
-
-        if (! $provider) {
-
-            return back()->with(
-                'error',
-                'فشل الاتصال بالجهاز'
-            );
-        }
-
-
-
-        $result = $provider
-            ->firewall()
-            ->update(
-                $id,
-                array_filter(
-                    $request->only([
-                        'chain',
-                        'action',
-                        'src_address',
-                        'dst_address',
-                        'protocol',
-                        'dst_port',
-                        'comment',
-                    ])
-                )
-            );
 
 
 
@@ -404,23 +376,10 @@ class FirewallController extends Controller
         );
 
 
-        $provider = $this->provider($deviceId);
-
-
-
-        if (! $provider) {
-
-            return back()->with(
-                'error',
-                'فشل الاتصال بالجهاز'
-            );
-        }
-
-
-
-        $result = $provider
-            ->firewall()
-            ->delete($id);
+        $result = $this->deleteFirewallRuleAction->execute(
+            $deviceId,
+            $id,
+        );
 
 
 

@@ -24,6 +24,16 @@ use App\Modules\Network\Infrastructure\Providers\MikroTik\MikroTikPppoeService;
 use App\Modules\Network\Infrastructure\Providers\MikroTik\MikroTikQueryService;
 use App\Modules\Network\Infrastructure\Providers\MikroTik\MikroTikQueueService;
 use App\Modules\Network\Application\Contracts\NetworkManagerInterface;
+use App\Modules\Network\Application\Actions\CreateDhcpLeaseAction;
+use App\Modules\Network\Application\Actions\UpdateDhcpLeaseAction;
+use App\Modules\Network\Application\Actions\DeleteDhcpLeaseAction;
+use App\Modules\Network\Application\Actions\CreateFirewallRuleAction;
+use App\Modules\Network\Application\Actions\UpdateFirewallRuleAction;
+use App\Modules\Network\Application\Actions\DeleteFirewallRuleAction;
+use App\Modules\Network\Application\Actions\CreateQueueAction;
+use App\Modules\Network\Application\Actions\UpdateQueueAction;
+use App\Modules\Network\Application\Actions\ToggleQueueAction;
+use App\Modules\Network\Application\Actions\DeleteQueueAction;
 use App\Modules\Network\Application\Actions\SyncMikroTikUsersAction;
 use App\Modules\Network\Application\Actions\SyncHotspotUsersAction;
 use App\Modules\Network\Presentation\Console\Commands\SyncMikroTikCommand;
@@ -103,8 +113,20 @@ final class NetworkModule extends Module
 
             ->actions([
 
-                SyncMikroTikUsersAction::class,
+                CreateDhcpLeaseAction::class,
+                UpdateDhcpLeaseAction::class,
+                DeleteDhcpLeaseAction::class,
 
+                CreateFirewallRuleAction::class,
+                UpdateFirewallRuleAction::class,
+                DeleteFirewallRuleAction::class,
+
+                CreateQueueAction::class,
+                UpdateQueueAction::class,
+                ToggleQueueAction::class,
+                DeleteQueueAction::class,
+
+                SyncMikroTikUsersAction::class,
                 SyncHotspotUsersAction::class,
 
             ])

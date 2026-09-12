@@ -7,6 +7,16 @@ namespace Tests\Feature\Modules\Network;
 use App\Core\Kernel\Resources\ActionResource;
 use App\Core\Kernel\Resources\CommandResource;
 use App\Core\Kernel\Resources\ScheduleResource;
+use App\Modules\Network\Application\Actions\CreateDhcpLeaseAction;
+use App\Modules\Network\Application\Actions\UpdateDhcpLeaseAction;
+use App\Modules\Network\Application\Actions\DeleteDhcpLeaseAction;
+use App\Modules\Network\Application\Actions\CreateFirewallRuleAction;
+use App\Modules\Network\Application\Actions\UpdateFirewallRuleAction;
+use App\Modules\Network\Application\Actions\DeleteFirewallRuleAction;
+use App\Modules\Network\Application\Actions\CreateQueueAction;
+use App\Modules\Network\Application\Actions\UpdateQueueAction;
+use App\Modules\Network\Application\Actions\ToggleQueueAction;
+use App\Modules\Network\Application\Actions\DeleteQueueAction;
 use App\Modules\Network\Application\Actions\SyncHotspotUsersAction;
 use App\Modules\Network\Application\Actions\SyncMikroTikUsersAction;
 use App\Modules\Network\Kernel\NetworkModule;
@@ -18,7 +28,7 @@ use Tests\TestCase;
 
 final class NetworkModuleRegistrationTest extends TestCase
 {
-    public function test_network_module_declares_sync_actions(): void
+    public function test_network_module_declares_actions(): void
     {
         $resources = $this->app
             ->make(NetworkModule::class)
@@ -38,6 +48,19 @@ final class NetworkModuleRegistrationTest extends TestCase
 
         self::assertSame(
             [
+                CreateDhcpLeaseAction::class,
+                UpdateDhcpLeaseAction::class,
+                DeleteDhcpLeaseAction::class,
+
+                CreateFirewallRuleAction::class,
+                UpdateFirewallRuleAction::class,
+                DeleteFirewallRuleAction::class,
+
+                CreateQueueAction::class,
+                UpdateQueueAction::class,
+                ToggleQueueAction::class,
+                DeleteQueueAction::class,
+
                 SyncMikroTikUsersAction::class,
                 SyncHotspotUsersAction::class,
             ],

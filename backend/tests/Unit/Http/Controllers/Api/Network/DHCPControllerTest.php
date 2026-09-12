@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace Tests\Unit\Http\Controllers\Api\Network;
 
 use App\Http\Controllers\Api\Network\DHCPController;
+use App\Modules\Network\Application\Actions\CreateDhcpLeaseAction;
+use App\Modules\Network\Application\Actions\UpdateDhcpLeaseAction;
+use App\Modules\Network\Application\Actions\DeleteDhcpLeaseAction;
 use App\Modules\Network\Domain\Contracts\NetworkDeviceRepositoryInterface;
 use App\Modules\Network\Infrastructure\Persistence\Models\NetworkDevice;
 use App\Modules\Network\Application\Contracts\NetworkManagerInterface;
@@ -50,9 +53,16 @@ class DHCPControllerTest extends TestCase
             ->with(1)
             ->willReturn(false);
 
+        $createDhcpLeaseAction = new CreateDhcpLeaseAction($networkManager);
+        $updateDhcpLeaseAction = new UpdateDhcpLeaseAction($networkManager);
+        $deleteDhcpLeaseAction = new DeleteDhcpLeaseAction($networkManager);
+
         $controller = new DHCPController(
             $networkManager,
             $repository,
+            $createDhcpLeaseAction,
+            $updateDhcpLeaseAction,
+            $deleteDhcpLeaseAction,
         );
 
         $request = Request::create(
@@ -93,9 +103,16 @@ class DHCPControllerTest extends TestCase
             NetworkManagerInterface::class
         );
 
+        $createDhcpLeaseAction = new CreateDhcpLeaseAction($networkManager);
+        $updateDhcpLeaseAction = new UpdateDhcpLeaseAction($networkManager);
+        $deleteDhcpLeaseAction = new DeleteDhcpLeaseAction($networkManager);
+
         $controller = new DHCPController(
             $networkManager,
             $repository,
+            $createDhcpLeaseAction,
+            $updateDhcpLeaseAction,
+            $deleteDhcpLeaseAction,
         );
 
         $request = Request::create(

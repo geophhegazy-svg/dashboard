@@ -5,6 +5,10 @@ declare(strict_types=1);
 namespace Tests\Unit\Http\Controllers\Api\Network;
 
 use App\Http\Controllers\Api\Network\QueueController;
+use App\Modules\Network\Application\Actions\CreateQueueAction;
+use App\Modules\Network\Application\Actions\UpdateQueueAction;
+use App\Modules\Network\Application\Actions\ToggleQueueAction;
+use App\Modules\Network\Application\Actions\DeleteQueueAction;
 use App\Modules\Network\Domain\Contracts\NetworkDeviceRepositoryInterface;
 use App\Modules\Network\Infrastructure\Persistence\Models\NetworkDevice;
 use App\Modules\Network\Application\Contracts\NetworkManagerInterface;
@@ -50,9 +54,18 @@ class QueueControllerTest extends TestCase
             ->with(1)
             ->willReturn(false);
 
+        $createQueueAction = new CreateQueueAction($networkManager);
+        $updateQueueAction = new UpdateQueueAction($networkManager);
+        $toggleQueueAction = new ToggleQueueAction($networkManager);
+        $deleteQueueAction = new DeleteQueueAction($networkManager);
+
         $controller = new QueueController(
             $networkManager,
             $repository,
+            $createQueueAction,
+            $updateQueueAction,
+            $toggleQueueAction,
+            $deleteQueueAction,
         );
 
         $request = Request::create(
@@ -93,9 +106,18 @@ class QueueControllerTest extends TestCase
             NetworkManagerInterface::class
         );
 
+        $createQueueAction = new CreateQueueAction($networkManager);
+        $updateQueueAction = new UpdateQueueAction($networkManager);
+        $toggleQueueAction = new ToggleQueueAction($networkManager);
+        $deleteQueueAction = new DeleteQueueAction($networkManager);
+
         $controller = new QueueController(
             $networkManager,
             $repository,
+            $createQueueAction,
+            $updateQueueAction,
+            $toggleQueueAction,
+            $deleteQueueAction,
         );
 
         $request = Request::create(

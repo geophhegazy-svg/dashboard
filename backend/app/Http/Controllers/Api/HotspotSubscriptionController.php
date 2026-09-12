@@ -25,6 +25,8 @@ final class HotspotSubscriptionController extends Controller
 
     public function index(Request $request)
     {
+        $this->authorize('viewAny', HotspotSubscription::class);
+
         return $this->repository->paginate(
             $request->only([
                 'status',
@@ -35,6 +37,8 @@ final class HotspotSubscriptionController extends Controller
 
     public function store(Request $request)
     {
+        $this->authorize('create', HotspotSubscription::class);
+
         $data = $request->validate([
             'tenant_id' => 'required',
             'customer_id' => 'required',
@@ -58,6 +62,8 @@ final class HotspotSubscriptionController extends Controller
     public function show(
         HotspotSubscription $hotspotSubscription
     ) {
+        $this->authorize('view', $hotspotSubscription);
+
         return $this->repository->findOrFail(
             $hotspotSubscription->id
         );
@@ -66,6 +72,8 @@ final class HotspotSubscriptionController extends Controller
     public function destroy(
         HotspotSubscription $hotspotSubscription
     ) {
+        $this->authorize('delete', $hotspotSubscription);
+
         $this->deleteAction->execute(
             $hotspotSubscription
         );
@@ -78,6 +86,8 @@ final class HotspotSubscriptionController extends Controller
     public function suspend(
         HotspotSubscription $hotspotSubscription
     ) {
+        $this->authorize('suspend', $hotspotSubscription);
+
         $this->suspendAction->execute(
             $hotspotSubscription
         );
@@ -90,6 +100,8 @@ final class HotspotSubscriptionController extends Controller
     public function activate(
         HotspotSubscription $hotspotSubscription
     ) {
+        $this->authorize('activate', $hotspotSubscription);
+
         $this->activateAction->execute(
             $hotspotSubscription
         );

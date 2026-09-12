@@ -103,7 +103,9 @@ The later project regression checkpoints supersede them as current project state
 
 ```text
 546 passed
+
 1416 assertions
+
 0 failures
 ```
 
@@ -301,23 +303,41 @@ Discovered Modules:
 
 ```text
 Accounting
+
 Activity
+
 Billing
+
 Customer
+
 Dashboard
+
 Documentation
+
 Finance
+
 Inventory
+
 Invoice
+
 Network
+
 Notification
+
 Package
+
 Payment
+
 Reports
+
 Subscription
+
 Task
+
 Ticket
+
 Usage
+
 Wallet
 ```
 
@@ -380,10 +400,15 @@ Valid Subscription lifecycle Workflows:
 
 ```text
 ActivateWorkflow
+
 EnterGraceWorkflow
+
 ExpireWorkflow
+
 RenewWorkflow
+
 RestoreWorkflow
+
 SuspendWorkflow
 ```
 
@@ -391,6 +416,7 @@ Targeted subscription workflow/orchestrator evidence:
 
 ```text
 16 passed
+
 47 assertions
 ```
 
@@ -400,8 +426,11 @@ The following are intentionally deferred to their owning domains:
 
 ```text
 JournalEntry
+
 ActivityLog
+
 Notification
+
 WalletTransaction
 ```
 
@@ -450,8 +479,11 @@ The following remain intentionally deferred where they require their owning doma
 
 ```text
 JournalEntry
+
 ActivityLog
+
 Notification
+
 WalletTransaction
 ```
 
@@ -498,10 +530,15 @@ Subscription lifecycle Actions are established:
 
 ```text
 ActivateSubscriptionAction
+
 EnterGraceSubscriptionAction
+
 ExpireSubscriptionAction
+
 RenewSubscriptionAction
+
 RestoreSubscriptionAction
+
 SuspendSubscriptionAction
 ```
 
@@ -539,10 +576,15 @@ Verified lifecycle Actions:
 
 ```text
 Activate
+
 Suspend
+
 Enter Grace
+
 Expire
+
 Renew
+
 Restore
 ```
 
@@ -552,7 +594,9 @@ Repository eligibility methods:
 
 ```text
 findEligibleForAutoRenew()
+
 findEligibleForGracePeriod()
+
 findEligibleForExpiration()
 ```
 
@@ -566,7 +610,9 @@ Runtime scheduler registration verified:
 
 ```text
 5  0 * * *  php artisan subscriptions:auto-renew
+
 10 0 * * *  php artisan subscriptions:auto-grace
+
 15 0 * * *  php artisan subscriptions:auto-expire
 ```
 
@@ -580,7 +626,9 @@ Ordering is explicitly:
 
 ```text
 Renew
+
 → Grace
+
 → Expire
 ```
 
@@ -606,17 +654,29 @@ Renewal flow:
 
 ```text
 Subscription
+
 ↓
+
 RenewWorkflow
+
 ↓
+
 SubscriptionRenewed
+
 ↓
+
 SubscriptionRenewedListener
+
 ↓
+
 InvoiceService
+
 ↓
+
 CreateInvoiceAction
+
 ↓
+
 Invoice Module
 ```
 
@@ -630,10 +690,13 @@ Verified behavior:
 
 ```text
 Same renewal key
+
 → same invoice
+
 → no duplicate invoice
 
 Different renewal keys
+
 → separate invoices
 ```
 
@@ -641,6 +704,7 @@ Targeted evidence:
 
 ```text
 9 passed
+
 21 assertions
 ```
 
@@ -648,6 +712,7 @@ Targeted evidence:
 
 ```text
 Renewal Invoice Idempotency = NO GAP
+
 Invoice Ownership = NO GAP
 ```
 
@@ -671,6 +736,7 @@ Targeted evidence:
 
 ```text
 2 passed
+
 6 assertions
 ```
 
@@ -713,24 +779,39 @@ Workflow execution is transaction-wrapped:
 
 ```text
 WorkflowExecutor
+
 ↓
+
 TransactionStep
+
 ↓
+
 DB::transaction(...)
+
 ↓
+
 WorkflowExecutionStep
+
 ↓
+
 AbstractWorkflow::execute()
 
 ├── rules
+
 ├── before
+
 ├── perform
+
 │   └── Action
+
 └── after
+
     └── EventDispatcher
+
         └── listeners
 
 ↓
+
 COMMIT
 ```
 
@@ -744,6 +825,7 @@ Evidence:
 
 ```text
 1 passed
+
 4 assertions
 ```
 
@@ -765,6 +847,7 @@ Targeted evidence included in:
 
 ```text
 9 passed
+
 21 assertions
 ```
 
@@ -785,10 +868,15 @@ Verified evidence showed:
 ### Minimal Fix
 
 * [x] Removed the invalid `ReportExportRepository` persistence side-effect from `ExecuteReportAction`.
+
 * [x] Preserved the Action responsibility:
+
   `ReportManager -> ExportManager -> ExportResult`.
+
 * [x] No changes made to `Report`, `ReportExport`, migrations, factories, repositories, exporters, `ExportManager`, or storage architecture.
+
 * [x] `ReportExport Migration` remains CLOSED / GREEN.
+
 * [x] Phase 6 remains CLOSED / GREEN.
 
 ### Evidence
@@ -797,7 +885,9 @@ Targeted Action test:
 
 ```text
 3 tests
+
 20 assertions
+
 OK
 ```
 
@@ -805,7 +895,9 @@ Reports test suite:
 
 ```text
 24 tests
+
 90 assertions
+
 OK
 ```
 
@@ -813,8 +905,11 @@ Historical Phase 6 regression:
 
 ```text
 546 tests
+
 1416 assertions
+
 0 failures
+
 PHPUnit Notices: 5
 ```
 
@@ -832,21 +927,27 @@ Historical Phase 6 evidence:
 
 ```text
 Payment Boundary
+
 2 passed / 6 assertions
 
 Renewal Invoice / Listener
+
 9 passed / 21 assertions
 
 Rollback
+
 1 passed / 4 assertions
 
 Reports ExecuteReportAction
+
 3 passed / 20 assertions
 
 Reports Module Regression
+
 24 passed / 90 assertions
 
 Full Regression
+
 546 passed / 1416 assertions
 
 0 failures
@@ -906,7 +1007,9 @@ Phase 7 final regression:
 
 ```text
 578 passed
+
 1492 assertions
+
 0 failures
 ```
 
@@ -919,13 +1022,21 @@ Phase 7 full regression duration:
 ## Activation / Deactivation Evidence
 
 * Activation verified as a complete Subscription lifecycle operation:
+
   `SubscriptionStatus::ACTIVE` + `ActivateSubscriptionAction` + `ActivateWorkflow` + `SubscriptionActivated` + `SubscriptionPolicy::activate()` + controller endpoint + route + tests.
+
 * Deactivation was audited against the Subscription domain state machine.
+
 * No `DEACTIVATED` Subscription state exists in the domain.
+
 * No Subscription `deactivate()` transition, Action, Workflow, Event, Policy, endpoint, route, or test exists.
+
 * `SUSPENDED` is the existing explicit non-active Subscription lifecycle state, with `ACTIVE → SUSPENDED → ACTIVE` transitions and corresponding Network disable/enable behavior.
+
 * No domain evidence defines Subscription Deactivation as a separate business operation.
+
 * Therefore no new `DEACTIVATED` state or Deactivation use case was introduced; doing so would invent an unsupported business rule.
+
 * Decision: **NO GAP / GREEN**.
 
 ## Cancellation Evidence
@@ -984,6 +1095,7 @@ Targeted evidence:
 
 ```text
 5 passed
+
 7 assertions
 ```
 
@@ -991,6 +1103,7 @@ Runtime:
 
 ```text
 AVAILABLE=mikrotik
+
 MIKROTIK_CLASS=
 App\Modules\Network\Infrastructure\Providers\MikroTik\MikroTikProvider
 ```
@@ -999,6 +1112,7 @@ Unsupported provider behavior:
 
 ```text
 UNSUPPORTED_PROVIDER=RuntimeException
+
 MESSAGE=Unsupported network provider: unsupported
 ```
 
@@ -1057,6 +1171,7 @@ Targeted regression:
 
 ```text
 14 passed
+
 83 assertions
 ```
 
@@ -1064,11 +1179,17 @@ Covered:
 
 ```text
 DhcpApiControllerTest
+
 FirewallApiControllerTest
+
 QueueApiControllerTest
+
 MikrotikControllerTest
+
 Network/DHCPControllerTest
+
 Network/FirewallControllerTest
+
 Network/QueueControllerTest
 ```
 
@@ -1160,12 +1281,15 @@ Evidence:
 
 ```text
 Targeted gate:
+
 7 passed / 51 assertions
 
 Full regression at synchronization checkpoint:
+
 585 passed / 1543 assertions / 0 failures
 
 Runtime scheduler evidence:
+
 GREEN
 ```
 
@@ -1186,12 +1310,15 @@ Evidence:
 
 ```text
 Targeted listener gate:
+
 6 passed / 8 assertions
 
 AutoExpireSubscriptionsOrchestratorTest:
+
 2 passed / 4 assertions
 
 Full regression:
+
 585 passed / 1544 assertions / 0 failures
 ```
 
@@ -1215,10 +1342,15 @@ Runtime path verified:
 
 ```text
 NetworkManagerInterface
+
 → NetworkManager
+
 → NetworkProviderResolver
+
 → MikroTikProvider
+
 → MikroTikConnectionService
+
 → RouterOS
 ```
 
@@ -1226,8 +1358,11 @@ Runtime evidence:
 
 ```text
 CONNECT_RESULT=SUCCESS
+
 CONNECTED_STATE=CONNECTED
+
 PROVIDER=mikrotik
+
 CONNECTED_AFTER_DISCONNECT=DISCONNECTED
 ```
 
@@ -1262,7 +1397,9 @@ Targeted Network regression:
 
 ```text
 32 passed
+
 101 assertions
+
 0 failures
 ```
 
@@ -1270,7 +1407,9 @@ Historical Audit 10 regression checkpoint:
 
 ```text
 587 passed
+
 1558 assertions
+
 0 failures
 ```
 
@@ -1278,8 +1417,11 @@ Runtime evidence:
 
 ```text
 CONNECT_RESULT=SUCCESS
+
 CONNECTED_STATE=CONNECTED
+
 PROVIDER=mikrotik
+
 CONNECTED_AFTER_DISCONNECT=DISCONNECTED
 ```
 
@@ -1299,14 +1441,23 @@ Audit sequence completed:
 
 ```text
 Infrastructure / Network boundary inventory
+
 → Runtime ownership classification
+
 → Failure-state analysis
+
 → Gap / No Gap
+
 → Minimal Fix
+
 → Targeted Tests
+
 → Regression
+
 → Runtime Evidence
+
 → Green Gate
+
 → STOP
 ```
 
@@ -1333,12 +1484,17 @@ Minimal correction:
 
 ```text
 SubscriptionNetworkLifecycleListener
+
 → checks enableUser()
+
 → checks disableUser()
+
 → checks disconnectUser()
 
 HotspotSubscriptionNetworkLifecycleListener
+
 → checks enableUser()
+
 → checks disableUser()
 ```
 
@@ -1358,6 +1514,7 @@ Targeted listener tests:
 
 ```text
 15 passed
+
 32 assertions
 ```
 
@@ -1365,6 +1522,7 @@ Network regression:
 
 ```text
 38 passed
+
 121 assertions
 ```
 
@@ -1372,8 +1530,11 @@ Historical project-wide regression at Audit 11:
 
 ```text
 593 passed
+
 1578 assertions
+
 0 failures
+
 Duration: 477.61s
 ```
 
@@ -1403,10 +1564,15 @@ The runtime evidence confirms:
 
 ```text
 EventDispatcher
+
 → Network listener
+
 → MikrotikServiceInterface
+
 → enableUser() = false
+
 → MikroTikException
+
 → exception propagated
 ```
 
@@ -1444,7 +1610,9 @@ Current module-owned schedules were also verified across:
 
 ```text
 Network
+
 Subscription
+
 Usage
 ```
 
@@ -1452,18 +1620,23 @@ Usage
 
 ```text
 A12.1 Module schedules
+
 NO GAP / GREEN
 
 A12.2 Root scheduled operations
+
 GAP CONFIRMED
 
 A12.3 Module runtime schedule registration
+
 GREEN
 
 A12.4 Runtime schedule inventory
+
 GREEN
 
 A12.5 Legacy command availability
+
 GREEN
 ```
 
@@ -1473,7 +1646,9 @@ GREEN
 
 ```text
 mikrotik:ping
+
 mikrotik:cleanup
+
 report:daily
 ```
 
@@ -1483,15 +1658,21 @@ The active runtime schedule was already owned by the appropriate Modules:
 
 ```text
 Network
+
 → mikrotik:sync
+
 → mikrotik:sync-hotspot
 
 Usage
+
 → usage:sync
 
 Subscription
+
 → subscriptions:auto-renew
+
 → subscriptions:auto-grace
+
 → subscriptions:auto-expire
 ```
 
@@ -1512,6 +1693,7 @@ Network registration:
 
 ```text
 3 passed
+
 8 assertions
 ```
 
@@ -1519,6 +1701,7 @@ Usage registration:
 
 ```text
 4 passed
+
 10 assertions
 ```
 
@@ -1530,7 +1713,9 @@ The only remaining references in `app/Console/Commands` are command signatures:
 
 ```text
 mikrotik:cleanup
+
 mikrotik:ping
+
 report:daily
 ```
 
@@ -1542,10 +1727,15 @@ After the minimal fix:
 
 ```text
 */5  * * * *  php artisan mikrotik:sync-hotspot
+
 */5  * * * *  php artisan mikrotik:sync
+
 */15 * * * *  php artisan usage:sync
+
 5    0 * * *  php artisan subscriptions:auto-renew
+
 10   0 * * *  php artisan subscriptions:auto-grace
+
 15   0 * * *  php artisan subscriptions:auto-expire
 ```
 
@@ -1557,7 +1747,9 @@ The following commands remain manually available:
 
 ```text
 mikrotik:ping
+
 mikrotik:cleanup
+
 report:daily
 ```
 
@@ -1577,6 +1769,7 @@ Runtime evidence used:
 
 ```text
 php artisan schedule:list
+
 php artisan list
 ```
 
@@ -1584,12 +1777,15 @@ php artisan list
 
 ```text
 593 passed
+
 1578 assertions
+
 0 failures
+
 Duration: 334.18s
 ```
 
-This regression is the current project-wide Green Gate after the Audit 12 production change.
+This regression remains the historical Phase 8 / Audit 12 checkpoint.
 
 **Audit 12 Verdict: CLOSED / GREEN**
 
@@ -1617,8 +1813,11 @@ This regression is the current project-wide Green Gate after the Audit 12 produc
 
 ```text
 593 passed
+
 1578 assertions
+
 0 failures
+
 Duration: 334.18s
 ```
 
@@ -1680,7 +1879,481 @@ Tenant runtime evidence:
 3 assertions
 ```
 
-## Remaining Audit
+---
+
+## GAP-9.1 — API Authentication Exposure
+
+**Status: CLOSED / GREEN**
+
+The previously identified public API exposure was limited to:
+
+```text
+api/hotspot/*
+api/dashboard/stats
+api/tasks/*
+```
+
+These routes were outside the required `auth:sanctum` boundary.
+
+### Minimal Fix
+
+* [x] Protected the affected routes with `auth:sanctum`.
+* [x] Preserved existing route behavior.
+* [x] No authorization model was invented as part of authentication hardening.
+
+### Runtime Evidence
+
+Protected routes were verified through Laravel runtime route inspection:
+
+```text
+api/hotspot/online
+api/hotspot/stats
+api/dashboard/stats
+api/tasks/*
+```
+
+All verified routes resolve with:
+
+```text
+api
+auth:sanctum
+```
+
+### Verdict
+
+```text
+GAP-9.1 = CLOSED / GREEN
+```
+
+Do not reopen GAP-9.1 without new evidence of regression or an explicit authentication contract change.
+
+---
+
+## GAP-9.2 — Network Mutation Application Boundary
+
+**Status: CLOSED / GREEN**
+
+### Confirmed GAP
+
+Network DHCP, Firewall, and Queue controllers were directly executing mutation operations through the Network provider.
+
+The confirmed gap was specifically the controller-to-provider mutation boundary.
+
+Read-only provider paths were not part of this gap and were intentionally preserved.
+
+### Minimal Fix
+
+10 dedicated Network Application Actions were introduced:
+
+```text
+CreateDhcpLeaseAction
+UpdateDhcpLeaseAction
+DeleteDhcpLeaseAction
+
+CreateFirewallRuleAction
+UpdateFirewallRuleAction
+DeleteFirewallRuleAction
+
+CreateQueueAction
+UpdateQueueAction
+ToggleQueueAction
+DeleteQueueAction
+```
+
+Existing synchronization Actions remain:
+
+```text
+SyncMikroTikUsersAction
+SyncHotspotUsersAction
+```
+
+Therefore NetworkModule now registers 12 Actions in total.
+
+### Application Boundary
+
+The mutation flow is now:
+
+```text
+Controller
+    ↓
+Network Application Action
+    ↓
+NetworkManagerInterface
+    ↓
+NetworkManager
+    ↓
+NetworkProviderResolver
+    ↓
+MikroTikProvider
+    ↓
+Network Domain Service
+    ↓
+MikroTik Infrastructure
+```
+
+### Production Boundary Verification
+
+* [x] DHCP mutation calls removed from controller.
+* [x] Firewall mutation calls removed from controller.
+* [x] Queue mutation calls removed from controller.
+* [x] Mutation use-cases delegated to dedicated Application Actions.
+* [x] NetworkModule registers all 12 Actions.
+* [x] RouterOS implementation was not moved.
+* [x] Read-only provider paths remain intentionally available.
+* [x] No speculative Application Query migration was performed.
+* [x] No unrelated Network architecture was changed.
+* [x] Production Actions remain `final`.
+
+Direct mutation verification returned no remaining controller mutation calls.
+
+### Targeted Evidence
+
+Network suite after the production boundary correction:
+
+```text
+9 passed
+65 assertions
+0 failures
+Duration: 46.24s
+```
+
+Controller fixture regression correction:
+
+```text
+6 passed
+27 assertions
+0 failures
+Duration: 21.05s
+```
+
+### Full Regression
+
+Final project-wide regression after GAP-9.2:
+
+```text
+593 passed
+1578 assertions
+0 failures
+Duration: 336.97s
+```
+
+Compared with the Phase 8 current checkpoint of `334.18s`, the current regression increased by approximately `2.79s`.
+
+No performance regression requiring architectural action was identified.
+
+### GAP-9.2 Verdict
+
+```text
+CLOSED / GREEN
+```
+
+> **Decision:** GAP-9.2 is complete. Do not reopen the Network mutation Application boundary without new evidence of regression or an explicit architectural contract change.
+
+---
+
+## GAP-9.3-A — HotspotSubscription Controller Authorization
+
+**Status: CLOSED / GREEN**
+
+### Objective
+
+Verify that the `HotspotSubscriptionController` explicitly enforces the already-established `HotspotSubscriptionPolicy` contract.
+
+No new permission model was introduced.
+
+No new Policy was introduced.
+
+The existing policy and permission architecture were reused.
+
+### Existing Policy Contract
+
+The existing `HotspotSubscriptionPolicy` provides:
+
+```text
+viewAny
+view
+create
+update
+delete
+activate
+suspend
+```
+
+The policy uses the established permission boundary:
+
+```text
+subscriptions.view
+subscriptions.create
+subscriptions.update
+subscriptions.delete
+subscriptions.activate
+subscriptions.suspend
+```
+
+Super Admin continues to receive the established policy bypass through the existing authorization convention.
+
+### Runtime Policy Contract Evidence
+
+Runtime policy evaluation confirmed:
+
+```text
+=== HOTSPOT SUBSCRIPTION POLICY CONTRACT ===
+
+USER_ID=1
+HAS_SUPER_ADMIN=YES
+
+viewAny => ALLOWED
+create => ALLOWED
+
+SUBSCRIPTION_ID=2
+
+view => ALLOWED
+delete => ALLOWED
+activate => ALLOWED
+suspend => ALLOWED
+```
+
+### Confirmed GAP
+
+`HotspotSubscriptionController` exposed policy-protected operations without explicit controller authorization calls.
+
+The Policy existed and was correctly registered, but the controller was not enforcing it consistently.
+
+This was a real Presentation / Authorization boundary gap.
+
+### Minimal Fix
+
+Authorization was added only to the existing controller operations:
+
+```text
+index
+    → authorize(viewAny)
+
+store
+    → authorize(create)
+
+show
+    → authorize(view)
+
+destroy
+    → authorize(delete)
+
+suspend
+    → authorize(suspend)
+
+activate
+    → authorize(activate)
+```
+
+### Production Boundary
+
+The controller now follows:
+
+```text
+HTTP Request
+    ↓
+Sanctum Authentication
+    ↓
+Controller
+    ↓
+Policy Authorization
+    ↓
+Existing Action / Repository
+```
+
+No business logic was moved into the controller.
+
+No Action architecture was changed.
+
+No repository architecture was changed.
+
+No permission names were invented.
+
+### Production Verification
+
+Controller authorization calls verified at:
+
+```text
+index
+store
+show
+destroy
+suspend
+activate
+```
+
+PHP syntax verification:
+
+```text
+No syntax errors detected in
+app/Http/Controllers/Api/HotspotSubscriptionController.php
+```
+
+### Unauthorized Endpoint Evidence
+
+A dedicated authorization feature test was added.
+
+Verified endpoints:
+
+```text
+GET    /api/hotspot-subscriptions
+POST   /api/hotspot-subscriptions
+GET    /api/hotspot-subscriptions/{hotspotSubscription}
+DELETE /api/hotspot-subscriptions/{hotspotSubscription}
+POST   /api/hotspot-subscriptions/{hotspotSubscription}/suspend
+POST   /api/hotspot-subscriptions/{hotspotSubscription}/activate
+```
+
+Unauthorized requests:
+
+```text
+6 / 6
+```
+
+All returned:
+
+```text
+HTTP 403
+```
+
+### Targeted Evidence
+
+Authorization and Policy tests:
+
+```text
+8 passed
+15 assertions
+0 failures
+Duration: 104.88s
+```
+
+Coverage included:
+
+```text
+HotspotSubscriptionControllerAuthorizationTest
+
+HotspotSubscriptionPolicyRegistrationTest
+```
+
+### Final Project-Wide Regression
+
+```text
+599 passed
+1584 assertions
+0 failures
+Duration: 490.81s
+```
+
+The regression increase is primarily attributable to the newly added Feature authorization coverage and its execution cost.
+
+No production performance refactor is justified by this test-duration change.
+
+### GAP-9.3-A Verdict
+
+```text
+[x] CLOSED / GREEN
+```
+
+> **Decision:** GAP-9.3-A is complete.
+>
+> Do not reopen the HotspotSubscription authorization boundary without new regression evidence or an explicit architectural contract change.
+
+---
+
+## GAP-9.3-B — Remaining API / Presentation / Authorization Surface
+
+**Status: [~] CURRENT EXECUTION POSITION**
+
+GAP-9.3-B continues the Phase 9 audit without reopening completed Phase 9 boundaries.
+
+### Remaining Authorization Candidates
+
+The remaining candidates identified by the controller authorization audit are:
+
+```text
+Dashboard
+Hotspot
+Mikrotik
+Notification
+Report
+ScheduledReport
+Task
+```
+
+These candidates require separate contract analysis.
+
+No Policy or permission will be invented before evidence proves that it is required.
+
+### Important Classification Rule
+
+The following are already classified and must not be reopened:
+
+```text
+GAP-9.1 — API Authentication Exposure
+[x] CLOSED / GREEN
+
+GAP-9.2 — Network Mutation Application Boundary
+[x] CLOSED / GREEN
+
+GAP-9.3-A — HotspotSubscription Controller Authorization
+[x] CLOSED / GREEN
+```
+
+Network DHCP / Firewall / Queue authorization is not reopened merely because those controllers were part of GAP-9.2.
+
+Their Application mutation boundary is already GREEN.
+
+### Remaining Audit Sequence
+
+```text
+Quick Audit
+    ↓
+Controller / Route Contract
+    ↓
+Existing Policy Evidence
+    ↓
+Existing Permission Evidence
+    ↓
+Existing Role Evidence
+    ↓
+Sanctum Authentication Evidence
+    ↓
+Ownership / Scope Evidence
+    ↓
+Gap / No Gap
+    ↓
+Minimal Fix only if GAP exists
+    ↓
+Targeted Tests
+    ↓
+Regression if production code changes
+    ↓
+Runtime Evidence
+    ↓
+Green Gate
+    ↓
+STOP
+```
+
+### Current Rule
+
+Do not create:
+
+```text
+new Policy
+new Permission
+new Middleware
+new Role
+new Authorization abstraction
+```
+
+unless the audit proves that the existing architecture cannot satisfy the required authorization contract.
+
+---
+
+## Remaining Presentation Audit
+
+The broader Phase 9 presentation surface remains:
 
 * [ ] Controllers.
 * [ ] Requests.
@@ -1699,12 +2372,20 @@ Tenant runtime evidence:
 * [ ] Error contracts.
 * [ ] Complete presentation authorization behavior.
 
-## Rules
+Already completed:
 
-* [ ] Controllers remain thin across complete API surface.
-* [ ] Authorization explicit.
-* [ ] Validation separated from business logic.
+* [x] API Authentication Exposure — GAP-9.1.
+* [x] Network Mutation Application Boundary — GAP-9.2.
+* [x] HotspotSubscription Controller Authorization — GAP-9.3-A.
+
+### Phase 9 Rules
+
+* [ ] Controllers remain thin across the complete API surface.
+* [ ] Authorization is explicit where the existing contract requires it.
+* [ ] Validation is separated from business logic.
 * [ ] Presentation does not own domain rules.
+* [ ] Existing policies and permissions are reused where valid.
+* [ ] No speculative authorization architecture is introduced.
 
 **Exit Gate:** Presentation and Authorization GREEN.
 
@@ -1712,7 +2393,7 @@ Tenant runtime evidence:
 
 # 10. TEST ARCHITECTURE & FULL REGRESSION
 
-**Status:** ACTIVE AS A CONTINUOUS GATE / CURRENT REGRESSION GREEN**
+**Status: ACTIVE AS A CONTINUOUS GATE / CURRENT REGRESSION GREEN**
 
 ## Objective
 
@@ -1735,32 +2416,26 @@ Maintain final confidence that architecture and behavior remain GREEN.
 
 ```text
 Targeted Tests
-
-↓
-
+    ↓
 Module Regression
-
-↓
-
+    ↓
 Full Test Suite
-
-↓
-
+    ↓
 GREEN
 ```
 
 ## Current Full Regression
 
 ```text
-593 passed
-1578 assertions
+599 passed
+1584 assertions
 0 failures
-Duration: 334.18s
+Duration: 490.81s
 ```
 
-This is the **current project-wide regression Green Gate**.
+This is the **current project-wide regression Green Gate** after the Phase 9 GAP-9.3-A production change.
 
-Historical checkpoints remain historical evidence only.
+Historical Phase 8 checkpoints remain historical evidence only.
 
 ### Historical Regression Checkpoints
 
@@ -1822,13 +2497,53 @@ Audit 11 historical checkpoint:
 Duration: 477.61s
 ```
 
-Audit 12 current checkpoint:
+Audit 12 / Phase 8 historical checkpoint:
 
 ```text
 593 passed
 1578 assertions
 0 failures
 Duration: 334.18s
+```
+
+Phase 9 GAP-9.2 checkpoint:
+
+```text
+593 passed
+1578 assertions
+0 failures
+Duration: 336.97s
+```
+
+Phase 9 GAP-9.3-A checkpoint:
+
+```text
+599 passed
+1584 assertions
+0 failures
+Duration: 490.81s
+```
+
+### GAP-9.3-A Authorization Evidence
+
+```text
+HotspotSubscription Policy Contract
+    GREEN
+
+HotspotSubscription Policy Registration
+    GREEN
+
+Controller Authorization
+    GREEN
+
+Unauthorized Requests
+    6 / 6 → HTTP 403
+
+Targeted Tests
+    8 passed / 15 assertions
+
+Full Regression
+    599 passed / 1584 assertions
 ```
 
 ### Reports Regression Correction
@@ -1898,7 +2613,7 @@ No production Tenant Boundary change was required.
 
 # 11. DOCUMENTATION & OPERATIONAL READINESS
 
-**Status:** PENDING**
+**Status: PENDING**
 
 ## Objective
 
@@ -1948,7 +2663,7 @@ Documentation must reflect actual GREEN code.
 
 # 12. FINAL ARCHITECTURE CERTIFICATION
 
-**Status:** PENDING
+**Status: PENDING**
 
 Final audit after all remaining roadmap phases are completed.
 
@@ -2033,15 +2748,10 @@ When:
 
 ```text
 Contract ✓
-
 Implementation ✓
-
 Evidence ✓
-
 Targeted Tests ✓
-
 Regression ✓
-
 Runtime Evidence ✓
 ```
 
@@ -2097,6 +2807,22 @@ At the end of every phase record:
 
 **Status:** `[~] IN PROGRESS`
 
+### Phase 9 Progress
+
+```text
+GAP-9.1 — API Authentication Exposure
+[x] CLOSED / GREEN
+
+GAP-9.2 — Network Mutation Application Boundary
+[x] CLOSED / GREEN
+
+GAP-9.3-A — HotspotSubscription Controller Authorization
+[x] CLOSED / GREEN
+
+GAP-9.3-B — Remaining API / Presentation / Authorization Surface
+[~] CURRENT EXECUTION POSITION
+```
+
 Phase 8 — Infrastructure & Network Integration:
 
 ```text
@@ -2129,6 +2855,21 @@ No Phase 6 reopening has occurred.
 No Phase 7 reopening has occurred.
 
 No Phase 8 reopening has occurred.
+
+No GAP-9.1 reopening has occurred.
+
+No GAP-9.2 reopening has occurred.
+
+No GAP-9.3-A reopening has occurred.
+
+## Phase 9 Current Green Gate
+
+```text
+599 passed
+1584 assertions
+0 failures
+Duration: 490.81s
+```
 
 ## Phase 8 Final Evidence
 
@@ -2172,7 +2913,63 @@ Audit 12 — Remaining Scheduled Infrastructure Operations
 [x] CLOSED / GREEN
 ```
 
-### Audit 11 Evidence
+## GAP-9.3-A Final Evidence
+
+Policy runtime contract:
+
+```text
+HAS_SUPER_ADMIN=YES
+
+viewAny => ALLOWED
+create => ALLOWED
+view => ALLOWED
+delete => ALLOWED
+activate => ALLOWED
+suspend => ALLOWED
+```
+
+Controller enforcement:
+
+```text
+index    → authorize(viewAny)
+store    → authorize(create)
+show     → authorize(view)
+destroy  → authorize(delete)
+suspend  → authorize(suspend)
+activate → authorize(activate)
+```
+
+Unauthorized endpoint verification:
+
+```text
+6 / 6 → HTTP 403
+```
+
+Targeted tests:
+
+```text
+8 passed
+15 assertions
+0 failures
+Duration: 104.88s
+```
+
+Full regression:
+
+```text
+599 passed
+1584 assertions
+0 failures
+Duration: 490.81s
+```
+
+Verdict:
+
+```text
+[x] GAP-9.3-A CLOSED / GREEN
+```
+
+## Audit 11 Evidence
 
 Targeted listener tests:
 
@@ -2197,7 +2994,7 @@ Historical project-wide checkpoint:
 Duration: 477.61s
 ```
 
-### Audit 12 Evidence
+## Audit 12 Evidence
 
 Targeted Network registration:
 
@@ -2217,10 +3014,15 @@ Runtime schedule:
 
 ```text
 */5  * * * *  php artisan mikrotik:sync-hotspot
+
 */5  * * * *  php artisan mikrotik:sync
+
 */15 * * * *  php artisan usage:sync
+
 5    0 * * *  php artisan subscriptions:auto-renew
+
 10   0 * * *  php artisan subscriptions:auto-grace
+
 15   0 * * *  php artisan subscriptions:auto-expire
 ```
 
@@ -2235,17 +3037,6 @@ report:daily
 ```
 
 They are not registered in the active runtime scheduler.
-
-### Current Project-Wide Green Gate
-
-```text
-593 passed
-1578 assertions
-0 failures
-Duration: 334.18s
-```
-
-No RouterOS mutation command was executed during Audit 12 runtime validation.
 
 ---
 
@@ -2339,6 +3130,12 @@ Fail-safe behavior
 Remaining scheduled infrastructure operations
 
 Phase 8 Infrastructure & Network Integration
+
+GAP-9.1 API Authentication Exposure
+
+GAP-9.2 Network Mutation Application Boundary
+
+GAP-9.3-A HotspotSubscription Controller Authorization
 ```
 
 Completed Phase 8 audits:
@@ -2369,6 +3166,19 @@ Fail-safe behavior
 Remaining scheduled infrastructure operations
 ```
 
+Completed Phase 9 boundaries:
+
+```text
+GAP-9.1 — API Authentication Exposure
+[x] CLOSED / GREEN
+
+GAP-9.2 — Network Mutation Application Boundary
+[x] CLOSED / GREEN
+
+GAP-9.3-A — HotspotSubscription Controller Authorization
+[x] CLOSED / GREEN
+```
+
 Current open Phase 8 audits:
 
 ```text
@@ -2379,6 +3189,12 @@ Current active phase:
 
 ```text
 Phase 9 — API / Presentation / Authorization
+```
+
+Current execution position:
+
+```text
+GAP-9.3-B — Remaining API / Presentation / Authorization Surface
 ```
 
 ---
@@ -2393,11 +3209,8 @@ Current deferred domain model boundaries:
 
 ```text
 JournalEntry
-
 ActivityLog
-
 Notification
-
 WalletTransaction
 ```
 
@@ -2405,11 +3218,9 @@ Current broader remaining work:
 
 ```text
 Complete API / Presentation audit
-
+Complete Authorization audit
 Complete Documentation audit
-
 Complete Operational Readiness
-
 Final Architecture Certification
 ```
 
@@ -2431,6 +3242,24 @@ RouterOS Infrastructure runtime evidence is:
 [x] GREEN
 ```
 
+GAP-9.1 API Authentication Exposure is:
+
+```text
+[x] CLOSED / GREEN
+```
+
+GAP-9.2 Network Mutation Application Boundary is:
+
+```text
+[x] CLOSED / GREEN
+```
+
+GAP-9.3-A HotspotSubscription Controller Authorization is:
+
+```text
+[x] CLOSED / GREEN
+```
+
 No deferred item authorizes speculative refactoring in a completed phase.
 
 ---
@@ -2443,26 +3272,34 @@ The current execution phase is:
 Phase 9 — API / Presentation / Authorization
 ```
 
-### Immediate Action
+The current execution position is:
+
+```text
+GAP-9.3-B — Remaining API / Presentation / Authorization Surface
+```
+
+## Immediate Action
 
 ```text
 Phase 9 — API / Presentation / Authorization
 
 → Quick Audit
 
-→ Complete presentation surface inventory
+→ Remaining controller classification
 
-→ Controller classification
+→ Route / controller contract verification
+
+→ Existing Policy classification
+
+→ Permission / Role classification
+
+→ Sanctum authorization classification
+
+→ Ownership / scope classification
 
 → Request validation classification
 
 → Resource / Response classification
-
-→ Route classification
-
-→ Policy / Permission / Role classification
-
-→ Sanctum authorization classification
 
 → API contract classification
 
@@ -2485,25 +3322,39 @@ Phase 9 — API / Presentation / Authorization
 → STOP
 ```
 
-### First Audit Target
+## First Audit Target
 
-**Complete API / Presentation / Authorization surface**
+**GAP-9.3-B — Remaining API / Presentation / Authorization Surface**
 
-Phase 8 — Infrastructure & Network Integration is CLOSED / GREEN.
+Remaining authorization candidates:
 
-Audit 12 — Remaining Scheduled Infrastructure Operations is CLOSED / GREEN.
+```text
+Dashboard
+Hotspot
+Mikrotik
+Notification
+Report
+ScheduledReport
+Task
+```
 
-Audit 11 — Fail-safe behavior is CLOSED / GREEN.
+These must be audited individually.
 
-Audit 10 — Infrastructure failure handling is CLOSED / GREEN.
+Do not infer a Policy merely because a controller lacks `authorize()`.
 
-Audit 9 — Runtime router evidence is CLOSED / GREEN.
+Do not infer a missing Permission merely because a controller is authenticated.
 
-Audit 8 — Disconnect / expiry enforcement is CLOSED / GREEN.
+Do not infer admin-only access without checking the existing role, permission, policy, route, and ownership contracts.
 
-Audit 7 — Synchronization is CLOSED / GREEN.
+Do not create new permission names before evidence proves they are required.
 
-Phase 7 — Business Rules & State Machines is CLOSED / GREEN.
+Do not create new Policies before verifying that an existing Policy cannot satisfy the contract.
+
+Do not reopen GAP-9.1.
+
+Do not reopen GAP-9.2.
+
+Do not reopen GAP-9.3-A.
 
 Do not reopen Phase 8.
 
@@ -2523,65 +3374,35 @@ Do not perform speculative migration of legacy manual commands.
 
 ```text
 Architecture
-
 *
-
 Core
-
 *
-
 Kernel
-
 *
-
 Modules
-
 *
-
 Ownership
-
 *
-
 Application
-
 *
-
 Business Rules
-
 *
-
 Infrastructure
-
 *
-
 Network
-
 *
-
 Presentation
-
 *
-
 Authorization
-
 *
-
 Tests
-
 *
-
 Documentation
-
 *
-
 Operational Readiness
-
 *
-
 Roadmap
-
 =
-
 GREEN
 ```
 

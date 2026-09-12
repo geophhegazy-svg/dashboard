@@ -388,6 +388,16 @@
                 {
                     "type": "actions",
                     "actions": [
+                        "App\\Modules\\Network\\Application\\Actions\\CreateDhcpLeaseAction",
+                        "App\\Modules\\Network\\Application\\Actions\\UpdateDhcpLeaseAction",
+                        "App\\Modules\\Network\\Application\\Actions\\DeleteDhcpLeaseAction",
+                        "App\\Modules\\Network\\Application\\Actions\\CreateFirewallRuleAction",
+                        "App\\Modules\\Network\\Application\\Actions\\UpdateFirewallRuleAction",
+                        "App\\Modules\\Network\\Application\\Actions\\DeleteFirewallRuleAction",
+                        "App\\Modules\\Network\\Application\\Actions\\CreateQueueAction",
+                        "App\\Modules\\Network\\Application\\Actions\\UpdateQueueAction",
+                        "App\\Modules\\Network\\Application\\Actions\\ToggleQueueAction",
+                        "App\\Modules\\Network\\Application\\Actions\\DeleteQueueAction",
                         "App\\Modules\\Network\\Application\\Actions\\SyncMikroTikUsersAction",
                         "App\\Modules\\Network\\Application\\Actions\\SyncHotspotUsersAction"
                     ]

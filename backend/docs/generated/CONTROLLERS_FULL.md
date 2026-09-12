@@ -390,6 +390,9 @@ App\Http\Controllers\Api\Network
 
 - NetworkManagerInterface $networkManager
 - NetworkDeviceRepositoryInterface $networkDeviceRepository
+- CreateDhcpLeaseAction $createDhcpLeaseAction
+- UpdateDhcpLeaseAction $updateDhcpLeaseAction
+- DeleteDhcpLeaseAction $deleteDhcpLeaseAction
 
 **Public Methods**
 
@@ -500,6 +503,9 @@ App\Http\Controllers\Api\Network
 
 - NetworkManagerInterface $networkManager
 - NetworkDeviceRepositoryInterface $networkDeviceRepository
+- CreateFirewallRuleAction $createFirewallRuleAction
+- UpdateFirewallRuleAction $updateFirewallRuleAction
+- DeleteFirewallRuleAction $deleteFirewallRuleAction
 
 **Public Methods**
 
@@ -757,6 +763,10 @@ App\Http\Controllers\Api\Network
 
 - NetworkManagerInterface $networkManager
 - NetworkDeviceRepositoryInterface $networkDeviceRepository
+- CreateQueueAction $createQueueAction
+- UpdateQueueAction $updateQueueAction
+- ToggleQueueAction $toggleQueueAction
+- DeleteQueueAction $deleteQueueAction
 
 **Public Methods**
 

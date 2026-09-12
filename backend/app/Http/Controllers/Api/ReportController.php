@@ -21,6 +21,8 @@ class ReportController extends Controller
 
     public function dashboard()
     {
+        $this->authorize('reports.dashboard');
+
         $invoiceMetrics = $this->queryDispatcher->dispatch(
             new GetInvoiceDashboardMetricsQuery()
         );
@@ -49,6 +51,8 @@ class ReportController extends Controller
 
     public function revenue()
     {
+        $this->authorize('reports.revenue');
+
         $paymentMetrics = $this->queryDispatcher->dispatch(
             new GetPaymentDashboardMetricsQuery()
         );
@@ -65,6 +69,8 @@ class ReportController extends Controller
 
     public function invoices()
     {
+        $this->authorize('reports.invoices');
+
         $invoiceMetrics = $this->queryDispatcher->dispatch(
             new GetInvoiceStatusMetricsQuery()
         );
@@ -73,10 +79,14 @@ class ReportController extends Controller
     }
     public function inventory()
     {
+        $this->authorize('reports.inventory');
+
         return response()->json(['low_stock' => Inventory::whereColumn('quantity', '<=', 'minimum_quantity')->get(),]);
     }
     public function tickets()
     {
+        $this->authorize('reports.tickets');
+
         return response()->json(
             $this->queryDispatcher->dispatch(
                 new GetTicketStatusMetricsQuery()

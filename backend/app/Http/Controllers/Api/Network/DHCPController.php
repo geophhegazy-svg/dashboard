@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\Network;
 
 use App\Http\Controllers\Controller;
+use App\Modules\Network\Application\Actions\CreateDhcpLeaseAction;
+use App\Modules\Network\Application\Actions\UpdateDhcpLeaseAction;
+use App\Modules\Network\Application\Actions\DeleteDhcpLeaseAction;
 use App\Modules\Network\Domain\Contracts\NetworkDeviceRepositoryInterface;
 use App\Modules\Network\Application\Contracts\NetworkManagerInterface;
 use Illuminate\Http\Request;
@@ -14,6 +17,9 @@ class DHCPController extends Controller
     public function __construct(
         protected NetworkManagerInterface $networkManager,
         protected NetworkDeviceRepositoryInterface $networkDeviceRepository,
+        protected CreateDhcpLeaseAction $createDhcpLeaseAction,
+        protected UpdateDhcpLeaseAction $updateDhcpLeaseAction,
+        protected DeleteDhcpLeaseAction $deleteDhcpLeaseAction,
     ) {}
 
 
@@ -207,37 +213,15 @@ class DHCPController extends Controller
 
 
 
-        $provider = $this->provider(
-            (int) $request->device_id
+        $result = $this->createDhcpLeaseAction->execute(
+            (int) $request->device_id,
+            $request->address,
+            $request->mac_address,
+            $request->hostname,
+            [
+                'comment' => $request->comment,
+            ],
         );
-
-
-
-        if (! $provider) {
-
-            return back()->with(
-                'error',
-                'فشل الاتصال بالجهاز'
-            );
-        }
-
-
-
-        $result = $provider
-            ->dhcp()
-            ->create(
-
-                $request->address,
-
-                $request->mac_address,
-
-                $request->hostname,
-
-                [
-                    'comment' =>
-                    $request->comment,
-                ]
-            );
 
 
 
@@ -372,35 +356,18 @@ class DHCPController extends Controller
 
 
 
-        $provider = $this->provider(
-            (int) $request->device_id
+        $result = $this->updateDhcpLeaseAction->execute(
+            (int) $request->device_id,
+            $id,
+            array_filter(
+                $request->only([
+                    'address',
+                    'mac_address',
+                    'hostname',
+                    'comment',
+                ])
+            ),
         );
-
-
-
-        if (! $provider) {
-
-            return back()->with(
-                'error',
-                'فشل الاتصال بالجهاز'
-            );
-        }
-
-
-
-        $result = $provider
-            ->dhcp()
-            ->update(
-                $id,
-                array_filter(
-                    $request->only([
-                        'address',
-                        'mac_address',
-                        'hostname',
-                        'comment',
-                    ])
-                )
-            );
 
 
 
@@ -446,23 +413,10 @@ class DHCPController extends Controller
 
 
 
-        $provider = $this->provider($deviceId);
-
-
-
-        if (! $provider) {
-
-            return back()->with(
-                'error',
-                'فشل الاتصال بالجهاز'
-            );
-        }
-
-
-
-        $result = $provider
-            ->dhcp()
-            ->delete($id);
+        $result = $this->deleteDhcpLeaseAction->execute(
+            $deviceId,
+            $id,
+        );
 
 
 
