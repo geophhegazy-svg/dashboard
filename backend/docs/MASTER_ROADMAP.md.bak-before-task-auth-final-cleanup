@@ -4262,34 +4262,23 @@ If no contract gap is proven, record NO GAP and continue.
 
 If a contract is missing, do not invent permissions, roles, Policies, ownership rules, or middleware without an explicit architectural decision.
 
-TASK AUTHORIZATION BOUNDARY
+TASK DECISION BOUNDARY
 
-Task authorization is explicitly established and closed under GAP-9.3-J.
+Task authorization remains explicitly unresolved.
 
-The approved contract is permission-based authorization at the TaskController boundary.
+The following are prohibited until an explicit Task authorization contract exists:
 
-Established permissions:
+* inventing Task permission names
+* inventing Task role assignments
+* creating a Task Policy
+* adding Task authorization middleware
+* inferring admin-only Task access
+* changing Task ownership semantics
+* changing Task assignment semantics
 
-* task.view
-* task.create
-* task.update
-* task.delete
+The Task decision must remain isolated from the remaining Presentation audit.
 
-Established role matrix:
-
-* Super Admin: task.view, task.create, task.update, task.delete
-* Tenant Admin: task.view, task.create, task.update, task.delete
-* Manager: task.view, task.create, task.update
-* Support: task.view
-* Technician: task.view, task.update
-* Accountant: none
-* Customer: none
-
-No Task Policy, ownership rule, assignment-based authorization rule, or additional Task permission may be introduced unless new evidence or an explicit architectural decision changes the established contract.
-
-GAP-9.3-J is CLOSED / GREEN and remains part of the completed Phase 9 authorization scope.
-
-A different verified Presentation gap may be audited and fixed without reopening Task authorization.
+A different verified Presentation gap may be audited and fixed without modifying the unresolved Task authorization contract.
 
 PHASE 9 EXECUTION RULES
 

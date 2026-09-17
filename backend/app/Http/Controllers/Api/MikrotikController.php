@@ -23,6 +23,8 @@ class MikrotikController extends Controller
      */
     public function test()
     {
+        $this->authorize('mikrotik.view');
+
         try {
 
             $deviceId = request()->input('device_id', 1);
@@ -80,6 +82,8 @@ class MikrotikController extends Controller
      */
     public function pppoeUsers()
     {
+        $this->authorize('mikrotik.pppoe.view');
+
         $provider = $this->provider(
             request()->input('device_id', 1)
         );
@@ -103,6 +107,8 @@ class MikrotikController extends Controller
      */
     public function hotspotUsers()
     {
+        $this->authorize('mikrotik.hotspot.view');
+
         $provider = $this->provider(
             request()->input('device_id', 1)
         );

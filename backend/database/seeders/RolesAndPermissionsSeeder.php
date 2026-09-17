@@ -91,6 +91,12 @@ class RolesAndPermissionsSeeder extends Seeder
             'wallet.withdraw',
             'wallet.transactions',
 
+            // Tasks
+            'task.view',
+            'task.create',
+            'task.update',
+            'task.delete',
+
             // Notifications
             'notifications.view',
             'notifications.create',
@@ -103,6 +109,14 @@ class RolesAndPermissionsSeeder extends Seeder
             'reports.inventory',
             'reports.invoices',
             'reports.tickets',
+
+            // Scheduled Reports
+            'scheduled_reports.view',
+            'scheduled_reports.create',
+            'scheduled_reports.update',
+            'scheduled_reports.delete',
+            'scheduled_reports.activate',
+            'scheduled_reports.deactivate',
 
             // Tickets
             'tickets.view',
@@ -127,6 +141,23 @@ class RolesAndPermissionsSeeder extends Seeder
 
             'device_assignments.create',
             'device_assignments.return',
+
+            // Web Network
+            'queue.view',
+            'queue.create',
+            'queue.update',
+            'queue.delete',
+            'queue.toggle',
+
+            'firewall.view',
+            'firewall.create',
+            'firewall.update',
+            'firewall.delete',
+
+            'dhcp.view',
+            'dhcp.create',
+            'dhcp.update',
+            'dhcp.delete',
 
             // MikroTik
             'mikrotik.view',
@@ -217,11 +248,22 @@ class RolesAndPermissionsSeeder extends Seeder
             'reports.inventory',
             'reports.invoices',
 
+            'scheduled_reports.view',
+            'scheduled_reports.create',
+            'scheduled_reports.update',
+            'scheduled_reports.delete',
+            'scheduled_reports.activate',
+            'scheduled_reports.deactivate',
+
             'tickets.view',
             'tickets.reply',
 
             'devices.view',
             'inventory.view',
+
+            'task.view',
+            'task.create',
+            'task.update',
         ]);
 
         // Accountant
@@ -241,6 +283,8 @@ class RolesAndPermissionsSeeder extends Seeder
             'reports.dashboard',
             'reports.revenue',
             'reports.invoices',
+
+            'scheduled_reports.view',
         ]);
 
         // Support
@@ -254,6 +298,8 @@ class RolesAndPermissionsSeeder extends Seeder
 
             'notifications.view',
             'notifications.read',
+
+            'task.view',
         ]);
 
         // Technician
@@ -274,6 +320,9 @@ class RolesAndPermissionsSeeder extends Seeder
             'subscriptions.activate',
             'subscriptions.suspend',
             'subscriptions.restore',
+
+            'task.view',
+            'task.update',
         ]);
 
         // Customer

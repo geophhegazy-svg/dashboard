@@ -473,7 +473,12 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/dashboard/stats', [DashboardController::class, 'stats']);
 
-    Route::apiResource('tasks', TaskController::class);
+    Route::apiResource('tasks', TaskController::class)->only([
+        'index',
+        'store',
+        'update',
+        'destroy',
+    ]);
 });
 /*
 |--------------------------------------------------------------------------

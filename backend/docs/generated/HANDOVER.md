@@ -5301,13 +5301,6 @@ App\Http\Controllers\Api
 
 ## api/tasks/{task}
 
-- Method: GET|HEAD
-- Name: tasks.show
-- Action: App\Http\Controllers\Api\Task\TaskController@show
-- Middleware: api, auth:sanctum
-
-## api/tasks/{task}
-
 - Method: PUT|PATCH
 - Name: tasks.update
 - Action: App\Http\Controllers\Api\Task\TaskController@update
@@ -5339,133 +5332,133 @@ App\Http\Controllers\Api
 - Method: GET|HEAD
 - Name: queues.index
 - Action: App\Http\Controllers\Api\Network\QueueController@index
-- Middleware: web
+- Middleware: web, auth
 
 ## queues/create
 
 - Method: GET|HEAD
 - Name: queues.create
 - Action: App\Http\Controllers\Api\Network\QueueController@create
-- Middleware: web
+- Middleware: web, auth
 
 ## queues
 
 - Method: POST
 - Name: queues.store
 - Action: App\Http\Controllers\Api\Network\QueueController@store
-- Middleware: web
+- Middleware: web, auth
 
 ## queues/{name}/toggle
 
 - Method: POST
 - Name: queues.toggle
 - Action: App\Http\Controllers\Api\Network\QueueController@toggle
-- Middleware: web
+- Middleware: web, auth
 
 ## queues/{name}
 
 - Method: DELETE
 - Name: queues.destroy
 - Action: App\Http\Controllers\Api\Network\QueueController@destroy
-- Middleware: web
+- Middleware: web, auth
 
 ## queues/{name}/edit
 
 - Method: GET|HEAD
 - Name: queues.edit
 - Action: App\Http\Controllers\Api\Network\QueueController@edit
-- Middleware: web
+- Middleware: web, auth
 
 ## queues/{name}
 
 - Method: PUT
 - Name: queues.update
 - Action: App\Http\Controllers\Api\Network\QueueController@update
-- Middleware: web
+- Middleware: web, auth
 
 ## firewall
 
 - Method: GET|HEAD
 - Name: firewall.index
 - Action: App\Http\Controllers\Api\Network\FirewallController@index
-- Middleware: web
+- Middleware: web, auth
 
 ## firewall/create
 
 - Method: GET|HEAD
 - Name: firewall.create
 - Action: App\Http\Controllers\Api\Network\FirewallController@create
-- Middleware: web
+- Middleware: web, auth
 
 ## firewall
 
 - Method: POST
 - Name: firewall.store
 - Action: App\Http\Controllers\Api\Network\FirewallController@store
-- Middleware: web
+- Middleware: web, auth
 
 ## firewall/{id}
 
 - Method: DELETE
 - Name: firewall.destroy
 - Action: App\Http\Controllers\Api\Network\FirewallController@destroy
-- Middleware: web
+- Middleware: web, auth
 
 ## firewall/{id}/edit
 
 - Method: GET|HEAD
 - Name: firewall.edit
 - Action: App\Http\Controllers\Api\Network\FirewallController@edit
-- Middleware: web
+- Middleware: web, auth
 
 ## firewall/{id}
 
 - Method: PUT
 - Name: firewall.update
 - Action: App\Http\Controllers\Api\Network\FirewallController@update
-- Middleware: web
+- Middleware: web, auth
 
 ## dhcp
 
 - Method: GET|HEAD
 - Name: dhcp.index
 - Action: App\Http\Controllers\Api\Network\DHCPController@index
-- Middleware: web
+- Middleware: web, auth
 
 ## dhcp/create
 
 - Method: GET|HEAD
 - Name: dhcp.create
 - Action: App\Http\Controllers\Api\Network\DHCPController@create
-- Middleware: web
+- Middleware: web, auth
 
 ## dhcp
 
 - Method: POST
 - Name: dhcp.store
 - Action: App\Http\Controllers\Api\Network\DHCPController@store
-- Middleware: web
+- Middleware: web, auth
 
 ## dhcp/{id}/edit
 
 - Method: GET|HEAD
 - Name: dhcp.edit
 - Action: App\Http\Controllers\Api\Network\DHCPController@edit
-- Middleware: web
+- Middleware: web, auth
 
 ## dhcp/{id}
 
 - Method: PUT
 - Name: dhcp.update
 - Action: App\Http\Controllers\Api\Network\DHCPController@update
-- Middleware: web
+- Middleware: web, auth
 
 ## dhcp/{id}
 
 - Method: DELETE
 - Name: dhcp.destroy
 - Action: App\Http\Controllers\Api\Network\DHCPController@destroy
-- Middleware: web
+- Middleware: web, auth
 
 ## customer/login
 

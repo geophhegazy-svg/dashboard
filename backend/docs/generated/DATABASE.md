@@ -648,7 +648,7 @@
 
 ## model_has_permissions
 
-**Rows:** 0
+**Rows:** 12
 
 ### Columns
 
@@ -658,7 +658,7 @@
 
 ## model_has_permissions
 
-**Rows:** 0
+**Rows:** 12
 
 ### Columns
 
@@ -876,7 +876,7 @@
 
 ## permissions
 
-**Rows:** 81
+**Rows:** 104
 
 ### Columns
 
@@ -888,7 +888,7 @@
 
 ## permissions
 
-**Rows:** 81
+**Rows:** 104
 
 ### Columns
 
@@ -1052,7 +1052,7 @@
 
 ## role_has_permissions
 
-**Rows:** 211
+**Rows:** 270
 
 ### Columns
 
@@ -1061,7 +1061,7 @@
 
 ## role_has_permissions
 
-**Rows:** 211
+**Rows:** 270
 
 ### Columns
 
@@ -1388,7 +1388,7 @@
 
 ## users
 
-**Rows:** 0
+**Rows:** 6
 
 ### Columns
 
@@ -1404,7 +1404,7 @@
 
 ## users
 
-**Rows:** 0
+**Rows:** 6
 
 ### Columns
 

@@ -19,6 +19,8 @@ class NotificationController extends Controller
     ) {}
     public function index(Request $request)
     {
+        $this->authorize('notifications.view');
+
         $query = Notification::query();
 
         // فلترة حسب النوع
@@ -46,11 +48,15 @@ class NotificationController extends Controller
 
     public function show(Notification $notification)
     {
+        $this->authorize('notifications.view');
+
         return new NotificationResource($notification);
     }
 
     public function markAsRead(Notification $notification)
     {
+        $this->authorize('notifications.read');
+
         $this->markAsRead->execute(
             $notification,
         );
@@ -62,6 +68,8 @@ class NotificationController extends Controller
 
     public function markAllAsRead()
     {
+        $this->authorize('notifications.read');
+
         $this->markAllAsRead->execute();
 
         return response()->json([
@@ -71,6 +79,8 @@ class NotificationController extends Controller
 
     public function destroy(Notification $notification)
     {
+        $this->authorize('notifications.delete');
+
         $this->delete->execute(
             $notification,
         );

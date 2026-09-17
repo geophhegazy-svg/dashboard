@@ -47,6 +47,8 @@ class DHCPController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('dhcp.view');
+
         $deviceId = (int) $request->input(
             'device_id',
             1
@@ -160,6 +162,8 @@ class DHCPController extends Controller
      */
     public function create(Request $request)
     {
+        $this->authorize('dhcp.create');
+
         $deviceId = (int) $request->input(
             'device_id',
             1
@@ -192,6 +196,8 @@ class DHCPController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('dhcp.create');
+
         $request->validate([
 
             'address' =>
@@ -259,6 +265,8 @@ class DHCPController extends Controller
         Request $request,
         string $id
     ) {
+        $this->authorize('dhcp.update');
+
 
         $deviceId = (int) $request->input(
             'device_id',
@@ -334,6 +342,8 @@ class DHCPController extends Controller
         Request $request,
         string $id
     ) {
+        $this->authorize('dhcp.update');
+
 
         $request->validate([
 
@@ -405,6 +415,8 @@ class DHCPController extends Controller
         Request $request,
         string $id
     ) {
+        $this->authorize('dhcp.delete');
+
 
         $deviceId = (int) $request->input(
             'device_id',

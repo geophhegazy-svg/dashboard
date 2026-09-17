@@ -36,6 +36,8 @@ class TicketController extends Controller
 
     public function index()
     {
+        $this->authorize('tickets.view');
+
         $tickets = $this->queryDispatcher->dispatch(
             new PaginateTicketsQuery(
                 perPage: 20,
@@ -47,6 +49,8 @@ class TicketController extends Controller
 
     public function store(StoreTicketRequest $request)
     {
+        $this->authorize('tickets.create');
+
         $ticket = $this->createAdminTicket->execute(
             $request->validated(),
             auth::id(),
@@ -57,6 +61,8 @@ class TicketController extends Controller
 
     public function show(Ticket $ticket)
     {
+        $this->authorize('view', $ticket);
+
         $ticket = $this->queryDispatcher->dispatch(
             new FindTicketQuery(
                 ticketId: (int) $ticket->id,
@@ -76,6 +82,8 @@ class TicketController extends Controller
 
     public function update(StoreTicketRequest $request, Ticket $ticket)
     {
+        $this->authorize('update', $ticket);
+
         $ticket = $this->updateTicket->execute(
             $ticket,
             $request->validated(),
@@ -87,6 +95,8 @@ class TicketController extends Controller
 
     public function destroy(Ticket $ticket)
     {
+        $this->authorize('delete', $ticket);
+
         $this->deleteTicket->execute($ticket, auth::id());
 
         return response()->json([
@@ -102,6 +112,8 @@ class TicketController extends Controller
 
     public function dashboard()
     {
+        $this->authorize('tickets.view');
+
         return response()->json(
             $this->queryDispatcher->dispatch(
                 new GetAdminTicketStatisticsQuery()
@@ -117,6 +129,8 @@ class TicketController extends Controller
 
     public function messages(Ticket $ticket)
     {
+        $this->authorize('tickets.view');
+
         $messages = $this->queryDispatcher->dispatch(
             new GetTicketRepliesQuery(
                 ticketId: (int) $ticket->id,
@@ -154,6 +168,8 @@ class TicketController extends Controller
 
     public function reply(Request $request, Ticket $ticket)
     {
+        $this->authorize('tickets.reply', $ticket);
+
         $request->validate([
             'message' => 'required|string'
         ]);
@@ -187,6 +203,8 @@ class TicketController extends Controller
 
     public function changeStatus(Request $request, Ticket $ticket)
     {
+        $this->authorize('tickets.change_status', $ticket);
+
         $request->validate([
 
             'status' => 'required|in:open,in_progress,resolved,closed'

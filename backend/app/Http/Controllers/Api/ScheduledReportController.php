@@ -32,6 +32,8 @@ class ScheduledReportController extends Controller
 
     public function index(): AnonymousResourceCollection
     {
+        $this->authorize('scheduled_reports.view');
+
         return ScheduledReportResource::collection(
             $this->repository->paginate()
         );
@@ -40,6 +42,7 @@ class ScheduledReportController extends Controller
     public function store(
         StoreScheduledReportRequest $request
     ): JsonResponse {
+        $this->authorize('scheduled_reports.create');
         return (new ScheduledReportResource(
             $this->createAction->execute(
                 $request->validated()
@@ -52,6 +55,7 @@ class ScheduledReportController extends Controller
     public function show(
         ScheduledReport $scheduledReport
     ): ScheduledReportResource {
+        $this->authorize('scheduled_reports.view');
         return new ScheduledReportResource(
             $scheduledReport
         );
@@ -61,6 +65,7 @@ class ScheduledReportController extends Controller
         UpdateScheduledReportRequest $request,
         ScheduledReport $scheduledReport
     ): ScheduledReportResource {
+        $this->authorize('scheduled_reports.update');
         return new ScheduledReportResource(
             $this->updateAction->execute(
                 $scheduledReport,
@@ -72,6 +77,7 @@ class ScheduledReportController extends Controller
     public function destroy(
         ScheduledReport $scheduledReport
     ): JsonResponse {
+        $this->authorize('scheduled_reports.delete');
         $this->deleteAction->execute(
             $scheduledReport
         );
@@ -85,6 +91,7 @@ class ScheduledReportController extends Controller
     public function activate(
         ScheduledReport $scheduledReport
     ): ScheduledReportResource {
+        $this->authorize('scheduled_reports.activate');
         return new ScheduledReportResource(
             $this->activateAction->execute(
                 $scheduledReport
@@ -95,6 +102,7 @@ class ScheduledReportController extends Controller
     public function deactivate(
         ScheduledReport $scheduledReport
     ): ScheduledReportResource {
+        $this->authorize('scheduled_reports.deactivate');
         return new ScheduledReportResource(
             $this->deactivateAction->execute(
                 $scheduledReport

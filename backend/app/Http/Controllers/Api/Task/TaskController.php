@@ -21,6 +21,8 @@ final class TaskController extends Controller
 
     public function index(): AnonymousResourceCollection
     {
+        $this->authorize('task.view');
+
         return TaskResource::collection(
             $this->service->paginate()
         );
@@ -28,6 +30,8 @@ final class TaskController extends Controller
 
     public function store(StoreTaskRequest $request): JsonResponse
     {
+        $this->authorize('task.create');
+
         return (new TaskResource(
             $this->service->create(
                 $request->validated()
@@ -40,6 +44,8 @@ final class TaskController extends Controller
         Task $task
     ): TaskResource {
 
+        $this->authorize('task.update');
+
         return new TaskResource(
             $this->service->update(
                 $task,
@@ -50,6 +56,8 @@ final class TaskController extends Controller
 
     public function destroy(Task $task): JsonResponse
     {
+        $this->authorize('task.delete');
+
         $this->service->delete($task);
 
         return response()->json(

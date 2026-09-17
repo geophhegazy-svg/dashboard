@@ -48,6 +48,8 @@ class QueueController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('queue.view');
+
         $deviceId = (int) $request->input('device_id', 1);
 
         $device = $this->networkDeviceRepository->find($deviceId);
@@ -95,6 +97,8 @@ class QueueController extends Controller
      */
     public function create(Request $request)
     {
+        $this->authorize('queue.create');
+
         $deviceId = (int) $request->input('device_id', 1);
 
         $device = $this->networkDeviceRepository->find($deviceId);
@@ -119,6 +123,8 @@ class QueueController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('queue.create');
+
         $request->validate([
 
             'name' =>
@@ -185,6 +191,8 @@ class QueueController extends Controller
         Request $request,
         string $name
     ) {
+        $this->authorize('queue.update');
+
 
         $deviceId = (int) $request->input(
             'device_id',
@@ -258,6 +266,8 @@ class QueueController extends Controller
         Request $request,
         string $name
     ) {
+        $this->authorize('queue.update');
+
 
         $request->validate([
 
@@ -326,6 +336,8 @@ class QueueController extends Controller
         Request $request,
         string $name
     ) {
+        $this->authorize('queue.toggle');
+
 
         $deviceId = (int) $request->input(
             'device_id',
@@ -375,6 +387,8 @@ class QueueController extends Controller
         Request $request,
         string $name
     ) {
+        $this->authorize('queue.delete');
+
 
         $deviceId = (int) $request->input(
             'device_id',

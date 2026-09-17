@@ -11,10 +11,15 @@ use App\Modules\Network\Domain\Contracts\NetworkProviderInterface;
 use App\Modules\Network\Domain\Contracts\Services\PppoeServiceInterface;
 use App\Modules\Network\Infrastructure\Persistence\Models\NetworkDevice;
 use App\Modules\Network\Application\Contracts\NetworkManagerInterface;
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
 class MikrotikControllerTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function test_pppoe_users_uses_network_device_repository_contract(): void
     {
         $device = new NetworkDevice();
@@ -62,9 +67,15 @@ class MikrotikControllerTest extends TestCase
             ->expects($this->once())
             ->method('provider')
             ->willReturn($provider);
+        $user = User::factory()->create();
+        $user->givePermissionTo('mikrotik.pppoe.view');
+
+        Sanctum::actingAs($user);
+
         $controller = new MikrotikController(
             $networkManager,
-            $repository,        );
+            $repository,
+        );
 
         $response = $controller->pppoeUsers();
 

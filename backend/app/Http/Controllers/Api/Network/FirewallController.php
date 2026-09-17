@@ -46,6 +46,8 @@ class FirewallController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('firewall.view');
+
         $deviceId = (int) $request->input(
             'device_id',
             1
@@ -102,6 +104,8 @@ class FirewallController extends Controller
      */
     public function create(Request $request)
     {
+        $this->authorize('firewall.create');
+
         $deviceId = (int) $request->input(
             'device_id',
             1
@@ -133,6 +137,8 @@ class FirewallController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('firewall.create');
+
         $request->validate([
 
             'chain' =>
@@ -213,6 +219,8 @@ class FirewallController extends Controller
         Request $request,
         string $id
     ) {
+        $this->authorize('firewall.update');
+
 
         $deviceId = (int) $request->input(
             'device_id',
@@ -286,6 +294,8 @@ class FirewallController extends Controller
         Request $request,
         string $id
     ) {
+        $this->authorize('firewall.update');
+
 
         $request->validate([
 
@@ -369,6 +379,8 @@ class FirewallController extends Controller
         Request $request,
         string $id
     ) {
+        $this->authorize('firewall.delete');
+
 
         $deviceId = (int) $request->input(
             'device_id',

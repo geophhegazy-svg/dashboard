@@ -10,6 +10,8 @@ class HotspotController extends Controller
 {
     public function onlineUsers()
     {
+        $this->authorize('mikrotik.hotspot.view');
+
         $users = HotspotUser::where('is_online', true)
             ->select('username', 'profile', 'uptime', 'bytes_in', 'bytes_out')
             ->get();
@@ -23,6 +25,8 @@ class HotspotController extends Controller
 
     public function stats()
     {
+        $this->authorize('mikrotik.hotspot.view');
+
         return response()->json([
             'status' => 'success',
             'data' => [

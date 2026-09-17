@@ -2794,14 +2794,10 @@ Reports Controller Authorization — GAP-9.3-C.
 Scheduled Reports Controller Authorization — GAP-9.3-D.
 MikroTik Controller Authorization — GAP-9.3-E.
 Notification Controller Authorization — GAP-9.3-F.
-Ticket Authorization — GAP-9.3-G.
-Hotspot Read Authorization — GAP-9.3-H.
-Web Network Authorization — GAP-9.3-I.
-Task Authorization — GAP-9.3-J.
 
 Remaining authorization candidates:
 
-None within the currently audited Phase 9 authorization scope.
+Task.
 Phase 9 Rules
 Controllers remain thin across the complete API surface.
 Authorization is explicit where the existing contract requires it.
@@ -2840,12 +2836,12 @@ Full Test Suite
     ↓
 GREEN
 Current Full Regression
-693 passed
-1768 assertions
+644 passed
+1656 assertions
 0 failures
-Duration: 536.53s
+Duration: 558.87s
 
-This is the current project-wide regression Green Gate after GAP-9.3-J Task authorization.
+This is the current project-wide regression Green Gate after GAP-9.3-F Notification authorization.
 
 Historical Phase 9 checkpoints remain historical evidence only.
 
@@ -3334,18 +3330,6 @@ GAP-9.3-E — MikroTik Controller Authorization
 [x] CLOSED / GREEN
 
 GAP-9.3-F — Notification Controller Authorization
-[x] CLOSED / GREEN
-
-GAP-9.3-G — Ticket Authorization
-[x] CLOSED / GREEN
-
-GAP-9.3-H — Hotspot Read Authorization
-[x] CLOSED / GREEN
-
-GAP-9.3-I — Web Network Authorization
-[x] CLOSED / GREEN
-
-GAP-9.3-J — Task Authorization
 [x] CLOSED / GREEN
 
 Remaining Presentation / Authorization Audit
@@ -4052,75 +4036,16 @@ Task audit result:
 - All 7 existing roles reached `GET /api/tasks` with HTTP 200.
 - No Task-specific permissions were attached to those roles.
 
-[x] GAP-9.3-J — Task Authorization Contract — CLOSED / GREEN
+[ ] Task authorization architecture decision — REQUIRED BEFORE IMPLEMENTATION
+- Do not invent Task permission names.
+- Do not invent a Task role matrix.
+- Do not create a Task Policy without an explicit authorization contract.
+- Do not infer admin-only access from the absence of existing authorization.
+- Implementation may resume only after the Task authorization contract is explicitly defined.
 
-Authorization contract:
+After the Task authorization architecture decision is made, implement only the approved contract, then run the targeted authorization tests, regression, runtime evidence, and Green Gate.
 
-Permission-based authorization is enforced at the TaskController boundary using Spatie permissions.
-
-No TaskPolicy, ownership rule, or assignment-based authorization is introduced because no resource-level authorization contract was established.
-
-Role matrix:
-
-* Super Admin:
-  - task.view
-  - task.create
-  - task.update
-  - task.delete
-
-* Tenant Admin:
-  - task.view
-  - task.create
-  - task.update
-  - task.delete
-
-* Manager:
-  - task.view
-  - task.create
-  - task.update
-
-* Support:
-  - task.view
-
-* Technician:
-  - task.view
-  - task.update
-
-* Accountant:
-  - none
-
-* Customer:
-  - none
-
-Implementation boundary:
-
-* `TaskController::index()` requires `task.view`.
-* `TaskController::store()` requires `task.create`.
-* `TaskController::update()` requires `task.update`.
-* `TaskController::destroy()` requires `task.delete`.
-* Existing `auth:sanctum` Task routes are preserved.
-* No Task Policy was introduced.
-* No ownership / assignment authorization was introduced.
-* No unrelated Task service, route, or domain changes were made.
-
-Security test evidence:
-
-* `TaskControllerAuthorizationTest`: 17 passed / 44 assertions.
-
-Full regression evidence:
-
-* 693 passed
-* 1768 assertions
-* 0 failures
-* Duration: 536.53s
-
-Verdict:
-
-[x] GAP-9.3-J — CLOSED / GREEN
-
-Task authorization is now part of the completed Phase 9 authorization scope.
-
-Do not reopen GAP-9.3-J without new regression evidence or an explicit authorization contract change.
+Task remains DECISION_REQUIRED and is not part of the currently executable Presentation implementation scope until an explicit authorization contract is defined.
 
 Ticket
 
@@ -4262,34 +4187,23 @@ If no contract gap is proven, record NO GAP and continue.
 
 If a contract is missing, do not invent permissions, roles, Policies, ownership rules, or middleware without an explicit architectural decision.
 
-TASK AUTHORIZATION BOUNDARY
+TASK DECISION BOUNDARY
 
-Task authorization is explicitly established and closed under GAP-9.3-J.
+Task authorization remains explicitly unresolved.
 
-The approved contract is permission-based authorization at the TaskController boundary.
+The following are prohibited until an explicit Task authorization contract exists:
 
-Established permissions:
+* inventing Task permission names
+* inventing Task role assignments
+* creating a Task Policy
+* adding Task authorization middleware
+* inferring admin-only Task access
+* changing Task ownership semantics
+* changing Task assignment semantics
 
-* task.view
-* task.create
-* task.update
-* task.delete
+The Task decision must remain isolated from the remaining Presentation audit.
 
-Established role matrix:
-
-* Super Admin: task.view, task.create, task.update, task.delete
-* Tenant Admin: task.view, task.create, task.update, task.delete
-* Manager: task.view, task.create, task.update
-* Support: task.view
-* Technician: task.view, task.update
-* Accountant: none
-* Customer: none
-
-No Task Policy, ownership rule, assignment-based authorization rule, or additional Task permission may be introduced unless new evidence or an explicit architectural decision changes the established contract.
-
-GAP-9.3-J is CLOSED / GREEN and remains part of the completed Phase 9 authorization scope.
-
-A different verified Presentation gap may be audited and fixed without reopening Task authorization.
+A different verified Presentation gap may be audited and fixed without modifying the unresolved Task authorization contract.
 
 PHASE 9 EXECUTION RULES
 
@@ -4383,7 +4297,7 @@ Current state:
 
 [x] Task route/controller contract — CLOSED / GREEN
 
-[x] GAP-9.3-J — Task Authorization — CLOSED / GREEN
+[ ] Task authorization architecture decision — DECISION_REQUIRED
 
 GAP-9.3-I — Web Network Authorization
 
@@ -4461,34 +4375,17 @@ Do not reopen GAP-9.3-I without new regression evidence or an explicit authoriza
 
 Do not reopen GAP-9.2 because of Web Network authorization.
 
-Task authorization is CLOSED / GREEN under GAP-9.3-J.
+Task authorization remains isolated and unresolved:
 
-Established contract:
+[ ] Task authorization architecture decision — DECISION_REQUIRED
 
-* Permission-based authorization at the TaskController boundary.
-* Super Admin: task.view, task.create, task.update, task.delete.
-* Tenant Admin: task.view, task.create, task.update, task.delete.
-* Manager: task.view, task.create, task.update.
-* Support: task.view.
-* Technician: task.view, task.update.
-* Accountant: none.
-* Customer: none.
-* No TaskPolicy or ownership / assignment authorization rule.
+Task authorization rules:
 
-Targeted security evidence:
-
-* 17 passed / 44 assertions.
-
-Full regression evidence:
-
-* 693 passed
-* 1768 assertions
-* 0 failures
-* Duration: 536.53s
-
-[x] GAP-9.3-J — CLOSED / GREEN
-
-Do not reopen GAP-9.3-J without new regression evidence or an explicit authorization contract change.
+* Do not invent Task permissions.
+* Do not invent a Task role matrix.
+* Do not create a Task Policy without an explicit authorization contract.
+* Do not infer admin-only access.
+* Do not modify Task authorization until the contract is explicitly established.
 
 [~] Remaining Presentation / Authorization Audit
 
@@ -4498,21 +4395,11 @@ Continue Phase 9 from the remaining Presentation / Authorization surfaces only.
 
 Immediate next action:
 
+→ Resolve the explicit authorization contract for Task authorization
+
+→ Do not implement Task production authorization before the contract is established
+
 → Continue the remaining Presentation / Authorization audit using evidence-first analysis
-
-→ Identify GAP / NO GAP
-
-→ Perform a minimal implementation only when a real GAP and explicit contract exist
-
-→ Add targeted tests
-
-→ Run regression if production code changes
-
-→ Collect runtime evidence
-
-→ Green Gate
-
-→ STOP
 
 → Identify GAP / NO GAP
 
@@ -4536,17 +4423,17 @@ LATEST FULL REGRESSION EVIDENCE
 
 The latest complete PHPUnit regression is:
 
-693 passed
+676 passed
 
-1768 assertions
+1724 assertions
 
 0 failures
 
-536.53s
+391.64s
 
-This regression is the current project-wide Green Gate after GAP-9.3-J Task Authorization.
+This regression is the current project-wide Green Gate after GAP-9.3-I Web Network Authorization.
 
-The previous 676 passed / 1724 assertions regression was the Green Gate for GAP-9.3-I Web Network Authorization and is now historical evidence only.
+The previous 669 passed / 1683 assertions regression was the Green Gate for GAP-9.3-H and is now historical evidence only.
 
 The increase in test duration is recorded as accumulated test-suite execution cost from the added Feature / Security authorization coverage.
 

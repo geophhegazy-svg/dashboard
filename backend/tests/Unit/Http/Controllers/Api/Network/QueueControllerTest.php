@@ -14,10 +14,25 @@ use App\Modules\Network\Infrastructure\Persistence\Models\NetworkDevice;
 use App\Modules\Network\Application\Contracts\NetworkManagerInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use App\Models\User;
 use Tests\TestCase;
 
 class QueueControllerTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $user = User::factory()->create();
+
+        $user->givePermissionTo([
+            'queue.view',
+            'queue.create',
+        ]);
+
+        $this->actingAs($user);
+    }
+
     public function test_index_uses_network_device_repository_contract(): void
     {
         $device = new NetworkDevice();
