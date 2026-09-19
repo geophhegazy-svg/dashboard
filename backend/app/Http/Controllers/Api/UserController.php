@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\User;
-use Illuminate\Http\Request;
+use App\Application\Actions\User\CreateUserAction;
+use App\Application\Actions\User\DeleteUserAction;
+use App\Application\Actions\User\UpdateUserAction;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserResource;
+use App\Models\User;
 
 class UserController extends Controller
 {
@@ -23,18 +24,19 @@ class UserController extends Controller
         );
     }
 
-    public function store(StoreUserRequest $request)
-    {
+    public function store(
+        StoreUserRequest $request,
+        CreateUserAction $action,
+    ) {
         $this->authorize('create', User::class);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'tenant_id' => $request->tenant_id,
-        ]);
-
-        $user->assignRole($request->role);
+        $user = $action->execute(
+            $request->name,
+            $request->email,
+            $request->password,
+            $request->tenant_id,
+            $request->role,
+        );
 
         return new UserResource($user);
     }
@@ -46,29 +48,31 @@ class UserController extends Controller
         return new UserResource($user);
     }
 
-    public function update(UpdateUserRequest $request, User $user)
-    {
+    public function update(
+        UpdateUserRequest $request,
+        User $user,
+        UpdateUserAction $action,
+    ) {
         $this->authorize('update', $user);
 
-        $data = $request->validated();
+        $user = $action->execute(
+            $user,
+            $request->validated(),
+        );
 
-        if (isset($data['password'])) {
-            $data['password'] = Hash::make($data['password']);
-        }
-
-        $user->update($data);
-
-        return new UserResource($user->refresh());
+        return new UserResource($user);
     }
 
-    public function destroy(User $user)
-    {
+    public function destroy(
+        User $user,
+        DeleteUserAction $action,
+    ) {
         $this->authorize('delete', $user);
 
-        $user->delete();
+        $action->execute($user);
 
         return response()->json([
-            'message' => 'User deleted'
+            'message' => 'User deleted',
         ]);
     }
 }

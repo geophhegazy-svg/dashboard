@@ -4355,140 +4355,136 @@ Do not perform speculative migration of legacy manual commands.
 
 CURRENT EXECUTION POSITION
 
-Phase 9 — API / Presentation / Authorization
-
-Current state:
-
-[x] GAP-9.1 — API Sanctum Route Protection — CLOSED / GREEN
-
-[x] GAP-9.2 — Network Controller Mutation Boundary — CLOSED / GREEN
-
-[x] GAP-9.3-A — HotspotSubscription Authorization — CLOSED / GREEN
-
-[x] GAP-9.3-B — Dashboard Authorization — CLOSED / GREEN
-
-[x] GAP-9.3-C — Reports Authorization — CLOSED / GREEN
-
-[x] GAP-9.3-D — Scheduled Reports Authorization — CLOSED / GREEN
-
-[x] GAP-9.3-E — MikroTik Authorization — CLOSED / GREEN
-
-[x] GAP-9.3-F — Notification Authorization — CLOSED / GREEN
-
-[x] GAP-9.3-G — Ticket Authorization — CLOSED / GREEN
-
-[x] GAP-9.3-H — Hotspot Read Authorization — CLOSED / GREEN
-
-[x] GAP-9.3-I — Web Network Authorization — CLOSED / GREEN
-
-[x] Task route/controller contract — CLOSED / GREEN
-
-[x] GAP-9.3-J — Task Authorization — CLOSED / GREEN
-
-GAP-9.3-I — Web Network Authorization
+GAP-9.5 — Customer Self-Service Presentation / Authentication Boundary
 
 STATUS: CLOSED / GREEN
 
-Authorization decision:
+Objective:
 
-B — Independent Permissions
+Close the verified Customer self-service presentation and authentication boundary gaps while preserving the existing Customer Module, Sanctum/API authentication, customer guard, validation, and self-service contracts.
 
-Surfaces:
+Finding:
 
-* queues.*
-* firewall.*
-* dhcp.*
+Two concrete gaps were identified:
 
-Established authorization contract:
+1. `CustomerProfileController` contained direct Customer persistence mutations:
 
-Queue:
+* `$customer->update()`
+* `$customer->update(['password' => Hash::make(...)])`
 
-* queue.view
-* queue.create
-* queue.update
-* queue.delete
-* queue.toggle
+2. Customer web self-service routes were registered with `web` only and lacked:
 
-Firewall:
+* `auth:customer`
 
-* firewall.view
-* firewall.create
-* firewall.update
-* firewall.delete
+The API customer routes were already protected by:
 
-DHCP:
+* `auth:sanctum`
 
-* dhcp.view
-* dhcp.create
-* dhcp.update
-* dhcp.delete
+Therefore, no API authentication gap was identified.
 
-Implementation boundary:
+Architectural decision:
 
-* Web Network controllers enforce the independent permissions explicitly.
-* Web Network routes are protected by `web, auth`.
-* No Network Policy was introduced.
-* `mikrotik.view` is not reused for Queue / Firewall / DHCP authorization.
-* GAP-9.2 is not reopened.
+Do not create:
 
-Runtime evidence:
+* `app/Modules/User`
+* `app/Modules/Tenant`
+* new Repository architecture
+* new Core abstractions
+* new authorization mechanisms
+* new Customer Policy for self-service profile access
 
-* 19/19 Web Network routes are protected by `web, auth`.
-* 13/13 Web Network permissions exist.
-* Missing Web Network permissions: 0.
-* Guest requests to Web Network routes require authentication.
+Use the existing Customer Module Application boundary and the existing `customer` authentication guard.
 
-Security test evidence:
+Production changes:
 
-* `WebNetworkAuthorizationTest`: 7 passed / 41 assertions.
+Created:
 
-Controller Unit test evidence:
+* `app/Modules/Customer/Application/Actions/UpdateCustomerProfileAction.php`
+* `app/Modules/Customer/Application/Actions/ChangeCustomerPasswordAction.php`
 
-* Queue / Firewall / DHCP authorization fixtures: 6 passed / 27 assertions.
+Updated:
 
-Full regression evidence:
+* `app/Http/Controllers/CustomerProfileController.php`
+* Customer web route authentication boundary
 
-* 676 passed
-* 1724 assertions
-* 0 failures
-* Duration: 391.64s
+Controller responsibilities remain limited to:
 
-Verdict:
+* Request validation
+* Current-password verification
+* Authenticated customer resolution
+* Response handling
 
-[x] GAP-9.3-I — CLOSED / GREEN
+Application Actions own:
 
-Do not reopen GAP-9.3-I without new regression evidence or an explicit authorization contract change.
+* Customer profile persistence
+* New password hashing and persistence
 
-Do not reopen GAP-9.2 because of Web Network authorization.
+Web customer route boundary:
 
-Task authorization is CLOSED / GREEN under GAP-9.3-J.
+Protected by:
 
-Established contract:
+* `web`
+* `auth:customer`
 
-* Permission-based authorization at the TaskController boundary.
-* Super Admin: task.view, task.create, task.update, task.delete.
-* Tenant Admin: task.view, task.create, task.update, task.delete.
-* Manager: task.view, task.create, task.update.
-* Support: task.view.
-* Technician: task.view, task.update.
-* Accountant: none.
-* Customer: none.
-* No TaskPolicy or ownership / assignment authorization rule.
+Protected surfaces include:
+
+* customer logout
+* customer invoices
+* customer tickets
+* customer profile
+* customer profile update
+* customer password change
+
+Public surfaces remain:
+
+* `customer/login`
+* `customer/login` POST
+
+API customer routes remain protected by:
+
+* `auth:sanctum`
+
+Runtime route evidence:
+
+* Customer web protected routes show `Illuminate\Auth\Middleware\Authenticate:customer`.
+* Customer login routes remain public.
+* API customer routes show `Illuminate\Auth\Middleware\Authenticate:sanctum`.
+
+Direct mutation evidence:
+
+* No direct Customer persistence mutation remains in `CustomerProfileController`.
+* Profile persistence is delegated to `UpdateCustomerProfileAction`.
+* Password persistence is delegated to `ChangeCustomerPasswordAction`.
 
 Targeted security evidence:
 
-* 17 passed / 44 assertions.
-
-Full regression evidence:
-
-* 693 passed
-* 1768 assertions
+* `CustomerProfileSecurityTest`: 5 passed
+* 15 assertions
 * 0 failures
-* Duration: 536.53s
+* Duration: 42.00s
 
-[x] GAP-9.3-J — CLOSED / GREEN
+Targeted security coverage:
 
-Do not reopen GAP-9.3-J without new regression evidence or an explicit authorization contract change.
+* Guest cannot access customer profile.
+* Guest cannot update customer profile.
+* Authenticated customer can update own profile.
+* Authenticated customer can change password.
+* Wrong current password is rejected and the existing password remains unchanged.
+
+Production regression evidence:
+
+* 702 passed
+* 1793 assertions
+* 0 failures
+* Duration: 407.29s
+
+Verdict:
+
+[x] GAP-9.5 — CLOSED / GREEN
+
+Do not reopen GAP-9.5 without new regression evidence or an explicit Customer self-service authentication/presentation contract change.
+
+Do not reopen GAP-9.1 through GAP-9.4 because of GAP-9.5.
 
 [~] Remaining Presentation / Authorization Audit
 
@@ -4514,20 +4510,6 @@ Immediate next action:
 
 → STOP
 
-→ Identify GAP / NO GAP
-
-→ Perform a minimal implementation only when a real GAP and explicit contract exist
-
-→ Add targeted tests
-
-→ Run regression if production code changes
-
-→ Collect runtime evidence
-
-→ Green Gate
-
-→ STOP
-
 Other remaining Presentation / Authorization surfaces must continue to follow the same evidence-first process.
 
 No completed GAP may be reopened without direct regression evidence or an explicit architectural decision.
@@ -4535,6 +4517,30 @@ No completed GAP may be reopened without direct regression evidence or an explic
 LATEST FULL REGRESSION EVIDENCE
 
 The latest complete PHPUnit regression is:
+
+702 passed
+
+1793 assertions
+
+0 failures
+
+407.29s
+
+This regression is the current project-wide Green Gate after GAP-9.5 Customer Self-Service Presentation / Authentication Boundary.
+
+Previous project-wide Green Gate after GAP-9.4:
+
+697 passed
+
+1778 assertions
+
+0 failures
+
+450.39s
+
+Historical authorization checkpoints:
+
+GAP-9.3-J Task Authorization:
 
 693 passed
 
@@ -4544,13 +4550,27 @@ The latest complete PHPUnit regression is:
 
 536.53s
 
-This regression is the current project-wide Green Gate after GAP-9.3-J Task Authorization.
+GAP-9.3-I Web Network Authorization:
 
-The previous 676 passed / 1724 assertions regression was the Green Gate for GAP-9.3-I Web Network Authorization and is now historical evidence only.
+676 passed
 
-The increase in test duration is recorded as accumulated test-suite execution cost from the added Feature / Security authorization coverage.
+1724 assertions
 
-No production performance refactor is justified solely by this duration change.
+0 failures
+
+391.64s
+
+These historical regressions remain evidence for their respective completed GAPs only.
+
+The current project-wide Green Gate is:
+
+702 passed / 1793 assertions / 0 failures / 407.29s
+
+The increase from 697 to 702 tests and from 1778 to 1793 assertions is attributable to the added GAP-9.5 targeted security coverage.
+
+The current full regression duration is lower than the previous GAP-9.4 checkpoint.
+
+No production performance refactor is justified by test-suite duration alone.
 
 Do not reopen completed authorization gaps because of regression duration.
 

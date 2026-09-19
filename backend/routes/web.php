@@ -98,22 +98,25 @@ Route::prefix('customer')->name('customer.')->group(function () {
     // Auth
     Route::get('/login', [App\Http\Controllers\CustomerAuthController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [App\Http\Controllers\CustomerAuthController::class, 'login'])->name('login.post');
-    Route::post('/logout', [App\Http\Controllers\CustomerAuthController::class, 'logout'])->name('logout');
 
-    // Invoices
-    Route::get('/invoices', [App\Http\Controllers\CustomerInvoiceController::class, 'index'])->name('invoices');
-    Route::get('/invoices/{id}', [App\Http\Controllers\CustomerInvoiceController::class, 'show'])->name('invoice.show');
+    Route::middleware('auth:customer')->group(function () {
+        Route::post('/logout', [App\Http\Controllers\CustomerAuthController::class, 'logout'])->name('logout');
 
-    // Tickets
-    Route::get('/tickets', [App\Http\Controllers\CustomerTicketController::class, 'index'])->name('tickets');
-    Route::get('/tickets/create', [App\Http\Controllers\CustomerTicketController::class, 'create'])->name('ticket.create');
-    Route::post('/tickets', [App\Http\Controllers\CustomerTicketController::class, 'store'])->name('ticket.store');
-    Route::get('/tickets/{id}', [App\Http\Controllers\CustomerTicketController::class, 'show'])->name('ticket.show');
-    Route::post('/tickets/{id}/reply', [App\Http\Controllers\CustomerTicketController::class, 'reply'])->name('ticket.reply');
-    Route::post('/tickets/{id}/close', [App\Http\Controllers\CustomerTicketController::class, 'close'])->name('ticket.close');
+        // Invoices
+        Route::get('/invoices', [App\Http\Controllers\CustomerInvoiceController::class, 'index'])->name('invoices');
+        Route::get('/invoices/{id}', [App\Http\Controllers\CustomerInvoiceController::class, 'show'])->name('invoice.show');
 
-    // Profile
-    Route::get('/profile', [App\Http\Controllers\CustomerProfileController::class, 'show'])->name('profile');
-    Route::put('/profile', [App\Http\Controllers\CustomerProfileController::class, 'update'])->name('profile.update');
-    Route::post('/profile/change-password', [App\Http\Controllers\CustomerProfileController::class, 'changePassword'])->name('profile.change-password');
+        // Tickets
+        Route::get('/tickets', [App\Http\Controllers\CustomerTicketController::class, 'index'])->name('tickets');
+        Route::get('/tickets/create', [App\Http\Controllers\CustomerTicketController::class, 'create'])->name('ticket.create');
+        Route::post('/tickets', [App\Http\Controllers\CustomerTicketController::class, 'store'])->name('ticket.store');
+        Route::get('/tickets/{id}', [App\Http\Controllers\CustomerTicketController::class, 'show'])->name('ticket.show');
+        Route::post('/tickets/{id}/reply', [App\Http\Controllers\CustomerTicketController::class, 'reply'])->name('ticket.reply');
+        Route::post('/tickets/{id}/close', [App\Http\Controllers\CustomerTicketController::class, 'close'])->name('ticket.close');
+
+        // Profile
+        Route::get('/profile', [App\Http\Controllers\CustomerProfileController::class, 'show'])->name('profile');
+        Route::put('/profile', [App\Http\Controllers\CustomerProfileController::class, 'update'])->name('profile.update');
+        Route::post('/profile/change-password', [App\Http\Controllers\CustomerProfileController::class, 'changePassword'])->name('profile.change-password');
+    });
 });

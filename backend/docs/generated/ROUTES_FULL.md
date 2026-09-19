@@ -1083,84 +1083,84 @@
 - Method: POST
 - Name: customer.logout
 - Action: App\Http\Controllers\CustomerAuthController@logout
-- Middleware: web
+- Middleware: web, auth:customer
 
 ## customer/invoices
 
 - Method: GET|HEAD
 - Name: customer.invoices
 - Action: App\Http\Controllers\CustomerInvoiceController@index
-- Middleware: web
+- Middleware: web, auth:customer
 
 ## customer/invoices/{id}
 
 - Method: GET|HEAD
 - Name: customer.invoice.show
 - Action: App\Http\Controllers\CustomerInvoiceController@show
-- Middleware: web
+- Middleware: web, auth:customer
 
 ## customer/tickets
 
 - Method: GET|HEAD
 - Name: customer.tickets
 - Action: App\Http\Controllers\CustomerTicketController@index
-- Middleware: web
+- Middleware: web, auth:customer
 
 ## customer/tickets/create
 
 - Method: GET|HEAD
 - Name: customer.ticket.create
 - Action: App\Http\Controllers\CustomerTicketController@create
-- Middleware: web
+- Middleware: web, auth:customer
 
 ## customer/tickets
 
 - Method: POST
 - Name: customer.ticket.store
 - Action: App\Http\Controllers\CustomerTicketController@store
-- Middleware: web
+- Middleware: web, auth:customer
 
 ## customer/tickets/{id}
 
 - Method: GET|HEAD
 - Name: customer.ticket.show
 - Action: App\Http\Controllers\CustomerTicketController@show
-- Middleware: web
+- Middleware: web, auth:customer
 
 ## customer/tickets/{id}/reply
 
 - Method: POST
 - Name: customer.ticket.reply
 - Action: App\Http\Controllers\CustomerTicketController@reply
-- Middleware: web
+- Middleware: web, auth:customer
 
 ## customer/tickets/{id}/close
 
 - Method: POST
 - Name: customer.ticket.close
 - Action: App\Http\Controllers\CustomerTicketController@close
-- Middleware: web
+- Middleware: web, auth:customer
 
 ## customer/profile
 
 - Method: GET|HEAD
 - Name: customer.profile
 - Action: App\Http\Controllers\CustomerProfileController@show
-- Middleware: web
+- Middleware: web, auth:customer
 
 ## customer/profile
 
 - Method: PUT
 - Name: customer.profile.update
 - Action: App\Http\Controllers\CustomerProfileController@update
-- Middleware: web
+- Middleware: web, auth:customer
 
 ## customer/profile/change-password
 
 - Method: POST
 - Name: customer.profile.change-password
 - Action: App\Http\Controllers\CustomerProfileController@changePassword
-- Middleware: web
+- Middleware: web, auth:customer
 
 ## broadcasting/auth
 

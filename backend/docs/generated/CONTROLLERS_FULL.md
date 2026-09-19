@@ -85,6 +85,9 @@ App\Http\Controllers\Api
 
 - login()
 - me()
+- logout()
+- updateProfile()
+- changePassword()
 
 ---
 
@@ -254,6 +257,11 @@ App\Http\Controllers
 /var/www/app/Http/Controllers/CustomerProfileController.php
 ```
 
+**Dependencies**
+
+- UpdateCustomerProfileAction $updateProfile
+- ChangeCustomerPasswordAction $changePassword
+
 **Public Methods**
 
 - show()
@@ -276,9 +284,15 @@ App\Http\Controllers\Api
 /var/www/app/Http/Controllers/Api/CustomerSubscriptionController.php
 ```
 
+**Dependencies**
+
+- WorkflowEngine $engine
+- RenewWorkflow $renewWorkflow
+
 **Public Methods**
 
 - current()
+- renew()
 
 ---
 
