@@ -15,6 +15,6 @@ class DocumentationIndexGeneratorTest extends TestCase
     {
         $response = $this->get('/');
 
-        $response->assertRedirect('/dashboard');
+        $response->assertOk();
     }
 }

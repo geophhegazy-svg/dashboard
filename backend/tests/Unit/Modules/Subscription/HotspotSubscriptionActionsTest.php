@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Modules\Subscription;
 
+use App\Core\Tenancy\Contracts\TenantContextInterface;
 use App\Modules\Customer\Infrastructure\Persistence\Models\Customer;
 use App\Core\EventBus\Contracts\EventDispatcherInterface;
 use App\Modules\Subscription\Domain\Events\HotspotSubscriptionActivated;
@@ -47,8 +48,23 @@ final class HotspotSubscriptionActionsTest extends TestCase
                     new HotspotSubscription($data)
             );
 
+        $tenantContext = Mockery::mock(
+            TenantContextInterface::class
+        );
+
+        $tenantContext
+            ->shouldReceive('isGlobal')
+            ->once()
+            ->andReturnFalse();
+
+        $tenantContext
+            ->shouldReceive('tenantId')
+            ->once()
+            ->andReturn($customer->tenant_id);
+
         $action = new CreateHotspotSubscriptionAction(
             $repository,
+            $tenantContext,
         );
 
         $result = $action->execute([

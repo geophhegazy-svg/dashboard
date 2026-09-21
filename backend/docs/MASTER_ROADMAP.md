@@ -3309,7 +3309,7 @@ Current Phase
 
 Phase 9 — API / Presentation / Authorization
 
-Status: [~] IN PROGRESS
+Status: [x] CLOSED / GREEN
 
 Phase 9 Progress
 GAP-9.1 — API Authentication Exposure
@@ -3349,7 +3349,9 @@ GAP-9.3-J — Task Authorization
 [x] CLOSED / GREEN
 
 Remaining Presentation / Authorization Audit
-[~] CURRENT EXECUTION POSITION
+[x] CLOSED / GREEN
+
+Phase 9 final presentation / authorization audit completed.
 
 Phase 8 — Infrastructure & Network Integration:
 
@@ -3395,10 +3397,22 @@ No GAP-9.3-E reopening has occurred.
 No GAP-9.3-F reopening has occurred.
 
 Phase 9 Current Green Gate
-644 passed
-1656 assertions
+
+710 passed
+1817 assertions
 0 failures
-Duration: 558.87s
+Duration: 508.57s
+
+Final Phase 9 Green Gate:
+- API authentication exposure verified
+- Customer web authentication boundary verified
+- Controller authorization surface verified
+- Customer API ownership verified
+- HotspotSubscription cross-tenant creation boundary verified
+- Direct controller persistence audit GREEN
+- Authorization / Policy / Permission classification GREEN
+- Route middleware classification GREEN
+- Presentation / Authorization remaining candidates: NONE
 Phase 8 Final Evidence
 
 All Phase 8 audits are closed:
@@ -3887,15 +3901,15 @@ NONE
 
 Current active phase:
 
-Phase 9 — API / Presentation / Authorization
+Phase 10 — Frontend Readiness Gate
 
 Current execution position:
 
-Remaining Presentation / Authorization Audit
+Frontend Readiness Evidence Audit
 
 Current authorization candidates:
 
-Task
+NONE — Phase 9 authorization scope is CLOSED / GREEN
 DEFERRED ITEMS
 
 Deferred items are not failures.
@@ -3911,9 +3925,7 @@ WalletTransaction
 
 Current broader remaining work:
 
-Complete API / Presentation audit
-
-Complete Authorization audit
+Frontend Readiness Gate
 
 Complete Documentation audit
 
@@ -3971,39 +3983,33 @@ NEXT CONCRETE WORK
 
 The current execution phase is:
 
-Phase 9 — API / Presentation / Authorization
+Phase 10 — Frontend Readiness Gate
 
 The current execution position is:
 
-Remaining Presentation / Authorization Audit
+Frontend Readiness Evidence Audit
 
 Immediate Action
 
-Phase 9 — API / Presentation / Authorization
+Phase 10 — Frontend Readiness Gate
 
 → Quick Audit
 
-→ Remaining controller classification
+→ Backend API contract readiness
 
-→ Route / controller contract verification
+→ Authentication / token / session integration readiness
 
-→ Existing Policy classification
+→ CORS / frontend-backend boundary readiness
 
-→ Permission / Role classification
+→ Route surface readiness
 
-→ Sanctum authorization classification
+→ Resource / DTO / response contract readiness
 
-→ Ownership / scope classification
+→ Validation / error contract readiness
 
-→ Request validation classification
+→ Pagination / filtering / sorting readiness
 
-→ Resource / Response classification
-
-→ API contract classification
-
-→ Pagination / Filtering / Sorting classification
-
-→ Error contract classification
+→ Frontend integration entrypoint readiness
 
 → Gap / No Gap
 
@@ -4018,6 +4024,7 @@ Phase 9 — API / Presentation / Authorization
 → Green Gate
 
 → STOP
+
 
 COMPLETED AUDIT TARGETS
 
@@ -4122,6 +4129,7 @@ Task authorization is now part of the completed Phase 9 authorization scope.
 
 Do not reopen GAP-9.3-J without new regression evidence or an explicit authorization contract change.
 
+
 Ticket
 
 [x] GAP-9.3-G — Ticket Authorization Contract — CLOSED / GREEN
@@ -4183,6 +4191,7 @@ No Ticket ownership refactor is required.
 
 Ticket authorization is CLOSED and must not be reopened without new regression evidence or an explicit architectural decision.
 
+
 Hotspot Read Authorization
 
 [x] GAP-9.3-H — Hotspot Read Authorization — CLOSED / GREEN
@@ -4236,128 +4245,10 @@ No Hotspot ownership or tenant-scope refactor is required.
 
 GAP-9.3-H is CLOSED and must not be reopened without new regression evidence or an explicit architectural decision.
 
-REMAINING PRESENTATION / AUTHORIZATION AUDIT
-
-The following items remain subject to the Phase 9 audit process:
-
-→ Remaining controller classification
-
-→ Web Network route middleware / authorization contract verification
-
-→ Any other controller or route surface discovered by evidence
-
-→ Request validation contract verification
-
-→ Resource / response contract verification
-
-→ API contract verification
-
-→ Pagination / filtering / sorting contract verification
-
-→ Error contract verification
-
-Only a verified GAP may produce an implementation change.
-
-If no contract gap is proven, record NO GAP and continue.
-
-If a contract is missing, do not invent permissions, roles, Policies, ownership rules, or middleware without an explicit architectural decision.
-
-TASK AUTHORIZATION BOUNDARY
-
-Task authorization is explicitly established and closed under GAP-9.3-J.
-
-The approved contract is permission-based authorization at the TaskController boundary.
-
-Established permissions:
-
-* task.view
-* task.create
-* task.update
-* task.delete
-
-Established role matrix:
-
-* Super Admin: task.view, task.create, task.update, task.delete
-* Tenant Admin: task.view, task.create, task.update, task.delete
-* Manager: task.view, task.create, task.update
-* Support: task.view
-* Technician: task.view, task.update
-* Accountant: none
-* Customer: none
-
-No Task Policy, ownership rule, assignment-based authorization rule, or additional Task permission may be introduced unless new evidence or an explicit architectural decision changes the established contract.
-
-GAP-9.3-J is CLOSED / GREEN and remains part of the completed Phase 9 authorization scope.
-
-A different verified Presentation gap may be audited and fixed without reopening Task authorization.
-
-PHASE 9 EXECUTION RULES
-
-Do not infer a Policy merely because a controller lacks `authorize()`.
-
-Do not infer a missing Permission merely because a controller is authenticated.
-
-Do not infer admin-only access without checking the existing role, permission, policy, route, and ownership contracts.
-
-Do not create new permission names before evidence proves they are required.
-
-Do not create new Policies before verifying that an existing Policy cannot satisfy the contract.
-
-Do not modify ownership semantics without explicit evidence.
-
-Do not modify request validation merely for stylistic consistency.
-
-Do not modify API response structure without a proven contract gap.
-
-Do not modify pagination/filtering/sorting behavior without a proven contract gap.
-
-Do not modify error behavior without a proven contract gap.
-
-Do not perform speculative refactoring.
-
-Do not reopen completed GAPs without new regression evidence.
-
-Do not reopen completed phases without new regression evidence or an explicit architectural decision.
-
-CLOSED PHASE / GAP PROTECTION
-
-Do not reopen GAP-9.1.
-
-Do not reopen GAP-9.2.
-
-Do not reopen GAP-9.3-A.
-
-Do not reopen GAP-9.3-B.
-
-Do not reopen GAP-9.3-C.
-
-Do not reopen GAP-9.3-D.
-
-Do not reopen GAP-9.3-E.
-
-Do not reopen GAP-9.3-F.
-
-Do not reopen GAP-9.3-G.
-
-Do not reopen GAP-9.3-H.
-
-Do not reopen Phase 8.
-
-Do not reopen Phase 7.
-
-Do not reopen Phase 6.
-
-Do not reopen Audits 1–12 without new regression evidence.
-
-Do not modify Subscription lifecycle code without new regression evidence.
-
-Do not perform speculative migration of legacy manual commands.
-
-CURRENT EXECUTION POSITION
 
 GAP-9.5 — Customer Self-Service Presentation / Authentication Boundary
 
-STATUS: CLOSED / GREEN
+[x] GAP-9.5 — CLOSED / GREEN
 
 Objective:
 
@@ -4380,7 +4271,7 @@ The API customer routes were already protected by:
 
 * `auth:sanctum`
 
-Therefore, no API authentication gap was identified.
+Therefore, no API authentication gap was identified at GAP-9.5.
 
 Architectural decision:
 
@@ -4463,15 +4354,7 @@ Targeted security evidence:
 * 0 failures
 * Duration: 42.00s
 
-Targeted security coverage:
-
-* Guest cannot access customer profile.
-* Guest cannot update customer profile.
-* Authenticated customer can update own profile.
-* Authenticated customer can change password.
-* Wrong current password is rejected and the existing password remains unchanged.
-
-Production regression evidence:
+Production regression evidence at GAP-9.5:
 
 * 702 passed
 * 1793 assertions
@@ -4486,15 +4369,620 @@ Do not reopen GAP-9.5 without new regression evidence or an explicit Customer se
 
 Do not reopen GAP-9.1 through GAP-9.4 because of GAP-9.5.
 
-[~] Remaining Presentation / Authorization Audit
+
+GAP-9.6-A — Customer API Ownership Contract
+
+[x] GAP-9.6-A — CLOSED / GREEN
+
+Objective:
+
+Verify the Customer API ownership boundary, route/controller contract, authenticated customer self-service operations, and Customer subscription renewal ownership without introducing a new authorization architecture.
+
+Findings:
+
+Two concrete API presentation gaps were confirmed:
+
+1. `CustomerAuthController` was referenced by Customer API routes but was missing:
+
+* `logout`
+* `updateProfile`
+* `changePassword`
+
+2. `CustomerSubscriptionController` was referenced by the Customer API route:
+
+* `POST /api/customer/subscription/renew`
+
+but was missing:
+
+* `renew`
+
+Customer API ownership itself was already based on the authenticated Sanctum Customer and did not require a new ownership abstraction.
+
+Existing Customer API routes remain protected by:
+
+* `auth:sanctum`
+
+Ownership boundary:
+
+* Customer operations resolve the authenticated Customer from the request.
+* Customer profile operations operate on the authenticated Customer.
+* Customer password changes operate on the authenticated Customer.
+* Customer subscription renewal resolves the Subscription belonging to the authenticated Customer.
+* Customer API operations do not accept a client-supplied `customer_id` for ownership.
+* Customer subscription renewal does not use a client-supplied foreign Subscription ID to establish ownership.
+
+Architectural decision:
+
+Do not create:
+
+* new Customer Policy
+* new Customer permission
+* new Customer authorization middleware
+* new Repository architecture
+* new Core authorization abstraction
+* new ownership abstraction
+
+Reuse the existing:
+
+* Customer Module Application Actions
+* Sanctum authentication
+* `customer` / Customer authentication model
+* Subscription domain Action / Workflow architecture
+* existing tenant scope
+* existing Network boundary
+
+Production changes:
+
+Updated:
+
+* `app/Http/Controllers/Api/CustomerAuthController.php`
+* `app/Http/Controllers/Api/CustomerSubscriptionController.php`
+
+CustomerAuthController now provides:
+
+* `logout`
+* `updateProfile`
+* `changePassword`
+
+Profile persistence delegates to:
+
+* `UpdateCustomerProfileAction`
+
+Password persistence delegates to:
+
+* `ChangeCustomerPasswordAction`
+
+Logout removes only the current Sanctum access token.
+
+CustomerSubscriptionController now provides:
+
+* `renew`
+
+Renewal uses the existing:
+
+* `RenewWorkflow`
+
+The authenticated Customer is used to resolve the owned Subscription before renewal.
+
+No direct foreign Subscription ownership path was introduced.
+
+Route evidence:
+
+The following Customer API routes resolve to implemented controller methods:
+
+* `POST /api/customer/logout`
+* `PUT /api/customer/profile`
+* `POST /api/customer/change-password`
+* `POST /api/customer/subscription/renew`
+
+Existing Customer API routes remain under:
+
+* `auth:sanctum`
+
+Test isolation evidence:
+
+The renewal tests initially exposed fixture-level tenant-scope mismatches.
+
+The final test fixtures were corrected so that:
+
+* Customer and owned Subscription share the same `tenant_id`.
+* Customer and owned Package share the same `tenant_id`.
+* Foreign Customer, Subscription, and Package use the foreign Customer tenant.
+* MikroTik lifecycle behavior is mocked at the existing `MikrotikServiceInterface` boundary.
+
+No production Network behavior was changed.
+
+This preserves the existing `TenantScope` and Network contracts.
+
+Targeted security evidence:
+
+`CustomerApiOwnershipContractTest`:
+
+* 6 passed
+* 18 assertions
+* 0 failures
+* Duration: 56.97s
+
+Coverage includes:
+
+* Customer can logout the current Sanctum token.
+* Customer can update own profile.
+* Customer can change own password.
+* Wrong current password is rejected.
+* Customer subscription renewal uses authenticated customer ownership.
+* Foreign subscription ID does not override authenticated customer ownership.
+
+Full regression evidence:
+
+* 708 passed
+* 1811 assertions
+* 0 failures
+* Duration: 520.49s
+
+Verdict:
+
+[x] GAP-9.6-A — CLOSED / GREEN
+
+Customer API ownership and route/controller contract are GREEN.
+
+No Customer API ownership gap remains from GAP-9.6-A.
+
+No new authorization abstraction is required.
+
+No Customer Policy redesign is required.
+
+No Subscription ownership redesign is required.
+
+No Network production change is required.
+
+Do not reopen GAP-9.6-A without new regression evidence or an explicit Customer API ownership contract change.
+
+
+REMAINING PRESENTATION / AUTHORIZATION AUDIT
+
+The following items remain subject to the Phase 9 audit process:
+
+→ Remaining controller classification
+
+→ Web Network route middleware / authorization contract verification
+
+→ Any other controller or route surface discovered by evidence
+
+→ Request validation contract verification
+
+→ Resource / response contract verification
+
+→ API contract verification
+
+→ Pagination / filtering / sorting contract verification
+
+→ Error contract verification
+
+Only a verified GAP may produce an implementation change.
+
+If no contract gap is proven, record NO GAP and continue.
+
+If a contract is missing, do not invent permissions, roles, Policies, ownership rules, or middleware without an explicit architectural decision.
+
+
+TASK AUTHORIZATION BOUNDARY
+
+Task authorization is explicitly established and closed under GAP-9.3-J.
+
+The approved contract is permission-based authorization at the TaskController boundary.
+
+Established permissions:
+
+* task.view
+* task.create
+* task.update
+* task.delete
+
+Established role matrix:
+
+* Super Admin: task.view, task.create, task.update, task.delete
+* Tenant Admin: task.view, task.create, task.update, task.delete
+* Manager: task.view, task.create, task.update
+* Support: task.view
+* Technician: task.view, task.update
+* Accountant: none
+* Customer: none
+
+No Task Policy, ownership rule, assignment-based authorization rule, or additional Task permission may be introduced unless new evidence or an explicit architectural decision changes the established contract.
+
+GAP-9.3-J is CLOSED / GREEN and remains part of the completed Phase 9 authorization scope.
+
+A different verified Presentation gap may be audited and fixed without reopening Task authorization.
+
+
+PHASE 9 EXECUTION RULES
+
+Do not infer a Policy merely because a controller lacks `authorize()`.
+
+Do not infer a missing Permission merely because a controller is authenticated.
+
+Do not infer admin-only access without checking the existing role, permission, policy, route, and ownership contracts.
+
+Do not create new permission names before evidence proves they are required.
+
+Do not create new Policies before verifying that an existing Policy cannot satisfy the contract.
+
+Do not modify ownership semantics without explicit evidence.
+
+Do not modify request validation merely for stylistic consistency.
+
+Do not modify API response structure without a proven contract gap.
+
+Do not modify pagination/filtering/sorting behavior without a proven contract gap.
+
+Do not modify error behavior without a proven contract gap.
+
+Do not perform speculative refactoring.
+
+Do not reopen completed GAPs without new regression evidence.
+
+Do not reopen completed phases without new regression evidence or an explicit architectural decision.
+
+
+CLOSED PHASE / GAP PROTECTION
+
+Do not reopen GAP-9.1.
+
+Do not reopen GAP-9.2.
+
+Do not reopen GAP-9.3-A.
+
+Do not reopen GAP-9.3-B.
+
+Do not reopen GAP-9.3-C.
+
+Do not reopen GAP-9.3-D.
+
+Do not reopen GAP-9.3-E.
+
+Do not reopen GAP-9.3-F.
+
+Do not reopen GAP-9.3-G.
+
+Do not reopen GAP-9.3-H.
+
+Do not reopen GAP-9.3-I.
+
+Do not reopen GAP-9.3-J.
+
+Do not reopen GAP-9.4.
+
+Do not reopen GAP-9.5.
+
+Do not reopen GAP-9.6-A.
+
+Do not reopen Phase 8.
+
+Do not reopen Phase 7.
+
+Do not reopen Phase 6.
+
+Do not reopen completed Audits 1–12 without new regression evidence.
+
+Do not modify Subscription lifecycle code without new regression evidence.
+
+Do not perform speculative migration of legacy manual commands.
+
+Do not reopen completed authorization boundaries because of test-suite duration alone.
+
+
+CURRENT EXECUTION POSITION
+
+Phase 10 — Frontend Readiness Gate
+
+Status:
+
+[~] IN PROGRESS
+
+Current execution position:
+
+[~] Phase 10 — Frontend Readiness Gate
+    GAP-10.1 CLOSED / GREEN
+    GAP-10.2 CLOSED / GREEN
+
+GAP-10.1 — Response Contract Authority:
+
+[x] CLOSED / GREEN
+
+Contract authority:
+- `docs/API_CONTRACT.md`
+- `tests/Feature/Api/Contract/ApiResponseContractTest.php`
+
+Contract evidence:
+- 5 passed
+- 24 assertions
+- 0 failures
+- Contract families covered:
+  - Lifecycle envelope
+  - Paginated Resource collection
+  - Dashboard metrics
+  - Authentication token/user contract
+  - No Content
+
+Targeted regression:
+- 25 passed
+- 76 assertions
+- 0 failures
+- Duration: 82.39s
+
+Full regression:
+- 715 passed
+- 1841 assertions
+- 0 failures
+- Duration: 582.21s
+
+Runtime/API evidence:
+- 130 API routes
+- `POST /api/login` is public.
+- `POST /api/customer/login` is public.
+- Remaining API routes are protected by `auth:sanctum`.
+- Contract runtime suite: 5 passed / 24 assertions / 0 failures / 62.75s.
+
+Production behavior:
+- No API response behavior was changed.
+- No pagination behavior was changed.
+- No filtering or sorting behavior was changed.
+- No frontend application architecture was introduced.
+
+Environment note:
+- `git status --short` could not execute because `/var/www`
+  is not a Git repository in the current runtime.
+- This is not an application failure and does not affect the Green Gate.
+
+GAP-10.1 Green Gate:
+
+[x] Contract authority established
+[x] Targeted contract tests GREEN
+[x] Targeted regression GREEN
+[x] Full regression GREEN
+[x] Runtime/API evidence GREEN
+[x] Production behavior unchanged
+
+No further GAP-10.1 implementation work is authorized.
+
+The Phase 10 execution position does not reopen any completed Phase 9 GAP.
+
+GAP-10.2 — Frontend Build / Integration Readiness:
+
+[x] CLOSED / GREEN
+
+Integration evidence:
+
+- `@vite(['resources/css/app.css', 'resources/js/app.js'])` is present in:
+  - `resources/views/layouts/app.blade.php`
+  - `resources/views/welcome.blade.php`
+- `php artisan view:cache` completed successfully after the integration fix.
+- Application layout Vite integration is therefore valid at the Blade compilation boundary.
+
+Build environment evidence:
+
+- Application container does not provide Node or npm.
+- Windows host build environment provides:
+  - Node `v24.13.1`
+  - npm `11.8.0`
+- Project source tree verified at:
+  - `D:\EgyptNet\backend`
+- `package.json` present.
+- `vite.config.js` present.
+- No Dockerfile or Docker Compose build definition exists in the project repository.
+- No Node/npm installation was added to the application container.
+- The existing project setup contract already defines:
+  - `npm install --ignore-scripts`
+  - `npm run build`
+
+Dependency installation evidence:
+
+- `npm install --ignore-scripts` completed successfully.
+- 60 packages added.
+- 0 vulnerabilities reported.
+- `node_modules` created.
+- `package-lock.json` created.
+
+Production build evidence:
+
+- `npm run build` completed successfully.
+- Vite version: `8.3.0`.
+- Build duration: `2.79s`.
+- `public/build/manifest.json` generated.
+- Manifest size: `1478` bytes.
+- `public/build/fonts-manifest.json` generated.
+- CSS, JavaScript, font, and font stylesheet assets generated.
+- The optional `fontaine` optimization message did not prevent a successful production build and does not authorize an additional dependency change.
+
+Runtime artifact evidence:
+
+- Laravel application container sees `public/build/manifest.json`.
+- Laravel application container sees `public/build` and all generated assets.
+- Manifest contains valid entries for:
+  - `resources/css/app.css`
+  - `resources/js/app.js`
+- `php artisan view:cache` completed successfully with the production manifest present.
+
+Laravel Vite rendering evidence:
+
+- Rendering `layouts.app` through Laravel produced:
+  - `/build/assets/app-BBTr62Y9.css`
+  - `/build/assets/app-BvRk9kiK.js`
+- Laravel generated:
+  - stylesheet preload
+  - modulepreload
+  - stylesheet link
+  - module script
+- This verifies the complete Vite source → build artifact → manifest → Laravel resolver → Blade HTML integration path.
+
+Regression evidence:
+
+- 715 passed
+- 1841 assertions
+- 0 failures
+- Duration: 577.00s
+
+Production scope:
+
+- No frontend framework was introduced.
+- No React/Vue/Angular architecture was introduced.
+- No SPA router or state-management architecture was introduced.
+- No API response contract was changed.
+- No pagination/filtering/sorting behavior was changed.
+- No backend production architecture was refactored.
+- No Node/npm installation was added to the PHP application container.
+- The only production integration fix was adding the existing Vite entrypoint to the application layout.
+
+GAP-10.2 Green Gate:
+
+[x] Frontend Vite entrypoint integration verified
+[x] Blade compilation GREEN
+[x] Build environment authority identified
+[x] Dependencies installed successfully
+[x] Production Vite build GREEN
+[x] Build manifest generated
+[x] Runtime build artifact verified
+[x] Laravel Vite rendering verified
+[x] Full regression GREEN
+[x] No unrelated architecture changes introduced
+
+No further GAP-10.2 implementation work is authorized.
+
+### Phase 10 Dashboard Legacy Surface Cleanup
+
+**Status: CLOSED / GREEN**
+
+Decision:
+- The Dashboard product contract is API-first.
+- `GET /api/dashboard` and `GET /api/dashboard/stats` remain the authoritative Dashboard API surfaces.
+- The stale Web `/dashboard` route was removed.
+- The orphan legacy `resources/views/dashboard/index.blade.php` was removed.
+- Stale Dashboard links were removed from the application layout and welcome page.
+- The root `/` entry now renders the existing `welcome` view instead of redirecting to `/dashboard`.
+- No Dashboard API controller, service, authorization contract, or API response contract was changed.
+
+Static evidence:
+- Web `/dashboard` route absent.
+- `/api/dashboard` present.
+- `/api/dashboard/stats` present.
+- No stale Dashboard route/view references remain.
+- Legacy Dashboard Blade removed.
+- `php artisan view:cache` completed successfully.
+
+Targeted regression:
+- 19 passed
+- 47 assertions
+- 0 failures
+- Duration: 145.58s
+
+Full regression:
+- 715 passed
+- 1831 assertions
+- 0 failures
+- Duration: 563.33s
+
+Runtime environment note:
+- HTTP probing from the application container could not connect to `localhost:80`.
+- This was an environment/runtime-listener limitation, not an application failure.
+- Route inspection and Laravel view-cache evidence remained GREEN.
+- No additional HTTP infrastructure or frontend architecture change is authorized from this observation.
+
+Green Gate:
+- [x] Stale Web Dashboard route removed
+- [x] Legacy Dashboard Blade removed
+- [x] Stale Dashboard links removed
+- [x] Root entry contract updated
+- [x] Dashboard API routes preserved
+- [x] Targeted tests GREEN
+- [x] Full regression GREEN
+- [x] View compilation/cache GREEN
+- [x] No Dashboard API contract regression
+- [x] No unrelated architecture changes introduced
+
+Decision:
+- Dashboard Legacy Surface Cleanup is CLOSED / GREEN.
+- Do not reopen this cleanup without new regression evidence or an explicit product/architecture decision.
+- Do not introduce a Blade Dashboard replacement.
+- Do not add CORS, Sanctum stateful middleware, or frontend architecture as part of this cleanup.
+
+STOP.
 
 NEXT CONCRETE WORK
 
-Continue Phase 9 from the remaining Presentation / Authorization surfaces only.
+Continue Phase 10 — Frontend Readiness Gate.
+
+Authentication / Token / Session Integration Readiness:
+
+[x] CLOSED / GREEN
+
+Evidence:
+
+* Real Bearer token lifecycle verified for Admin API authentication.
+* Real Bearer token lifecycle verified for Customer API authentication.
+* Admin lifecycle:
+
+  * login
+  * real Bearer token
+  * authenticated `/api/me`
+  * logout
+  * same token rejected afterward
+* Customer lifecycle:
+
+  * login
+  * real Bearer token
+  * authenticated `/api/customer/me`
+  * logout
+  * same token rejected afterward
+* Token revocation uses:
+  `PersonalAccessToken::findToken($request->bearerToken())?->delete()`
+* `currentAccessToken()->delete()` is not used for Bearer-token revocation.
+* Sanctum configuration remains unchanged.
+* No Sanctum stateful middleware change was introduced.
+* No session architecture change was introduced.
+* Temporary authentication diagnostics were removed.
+* Token table schema was verified.
+
+Contract test:
+
+`tests/Feature/Api/Contract/AuthenticationTokenLifecycleContractTest.php`
+
+Targeted Green Gate:
+
+* 2 passed
+* 22 assertions
+* 0 failures
+* Duration: 57.52s
+
+Full regression:
+
+* 717 passed
+* 1853 assertions
+* 0 failures
+* Duration: 564.60s
+
+Final evidence:
+
+`AUTHENTICATION TOKEN SESSION READINESS = GREEN`
+
+Decision:
+
+* Authentication / Token / Session Integration Readiness is CLOSED / GREEN.
+* No further implementation or audit work is authorized for this item.
+* Do not reopen without new regression evidence or an explicit authentication architecture contract change.
+
+STOP.
 
 Immediate next action:
 
-→ Continue the remaining Presentation / Authorization audit using evidence-first analysis
+→ CORS / frontend-backend boundary readiness
+
+→ Route surface readiness
+
+→ Resource / DTO / response contract readiness
+
+→ Validation / error contract readiness
+
+→ Pagination / filtering / sorting readiness
 
 → Identify GAP / NO GAP
 
@@ -4518,15 +5006,46 @@ LATEST FULL REGRESSION EVIDENCE
 
 The latest complete PHPUnit regression is:
 
+717 passed
+
+1853 assertions
+
+0 failures
+
+Duration: 564.60s
+
+This regression is the current project-wide Green Gate after
+Authentication / Token / Session Integration Readiness.
+
+Previous project-wide Green Gate after GAP-10.2:
+
+715 passed
+
+1841 assertions
+
+0 failures
+
+Duration: 577.00s
+
+Previous project-wide Green Gate after GAP-10.1:
+
+715 passed
+
+1841 assertions
+
+0 failures
+
+Duration: 582.21s
+
+Previous project-wide Green Gate after GAP-9.5:
+
 702 passed
 
 1793 assertions
 
 0 failures
 
-407.29s
-
-This regression is the current project-wide Green Gate after GAP-9.5 Customer Self-Service Presentation / Authentication Boundary.
+Duration: 407.29s
 
 Previous project-wide Green Gate after GAP-9.4:
 
@@ -4536,7 +5055,7 @@ Previous project-wide Green Gate after GAP-9.4:
 
 0 failures
 
-450.39s
+Duration: 450.39s
 
 Historical authorization checkpoints:
 
@@ -4548,7 +5067,7 @@ GAP-9.3-J Task Authorization:
 
 0 failures
 
-536.53s
+Duration: 536.53s
 
 GAP-9.3-I Web Network Authorization:
 
@@ -4558,17 +5077,28 @@ GAP-9.3-I Web Network Authorization:
 
 0 failures
 
-391.64s
+Duration: 391.64s
 
-These historical regressions remain evidence for their respective completed GAPs only.
+Historical regression checkpoints remain evidence for their respective
+completed GAPs only.
 
 The current project-wide Green Gate is:
 
-702 passed / 1793 assertions / 0 failures / 407.29s
+717 passed / 1853 assertions / 0 failures / 564.60s
 
-The increase from 697 to 702 tests and from 1778 to 1793 assertions is attributable to the added GAP-9.5 targeted security coverage.
+This is the current project-wide Green Gate after
+Authentication / Token / Session Integration Readiness.
 
-The current full regression duration is lower than the previous GAP-9.4 checkpoint.
+The Authentication / Token / Session readiness work added the dedicated
+real Bearer lifecycle contract test covering both Admin and Customer
+authentication and token revocation.
+
+The full regression remains GREEN with zero failures.
+
+The regression duration decreased from the GAP-10.2 checkpoint.
+No production performance conclusion is inferred from test-suite duration.
+
+Test-suite duration alone does not establish a production performance gap.
 
 No production performance refactor is justified by test-suite duration alone.
 

@@ -919,16 +919,9 @@
 
 ## /
 
-- Method: GET|HEAD|POST|PUT|PATCH|DELETE|OPTIONS
-- Name: -
-- Action: \Illuminate\Routing\RedirectController
-- Middleware: web
-
-## dashboard
-
 - Method: GET|HEAD
-- Name: dashboard
-- Action: App\Http\Controllers\Api\DashboardController@index
+- Name: -
+- Action: \Illuminate\Routing\ViewController
 - Middleware: web
 
 ## queues

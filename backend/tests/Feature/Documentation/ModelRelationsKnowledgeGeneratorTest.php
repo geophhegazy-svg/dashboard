@@ -15,6 +15,6 @@ class ModelRelationsKnowledgeGeneratorTest extends TestCase
     {
         $response = $this->get('/');
 
-        $response->assertRedirect('/dashboard');
+        $response->assertOk();
     }
 }

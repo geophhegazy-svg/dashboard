@@ -15,6 +15,6 @@ class DatabaseKnowledgeGeneratorTest extends TestCase
     {
         $response = $this->get('/');
 
-        $response->assertRedirect('/dashboard');
+        $response->assertOk();
     }
 }
