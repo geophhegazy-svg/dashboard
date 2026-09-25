@@ -3351,7 +3351,7 @@ regression or an explicit architecture decision changes the roadmap.
 
 12. FINAL ARCHITECTURE CERTIFICATION
 
-Status: CLOSED / GREEN
+Status: PENDING
 
 Final audit after all remaining roadmap phases are completed.
 
@@ -3380,33 +3380,6 @@ Deferred items explicitly documented.
 Final certification regression suite GREEN.
 
 When every item passes:
-
-Final Certification Evidence
-
-- Phase 11 — Documentation & Operational Readiness: CLOSED / GREEN.
-- Kernel health: `STATUS: HEALTHY`.
-- Kernel validation: exit code `0`.
-- Kernel diagnostics: runtime healthy with the verified module/resource/dependency state.
-- Queue failure state: no failed jobs.
-- Current scheduler registration contains only the verified runtime schedules.
-- Generated documentation remains present and GREEN.
-- All previously completed architecture, business-rule, infrastructure,
-  network, presentation, authorization, and operational boundaries remain
-  CLOSED / GREEN.
-- Deferred items remain explicitly documented in the Master Roadmap.
-- Current project-wide PHPUnit regression:
-  **729 passed / 1950 assertions / 0 failures / 434.16s**.
-- Final runtime certification: `GREEN`.
-- Final PHPUnit certification: `GREEN`.
-- No production code changes were required for final certification.
-
-**EGYPTNET — ARCHITECTURE COMPLETE**
-
-Phase 12 — Final Architecture Certification: **CLOSED / GREEN**.
-
-STOP. The architecture certification is complete. Do not reopen completed
-phases unless new evidence proves regression or an explicit architectural
-decision changes the roadmap.
 
 EGYPTNET â€” ARCHITECTURE COMPLETE
 CHANGE CONTROL
