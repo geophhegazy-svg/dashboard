@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Tests\Unit\Modules\Subscription;
 
 use App\Core\Workflow\WorkflowEngine;
+use App\Modules\Network\Application\Contracts\NetworkDeviceResolverInterface;
+use App\Modules\Network\Application\Contracts\NetworkManagerInterface;
 use App\Modules\Network\Domain\Contracts\MikrotikServiceInterface;
 use App\Modules\Subscription\Application\Orchestrators\AutoRenewSubscriptionsOrchestrator;
 use App\Modules\Subscription\Application\Workflows\RenewWorkflow;
@@ -40,7 +42,7 @@ final class AutoRenewSubscriptionsOrchestratorTest extends TestCase
         $repository
             ->shouldReceive('save')
             ->once()
-            ->with($subscription)
+            ->with(Mockery::type(Subscription::class))
             ->andReturnUsing(
                 static function (
                     Subscription $subscription
@@ -54,6 +56,48 @@ final class AutoRenewSubscriptionsOrchestratorTest extends TestCase
         $this->app->instance(
             SubscriptionRepositoryInterface::class,
             $repository
+        );
+
+        $deviceResolver = Mockery::mock(
+            NetworkDeviceResolverInterface::class
+        );
+
+        $device = new \App\Modules\Network\Infrastructure\Persistence\Models\NetworkDevice([
+            'name' => 'Test MikroTik',
+            'ip_address' => '127.0.0.1',
+            'username' => 'test',
+            'password' => 'test',
+            'type' => 'mikrotik',
+            'port' => 8728,
+            'status' => 'active',
+        ]);
+
+        $device->id = 1;
+
+        $deviceResolver
+            ->shouldReceive('resolveForSubscription')
+            ->once()
+            ->with(Mockery::type(Subscription::class))
+            ->andReturn($device);
+
+        $this->app->instance(
+            NetworkDeviceResolverInterface::class,
+            $deviceResolver
+        );
+
+        $networkManager = Mockery::mock(
+            NetworkManagerInterface::class
+        );
+
+        $networkManager
+            ->shouldReceive('connect')
+            ->once()
+            ->with(1)
+            ->andReturnTrue();
+
+        $this->app->instance(
+            NetworkManagerInterface::class,
+            $networkManager
         );
 
         $mikrotik = Mockery::mock(

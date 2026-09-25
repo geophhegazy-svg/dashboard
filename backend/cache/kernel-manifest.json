@@ -366,7 +366,7 @@
                     "type": "services",
                     "bindings": {
                         "App\\Modules\\Network\\Domain\\Contracts\\NetworkDeviceRepositoryInterface": "App\\Modules\\Network\\Infrastructure\\Repositories\\NetworkDeviceRepository",
-                        "App\\Modules\\Network\\Application\\Contracts\\NetworkManagerInterface": "App\\Modules\\Network\\Infrastructure\\Services\\NetworkManager",
+                        "App\\Modules\\Network\\Application\\Contracts\\NetworkDeviceResolverInterface": "App\\Modules\\Network\\Application\\Services\\NetworkDeviceResolver",
                         "App\\Modules\\Network\\Domain\\Contracts\\MikrotikServiceInterface": "App\\Modules\\Network\\Infrastructure\\Services\\MikrotikServiceAdapter",
                         "App\\Modules\\Network\\Domain\\Contracts\\Services\\HotspotServiceInterface": "App\\Modules\\Network\\Infrastructure\\Providers\\MikroTik\\MikroTikHotspotService"
                     }
@@ -374,6 +374,8 @@
                 {
                     "type": "singletons",
                     "bindings": {
+                        "App\\Modules\\Network\\Application\\Contracts\\NetworkManagerInterface": "App\\Modules\\Network\\Infrastructure\\Services\\NetworkManager",
+                        "App\\Modules\\Network\\Infrastructure\\Services\\NetworkManager": "App\\Modules\\Network\\Infrastructure\\Services\\NetworkManager",
                         "App\\Modules\\Network\\Domain\\Contracts\\NetworkProviderResolverInterface": "App\\Modules\\Network\\Infrastructure\\Providers\\NetworkProviderResolver",
                         "App\\Modules\\Network\\Infrastructure\\Providers\\MikroTik\\MikroTikConnectionService": "App\\Modules\\Network\\Infrastructure\\Providers\\MikroTik\\MikroTikConnectionService",
                         "App\\Modules\\Network\\Infrastructure\\Providers\\MikroTik\\MikroTikQueryService": "App\\Modules\\Network\\Infrastructure\\Providers\\MikroTik\\MikroTikQueryService",

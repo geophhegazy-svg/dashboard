@@ -6,7 +6,10 @@ namespace Tests\Feature\Modules\Subscription\Listeners;
 
 use Tests\TestCase;
 use Mockery;
+use App\Modules\Network\Application\Contracts\NetworkDeviceResolverInterface;
+use App\Modules\Network\Application\Contracts\NetworkManagerInterface;
 use App\Modules\Network\Domain\Contracts\MikrotikServiceInterface;
+use App\Modules\Network\Infrastructure\Persistence\Models\NetworkDevice;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Modules\Subscription\Domain\Events\SubscriptionRenewed;
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
@@ -34,6 +37,48 @@ class SubscriptionRenewedListenerTest extends TestCase
         $this->app->instance(
             MikrotikServiceInterface::class,
             $mikrotik
+        );
+
+        $deviceResolver = Mockery::mock(
+            NetworkDeviceResolverInterface::class
+        );
+
+        $device = new NetworkDevice([
+            'name' => 'Test MikroTik',
+            'ip_address' => '127.0.0.1',
+            'username' => 'test',
+            'password' => 'test',
+            'type' => 'mikrotik',
+            'port' => 8728,
+            'status' => 'active',
+        ]);
+
+        $device->id = 1;
+
+        $deviceResolver
+            ->shouldReceive('resolveForSubscription')
+            ->zeroOrMoreTimes()
+            ->with(Mockery::type(Subscription::class))
+            ->andReturn($device);
+
+        $this->app->instance(
+            NetworkDeviceResolverInterface::class,
+            $deviceResolver
+        );
+
+        $networkManager = Mockery::mock(
+            NetworkManagerInterface::class
+        );
+
+        $networkManager
+            ->shouldReceive('connect')
+            ->zeroOrMoreTimes()
+            ->with(1)
+            ->andReturnTrue();
+
+        $this->app->instance(
+            NetworkManagerInterface::class,
+            $networkManager
         );
     }
 

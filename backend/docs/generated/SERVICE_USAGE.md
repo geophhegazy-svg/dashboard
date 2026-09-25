@@ -109,6 +109,18 @@ App\Modules\Accounting\Application\Services\JournalValidationService
 
 - validate
 
+## NetworkDeviceResolver
+
+**Class**
+
+```
+App\Modules\Network\Application\Services\NetworkDeviceResolver
+```
+
+**Public Methods**
+
+- resolveForSubscription
+
 ## NotificationService
 
 **Class**

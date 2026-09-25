@@ -23,7 +23,10 @@ use App\Modules\Network\Infrastructure\Providers\MikroTik\MikroTikMonitoringServ
 use App\Modules\Network\Infrastructure\Providers\MikroTik\MikroTikPppoeService;
 use App\Modules\Network\Infrastructure\Providers\MikroTik\MikroTikQueryService;
 use App\Modules\Network\Infrastructure\Providers\MikroTik\MikroTikQueueService;
+
 use App\Modules\Network\Application\Contracts\NetworkManagerInterface;
+use App\Modules\Network\Application\Contracts\NetworkDeviceResolverInterface;
+use App\Modules\Network\Application\Services\NetworkDeviceResolver;
 use App\Modules\Network\Application\Actions\CreateDhcpLeaseAction;
 use App\Modules\Network\Application\Actions\UpdateDhcpLeaseAction;
 use App\Modules\Network\Application\Actions\DeleteDhcpLeaseAction;
@@ -66,11 +69,12 @@ final class NetworkModule extends Module
 
             ->services([
 
-                NetworkDeviceRepositoryInterface::class
+                
+NetworkDeviceRepositoryInterface::class
                     => NetworkDeviceRepository::class,
 
-                NetworkManagerInterface::class
-                    => NetworkManager::class,
+                NetworkDeviceResolverInterface::class
+                    => NetworkDeviceResolver::class,
 
                 MikrotikServiceInterface::class
                     => MikrotikServiceAdapter::class,
@@ -81,6 +85,12 @@ final class NetworkModule extends Module
             ])
 
             ->singletons([
+
+                NetworkManagerInterface::class
+                    => NetworkManager::class,
+
+                NetworkManager::class
+                    => NetworkManager::class,
 
                 NetworkProviderResolverInterface::class
                     => NetworkProviderResolver::class,

@@ -21,17 +21,17 @@ class AIContextGeneratorTest extends TestCase
         );
 
         $this->assertStringContainsString(
-            'EgyptNet ISP Management System',
+            'EgyptNet Enterprise ISP Platform',
             $markdown
         );
 
         $this->assertStringContainsString(
-            'Enterprise Architecture',
+            'Core Platform',
             $markdown
         );
 
         $this->assertStringContainsString(
-            'Service Layer',
+            'Module-based business architecture',
             $markdown
         );
 

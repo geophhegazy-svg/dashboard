@@ -220,6 +220,26 @@ App\Modules\Accounting\Application\Services
 
 ---
 
+## NetworkDeviceResolver
+
+**Namespace**
+
+```
+App\Modules\Network\Application\Services
+```
+
+**File**
+
+```
+/var/www/app/Modules/Network/Application/Services/NetworkDeviceResolver.php
+```
+
+**Methods**
+
+- resolveForSubscription() : ?App\Modules\Network\Infrastructure\Persistence\Models\NetworkDevice
+
+---
+
 ## NotificationService
 
 **Namespace**

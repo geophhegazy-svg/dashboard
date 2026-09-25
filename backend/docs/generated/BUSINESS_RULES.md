@@ -122,6 +122,19 @@ App\Modules\Accounting\Application\Services
 
 ---
 
+## NetworkDeviceResolver
+
+**Namespace**
+App\Modules\Network\Application\Services
+
+**Dependencies**
+- None
+
+**Methods**
+- resolveForSubscription(1 params) : ?App\Modules\Network\Infrastructure\Persistence\Models\NetworkDevice
+
+---
+
 ## NotificationService
 
 **Namespace**

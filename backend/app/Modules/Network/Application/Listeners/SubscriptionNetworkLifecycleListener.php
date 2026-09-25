@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace App\Modules\Network\Application\Listeners;
 
-use App\Exceptions\Network\MikroTikException;
-
 use App\Core\EventBus\Contracts\EventContract;
 use App\Core\EventBus\Contracts\EventListenerInterface;
+use App\Exceptions\Network\MikroTikException;
+use App\Modules\Network\Application\Contracts\NetworkDeviceResolverInterface;
+use App\Modules\Network\Application\Contracts\NetworkManagerInterface;
 use App\Modules\Network\Domain\Contracts\MikrotikServiceInterface;
 use App\Modules\Subscription\Domain\Events\SubscriptionActivated;
 use App\Modules\Subscription\Domain\Events\SubscriptionExpired;
@@ -19,6 +20,8 @@ final readonly class SubscriptionNetworkLifecycleListener implements EventListen
 {
     public function __construct(
         private MikrotikServiceInterface $mikrotik,
+        private NetworkDeviceResolverInterface $deviceResolver,
+        private NetworkManagerInterface $networkManager,
     ) {}
 
     public function handle(EventContract $event): void
@@ -27,6 +30,38 @@ final readonly class SubscriptionNetworkLifecycleListener implements EventListen
 
         if (empty($subscription->pppoe_username)) {
             return;
+        }
+
+        $device = $this->deviceResolver->resolveForSubscription($subscription);
+
+        if ($device === null) {
+            throw new MikroTikException(
+                'No active MikroTik network device is configured for subscription lifecycle operation.',
+                500,
+                null,
+                [
+                    'subscription_id' => $subscription->id,
+                    'tenant_id' => $subscription->tenant_id,
+                    'username' => $subscription->pppoe_username,
+                    'event' => $event::class,
+                ],
+            );
+        }
+
+        if (! $this->networkManager->connect($device->id)) {
+            throw new MikroTikException(
+                'Failed to connect to MikroTik network device for subscription lifecycle operation.',
+                500,
+                null,
+                [
+                    'subscription_id' => $subscription->id,
+                    'tenant_id' => $subscription->tenant_id,
+                    'device_id' => $device->id,
+                    'device_ip' => $device->ip_address,
+                    'username' => $subscription->pppoe_username,
+                    'event' => $event::class,
+                ],
+            );
         }
 
         if (
@@ -42,6 +77,8 @@ final readonly class SubscriptionNetworkLifecycleListener implements EventListen
                     500,
                     null,
                     [
+                        'subscription_id' => $subscription->id,
+                        'device_id' => $device->id,
                         'username' => $subscription->pppoe_username,
                         'event' => $event::class,
                     ],
@@ -60,6 +97,8 @@ final readonly class SubscriptionNetworkLifecycleListener implements EventListen
                     500,
                     null,
                     [
+                        'subscription_id' => $subscription->id,
+                        'device_id' => $device->id,
                         'username' => $subscription->pppoe_username,
                         'event' => $event::class,
                     ],
@@ -70,30 +109,47 @@ final readonly class SubscriptionNetworkLifecycleListener implements EventListen
         }
 
         if ($event instanceof SubscriptionExpired) {
-            if (! $this->mikrotik->disableUser(
-                $subscription->pppoe_username
-            )) {
-                throw new MikroTikException(
-                    'Failed to disable expired PPPoE user on MikroTik.',
-                    500,
-                    null,
-                    [
-                        'username' => $subscription->pppoe_username,
-                        'event' => $event::class,
-                    ],
-                );
-            }
+            try {
+                if (! $this->mikrotik->disableUser(
+                    $subscription->pppoe_username
+                )) {
+                    throw new MikroTikException(
+                        'Failed to disable expired PPPoE user on MikroTik.',
+                        500,
+                        null,
+                        [
+                            'subscription_id' => $subscription->id,
+                            'device_id' => $device->id,
+                            'username' => $subscription->pppoe_username,
+                            'event' => $event::class,
+                        ],
+                    );
+                }
 
-            if (! $this->mikrotik->disconnectUser(
-                $subscription->pppoe_username
-            )) {
-                throw new MikroTikException(
-                    'Failed to disconnect expired PPPoE user from MikroTik.',
-                    500,
-                    null,
+                if (! $this->mikrotik->disconnectUser(
+                    $subscription->pppoe_username
+                )) {
+                    throw new MikroTikException(
+                        'Failed to disconnect expired PPPoE user from MikroTik.',
+                        500,
+                        null,
+                        [
+                            'subscription_id' => $subscription->id,
+                            'device_id' => $device->id,
+                            'username' => $subscription->pppoe_username,
+                            'event' => $event::class,
+                        ],
+                    );
+                }
+            } catch (\App\Exceptions\Network\ResourceNotFoundException $e) {
+                \Illuminate\Support\Facades\Log::warning(
+                    'Expired subscription PPPoE user already absent on MikroTik.',
                     [
+                        'subscription_id' => $subscription->id,
+                        'device_id' => $device->id,
                         'username' => $subscription->pppoe_username,
                         'event' => $event::class,
+                        'resource' => 'pppoe-user',
                     ],
                 );
             }

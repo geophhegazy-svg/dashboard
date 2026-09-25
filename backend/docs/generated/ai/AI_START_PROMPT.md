@@ -13,9 +13,9 @@ Especially:
 - ARCHITECTURE.md
 - MODULES.md
 - BUSINESS_RULES.md
-- ROUTES.md
-- SERVICES.md
-- MODELS.md
+- ROUTES_FULL.md
+- SERVICES_FULL.md
+- MODELS_FULL.md
 - DATABASE.md
 - TODO.md
 - HANDOVER.md

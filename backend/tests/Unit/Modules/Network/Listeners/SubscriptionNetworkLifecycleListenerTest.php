@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace Tests\Unit\Modules\Network\Listeners;
 
 use App\Exceptions\Network\MikroTikException;
-
+use App\Modules\Network\Application\Contracts\NetworkDeviceResolverInterface;
+use App\Modules\Network\Application\Contracts\NetworkManagerInterface;
 use App\Modules\Network\Application\Listeners\SubscriptionNetworkLifecycleListener;
 use App\Modules\Network\Domain\Contracts\MikrotikServiceInterface;
+use App\Modules\Network\Infrastructure\Persistence\Models\NetworkDevice;
 use App\Modules\Subscription\Domain\Events\SubscriptionActivated;
 use App\Modules\Subscription\Domain\Events\SubscriptionExpired;
 use App\Modules\Subscription\Domain\Events\SubscriptionRenewed;
@@ -19,83 +21,145 @@ use Tests\TestCase;
 
 final class SubscriptionNetworkLifecycleListenerTest extends TestCase
 {
-    public function test_activated_subscription_enables_mikrotik_user(): void
+    private function subscription(): Subscription
     {
-        $mikrotik = Mockery::mock(MikrotikServiceInterface::class);
+        $subscription = new Subscription([
+            'tenant_id' => 1,
+            'pppoe_username' => 'test-user',
+        ]);
 
-        $mikrotik
-            ->shouldReceive('enableUser')
-            ->once()
-            ->with('test-user')
-            ->andReturnTrue();
+        $subscription->id = 10;
 
-        $subscription = new Subscription();
-        $subscription->pppoe_username = 'test-user';
-
-        $listener = new SubscriptionNetworkLifecycleListener($mikrotik);
-
-        $listener->handle(new SubscriptionActivated($subscription));
+        return $subscription;
     }
 
-    public function test_restored_subscription_enables_mikrotik_user(): void
+    private function device(): NetworkDevice
     {
-        $mikrotik = Mockery::mock(MikrotikServiceInterface::class);
+        $device = new NetworkDevice([
+            'tenant_id' => null,
+            'name' => 'MikroTik Test',
+            'ip_address' => '2.2.2.2',
+            'type' => 'mikrotik',
+            'status' => 'active',
+        ]);
 
-        $mikrotik
-            ->shouldReceive('enableUser')
-            ->once()
-            ->with('test-user')
-            ->andReturnTrue();
+        $device->id = 1;
 
-        $subscription = new Subscription();
-        $subscription->pppoe_username = 'test-user';
-
-        $listener = new SubscriptionNetworkLifecycleListener($mikrotik);
-
-        $listener->handle(new SubscriptionRestored($subscription));
+        return $device;
     }
 
-    public function test_renewed_subscription_enables_mikrotik_user(): void
-    {
-        $mikrotik = Mockery::mock(MikrotikServiceInterface::class);
-
-        $mikrotik
-            ->shouldReceive('enableUser')
-            ->once()
-            ->with('test-user')
-            ->andReturnTrue();
-
-        $subscription = new Subscription();
-        $subscription->pppoe_username = 'test-user';
-
-        $listener = new SubscriptionNetworkLifecycleListener($mikrotik);
-
-        $listener->handle(
-            new SubscriptionRenewed($subscription, 'renewal-key')
+    private function listener(
+        MikrotikServiceInterface $mikrotik,
+        NetworkDeviceResolverInterface $resolver,
+        NetworkManagerInterface $manager,
+    ): SubscriptionNetworkLifecycleListener {
+        return new SubscriptionNetworkLifecycleListener(
+            $mikrotik,
+            $resolver,
+            $manager,
         );
     }
 
-    public function test_suspended_subscription_disables_mikrotik_user(): void
-    {
-        $mikrotik = Mockery::mock(MikrotikServiceInterface::class);
-
-        $mikrotik
-            ->shouldReceive('disableUser')
+    private function expectDeviceResolution(
+        NetworkDeviceResolverInterface $resolver,
+        Subscription $subscription,
+        NetworkDevice $device,
+    ): void {
+        $resolver
+            ->shouldReceive('resolveForSubscription')
             ->once()
-            ->with('test-user')
-            ->andReturnTrue();
-
-        $subscription = new Subscription();
-        $subscription->pppoe_username = 'test-user';
-
-        $listener = new SubscriptionNetworkLifecycleListener($mikrotik);
-
-        $listener->handle(new SubscriptionSuspended($subscription));
+            ->with($subscription)
+            ->andReturn($device);
     }
 
-    public function test_expired_subscription_disables_mikrotik_user(): void
+    private function expectConnection(
+        NetworkManagerInterface $manager,
+        NetworkDevice $device,
+    ): void {
+        $manager
+            ->shouldReceive('connect')
+            ->once()
+            ->with($device->id)
+            ->andReturnTrue();
+    }
+
+    public function test_activated_subscription_connects_then_enables_mikrotik_user(): void
     {
         $mikrotik = Mockery::mock(MikrotikServiceInterface::class);
+        $resolver = Mockery::mock(NetworkDeviceResolverInterface::class);
+        $manager = Mockery::mock(NetworkManagerInterface::class);
+
+        $subscription = $this->subscription();
+        $device = $this->device();
+
+        $this->expectDeviceResolution($resolver, $subscription, $device);
+        $this->expectConnection($manager, $device);
+
+        $mikrotik
+            ->shouldReceive('enableUser')
+            ->once()
+            ->with('test-user')
+            ->andReturnTrue();
+
+        $this->listener($mikrotik, $resolver, $manager)
+            ->handle(new SubscriptionActivated($subscription));
+    }
+
+    public function test_restored_subscription_connects_then_enables_mikrotik_user(): void
+    {
+        $mikrotik = Mockery::mock(MikrotikServiceInterface::class);
+        $resolver = Mockery::mock(NetworkDeviceResolverInterface::class);
+        $manager = Mockery::mock(NetworkManagerInterface::class);
+
+        $subscription = $this->subscription();
+        $device = $this->device();
+
+        $this->expectDeviceResolution($resolver, $subscription, $device);
+        $this->expectConnection($manager, $device);
+
+        $mikrotik
+            ->shouldReceive('enableUser')
+            ->once()
+            ->with('test-user')
+            ->andReturnTrue();
+
+        $this->listener($mikrotik, $resolver, $manager)
+            ->handle(new SubscriptionRestored($subscription));
+    }
+
+    public function test_renewed_subscription_connects_then_enables_mikrotik_user(): void
+    {
+        $mikrotik = Mockery::mock(MikrotikServiceInterface::class);
+        $resolver = Mockery::mock(NetworkDeviceResolverInterface::class);
+        $manager = Mockery::mock(NetworkManagerInterface::class);
+
+        $subscription = $this->subscription();
+        $device = $this->device();
+
+        $this->expectDeviceResolution($resolver, $subscription, $device);
+        $this->expectConnection($manager, $device);
+
+        $mikrotik
+            ->shouldReceive('enableUser')
+            ->once()
+            ->with('test-user')
+            ->andReturnTrue();
+
+        $this->listener($mikrotik, $resolver, $manager)
+            ->handle(new SubscriptionRenewed($subscription, 'renewal-key'));
+    }
+
+    public function test_suspended_subscription_connects_then_disables_mikrotik_user(): void
+    {
+        $mikrotik = Mockery::mock(MikrotikServiceInterface::class);
+        $resolver = Mockery::mock(NetworkDeviceResolverInterface::class);
+        $manager = Mockery::mock(NetworkManagerInterface::class);
+
+        $subscription = $this->subscription();
+        $device = $this->device();
+
+        $this->expectDeviceResolution($resolver, $subscription, $device);
+        $this->expectConnection($manager, $device);
 
         $mikrotik
             ->shouldReceive('disableUser')
@@ -103,10 +167,58 @@ final class SubscriptionNetworkLifecycleListenerTest extends TestCase
             ->with('test-user')
             ->andReturnTrue();
 
-        $subscription = new Subscription();
-        $subscription->pppoe_username = 'test-user';
+        $this->listener($mikrotik, $resolver, $manager)
+            ->handle(new SubscriptionSuspended($subscription));
+    }
 
-        $listener = new SubscriptionNetworkLifecycleListener($mikrotik);
+    public function test_expired_subscription_succeeds_when_pppoe_user_is_already_absent(): void
+    {
+        $mikrotik = Mockery::mock(MikrotikServiceInterface::class);
+        $resolver = Mockery::mock(NetworkDeviceResolverInterface::class);
+        $manager = Mockery::mock(NetworkManagerInterface::class);
+
+        $subscription = $this->subscription();
+        $device = $this->device();
+
+        $this->expectDeviceResolution($resolver, $subscription, $device);
+        $this->expectConnection($manager, $device);
+
+        $mikrotik
+            ->shouldReceive('disableUser')
+            ->once()
+            ->with('test-user')
+            ->andThrow(
+                \App\Exceptions\Network\ResourceNotFoundException::missing(
+                    'pppoe-user',
+                    ['username' => 'test-user']
+                )
+            );
+
+        $mikrotik
+            ->shouldNotReceive('disconnectUser');
+
+        $this->listener($mikrotik, $resolver, $manager)
+            ->handle(new SubscriptionExpired($subscription));
+
+        $this->addToAssertionCount(1);
+    }
+    public function test_expired_subscription_connects_then_disables_and_disconnects(): void
+    {
+        $mikrotik = Mockery::mock(MikrotikServiceInterface::class);
+        $resolver = Mockery::mock(NetworkDeviceResolverInterface::class);
+        $manager = Mockery::mock(NetworkManagerInterface::class);
+
+        $subscription = $this->subscription();
+        $device = $this->device();
+
+        $this->expectDeviceResolution($resolver, $subscription, $device);
+        $this->expectConnection($manager, $device);
+
+        $mikrotik
+            ->shouldReceive('disableUser')
+            ->once()
+            ->with('test-user')
+            ->andReturnTrue();
 
         $mikrotik
             ->shouldReceive('disconnectUser')
@@ -114,36 +226,98 @@ final class SubscriptionNetworkLifecycleListenerTest extends TestCase
             ->with('test-user')
             ->andReturnTrue();
 
-        $listener->handle(new SubscriptionExpired($subscription));
+        $this->listener($mikrotik, $resolver, $manager)
+            ->handle(new SubscriptionExpired($subscription));
     }
 
     public function test_subscription_without_pppoe_username_has_no_network_side_effect(): void
     {
         $mikrotik = Mockery::mock(MikrotikServiceInterface::class);
+        $resolver = Mockery::mock(NetworkDeviceResolverInterface::class);
+        $manager = Mockery::mock(NetworkManagerInterface::class);
 
-        $mikrotik
-            ->shouldNotReceive('enableUser');
-
-        $mikrotik
-            ->shouldNotReceive('disableUser');
-
-        $subscription = new Subscription();
-        $subscription->pppoe_username = null;
-
-        $listener = new SubscriptionNetworkLifecycleListener($mikrotik);
-
-        $listener->handle(new SubscriptionActivated($subscription));
-    }
-
-    public function test_activated_throws_when_enable_fails(): void
-    {
         $subscription = new Subscription([
-            'pppoe_username' => 'test-user',
+            'pppoe_username' => null,
         ]);
 
-        $service = Mockery::mock(MikrotikServiceInterface::class);
+        $mikrotik->shouldNotReceive('enableUser');
+        $mikrotik->shouldNotReceive('disableUser');
+        $mikrotik->shouldNotReceive('disconnectUser');
+        $resolver->shouldNotReceive('resolveForSubscription');
+        $manager->shouldNotReceive('connect');
 
-        $service->shouldReceive('enableUser')
+        $this->listener($mikrotik, $resolver, $manager)
+            ->handle(new SubscriptionActivated($subscription));
+    }
+
+    public function test_missing_device_throws_mikrotik_exception(): void
+    {
+        $mikrotik = Mockery::mock(MikrotikServiceInterface::class);
+        $resolver = Mockery::mock(NetworkDeviceResolverInterface::class);
+        $manager = Mockery::mock(NetworkManagerInterface::class);
+
+        $subscription = $this->subscription();
+
+        $resolver
+            ->shouldReceive('resolveForSubscription')
+            ->once()
+            ->with($subscription)
+            ->andReturnNull();
+
+        $manager->shouldNotReceive('connect');
+        $mikrotik->shouldNotReceive('enableUser');
+
+        $this->expectException(MikroTikException::class);
+        $this->expectExceptionMessage(
+            'No active MikroTik network device is configured'
+        );
+
+        $this->listener($mikrotik, $resolver, $manager)
+            ->handle(new SubscriptionActivated($subscription));
+    }
+
+    public function test_connection_failure_throws_mikrotik_exception(): void
+    {
+        $mikrotik = Mockery::mock(MikrotikServiceInterface::class);
+        $resolver = Mockery::mock(NetworkDeviceResolverInterface::class);
+        $manager = Mockery::mock(NetworkManagerInterface::class);
+
+        $subscription = $this->subscription();
+        $device = $this->device();
+
+        $this->expectDeviceResolution($resolver, $subscription, $device);
+
+        $manager
+            ->shouldReceive('connect')
+            ->once()
+            ->with($device->id)
+            ->andReturnFalse();
+
+        $mikrotik->shouldNotReceive('enableUser');
+
+        $this->expectException(MikroTikException::class);
+        $this->expectExceptionMessage(
+            'Failed to connect to MikroTik network device'
+        );
+
+        $this->listener($mikrotik, $resolver, $manager)
+            ->handle(new SubscriptionActivated($subscription));
+    }
+
+    public function test_enable_failure_still_throws_mikrotik_exception(): void
+    {
+        $mikrotik = Mockery::mock(MikrotikServiceInterface::class);
+        $resolver = Mockery::mock(NetworkDeviceResolverInterface::class);
+        $manager = Mockery::mock(NetworkManagerInterface::class);
+
+        $subscription = $this->subscription();
+        $device = $this->device();
+
+        $this->expectDeviceResolution($resolver, $subscription, $device);
+        $this->expectConnection($manager, $device);
+
+        $mikrotik
+            ->shouldReceive('enableUser')
             ->once()
             ->with('test-user')
             ->andReturnFalse();
@@ -153,20 +327,24 @@ final class SubscriptionNetworkLifecycleListenerTest extends TestCase
             'Failed to enable PPPoE user on MikroTik.'
         );
 
-                (new SubscriptionNetworkLifecycleListener($service))->handle(
-            new SubscriptionActivated($subscription)
-        );
+        $this->listener($mikrotik, $resolver, $manager)
+            ->handle(new SubscriptionActivated($subscription));
     }
 
-    public function test_suspended_throws_when_disable_fails(): void
+    public function test_suspend_failure_still_throws_mikrotik_exception(): void
     {
-        $subscription = new Subscription([
-            'pppoe_username' => 'test-user',
-        ]);
+        $mikrotik = Mockery::mock(MikrotikServiceInterface::class);
+        $resolver = Mockery::mock(NetworkDeviceResolverInterface::class);
+        $manager = Mockery::mock(NetworkManagerInterface::class);
 
-        $service = Mockery::mock(MikrotikServiceInterface::class);
+        $subscription = $this->subscription();
+        $device = $this->device();
 
-        $service->shouldReceive('disableUser')
+        $this->expectDeviceResolution($resolver, $subscription, $device);
+        $this->expectConnection($manager, $device);
+
+        $mikrotik
+            ->shouldReceive('disableUser')
             ->once()
             ->with('test-user')
             ->andReturnFalse();
@@ -176,62 +354,40 @@ final class SubscriptionNetworkLifecycleListenerTest extends TestCase
             'Failed to disable PPPoE user on MikroTik.'
         );
 
-                (new SubscriptionNetworkLifecycleListener($service))->handle(
-            new SubscriptionSuspended($subscription)
-        );
+        $this->listener($mikrotik, $resolver, $manager)
+            ->handle(new SubscriptionSuspended($subscription));
     }
 
-    public function test_expired_throws_when_disable_fails_without_disconnect(): void
+    public function test_expired_disconnect_failure_still_throws_mikrotik_exception(): void
     {
-        $subscription = new Subscription([
-            'pppoe_username' => 'test-user',
-        ]);
+        $mikrotik = Mockery::mock(MikrotikServiceInterface::class);
+        $resolver = Mockery::mock(NetworkDeviceResolverInterface::class);
+        $manager = Mockery::mock(NetworkManagerInterface::class);
 
-        $service = Mockery::mock(MikrotikServiceInterface::class);
+        $subscription = $this->subscription();
+        $device = $this->device();
 
-        $service->shouldReceive('disableUser')
-            ->once()
-            ->with('test-user')
-            ->andReturnFalse();
+        $this->expectDeviceResolution($resolver, $subscription, $device);
+        $this->expectConnection($manager, $device);
 
-        $service->shouldNotReceive('disconnectUser');
-
-        $this->expectException(MikroTikException::class);
-        $this->expectExceptionMessage(
-            'Failed to disable expired PPPoE user on MikroTik.'
-        );
-
-                (new SubscriptionNetworkLifecycleListener($service))->handle(
-            new SubscriptionExpired($subscription)
-        );
-    }
-
-    public function test_expired_throws_when_disconnect_fails_after_disable(): void
-    {
-        $subscription = new Subscription([
-            'pppoe_username' => 'test-user',
-        ]);
-
-        $service = Mockery::mock(MikrotikServiceInterface::class);
-
-        $service->shouldReceive('disableUser')
+        $mikrotik
+            ->shouldReceive('disableUser')
             ->once()
             ->with('test-user')
             ->andReturnTrue();
 
-        $service->shouldReceive('disconnectUser')
+        $mikrotik
+            ->shouldReceive('disconnectUser')
             ->once()
             ->with('test-user')
             ->andReturnFalse();
 
         $this->expectException(MikroTikException::class);
         $this->expectExceptionMessage(
-            'Failed to disconnect expired PPPoE user from MikroTik.'
+            'Failed to disconnect expired PPPoE user'
         );
 
-                (new SubscriptionNetworkLifecycleListener($service))->handle(
-            new SubscriptionExpired($subscription)
-        );
+        $this->listener($mikrotik, $resolver, $manager)
+            ->handle(new SubscriptionExpired($subscription));
     }
-
 }

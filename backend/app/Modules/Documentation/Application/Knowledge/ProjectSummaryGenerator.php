@@ -20,7 +20,7 @@ class ProjectSummaryGenerator implements KnowledgeGeneratorInterface
         return implode(PHP_EOL, [
             '# Project Summary',
             '',
-            'Project: EgyptNet ISP Management System',
+            'Project: EgyptNet Enterprise ISP Platform',
             '',
             'Technology',
             '- Laravel 13',

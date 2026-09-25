@@ -1,6 +1,6 @@
 # Project Summary
 
-Project: EgyptNet ISP Management System
+Project: EgyptNet Enterprise ISP Platform
 
 Technology
 - Laravel 13
@@ -10,4 +10,4 @@ Technology
 
 Statistics
 - Models: 27
-- Services: 13
+- Services: 14

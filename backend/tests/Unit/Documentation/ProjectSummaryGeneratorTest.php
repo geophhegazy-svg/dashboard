@@ -16,7 +16,7 @@ class ProjectSummaryGeneratorTest extends TestCase
         $markdown = $generator->generate();
 
         $this->assertStringContainsString(
-            'EgyptNet ISP Management System',
+            'EgyptNet Enterprise ISP Platform',
             $markdown
         );
 

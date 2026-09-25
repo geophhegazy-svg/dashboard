@@ -5,12 +5,16 @@ declare(strict_types=1);
 namespace Tests\Feature;
 
 use App\Modules\Subscription\Infrastructure\Persistence\Models\Subscription;
+use App\Modules\Network\Application\Contracts\NetworkDeviceResolverInterface;
+use App\Modules\Network\Application\Contracts\NetworkManagerInterface;
 use App\Modules\Network\Domain\Contracts\MikrotikServiceInterface;
+use App\Modules\Network\Infrastructure\Persistence\Models\NetworkDevice;
 use Tests\Fakes\FakeMikrotikService;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Sanctum\Sanctum;
 use Spatie\Permission\Models\Permission;
+use Mockery;
 use Tests\TestCase;
 
 class SubscriptionControllerTest extends TestCase
@@ -24,6 +28,47 @@ class SubscriptionControllerTest extends TestCase
         $this->app->instance(
             MikrotikServiceInterface::class,
             new FakeMikrotikService()
+        );
+        $deviceResolver = Mockery::mock(
+            NetworkDeviceResolverInterface::class
+        );
+
+        $device = new NetworkDevice([
+            'name' => 'Test MikroTik',
+            'ip_address' => '127.0.0.1',
+            'username' => 'test',
+            'password' => 'test',
+            'type' => 'mikrotik',
+            'port' => 8728,
+            'status' => 'active',
+        ]);
+
+        $device->id = 1;
+
+        $deviceResolver
+            ->shouldReceive('resolveForSubscription')
+            ->zeroOrMoreTimes()
+            ->with(Mockery::type(Subscription::class))
+            ->andReturn($device);
+
+        $this->app->instance(
+            NetworkDeviceResolverInterface::class,
+            $deviceResolver
+        );
+
+        $networkManager = Mockery::mock(
+            NetworkManagerInterface::class
+        );
+
+        $networkManager
+            ->shouldReceive('connect')
+            ->zeroOrMoreTimes()
+            ->with(1)
+            ->andReturnTrue();
+
+        $this->app->instance(
+            NetworkManagerInterface::class,
+            $networkManager
         );
     }
 

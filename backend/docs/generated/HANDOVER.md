@@ -4,7 +4,7 @@
 
 # Project Summary
 
-Project: EgyptNet ISP Management System
+Project: EgyptNet Enterprise ISP Platform
 
 Technology
 - Laravel 13
@@ -14,93 +14,120 @@ Technology
 
 Statistics
 - Models: 27
-- Services: 13
+- Services: 14
 
 
 ---
 
 # Project Architecture
 
-app/
-├── Console
-├── Contracts
-├── Events
-├── Http
-├── Jobs
-├── Listeners
-├── Models
-├── Policies
-├── Providers
-├── Repositories
-├── Services
-│   ├── Billing
-│   ├── Customer
-│   ├── Dashboard
-│   ├── Documentation
-│   ├── Invoice
-│   ├── Network
-│   ├── Payment
-│   ├── Subscription
-│   └── Wallet
+EgyptNet Enterprise ISP Platform
+
+## Architectural Layers
+
+- Core Platform
+- Modules
+- Infrastructure
+- Presentation
+
+## Application Layering
+
+- Presentation
+- Application
+- Domain
+- Infrastructure
+
+## Core
+
+- Kernel
+- Command Bus
+- Query Bus
+- Action Bus
+- Event Bus
+- Workflow Engine
+- Security / Authorization
+- Tenancy
+
+## Module Structure
+
+Each business module follows the bounded structure:
+
+```text
+Module/
+├── Application/
+├── Domain/
+├── Infrastructure/
+└── Kernel/
+```
+
+Presentation and other module-specific surfaces are added only where required by the module.
+
+## Runtime Registration
+
+Module discovery and registration are owned by the Kernel registration pipeline.
+
+Documentation generation is owned by the Documentation Module.
 
 ---
 
 # Project Statistics
 
 Models: 27
-Services: 13
+Services: 14
 
 ---
 
 # AI Context
 
-Project Name
-EgyptNet ISP Management System
+## Project
 
-Technology Stack
+EgyptNet Enterprise ISP Platform
+
+## Technology Stack
+
 - Laravel 13
 - PHP 8.4
 - Docker
 - MySQL
 - MikroTik RouterOS API
 
-Architecture
-- Enterprise Architecture
-- Service Layer
-- Repository Pattern
-- Documentation Engine
-- Reflection Engine
+## Architecture
 
-Implemented Modules
-- Customers
-- Packages
-- Subscriptions
-- Billing
-- Invoices
-- Payments
-- Wallet
-- Dashboard
-- Notifications
-- Inventory
-- Tickets
+- Core Platform
+- Module-based business architecture
+- Presentation → Application → Domain → Infrastructure
+- Kernel-owned module discovery and registration
+- Action Bus / Command Bus / Query Bus / Event Bus
+- Workflow Engine
+- Spatie Permission based authorization
+- Tenant-aware business boundaries
 
-Documentation
+## Documentation
+
+- Documentation Module
 - ProjectScanner
-- ReflectionEngine
-- MarkdownBuilder
+- DocumentationKnowledgeGeneratorRegistry
+- KnowledgeGeneratorManager
 - DocumentationWriter
-- DocumentationGenerators
+- Generated documentation under `docs/generated/`
 
-Development Rules
-- Never bypass the Service Layer.
-- Reuse existing services whenever possible.
-- Keep Enterprise Architecture intact.
-- Keep tests passing.
-- Update generated documentation after structural changes.
+## Current Inventory
 
-Current Statistics
 Models: 27
-Services: 13
+Services: 14
+Controllers: 36
+Repositories: 20
+Actions: 90
+
+## Development Rules
+
+- Preserve the established Core → Modules → Infrastructure → Presentation architecture.
+- Keep module ownership boundaries explicit.
+- Use Actions / Workflows according to the established use-case architecture.
+- Do not introduce compatibility adapters without architectural evidence.
+- Do not perform speculative refactoring.
+- Keep tests passing.
+- Regenerate documentation after structural changes.
 
 ---
 
@@ -225,6 +252,19 @@ App\Modules\Accounting\Application\Services
 
 **Methods**
 - validate(1 params) : void
+
+---
+
+## NetworkDeviceResolver
+
+**Namespace**
+App\Modules\Network\Application\Services
+
+**Dependencies**
+- None
+
+**Methods**
+- resolveForSubscription(1 params) : ?App\Modules\Network\Infrastructure\Persistence\Models\NetworkDevice
 
 ---
 
@@ -3228,6 +3268,26 @@ App\Modules\Accounting\Application\Services
 **Methods**
 
 - validate() : void
+
+---
+
+## NetworkDeviceResolver
+
+**Namespace**
+
+```
+App\Modules\Network\Application\Services
+```
+
+**File**
+
+```
+/var/www/app/Modules/Network/Application/Services/NetworkDeviceResolver.php
+```
+
+**Methods**
+
+- resolveForSubscription() : ?App\Modules\Network\Infrastructure\Persistence\Models\NetworkDevice
 
 ---
 

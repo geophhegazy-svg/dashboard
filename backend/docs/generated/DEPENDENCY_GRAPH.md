@@ -49,6 +49,7 @@
 - App\Modules\Invoice\Application\Services\InvoiceService
 - App\Modules\Accounting\Application\Services\JournalNumberService
 - App\Modules\Accounting\Application\Services\JournalValidationService
+- App\Modules\Network\Application\Services\NetworkDeviceResolver
 - App\Modules\Notification\Application\Services\NotificationService
 - App\Modules\Payment\Application\Services\PaymentService
 - App\Modules\Task\Application\Services\TaskService

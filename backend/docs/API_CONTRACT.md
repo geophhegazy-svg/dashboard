@@ -431,3 +431,164 @@ Green Gate:
 No further GAP-10.1 implementation work is authorized.
 
 STOP.
+
+---
+
+## CORS / Frontend-Backend Boundary
+
+### Status
+
+**CLOSED / GREEN**
+
+### Current Contract
+
+The API CORS boundary uses the Laravel framework CORS configuration supplied by
+`vendor/laravel/framework/config/cors.php`.
+
+The application does not publish or override a local `config/cors.php`.
+
+Current effective configuration:
+
+- Paths: `api/*`, `sanctum/csrf-cookie`
+- Allowed methods: `*`
+- Allowed origins: `*`
+- Allowed headers: `*`
+- Exposed headers: none
+- Max age: `0`
+- Credentials: disabled
+
+### Authentication Boundary
+
+The API authentication contract is Bearer-token based through Sanctum.
+
+The application does not enable Sanctum's stateful frontend middleware for the API
+boundary and does not require credentialed cross-origin cookies.
+
+Therefore:
+
+- `supports_credentials` remains `false`.
+- No `SESSION_DOMAIN` / credentialed CORS contract is introduced.
+- No frontend origin allowlist is introduced without evidence of a separate
+  cross-origin frontend deployment.
+- No custom CORS middleware is introduced.
+
+### Contract Evidence
+
+`tests/Feature/Api/Contract/CorsBoundaryContractTest.php` verifies:
+
+- actual API requests expose `Access-Control-Allow-Origin: *`;
+- API preflight requests return `204`;
+- preflight responses expose the requested method and headers;
+- credentialed CORS is not enabled.
+
+Targeted evidence:
+
+**3 passed / 13 assertions / 0 failures**
+
+### Explicit Non-Goals
+
+This contract does not authorize:
+
+- enabling credentialed CORS;
+- enabling Sanctum stateful authentication;
+- introducing a frontend-origin allowlist;
+- publishing `config/cors.php`;
+- adding custom CORS middleware;
+- changing API authentication semantics.
+
+Any future requirement for a separately deployed frontend with a specific origin
+must establish a new architecture/contract gap before changing this boundary.
+
+
+---
+
+## API Route Surface
+
+### Status
+
+**CLOSED / GREEN**
+
+The API route surface contract establishes:
+
+- `POST /api/login` — public authentication entry point.
+- `POST /api/customer/login` — public customer authentication entry point.
+- Every other `api/*` route requires `auth:sanctum`.
+- Duplicate method/URI pairs are not permitted.
+- Existing unnamed action/self-service routes remain valid and do not
+  require artificial route naming.
+
+### Runtime Evidence
+
+Current runtime route inventory:
+
+- **130 API routes**
+- **2 public routes**
+- **128 Sanctum-protected routes**
+- **0 unprotected non-login API routes**
+- **0 duplicate method/URI pairs**
+
+Public routes:
+
+- `POST /api/login`
+- `POST /api/customer/login`
+
+Laravel's runtime `route:list --json` representation resolves the Sanctum
+middleware as:
+
+`Illuminate\Auth\Middleware\Authenticate:sanctum`
+
+The route object representation used by the contract test exposes:
+
+`auth:sanctum`
+
+These are two representations of the same effective authentication boundary.
+
+### Contract Test Authority
+
+`tests/Feature/Api/Contract/ApiRouteSurfaceContractTest.php`
+
+The contract verifies:
+
+- only the two login endpoints are public;
+- every non-login API route contains `auth:sanctum`;
+- no duplicate method/URI pairs exist.
+
+Targeted evidence:
+
+**3 passed / 4 assertions / 0 failures / 19.46s**
+
+Combined API contract evidence:
+
+**10 passed / 50 assertions / 0 failures / 55.34s**
+
+Runtime evidence:
+
+- 130 routes
+- 2 public
+- 128 Sanctum-protected
+- 0 unprotected non-login routes
+- 0 duplicate method/URI pairs
+- `view:cache` GREEN
+
+Full project regression:
+
+**723 passed / 1870 assertions / 0 failures / 475.94s**
+
+### Explicit Non-Goals
+
+This contract does not authorize:
+
+- reopening Phase 9 authorization audits;
+- renaming unnamed action/self-service routes solely for naming consistency;
+- changing Sanctum authentication semantics;
+- introducing another authentication boundary;
+- changing API response contracts;
+- changing pagination, filtering, or sorting behavior;
+- introducing speculative frontend routing/client architecture.
+
+Any future public API route or alternate authentication mechanism must
+establish a new documented contract/gap before changing this boundary.
+
+The API Route Surface Readiness contract is **CLOSED / GREEN**.
+
+STOP.

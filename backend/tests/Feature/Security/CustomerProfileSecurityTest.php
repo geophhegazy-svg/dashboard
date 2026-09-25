@@ -17,7 +17,7 @@ final class CustomerProfileSecurityTest extends TestCase
     {
         $response = $this->get('/customer/profile');
 
-        $response->assertRedirect('/login');
+        $response->assertRedirect('/customer/login');
     }
 
     public function test_guest_cannot_update_customer_profile(): void
@@ -29,7 +29,7 @@ final class CustomerProfileSecurityTest extends TestCase
             'address' => 'Changed Address',
         ]);
 
-        $response->assertRedirect('/login');
+        $response->assertRedirect('/customer/login');
     }
 
     public function test_authenticated_customer_can_update_own_profile(): void

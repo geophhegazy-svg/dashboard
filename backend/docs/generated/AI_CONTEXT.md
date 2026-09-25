@@ -1,49 +1,51 @@
 # AI Context
 
-Project Name
-EgyptNet ISP Management System
+## Project
 
-Technology Stack
+EgyptNet Enterprise ISP Platform
+
+## Technology Stack
+
 - Laravel 13
 - PHP 8.4
 - Docker
 - MySQL
 - MikroTik RouterOS API
 
-Architecture
-- Enterprise Architecture
-- Service Layer
-- Repository Pattern
-- Documentation Engine
-- Reflection Engine
+## Architecture
 
-Implemented Modules
-- Customers
-- Packages
-- Subscriptions
-- Billing
-- Invoices
-- Payments
-- Wallet
-- Dashboard
-- Notifications
-- Inventory
-- Tickets
+- Core Platform
+- Module-based business architecture
+- Presentation → Application → Domain → Infrastructure
+- Kernel-owned module discovery and registration
+- Action Bus / Command Bus / Query Bus / Event Bus
+- Workflow Engine
+- Spatie Permission based authorization
+- Tenant-aware business boundaries
 
-Documentation
+## Documentation
+
+- Documentation Module
 - ProjectScanner
-- ReflectionEngine
-- MarkdownBuilder
+- DocumentationKnowledgeGeneratorRegistry
+- KnowledgeGeneratorManager
 - DocumentationWriter
-- DocumentationGenerators
+- Generated documentation under `docs/generated/`
 
-Development Rules
-- Never bypass the Service Layer.
-- Reuse existing services whenever possible.
-- Keep Enterprise Architecture intact.
-- Keep tests passing.
-- Update generated documentation after structural changes.
+## Current Inventory
 
-Current Statistics
 Models: 27
-Services: 13
+Services: 14
+Controllers: 36
+Repositories: 20
+Actions: 90
+
+## Development Rules
+
+- Preserve the established Core → Modules → Infrastructure → Presentation architecture.
+- Keep module ownership boundaries explicit.
+- Use Actions / Workflows according to the established use-case architecture.
+- Do not introduce compatibility adapters without architectural evidence.
+- Do not perform speculative refactoring.
+- Keep tests passing.
+- Regenerate documentation after structural changes.

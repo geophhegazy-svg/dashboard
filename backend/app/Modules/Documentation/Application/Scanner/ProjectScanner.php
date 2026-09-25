@@ -80,12 +80,61 @@ class ProjectScanner
 
     public function repositories(): array
     {
-        return $this->scanDirectory(app_path('Repositories'));
+        $repositories = [];
+
+        $modulesPath = app_path('Modules');
+
+        if (is_dir($modulesPath)) {
+            foreach (glob($modulesPath . '/*/Infrastructure/Repositories', GLOB_ONLYDIR) as $repositoriesPath) {
+                $repositories = array_merge(
+                    $repositories,
+                    $this->scanDirectory($repositoriesPath)
+                );
+            }
+        }
+
+        usort(
+            $repositories,
+            fn($a, $b) => strcmp($a['name'], $b['name'])
+        );
+
+        return $repositories;
     }
 
     public function actions(): array
     {
-        return $this->scanDirectory(app_path('Actions'));
+        $actions = [];
+
+        $paths = [
+            app_path('Application/Actions'),
+            app_path('Automation/Actions'),
+        ];
+
+        $modulesPath = app_path('Modules');
+
+        if (is_dir($modulesPath)) {
+            foreach (glob($modulesPath . '/*/Application/Actions', GLOB_ONLYDIR) as $actionsPath) {
+                $paths[] = $actionsPath;
+            }
+        }
+
+        foreach ($paths as $actionsPath) {
+            if (! is_dir($actionsPath)) {
+                continue;
+            }
+
+            $actions = array_merge(
+                $actions,
+                $this->scanDirectory($actionsPath)
+            );
+        }
+
+        usort(
+            $actions,
+            fn($a, $b) => strcmp($a['name'], $b['name'])
+        );
+
+        return $actions;
     }
 
     public function all(): array

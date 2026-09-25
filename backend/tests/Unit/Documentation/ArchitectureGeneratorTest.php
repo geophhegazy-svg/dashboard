@@ -21,7 +21,7 @@ class ArchitectureGeneratorTest extends TestCase
         );
 
         $this->assertStringContainsString(
-            'Services',
+            'Application Layering',
             $markdown
         );
 
@@ -31,7 +31,7 @@ class ArchitectureGeneratorTest extends TestCase
         );
 
         $this->assertStringContainsString(
-            'Models',
+            'Module Structure',
             $markdown
         );
     }

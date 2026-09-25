@@ -1,4 +1,4 @@
-# EgyptNet — Master Project Completion Roadmap
+﻿# EgyptNet â€” Master Project Completion Roadmap
 
 > **Status:** FROZEN FOR EXECUTION
 
@@ -19,21 +19,21 @@ EgyptNet follows the Fast Architecture Loop:
 ```text
 Quick Audit
 
-→ Gap / No Gap
+â†’ Gap / No Gap
 
-→ Minimal Fix
+â†’ Minimal Fix
 
-→ Targeted Tests
+â†’ Targeted Tests
 
-→ Regression
+â†’ Regression
 
-→ Runtime Evidence
+â†’ Runtime Evidence
 
-→ Green Gate
+â†’ Green Gate
 
-→ DONE
+â†’ DONE
 
-→ STOP
+â†’ STOP
 ```
 
 ### Status Markers
@@ -183,41 +183,41 @@ Perform an evidence-first audit of the current repository and identify only real
 
 ## Completed Scope
 
-* [x] Core — audited / NO GAP
-* [x] Kernel — audited / NO GAP
-* [x] Module Registry — audited / NO GAP
-* [x] Module Loader — audited / NO GAP
-* [x] Module Manifest — audited / NO GAP
-* [x] Module Resources — audited / NO GAP
-* [x] Module Discovery — audited / NO GAP
-* [x] Module Source — audited / NO GAP
-* [x] Manifest Collection / Compilation — audited / NO GAP
-* [x] Network Provider registration boundary — NO GAP
-* [x] Network Provider Resolver — NO GAP
-* [x] Network Infrastructure service placement — NO GAP
-* [x] NetworkDevice repository boundary — NO GAP
-* [x] Network Controller / NetworkDevice persistence — GREEN / CLOSED
-* [x] Security / Authorization Policy boundary — GREEN / NO GAP
-* [x] Subscription lifecycle boundary — NO GAP
-* [x] Legacy `app/Models` — NO GAP
-* [x] Duplicate wrappers — NO GAP
-* [x] Legacy `app/Services` — audited / NO GAP
-* [x] Legacy Workflows — audited / CLOSED
-* [x] Cross-module ownership — NO GAP
-* [x] Aggregate ownership — NO GAP
-* [x] Actions — audited / CLOSED
-* [x] Commands / Handlers — audited / NO GAP
-* [x] Queries / Handlers — audited / NO GAP
-* [x] Domain Services — audited
-* [x] Repositories — audited
-* [x] Events / Listeners — audited
-* [x] Infrastructure — audited
-* [x] Presentation — audited
-* [x] Authorization — audited
-* [x] Scheduling — audited
-* [x] RouterOS integration boundaries — audited
-* [x] Documentation boundaries — classified
-* [x] Tests — classified
+* [x] Core â€” audited / NO GAP
+* [x] Kernel â€” audited / NO GAP
+* [x] Module Registry â€” audited / NO GAP
+* [x] Module Loader â€” audited / NO GAP
+* [x] Module Manifest â€” audited / NO GAP
+* [x] Module Resources â€” audited / NO GAP
+* [x] Module Discovery â€” audited / NO GAP
+* [x] Module Source â€” audited / NO GAP
+* [x] Manifest Collection / Compilation â€” audited / NO GAP
+* [x] Network Provider registration boundary â€” NO GAP
+* [x] Network Provider Resolver â€” NO GAP
+* [x] Network Infrastructure service placement â€” NO GAP
+* [x] NetworkDevice repository boundary â€” NO GAP
+* [x] Network Controller / NetworkDevice persistence â€” GREEN / CLOSED
+* [x] Security / Authorization Policy boundary â€” GREEN / NO GAP
+* [x] Subscription lifecycle boundary â€” NO GAP
+* [x] Legacy `app/Models` â€” NO GAP
+* [x] Duplicate wrappers â€” NO GAP
+* [x] Legacy `app/Services` â€” audited / NO GAP
+* [x] Legacy Workflows â€” audited / CLOSED
+* [x] Cross-module ownership â€” NO GAP
+* [x] Aggregate ownership â€” NO GAP
+* [x] Actions â€” audited / CLOSED
+* [x] Commands / Handlers â€” audited / NO GAP
+* [x] Queries / Handlers â€” audited / NO GAP
+* [x] Domain Services â€” audited
+* [x] Repositories â€” audited
+* [x] Events / Listeners â€” audited
+* [x] Infrastructure â€” audited
+* [x] Presentation â€” audited
+* [x] Authorization â€” audited
+* [x] Scheduling â€” audited
+* [x] RouterOS integration boundaries â€” audited
+* [x] Documentation boundaries â€” classified
+* [x] Tests â€” classified
 
 ## Proven Architectural GAP Fixed
 
@@ -371,14 +371,14 @@ Remove remaining legacy architectural paths only where the audit proves they are
 
 ## Audited Targets
 
-* [x] Legacy `app/Models` — NO GAP
-* [x] Legacy `app/Services` — NO GAP
-* [x] Legacy Workflows — CLOSED
-* [x] Duplicate model wrappers — NO GAP
-* [x] Duplicate repositories — classified
-* [x] Duplicate business logic — classified
-* [x] Obsolete compatibility layers — classified
-* [x] Framework-bound business logic outside proper boundaries — classified
+* [x] Legacy `app/Models` â€” NO GAP
+* [x] Legacy `app/Services` â€” NO GAP
+* [x] Legacy Workflows â€” CLOSED
+* [x] Duplicate model wrappers â€” NO GAP
+* [x] Duplicate repositories â€” classified
+* [x] Duplicate business logic â€” classified
+* [x] Obsolete compatibility layers â€” classified
+* [x] Framework-bound business logic outside proper boundaries â€” classified
 
 ### Legacy `app/Services`
 
@@ -499,13 +499,13 @@ Preferred structure:
 
 ```text
 Command
-↓
+â†“
 Handler
-↓
+â†“
 Action / Workflow
-↓
+â†“
 Domain
-↓
+â†“
 Repository
 ```
 
@@ -627,9 +627,9 @@ Ordering is explicitly:
 ```text
 Renew
 
-→ Grace
+â†’ Grace
 
-→ Expire
+â†’ Expire
 ```
 
 No scheduling architecture GAP identified.
@@ -655,27 +655,27 @@ Renewal flow:
 ```text
 Subscription
 
-↓
+â†“
 
 RenewWorkflow
 
-↓
+â†“
 
 SubscriptionRenewed
 
-↓
+â†“
 
 SubscriptionRenewedListener
 
-↓
+â†“
 
 InvoiceService
 
-↓
+â†“
 
 CreateInvoiceAction
 
-↓
+â†“
 
 Invoice Module
 ```
@@ -691,13 +691,13 @@ Verified behavior:
 ```text
 Same renewal key
 
-→ same invoice
+â†’ same invoice
 
-→ no duplicate invoice
+â†’ no duplicate invoice
 
 Different renewal keys
 
-→ separate invoices
+â†’ separate invoices
 ```
 
 Targeted evidence:
@@ -780,37 +780,37 @@ Workflow execution is transaction-wrapped:
 ```text
 WorkflowExecutor
 
-↓
+â†“
 
 TransactionStep
 
-↓
+â†“
 
 DB::transaction(...)
 
-↓
+â†“
 
 WorkflowExecutionStep
 
-↓
+â†“
 
 AbstractWorkflow::execute()
 
-├── rules
+â”œâ”€â”€ rules
 
-├── before
+â”œâ”€â”€ before
 
-├── perform
+â”œâ”€â”€ perform
 
-│   └── Action
+â”‚   â””â”€â”€ Action
 
-└── after
+â””â”€â”€ after
 
-    └── EventDispatcher
+    â””â”€â”€ EventDispatcher
 
-        └── listeners
+        â””â”€â”€ listeners
 
-↓
+â†“
 
 COMMIT
 ```
@@ -973,20 +973,20 @@ Validate behavior, not only architecture.
 
 ## Domains
 
-* [x] Subscription lifecycle — verified
-* [x] Billing lifecycle — verified within Phase 6
-* [x] Renewal — verified
-* [x] Grace period — verified
-* [x] Expiration — verified
-* [x] Customer lifecycle — verified / NO GAP
-* [x] Invoice business rules — verified / NO GAP
-* [x] Payment business rules — verified / NO GAP
-* [x] Wallet business rules — verified / NO GAP
-* [x] Accounting business rules — verified / NO GAP
-* [x] Network business rules — verified / NO GAP
-* [x] Package business rules — verified / NO GAP
-* [x] Cancellation — verified / GREEN
-* [x] Activation / Deactivation — verified / NO GAP
+* [x] Subscription lifecycle â€” verified
+* [x] Billing lifecycle â€” verified within Phase 6
+* [x] Renewal â€” verified
+* [x] Grace period â€” verified
+* [x] Expiration â€” verified
+* [x] Customer lifecycle â€” verified / NO GAP
+* [x] Invoice business rules â€” verified / NO GAP
+* [x] Payment business rules â€” verified / NO GAP
+* [x] Wallet business rules â€” verified / NO GAP
+* [x] Accounting business rules â€” verified / NO GAP
+* [x] Network business rules â€” verified / NO GAP
+* [x] Package business rules â€” verified / NO GAP
+* [x] Cancellation â€” verified / GREEN
+* [x] Activation / Deactivation â€” verified / NO GAP
 * [x] Remaining domain-specific rules
 
 Remaining domain-specific evidence:
@@ -996,7 +996,7 @@ Inventory business-rule coverage: 4 tests / 8 assertions.
 
 Ticket business-rule coverage: 6 tests / 13 assertions.
 
-Task: existing business-rule coverage verified — NO GAP / GREEN.
+Task: existing business-rule coverage verified â€” NO GAP / GREEN.
 
 Reports: no Phase-7 business-state gap.
 
@@ -1031,7 +1031,7 @@ Phase 7 full regression duration:
 
 * No Subscription `deactivate()` transition, Action, Workflow, Event, Policy, endpoint, route, or test exists.
 
-* `SUSPENDED` is the existing explicit non-active Subscription lifecycle state, with `ACTIVE → SUSPENDED → ACTIVE` transitions and corresponding Network disable/enable behavior.
+* `SUSPENDED` is the existing explicit non-active Subscription lifecycle state, with `ACTIVE â†’ SUSPENDED â†’ ACTIVE` transitions and corresponding Network disable/enable behavior.
 
 * No domain evidence defines Subscription Deactivation as a separate business operation.
 
@@ -1060,7 +1060,7 @@ Phase 7 full regression duration:
 * [x] Domain Services.
 * [x] Aggregate transitions.
 * [x] Domain Events.
-* [x] Scheduled operations outside completed Phase 6 scope — no Phase-7 GAP identified.
+* [x] Scheduled operations outside completed Phase 6 scope â€” no Phase-7 GAP identified.
 * [x] Error handling across remaining domains.
 
 **Exit Gate:** Business rules have clear owners and executable tests.
@@ -1081,11 +1081,11 @@ Ensure Infrastructure owns framework and external-system concerns.
 
 ## Verified Sub-Boundaries
 
-* [x] Network Provider registration boundary — NO GAP.
-* [x] Network Provider Resolver — NO GAP.
-* [x] Network services Infrastructure placement — NO GAP.
-* [x] NetworkDevice repository boundary — NO GAP.
-* [x] Network Controller → NetworkDevice persistence — GREEN / CLOSED.
+* [x] Network Provider registration boundary â€” NO GAP.
+* [x] Network Provider Resolver â€” NO GAP.
+* [x] Network services Infrastructure placement â€” NO GAP.
+* [x] NetworkDevice repository boundary â€” NO GAP.
+* [x] Network Controller â†’ NetworkDevice persistence â€” GREEN / CLOSED.
 
 These completed sub-boundaries were followed by the complete Phase 8 Infrastructure / Network audit.
 
@@ -1197,7 +1197,7 @@ Network/QueueControllerTest
 
 ## Phase 8 Audit Progress
 
-### Audit 1 — MikroTik Runtime Connection Behavior
+### Audit 1 â€” MikroTik Runtime Connection Behavior
 
 * [x] NetworkManager connection boundary verified.
 * [x] NetworkProviderResolver verified.
@@ -1211,7 +1211,7 @@ Network/QueueControllerTest
 
 **Status: CLOSED / GREEN**
 
-### Audit 2 — RouterOS API Integration
+### Audit 2 â€” RouterOS API Integration
 
 * [x] RouterOS `Client` creation centralized.
 * [x] RouterOS `Query` creation remains inside Network Infrastructure services.
@@ -1221,7 +1221,7 @@ Network/QueueControllerTest
 
 **Status: CLOSED / GREEN**
 
-### Audit 3 — PPPoE Lifecycle
+### Audit 3 â€” PPPoE Lifecycle
 
 * [x] PPPoE service contract verified.
 * [x] `/ppp/secret/*` lifecycle verified.
@@ -1233,7 +1233,7 @@ Network/QueueControllerTest
 
 **Status: CLOSED / GREEN**
 
-### Audit 4 — Hotspot Lifecycle
+### Audit 4 â€” Hotspot Lifecycle
 
 * [x] Hotspot service contract verified.
 * [x] `/ip/hotspot/user/*` lifecycle verified.
@@ -1245,7 +1245,7 @@ Network/QueueControllerTest
 
 **Status: CLOSED / GREEN**
 
-### Audit 5 — Profiles
+### Audit 5 â€” Profiles
 
 * [x] Profile references classified as assignment/configuration.
 * [x] No unsupported RouterOS profile CRUD requirement identified.
@@ -1254,7 +1254,7 @@ Network/QueueControllerTest
 
 **Status: CLOSED / GREEN**
 
-### Audit 6 — Queues / Speed Enforcement
+### Audit 6 â€” Queues / Speed Enforcement
 
 * [x] Queue service contract verified.
 * [x] RouterOS `/queue/simple/*` boundary verified.
@@ -1265,7 +1265,7 @@ Network/QueueControllerTest
 
 **Status: CLOSED / GREEN**
 
-### Audit 7 — Synchronization
+### Audit 7 â€” Synchronization
 
 * [x] Synchronization ownership moved to Network Module.
 * [x] `SyncMikroTikUsersAction` established.
@@ -1295,7 +1295,7 @@ GREEN
 
 **Status: CLOSED / GREEN**
 
-### Audit 8 — Disconnect / Expiry Enforcement
+### Audit 8 â€” Disconnect / Expiry Enforcement
 
 * [x] `SubscriptionExpired` boundary audited.
 * [x] Subscription expiry disables the PPPoE user.
@@ -1324,7 +1324,7 @@ Full regression:
 
 **Status: CLOSED / GREEN**
 
-### Audit 9 — Runtime Router Evidence
+### Audit 9 â€” Runtime Router Evidence
 
 Runtime device:
 
@@ -1343,15 +1343,15 @@ Runtime path verified:
 ```text
 NetworkManagerInterface
 
-→ NetworkManager
+â†’ NetworkManager
 
-→ NetworkProviderResolver
+â†’ NetworkProviderResolver
 
-→ MikroTikProvider
+â†’ MikroTikProvider
 
-→ MikroTikConnectionService
+â†’ MikroTikConnectionService
 
-→ RouterOS
+â†’ RouterOS
 ```
 
 Runtime evidence:
@@ -1382,7 +1382,7 @@ No RouterOS mutation commands were executed.
 
 **Status: CLOSED / GREEN**
 
-### Audit 10 — Infrastructure Failure Handling
+### Audit 10 â€” Infrastructure Failure Handling
 
 * [x] RouterOS read failures no longer become silent empty collections.
 * [x] `MikroTikQueryService::execute()` raises `QueryException` on RouterOS query failure.
@@ -1431,7 +1431,7 @@ No RouterOS mutation commands were executed.
 
 **Status: CLOSED / GREEN**
 
-### Audit 11 — Fail-safe Behavior
+### Audit 11 â€” Fail-safe Behavior
 
 **Status: CLOSED / GREEN**
 
@@ -1442,23 +1442,23 @@ Audit sequence completed:
 ```text
 Infrastructure / Network boundary inventory
 
-→ Runtime ownership classification
+â†’ Runtime ownership classification
 
-→ Failure-state analysis
+â†’ Failure-state analysis
 
-→ Gap / No Gap
+â†’ Gap / No Gap
 
-→ Minimal Fix
+â†’ Minimal Fix
 
-→ Targeted Tests
+â†’ Targeted Tests
 
-→ Regression
+â†’ Regression
 
-→ Runtime Evidence
+â†’ Runtime Evidence
 
-→ Green Gate
+â†’ Green Gate
 
-→ STOP
+â†’ STOP
 ```
 
 Verified:
@@ -1485,17 +1485,17 @@ Minimal correction:
 ```text
 SubscriptionNetworkLifecycleListener
 
-→ checks enableUser()
+â†’ checks enableUser()
 
-→ checks disableUser()
+â†’ checks disableUser()
 
-→ checks disconnectUser()
+â†’ checks disconnectUser()
 
 HotspotSubscriptionNetworkLifecycleListener
 
-→ checks enableUser()
+â†’ checks enableUser()
 
-→ checks disableUser()
+â†’ checks disableUser()
 ```
 
 Failed writes now raise the existing:
@@ -1565,15 +1565,15 @@ The runtime evidence confirms:
 ```text
 EventDispatcher
 
-→ Network listener
+â†’ Network listener
 
-→ MikrotikServiceInterface
+â†’ MikrotikServiceInterface
 
-→ enableUser() = false
+â†’ enableUser() = false
 
-→ MikroTikException
+â†’ MikroTikException
 
-→ exception propagated
+â†’ exception propagated
 ```
 
 No real RouterOS mutation was executed during this probe.
@@ -1582,7 +1582,7 @@ No real RouterOS mutation was executed during this probe.
 
 > **Decision:** Do not reopen Audit 11 without new evidence of regression or an explicit infrastructure contract change.
 
-### Audit 12 — Remaining Scheduled Infrastructure Operations
+### Audit 12 â€” Remaining Scheduled Infrastructure Operations
 
 **Status: CLOSED / GREEN**
 
@@ -1659,21 +1659,21 @@ The active runtime schedule was already owned by the appropriate Modules:
 ```text
 Network
 
-→ mikrotik:sync
+â†’ mikrotik:sync
 
-→ mikrotik:sync-hotspot
+â†’ mikrotik:sync-hotspot
 
 Usage
 
-→ usage:sync
+â†’ usage:sync
 
 Subscription
 
-→ subscriptions:auto-renew
+â†’ subscriptions:auto-renew
 
-→ subscriptions:auto-grace
+â†’ subscriptions:auto-grace
 
-→ subscriptions:auto-expire
+â†’ subscriptions:auto-expire
 ```
 
 ### Minimal Fix
@@ -1823,7 +1823,7 @@ Duration: 334.18s
 
 **Phase 8 Verdict: CLOSED / GREEN**
 
-> **Decision:** Phase 8 is complete. Do not reopen Phase 8 or Audits 1–12 without new evidence proving regression or an explicit architectural decision change.
+> **Decision:** Phase 8 is complete. Do not reopen Phase 8 or Audits 1â€“12 without new evidence proving regression or an explicit architectural decision change.
 
 ---
 
@@ -1854,7 +1854,7 @@ It must not be incorrectly treated as a compiled resource.
 
 # 9. API / PRESENTATION / AUTHORIZATION
 
-**Status: [~] IN PROGRESS — BROADER PRESENTATION SURFACE**
+**Status: [~] IN PROGRESS â€” BROADER PRESENTATION SURFACE**
 
 ## Already Verified
 
@@ -1881,7 +1881,7 @@ Tenant runtime evidence:
 
 ---
 
-## GAP-9.1 — API Authentication Exposure
+## GAP-9.1 â€” API Authentication Exposure
 
 **Status: CLOSED / GREEN**
 
@@ -1929,7 +1929,7 @@ Do not reopen GAP-9.1 without new evidence of regression or an explicit authenti
 
 ---
 
-## GAP-9.2 — Network Mutation Application Boundary
+## GAP-9.2 â€” Network Mutation Application Boundary
 
 **Status: CLOSED / GREEN**
 
@@ -1975,19 +1975,19 @@ The mutation flow is now:
 
 ```text
 Controller
-    ↓
+    â†“
 Network Application Action
-    ↓
+    â†“
 NetworkManagerInterface
-    ↓
+    â†“
 NetworkManager
-    ↓
+    â†“
 NetworkProviderResolver
-    ↓
+    â†“
 MikroTikProvider
-    ↓
+    â†“
 Network Domain Service
-    ↓
+    â†“
 MikroTik Infrastructure
 ```
 
@@ -2051,7 +2051,7 @@ CLOSED / GREEN
 
 ---
 
-## GAP-9.3-A — HotspotSubscription Controller Authorization
+## GAP-9.3-A â€” HotspotSubscription Controller Authorization
 
 **Status: CLOSED / GREEN**
 
@@ -2127,22 +2127,22 @@ Authorization was added only to the existing controller operations:
 
 ```text
 index
-    → authorize(viewAny)
+    â†’ authorize(viewAny)
 
 store
-    → authorize(create)
+    â†’ authorize(create)
 
 show
-    → authorize(view)
+    â†’ authorize(view)
 
 destroy
-    → authorize(delete)
+    â†’ authorize(delete)
 
 suspend
-    → authorize(suspend)
+    â†’ authorize(suspend)
 
 activate
-    → authorize(activate)
+    â†’ authorize(activate)
 ```
 
 ### Production Boundary
@@ -2151,13 +2151,13 @@ The controller now follows:
 
 ```text
 HTTP Request
-    ↓
+    â†“
 Sanctum Authentication
-    ↓
+    â†“
 Controller
-    ↓
+    â†“
 Policy Authorization
-    ↓
+    â†“
 Existing Action / Repository
 ```
 
@@ -2259,7 +2259,7 @@ No production performance refactor is justified by this test-duration change.
 > Do not reopen the HotspotSubscription authorization boundary without new regression evidence or an explicit architectural contract change.
 
 ---
-## GAP-9.3-E — MikroTik Controller Authorization**
+## GAP-9.3-E â€” MikroTik Controller Authorization**
 
 ## Status: CLOSED / GREEN**
 
@@ -2287,9 +2287,9 @@ No new permission architecture was introduced.
 
 `app/Http/Controllers/Api/MikrotikController.php`
 
-* `test()` → `$this->authorize('mikrotik.view')`
-* `pppoeUsers()` → `$this->authorize('mikrotik.pppoe.view')`
-* `hotspotUsers()` → `$this->authorize('mikrotik.hotspot.view')`
+* `test()` â†’ `$this->authorize('mikrotik.view')`
+* `pppoeUsers()` â†’ `$this->authorize('mikrotik.pppoe.view')`
+* `hotspotUsers()` â†’ `$this->authorize('mikrotik.hotspot.view')`
 
 Production syntax validation:
 
@@ -2333,7 +2333,7 @@ Full regression GREEN
 
 Decision: GAP-9.3-E is CLOSED / GREEN and must not be reopened without new regression evidence or an explicit architectural contract change.
 
-GAP-9.3-B — Remaining API / Presentation / Authorization Surface
+GAP-9.3-B â€” Remaining API / Presentation / Authorization Surface
 
 Status: [~] CURRENT EXECUTION POSITION
 
@@ -2343,22 +2343,22 @@ Completed GAP-9.3 Authorization Surfaces
 
 The following authorization surfaces have already been audited and are CLOSED / GREEN:
 
-GAP-9.3-A — HotspotSubscription Controller Authorization
+GAP-9.3-A â€” HotspotSubscription Controller Authorization
 [x] CLOSED / GREEN
 
-GAP-9.3-B — Dashboard Controller Authorization
+GAP-9.3-B â€” Dashboard Controller Authorization
 [x] CLOSED / GREEN
 
-GAP-9.3-C — Reports Controller Authorization
+GAP-9.3-C â€” Reports Controller Authorization
 [x] CLOSED / GREEN
 
-GAP-9.3-D — Scheduled Reports Controller Authorization
+GAP-9.3-D â€” Scheduled Reports Controller Authorization
 [x] CLOSED / GREEN
 
-GAP-9.3-E — MikroTik Controller Authorization
+GAP-9.3-E â€” MikroTik Controller Authorization
 [x] CLOSED / GREEN
 
-GAP-9.3-F — Notification Controller Authorization
+GAP-9.3-F â€” Notification Controller Authorization
 [x] CLOSED / GREEN
 Remaining Authorization Candidates
 
@@ -2370,25 +2370,25 @@ This candidate requires separate contract analysis.
 
 No Policy or permission will be invented before evidence proves that it is required.
 
-GAP-9.3-F — Notification Controller Authorization
+GAP-9.3-F â€” Notification Controller Authorization
 [x] CLOSED / GREEN
 
 Authorization contract:
 
 NotificationController@index
-    → authorize('notifications.view')
+    â†’ authorize('notifications.view')
 
 NotificationController@show
-    → authorize('notifications.view')
+    â†’ authorize('notifications.view')
 
 NotificationController@markAsRead
-    → authorize('notifications.read')
+    â†’ authorize('notifications.read')
 
 NotificationController@markAllAsRead
-    → authorize('notifications.read')
+    â†’ authorize('notifications.read')
 
 NotificationController@destroy
-    → authorize('notifications.delete')
+    â†’ authorize('notifications.delete')
 
 Existing permissions were reused without introducing a new permission contract:
 
@@ -2399,8 +2399,8 @@ notifications.delete
 Customer notification access remains separate and unchanged:
 
 CustomerNotificationController
-    → Sanctum authentication
-    → customer-scoped notifications relationship
+    â†’ Sanctum authentication
+    â†’ customer-scoped notifications relationship
 
 No new Policy, Middleware, Role, or Authorization abstraction was introduced.
 
@@ -2433,7 +2433,7 @@ Full regression GREEN
 
 Decision: GAP-9.3-F is CLOSED / GREEN and must not be reopened without new regression evidence or an explicit architectural contract change.
 
-GAP-9.3-B — Dashboard Controller Authorization
+GAP-9.3-B â€” Dashboard Controller Authorization
 [x] CLOSED / GREEN
 
 Existing permissions:
@@ -2444,10 +2444,10 @@ dashboard.statistics
 Controller enforcement:
 
 DashboardController@index
-    → authorize('dashboard.view')
+    â†’ authorize('dashboard.view')
 
 DashboardController@stats
-    → authorize('dashboard.statistics')
+    â†’ authorize('dashboard.statistics')
 
 Targeted authorization tests:
 
@@ -2472,7 +2472,7 @@ Duration: 360.93s
 
 No new Policy, Core abstraction, middleware, or authorization mechanism was introduced.
 
-GAP-9.3-C — Reports Controller Authorization
+GAP-9.3-C â€” Reports Controller Authorization
 [x] CLOSED / GREEN
 
 Existing permissions:
@@ -2485,15 +2485,15 @@ reports.tickets
 
 Controller enforcement:
 
-dashboard()  → authorize('reports.dashboard')
+dashboard()  â†’ authorize('reports.dashboard')
 
-revenue()    → authorize('reports.revenue')
+revenue()    â†’ authorize('reports.revenue')
 
-invoices()   → authorize('reports.invoices')
+invoices()   â†’ authorize('reports.invoices')
 
-inventory()  → authorize('reports.inventory')
+inventory()  â†’ authorize('reports.inventory')
 
-tickets()    → authorize('reports.tickets')
+tickets()    â†’ authorize('reports.tickets')
 
 Targeted Reports authorization:
 
@@ -2520,7 +2520,7 @@ All report routes remain under the existing auth:sanctum API context.
 
 No new Report Policy, Core abstraction, middleware, or authorization mechanism was introduced.
 
-GAP-9.3-D — Scheduled Reports Controller Authorization
+GAP-9.3-D â€” Scheduled Reports Controller Authorization
 [x] CLOSED / GREEN
 
 Independent permission contract established:
@@ -2535,23 +2535,23 @@ scheduled_reports.deactivate
 Role contract:
 
 Super Admin / Tenant Admin
-    → all six permissions
+    â†’ all six permissions
 
 Manager
-    → all six permissions
+    â†’ all six permissions
 
 Accountant
-    → scheduled_reports.view only
+    â†’ scheduled_reports.view only
 
 Controller enforcement:
 
-index()      → scheduled_reports.view
-store()      → scheduled_reports.create
-show()       → scheduled_reports.view
-update()     → scheduled_reports.update
-destroy()    → scheduled_reports.delete
-activate()   → scheduled_reports.activate
-deactivate() → scheduled_reports.deactivate
+index()      â†’ scheduled_reports.view
+store()      â†’ scheduled_reports.create
+show()       â†’ scheduled_reports.view
+update()     â†’ scheduled_reports.update
+destroy()    â†’ scheduled_reports.delete
+activate()   â†’ scheduled_reports.activate
+deactivate() â†’ scheduled_reports.deactivate
 
 Targeted Scheduled Reports authorization:
 
@@ -2576,7 +2576,7 @@ Duration: 396.84s
 
 No new Policy, Core abstraction, middleware, or authorization mechanism was introduced.
 
-GAP-9.3-E — MikroTik Controller Authorization
+GAP-9.3-E â€” MikroTik Controller Authorization
 [x] CLOSED / GREEN
 
 Existing permissions:
@@ -2594,13 +2594,13 @@ mikrotik.hotspot.delete
 Controller enforcement:
 
 test()
-    → authorize('mikrotik.view')
+    â†’ authorize('mikrotik.view')
 
 pppoeUsers()
-    → authorize('mikrotik.pppoe.view')
+    â†’ authorize('mikrotik.pppoe.view')
 
 hotspotUsers()
-    → authorize('mikrotik.hotspot.view')
+    â†’ authorize('mikrotik.hotspot.view')
 
 Targeted MikroTik authorization:
 
@@ -2632,7 +2632,7 @@ Duration: 545.01s
 
 No new Policy, Core abstraction, middleware, or authorization mechanism was introduced.
 
-GAP-9.3-F — Notification Controller Authorization
+GAP-9.3-F â€” Notification Controller Authorization
 [x] CLOSED / GREEN
 
 Existing permissions:
@@ -2644,19 +2644,19 @@ notifications.delete
 Controller enforcement:
 
 index()
-    → authorize('notifications.view')
+    â†’ authorize('notifications.view')
 
 show()
-    → authorize('notifications.view')
+    â†’ authorize('notifications.view')
 
 markAsRead()
-    → authorize('notifications.read')
+    â†’ authorize('notifications.read')
 
 markAllAsRead()
-    → authorize('notifications.read')
+    â†’ authorize('notifications.read')
 
 destroy()
-    → authorize('notifications.delete')
+    â†’ authorize('notifications.delete')
 
 Targeted Notification authorization:
 
@@ -2685,28 +2685,28 @@ Important Classification Rule
 
 The following are already classified and must not be reopened:
 
-GAP-9.1 — API Authentication Exposure
+GAP-9.1 â€” API Authentication Exposure
 [x] CLOSED / GREEN
 
-GAP-9.2 — Network Mutation Application Boundary
+GAP-9.2 â€” Network Mutation Application Boundary
 [x] CLOSED / GREEN
 
-GAP-9.3-A — HotspotSubscription Controller Authorization
+GAP-9.3-A â€” HotspotSubscription Controller Authorization
 [x] CLOSED / GREEN
 
-GAP-9.3-B — Dashboard Controller Authorization
+GAP-9.3-B â€” Dashboard Controller Authorization
 [x] CLOSED / GREEN
 
-GAP-9.3-C — Reports Controller Authorization
+GAP-9.3-C â€” Reports Controller Authorization
 [x] CLOSED / GREEN
 
-GAP-9.3-D — Scheduled Reports Controller Authorization
+GAP-9.3-D â€” Scheduled Reports Controller Authorization
 [x] CLOSED / GREEN
 
-GAP-9.3-E — MikroTik Controller Authorization
+GAP-9.3-E â€” MikroTik Controller Authorization
 [x] CLOSED / GREEN
 
-GAP-9.3-F — Notification Controller Authorization
+GAP-9.3-F â€” Notification Controller Authorization
 [x] CLOSED / GREEN
 
 Network DHCP / Firewall / Queue authorization is not reopened merely because those controllers were part of GAP-9.2.
@@ -2715,41 +2715,41 @@ Their Application mutation boundary is already GREEN.
 
 Remaining Audit Sequence
 Quick Audit
-    ↓
+    â†“
 Controller / Route Contract
-    ↓
+    â†“
 Existing Policy Evidence
-    ↓
+    â†“
 Existing Permission Evidence
-    ↓
+    â†“
 Existing Role Evidence
-    ↓
+    â†“
 Sanctum Authentication Evidence
-    ↓
+    â†“
 Ownership / Scope Evidence
-    ↓
+    â†“
 Request Validation Evidence
-    ↓
+    â†“
 Resource / Response Evidence
-    ↓
+    â†“
 API Contract Evidence
-    ↓
+    â†“
 Pagination / Filtering / Sorting Evidence
-    ↓
+    â†“
 Error Contract Evidence
-    ↓
+    â†“
 Gap / No Gap
-    ↓
+    â†“
 Minimal Fix only if GAP exists
-    ↓
+    â†“
 Targeted Tests
-    ↓
+    â†“
 Regression if production code changes
-    ↓
+    â†“
 Runtime Evidence
-    ↓
+    â†“
 Green Gate
-    ↓
+    â†“
 STOP
 Current Rule
 
@@ -2786,18 +2786,18 @@ Complete presentation authorization behavior.
 
 Completed authorization surfaces:
 
-API Authentication Exposure — GAP-9.1.
-Network Mutation Application Boundary — GAP-9.2.
-HotspotSubscription Controller Authorization — GAP-9.3-A.
-Dashboard Controller Authorization — GAP-9.3-B.
-Reports Controller Authorization — GAP-9.3-C.
-Scheduled Reports Controller Authorization — GAP-9.3-D.
-MikroTik Controller Authorization — GAP-9.3-E.
-Notification Controller Authorization — GAP-9.3-F.
-Ticket Authorization — GAP-9.3-G.
-Hotspot Read Authorization — GAP-9.3-H.
-Web Network Authorization — GAP-9.3-I.
-Task Authorization — GAP-9.3-J.
+API Authentication Exposure â€” GAP-9.1.
+Network Mutation Application Boundary â€” GAP-9.2.
+HotspotSubscription Controller Authorization â€” GAP-9.3-A.
+Dashboard Controller Authorization â€” GAP-9.3-B.
+Reports Controller Authorization â€” GAP-9.3-C.
+Scheduled Reports Controller Authorization â€” GAP-9.3-D.
+MikroTik Controller Authorization â€” GAP-9.3-E.
+Notification Controller Authorization â€” GAP-9.3-F.
+Ticket Authorization â€” GAP-9.3-G.
+Hotspot Read Authorization â€” GAP-9.3-H.
+Web Network Authorization â€” GAP-9.3-I.
+Task Authorization â€” GAP-9.3-J.
 
 Remaining authorization candidates:
 
@@ -2833,11 +2833,11 @@ Policy
 Regression
 Required Sequence
 Targeted Tests
-    ↓
+    â†“
 Module Regression
-    ↓
+    â†“
 Full Test Suite
-    ↓
+    â†“
 GREEN
 Current Full Regression
 693 passed
@@ -2961,7 +2961,7 @@ Controller Authorization
     GREEN
 
 Unauthorized Requests
-    6 / 6 → HTTP 403
+    6 / 6 â†’ HTTP 403
 
 Targeted Tests
     8 passed / 15 assertions
@@ -2976,10 +2976,10 @@ Controller Authorization
     GREEN
 
 Unauthorized Requests
-    2 / 2 → HTTP 403
+    2 / 2 â†’ HTTP 403
 
 Authorized Requests
-    2 / 2 → HTTP 200
+    2 / 2 â†’ HTTP 200
 
 Targeted Tests
     4 passed / 13 assertions
@@ -2994,10 +2994,10 @@ Controller Authorization
     GREEN
 
 Unauthorized Requests
-    5 / 5 → HTTP 403
+    5 / 5 â†’ HTTP 403
 
 Authorized Requests
-    5 / 5 → HTTP 200
+    5 / 5 â†’ HTTP 200
 
 Targeted Tests
     10 passed / 10 assertions
@@ -3021,8 +3021,8 @@ Authorized Requests
     verified by targeted authorization suite
 
 Role Contract
-    Manager → full management permissions
-    Accountant → view only
+    Manager â†’ full management permissions
+    Accountant â†’ view only
 
 Targeted Tests
     15 passed / 17 assertions
@@ -3135,48 +3135,219 @@ Current Regression Verdict: GREEN
 
 11. DOCUMENTATION & OPERATIONAL READINESS
 
-Status: PENDING
+Status: [~] CURRENT EXECUTION POSITION
 
 Objective
 
-Documentation must reflect actual GREEN code.
+Documentation must reflect actual GREEN code, and operational readiness
+must be verified against the established production/runtime boundaries.
 
-Required Documentation
-PROJECT_BIBLE.md
-PROJECT_STATE.md
-PROJECT_SUMMARY.md
-ARCHITECTURE.md
-STATISTICS.md
-BUSINESS_RULES.md
-MODELS_FULL.md
-SERVICES_FULL.md
-CONTROLLERS_FULL.md
-ROUTES_FULL.md
-SERVICE_USAGE.md
-MODEL_RELATIONS.md
-DEPENDENCY_GRAPH.md
-DATABASE.md
-MIGRATIONS.md
-MODULES.md
-HANDOVER.md
-TODO.md
-INDEX.md
-AI_START_PROMPT.md
-MASTER_ROADMAP.md
-Operational Readiness
-Subscription scheduler registration verified.
-Kernel cache lifecycle verified.
-Kernel cache-clear runtime verified.
-TenantContext runtime verified.
-Complete queue production behavior.
-Complete RouterOS runtime behavior.
-Complete runtime command inventory — Phase 8 Audit 12.
-Error logging reviewed.
-No unexplained recurring runtime errors remain.
-Backup / restore operational verification.
-Production monitoring verification.
+### 11.1 Documentation Generation Authority
 
-Exit Gate: Documentation and operational state accurately reflect GREEN architecture.
+**Status: CLOSED / GREEN**
+
+Evidence:
+
+- Documentation generation is owned by the Documentation Module.
+- `DocumentationKnowledgeGeneratorRegistry` registers the canonical
+  documentation generator set.
+- `KnowledgeGeneratorManager` delegates generation through the registry.
+- `DocumentationWriter` owns generated output under `docs/generated`.
+- `php artisan bible:update` is the documented regeneration command.
+- Canonical generated documentation output is present.
+
+Verdict:
+
+[x] Generation authority verified
+[x] Canonical generator registry verified
+[x] Canonical writer/output boundary verified
+[x] `bible:update` regeneration verified
+[x] CLOSED / GREEN
+
+### 11.2 Generated Documentation Freshness
+
+**Status: CLOSED / GREEN**
+
+Evidence:
+
+- Generated documentation reflects the current EgyptNet Enterprise ISP Platform
+  architecture.
+- `PROJECT_SUMMARY.md` identifies the project as
+  `EgyptNet Enterprise ISP Platform`.
+- `PROJECT_STATE.md` reports:
+  - Models: 27
+  - Services: 13
+  - Controllers: 36
+  - Repositories: 20
+  - Actions: 90
+- `AI_CONTEXT.md` reflects Core Platform, Modules, Application, Domain,
+  Infrastructure, Kernel registration, buses, Workflow Engine,
+  authorization, and tenant boundaries.
+- `ARCHITECTURE.md` reflects:
+  - Core Platform
+  - Modules
+  - Infrastructure
+  - Presentation
+  - Presentation â†’ Application â†’ Domain â†’ Infrastructure
+- `AI_START_PROMPT.md` references the current generated `*_FULL.md`
+  documentation files.
+- No stale documentation terms were found for:
+  - `Service Layer`
+  - `Repository Pattern`
+  - `Never bypass the Service Layer`
+  - `EgyptNet ISP Management System`
+  - `Enterprise Architecture`
+  - `ROUTES.md`
+  - `SERVICES.md`
+- Canonical generated documentation output matrix is complete.
+
+Targeted Documentation Gate:
+
+- 53 passed
+- 129 assertions
+- 0 failures
+- Duration: 153.86s
+- PHPUnit exit code: 0
+
+Regeneration:
+
+- `php artisan bible:update`
+- Successful
+
+Verdict:
+
+[x] Generated documentation is fresh
+[x] Generator source aligned with current architecture
+[x] Documentation contract tests GREEN
+[x] Regeneration GREEN
+[x] CLOSED / GREEN
+
+### 11.3 Documentation Source Alignment
+
+**Status: CLOSED / GREEN**
+
+Minimal source corrections completed:
+
+- `ProjectScanner::repositories()` now discovers module-owned
+  `Infrastructure/Repositories`.
+- `ProjectScanner::actions()` now discovers platform Application/Automation
+  Actions and module Application Actions.
+- `ArchitectureGenerator` now describes the current Core / Modules /
+  Infrastructure / Presentation architecture.
+- `AIContextGenerator` now describes the current architecture and rules.
+- `ProjectSummaryGenerator` now uses the canonical project identity.
+- `AiStartPromptExport` references `ROUTES_FULL.md`, `SERVICES_FULL.md`,
+  and `MODELS_FULL.md`.
+- Documentation contract tests were aligned with the current architecture.
+
+Verdict:
+
+[x] CLOSED / GREEN
+
+### 11.4 Documentation Exit Gate
+
+**Status: CLOSED / GREEN**
+
+Documentation scope is complete.
+
+[x] Documentation generation authority GREEN
+[x] Documentation freshness GREEN
+[x] Documentation source alignment GREEN
+[x] Documentation tests GREEN
+[x] Generated documentation regeneration GREEN
+
+Documentation scope must not be reopened without new evidence of regression
+or an explicit architectural contract change.
+
+### 11.5 Operational Readiness — Remaining Scope
+
+**Status: CLOSED / GREEN**
+
+The remaining Phase 11 scope is operational readiness verification.
+
+Completed operational verification:
+
+- Subscription scheduler registration verified.
+- Kernel cache lifecycle verified.
+- Kernel cache-clear runtime verified.
+- TenantContext runtime verified.
+- Complete queue production behavior.
+- Complete RouterOS runtime behavior.
+- Complete runtime command inventory — Phase 8 Audit 12.
+- Backup / restore operational verification.
+- GAP-11.5-C — Subscription Renewal Network Runtime Integration CLOSED / GREEN.
+
+GAP-11.5-C evidence:
+
+- `subscriptions:auto-renew` runtime command exits with code `0`.
+- Current eligibility query returns `COUNT=0`, which is expected because no
+  current subscription satisfies `status=ACTIVE` and `end_date <= today`.
+- Scheduler registration is present:
+  `5 0 * * * php artisan subscriptions:auto-renew`.
+- `kernel:health` reports `STATUS: HEALTHY` with 18 modules loaded.
+- Targeted Network/Subscription runtime-contract tests:
+  17 passed / 89 assertions / 52.48s.
+- Full project regression:
+  728 passed / 1945 assertions / 0 failures / 442.08s.
+- The historical `2026-09-23` failure
+  `No active network provider connection.` was traced to the lifecycle listener
+  using a process-local NetworkManager provider without establishing the
+  connection in that process.
+- The minimal fix now resolves the active MikroTik device and calls
+  `NetworkManager->connect()` before PPPoE lifecycle operations.
+- Historical scheduler failure is therefore classified as resolved runtime
+  integration evidence, not a current business-rule failure.
+- No production subscription data was modified to manufacture an auto-renew
+  candidate for runtime verification.
+- Current manual `subscriptions:auto-renew` execution:
+  `تم تجديد 0 اشتراك تلقائياً.` with exit code `0`.
+
+Final Operational Readiness Green Gate:
+
+- Error logging review completed.
+- Historical `subscriptions:sync` failures were identified as stale historical
+  schedule entries; `subscriptions:sync` is not present in the current scheduler.
+- Historical `No active network provider connection.` failures were traced to
+  NetworkManager process-local lifetime and resolved by singleton registration.
+- Historical PPPoE `ResourceNotFoundException` failures were resolved by
+  idempotent expiration handling for already-absent remote users.
+- Current `subscriptions:auto-expire` runtime expired 6 eligible subscriptions
+  successfully with exit code `0`.
+- Current `usage:sync` exits with code `0`.
+- Current `mikrotik:ping` exits with code `0`.
+- Current `mikrotik:sync-hotspot` exits with code `0`.
+- `queue:failed` reports no failed jobs.
+- `kernel:diagnostics` reports 18 modules, 56 resources, 13 dependencies,
+  Booted status, available cache/manifest, and ready lifecycle.
+- `kernel:health` reports `STATUS: HEALTHY`.
+- Current scheduler registration contains only the verified runtime commands:
+  `mikrotik:sync-hotspot`, `mikrotik:sync`, `usage:sync`,
+  `subscriptions:auto-renew`, `subscriptions:auto-grace`,
+  `subscriptions:auto-expire`.
+- No new `local.ERROR` entries were found after the successful
+  2026-09-25 17:53 auto-expire execution.
+- Expected `local.WARNING` entries for already-absent PPPoE users were observed
+  and are treated as idempotent successful expiration behavior.
+- Historical RouterOS socket timeout incidents were reviewed as intermittent
+  operational incidents; current RouterOS runtime probes succeed.
+
+Phase 11 Exit Gate:
+
+- Documentation Generation Authority: CLOSED / GREEN.
+- Generated Documentation Freshness: CLOSED / GREEN.
+- Documentation Source Alignment: CLOSED / GREEN.
+- Documentation Exit Gate: CLOSED / GREEN.
+- GAP-11.5-A — Unauthenticated Login Redirect Contract: CLOSED / GREEN.
+- GAP-11.5-C — Subscription Renewal Network Runtime Integration: CLOSED / GREEN.
+- GAP-11.5-D — Subscription Expiration Network Runtime Integration: CLOSED / GREEN.
+- Operational Readiness: CLOSED / GREEN.
+- Production Monitoring: CLOSED / GREEN.
+- Error Logging Review: CLOSED / GREEN.
+
+**Phase 11 — Documentation & Operational Readiness: CLOSED / GREEN.**
+
+STOP. Do not reopen completed Phase 11 work unless new evidence proves
+regression or an explicit architecture decision changes the roadmap.
 
 12. FINAL ARCHITECTURE CERTIFICATION
 
@@ -3210,13 +3381,13 @@ Final certification regression suite GREEN.
 
 When every item passes:
 
-EGYPTNET — ARCHITECTURE COMPLETE
+EGYPTNET â€” ARCHITECTURE COMPLETE
 CHANGE CONTROL
-Rule 1 — Architecture First
+Rule 1 â€” Architecture First
 
 Never modify architecture before auditing the current implementation.
 
-Rule 2 — Gap / No Gap
+Rule 2 â€” Gap / No Gap
 
 Every proposed change must answer:
 
@@ -3229,11 +3400,11 @@ NO GAP
 Then:
 
 Do not change the code.
-Rule 3 — Minimal Fix
+Rule 3 â€” Minimal Fix
 
 Fix only the verified GAP.
 
-Rule 4 — Evidence First
+Rule 4 â€” Evidence First
 
 Evidence must come from:
 
@@ -3244,25 +3415,25 @@ architecture checks
 generated documentation
 ADRs
 runtime evidence
-Rule 5 — Green Gate
+Rule 5 â€” Green Gate
 
 A phase is not DONE until its targeted tests are GREEN.
 
-Rule 6 — Stop Condition
+Rule 6 â€” Stop Condition
 
 When:
 
-Contract ✓
+Contract âœ“
 
-Implementation ✓
+Implementation âœ“
 
-Evidence ✓
+Evidence âœ“
 
-Targeted Tests ✓
+Targeted Tests âœ“
 
-Regression ✓
+Regression âœ“
 
-Runtime Evidence ✓
+Runtime Evidence âœ“
 
 Then:
 
@@ -3271,19 +3442,19 @@ GREEN
 DONE
 
 STOP
-Rule 7 — No Speculation
+Rule 7 â€” No Speculation
 
 Unknown historical work is recorded as UNKNOWN.
 
 It is never converted into an invented implementation task.
 
-Rule 8 — No Regression of Completed Work
+Rule 8 â€” No Regression of Completed Work
 
 A completed phase remains DONE.
 
 It is reopened only if new evidence demonstrates an actual regression.
 
-Rule 9 — Sequential Execution
+Rule 9 â€” Sequential Execution
 
 Only one phase is actively executed at a time.
 
@@ -3291,7 +3462,7 @@ Do not jump forward.
 
 Do not reopen unrelated completed phases.
 
-Rule 10 — Roadmap Update
+Rule 10 â€” Roadmap Update
 
 At the end of every phase record:
 
@@ -3307,45 +3478,45 @@ Current Execution Position
 CURRENT EXECUTION POSITION
 Current Phase
 
-Phase 9 — API / Presentation / Authorization
+Phase 9 â€” API / Presentation / Authorization
 
 Status: [x] CLOSED / GREEN
 
 Phase 9 Progress
-GAP-9.1 — API Authentication Exposure
+GAP-9.1 â€” API Authentication Exposure
 [x] CLOSED / GREEN
 
-GAP-9.2 — Network Mutation Application Boundary
+GAP-9.2 â€” Network Mutation Application Boundary
 [x] CLOSED / GREEN
 
-GAP-9.3-A — HotspotSubscription Controller Authorization
+GAP-9.3-A â€” HotspotSubscription Controller Authorization
 [x] CLOSED / GREEN
 
-GAP-9.3-B — Dashboard Controller Authorization
+GAP-9.3-B â€” Dashboard Controller Authorization
 [x] CLOSED / GREEN
 
-GAP-9.3-C — Reports Controller Authorization
+GAP-9.3-C â€” Reports Controller Authorization
 [x] CLOSED / GREEN
 
-GAP-9.3-D — Scheduled Reports Controller Authorization
+GAP-9.3-D â€” Scheduled Reports Controller Authorization
 [x] CLOSED / GREEN
 
-GAP-9.3-E — MikroTik Controller Authorization
+GAP-9.3-E â€” MikroTik Controller Authorization
 [x] CLOSED / GREEN
 
-GAP-9.3-F — Notification Controller Authorization
+GAP-9.3-F â€” Notification Controller Authorization
 [x] CLOSED / GREEN
 
-GAP-9.3-G — Ticket Authorization
+GAP-9.3-G â€” Ticket Authorization
 [x] CLOSED / GREEN
 
-GAP-9.3-H — Hotspot Read Authorization
+GAP-9.3-H â€” Hotspot Read Authorization
 [x] CLOSED / GREEN
 
-GAP-9.3-I — Web Network Authorization
+GAP-9.3-I â€” Web Network Authorization
 [x] CLOSED / GREEN
 
-GAP-9.3-J — Task Authorization
+GAP-9.3-J â€” Task Authorization
 [x] CLOSED / GREEN
 
 Remaining Presentation / Authorization Audit
@@ -3353,7 +3524,7 @@ Remaining Presentation / Authorization Audit
 
 Phase 9 final presentation / authorization audit completed.
 
-Phase 8 — Infrastructure & Network Integration:
+Phase 8 â€” Infrastructure & Network Integration:
 
 [x] CLOSED / GREEN
 
@@ -3362,7 +3533,7 @@ Phase 8 — Infrastructure & Network Integration:
 0 failures
 Duration: 334.18s
 
-Phase 7 — Business Rules & State Machines:
+Phase 7 â€” Business Rules & State Machines:
 
 [x] CLOSED / GREEN
 
@@ -3370,7 +3541,7 @@ Phase 7 — Business Rules & State Machines:
 1492 assertions
 0 failures
 
-Phase 6 — Billing & Subscription Domain:
+Phase 6 â€” Billing & Subscription Domain:
 
 [x] CLOSED / GREEN
 
@@ -3417,40 +3588,40 @@ Phase 8 Final Evidence
 
 All Phase 8 audits are closed:
 
-Audit 1  — MikroTik Runtime Connection Behavior
+Audit 1  â€” MikroTik Runtime Connection Behavior
 [x] CLOSED / GREEN
 
-Audit 2  — RouterOS API Integration
+Audit 2  â€” RouterOS API Integration
 [x] CLOSED / GREEN
 
-Audit 3  — PPPoE Lifecycle
+Audit 3  â€” PPPoE Lifecycle
 [x] CLOSED / GREEN
 
-Audit 4  — Hotspot Lifecycle
+Audit 4  â€” Hotspot Lifecycle
 [x] CLOSED / GREEN
 
-Audit 5  — Profiles
+Audit 5  â€” Profiles
 [x] CLOSED / GREEN
 
-Audit 6  — Queues / Speed Enforcement
+Audit 6  â€” Queues / Speed Enforcement
 [x] CLOSED / GREEN
 
-Audit 7  — Synchronization
+Audit 7  â€” Synchronization
 [x] CLOSED / GREEN
 
-Audit 8  — Disconnect / Expiry Enforcement
+Audit 8  â€” Disconnect / Expiry Enforcement
 [x] CLOSED / GREEN
 
-Audit 9  — Runtime Router Evidence
+Audit 9  â€” Runtime Router Evidence
 [x] CLOSED / GREEN
 
-Audit 10 — Infrastructure Failure Handling
+Audit 10 â€” Infrastructure Failure Handling
 [x] CLOSED / GREEN
 
-Audit 11 — Fail-safe Behavior
+Audit 11 â€” Fail-safe Behavior
 [x] CLOSED / GREEN
 
-Audit 12 — Remaining Scheduled Infrastructure Operations
+Audit 12 â€” Remaining Scheduled Infrastructure Operations
 [x] CLOSED / GREEN
 GAP-9.3-A Final Evidence
 
@@ -3467,16 +3638,16 @@ suspend => ALLOWED
 
 Controller enforcement:
 
-index    → authorize(viewAny)
-store    → authorize(create)
-show     → authorize(view)
-destroy  → authorize(delete)
-suspend  → authorize(suspend)
-activate → authorize(activate)
+index    â†’ authorize(viewAny)
+store    â†’ authorize(create)
+show     â†’ authorize(view)
+destroy  â†’ authorize(delete)
+suspend  â†’ authorize(suspend)
+activate â†’ authorize(activate)
 
 Unauthorized endpoint verification:
 
-6 / 6 → HTTP 403
+6 / 6 â†’ HTTP 403
 
 Targeted tests:
 
@@ -3509,10 +3680,10 @@ dashboard.statistics
 Controller enforcement:
 
 DashboardController@index
-    → authorize('dashboard.view')
+    â†’ authorize('dashboard.view')
 
 DashboardController@stats
-    → authorize('dashboard.statistics')
+    â†’ authorize('dashboard.statistics')
 
 Targeted tests:
 
@@ -3547,11 +3718,11 @@ reports.tickets
 
 Controller enforcement:
 
-dashboard()  → authorize('reports.dashboard')
-revenue()    → authorize('reports.revenue')
-invoices()   → authorize('reports.invoices')
-inventory()  → authorize('reports.inventory')
-tickets()    → authorize('reports.tickets')
+dashboard()  â†’ authorize('reports.dashboard')
+revenue()    â†’ authorize('reports.revenue')
+invoices()   â†’ authorize('reports.invoices')
+inventory()  â†’ authorize('reports.inventory')
+tickets()    â†’ authorize('reports.tickets')
 
 Targeted tests:
 
@@ -3595,23 +3766,23 @@ scheduled_reports.deactivate
 Role contract:
 
 Super Admin / Tenant Admin
-    → all six permissions
+    â†’ all six permissions
 
 Manager
-    → all six permissions
+    â†’ all six permissions
 
 Accountant
-    → scheduled_reports.view only
+    â†’ scheduled_reports.view only
 
 Controller enforcement:
 
-index()      → scheduled_reports.view
-store()      → scheduled_reports.create
-show()       → scheduled_reports.view
-update()     → scheduled_reports.update
-destroy()    → scheduled_reports.delete
-activate()   → scheduled_reports.activate
-deactivate() → scheduled_reports.deactivate
+index()      â†’ scheduled_reports.view
+store()      â†’ scheduled_reports.create
+show()       â†’ scheduled_reports.view
+update()     â†’ scheduled_reports.update
+destroy()    â†’ scheduled_reports.delete
+activate()   â†’ scheduled_reports.activate
+deactivate() â†’ scheduled_reports.deactivate
 
 Targeted tests:
 
@@ -3658,13 +3829,13 @@ mikrotik.hotspot.delete
 Controller enforcement:
 
 test()
-    → authorize('mikrotik.view')
+    â†’ authorize('mikrotik.view')
 
 pppoeUsers()
-    → authorize('mikrotik.pppoe.view')
+    â†’ authorize('mikrotik.pppoe.view')
 
 hotspotUsers()
-    → authorize('mikrotik.hotspot.view')
+    â†’ authorize('mikrotik.hotspot.view')
 
 Targeted tests:
 
@@ -3712,19 +3883,19 @@ notifications.delete
 Controller enforcement:
 
 index()
-    → authorize('notifications.view')
+    â†’ authorize('notifications.view')
 
 show()
-    → authorize('notifications.view')
+    â†’ authorize('notifications.view')
 
 markAsRead()
-    → authorize('notifications.read')
+    â†’ authorize('notifications.read')
 
 markAllAsRead()
-    → authorize('notifications.read')
+    â†’ authorize('notifications.read')
 
 destroy()
-    → authorize('notifications.delete')
+    â†’ authorize('notifications.delete')
 
 Targeted tests:
 
@@ -3871,28 +4042,28 @@ Remaining scheduled infrastructure operations
 
 Completed Phase 9 boundaries:
 
-GAP-9.1 — API Authentication Exposure
+GAP-9.1 â€” API Authentication Exposure
 [x] CLOSED / GREEN
 
-GAP-9.2 — Network Mutation Application Boundary
+GAP-9.2 â€” Network Mutation Application Boundary
 [x] CLOSED / GREEN
 
-GAP-9.3-A — HotspotSubscription Controller Authorization
+GAP-9.3-A â€” HotspotSubscription Controller Authorization
 [x] CLOSED / GREEN
 
-GAP-9.3-B — Dashboard Controller Authorization
+GAP-9.3-B â€” Dashboard Controller Authorization
 [x] CLOSED / GREEN
 
-GAP-9.3-C — Reports Controller Authorization
+GAP-9.3-C â€” Reports Controller Authorization
 [x] CLOSED / GREEN
 
-GAP-9.3-D — Scheduled Reports Controller Authorization
+GAP-9.3-D â€” Scheduled Reports Controller Authorization
 [x] CLOSED / GREEN
 
-GAP-9.3-E — MikroTik Controller Authorization
+GAP-9.3-E â€” MikroTik Controller Authorization
 [x] CLOSED / GREEN
 
-GAP-9.3-F — Notification Controller Authorization
+GAP-9.3-F â€” Notification Controller Authorization
 [x] CLOSED / GREEN
 
 Current open Phase 8 audits:
@@ -3901,7 +4072,7 @@ NONE
 
 Current active phase:
 
-Phase 10 — Frontend Readiness Gate
+Phase 10 â€” Frontend Readiness Gate
 
 Current execution position:
 
@@ -3909,7 +4080,7 @@ Frontend Readiness Evidence Audit
 
 Current authorization candidates:
 
-NONE — Phase 9 authorization scope is CLOSED / GREEN
+NONE â€” Phase 9 authorization scope is CLOSED / GREEN
 DEFERRED ITEMS
 
 Deferred items are not failures.
@@ -3924,10 +4095,6 @@ Notification
 WalletTransaction
 
 Current broader remaining work:
-
-Frontend Readiness Gate
-
-Complete Documentation audit
 
 Complete Operational Readiness
 
@@ -3981,49 +4148,24 @@ No deferred item authorizes speculative refactoring in a completed phase.
 
 NEXT CONCRETE WORK
 
-The current execution phase is:
+Phase 10 â€” Frontend Readiness Gate is CLOSED / GREEN.
 
-Phase 10 — Frontend Readiness Gate
+Completed Phase 10 readiness areas:
 
-The current execution position is:
+- GAP-10.1 â€” Response Contract Authority
+- GAP-10.2 â€” Frontend Build / Integration Readiness
+- Dashboard Legacy Surface Cleanup
+- Authentication / Token / Session Integration Readiness
+- CORS / Frontend-Backend Boundary
+- API Route Surface Readiness
 
-Frontend Readiness Evidence Audit
+No further Phase 10 implementation work is authorized.
 
-Immediate Action
+Completed readiness areas must not be reopened without new regression
+evidence, a documented product requirement, or an explicit architecture
+decision.
 
-Phase 10 — Frontend Readiness Gate
-
-→ Quick Audit
-
-→ Backend API contract readiness
-
-→ Authentication / token / session integration readiness
-
-→ CORS / frontend-backend boundary readiness
-
-→ Route surface readiness
-
-→ Resource / DTO / response contract readiness
-
-→ Validation / error contract readiness
-
-→ Pagination / filtering / sorting readiness
-
-→ Frontend integration entrypoint readiness
-
-→ Gap / No Gap
-
-→ Minimal Fix only if GAP exists
-
-→ Targeted Tests
-
-→ Regression if production code changes
-
-→ Runtime Evidence
-
-→ Green Gate
-
-→ STOP
+STOP.
 
 
 COMPLETED AUDIT TARGETS
@@ -4032,7 +4174,7 @@ Task
 
 Task audit result:
 
-[x] Task route/controller contract verified — CLOSED / GREEN
+[x] Task route/controller contract verified â€” CLOSED / GREEN
 - `apiResource('tasks', ...)` was restricted to the implemented controller methods only:
 `index`, `store`, `update`, `destroy`.
 - `tasks.show` was removed because `TaskController::show()` does not exist.
@@ -4059,7 +4201,7 @@ Task audit result:
 - All 7 existing roles reached `GET /api/tasks` with HTTP 200.
 - No Task-specific permissions were attached to those roles.
 
-[x] GAP-9.3-J — Task Authorization Contract — CLOSED / GREEN
+[x] GAP-9.3-J â€” Task Authorization Contract â€” CLOSED / GREEN
 
 Authorization contract:
 
@@ -4123,7 +4265,7 @@ Full regression evidence:
 
 Verdict:
 
-[x] GAP-9.3-J — CLOSED / GREEN
+[x] GAP-9.3-J â€” CLOSED / GREEN
 
 Task authorization is now part of the completed Phase 9 authorization scope.
 
@@ -4132,7 +4274,7 @@ Do not reopen GAP-9.3-J without new regression evidence or an explicit authoriza
 
 Ticket
 
-[x] GAP-9.3-G — Ticket Authorization Contract — CLOSED / GREEN
+[x] GAP-9.3-G â€” Ticket Authorization Contract â€” CLOSED / GREEN
 
 [x] Ticket route/controller contract verified.
 
@@ -4194,7 +4336,7 @@ Ticket authorization is CLOSED and must not be reopened without new regression e
 
 Hotspot Read Authorization
 
-[x] GAP-9.3-H — Hotspot Read Authorization — CLOSED / GREEN
+[x] GAP-9.3-H â€” Hotspot Read Authorization â€” CLOSED / GREEN
 
 [x] Hotspot read routes verified:
 - `GET /api/hotspot/online`
@@ -4246,9 +4388,9 @@ No Hotspot ownership or tenant-scope refactor is required.
 GAP-9.3-H is CLOSED and must not be reopened without new regression evidence or an explicit architectural decision.
 
 
-GAP-9.5 — Customer Self-Service Presentation / Authentication Boundary
+GAP-9.5 â€” Customer Self-Service Presentation / Authentication Boundary
 
-[x] GAP-9.5 — CLOSED / GREEN
+[x] GAP-9.5 â€” CLOSED / GREEN
 
 Objective:
 
@@ -4363,16 +4505,16 @@ Production regression evidence at GAP-9.5:
 
 Verdict:
 
-[x] GAP-9.5 — CLOSED / GREEN
+[x] GAP-9.5 â€” CLOSED / GREEN
 
 Do not reopen GAP-9.5 without new regression evidence or an explicit Customer self-service authentication/presentation contract change.
 
 Do not reopen GAP-9.1 through GAP-9.4 because of GAP-9.5.
 
 
-GAP-9.6-A — Customer API Ownership Contract
+GAP-9.6-A â€” Customer API Ownership Contract
 
-[x] GAP-9.6-A — CLOSED / GREEN
+[x] GAP-9.6-A â€” CLOSED / GREEN
 
 Objective:
 
@@ -4521,7 +4663,7 @@ Full regression evidence:
 
 Verdict:
 
-[x] GAP-9.6-A — CLOSED / GREEN
+[x] GAP-9.6-A â€” CLOSED / GREEN
 
 Customer API ownership and route/controller contract are GREEN.
 
@@ -4542,21 +4684,21 @@ REMAINING PRESENTATION / AUTHORIZATION AUDIT
 
 The following items remain subject to the Phase 9 audit process:
 
-→ Remaining controller classification
+â†’ Remaining controller classification
 
-→ Web Network route middleware / authorization contract verification
+â†’ Web Network route middleware / authorization contract verification
 
-→ Any other controller or route surface discovered by evidence
+â†’ Any other controller or route surface discovered by evidence
 
-→ Request validation contract verification
+â†’ Request validation contract verification
 
-→ Resource / response contract verification
+â†’ Resource / response contract verification
 
-→ API contract verification
+â†’ API contract verification
 
-→ Pagination / filtering / sorting contract verification
+â†’ Pagination / filtering / sorting contract verification
 
-→ Error contract verification
+â†’ Error contract verification
 
 Only a verified GAP may produce an implementation change.
 
@@ -4662,7 +4804,7 @@ Do not reopen Phase 7.
 
 Do not reopen Phase 6.
 
-Do not reopen completed Audits 1–12 without new regression evidence.
+Do not reopen completed Audits 1â€“12 without new regression evidence.
 
 Do not modify Subscription lifecycle code without new regression evidence.
 
@@ -4673,19 +4815,104 @@ Do not reopen completed authorization boundaries because of test-suite duration 
 
 CURRENT EXECUTION POSITION
 
-Phase 10 — Frontend Readiness Gate
+Phase 11 â€” Documentation & Operational Readiness
 
 Status:
 
-[~] IN PROGRESS
+[~] CURRENT EXECUTION POSITION
 
 Current execution position:
 
-[~] Phase 10 — Frontend Readiness Gate
+[x] Phase 10 â€” Frontend Readiness Gate
     GAP-10.1 CLOSED / GREEN
     GAP-10.2 CLOSED / GREEN
+    Dashboard Legacy Surface Cleanup CLOSED / GREEN
+    Authentication / Token / Session Integration Readiness CLOSED / GREEN
+    CORS / Frontend-Backend Boundary CLOSED / GREEN
+    API Route Surface Readiness CLOSED / GREEN
 
-GAP-10.1 — Response Contract Authority:
+[~] Phase 11 â€” Documentation & Operational Readiness
+    Documentation Generation Authority CLOSED / GREEN
+    Generated Documentation Freshness CLOSED / GREEN
+    Documentation Source Alignment CLOSED / GREEN
+    Documentation Exit Gate CLOSED / GREEN
+    GAP-11.5-A — Unauthenticated Login Redirect Contract CLOSED / GREEN
+    Operational Readiness PENDING
+
+
+### API Route Surface Readiness
+
+**Status: CLOSED / GREEN**
+
+Contract authority:
+
+- `tests/Feature/Api/Contract/ApiRouteSurfaceContractTest.php`
+- `docs/API_CONTRACT.md`
+
+Decision:
+
+- `POST /api/login` is the public admin authentication entry point.
+- `POST /api/customer/login` is the public customer authentication entry point.
+- All remaining API routes require `auth:sanctum`.
+- Existing unnamed action/self-service API routes are valid and are not
+  considered an architectural gap.
+- No route renaming or speculative API restructuring is authorized.
+- Phase 9 authorization scope remains CLOSED / GREEN.
+
+Targeted contract evidence:
+
+- 3 passed
+- 4 assertions
+- 0 failures
+- Duration: 19.46s
+
+Combined API contract evidence:
+
+- 10 passed
+- 50 assertions
+- 0 failures
+- Duration: 55.34s
+
+Runtime/API evidence:
+
+- API route count: 130
+- Public API routes: 2
+- Sanctum-protected API routes: 128
+- Unprotected non-login API routes: 0
+- Public routes:
+  - `POST /api/login`
+  - `POST /api/customer/login`
+- Duplicate method/URI pairs: 0
+- `php artisan view:cache` completed successfully.
+- Runtime `route:list --json` resolves the Sanctum middleware as
+  `Illuminate\Auth\Middleware\Authenticate:sanctum`.
+- Runtime API Route Surface Green Gate passed.
+
+Full regression:
+
+- 723 passed
+- 1870 assertions
+- 0 failures
+- Duration: 475.94s
+
+Green Gate:
+
+- [x] API route inventory verified
+- [x] Public authentication endpoints verified
+- [x] All remaining API routes verified as Sanctum-protected
+- [x] Duplicate method/URI check GREEN
+- [x] Targeted contract GREEN
+- [x] Combined API contract suite GREEN
+- [x] Runtime route evidence GREEN
+- [x] View cache GREEN
+- [x] Full regression GREEN
+- [x] No production change required
+
+No further API Route Surface implementation work is authorized.
+
+STOP.
+
+GAP-10.1 â€” Response Contract Authority:
 
 [x] CLOSED / GREEN
 
@@ -4747,7 +4974,7 @@ No further GAP-10.1 implementation work is authorized.
 
 The Phase 10 execution position does not reopen any completed Phase 9 GAP.
 
-GAP-10.2 — Frontend Build / Integration Readiness:
+GAP-10.2 â€” Frontend Build / Integration Readiness:
 
 [x] CLOSED / GREEN
 
@@ -4813,7 +5040,7 @@ Laravel Vite rendering evidence:
   - modulepreload
   - stylesheet link
   - module script
-- This verifies the complete Vite source → build artifact → manifest → Laravel resolver → Blade HTML integration path.
+- This verifies the complete Vite source â†’ build artifact â†’ manifest â†’ Laravel resolver â†’ Blade HTML integration path.
 
 Regression evidence:
 
@@ -4909,7 +5136,11 @@ STOP.
 
 NEXT CONCRETE WORK
 
-Continue Phase 10 — Frontend Readiness Gate.
+Phase 10 â€” Frontend Readiness Gate is CLOSED / GREEN.
+
+No further Phase 10 implementation work is authorized.
+
+STOP.
 
 Authentication / Token / Session Integration Readiness:
 
@@ -4974,29 +5205,29 @@ STOP.
 
 Immediate next action:
 
-→ CORS / frontend-backend boundary readiness
+â†’ CORS / frontend-backend boundary readiness
 
-→ Route surface readiness
+â†’ Route surface readiness
 
-→ Resource / DTO / response contract readiness
+â†’ Resource / DTO / response contract readiness
 
-→ Validation / error contract readiness
+â†’ Validation / error contract readiness
 
-→ Pagination / filtering / sorting readiness
+â†’ Pagination / filtering / sorting readiness
 
-→ Identify GAP / NO GAP
+â†’ Identify GAP / NO GAP
 
-→ Perform a minimal implementation only when a real GAP and explicit contract exist
+â†’ Perform a minimal implementation only when a real GAP and explicit contract exist
 
-→ Add targeted tests
+â†’ Add targeted tests
 
-→ Run regression if production code changes
+â†’ Run regression if production code changes
 
-→ Collect runtime evidence
+â†’ Collect runtime evidence
 
-→ Green Gate
+â†’ Green Gate
 
-→ STOP
+â†’ STOP
 
 Other remaining Presentation / Authorization surfaces must continue to follow the same evidence-first process.
 
@@ -5198,4 +5429,4 @@ Final Architecture Certification is GREEN.
 
 Then, and only then:
 
-EGYPTNET — PROJECT COMPLETE
+EGYPTNET â€” PROJECT COMPLETE

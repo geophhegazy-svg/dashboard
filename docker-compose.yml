@@ -47,6 +47,20 @@ services:
     networks:
       - egyptnet
 
+  queue:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    container_name: egyptnet_queue
+    working_dir: /var/www
+    volumes:
+      - ./backend:/var/www
+    depends_on:
+      - app
+      - mysql
+    networks:
+      - egyptnet
+    command: ["php", "artisan", "queue:work", "database", "--queue=default", "--sleep=3", "--tries=3", "--timeout=120", "--no-interaction"]
   scheduler:
     build:
       context: .
