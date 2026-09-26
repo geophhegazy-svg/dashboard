@@ -231,6 +231,12 @@
                     }
                 },
                 {
+                    "type": "queries",
+                    "queries": {
+                        "App\\Modules\\Customer\\Application\\Queries\\PaginateCustomersQuery": "App\\Modules\\Customer\\Application\\Queries\\Handlers\\PaginateCustomersQueryHandler"
+                    }
+                },
+                {
                     "type": "command_handlers",
                     "handlers": {
                         "App\\Modules\\Customer\\Application\\Commands\\CreateCustomerCommand": "App\\Modules\\Customer\\Application\\Commands\\Handlers\\CreateCustomerCommandHandler",

@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Modules\Network\Infrastructure\Persistence\Models\HotspotUser;
 use App\Modules\Network\Infrastructure\Persistence\Models\NetworkDevice;
-use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
@@ -19,6 +20,8 @@ class DashboardController extends Controller
             'activeUsers' => HotspotUser::where('status', 'active')->count(),
             'totalDevices' => NetworkDevice::count(),
             'onlineDevices' => NetworkDevice::where('is_online', true)->count(),
+            'onlineUsersLastSyncAt' => HotspotUser::max('last_sync_at'),
+            'onlineDevicesLastSyncAt' => NetworkDevice::max('last_sync_at'),
         ]);
     }
 
@@ -31,6 +34,8 @@ class DashboardController extends Controller
             'onlineUsers' => HotspotUser::where('is_online', true)->count(),
             'totalDevices' => NetworkDevice::count(),
             'onlineDevices' => NetworkDevice::where('is_online', true)->count(),
+            'onlineUsersLastSyncAt' => HotspotUser::max('last_sync_at'),
+            'onlineDevicesLastSyncAt' => NetworkDevice::max('last_sync_at'),
         ]);
     }
 }

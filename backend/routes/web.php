@@ -116,3 +116,17 @@ Route::prefix('customer')->name('customer.')->group(function () {
         Route::post('/profile/change-password', [App\Http\Controllers\CustomerProfileController::class, 'changePassword'])->name('profile.change-password');
     });
 });
+
+/*
+|--------------------------------------------------------------------------
+| EgyptNet Product Frontend
+|--------------------------------------------------------------------------
+|
+| React product shell. Authentication is handled by the API bearer-token
+| contract; this route only serves the SPA entry document.
+|
+*/
+
+Route::view('/app/{any?}', 'app')
+    ->where('any', '.*')
+    ->name('product.app');

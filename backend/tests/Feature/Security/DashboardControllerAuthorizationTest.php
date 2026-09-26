@@ -51,6 +51,8 @@ final class DashboardControllerAuthorizationTest extends TestCase
                 'activeUsers',
                 'totalDevices',
                 'onlineDevices',
+                'onlineUsersLastSyncAt',
+                'onlineDevicesLastSyncAt',
             ]);
     }
 
@@ -69,6 +71,8 @@ final class DashboardControllerAuthorizationTest extends TestCase
                 'onlineUsers',
                 'totalDevices',
                 'onlineDevices',
+                'onlineUsersLastSyncAt',
+                'onlineDevicesLastSyncAt',
             ]);
     }
 }

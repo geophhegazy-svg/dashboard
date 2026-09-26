@@ -14,6 +14,8 @@ use App\Modules\Customer\Application\Actions\UpdateCustomerAction;
 use App\Modules\Customer\Application\Actions\DeleteCustomerAction;
 use App\Modules\Customer\Application\Listeners\CustomerCreatedListener;
 use App\Modules\Customer\Domain\Events\CustomerCreated;
+use App\Modules\Customer\Application\Queries\PaginateCustomersQuery;
+use App\Modules\Customer\Application\Queries\Handlers\PaginateCustomersQueryHandler;
 
 use App\Modules\Customer\Application\Commands\CreateCustomerCommand;
 use App\Modules\Customer\Application\Commands\Handlers\CreateCustomerCommandHandler;
@@ -72,6 +74,12 @@ final class CustomerModule extends Module
 
             ])
 
+            ->queries([
+
+                PaginateCustomersQuery::class
+                    => PaginateCustomersQueryHandler::class,
+
+            ])
             ->commandHandlers([
 
                 CreateCustomerCommand::class
