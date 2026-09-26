@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 
 import { apiRequest } from "../api/client";
 import { Alert } from "../components/ui/Alert";
-import { Card } from "../components/ui/Card";
 import { LoadingState } from "../components/ui/LoadingState";
 import { PageHeader } from "../components/ui/PageHeader";
+import { SectionCard } from "../components/dashboard/SectionCard";
+import { StatusBadge } from "../components/dashboard/StatusBadge";
 import type {
     Package,
     PackageListResponse,
@@ -29,7 +30,7 @@ function formatSpeed(value: number | null): string {
         return "-";
     }
 
-    return `${value} Mbps`;
+    return `${value.toLocaleString("ar-EG")} Mbps`;
 }
 
 function formatPrice(value: string | number): string {
@@ -48,26 +49,26 @@ function formatPrice(value: string | number): string {
 function billingCycleLabel(value: string | null): string {
     switch (value) {
         case "day":
-            return "\u064a\u0648\u0645\u064a";
-
+            return "يومي";
         case "week":
-            return "\u0623\u0633\u0628\u0648\u0639\u064a";
-
+            return "أسبوعي";
         case "month":
-            return "\u0634\u0647\u0631\u064a";
-
+            return "شهري";
         case "year":
-            return "\u0633\u0646\u0648\u064a";
-
+            return "سنوي";
         default:
             return value ?? "-";
     }
 }
 
 function booleanLabel(value: boolean | number): string {
-    return Boolean(value)
-        ? "\u0646\u0639\u0645"
-        : "\u0644\u0627";
+    return Boolean(value) ? "نعم" : "لا";
+}
+
+function booleanTone(
+    value: boolean | number,
+): "success" | "neutral" {
+    return Boolean(value) ? "success" : "neutral";
 }
 
 export function PackagesPage() {
@@ -105,12 +106,13 @@ export function PackagesPage() {
     }, [page]);
 
     return (
-        <main dir="rtl" className="mx-auto max-w-7xl px-6 py-8">
+        <main
+            dir="rtl"
+            className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8"
+        >
             <PageHeader
-                title={"\u0627\u0644\u0628\u0627\u0642\u0627\u062a"}
-                description={
-                    "\u0625\u062f\u0627\u0631\u0629 \u0648\u0645\u0631\u0627\u062c\u0639\u0629 \u0628\u0627\u0642\u0627\u062a \u0627\u0644\u0625\u0646\u062a\u0631\u0646\u062a"
-                }
+                title="الباقات"
+                description="إدارة ومراجعة باقات الإنترنت"
             />
 
             {loading && <LoadingState />}
@@ -118,128 +120,196 @@ export function PackagesPage() {
             {error && <Alert variant="error">{error}</Alert>}
 
             {!loading && !error && (
-                <Card className="overflow-hidden">
-                    <div className="overflow-x-auto">
-                        <table className="min-w-full divide-y divide-slate-200">
-                            <thead className="bg-slate-50">
-                                <tr>
-                                    <th className="px-6 py-4 text-right text-xs font-semibold text-slate-500">
-                                        #
-                                    </th>
+                <SectionCard
+                    title="قائمة الباقات"
+                    description={
+                        pagination
+                            ? `إجمالي الباقات: ${pagination.total.toLocaleString(
+                                  "ar-EG",
+                              )}`
+                            : undefined
+                    }
+                >
+                    {packages.length === 0 ? (
+                        <div className="rounded-xl border border-dashed border-slate-300 px-6 py-12 text-center">
+                            <p className="font-medium text-slate-700">
+                                لا توجد باقات لعرضها.
+                            </p>
 
-                                    <th className="px-6 py-4 text-right text-xs font-semibold text-slate-500">
-                                        {"\u0627\u0644\u0627\u0633\u0645"}
-                                    </th>
+                            <p className="mt-2 text-sm text-slate-500">
+                                ستظهر بيانات الباقات هنا عند توفرها.
+                            </p>
+                        </div>
+                    ) : (
+                        <div className="overflow-x-auto">
+                            <table className="min-w-[1080px] w-full">
+                                <thead>
+                                    <tr className="border-b border-slate-200">
+                                        <th className="px-4 py-3 text-right text-xs font-semibold text-slate-500">
+                                            #
+                                        </th>
 
-                                    <th className="px-6 py-4 text-right text-xs font-semibold text-slate-500">
-                                        {"\u0627\u0644\u0633\u0631\u0639\u0629"}
-                                    </th>
+                                        <th className="px-4 py-3 text-right text-xs font-semibold text-slate-500">
+                                            الباقة
+                                        </th>
 
-                                    <th className="px-6 py-4 text-right text-xs font-semibold text-slate-500">
-                                        {"\u0627\u0644\u0633\u0639\u0631"}
-                                    </th>
+                                        <th className="px-4 py-3 text-right text-xs font-semibold text-slate-500">
+                                            السرعة
+                                        </th>
 
-                                    <th className="px-6 py-4 text-right text-xs font-semibold text-slate-500">
-                                        {"\u0627\u0644\u0641\u0648\u062a\u0631\u0629"}
-                                    </th>
+                                        <th className="px-4 py-3 text-right text-xs font-semibold text-slate-500">
+                                            السعر
+                                        </th>
 
-                                    <th className="px-6 py-4 text-right text-xs font-semibold text-slate-500">
-                                        {"\u0623\u064a\u0627\u0645 \u0627\u0644\u0633\u0645\u0627\u062d"}
-                                    </th>
+                                        <th className="px-4 py-3 text-right text-xs font-semibold text-slate-500">
+                                            الفوترة
+                                        </th>
 
-                                    <th className="px-6 py-4 text-right text-xs font-semibold text-slate-500">
-                                        {"\u062a\u0639\u0644\u064a\u0642 \u062a\u0644\u0642\u0627\u0626\u064a"}
-                                    </th>
+                                        <th className="px-4 py-3 text-right text-xs font-semibold text-slate-500">
+                                            أيام السماح
+                                        </th>
 
-                                    <th className="px-6 py-4 text-right text-xs font-semibold text-slate-500">
-                                        {"\u0625\u0646\u0647\u0627\u0621 \u062a\u0644\u0642\u0627\u0626\u064a"}
-                                    </th>
+                                        <th className="px-4 py-3 text-right text-xs font-semibold text-slate-500">
+                                            التعليق التلقائي
+                                        </th>
 
-                                    <th className="px-6 py-4 text-right text-xs font-semibold text-slate-500">
-                                        {"\u062a\u0627\u0631\u064a\u062e \u0627\u0644\u0625\u0646\u0634\u0627\u0621"}
-                                    </th>
-                                </tr>
-                            </thead>
+                                        <th className="px-4 py-3 text-right text-xs font-semibold text-slate-500">
+                                            الإنهاء التلقائي
+                                        </th>
 
-                            <tbody className="divide-y divide-slate-200 bg-white">
-                                {packages.map((packageItem) => (
-                                    <tr
-                                        key={packageItem.id}
-                                        className="hover:bg-slate-50"
-                                    >
-                                        <td className="whitespace-nowrap px-6 py-4 text-sm text-slate-500">
-                                            {packageItem.id}
-                                        </td>
-
-                                        <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-slate-900">
-                                            {packageItem.name}
-                                        </td>
-
-                                        <td className="whitespace-nowrap px-6 py-4 text-sm text-slate-600">
-                                            {formatSpeed(
-                                                packageItem.speed_download,
-                                            )}
-                                            {" / "}
-                                            {formatSpeed(
-                                                packageItem.speed_upload,
-                                            )}
-                                        </td>
-
-                                        <td className="whitespace-nowrap px-6 py-4 text-sm text-slate-600">
-                                            {formatPrice(packageItem.price)}
-                                        </td>
-
-                                        <td className="whitespace-nowrap px-6 py-4 text-sm text-slate-600">
-                                            {billingCycleLabel(
-                                                packageItem.billing_cycle,
-                                            )}
-                                            {packageItem.billing_interval &&
-                                                packageItem.billing_interval > 1 &&
-                                                ` (${packageItem.billing_interval})`}
-                                        </td>
-
-                                        <td className="whitespace-nowrap px-6 py-4 text-sm text-slate-600">
-                                            {packageItem.grace_days ?? 0}
-                                        </td>
-
-                                        <td className="whitespace-nowrap px-6 py-4 text-sm text-slate-600">
-                                            {booleanLabel(
-                                                packageItem.auto_suspend,
-                                            )}
-                                        </td>
-
-                                        <td className="whitespace-nowrap px-6 py-4 text-sm text-slate-600">
-                                            {booleanLabel(
-                                                packageItem.auto_expire,
-                                            )}
-                                        </td>
-
-                                        <td className="whitespace-nowrap px-6 py-4 text-sm text-slate-500">
-                                            {formatDate(packageItem.created_at)}
-                                        </td>
+                                        <th className="px-4 py-3 text-right text-xs font-semibold text-slate-500">
+                                            تاريخ الإنشاء
+                                        </th>
                                     </tr>
-                                ))}
+                                </thead>
 
-                                {packages.length === 0 && (
-                                    <tr>
-                                        <td
-                                            colSpan={9}
-                                            className="px-6 py-10 text-center text-sm text-slate-500"
+                                <tbody className="divide-y divide-slate-100">
+                                    {packages.map((packageItem) => (
+                                        <tr
+                                            key={packageItem.id}
+                                            className="transition hover:bg-slate-50"
                                         >
-                                            {
-                                                "\u0644\u0627 \u062a\u0648\u062c\u062f \u0628\u0627\u0642\u0627\u062a \u0644\u0639\u0631\u0636\u0647\u0627."
-                                            }
-                                        </td>
-                                    </tr>
-                                )}
-                            </tbody>
-                        </table>
-                    </div>
+                                            <td className="whitespace-nowrap px-4 py-4 text-sm text-slate-500">
+                                                {packageItem.id}
+                                            </td>
 
-                    {pagination && (
-                        <div className="flex items-center justify-between border-t border-slate-200 px-6 py-4">
+                                            <td className="px-4 py-4">
+                                                <p className="whitespace-nowrap text-sm font-semibold text-slate-900">
+                                                    {packageItem.name}
+                                                </p>
+
+                                                {packageItem.description && (
+                                                    <p className="mt-1 max-w-xs truncate text-xs text-slate-500">
+                                                        {
+                                                            packageItem.description
+                                                        }
+                                                    </p>
+                                                )}
+                                            </td>
+
+                                            <td className="whitespace-nowrap px-4 py-4">
+                                                <div className="flex flex-col gap-1">
+                                                    <span className="text-sm font-medium text-slate-900">
+                                                        ↓{" "}
+                                                        {formatSpeed(
+                                                            packageItem.speed_download,
+                                                        )}
+                                                    </span>
+
+                                                    <span className="text-xs text-slate-500">
+                                                        ↑{" "}
+                                                        {formatSpeed(
+                                                            packageItem.speed_upload,
+                                                        )}
+                                                    </span>
+                                                </div>
+                                            </td>
+
+                                            <td className="whitespace-nowrap px-4 py-4">
+                                                <p className="text-sm font-semibold text-slate-900">
+                                                    {formatPrice(
+                                                        packageItem.price,
+                                                    )}
+                                                </p>
+
+                                                <p className="mt-1 text-xs text-slate-500">
+                                                    جنيه
+                                                </p>
+                                            </td>
+
+                                            <td className="whitespace-nowrap px-4 py-4">
+                                                <p className="text-sm text-slate-700">
+                                                    {billingCycleLabel(
+                                                        packageItem.billing_cycle,
+                                                    )}
+                                                </p>
+
+                                                {packageItem.billing_interval &&
+                                                    packageItem.billing_interval >
+                                                        1 && (
+                                                        <p className="mt-1 text-xs text-slate-500">
+                                                            كل{" "}
+                                                            {packageItem.billing_interval.toLocaleString(
+                                                                "ar-EG",
+                                                            )}
+                                                        </p>
+                                                    )}
+                                            </td>
+
+                                            <td className="whitespace-nowrap px-4 py-4 text-sm text-slate-600">
+                                                {(
+                                                    packageItem.grace_days ?? 0
+                                                ).toLocaleString("ar-EG")}{" "}
+                                                يوم
+                                            </td>
+
+                                            <td className="whitespace-nowrap px-4 py-4">
+                                                <StatusBadge
+                                                    label={booleanLabel(
+                                                        packageItem.auto_suspend,
+                                                    )}
+                                                    tone={booleanTone(
+                                                        packageItem.auto_suspend,
+                                                    )}
+                                                />
+                                            </td>
+
+                                            <td className="whitespace-nowrap px-4 py-4">
+                                                <StatusBadge
+                                                    label={booleanLabel(
+                                                        packageItem.auto_expire,
+                                                    )}
+                                                    tone={booleanTone(
+                                                        packageItem.auto_expire,
+                                                    )}
+                                                />
+                                            </td>
+
+                                            <td className="whitespace-nowrap px-4 py-4 text-sm text-slate-500">
+                                                {formatDate(
+                                                    packageItem.created_at,
+                                                )}
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    )}
+
+                    {pagination && pagination.last_page > 1 && (
+                        <div className="mt-5 flex flex-col gap-4 border-t border-slate-100 pt-5 sm:flex-row sm:items-center sm:justify-between">
                             <p className="text-sm text-slate-500">
-                                {`\u0639\u0631\u0636 ${pagination.from ?? 0} - ${pagination.to ?? 0} \u0645\u0646 ${pagination.total}`}
+                                عرض{" "}
+                                {(pagination.from ?? 0).toLocaleString(
+                                    "ar-EG",
+                                )}{" "}
+                                -{" "}
+                                {(pagination.to ?? 0).toLocaleString(
+                                    "ar-EG",
+                                )}{" "}
+                                من{" "}
+                                {pagination.total.toLocaleString("ar-EG")}
                             </p>
 
                             <div className="flex items-center gap-2">
@@ -251,14 +321,19 @@ export function PackagesPage() {
                                             Math.max(1, current - 1),
                                         )
                                     }
-                                    className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
+                                    className="rounded-xl border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
                                 >
-                                    {"\u0627\u0644\u0633\u0627\u0628\u0642"}
+                                    السابق
                                 </button>
 
-                                <span className="px-3 text-sm text-slate-600">
-                                    {pagination.current_page} /{" "}
-                                    {pagination.last_page}
+                                <span className="min-w-20 text-center text-sm font-medium text-slate-600">
+                                    {pagination.current_page.toLocaleString(
+                                        "ar-EG",
+                                    )}{" "}
+                                    /{" "}
+                                    {pagination.last_page.toLocaleString(
+                                        "ar-EG",
+                                    )}
                                 </span>
 
                                 <button
@@ -275,14 +350,14 @@ export function PackagesPage() {
                                             ),
                                         )
                                     }
-                                    className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
+                                    className="rounded-xl border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
                                 >
-                                    {"\u0627\u0644\u062a\u0627\u0644\u064a"}
+                                    التالي
                                 </button>
                             </div>
                         </div>
                     )}
-                </Card>
+                </SectionCard>
             )}
         </main>
     );

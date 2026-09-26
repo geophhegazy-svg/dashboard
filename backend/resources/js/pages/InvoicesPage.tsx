@@ -7,9 +7,9 @@ import { PageHeader } from "../components/ui/PageHeader";
 import { SectionCard } from "../components/dashboard/SectionCard";
 import { StatusBadge } from "../components/dashboard/StatusBadge";
 import type {
-    Customer,
-    CustomerListResponse,
-} from "../types/customer";
+    Invoice,
+    InvoiceListResponse,
+} from "../types/invoice";
 
 function formatDate(value: string | null): string {
     if (!value) {
@@ -25,17 +25,47 @@ function formatDate(value: string | null): string {
     return date.toLocaleDateString("ar-EG");
 }
 
+function formatDateTime(value: string | null): string {
+    if (!value) {
+        return "-";
+    }
+
+    const date = new Date(value);
+
+    if (Number.isNaN(date.getTime())) {
+        return value;
+    }
+
+    return date.toLocaleString("ar-EG");
+}
+
+function formatAmount(value: string | number): string {
+    const amount = Number(value);
+
+    if (Number.isNaN(amount)) {
+        return String(value);
+    }
+
+    return amount.toLocaleString("ar-EG", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+    });
+}
+
 function statusLabel(status: string): string {
     switch (status) {
-        case "active":
-            return "نشط";
-
-        case "inactive":
-            return "غير نشط";
-
-        case "suspended":
-            return "موقوف";
-
+        case "paid":
+            return "مدفوعة";
+        case "pending":
+            return "معلقة";
+        case "unpaid":
+            return "غير مدفوعة";
+        case "overdue":
+            return "متأخرة";
+        case "cancelled":
+            return "ملغاة";
+        case "draft":
+            return "مسودة";
         default:
             return status;
     }
@@ -45,49 +75,48 @@ function statusTone(
     status: string,
 ): "success" | "info" | "neutral" {
     switch (status) {
-        case "active":
+        case "paid":
             return "success";
-
-        case "suspended":
+        case "pending":
+        case "overdue":
             return "info";
-
         default:
             return "neutral";
     }
 }
 
-export function CustomersPage() {
-    const [customers, setCustomers] = useState<Customer[]>([]);
+export function InvoicesPage() {
+    const [invoices, setInvoices] = useState<Invoice[]>([]);
     const [page, setPage] = useState(1);
     const [pagination, setPagination] =
-        useState<CustomerListResponse["meta"] | null>(null);
+        useState<InvoiceListResponse["meta"] | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
     useEffect(() => {
-        async function loadCustomers() {
+        async function loadInvoices() {
             setLoading(true);
             setError("");
 
             try {
-                const response = await apiRequest<CustomerListResponse>(
-                    `/customers?page=${page}`,
+                const response = await apiRequest<InvoiceListResponse>(
+                    `/invoices?page=${page}`,
                 );
 
-                setCustomers(response.data);
+                setInvoices(response.data);
                 setPagination(response.meta);
             } catch (exception) {
                 setError(
                     exception instanceof Error
                         ? exception.message
-                        : "Unable to load customers.",
+                        : "Unable to load invoices.",
                 );
             } finally {
                 setLoading(false);
             }
         }
 
-        void loadCustomers();
+        void loadInvoices();
     }, [page]);
 
     return (
@@ -96,8 +125,8 @@ export function CustomersPage() {
             className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8"
         >
             <PageHeader
-                title="العملاء"
-                description="إدارة ومراجعة بيانات العملاء"
+                title="الفواتير"
+                description="مراجعة الفواتير وحالتها المالية"
             />
 
             {loading && <LoadingState />}
@@ -106,28 +135,28 @@ export function CustomersPage() {
 
             {!loading && !error && (
                 <SectionCard
-                    title="قائمة العملاء"
+                    title="قائمة الفواتير"
                     description={
                         pagination
-                            ? `إجمالي العملاء: ${pagination.total.toLocaleString(
+                            ? `إجمالي الفواتير: ${pagination.total.toLocaleString(
                                   "ar-EG",
                               )}`
                             : undefined
                     }
                 >
-                    {customers.length === 0 ? (
+                    {invoices.length === 0 ? (
                         <div className="rounded-xl border border-dashed border-slate-300 px-6 py-12 text-center">
                             <p className="font-medium text-slate-700">
-                                لا يوجد عملاء لعرضهم.
+                                لا توجد فواتير لعرضها.
                             </p>
 
                             <p className="mt-2 text-sm text-slate-500">
-                                ستظهر بيانات العملاء هنا عند توفرها.
+                                ستظهر الفواتير هنا عند توفرها.
                             </p>
                         </div>
                     ) : (
                         <div className="overflow-x-auto">
-                            <table className="min-w-[760px] w-full">
+                            <table className="min-w-[900px] w-full">
                                 <thead>
                                     <tr className="border-b border-slate-200">
                                         <th className="px-4 py-3 text-right text-xs font-semibold text-slate-500">
@@ -135,15 +164,15 @@ export function CustomersPage() {
                                         </th>
 
                                         <th className="px-4 py-3 text-right text-xs font-semibold text-slate-500">
-                                            الاسم
+                                            رقم الفاتورة
                                         </th>
 
                                         <th className="px-4 py-3 text-right text-xs font-semibold text-slate-500">
-                                            الهاتف
+                                            العميل
                                         </th>
 
                                         <th className="px-4 py-3 text-right text-xs font-semibold text-slate-500">
-                                            البريد الإلكتروني
+                                            المبلغ
                                         </th>
 
                                         <th className="px-4 py-3 text-right text-xs font-semibold text-slate-500">
@@ -151,47 +180,65 @@ export function CustomersPage() {
                                         </th>
 
                                         <th className="px-4 py-3 text-right text-xs font-semibold text-slate-500">
-                                            تاريخ الإنشاء
+                                            تاريخ الاستحقاق
+                                        </th>
+
+                                        <th className="px-4 py-3 text-right text-xs font-semibold text-slate-500">
+                                            تاريخ السداد
                                         </th>
                                     </tr>
                                 </thead>
 
                                 <tbody className="divide-y divide-slate-100">
-                                    {customers.map((customer) => (
+                                    {invoices.map((invoice) => (
                                         <tr
-                                            key={customer.id}
+                                            key={invoice.id}
                                             className="transition hover:bg-slate-50"
                                         >
                                             <td className="whitespace-nowrap px-4 py-4 text-sm text-slate-500">
-                                                {customer.id}
+                                                {invoice.id}
                                             </td>
 
                                             <td className="whitespace-nowrap px-4 py-4 text-sm font-semibold text-slate-900">
-                                                {customer.name}
+                                                {invoice.invoice_number}
                                             </td>
 
-                                            <td className="whitespace-nowrap px-4 py-4 text-sm text-slate-600">
-                                                {customer.phone}
+                                            <td className="whitespace-nowrap px-4 py-4 text-sm text-slate-700">
+                                                {invoice.customer ?? "-"}
                                             </td>
 
-                                            <td className="px-4 py-4 text-sm text-slate-600">
-                                                {customer.email ?? "-"}
+                                            <td className="whitespace-nowrap px-4 py-4">
+                                                <p className="text-sm font-semibold text-slate-900">
+                                                    {formatAmount(
+                                                        invoice.amount,
+                                                    )}
+                                                </p>
+
+                                                <p className="mt-1 text-xs text-slate-500">
+                                                    جنيه
+                                                </p>
                                             </td>
 
                                             <td className="whitespace-nowrap px-4 py-4">
                                                 <StatusBadge
                                                     label={statusLabel(
-                                                        customer.status,
+                                                        invoice.status,
                                                     )}
                                                     tone={statusTone(
-                                                        customer.status,
+                                                        invoice.status,
                                                     )}
                                                 />
                                             </td>
 
                                             <td className="whitespace-nowrap px-4 py-4 text-sm text-slate-500">
                                                 {formatDate(
-                                                    customer.created_at,
+                                                    invoice.due_date,
+                                                )}
+                                            </td>
+
+                                            <td className="whitespace-nowrap px-4 py-4 text-sm text-slate-500">
+                                                {formatDateTime(
+                                                    invoice.paid_at,
                                                 )}
                                             </td>
                                         </tr>
@@ -205,13 +252,13 @@ export function CustomersPage() {
                         <div className="mt-5 flex flex-col gap-4 border-t border-slate-100 pt-5 sm:flex-row sm:items-center sm:justify-between">
                             <p className="text-sm text-slate-500">
                                 عرض{" "}
-                                {(
-                                    pagination.from ?? 0
-                                ).toLocaleString("ar-EG")}{" "}
+                                {(pagination.from ?? 0).toLocaleString(
+                                    "ar-EG",
+                                )}{" "}
                                 -{" "}
-                                {(
-                                    pagination.to ?? 0
-                                ).toLocaleString("ar-EG")}{" "}
+                                {(pagination.to ?? 0).toLocaleString(
+                                    "ar-EG",
+                                )}{" "}
                                 من{" "}
                                 {pagination.total.toLocaleString("ar-EG")}
                             </p>

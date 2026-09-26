@@ -6,6 +6,7 @@ import { DashboardPage } from "./pages/DashboardPage";
 import { CustomersPage } from "./pages/CustomersPage";
 import { LoginPage } from "./pages/LoginPage";
 import { PackagesPage } from "./pages/PackagesPage";
+import { InvoicesPage } from "./pages/InvoicesPage";
 
 export function AppRouter() {
     return (
@@ -27,6 +28,11 @@ export function AppRouter() {
                     <Route
                         path="/packages"
                         element={<PackagesPage />}
+                    />
+
+                    <Route
+                        path="/invoices"
+                        element={<InvoicesPage />}
                     />
                 </Route>
             </Route>
