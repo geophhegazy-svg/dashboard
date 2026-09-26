@@ -5,6 +5,7 @@ import { AppShell } from "./layouts/AppShell";
 import { DashboardPage } from "./pages/DashboardPage";
 import { CustomersPage } from "./pages/CustomersPage";
 import { LoginPage } from "./pages/LoginPage";
+import { PackagesPage } from "./pages/PackagesPage";
 
 export function AppRouter() {
     return (
@@ -21,6 +22,11 @@ export function AppRouter() {
                     <Route
                         path="/customers"
                         element={<CustomersPage />}
+                    />
+
+                    <Route
+                        path="/packages"
+                        element={<PackagesPage />}
                     />
                 </Route>
             </Route>

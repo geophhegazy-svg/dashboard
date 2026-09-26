@@ -574,20 +574,6 @@
 - Action: App\Http\Controllers\Api\ActivityLogController@show
 - Middleware: api, auth:sanctum
 
-## api/subscriptions/available-pppoe-users
-
-- Method: GET|HEAD
-- Name: -
-- Action: App\Http\Controllers\Api\SubscriptionController@availablePppoeUsers
-- Middleware: api, auth:sanctum
-
-## api/subscriptions/{subscription}/link-pppoe
-
-- Method: POST
-- Name: -
-- Action: App\Http\Controllers\Api\SubscriptionController@linkPppoe
-- Middleware: api, auth:sanctum
-
 ## api/subscriptions/{subscription}/activate
 
 - Method: POST
@@ -1154,6 +1140,13 @@
 - Name: customer.profile.change-password
 - Action: App\Http\Controllers\CustomerProfileController@changePassword
 - Middleware: web, auth:customer
+
+## app/{any?}
+
+- Method: GET|HEAD
+- Name: product.app
+- Action: \Illuminate\Routing\ViewController
+- Middleware: web
 
 ## broadcasting/auth
 

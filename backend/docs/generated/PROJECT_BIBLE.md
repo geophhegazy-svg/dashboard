@@ -121,7 +121,7 @@ Count: 20
 
 ## Actions
 
-Count: 90
+Count: 93
 
 - ActivateHotspotSubscriptionAction
 - ActivateScheduledReportAction
@@ -151,6 +151,7 @@ Count: 90
 - CreateQueueAction
 - CreateReminderAction
 - CreateScheduledReportAction
+- CreateSubscriptionAction
 - CreateTaskAction
 - CreateTenantAction
 - CreateUserAction
@@ -168,6 +169,7 @@ Count: 90
 - DeletePackageAction
 - DeleteQueueAction
 - DeleteScheduledReportAction
+- DeleteSubscriptionAction
 - DeleteTaskAction
 - DeleteTenantAction
 - DeleteTicketAction
@@ -209,6 +211,7 @@ Count: 90
 - UpdateScheduledReportAction
 - UpdateScheduledReportLastRunAction
 - UpdateScheduledReportNextRunAction
+- UpdateSubscriptionAction
 - UpdateTaskAction
 - UpdateTenantAction
 - UpdateTicketFromAdminAction

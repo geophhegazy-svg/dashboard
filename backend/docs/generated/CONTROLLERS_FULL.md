@@ -873,6 +873,10 @@ App\Http\Controllers\Api
 
 **Dependencies**
 
+- SubscriptionRepositoryInterface $repository
+- CreateSubscriptionAction $createAction
+- UpdateSubscriptionAction $updateAction
+- DeleteSubscriptionAction $deleteAction
 - WorkflowEngine $engine
 - ActivateWorkflow $activateWorkflow
 - CancelWorkflow $cancelWorkflow
@@ -883,6 +887,11 @@ App\Http\Controllers\Api
 
 **Public Methods**
 
+- index()
+- store()
+- show()
+- update()
+- destroy()
 - activate()
 - cancel()
 - suspend()

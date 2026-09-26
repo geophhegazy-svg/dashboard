@@ -10,6 +10,9 @@ use App\Modules\Subscription\Presentation\Console\Commands\AutoGraceSubscription
 use App\Modules\Subscription\Presentation\Console\Commands\AutoRenewSubscriptionsCommand;
 use App\Modules\Subscription\Presentation\Console\Commands\AutoExpireSubscriptionsCommand;
 use App\Modules\Subscription\Application\Actions\ActivateSubscriptionAction;
+use App\Modules\Subscription\Application\Actions\CreateSubscriptionAction;
+use App\Modules\Subscription\Application\Actions\UpdateSubscriptionAction;
+use App\Modules\Subscription\Application\Actions\DeleteSubscriptionAction;
 use App\Modules\Subscription\Application\Actions\CancelSubscriptionAction;
 use App\Modules\Subscription\Application\Actions\CreateHotspotSubscriptionAction;
 use App\Modules\Subscription\Application\Actions\ActivateHotspotSubscriptionAction;
@@ -100,6 +103,9 @@ final class SubscriptionModule extends Module
             ->actions([
 
                 ActivateSubscriptionAction::class,
+                CreateSubscriptionAction::class,
+                UpdateSubscriptionAction::class,
+                DeleteSubscriptionAction::class,
                 CancelSubscriptionAction::class,
 
                 CreateHotspotSubscriptionAction::class,

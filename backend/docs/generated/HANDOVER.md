@@ -117,7 +117,7 @@ Models: 27
 Services: 14
 Controllers: 36
 Repositories: 20
-Actions: 90
+Actions: 93
 
 ## Development Rules
 
@@ -4335,6 +4335,10 @@ App\Http\Controllers\Api
 
 **Dependencies**
 
+- SubscriptionRepositoryInterface $repository
+- CreateSubscriptionAction $createAction
+- UpdateSubscriptionAction $updateAction
+- DeleteSubscriptionAction $deleteAction
 - WorkflowEngine $engine
 - ActivateWorkflow $activateWorkflow
 - CancelWorkflow $cancelWorkflow
@@ -4345,6 +4349,11 @@ App\Http\Controllers\Api
 
 **Public Methods**
 
+- index()
+- store()
+- show()
+- update()
+- destroy()
 - activate()
 - cancel()
 - suspend()
@@ -5044,20 +5053,6 @@ App\Http\Controllers\Api
 - Action: App\Http\Controllers\Api\ActivityLogController@show
 - Middleware: api, auth:sanctum
 
-## api/subscriptions/available-pppoe-users
-
-- Method: GET|HEAD
-- Name: -
-- Action: App\Http\Controllers\Api\SubscriptionController@availablePppoeUsers
-- Middleware: api, auth:sanctum
-
-## api/subscriptions/{subscription}/link-pppoe
-
-- Method: POST
-- Name: -
-- Action: App\Http\Controllers\Api\SubscriptionController@linkPppoe
-- Middleware: api, auth:sanctum
-
 ## api/subscriptions/{subscription}/activate
 
 - Method: POST
@@ -5624,6 +5619,13 @@ App\Http\Controllers\Api
 - Name: customer.profile.change-password
 - Action: App\Http\Controllers\CustomerProfileController@changePassword
 - Middleware: web, auth:customer
+
+## app/{any?}
+
+- Method: GET|HEAD
+- Name: product.app
+- Action: \Illuminate\Routing\ViewController
+- Middleware: web
 
 ## broadcasting/auth
 

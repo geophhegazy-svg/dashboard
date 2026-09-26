@@ -205,18 +205,7 @@ Route::middleware('auth:sanctum')->group(function () {
     | Subscription Actions
     |------------------------------------------------------
     */
-
-    Route::get(
-        '/subscriptions/available-pppoe-users',
-        [SubscriptionController::class, 'availablePppoeUsers']
-    );
-
-    Route::post(
-        '/subscriptions/{subscription}/link-pppoe',
-        [SubscriptionController::class, 'linkPppoe']
-    );
-
-    Route::post(
+Route::post(
         '/subscriptions/{subscription}/activate',
         [SubscriptionController::class, 'activate']
     );

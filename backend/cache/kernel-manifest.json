@@ -81,6 +81,9 @@
                     "type": "actions",
                     "actions": [
                         "App\\Modules\\Subscription\\Application\\Actions\\ActivateSubscriptionAction",
+                        "App\\Modules\\Subscription\\Application\\Actions\\CreateSubscriptionAction",
+                        "App\\Modules\\Subscription\\Application\\Actions\\UpdateSubscriptionAction",
+                        "App\\Modules\\Subscription\\Application\\Actions\\DeleteSubscriptionAction",
                         "App\\Modules\\Subscription\\Application\\Actions\\CancelSubscriptionAction",
                         "App\\Modules\\Subscription\\Application\\Actions\\CreateHotspotSubscriptionAction",
                         "App\\Modules\\Subscription\\Application\\Actions\\ActivateHotspotSubscriptionAction",

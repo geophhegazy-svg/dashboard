@@ -38,7 +38,7 @@ Models: 27
 Services: 14
 Controllers: 36
 Repositories: 20
-Actions: 90
+Actions: 93
 
 ## Development Rules
 

@@ -9,6 +9,10 @@ const navigationItems = [
         label: "\u0627\u0644\u0639\u0645\u0644\u0627\u0621",
         to: "/customers",
     },
+    {
+        label: "\u0627\u0644\u0628\u0627\u0642\u0627\u062a",
+        to: "/packages",
+    },
 ];
 
 export function AppNavigation() {

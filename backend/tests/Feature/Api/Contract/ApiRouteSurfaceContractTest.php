@@ -18,7 +18,7 @@ final class ApiRouteSurfaceContractTest extends TestCase
                     str_starts_with($route->uri(), 'api/')
             );
 
-        $this->assertCount(130, $routes);
+        $this->assertCount(128, $routes);
 
         $public = $routes
             ->filter(
