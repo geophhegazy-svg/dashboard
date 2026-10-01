@@ -35,6 +35,14 @@ const navigationGroups: NavigationGroup[] = [
                 label: "الباقات",
                 to: "/packages",
             },
+            {
+                label: "الاشتراكات",
+                to: "/subscriptions",
+            },
+            {
+                label: "اشتراكات Hotspot",
+                to: "/hotspot-subscriptions",
+            },
         ],
     },
     {

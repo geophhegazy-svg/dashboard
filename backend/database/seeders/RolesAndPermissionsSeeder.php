@@ -159,6 +159,13 @@ class RolesAndPermissionsSeeder extends Seeder
             'dhcp.update',
             'dhcp.delete',
 
+            // Network Services
+            'network_services.view',
+            'network_services.create',
+            'network_services.update',
+            'network_services.delete',
+            'network_services.provision',
+
             // MikroTik
             'mikrotik.view',
 
@@ -264,6 +271,11 @@ class RolesAndPermissionsSeeder extends Seeder
             'task.view',
             'task.create',
             'task.update',
+
+            'network_services.view',
+            'network_services.create',
+            'network_services.update',
+            'network_services.provision',
         ]);
 
         // Accountant
@@ -316,6 +328,9 @@ class RolesAndPermissionsSeeder extends Seeder
 
             'mikrotik.hotspot.view',
             'mikrotik.hotspot.update',
+
+            'network_services.view',
+            'network_services.provision',
 
             'subscriptions.activate',
             'subscriptions.suspend',

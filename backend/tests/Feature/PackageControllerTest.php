@@ -58,6 +58,24 @@ class PackageControllerTest extends TestCase
         ]);
     }
 
+    public function test_show_returns_package_contract_fields(): void
+    {
+        $this->login();
+
+        $tenant = Tenant::factory()->create();
+
+        $package = Package::factory()->create([
+            'tenant_id' => $tenant->id,
+            'quota_gb' => 500,
+            'status' => 'inactive',
+        ]);
+
+        $this->getJson("/api/packages/{$package->id}")
+            ->assertOk()
+            ->assertJsonPath('data.quota_gb', 500)
+            ->assertJsonPath('data.status', 'inactive');
+    }
+
     public function test_delete_package(): void
     {
         $this->login();

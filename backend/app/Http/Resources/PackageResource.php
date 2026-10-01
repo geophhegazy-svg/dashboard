@@ -26,6 +26,8 @@ class PackageResource extends JsonResource
             'price'             => $this->price,
             'speed_download'    => $this->speed_download,
             'speed_upload'      => $this->speed_upload,
+            'quota_gb'          => $this->quota_gb,
+            'status'            => $this->status,
 
             'billing_cycle'     => $this->billing_cycle,
             'billing_interval'  => $this->billing_interval,

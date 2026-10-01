@@ -3395,7 +3395,7 @@ Final Certification Evidence
   CLOSED / GREEN.
 - Deferred items remain explicitly documented in the Master Roadmap.
 - Current project-wide PHPUnit regression:
-  **729 passed / 1950 assertions / 0 failures / 434.16s**.
+  **736 passed / 1984 assertions / 0 failures / 455.75s**.
 - Final runtime certification: `GREEN`.
 - Final PHPUnit certification: `GREEN`.
 - No production code changes were required for final certification.
@@ -4858,13 +4858,13 @@ Current execution position:
     CORS / Frontend-Backend Boundary CLOSED / GREEN
     API Route Surface Readiness CLOSED / GREEN
 
-[~] Phase 11 â€” Documentation & Operational Readiness
+[x] Phase 11 â€” Documentation & Operational Readiness
     Documentation Generation Authority CLOSED / GREEN
     Generated Documentation Freshness CLOSED / GREEN
     Documentation Source Alignment CLOSED / GREEN
     Documentation Exit Gate CLOSED / GREEN
     GAP-11.5-A — Unauthenticated Login Redirect Contract CLOSED / GREEN
-    Operational Readiness PENDING
+    Operational Readiness CLOSED / GREEN
 
 
 ### API Route Surface Readiness

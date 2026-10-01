@@ -14,6 +14,22 @@ export function clearAccessToken(): void {
     localStorage.removeItem(TOKEN_KEY);
 }
 
+export class ApiError extends Error {
+    status: number;
+    errors: Record<string, string[]>;
+
+    constructor(
+        message: string,
+        status: number,
+        errors: Record<string, string[]> = {},
+    ) {
+        super(message);
+        this.name = "ApiError";
+        this.status = status;
+        this.errors = errors;
+    }
+}
+
 type ApiRequestOptions = RequestInit & {
     auth?: boolean;
 };
@@ -67,7 +83,16 @@ export async function apiRequest<T>(
                 ? payload.message
                 : `API request failed with status ${response.status}`;
 
-        throw new Error(message);
+        const errors =
+            typeof payload === "object" &&
+            payload !== null &&
+            "errors" in payload &&
+            typeof payload.errors === "object" &&
+            payload.errors !== null
+                ? (payload.errors as Record<string, string[]>)
+                : {};
+
+        throw new ApiError(message, response.status, errors);
     }
 
     return payload as T;

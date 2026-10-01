@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Database\Factories\Modules\Subscription\Infrastructure\Persistence\Models\SubscriptionFactory;
 use App\Modules\Customer\Infrastructure\Persistence\Models\Customer;
 use App\Modules\Package\Infrastructure\Persistence\Models\Package;
+use App\Modules\Network\Infrastructure\Persistence\Models\NetworkService;
 
 class Subscription extends Model
 {
@@ -32,6 +33,7 @@ class Subscription extends Model
         'tenant_id',
         'customer_id',
         'package_id',
+        'network_service_id',
 
         'start_date',
         'end_date',
@@ -70,6 +72,11 @@ class Subscription extends Model
     public function tenant(): BelongsTo
     {
         return $this->belongsTo(Tenant::class);
+    }
+
+    public function networkService(): BelongsTo
+    {
+        return $this->belongsTo(NetworkService::class);
     }
 
     public function customer()

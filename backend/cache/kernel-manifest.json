@@ -400,6 +400,10 @@
                     "type": "actions",
                     "actions": [
                         "App\\Modules\\Network\\Application\\Actions\\CreateDhcpLeaseAction",
+                        "App\\Modules\\Network\\Application\\Actions\\CreateNetworkServiceAction",
+                        "App\\Modules\\Network\\Application\\Actions\\UpdateNetworkServiceAction",
+                        "App\\Modules\\Network\\Application\\Actions\\DeleteNetworkServiceAction",
+                        "App\\Modules\\Network\\Application\\Actions\\ProvisionNetworkServiceAction",
                         "App\\Modules\\Network\\Application\\Actions\\UpdateDhcpLeaseAction",
                         "App\\Modules\\Network\\Application\\Actions\\DeleteDhcpLeaseAction",
                         "App\\Modules\\Network\\Application\\Actions\\CreateFirewallRuleAction",

@@ -23,6 +23,15 @@ final class HotspotSubscriptionNetworkLifecycleListenerTest extends TestCase
         );
 
         $hotspot
+            ->shouldReceive('findUser')
+            ->once()
+            ->with('test-user')
+            ->andReturn([
+                '.id' => '*1',
+                'name' => 'test-user',
+            ]);
+
+        $hotspot
             ->shouldReceive('enableUser')
             ->once()
             ->with('test-user')
@@ -30,6 +39,8 @@ final class HotspotSubscriptionNetworkLifecycleListenerTest extends TestCase
 
         $subscription = new HotspotSubscription([
             'hotspot_username' => 'test-user',
+            'hotspot_password' => 'SecretPass123',
+            'mikrotik_profile' => 'default',
         ]);
 
         $listener = new HotspotSubscriptionNetworkLifecycleListener(
@@ -39,6 +50,46 @@ final class HotspotSubscriptionNetworkLifecycleListenerTest extends TestCase
         $listener->handle(
             new HotspotSubscriptionActivated($subscription)
         );
+    }
+
+    public function test_activated_hotspot_subscription_creates_missing_network_user_then_enables_it(): void
+    {
+        $hotspot = Mockery::mock(
+            HotspotServiceInterface::class
+        );
+
+        $hotspot
+            ->shouldReceive('findUser')
+            ->once()
+            ->with('new-user')
+            ->andReturnNull();
+
+        $hotspot
+            ->shouldReceive('createUser')
+            ->once()
+            ->with(
+                'new-user',
+                'SecretPass123',
+                'default',
+            )
+            ->andReturnTrue();
+
+        $hotspot
+            ->shouldReceive('enableUser')
+            ->once()
+            ->with('new-user')
+            ->andReturnTrue();
+
+        $subscription = new HotspotSubscription([
+            'hotspot_username' => 'new-user',
+            'hotspot_password' => 'SecretPass123',
+            'mikrotik_profile' => 'default',
+        ]);
+
+        (new HotspotSubscriptionNetworkLifecycleListener($hotspot))
+            ->handle(
+                new HotspotSubscriptionActivated($subscription)
+            );
     }
 
     public function test_suspended_hotspot_subscription_disables_network_user(): void
@@ -95,6 +146,14 @@ final class HotspotSubscriptionNetworkLifecycleListenerTest extends TestCase
         ]);
 
         $service = Mockery::mock(HotspotServiceInterface::class);
+
+        $service->shouldReceive('findUser')
+            ->once()
+            ->with('hotspot-user')
+            ->andReturn([
+                '.id' => '*1',
+                'name' => 'hotspot-user',
+            ]);
 
         $service->shouldReceive('enableUser')
             ->once()

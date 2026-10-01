@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\TenantController;
 
 use App\Http\Controllers\Api\CustomerController;
+use App\Http\Controllers\Api\NetworkServiceController;
 use App\Http\Controllers\Api\PackageController;
 use App\Http\Controllers\Api\SubscriptionController;
 use App\Http\Controllers\Api\HotspotSubscriptionController;
@@ -122,6 +123,16 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('tenants', TenantController::class);
 
     Route::apiResource('customers', CustomerController::class);
+
+Route::apiResource(
+    'network-services',
+    NetworkServiceController::class
+);
+
+Route::post(
+    'network-services/{networkService}/provision',
+    [NetworkServiceController::class, 'provision']
+);
     Route::apiResource('packages', PackageController::class);
 
     Route::apiResource('subscriptions', SubscriptionController::class);

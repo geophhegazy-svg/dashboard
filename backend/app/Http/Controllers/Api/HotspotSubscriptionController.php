@@ -40,13 +40,20 @@ final class HotspotSubscriptionController extends Controller
         $this->authorize('create', HotspotSubscription::class);
 
         $data = $request->validate([
-            'tenant_id' => 'required',
-            'customer_id' => 'required',
-            'package_id' => 'required',
+            'tenant_id' => 'required|integer|exists:tenants,id',
+            'customer_id' => 'required|integer|exists:customers,id',
+            'package_id' => 'required|integer|exists:packages,id',
+            'hotspot_username' => [
+                'required',
+                'string',
+                'max:255',
+                'unique:hotspot_subscriptions,hotspot_username',
+            ],
+            'hotspot_password' => 'required|string|max:255',
             'start_date' => 'required|date',
-            'end_date' => 'required|date',
-            'monthly_price' => 'required|numeric',
-            'mikrotik_profile' => 'nullable|string',
+            'end_date' => 'required|date|after_or_equal:start_date',
+            'monthly_price' => 'required|numeric|min:0',
+            'mikrotik_profile' => 'nullable|string|max:255',
         ]);
 
         $subscription = $this->createAction->execute(

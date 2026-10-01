@@ -38,8 +38,8 @@ final class HotspotSubscriptionActionsTest extends TestCase
             ->with(Mockery::on(
                 static function (array $data) use ($customer): bool {
                     return $data['customer_id'] === $customer->id
-                        && $data['hotspot_username'] === 'hs' . $customer->id
-                        && isset($data['hotspot_password'])
+                        && $data['hotspot_username'] === 'cafe-user-01'
+                        && $data['hotspot_password'] === 'SecretPass123'
                         && $data['mikrotik_profile'] === 'default';
                 }
             ))
@@ -71,6 +71,8 @@ final class HotspotSubscriptionActionsTest extends TestCase
             'tenant_id' => $customer->tenant_id,
             'customer_id' => $customer->id,
             'package_id' => 1,
+            'hotspot_username' => 'cafe-user-01',
+            'hotspot_password' => 'SecretPass123',
             'start_date' => now()->toDateString(),
             'end_date' => now()->addMonth()->toDateString(),
             'monthly_price' => 100,
@@ -82,8 +84,13 @@ final class HotspotSubscriptionActionsTest extends TestCase
         );
 
         $this->assertSame(
-            'hs' . $customer->id,
+            'cafe-user-01',
             $result->hotspot_username
+        );
+
+        $this->assertSame(
+            'SecretPass123',
+            $result->hotspot_password
         );
     }
 

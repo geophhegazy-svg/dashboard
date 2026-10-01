@@ -6,6 +6,7 @@ namespace App\Modules\Subscription\Infrastructure\Persistence\Models;
 
 use App\Modules\Customer\Infrastructure\Persistence\Models\Customer;
 use App\Modules\Package\Infrastructure\Persistence\Models\Package;
+use App\Modules\Network\Infrastructure\Persistence\Models\NetworkService;
 use App\Traits\BelongsToTenant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -28,6 +29,7 @@ class HotspotSubscription extends Model
         'tenant_id',
         'customer_id',
         'package_id',
+        'network_service_id',
         'hotspot_username',
         'hotspot_password',
         'mikrotik_profile',
@@ -46,6 +48,11 @@ class HotspotSubscription extends Model
     public function tenant(): BelongsTo
     {
         return $this->belongsTo(Tenant::class);
+    }
+
+    public function networkService(): BelongsTo
+    {
+        return $this->belongsTo(NetworkService::class);
     }
 
     public function customer(): BelongsTo

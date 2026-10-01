@@ -1,12 +1,14 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+﻿import { Navigate, Route, Routes } from "react-router-dom";
 
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { AppShell } from "./layouts/AppShell";
-import { DashboardPage } from "./pages/DashboardPage";
 import { CustomersPage } from "./pages/CustomersPage";
+import { DashboardPage } from "./pages/DashboardPage";
+import { InvoicesPage } from "./pages/InvoicesPage";
 import { LoginPage } from "./pages/LoginPage";
 import { PackagesPage } from "./pages/PackagesPage";
-import { InvoicesPage } from "./pages/InvoicesPage";
+import { SubscriptionsPage } from "./pages/SubscriptionsPage";
+import { HotspotSubscriptionsPage } from "./pages/HotspotSubscriptionsPage";
 
 export function AppRouter() {
     return (
@@ -33,6 +35,16 @@ export function AppRouter() {
                     <Route
                         path="/invoices"
                         element={<InvoicesPage />}
+                    />
+
+                    <Route
+                        path="/subscriptions"
+                        element={<SubscriptionsPage />}
+                    />
+
+                    <Route
+                        path="/hotspot-subscriptions"
+                        element={<HotspotSubscriptionsPage />}
                     />
                 </Route>
             </Route>

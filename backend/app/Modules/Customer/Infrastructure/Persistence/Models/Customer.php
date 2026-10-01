@@ -32,7 +32,9 @@ class Customer extends Authenticatable
         'phone',
         'email',
         'address',
+        'national_id',
         'password',
+        'notes',
         'status',
     ];
 

@@ -36,19 +36,12 @@ final readonly class CreateHotspotSubscriptionAction
             $data['customer_id']
         );
 
-        $username = 'hs' . $customer->id;
-        $password = substr(
-            bin2hex(random_bytes(8)),
-            0,
-            8
-        );
-
         $profile = $data['mikrotik_profile'] ?? 'default';
 
         return $this->repository->create([
             ...$data,
-            'hotspot_username' => $username,
-            'hotspot_password' => $password,
+            'hotspot_username' => $data['hotspot_username'],
+            'hotspot_password' => $data['hotspot_password'],
             'mikrotik_profile' => $profile,
         ]);
     }

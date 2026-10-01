@@ -6,6 +6,8 @@ export interface Package {
     price: string | number;
     speed_download: number | null;
     speed_upload: number | null;
+    quota_gb: number | null;
+    status: "active" | "inactive";
     billing_cycle: string | null;
     billing_interval: number | null;
     grace_days: number | null;

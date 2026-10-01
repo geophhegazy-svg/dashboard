@@ -28,6 +28,10 @@ use App\Modules\Network\Application\Contracts\NetworkManagerInterface;
 use App\Modules\Network\Application\Contracts\NetworkDeviceResolverInterface;
 use App\Modules\Network\Application\Services\NetworkDeviceResolver;
 use App\Modules\Network\Application\Actions\CreateDhcpLeaseAction;
+use App\Modules\Network\Application\Actions\CreateNetworkServiceAction;
+use App\Modules\Network\Application\Actions\UpdateNetworkServiceAction;
+use App\Modules\Network\Application\Actions\DeleteNetworkServiceAction;
+use App\Modules\Network\Application\Actions\ProvisionNetworkServiceAction;
 use App\Modules\Network\Application\Actions\UpdateDhcpLeaseAction;
 use App\Modules\Network\Application\Actions\DeleteDhcpLeaseAction;
 use App\Modules\Network\Application\Actions\CreateFirewallRuleAction;
@@ -124,6 +128,10 @@ NetworkDeviceRepositoryInterface::class
             ->actions([
 
                 CreateDhcpLeaseAction::class,
+                CreateNetworkServiceAction::class,
+                UpdateNetworkServiceAction::class,
+                DeleteNetworkServiceAction::class,
+                ProvisionNetworkServiceAction::class,
                 UpdateDhcpLeaseAction::class,
                 DeleteDhcpLeaseAction::class,
 
