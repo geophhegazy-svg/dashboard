@@ -122,16 +122,19 @@ final class ProvisionNetworkServiceAction
             return $pppoe->enableUser($service->username);
         }
 
+        $options = [
+            'comment' => $service->customer->name,
+        ];
+
+        if ($service->ip_address !== null) {
+            $options['remote_address'] = $service->ip_address;
+        }
+
         $created = $pppoe->createUser(
             $service->username,
             (string) $service->password,
             $profile,
-            [
-                'comment' => 'EgyptNet NetworkService #' . $service->id,
-                ...($service->ip_address !== null
-                    ? ['remote_address' => $service->ip_address]
-                    : []),
-            ]
+            $options
         );
 
         if (!$created) {
@@ -175,7 +178,7 @@ final class ProvisionNetworkServiceAction
             null,
             1,
             [
-                'comment' => 'EgyptNet NetworkService #' . $service->id,
+                'comment' => $service->customer->name,
             ]
         );
     }
@@ -190,15 +193,30 @@ final class ProvisionNetworkServiceAction
             return false;
         }
 
+        $package = $service->package;
+
+        $quotaBytes = null;
+
+        if ($package !== null && $package->quota_gb !== null && $package->quota_gb > 0) {
+            $quotaBytes =
+                (int) $package->quota_gb * 1024 * 1024 * 1024;
+        }
+
         $existing = $hotspot->findUser($service->username);
 
         if ($existing !== null) {
+            $data = [
+                'password' => $service->password,
+                'profile' => $profile,
+            ];
+
+            if ($quotaBytes !== null) {
+                $data['limit_bytes_total'] = $quotaBytes;
+            }
+
             $updated = $hotspot->updateUser(
                 $service->username,
-                [
-                    'password' => $service->password,
-                    'profile' => $profile,
-                ]
+                $data
             );
 
             if (!$updated) {
@@ -208,13 +226,19 @@ final class ProvisionNetworkServiceAction
             return $hotspot->enableUser($service->username);
         }
 
+        $options = [
+            'comment' => $service->customer->name,
+        ];
+
+        if ($quotaBytes !== null) {
+            $options['limit_bytes_total'] = $quotaBytes;
+        }
+
         $created = $hotspot->createUser(
             $service->username,
             (string) $service->password,
             $profile,
-            [
-                'comment' => 'EgyptNet NetworkService #' . $service->id,
-            ]
+            $options
         );
 
         if (!$created) {
@@ -263,7 +287,7 @@ final class ProvisionNetworkServiceAction
             $service->mac_address,
             $service->username,
             [
-                'comment' => 'EgyptNet NetworkService #' . $service->id,
+                'comment' => $service->customer->name,
             ]
         )) {
             return false;

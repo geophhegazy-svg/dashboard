@@ -23,8 +23,10 @@ class MikroTikHotspotService implements HotspotServiceInterface
      */
     public function getUsers(): array
     {
-        return $this->query->execute(
-            new Query('/ip/hotspot/user/print')
+        return $this->normalizeEncoding(
+            $this->query->execute(
+                new Query('/ip/hotspot/user/print')
+            )
         );
     }
 
@@ -43,7 +45,39 @@ class MikroTikHotspotService implements HotspotServiceInterface
             ->where('name', $username);
 
 
-        return $this->query->first($query);
+        return $this->normalizeEncoding(
+            $this->query->first($query)
+        );
+    }
+
+
+
+    /**
+     * Normalize RouterOS string encoding for API consumers.
+     *
+     * MikroTik may return Arabic hotspot comments as CP1256 bytes.
+     * Preserve valid UTF-8 values and convert only invalid strings.
+     *
+     * @param mixed $value
+     * @return mixed
+     */
+    protected function normalizeEncoding(mixed $value): mixed
+    {
+        if (is_array($value)) {
+            foreach ($value as $key => $item) {
+                $value[$key] = $this->normalizeEncoding($item);
+            }
+
+            return $value;
+        }
+
+        if (! is_string($value) || preg_match('//u', $value) === 1) {
+            return $value;
+        }
+
+        $converted = iconv('CP1256', 'UTF-8//IGNORE', $value);
+
+        return $converted !== false ? $converted : $value;
     }
 
 
@@ -114,6 +148,14 @@ class MikroTikHotspotService implements HotspotServiceInterface
             $query->equal(
                 'limit-uptime',
                 $options['limit_uptime']
+            );
+        }
+
+        if (isset($options['limit_bytes_total'])) {
+
+            $query->equal(
+                'limit-bytes-total',
+                $options['limit_bytes_total']
             );
         }
 

@@ -78,6 +78,61 @@ final class SyncMikroTikUsersActionTest extends TestCase
         $this->assertSame('active', $device->status);
     }
 
+    public function test_it_updates_existing_pppoe_user_profile_from_mikrotik(): void
+    {
+        $tenant = Tenant::factory()->create();
+
+        $device = NetworkDevice::create([
+            'tenant_id' => $tenant->id,
+            'name' => 'MikroTik Profile Sync Test',
+            'ip_address' => '192.0.2.4',
+            'username' => 'admin',
+            'password' => 'secret',
+            'type' => 'mikrotik',
+            'port' => 8728,
+            'status' => 'active',
+        ]);
+
+        $user = PPPoEUser::create([
+            'tenant_id' => $tenant->id,
+            'username' => 'pppoe-profile',
+            'password' => 'secret',
+            'mikrotik_device_id' => $device->id,
+            'profile' => '1M',
+            'status' => 'active',
+        ]);
+
+        $service = Mockery::mock(MikrotikServiceInterface::class);
+
+        $service->shouldReceive('connect')
+            ->once()
+            ->andReturnTrue();
+
+        $service->shouldReceive('getAllUsers')
+            ->once()
+            ->andReturn([
+                [
+                    'name' => 'pppoe-profile',
+                    'profile' => '10M',
+                    'disabled' => false,
+                ],
+            ]);
+
+        $service->shouldReceive('getActiveSessions')
+            ->once()
+            ->andReturn([]);
+
+        $action = new SyncMikroTikUsersAction($service);
+
+        $this->assertTrue($action->execute($device->id));
+
+        $user->refresh();
+
+        $this->assertSame('10M', $user->profile);
+        $this->assertSame('active', $user->status);
+        $this->assertNotNull($user->last_sync_at);
+    }
+
     public function test_it_does_not_mark_users_offline_when_router_read_fails(): void
     {
         $tenant = Tenant::factory()->create();

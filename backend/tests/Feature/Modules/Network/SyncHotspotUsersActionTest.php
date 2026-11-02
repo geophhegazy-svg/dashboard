@@ -92,6 +92,105 @@ final class SyncHotspotUsersActionTest extends TestCase
         $this->assertSame('active', $device->status);
     }
 
+    public function test_it_does_not_update_same_username_belonging_to_another_device(): void
+    {
+        $tenant = Tenant::factory()->create();
+
+        $device = NetworkDevice::create([
+            'tenant_id' => $tenant->id,
+            'name' => 'Hotspot Sync Device',
+            'ip_address' => '192.0.2.13',
+            'username' => 'admin',
+            'password' => 'secret',
+            'type' => 'mikrotik',
+            'port' => 8728,
+            'status' => 'active',
+        ]);
+
+        $otherDevice = NetworkDevice::create([
+            'tenant_id' => $tenant->id,
+            'name' => 'Other Hotspot Device',
+            'ip_address' => '192.0.2.14',
+            'username' => 'admin',
+            'password' => 'secret',
+            'type' => 'mikrotik',
+            'port' => 8728,
+            'status' => 'active',
+        ]);
+
+        $user = HotspotUser::create([
+            'tenant_id' => $tenant->id,
+            'username' => 'shared-user',
+            'password' => 'old',
+            'mikrotik_device_id' => $otherDevice->id,
+            'profile' => '1M',
+            'status' => 'active',
+        ]);
+
+        $service = Mockery::mock(MikrotikServiceInterface::class);
+
+        $service->shouldReceive('connect')
+            ->once()
+            ->andReturnTrue();
+
+        $service->shouldReceive('getHotspotUsers')
+            ->once()
+            ->andReturn([
+                [
+                    'name' => 'shared-user',
+                    'password' => 'new',
+                    'profile' => '5M',
+                    'disabled' => false,
+                ],
+            ]);
+
+        $service->shouldReceive('getHotspotActiveSessions')
+            ->once()
+            ->andReturn([]);
+
+        $action = new SyncHotspotUsersAction($service);
+
+        $this->assertTrue($action->execute($device->id));
+
+        $user->refresh();
+
+        $this->assertSame($otherDevice->id, $user->mikrotik_device_id);
+        $this->assertSame('old', $user->password);
+        $this->assertSame('1M', $user->profile);
+    }
+
+    public function test_it_returns_false_when_device_connection_fails(): void
+    {
+        $tenant = Tenant::factory()->create();
+
+        $device = NetworkDevice::create([
+            'tenant_id' => $tenant->id,
+            'name' => 'Hotspot Connection Failure Test',
+            'ip_address' => '192.0.2.15',
+            'username' => 'admin',
+            'password' => 'secret',
+            'type' => 'mikrotik',
+            'port' => 8728,
+            'status' => 'active',
+        ]);
+
+        $service = Mockery::mock(MikrotikServiceInterface::class);
+
+        $service->shouldReceive('connect')
+            ->once()
+            ->andReturnFalse();
+
+        $service->shouldNotReceive('getHotspotUsers');
+        $service->shouldNotReceive('getHotspotActiveSessions');
+
+        $action = new SyncHotspotUsersAction($service);
+
+        $this->assertFalse($action->execute($device->id));
+
+        $device->refresh();
+        $this->assertNull($device->last_sync_at);
+    }
+
     public function test_it_does_not_mark_users_offline_when_router_read_fails(): void
     {
         $tenant = Tenant::factory()->create();
@@ -139,7 +238,7 @@ final class SyncHotspotUsersActionTest extends TestCase
 
         $action = new SyncHotspotUsersAction($service);
 
-        $this->assertTrue($action->execute($device->id));
+        $this->assertFalse($action->execute($device->id));
 
         $user->refresh();
         $device->refresh();

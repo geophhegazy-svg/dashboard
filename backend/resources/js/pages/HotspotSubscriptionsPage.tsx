@@ -3,6 +3,7 @@ import {
     useEffect,
     useState,
 } from "react";
+import { formatDigits } from "../utils/formatDigits";
 
 import { ApiError, apiRequest } from "../api/client";
 import { Alert } from "../components/ui/Alert";
@@ -66,7 +67,7 @@ function formatDate(value: string | null): string {
         return value;
     }
 
-    return date.toLocaleDateString("ar-EG");
+    return date.toLocaleDateString("en-US");
 }
 
 function formatDateInput(value: string | null): string {
@@ -74,7 +75,7 @@ function formatDateInput(value: string | null): string {
 }
 
 function formatPrice(value: number | string): string {
-    return new Intl.NumberFormat("ar-EG", {
+    return new Intl.NumberFormat("en-US", {
         style: "currency",
         currency: "EGP",
         maximumFractionDigits: 2,
@@ -129,6 +130,7 @@ export function HotspotSubscriptionsPage() {
     const [loading, setLoading] = useState(true);
     const [loadingFormData, setLoadingFormData] = useState(false);
     const [error, setError] = useState("");
+    const [notice, setNotice] = useState("");
 
     const [showForm, setShowForm] = useState(false);
     const [form, setForm] =
@@ -148,7 +150,7 @@ export function HotspotSubscriptionsPage() {
     const [actionId, setActionId] =
         useState<number | null>(null);
 
-    async function loadSubscriptions() {
+    async function loadSubscriptions(): Promise<boolean> {
         setLoading(true);
         setError("");
 
@@ -160,12 +162,14 @@ export function HotspotSubscriptionsPage() {
 
             setSubscriptions(response.data);
             setPagination(response.meta);
+            return true;
         } catch (exception) {
             setError(
                 exception instanceof Error
                     ? exception.message
                     : "تعذر تحميل اشتراكات Hotspot.",
             );
+            return false;
         } finally {
             setLoading(false);
         }
@@ -204,6 +208,7 @@ export function HotspotSubscriptionsPage() {
     }, [page]);
 
     function openCreate() {
+        setNotice("");
         setForm(emptyForm);
         setFormErrors({});
         setFormError("");
@@ -276,7 +281,14 @@ export function HotspotSubscriptionsPage() {
             );
 
             closeForm();
-            await loadSubscriptions();
+
+            const reloaded = await loadSubscriptions();
+
+            setNotice(
+                reloaded
+                    ? "تم إنشاء اشتراك Hotspot وتحديث القائمة بنجاح."
+                    : "تم إنشاء الاشتراك بنجاح، لكن تعذر تحديث القائمة. أعد تحميل الصفحة.",
+            );
         } catch (exception) {
             if (
                 exception instanceof ApiError &&
@@ -430,12 +442,16 @@ export function HotspotSubscriptionsPage() {
 
             {error && <Alert>{error}</Alert>}
 
+            {notice && (
+                <Alert variant="success">{notice}</Alert>
+            )}
+
             <SectionCard
                 title="قائمة اشتراكات Hotspot"
                 description={
                     pagination
                         ? `إجمالي الاشتراكات: ${pagination.total.toLocaleString(
-                              "ar-EG",
+                              "en-US",
                           )}`
                         : undefined
                 }
@@ -485,13 +501,13 @@ export function HotspotSubscriptionsPage() {
                                             <td className="px-4 py-4">
                                                 {subscription.customer
                                                     ?.name ??
-                                                    `#${subscription.customer_id}`}
+                                                    `#${formatDigits(subscription.customer_id)}`}
                                             </td>
 
                                             <td className="px-4 py-4">
                                                 {subscription.package
                                                     ?.name ??
-                                                    `#${subscription.package_id}`}
+                                                    `#${formatDigits(subscription.package_id)}`}
                                             </td>
 
                                             <td className="px-4 py-4 font-mono text-xs">
@@ -618,8 +634,8 @@ export function HotspotSubscriptionsPage() {
                             </button>
 
                             <span className="text-xs text-slate-500">
-                                صفحة {pagination.current_page} من{" "}
-                                {pagination.last_page}
+                                صفحة {formatDigits(pagination.current_page)} من{" "}
+                                {formatDigits(pagination.last_page)}
                             </span>
 
                             <button
@@ -735,7 +751,7 @@ export function HotspotSubscriptionsPage() {
                                                                 customer.id
                                                             }
                                                         >
-                                                            {customer.name} — #{customer.id}
+                                                            {customer.name} — #{formatDigits(customer.id)}
                                                         </option>
                                                     ),
                                                 )}
@@ -781,7 +797,7 @@ export function HotspotSubscriptionsPage() {
                                                             key={pkg.id}
                                                             value={pkg.id}
                                                         >
-                                                            {pkg.name} — #{pkg.id}
+                                                            {pkg.name} — #{formatDigits(pkg.id)}
                                                         </option>
                                                     ),
                                                 )}
@@ -1006,7 +1022,7 @@ export function HotspotSubscriptionsPage() {
                                 <p className="mt-1 text-sm font-medium">
                                     {viewingSubscription.customer
                                         ?.name ??
-                                        `#${viewingSubscription.customer_id}`}
+                                        `#${formatDigits(viewingSubscription.customer_id)}`}
                                 </p>
                             </div>
 
@@ -1017,7 +1033,7 @@ export function HotspotSubscriptionsPage() {
                                 <p className="mt-1 text-sm font-medium">
                                     {viewingSubscription.package
                                         ?.name ??
-                                        `#${viewingSubscription.package_id}`}
+                                        `#${formatDigits(viewingSubscription.package_id)}`}
                                 </p>
                             </div>
 

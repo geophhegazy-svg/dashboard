@@ -16,10 +16,15 @@ export function StatusBadge({
     return (
         <span
             className={[
-                "inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium ring-1 ring-inset",
+                "inline-flex items-center gap-2 rounded-full px-2.5 py-1 text-xs font-medium ring-1 ring-inset",
                 toneClasses[tone],
             ].join(" ")}
         >
+            <span
+                aria-hidden="true"
+                className="h-1.5 w-1.5 rounded-full bg-current"
+            />
+
             {label}
         </span>
     );

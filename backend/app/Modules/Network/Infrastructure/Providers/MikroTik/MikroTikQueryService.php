@@ -30,9 +30,11 @@ class MikroTikQueryService
 
         try {
 
-            return $this->client()
-                ->query($query)
-                ->read();
+            return $this->normalizeUtf8Rows(
+                $this->client()
+                    ->query($query)
+                    ->read()
+            );
         } catch (Throwable $e) {
 
 
@@ -51,6 +53,44 @@ class MikroTikQueryService
     }
 
 
+
+    /**
+     * Remove invalid UTF-8 bytes from RouterOS response values.
+     *
+     * @param array<int,array<string,mixed>> $rows
+     * @return array<int,array<string,mixed>>
+     */
+    private function normalizeUtf8Rows(array $rows): array
+    {
+        foreach ($rows as $rowIndex => $row) {
+            foreach ($row as $key => $value) {
+                $rows[$rowIndex][$key] = $this->normalizeUtf8Value($value);
+            }
+        }
+
+        return $rows;
+    }
+
+    private function normalizeUtf8Value(mixed $value): mixed
+    {
+        if (is_string($value)) {
+            if (mb_check_encoding($value, 'UTF-8')) {
+                return $value;
+            }
+
+            $normalized = @iconv('UTF-8', 'UTF-8//IGNORE', $value);
+
+            return $normalized === false ? '' : $normalized;
+        }
+
+        if (is_array($value)) {
+            foreach ($value as $key => $item) {
+                $value[$key] = $this->normalizeUtf8Value($item);
+            }
+        }
+
+        return $value;
+    }
 
     /**
      * Execute query and return first result.

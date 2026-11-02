@@ -1,3 +1,4 @@
+import { formatDigits } from "../utils/formatDigits";
 import {
     FormEvent,
     useEffect,
@@ -71,7 +72,7 @@ function formatDate(value: string | null): string {
         return value;
     }
 
-    return date.toLocaleDateString("ar-EG");
+    return date.toLocaleDateString("en-US");
 }
 
 function formatDateInput(value: string | null): string {
@@ -83,7 +84,7 @@ function formatDateInput(value: string | null): string {
 }
 
 function formatPrice(value: number): string {
-    return new Intl.NumberFormat("ar-EG", {
+    return new Intl.NumberFormat("en-US", {
         style: "currency",
         currency: "EGP",
         maximumFractionDigits: 2,
@@ -185,6 +186,7 @@ export function SubscriptionsPage() {
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
+    const [notice, setNotice] = useState("");
 
     const [showForm, setShowForm] = useState(false);
     const [editingSubscription, setEditingSubscription] =
@@ -210,7 +212,7 @@ export function SubscriptionsPage() {
     const [actionId, setActionId] =
         useState<number | null>(null);
 
-    async function loadSubscriptions() {
+    async function loadSubscriptions(): Promise<boolean> {
         setLoading(true);
         setError("");
 
@@ -222,12 +224,14 @@ export function SubscriptionsPage() {
 
             setSubscriptions(response.data);
             setPagination(response.meta);
+            return true;
         } catch (exception) {
             setError(
                 exception instanceof Error
                     ? exception.message
                     : "تعذر تحميل الاشتراكات.",
             );
+            return false;
         } finally {
             setLoading(false);
         }
@@ -238,6 +242,7 @@ export function SubscriptionsPage() {
     }, [page]);
 
     function openCreate() {
+        setNotice("");
         setEditingSubscription(null);
         setForm(emptyForm);
         setFormErrors({});
@@ -246,6 +251,7 @@ export function SubscriptionsPage() {
     }
 
     function openEdit(subscription: Subscription) {
+        setNotice("");
         setEditingSubscription(subscription);
         setForm(subscriptionToForm(subscription));
         setFormErrors({});
@@ -334,7 +340,14 @@ export function SubscriptionsPage() {
             }
 
             closeForm();
-            await loadSubscriptions();
+
+            const reloaded = await loadSubscriptions();
+
+            setNotice(
+                reloaded
+                    ? "تم حفظ الاشتراك وتحديث القائمة بنجاح."
+                    : "تم حفظ الاشتراك بنجاح، لكن تعذر تحديث القائمة. حاول إعادة تحميلها.",
+            );
         } catch (exception) {
             if (
                 exception instanceof ApiError &&
@@ -661,6 +674,14 @@ export function SubscriptionsPage() {
                 </div>
             )}
 
+            {notice && (
+                <div className="mb-5">
+                    <Alert variant="success">
+                        {notice}
+                    </Alert>
+                </div>
+            )}
+
             {loading && <LoadingState />}
 
             {!loading && (
@@ -669,7 +690,7 @@ export function SubscriptionsPage() {
                     description={
                         pagination
                             ? `إجمالي الاشتراكات: ${pagination.total.toLocaleString(
-                                  "ar-EG",
+                                  "en-US",
                               )}`
                             : undefined
                     }
@@ -871,18 +892,18 @@ export function SubscriptionsPage() {
                                         pagination.from ??
                                         0
                                     ).toLocaleString(
-                                        "ar-EG",
+                                        "en-US",
                                     )}{" "}
                                     -{" "}
                                     {(
                                         pagination.to ??
                                         0
                                     ).toLocaleString(
-                                        "ar-EG",
+                                        "en-US",
                                     )}{" "}
                                     من{" "}
                                     {pagination.total.toLocaleString(
-                                        "ar-EG",
+                                        "en-US",
                                     )}
                                 </p>
 
@@ -910,11 +931,11 @@ export function SubscriptionsPage() {
 
                                     <span className="min-w-20 text-center text-sm font-medium text-slate-600">
                                         {pagination.current_page.toLocaleString(
-                                            "ar-EG",
+                                            "en-US",
                                         )}{" "}
                                         /{" "}
                                         {pagination.last_page.toLocaleString(
-                                            "ar-EG",
+                                            "en-US",
                                         )}
                                     </span>
 
@@ -1546,7 +1567,7 @@ export function SubscriptionsPage() {
                         <p className="mt-3 text-sm leading-6 text-slate-600">
                             هل تريد حذف الاشتراك #
                             <strong className="mx-1">
-                                {deletingSubscription.id}
+                                {formatDigits(deletingSubscription.id)}
                             </strong>
                             ؟ لا يمكن التراجع عن هذا الإجراء.
                         </p>

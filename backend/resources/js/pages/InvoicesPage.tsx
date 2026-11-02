@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { formatDigits } from "../utils/formatDigits";
 
 import { apiRequest } from "../api/client";
 import { Alert } from "../components/ui/Alert";
@@ -22,7 +23,7 @@ function formatDate(value: string | null): string {
         return value;
     }
 
-    return date.toLocaleDateString("ar-EG");
+    return date.toLocaleDateString("en-US");
 }
 
 function formatDateTime(value: string | null): string {
@@ -36,7 +37,7 @@ function formatDateTime(value: string | null): string {
         return value;
     }
 
-    return date.toLocaleString("ar-EG");
+    return date.toLocaleString("en-US");
 }
 
 function formatAmount(value: string | number): string {
@@ -46,7 +47,7 @@ function formatAmount(value: string | number): string {
         return String(value);
     }
 
-    return amount.toLocaleString("ar-EG", {
+    return amount.toLocaleString("en-US", {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
     });
@@ -139,7 +140,7 @@ export function InvoicesPage() {
                     description={
                         pagination
                             ? `إجمالي الفواتير: ${pagination.total.toLocaleString(
-                                  "ar-EG",
+                                  "en-US",
                               )}`
                             : undefined
                     }
@@ -196,11 +197,11 @@ export function InvoicesPage() {
                                             className="transition hover:bg-slate-50"
                                         >
                                             <td className="whitespace-nowrap px-4 py-4 text-sm text-slate-500">
-                                                {invoice.id}
+                                                {formatDigits(invoice.id)}
                                             </td>
 
                                             <td className="whitespace-nowrap px-4 py-4 text-sm font-semibold text-slate-900">
-                                                {invoice.invoice_number}
+                                                {formatDigits(invoice.invoice_number)}
                                             </td>
 
                                             <td className="whitespace-nowrap px-4 py-4 text-sm text-slate-700">
@@ -253,14 +254,14 @@ export function InvoicesPage() {
                             <p className="text-sm text-slate-500">
                                 عرض{" "}
                                 {(pagination.from ?? 0).toLocaleString(
-                                    "ar-EG",
+                                    "en-US",
                                 )}{" "}
                                 -{" "}
                                 {(pagination.to ?? 0).toLocaleString(
-                                    "ar-EG",
+                                    "en-US",
                                 )}{" "}
                                 من{" "}
-                                {pagination.total.toLocaleString("ar-EG")}
+                                {pagination.total.toLocaleString("en-US")}
                             </p>
 
                             <div className="flex items-center gap-2">
@@ -278,13 +279,9 @@ export function InvoicesPage() {
                                 </button>
 
                                 <span className="min-w-20 text-center text-sm font-medium text-slate-600">
-                                    {pagination.current_page.toLocaleString(
-                                        "ar-EG",
-                                    )}{" "}
+                                    {formatDigits(pagination.current_page.toLocaleString("en-US"))}{" "}
                                     /{" "}
-                                    {pagination.last_page.toLocaleString(
-                                        "ar-EG",
-                                    )}
+                                    {formatDigits(pagination.last_page.toLocaleString("en-US"))}
                                 </span>
 
                                 <button

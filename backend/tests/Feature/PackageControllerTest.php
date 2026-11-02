@@ -58,6 +58,65 @@ class PackageControllerTest extends TestCase
         ]);
     }
 
+    public function test_store_persists_and_returns_package_speeds(): void
+    {
+        $this->login();
+
+        $tenant = Tenant::factory()->create();
+
+        $this->postJson('/api/packages', [
+            'tenant_id' => $tenant->id,
+            'name' => 'Speed Persistence Test',
+            'download_speed' => 200,
+            'upload_speed' => 50,
+            'price' => 500,
+            'status' => 'active',
+        ])
+            ->assertSuccessful()
+            ->assertJsonPath('data.speed_download', 200)
+            ->assertJsonPath('data.speed_upload', 50);
+
+        $this->assertDatabaseHas('packages', [
+            'tenant_id' => $tenant->id,
+            'name' => 'Speed Persistence Test',
+            'download_speed' => 200,
+            'upload_speed' => 50,
+        ]);
+    }
+
+    public function test_update_persists_and_returns_changed_package_speeds(): void
+    {
+        $this->login();
+
+        $tenant = Tenant::factory()->create();
+
+        $package = Package::factory()->create([
+            'tenant_id' => $tenant->id,
+            'download_speed' => 10,
+            'upload_speed' => 2,
+        ]);
+
+        $this->putJson("/api/packages/{$package->id}", [
+            'tenant_id' => $tenant->id,
+            'name' => $package->name,
+            'download_speed' => 300,
+            'upload_speed' => 75,
+            'price' => $package->price,
+            'quota_gb' => $package->quota_gb,
+            'status' => $package->status,
+            'description' => $package->description,
+        ])
+            ->assertSuccessful()
+            ->assertJsonPath('data.speed_download', 300)
+            ->assertJsonPath('data.speed_upload', 75);
+
+        $this->assertDatabaseHas('packages', [
+            'id' => $package->id,
+            'download_speed' => 300,
+            'upload_speed' => 75,
+        ]);
+    }
+
     public function test_show_returns_package_contract_fields(): void
     {
         $this->login();

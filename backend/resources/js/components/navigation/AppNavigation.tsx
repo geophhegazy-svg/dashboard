@@ -1,4 +1,4 @@
-﻿import { NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 interface AppNavigationProps {
     onNavigate?: () => void;
@@ -25,11 +25,36 @@ const navigationGroups: NavigationGroup[] = [
         ],
     },
     {
+        label: "الشبكة",
+        items: [
+            {
+                label: "التحكم في الشبكة",
+                to: "/network",
+            },
+            {
+                label: "Simple Queues",
+                to: "/network/queues",
+            },
+            {
+                label: "DHCP",
+                to: "/network/dhcp",
+            },
+            {
+                label: "Firewall",
+                to: "/network/firewall",
+            },
+        ],
+    },
+    {
         label: "إدارة العملاء",
         items: [
             {
                 label: "العملاء",
                 to: "/customers",
+            },
+            {
+                label: "إضافة مشترك",
+                to: "/subscriber-onboarding",
             },
             {
                 label: "الباقات",

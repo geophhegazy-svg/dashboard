@@ -8,6 +8,10 @@ use App\Core\Kernel\Resources\ActionResource;
 use App\Core\Kernel\Resources\CommandResource;
 use App\Core\Kernel\Resources\ScheduleResource;
 use App\Modules\Network\Application\Actions\CreateDhcpLeaseAction;
+use App\Modules\Network\Application\Actions\CreateNetworkServiceAction;
+use App\Modules\Network\Application\Actions\UpdateNetworkServiceAction;
+use App\Modules\Network\Application\Actions\DeleteNetworkServiceAction;
+use App\Modules\Network\Application\Actions\ProvisionNetworkServiceAction;
 use App\Modules\Network\Application\Actions\UpdateDhcpLeaseAction;
 use App\Modules\Network\Application\Actions\DeleteDhcpLeaseAction;
 use App\Modules\Network\Application\Actions\CreateFirewallRuleAction;
@@ -19,6 +23,7 @@ use App\Modules\Network\Application\Actions\ToggleQueueAction;
 use App\Modules\Network\Application\Actions\DeleteQueueAction;
 use App\Modules\Network\Application\Actions\SyncHotspotUsersAction;
 use App\Modules\Network\Application\Actions\SyncMikroTikUsersAction;
+use App\Modules\Network\Application\Actions\SyncMikroTikAction;
 use App\Modules\Network\Kernel\NetworkModule;
 use App\Modules\Network\Presentation\Console\Commands\SyncHotspotUsersCommand;
 use App\Modules\Network\Presentation\Console\Commands\SyncMikroTikCommand;
@@ -49,6 +54,12 @@ final class NetworkModuleRegistrationTest extends TestCase
         self::assertSame(
             [
                 CreateDhcpLeaseAction::class,
+
+                CreateNetworkServiceAction::class,
+                UpdateNetworkServiceAction::class,
+                DeleteNetworkServiceAction::class,
+                ProvisionNetworkServiceAction::class,
+
                 UpdateDhcpLeaseAction::class,
                 DeleteDhcpLeaseAction::class,
 
@@ -63,6 +74,7 @@ final class NetworkModuleRegistrationTest extends TestCase
 
                 SyncMikroTikUsersAction::class,
                 SyncHotspotUsersAction::class,
+                SyncMikroTikAction::class,
             ],
             $actionResources[0]->compile()['actions'],
         );
@@ -121,7 +133,7 @@ final class NetworkModuleRegistrationTest extends TestCase
         );
 
         self::assertCount(
-            $before + 2,
+            $before + 1,
             $schedule->events(),
         );
 
@@ -137,7 +149,6 @@ final class NetworkModuleRegistrationTest extends TestCase
 
         self::assertSame(
             [
-                "'/usr/local/bin/php' 'artisan' mikrotik:sync-hotspot",
                 "'/usr/local/bin/php' 'artisan' mikrotik:sync",
             ],
             $commands,
@@ -150,7 +161,6 @@ final class NetworkModuleRegistrationTest extends TestCase
 
         self::assertSame(
             [
-                '*/5 * * * *',
                 '*/5 * * * *',
             ],
             $expressions,

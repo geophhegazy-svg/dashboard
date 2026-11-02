@@ -25,6 +25,8 @@ final class SyncHotspotUsersAction
             return false;
         }
 
+        $syncedAnyDevice = false;
+
         foreach ($devices as $device) {
             try {
                 $connected = $this->mikrotikService->connect(
@@ -54,6 +56,8 @@ final class SyncHotspotUsersAction
                     'last_sync_at' => now(),
                     'status' => 'active',
                 ]);
+
+                $syncedAnyDevice = true;
             } catch (\Throwable $e) {
                 Log::error(
                     'Hotspot Sync Error',
@@ -65,7 +69,31 @@ final class SyncHotspotUsersAction
             }
         }
 
-        return true;
+        return $syncedAnyDevice;
+    }
+
+    public function syncConnectedDevice(
+        NetworkDevice $device,
+    ): void {
+        $hotspotUsers = $this->mikrotikService->getHotspotUsers();
+
+        $this->syncUsers(
+            $hotspotUsers,
+            $device,
+        );
+
+        $activeSessions =
+            $this->mikrotikService->getHotspotActiveSessions();
+
+        $this->updateActiveSessions(
+            $activeSessions,
+            $device,
+        );
+
+        $device->update([
+            'last_sync_at' => now(),
+            'status' => 'active',
+        ]);
     }
 
     private function getDevices(?int $deviceId)
@@ -109,6 +137,7 @@ final class SyncHotspotUsersAction
 
             $existingUser = HotspotUser::query()
                 ->where('username', $username)
+                ->where('mikrotik_device_id', $device->id)
                 ->first();
 
             if ($existingUser) {
@@ -122,6 +151,21 @@ final class SyncHotspotUsersAction
                         ? 'disabled'
                         : 'active',
                     'last_sync_at' => now(),
+                ]);
+
+                continue;
+            }
+
+            $conflictingUser = HotspotUser::query()
+                ->where('username', $username)
+                ->where('mikrotik_device_id', '!=', $device->id)
+                ->first();
+
+            if ($conflictingUser) {
+                Log::warning('Hotspot sync username conflict', [
+                    'username' => $username,
+                    'device_id' => $device->id,
+                    'existing_device_id' => $conflictingUser->mikrotik_device_id,
                 ]);
 
                 continue;

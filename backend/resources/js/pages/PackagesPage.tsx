@@ -1,3 +1,4 @@
+import { formatDigits } from "../utils/formatDigits";
 import { useEffect, useState } from "react";
 
 import { apiRequest, ApiError } from "../api/client";
@@ -44,7 +45,7 @@ function formatDate(value: string | null): string {
         return value;
     }
 
-    return date.toLocaleDateString("ar-EG");
+    return date.toLocaleDateString("en-US");
 }
 
 function formatSpeed(value: number | null): string {
@@ -52,7 +53,7 @@ function formatSpeed(value: number | null): string {
         return "-";
     }
 
-    return `${value.toLocaleString("ar-EG")} Mbps`;
+    return `${value.toLocaleString("en-US")} Mbps`;
 }
 
 function formatPrice(value: string | number): string {
@@ -62,7 +63,7 @@ function formatPrice(value: string | number): string {
         return String(value);
     }
 
-    return amount.toLocaleString("ar-EG", {
+    return amount.toLocaleString("en-US", {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
     });
@@ -108,6 +109,7 @@ export function PackagesPage() {
         useState<PackageListResponse["meta"] | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
+    const [notice, setNotice] = useState("");
 
     const [showForm, setShowForm] = useState(false);
     const [editingPackage, setEditingPackage] = useState<Package | null>(null);
@@ -122,7 +124,7 @@ export function PackagesPage() {
     const [saving, setSaving] = useState(false);
     const [deleting, setDeleting] = useState(false);
 
-    async function loadPackages() {
+    async function loadPackages(): Promise<boolean> {
         setLoading(true);
         setError("");
 
@@ -133,12 +135,14 @@ export function PackagesPage() {
 
             setPackages(response.data);
             setPagination(response.meta);
+            return true;
         } catch (exception) {
             setError(
                 exception instanceof Error
                     ? exception.message
                     : "Unable to load packages.",
             );
+            return false;
         } finally {
             setLoading(false);
         }
@@ -149,6 +153,8 @@ export function PackagesPage() {
     }, [page]);
 
     function openCreate() {
+        setNotice("");
+        setError("");
         setEditingPackage(null);
         setForm(emptyForm);
         setFormErrors({});
@@ -157,6 +163,8 @@ export function PackagesPage() {
     }
 
     function openEdit(packageItem: Package) {
+        setNotice("");
+        setError("");
         setEditingPackage(packageItem);
         setForm({
             tenant_id: String(packageItem.tenant_id),
@@ -218,6 +226,8 @@ export function PackagesPage() {
         event.preventDefault();
 
         setSaving(true);
+        setNotice("");
+        setError("");
         setFormError("");
         setFormErrors({});
 
@@ -253,7 +263,17 @@ export function PackagesPage() {
             }
 
             closeForm();
-            await loadPackages();
+
+            const reloaded = await loadPackages();
+            setNotice(
+                reloaded
+                    ? editingPackage
+                        ? "تم تحديث الباقة والقائمة بنجاح."
+                        : "تم إنشاء الباقة وتحديث القائمة بنجاح."
+                    : editingPackage
+                        ? "تم حفظ تعديلات الباقة، لكن تعذر تحديث القائمة. أعد تحميل الصفحة."
+                        : "تم إنشاء الباقة، لكن تعذر تحديث القائمة. أعد تحميل الصفحة.",
+            );
         } catch (exception) {
             if (exception instanceof ApiError) {
                 setFormError(exception.message);
@@ -332,13 +352,17 @@ export function PackagesPage() {
 
             {error && <Alert variant="error">{error}</Alert>}
 
+            {notice && (
+                <Alert variant="success">{notice}</Alert>
+            )}
+
             {!loading && !error && (
                 <SectionCard
                     title="قائمة الباقات"
                     description={
                         pagination
                             ? `إجمالي الباقات: ${pagination.total.toLocaleString(
-                                  "ar-EG",
+                                  "en-US",
                               )}`
                             : undefined
                     }
@@ -398,7 +422,7 @@ export function PackagesPage() {
                                             className="transition hover:bg-slate-50"
                                         >
                                             <td className="whitespace-nowrap px-4 py-4 text-sm text-slate-500">
-                                                {packageItem.id}
+                                                {formatDigits(packageItem.id)}
                                             </td>
 
                                             <td className="px-4 py-4">
@@ -456,7 +480,7 @@ export function PackagesPage() {
                                                         <p className="mt-1 text-xs text-slate-500">
                                                             كل{" "}
                                                             {packageItem.billing_interval.toLocaleString(
-                                                                "ar-EG",
+                                                                "en-US",
                                                             )}
                                                         </p>
                                                     )}
@@ -465,7 +489,7 @@ export function PackagesPage() {
                                             <td className="whitespace-nowrap px-4 py-4 text-sm text-slate-600">
                                                 {(
                                                     packageItem.grace_days ?? 0
-                                                ).toLocaleString("ar-EG")}{" "}
+                                                ).toLocaleString("en-US")}{" "}
                                                 يوم
                                             </td>
 
@@ -548,14 +572,14 @@ export function PackagesPage() {
                             <p className="text-sm text-slate-500">
                                 عرض{" "}
                                 {(pagination.from ?? 0).toLocaleString(
-                                    "ar-EG",
+                                    "en-US",
                                 )}{" "}
                                 -{" "}
                                 {(pagination.to ?? 0).toLocaleString(
-                                    "ar-EG",
+                                    "en-US",
                                 )}{" "}
                                 من{" "}
-                                {pagination.total.toLocaleString("ar-EG")}
+                                {pagination.total.toLocaleString("en-US")}
                             </p>
 
                             <div className="flex items-center gap-2">
@@ -574,11 +598,11 @@ export function PackagesPage() {
 
                                 <span className="min-w-20 text-center text-sm font-medium text-slate-600">
                                     {pagination.current_page.toLocaleString(
-                                        "ar-EG",
+                                        "en-US",
                                     )}{" "}
                                     /{" "}
                                     {pagination.last_page.toLocaleString(
-                                        "ar-EG",
+                                        "en-US",
                                     )}
                                 </span>
 

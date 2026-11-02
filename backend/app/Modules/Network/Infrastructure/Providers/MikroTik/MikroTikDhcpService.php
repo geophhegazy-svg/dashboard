@@ -165,10 +165,12 @@ class MikroTikDhcpService implements DhcpServiceInterface
 
         foreach ($data as $key => $value) {
 
-            $query->equal(
-                str_replace('_', '-', $key),
-                $value
-            );
+            $routerOsKey = match ($key) {
+                'hostname' => 'host-name',
+                default => str_replace('_', '-', $key),
+            };
+
+            $query->equal($routerOsKey, $value);
         }
 
 

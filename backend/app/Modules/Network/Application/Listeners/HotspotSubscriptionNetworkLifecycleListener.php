@@ -59,6 +59,9 @@ final readonly class HotspotSubscriptionNetworkLifecycleListener
                     $username,
                     $subscription->hotspot_password,
                     $subscription->mikrotik_profile,
+                    [
+                        'comment' => $subscription->customer->name,
+                    ],
                 )) {
                     throw new MikroTikException(
                         'Failed to create Hotspot user on MikroTik.',

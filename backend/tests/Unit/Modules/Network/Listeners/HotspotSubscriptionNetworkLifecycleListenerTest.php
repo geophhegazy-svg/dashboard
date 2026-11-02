@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Modules\Network\Listeners;
 
 use App\Exceptions\Network\MikroTikException;
+use App\Modules\Customer\Infrastructure\Persistence\Models\Customer;
 
 use App\Modules\Network\Application\Listeners\HotspotSubscriptionNetworkLifecycleListener;
 use App\Modules\Network\Domain\Contracts\Services\HotspotServiceInterface;
@@ -71,6 +72,9 @@ final class HotspotSubscriptionNetworkLifecycleListenerTest extends TestCase
                 'new-user',
                 'SecretPass123',
                 'default',
+                [
+                    'comment' => 'Test Subscriber',
+                ],
             )
             ->andReturnTrue();
 
@@ -85,6 +89,13 @@ final class HotspotSubscriptionNetworkLifecycleListenerTest extends TestCase
             'hotspot_password' => 'SecretPass123',
             'mikrotik_profile' => 'default',
         ]);
+
+        $subscription->setRelation(
+            'customer',
+            new Customer([
+                'name' => 'Test Subscriber',
+            ])
+        );
 
         (new HotspotSubscriptionNetworkLifecycleListener($hotspot))
             ->handle(

@@ -63,6 +63,29 @@ final class SyncMikroTikUsersAction
         return true;
     }
 
+    public function syncConnectedDevice(
+        NetworkDevice $device,
+    ): void {
+        $mikrotikUsers = $this->mikrotikService->getAllUsers();
+
+        $this->syncUsers(
+            $mikrotikUsers,
+            $device,
+        );
+
+        $activeSessions = $this->mikrotikService->getActiveSessions();
+
+        $this->updateActiveSessions(
+            $activeSessions,
+            $device,
+        );
+
+        $device->update([
+            'last_sync_at' => now(),
+            'status' => 'active',
+        ]);
+    }
+
     private function getDevices(?int $deviceId)
     {
         $query = NetworkDevice::query()
@@ -93,6 +116,8 @@ final class SyncMikroTikUsersAction
 
             if ($pppoeUser) {
                 $pppoeUser->update([
+                    'profile' => $mikrotikUser['profile']
+                        ?? $pppoeUser->profile,
                     'status' => ! empty($mikrotikUser['disabled'])
                         ? 'disabled'
                         : 'active',

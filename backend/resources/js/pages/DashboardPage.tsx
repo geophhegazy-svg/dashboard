@@ -29,7 +29,7 @@ function formatSyncTime(value: string | null): string {
         return value;
     }
 
-    return date.toLocaleString("ar-EG");
+    return date.toLocaleString("en-US");
 }
 
 function SyncRow({
@@ -42,10 +42,13 @@ function SyncRow({
     tone: "success" | "info";
 }) {
     return (
-        <div className="flex flex-col gap-3 rounded-xl border border-slate-100 bg-slate-50 p-4 sm:flex-row sm:items-center sm:justify-between">
-            <div>
+        <div className="flex flex-col gap-4 rounded-2xl border border-slate-100 bg-slate-50 p-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="min-w-0">
                 <p className="font-medium text-slate-900">{label}</p>
-                <p className="mt-1 text-sm text-slate-500">{value}</p>
+
+                <p className="mt-1 text-sm leading-6 text-slate-500">
+                    {value}
+                </p>
             </div>
 
             <StatusBadge
@@ -83,111 +86,150 @@ export function DashboardPage() {
     }, []);
 
     return (
-        <main dir="rtl" className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8">
-            <PageHeader
-                title="نظرة عامة"
-                description="ملخص تشغيلي مبني على آخر بيانات المزامنة المتاحة"
-            />
-
-            {loading && <LoadingState />}
-
-            {error && <Alert variant="error">{error}</Alert>}
-
-            {!loading && !error && stats && (
-                <div className="space-y-6">
-                    <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-                        <MetricCard
-                            label="إجمالي المستخدمين"
-                            value={stats.totalUsers}
+        <main
+            dir="rtl"
+            className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8"
+        >
+            <div className="space-y-8">
+                <div className="flex flex-col gap-4 rounded-3xl border border-slate-200 bg-white px-5 py-6 shadow-sm sm:px-7">
+                    <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+                        <PageHeader
+                            title="لوحة التحكم"
+                            description="نظرة تشغيلية على العملاء والأجهزة وبيانات المزامنة الأخيرة"
                         />
 
-                        <MetricCard
-                            label="المستخدمون المتصلون"
-                            value={stats.onlineUsers}
-                            description={`حسب آخر مزامنة: ${formatSyncTime(
-                                stats.onlineUsersLastSyncAt,
-                            )}`}
+                        <StatusBadge
+                            label="ملخص تشغيلي"
                             tone="info"
                         />
-
-                        <MetricCard
-                            label="المستخدمون النشطون"
-                            value={stats.activeUsers}
-                            description="حالة الحسابات والاشتراكات النشطة"
-                            tone="success"
-                        />
-
-                        <MetricCard
-                            label="إجمالي الأجهزة"
-                            value={stats.totalDevices}
-                        />
-                    </section>
-
-                    <section className="grid gap-6 lg:grid-cols-2">
-                        <SectionCard
-                            title="حالة مزامنة المستخدمين"
-                            description="وقت آخر بيانات متاحة من مصدر المزامنة"
-                        >
-                            <SyncRow
-                                label="المستخدمون المتصلون"
-                                value={formatSyncTime(
-                                    stats.onlineUsersLastSyncAt,
-                                )}
-                                tone="info"
-                            />
-                        </SectionCard>
-
-                        <SectionCard
-                            title="حالة مزامنة الأجهزة"
-                            description="وقت آخر بيانات متاحة من مصدر المزامنة"
-                        >
-                            <SyncRow
-                                label="الأجهزة المتصلة"
-                                value={formatSyncTime(
-                                    stats.onlineDevicesLastSyncAt,
-                                )}
-                                tone="success"
-                            />
-                        </SectionCard>
-                    </section>
-
-                    <SectionCard
-                        title="مؤشرات التشغيل"
-                        description="القيم الحالية التي يوفرها عقد Dashboard"
-                    >
-                        <div className="grid gap-4 sm:grid-cols-2">
-                            <div className="rounded-xl border border-slate-100 p-4">
-                                <p className="text-sm text-slate-500">
-                                    الأجهزة المتصلة حسب آخر مزامنة
-                                </p>
-
-                                <p className="mt-2 text-2xl font-bold text-slate-900">
-                                    {stats.onlineDevices.toLocaleString(
-                                        "ar-EG",
-                                    )}
-                                </p>
-                            </div>
-
-                            <div className="rounded-xl border border-slate-100 p-4">
-                                <p className="text-sm text-slate-500">
-                                    المستخدمون النشطون
-                                </p>
-
-                                <p className="mt-2 text-2xl font-bold text-slate-900">
-                                    {stats.activeUsers.toLocaleString(
-                                        "ar-EG",
-                                    )}
-                                </p>
-
-                                <p className="mt-1 text-xs text-slate-500">
-                                    حالة الحسابات والاشتراكات، وليست مؤشرًا
-                                    مباشرًا للاتصال الشبكي.
-                                </p>
-                            </div>
-                        </div>
-                    </SectionCard>
+                    </div>
                 </div>
-            )}
+
+                {loading && <LoadingState />}
+
+                {error && (
+                    <Alert variant="error">
+                        {error}
+                    </Alert>
+                )}
+
+                {!loading && !error && stats && (
+                    <>
+                        <section>
+                            <div className="mb-4">
+                                <h2 className="text-lg font-bold text-slate-900">
+                                    المؤشرات الرئيسية
+                                </h2>
+
+                                <p className="mt-1 text-sm text-slate-500">
+                                    ملخص للأرقام المتاحة من عقد Dashboard الحالي
+                                </p>
+                            </div>
+
+                            <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+                                <MetricCard
+                                    label="إجمالي المستخدمين"
+                                    value={stats.totalUsers}
+                                    eyebrow="قاعدة المستخدمين"
+                                />
+
+                                <MetricCard
+                                    label="المستخدمون المتصلون"
+                                    value={stats.onlineUsers}
+                                    description={`آخر مزامنة: ${formatSyncTime(
+                                        stats.onlineUsersLastSyncAt,
+                                    )}`}
+                                    tone="info"
+                                    eyebrow="بيانات الشبكة المزامنة"
+                                />
+
+                                <MetricCard
+                                    label="المستخدمون النشطون"
+                                    value={stats.activeUsers}
+                                    description="حالة الحسابات والاشتراكات النشطة"
+                                    tone="success"
+                                    eyebrow="حالة الحسابات"
+                                />
+
+                                <MetricCard
+                                    label="إجمالي الأجهزة"
+                                    value={stats.totalDevices}
+                                    eyebrow="البنية الشبكية"
+                                />
+                            </div>
+                        </section>
+
+                        <section className="grid gap-6 lg:grid-cols-2">
+                            <SectionCard
+                                title="مزامنة المستخدمين"
+                                description="آخر نقطة زمنية تتوفر منها بيانات المستخدمين"
+                            >
+                                <SyncRow
+                                    label="المستخدمون المتصلون"
+                                    value={formatSyncTime(
+                                        stats.onlineUsersLastSyncAt,
+                                    )}
+                                    tone="info"
+                                />
+                            </SectionCard>
+
+                            <SectionCard
+                                title="مزامنة الأجهزة"
+                                description="آخر نقطة زمنية تتوفر منها بيانات الأجهزة"
+                            >
+                                <SyncRow
+                                    label="الأجهزة المتصلة"
+                                    value={formatSyncTime(
+                                        stats.onlineDevicesLastSyncAt,
+                                    )}
+                                    tone="success"
+                                />
+                            </SectionCard>
+                        </section>
+
+                        <SectionCard
+                            title="مؤشرات التشغيل"
+                            description="تفاصيل إضافية من عقد Dashboard الحالي"
+                        >
+                            <div className="grid gap-4 sm:grid-cols-2">
+                                <div className="rounded-2xl border border-slate-100 bg-slate-50 p-5">
+                                    <p className="text-sm font-medium text-slate-500">
+                                        الأجهزة المتصلة حسب آخر مزامنة
+                                    </p>
+
+                                    <p className="mt-3 text-3xl font-bold tracking-tight text-slate-950">
+                                        {stats.onlineDevices.toLocaleString(
+                                            "en-US",
+                                        )}
+                                    </p>
+
+                                    <p className="mt-2 text-xs leading-5 text-slate-500">
+                                        القيمة تعكس آخر بيانات مزامنة متاحة، وليست
+                                        اتصالًا لحظيًا.
+                                    </p>
+                                </div>
+
+                                <div className="rounded-2xl border border-slate-100 bg-slate-50 p-5">
+                                    <p className="text-sm font-medium text-slate-500">
+                                        المستخدمون النشطون
+                                    </p>
+
+                                    <p className="mt-3 text-3xl font-bold tracking-tight text-slate-950">
+                                        {stats.activeUsers.toLocaleString(
+                                            "en-US",
+                                        )}
+                                    </p>
+
+                                    <p className="mt-2 text-xs leading-5 text-slate-500">
+                                        حالة الحسابات والاشتراكات، وليست مؤشرًا
+                                        مباشرًا للاتصال الشبكي.
+                                    </p>
+                                </div>
+                            </div>
+                        </SectionCard>
+                    </>
+                )}
+            </div>
         </main>
     );
 }

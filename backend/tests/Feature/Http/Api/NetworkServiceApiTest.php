@@ -282,6 +282,71 @@ final class NetworkServiceApiTest extends TestCase
         }
     }
 
+    public function test_update_rejects_cross_tenant_customer(): void
+    {
+        $this->actingAsTenantUser($this->tenantA, [
+            'network_services.update',
+        ]);
+
+        $customerA = Customer::factory()->create([
+            'tenant_id' => $this->tenantA->id,
+        ]);
+
+        $customerB = Customer::factory()->create([
+            'tenant_id' => $this->tenantB->id,
+        ]);
+
+        $areaA = Area::factory()->create([
+            'tenant_id' => $this->tenantA->id,
+        ]);
+
+        $packageA = Package::factory()->create([
+            'tenant_id' => $this->tenantA->id,
+        ]);
+
+        $deviceA = NetworkDevice::create([
+            'tenant_id' => $this->tenantA->id,
+            'name' => 'Update Customer Test Router',
+            'ip_address' => '192.0.2.30',
+            'username' => 'update-customer-test',
+            'password' => 'secret',
+            'type' => 'mikrotik',
+            'port' => 8728,
+            'status' => 'active',
+            'is_online' => false,
+        ]);
+
+        $networkService = NetworkService::factory()->create([
+            'tenant_id' => $this->tenantA->id,
+            'customer_id' => $customerA->id,
+            'area_id' => $areaA->id,
+            'package_id' => $packageA->id,
+            'network_device_id' => $deviceA->id,
+        ]);
+
+        $response = $this->putJson(
+            "/api/network-services/{$networkService->id}",
+            [
+                'customer_id' => $customerB->id,
+                'area_id' => $areaA->id,
+                'package_id' => $packageA->id,
+                'network_device_id' => $deviceA->id,
+                'connection_type' => 'pppoe',
+                'username' => 'update-cross-tenant-customer',
+                'password' => 'secret-password',
+                'ip_mode' => 'dynamic',
+                'starts_at' => now()->toDateTimeString(),
+            ]
+        );
+
+        $response->assertUnprocessable();
+
+        $this->assertDatabaseHas('network_services', [
+            'id' => $networkService->id,
+            'customer_id' => $customerA->id,
+        ]);
+    }
+
     public function test_update_rejects_cross_tenant_network_references(): void
     {
         $this->actingAsTenantUser($this->tenantA, [
@@ -468,6 +533,177 @@ final class NetworkServiceApiTest extends TestCase
     /**
      * @param array<int, string> $permissions
      */
+    public function test_update_returns_updated_network_service(): void
+    {
+        $service = NetworkService::factory()->create([
+            'tenant_id' => $this->tenantA->id,
+            'username' => 'before-update',
+            'status' => 'pending',
+        ]);
+
+        $this->actingAsTenantUser($this->tenantA, [
+            'network_services.update',
+        ]);
+
+        $response = $this->patchJson(
+            "/api/network-services/{$service->id}",
+            [
+                'username' => 'after-update',
+            ]
+        );
+
+        $response
+            ->assertOk()
+            ->assertJsonPath('data.id', $service->id)
+            ->assertJsonPath('data.username', 'after-update')
+            ->assertJsonMissingPath('data.password');
+
+        $this->assertDatabaseHas('network_services', [
+            'id' => $service->id,
+            'username' => 'after-update',
+        ]);
+    }
+
+    public function test_provision_returns_success_response(): void
+    {
+        $service = NetworkService::factory()->create([
+            'tenant_id' => $this->tenantA->id,
+            'provisioning_status' => 'pending',
+            'connection_type' => 'pppoe',
+            'network_device_id' => NetworkDevice::create([
+                'tenant_id' => $this->tenantA->id,
+                'name' => 'Provision Test Router',
+                'ip_address' => '192.0.2.10',
+                'username' => 'router',
+                'password' => 'secret',
+                'type' => 'mikrotik',
+                'port' => 8728,
+                'status' => 'active',
+                'is_online' => true,
+            ])->id,
+        ]);
+
+        $pppoe = \Mockery::mock(
+            \App\Modules\Network\Domain\Contracts\Services\PppoeServiceInterface::class
+        );
+
+        $pppoe->shouldReceive('getUser')
+            ->once()
+            ->with($service->username)
+            ->andReturn(null);
+
+        $pppoe->shouldReceive('createUser')
+            ->once()
+            ->andReturn(true);
+
+        $pppoe->shouldReceive('enableUser')
+            ->once()
+            ->with($service->username)
+            ->andReturn(true);
+
+        $queue = \Mockery::mock(
+            \App\Modules\Network\Domain\Contracts\Services\QueueServiceInterface::class
+        );
+
+        $provider = \Mockery::mock(
+            \App\Modules\Network\Domain\Contracts\NetworkProviderInterface::class
+        );
+
+        $provider->shouldReceive('pppoe')
+            ->andReturn($pppoe);
+
+        $provider->shouldReceive('queue')
+            ->andReturn($queue);
+
+        $manager = \Mockery::mock(
+            \App\Modules\Network\Application\Contracts\NetworkManagerInterface::class
+        );
+
+        $manager->shouldReceive('connect')
+            ->once()
+            ->andReturn(true);
+
+        $manager->shouldReceive('provider')
+            ->andReturn($provider);
+
+        $manager->shouldReceive('disconnect')
+            ->once();
+
+        $this->app->instance(
+            \App\Modules\Network\Application\Contracts\NetworkManagerInterface::class,
+            $manager
+        );
+
+        $this->actingAsTenantUser($this->tenantA, [
+            'network_services.provision',
+        ]);
+
+        $response = $this->postJson(
+            "/api/network-services/{$service->id}/provision"
+        );
+
+        $response
+            ->assertOk()
+            ->assertJsonPath(
+                'message',
+                'Network service provisioned successfully.'
+            )
+            ->assertJsonPath('data.provisioning_status', 'provisioned')
+            ->assertJsonMissingPath('data.password');
+    }
+
+    public function test_provision_failure_returns_unprocessable_response(): void
+    {
+        $service = NetworkService::factory()->create([
+            'tenant_id' => $this->tenantA->id,
+            'provisioning_status' => 'pending',
+            'network_device_id' => NetworkDevice::create([
+                'tenant_id' => $this->tenantA->id,
+                'name' => 'Provision Failure Router',
+                'ip_address' => '192.0.2.11',
+                'username' => 'router',
+                'password' => 'secret',
+                'type' => 'mikrotik',
+                'port' => 8728,
+                'status' => 'active',
+                'is_online' => true,
+            ])->id,
+        ]);
+
+        $manager = \Mockery::mock(
+            \App\Modules\Network\Application\Contracts\NetworkManagerInterface::class
+        );
+
+        $manager->shouldReceive('connect')
+            ->once()
+            ->andThrow(new \RuntimeException('Router failure'));
+
+        $manager->shouldReceive('disconnect')
+            ->once();
+
+        $this->app->instance(
+            \App\Modules\Network\Application\Contracts\NetworkManagerInterface::class,
+            $manager
+        );
+
+        $this->actingAsTenantUser($this->tenantA, [
+            'network_services.provision',
+        ]);
+
+        $response = $this->postJson(
+            "/api/network-services/{$service->id}/provision"
+        );
+
+        $response
+            ->assertUnprocessable()
+            ->assertJsonPath(
+                'message',
+                'Network service provisioning failed.'
+            )
+            ->assertJsonPath('data.provisioning_status', 'failed')
+            ->assertJsonMissingPath('data.password');
+    }
+
     private function actingAsTenantUser(
         Tenant $tenant,
         array $permissions = [],

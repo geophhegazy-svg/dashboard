@@ -414,7 +414,8 @@
                         "App\\Modules\\Network\\Application\\Actions\\ToggleQueueAction",
                         "App\\Modules\\Network\\Application\\Actions\\DeleteQueueAction",
                         "App\\Modules\\Network\\Application\\Actions\\SyncMikroTikUsersAction",
-                        "App\\Modules\\Network\\Application\\Actions\\SyncHotspotUsersAction"
+                        "App\\Modules\\Network\\Application\\Actions\\SyncHotspotUsersAction",
+                        "App\\Modules\\Network\\Application\\Actions\\SyncMikroTikAction"
                     ]
                 },
                 {

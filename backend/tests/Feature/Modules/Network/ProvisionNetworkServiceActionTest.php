@@ -106,6 +106,8 @@ class ProvisionNetworkServiceActionTest extends TestCase
                 return $username === $service->username
                     && $password === $service->password
                     && $profile === $service->package->mikrotik_profile
+                    && ($options['comment'] ?? null)
+                        === $service->customer->name
                     && ($options['remote_address'] ?? null)
                         === $service->ip_address;
             })
@@ -129,11 +131,16 @@ class ProvisionNetworkServiceActionTest extends TestCase
             ->withArgs(function (
                 string $name,
                 string $target,
-                string $maxLimit
+                string $maxLimit,
+                ?string $limitAt,
+                int $priority,
+                array $options
             ) use ($service): bool {
                 return $name === $service->username
                     && $target === $service->ip_address
-                    && $maxLimit === '5M/10M';
+                    && $maxLimit === '5M/10M'
+                    && ($options['comment'] ?? null)
+                        === $service->customer->name;
             })
             ->andReturn(true);
 
@@ -146,12 +153,18 @@ class ProvisionNetworkServiceActionTest extends TestCase
         $dhcp
             ->shouldReceive('create')
             ->once()
-            ->with(
-                $service->ip_address,
-                $service->mac_address,
-                $service->username,
-                Mockery::type('array')
-            )
+            ->withArgs(function (
+                string $address,
+                string $macAddress,
+                ?string $hostname,
+                array $options
+            ) use ($service): bool {
+                return $address === $service->ip_address
+                    && $macAddress === $service->mac_address
+                    && $hostname === $service->username
+                    && ($options['comment'] ?? null)
+                        === $service->customer->name;
+            })
             ->andReturn(true);
 
         $dhcp
@@ -266,8 +279,14 @@ class ProvisionNetworkServiceActionTest extends TestCase
             'connection_type' => 'hotspot',
             'ip_mode' => 'dynamic',
             'ip_address' => null,
+            'ip_address' => null,
             'mac_address' => null,
         ]);
+
+        $service->package->update([
+            'quota_gb' => 50,
+        ]);
+        $service->load('package');
 
         $hotspot = Mockery::mock(HotspotServiceInterface::class);
 
@@ -283,11 +302,16 @@ class ProvisionNetworkServiceActionTest extends TestCase
             ->withArgs(function (
                 string $username,
                 string $password,
-                string $profile
+                string $profile,
+                array $options
             ) use ($service): bool {
                 return $username === $service->username
                     && $password === $service->password
-                    && $profile === $service->package->mikrotik_profile;
+                    && $profile === $service->package->mikrotik_profile
+                    && ($options['comment'] ?? null)
+                        === $service->customer->name
+                    && ($options['limit_bytes_total'] ?? null)
+                        === 50 * 1024 * 1024 * 1024;
             })
             ->andReturn(true);
 
@@ -350,6 +374,314 @@ class ProvisionNetworkServiceActionTest extends TestCase
         $this->assertFalse($result);
         $this->assertSame('failed', $service->provisioning_status);
         $this->assertSame('Router failure', $service->last_error);
+    }
+
+    public function test_existing_pppoe_user_is_updated_and_enabled(): void
+    {
+        $service = $this->makeService([
+            'connection_type' => 'pppoe',
+            'ip_mode' => 'dynamic',
+            'ip_address' => null,
+            'mac_address' => null,
+        ]);
+
+        $pppoe = Mockery::mock(PppoeServiceInterface::class);
+        $queue = Mockery::mock(QueueServiceInterface::class);
+        $provider = Mockery::mock(NetworkProviderInterface::class);
+        $manager = Mockery::mock(NetworkManagerInterface::class);
+
+        $pppoe->shouldReceive('getUser')
+            ->once()
+            ->with($service->username)
+            ->andReturn(['name' => $service->username]);
+
+        $pppoe->shouldReceive('updateUser')
+            ->once()
+            ->with(
+                $service->username,
+                [
+                    'password' => $service->password,
+                    'profile' => $service->package->mikrotik_profile,
+                ]
+            )
+            ->andReturn(true);
+
+        $pppoe->shouldReceive('enableUser')
+            ->once()
+            ->with($service->username)
+            ->andReturn(true);
+
+        $queue->shouldNotReceive('getUserQueue');
+        $queue->shouldNotReceive('create');
+        $queue->shouldNotReceive('updateSpeed');
+
+        $provider->shouldReceive('pppoe')->once()->andReturn($pppoe);
+        $provider->shouldReceive('queue')->once()->andReturn($queue);
+
+        $manager->shouldReceive('connect')
+            ->once()
+            ->with($service->network_device_id)
+            ->andReturn(true);
+
+        $manager->shouldReceive('provider')
+            ->atLeast()->once()
+            ->andReturn($provider);
+
+        $manager->shouldReceive('disconnect')->once();
+
+        $result = (new ProvisionNetworkServiceAction($manager))
+            ->execute($service);
+
+        $service->refresh();
+
+        $this->assertTrue($result);
+        $this->assertSame('provisioned', $service->provisioning_status);
+    }
+
+    public function test_existing_queue_is_updated(): void
+    {
+        $service = $this->makeService([
+            'connection_type' => 'pppoe',
+            'ip_mode' => 'static',
+            'ip_address' => '10.10.10.60',
+            'mac_address' => null,
+        ]);
+
+        $pppoe = Mockery::mock(PppoeServiceInterface::class);
+        $queue = Mockery::mock(QueueServiceInterface::class);
+        $provider = Mockery::mock(NetworkProviderInterface::class);
+        $manager = Mockery::mock(NetworkManagerInterface::class);
+
+        $pppoe->shouldReceive('getUser')
+            ->once()
+            ->with($service->username)
+            ->andReturn(null);
+
+        $pppoe->shouldReceive('createUser')
+            ->once()
+            ->andReturn(true);
+
+        $pppoe->shouldReceive('enableUser')
+            ->once()
+            ->with($service->username)
+            ->andReturn(true);
+
+        $queue->shouldReceive('getUserQueue')
+            ->once()
+            ->with($service->username)
+            ->andReturn(['name' => $service->username]);
+
+        $queue->shouldReceive('updateSpeed')
+            ->once()
+            ->with(
+                $service->username,
+                '10M',
+                '5M'
+            )
+            ->andReturn(true);
+
+        $queue->shouldNotReceive('create');
+
+        $provider->shouldReceive('pppoe')->once()->andReturn($pppoe);
+        $provider->shouldReceive('queue')->once()->andReturn($queue);
+
+        $manager->shouldReceive('connect')
+            ->once()
+            ->with($service->network_device_id)
+            ->andReturn(true);
+
+        $manager->shouldReceive('provider')
+            ->atLeast()->once()
+            ->andReturn($provider);
+
+        $manager->shouldReceive('disconnect')->once();
+
+        $result = (new ProvisionNetworkServiceAction($manager))
+            ->execute($service);
+
+        $service->refresh();
+
+        $this->assertTrue($result);
+        $this->assertSame('provisioned', $service->provisioning_status);
+    }
+
+    public function test_existing_hotspot_user_is_updated_and_enabled(): void
+    {
+        $service = $this->makeService([
+            'connection_type' => 'hotspot',
+            'ip_mode' => 'dynamic',
+            'ip_address' => null,
+            'mac_address' => null,
+        ]);
+
+        $service->package->update([
+            'quota_gb' => 50,
+        ]);
+
+        $service->load('package');
+
+        $hotspot = Mockery::mock(HotspotServiceInterface::class);
+        $provider = Mockery::mock(NetworkProviderInterface::class);
+        $manager = Mockery::mock(NetworkManagerInterface::class);
+
+        $hotspot->shouldReceive('findUser')
+            ->once()
+            ->with($service->username)
+            ->andReturn(['name' => $service->username]);
+
+        $hotspot->shouldReceive('updateUser')
+            ->once()
+            ->with(
+                $service->username,
+                [
+                    'password' => $service->password,
+                    'profile' => $service->package->mikrotik_profile,
+                    'limit_bytes_total' => 50 * 1024 * 1024 * 1024,
+                ]
+            )
+            ->andReturn(true);
+
+        $hotspot->shouldReceive('enableUser')
+            ->once()
+            ->with($service->username)
+            ->andReturn(true);
+
+        $provider->shouldReceive('hotspot')->once()->andReturn($hotspot);
+
+        $manager->shouldReceive('connect')
+            ->once()
+            ->with($service->network_device_id)
+            ->andReturn(true);
+
+        $manager->shouldReceive('provider')
+            ->atLeast()->once()
+            ->andReturn($provider);
+
+        $manager->shouldReceive('disconnect')->once();
+
+        $result = (new ProvisionNetworkServiceAction($manager))
+            ->execute($service);
+
+        $service->refresh();
+
+        $this->assertTrue($result);
+        $this->assertSame('provisioned', $service->provisioning_status);
+    }
+
+    public function test_existing_dhcp_lease_is_updated_and_made_static(): void
+    {
+        $service = $this->makeService([
+            'connection_type' => 'pppoe',
+            'ip_mode' => 'static',
+            'ip_address' => '10.10.10.70',
+            'mac_address' => 'AA:BB:CC:DD:EE:70',
+        ]);
+
+        $pppoe = Mockery::mock(PppoeServiceInterface::class);
+        $queue = Mockery::mock(QueueServiceInterface::class);
+        $dhcp = Mockery::mock(DhcpServiceInterface::class);
+        $provider = Mockery::mock(NetworkProviderInterface::class);
+        $manager = Mockery::mock(NetworkManagerInterface::class);
+
+        $pppoe->shouldReceive('getUser')
+            ->once()
+            ->with($service->username)
+            ->andReturn(null);
+
+        $pppoe->shouldReceive('createUser')
+            ->once()
+            ->andReturn(true);
+
+        $pppoe->shouldReceive('enableUser')
+            ->once()
+            ->with($service->username)
+            ->andReturn(true);
+
+        $queue->shouldReceive('getUserQueue')
+            ->once()
+            ->with($service->username)
+            ->andReturn(null);
+
+        $queue->shouldReceive('create')
+            ->once()
+            ->andReturn(true);
+
+        $dhcp->shouldReceive('findByMac')
+            ->once()
+            ->with($service->mac_address)
+            ->andReturn([
+                '.id' => '*20',
+            ]);
+
+        $dhcp->shouldReceive('update')
+            ->once()
+            ->with(
+                '*20',
+                [
+                    'address' => $service->ip_address,
+                    'mac_address' => $service->mac_address,
+                    'hostname' => $service->username,
+                ]
+            )
+            ->andReturn(true);
+
+        $dhcp->shouldReceive('makeStatic')
+            ->once()
+            ->with('*20')
+            ->andReturn(true);
+
+        $provider->shouldReceive('pppoe')->once()->andReturn($pppoe);
+        $provider->shouldReceive('queue')->once()->andReturn($queue);
+        $provider->shouldReceive('dhcp')->once()->andReturn($dhcp);
+
+        $manager->shouldReceive('connect')
+            ->once()
+            ->with($service->network_device_id)
+            ->andReturn(true);
+
+        $manager->shouldReceive('provider')
+            ->atLeast()->once()
+            ->andReturn($provider);
+
+        $manager->shouldReceive('disconnect')->once();
+
+        $result = (new ProvisionNetworkServiceAction($manager))
+            ->execute($service);
+
+        $service->refresh();
+
+        $this->assertTrue($result);
+        $this->assertSame('provisioned', $service->provisioning_status);
+    }
+
+    public function test_missing_provider_fails_provisioning(): void
+    {
+        $service = $this->makeService();
+
+        $manager = Mockery::mock(NetworkManagerInterface::class);
+
+        $manager->shouldReceive('connect')
+            ->once()
+            ->with($service->network_device_id)
+            ->andReturn(true);
+
+        $manager->shouldReceive('provider')
+            ->once()
+            ->andReturn(null);
+
+        $manager->shouldReceive('disconnect')->once();
+
+        $result = (new ProvisionNetworkServiceAction($manager))
+            ->execute($service);
+
+        $service->refresh();
+
+        $this->assertFalse($result);
+        $this->assertSame('failed', $service->provisioning_status);
+        $this->assertSame(
+            'Network provider is unavailable.',
+            $service->last_error
+        );
     }
 
     private function makeService(array $overrides = []): NetworkService

@@ -1,4 +1,5 @@
 import { FormEvent, useEffect, useState } from "react";
+import { formatDigits } from "../utils/formatDigits";
 
 import { ApiError, apiRequest } from "../api/client";
 import { Alert } from "../components/ui/Alert";
@@ -48,7 +49,7 @@ function formatDate(value: string | null): string {
         return value;
     }
 
-    return date.toLocaleDateString("ar-EG");
+    return date.toLocaleDateString("en-US");
 }
 
 function statusLabel(status: string): string {
@@ -109,6 +110,7 @@ export function CustomersPage() {
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
+    const [notice, setNotice] = useState("");
 
     const [formOpen, setFormOpen] = useState(false);
     const [editingCustomer, setEditingCustomer] =
@@ -123,7 +125,7 @@ export function CustomersPage() {
 
     const [deletingId, setDeletingId] = useState<number | null>(null);
 
-    async function loadCustomers() {
+    async function loadCustomers(): Promise<boolean> {
         setLoading(true);
         setError("");
 
@@ -134,12 +136,14 @@ export function CustomersPage() {
 
             setCustomers(response.data);
             setPagination(response.meta);
+            return true;
         } catch (exception) {
             setError(
                 exception instanceof Error
                     ? exception.message
                     : "Unable to load customers.",
             );
+            return false;
         } finally {
             setLoading(false);
         }
@@ -150,6 +154,8 @@ export function CustomersPage() {
     }, [page]);
 
     function openCreateForm() {
+        setNotice("");
+        setError("");
         setEditingCustomer(null);
         setForm(emptyForm);
         setFormErrors({});
@@ -157,6 +163,8 @@ export function CustomersPage() {
     }
 
     function openEditForm(customer: Customer) {
+        setNotice("");
+        setError("");
         setEditingCustomer(customer);
         setForm(customerToForm(customer));
         setFormErrors({});
@@ -196,6 +204,8 @@ export function CustomersPage() {
         event.preventDefault();
 
         setSaving(true);
+        setNotice("");
+        setError("");
         setFormErrors({});
 
         const payload = {
@@ -228,8 +238,18 @@ export function CustomersPage() {
 
             if (!editingCustomer && page !== 1) {
                 setPage(1);
+                setNotice("تم إنشاء العميل بنجاح. جارٍ تحديث القائمة.");
             } else {
-                await loadCustomers();
+                const reloaded = await loadCustomers();
+                setNotice(
+                    reloaded
+                        ? editingCustomer
+                            ? "تم تحديث بيانات العميل والقائمة بنجاح."
+                            : "تم إنشاء العميل وتحديث القائمة بنجاح."
+                        : editingCustomer
+                            ? "تم حفظ تعديلات العميل، لكن تعذر تحديث القائمة. أعد تحميل الصفحة."
+                            : "تم إنشاء العميل، لكن تعذر تحديث القائمة. أعد تحميل الصفحة.",
+                );
             }
         } catch (exception) {
             if (exception instanceof ApiError && exception.status === 422) {
@@ -351,6 +371,12 @@ export function CustomersPage() {
                 </div>
             )}
 
+            {notice && (
+                <div className="mb-5">
+                    <Alert variant="success">{notice}</Alert>
+                </div>
+            )}
+
             {loading && <LoadingState />}
 
             {!loading && (
@@ -359,7 +385,7 @@ export function CustomersPage() {
                     description={
                         pagination
                             ? `إجمالي العملاء: ${pagination.total.toLocaleString(
-                                  "ar-EG",
+                                  "en-US",
                               )}`
                             : undefined
                     }
@@ -416,7 +442,7 @@ export function CustomersPage() {
                                             className="transition hover:bg-slate-50"
                                         >
                                             <td className="whitespace-nowrap px-4 py-4 text-sm text-slate-500">
-                                                {customer.id}
+                                                {formatDigits(customer.id)}
                                             </td>
 
                                             <td className="whitespace-nowrap px-4 py-4 text-sm font-semibold text-slate-900">
@@ -506,15 +532,15 @@ export function CustomersPage() {
                             <p className="text-sm text-slate-500">
                                 عرض{" "}
                                 {(pagination.from ?? 0).toLocaleString(
-                                    "ar-EG",
+                                    "en-US",
                                 )}{" "}
                                 -{" "}
                                 {(pagination.to ?? 0).toLocaleString(
-                                    "ar-EG",
+                                    "en-US",
                                 )}{" "}
                                 من{" "}
                                 {pagination.total.toLocaleString(
-                                    "ar-EG",
+                                    "en-US",
                                 )}
                             </p>
 
@@ -535,13 +561,9 @@ export function CustomersPage() {
                                 </button>
 
                                 <span className="min-w-20 text-center text-sm font-medium text-slate-600">
-                                    {pagination.current_page.toLocaleString(
-                                        "ar-EG",
-                                    )}{" "}
+                                    {formatDigits(pagination.current_page.toLocaleString("en-US"))}{" "}
                                     /{" "}
-                                    {pagination.last_page.toLocaleString(
-                                        "ar-EG",
-                                    )}
+                                    {formatDigits(pagination.last_page.toLocaleString("en-US"))}
                                 </span>
 
                                 <button

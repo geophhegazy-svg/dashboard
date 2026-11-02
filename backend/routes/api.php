@@ -13,7 +13,9 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\TenantController;
 
 use App\Http\Controllers\Api\CustomerController;
+use App\Http\Controllers\Api\SubscriberOnboardingController;
 use App\Http\Controllers\Api\NetworkServiceController;
+use App\Http\Controllers\Api\NetworkDeviceController;
 use App\Http\Controllers\Api\PackageController;
 use App\Http\Controllers\Api\SubscriptionController;
 use App\Http\Controllers\Api\HotspotSubscriptionController;
@@ -122,7 +124,17 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('users', UserController::class);
     Route::apiResource('tenants', TenantController::class);
 
+    Route::post(
+        'subscriber-onboarding',
+        [SubscriberOnboardingController::class, 'store']
+    );
+
     Route::apiResource('customers', CustomerController::class);
+
+    Route::get(
+        'network-devices',
+        [NetworkDeviceController::class, 'index']
+    );
 
 Route::apiResource(
     'network-services',
@@ -314,12 +326,80 @@ Route::post(
 
         Route::get('/test', [MikrotikController::class, 'test']);
 
-
         Route::get('/pppoe-users', [MikrotikController::class, 'pppoeUsers']);
 
         Route::get('/hotspot-users', [MikrotikController::class, 'hotspotUsers']);
 
+    });
 
+    /*
+    |------------------------------------------------------
+    | Network Control
+    |------------------------------------------------------
+    */
+
+    Route::prefix('network')->group(function () {
+
+        /*
+        |------------------------------------------------------
+        | PPPoE
+        |------------------------------------------------------
+        */
+
+        Route::get('/pppoe', [\App\Http\Controllers\Api\Network\PppoeApiController::class, 'index']);
+        Route::get('/pppoe/{username}', [\App\Http\Controllers\Api\Network\PppoeApiController::class, 'show']);
+        Route::post('/pppoe', [\App\Http\Controllers\Api\Network\PppoeApiController::class, 'store']);
+        Route::put('/pppoe/{username}', [\App\Http\Controllers\Api\Network\PppoeApiController::class, 'update']);
+        Route::patch('/pppoe/{username}/toggle', [\App\Http\Controllers\Api\Network\PppoeApiController::class, 'toggle']);
+        Route::post('/pppoe/{username}/disconnect', [\App\Http\Controllers\Api\Network\PppoeApiController::class, 'disconnect']);
+        Route::delete('/pppoe/{username}', [\App\Http\Controllers\Api\Network\PppoeApiController::class, 'destroy']);
+
+        /*
+        |------------------------------------------------------
+        | HotSpot
+        |------------------------------------------------------
+        */
+
+        Route::get('/hotspot', [\App\Http\Controllers\Api\Network\HotspotApiController::class, 'index']);
+        Route::get('/hotspot/{username}', [\App\Http\Controllers\Api\Network\HotspotApiController::class, 'show']);
+        Route::post('/hotspot', [\App\Http\Controllers\Api\Network\HotspotApiController::class, 'store']);
+        Route::put('/hotspot/{username}', [\App\Http\Controllers\Api\Network\HotspotApiController::class, 'update']);
+        Route::patch('/hotspot/{username}/toggle', [\App\Http\Controllers\Api\Network\HotspotApiController::class, 'toggle']);
+        Route::post('/hotspot/{username}/disconnect', [\App\Http\Controllers\Api\Network\HotspotApiController::class, 'disconnect']);
+        Route::delete('/hotspot/{username}', [\App\Http\Controllers\Api\Network\HotspotApiController::class, 'destroy']);
+
+        Route::get('/queues', [\App\Http\Controllers\Api\Network\QueueApiController::class, 'index']);
+        Route::get('/queues/usage', [\App\Http\Controllers\Api\Network\QueueApiController::class, 'usage']);
+        Route::get('/queues/{name}', [\App\Http\Controllers\Api\Network\QueueApiController::class, 'show']);
+        Route::post('/queues', [\App\Http\Controllers\Api\Network\QueueApiController::class, 'store']);
+        Route::put('/queues/{name}', [\App\Http\Controllers\Api\Network\QueueApiController::class, 'update']);
+        Route::patch('/queues/{name}/toggle', [\App\Http\Controllers\Api\Network\QueueApiController::class, 'toggle']);
+        Route::post('/queues/{name}/reset-counters', [\App\Http\Controllers\Api\Network\QueueApiController::class, 'resetCounters']);
+        Route::get('/queues/{name}/statistics', [\App\Http\Controllers\Api\Network\QueueApiController::class, 'statistics']);
+        Route::delete('/queues/{name}', [\App\Http\Controllers\Api\Network\QueueApiController::class, 'destroy']);
+
+        Route::get('/dhcp', [\App\Http\Controllers\Api\Network\DhcpApiController::class, 'index']);
+        Route::get('/dhcp/statistics', [\App\Http\Controllers\Api\Network\DhcpApiController::class, 'statistics']);
+        Route::get('/dhcp/{id}', [\App\Http\Controllers\Api\Network\DhcpApiController::class, 'show']);
+        Route::post('/dhcp', [\App\Http\Controllers\Api\Network\DhcpApiController::class, 'store']);
+        Route::put('/dhcp/{id}', [\App\Http\Controllers\Api\Network\DhcpApiController::class, 'update']);
+        Route::patch('/dhcp/{id}/make-static', [\App\Http\Controllers\Api\Network\DhcpApiController::class, 'makeStatic']);
+        Route::patch('/dhcp/{id}/remove-static', [\App\Http\Controllers\Api\Network\DhcpApiController::class, 'removeStatic']);
+        Route::delete('/dhcp/{id}', [\App\Http\Controllers\Api\Network\DhcpApiController::class, 'destroy']);
+
+        Route::get('/firewall', [\App\Http\Controllers\Api\Network\FirewallApiController::class, 'index']);
+        Route::get('/firewall/statistics', [\App\Http\Controllers\Api\Network\FirewallApiController::class, 'statistics']);
+        Route::get('/firewall/{comment}', [\App\Http\Controllers\Api\Network\FirewallApiController::class, 'show']);
+        Route::post('/firewall', [\App\Http\Controllers\Api\Network\FirewallApiController::class, 'store']);
+        Route::put('/firewall/{comment}', [\App\Http\Controllers\Api\Network\FirewallApiController::class, 'update']);
+        Route::patch('/firewall/{comment}/toggle', [\App\Http\Controllers\Api\Network\FirewallApiController::class, 'toggle']);
+        Route::delete('/firewall/{comment}', [\App\Http\Controllers\Api\Network\FirewallApiController::class, 'destroy']);
+
+        Route::get('/firewall/nat', [\App\Http\Controllers\Api\Network\FirewallApiController::class, 'nat']);
+        Route::get('/firewall/nat/{comment}', [\App\Http\Controllers\Api\Network\FirewallApiController::class, 'natShow']);
+        Route::post('/firewall/nat', [\App\Http\Controllers\Api\Network\FirewallApiController::class, 'natStore']);
+        Route::put('/firewall/nat/{comment}', [\App\Http\Controllers\Api\Network\FirewallApiController::class, 'natUpdate']);
+        Route::delete('/firewall/nat/{comment}', [\App\Http\Controllers\Api\Network\FirewallApiController::class, 'natDestroy']);
     });
 });
 

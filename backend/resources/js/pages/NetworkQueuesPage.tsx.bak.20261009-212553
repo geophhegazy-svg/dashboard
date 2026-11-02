@@ -1,0 +1,645 @@
+import { useEffect, useMemo, useState, type FormEvent } from "react";
+
+import { ApiError, apiRequest } from "../api/client";
+import { Card } from "../components/ui/Card";
+import { LoadingState } from "../components/ui/LoadingState";
+import { PageHeader } from "../components/ui/PageHeader";
+import type { NetworkDevice } from "../types/network";
+
+interface Queue {
+    name?: string;
+    target?: string;
+    "max-limit"?: string;
+    "limit-at"?: string;
+    priority?: number | string;
+    disabled?: boolean | string;
+    comment?: string;
+    bytes?: string;
+    packets?: string;
+}
+
+interface QueueForm {
+    name: string;
+    target: string;
+    max_limit: string;
+    limit_at: string;
+    priority: string;
+    comment: string;
+}
+
+const emptyForm: QueueForm = {
+    name: "",
+    target: "",
+    max_limit: "",
+    limit_at: "",
+    priority: "1",
+    comment: "",
+};
+
+function extractItems<T>(payload: unknown): T[] {
+    if (Array.isArray(payload)) {
+        return payload as T[];
+    }
+
+    if (typeof payload === "object" && payload !== null) {
+        const data = (payload as { data?: unknown }).data;
+
+        if (Array.isArray(data)) {
+            return data as T[];
+        }
+    }
+
+    return [];
+}
+
+function isDisabled(value: boolean | string | undefined): boolean {
+    return value === true || value === "true" || value === "yes";
+}
+
+function errorMessage(error: unknown): string {
+    if (error instanceof ApiError) {
+        return error.message;
+    }
+
+    if (error instanceof Error) {
+        return error.message;
+    }
+
+    return "حدث خطأ غير متوقع.";
+}
+
+export function NetworkQueuesPage() {
+    const [devices, setDevices] = useState<NetworkDevice[]>([]);
+    const [deviceId, setDeviceId] = useState("");
+    const [queues, setQueues] = useState<Queue[]>([]);
+    const [loadingDevices, setLoadingDevices] = useState(true);
+    const [loadingQueues, setLoadingQueues] = useState(false);
+    const [saving, setSaving] = useState(false);
+    const [error, setError] = useState("");
+    const [success, setSuccess] = useState("");
+    const [showForm, setShowForm] = useState(false);
+    const [editingName, setEditingName] = useState<string | null>(null);
+    const [form, setForm] = useState<QueueForm>(emptyForm);
+
+    const selectedDevice = useMemo(
+        () => devices.find((device) => String(device.id) === deviceId),
+        [devices, deviceId],
+    );
+
+    async function loadDevices() {
+        setLoadingDevices(true);
+        setError("");
+
+        try {
+            const payload = await apiRequest<unknown>("/network-devices");
+            const items = extractItems<NetworkDevice>(payload).filter(
+                (device) => device.status === "active",
+            );
+
+            setDevices(items);
+
+            if (
+                items.length > 0 &&
+                !items.some((device) => String(device.id) === deviceId)
+            ) {
+                setDeviceId(String(items[0].id));
+            }
+        } catch (loadError) {
+            setError(errorMessage(loadError));
+        } finally {
+            setLoadingDevices(false);
+        }
+    }
+
+    async function loadQueues() {
+        if (!deviceId) {
+            setQueues([]);
+            return;
+        }
+
+        setLoadingQueues(true);
+        setError("");
+
+        try {
+            const payload = await apiRequest<unknown>(
+                `/network/queues?device_id=${encodeURIComponent(deviceId)}`,
+            );
+
+            setQueues(extractItems<Queue>(payload));
+        } catch (loadError) {
+            setQueues([]);
+            setError(errorMessage(loadError));
+        } finally {
+            setLoadingQueues(false);
+        }
+    }
+
+    useEffect(() => {
+        void loadDevices();
+    }, []);
+
+    useEffect(() => {
+        void loadQueues();
+    }, [deviceId]);
+
+    function openCreate() {
+        setEditingName(null);
+        setForm(emptyForm);
+        setError("");
+        setSuccess("");
+        setShowForm(true);
+    }
+
+    function openEdit(queue: Queue) {
+        setEditingName(queue.name ?? null);
+        setForm({
+            name: queue.name ?? "",
+            target: queue.target ?? "",
+            max_limit: queue["max-limit"] ?? "",
+            limit_at: queue["limit-at"] ?? "",
+            priority: String(queue.priority ?? 1),
+            comment: queue.comment ?? "",
+        });
+        setError("");
+        setSuccess("");
+        setShowForm(true);
+    }
+
+    function closeForm() {
+        if (saving) {
+            return;
+        }
+
+        setShowForm(false);
+        setEditingName(null);
+        setForm(emptyForm);
+    }
+
+    async function submitForm(event: FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+
+        if (!deviceId) {
+            setError("اختر جهاز MikroTik أولاً.");
+            return;
+        }
+
+        setSaving(true);
+        setError("");
+        setSuccess("");
+
+        try {
+            if (editingName) {
+                await apiRequest(
+                    `/network/queues/${encodeURIComponent(editingName)}`,
+                    {
+                        method: "PUT",
+                        body: JSON.stringify({
+                            device_id: Number(deviceId),
+                            max_limit: form.max_limit,
+                            limit_at: form.limit_at || null,
+                            priority: Number(form.priority),
+                            comment: form.comment || null,
+                        }),
+                    },
+                );
+
+                setSuccess("تم تحديث الـ Queue بنجاح.");
+            } else {
+                await apiRequest("/network/queues", {
+                    method: "POST",
+                    body: JSON.stringify({
+                        device_id: Number(deviceId),
+                        name: form.name,
+                        target: form.target,
+                        max_limit: form.max_limit,
+                        limit_at: form.limit_at || null,
+                        priority: Number(form.priority),
+                    }),
+                });
+
+                setSuccess("تم إنشاء الـ Queue بنجاح.");
+            }
+
+            closeForm();
+            await loadQueues();
+        } catch (saveError) {
+            setError(errorMessage(saveError));
+        } finally {
+            setSaving(false);
+        }
+    }
+
+    async function toggleQueue(queue: Queue) {
+        if (!deviceId || !queue.name) {
+            return;
+        }
+
+        setError("");
+        setSuccess("");
+
+        try {
+            const action = isDisabled(queue.disabled) ? "enable" : "disable";
+
+            await apiRequest(
+                `/network/queues/${encodeURIComponent(queue.name)}/toggle`,
+                {
+                    method: "PATCH",
+                    body: JSON.stringify({
+                        device_id: Number(deviceId),
+                        action,
+                    }),
+                },
+            );
+
+            setSuccess(
+                action === "enable"
+                    ? "تم تفعيل الـ Queue بنجاح."
+                    : "تم تعطيل الـ Queue بنجاح.",
+            );
+
+            await loadQueues();
+        } catch (toggleError) {
+            setError(errorMessage(toggleError));
+        }
+    }
+
+    async function deleteQueue(queue: Queue) {
+        if (!deviceId || !queue.name) {
+            return;
+        }
+
+        if (!window.confirm(`هل تريد حذف الـ Queue "${queue.name}"؟`)) {
+            return;
+        }
+
+        setError("");
+        setSuccess("");
+
+        try {
+            await apiRequest(
+                `/network/queues/${encodeURIComponent(queue.name)}`,
+                {
+                    method: "DELETE",
+                    body: JSON.stringify({
+                        device_id: Number(deviceId),
+                    }),
+                },
+            );
+
+            setSuccess("تم حذف الـ Queue بنجاح.");
+            await loadQueues();
+        } catch (deleteError) {
+            setError(errorMessage(deleteError));
+        }
+    }
+
+    if (loadingDevices) {
+        return <LoadingState />;
+    }
+
+    return (
+        <div className="space-y-6">
+            <PageHeader
+                title="Simple Queues"
+                description="إدارة الـ Simple Queues على أجهزة MikroTik."
+            />
+
+            <Card>
+                <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+                    <div className="flex-1">
+                        <label className="mb-1 block text-sm font-medium text-slate-700">
+                            جهاز MikroTik
+                        </label>
+
+                        <select
+                            value={deviceId}
+                            onChange={(event) => {
+                                setDeviceId(event.target.value);
+                                setSuccess("");
+                                setError("");
+                            }}
+                            className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm"
+                        >
+                            <option value="">اختر الجهاز</option>
+
+                            {devices.map((device) => (
+                                <option key={device.id} value={device.id}>
+                                    {device.name} — {device.type}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
+                    <button
+                        type="button"
+                        onClick={openCreate}
+                        disabled={!deviceId}
+                        className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white disabled:cursor-not-allowed disabled:opacity-50"
+                    >
+                        + إضافة Queue
+                    </button>
+                </div>
+
+                {selectedDevice && (
+                    <div className="mt-4 rounded-lg bg-slate-50 p-3 text-sm text-slate-600">
+                        الجهاز الحالي:{" "}
+                        <span className="font-semibold text-slate-900">
+                            {selectedDevice.name}
+                        </span>
+                    </div>
+                )}
+            </Card>
+
+            {success && (
+                <div className="rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+                    {success}
+                </div>
+            )}
+
+            {error && (
+                <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                    {error}
+                </div>
+            )}
+
+            <Card>
+                {loadingQueues ? (
+                    <LoadingState />
+                ) : queues.length === 0 ? (
+                    <div className="py-12 text-center text-sm text-slate-500">
+                        لا توجد Queues على الجهاز المحدد.
+                    </div>
+                ) : (
+                    <div className="overflow-x-auto">
+                        <table className="min-w-full text-right text-sm">
+                            <thead>
+                                <tr className="border-b border-slate-200 text-slate-500">
+                                    <th className="px-3 py-3 font-medium">الاسم</th>
+                                    <th className="px-3 py-3 font-medium">Target</th>
+                                    <th className="px-3 py-3 font-medium">Max Limit</th>
+                                    <th className="px-3 py-3 font-medium">Limit At</th>
+                                    <th className="px-3 py-3 font-medium">Priority</th>
+                                    <th className="px-3 py-3 font-medium">الحالة</th>
+                                    <th className="px-3 py-3 font-medium">الإجراءات</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {queues.map((queue) => {
+                                    const disabled = isDisabled(queue.disabled);
+
+                                    return (
+                                        <tr
+                                            key={queue.name}
+                                            className="border-b border-slate-100 last:border-0"
+                                        >
+                                            <td className="px-3 py-3 font-medium text-slate-900">
+                                                {queue.name ?? "-"}
+                                            </td>
+
+                                            <td className="px-3 py-3 text-slate-600">
+                                                {queue.target ?? "-"}
+                                            </td>
+
+                                            <td className="px-3 py-3 text-slate-600">
+                                                {queue["max-limit"] ?? "-"}
+                                            </td>
+
+                                            <td className="px-3 py-3 text-slate-600">
+                                                {queue["limit-at"] ?? "-"}
+                                            </td>
+
+                                            <td className="px-3 py-3 text-slate-600">
+                                                {queue.priority ?? "-"}
+                                            </td>
+
+                                            <td className="px-3 py-3">
+                                                <span
+                                                    className={`rounded-full px-2.5 py-1 text-xs font-medium ${
+                                                        disabled
+                                                            ? "bg-red-100 text-red-700"
+                                                            : "bg-emerald-100 text-emerald-700"
+                                                    }`}
+                                                >
+                                                    {disabled
+                                                        ? "Disabled"
+                                                        : "Enabled"}
+                                                </span>
+                                            </td>
+
+                                            <td className="px-3 py-3">
+                                                <div className="flex flex-wrap gap-2">
+                                                    <button
+                                                        type="button"
+                                                        onClick={() =>
+                                                            openEdit(queue)
+                                                        }
+                                                        className="rounded-md border border-slate-300 px-3 py-1.5 text-xs font-medium text-slate-700"
+                                                    >
+                                                        تعديل
+                                                    </button>
+
+                                                    <button
+                                                        type="button"
+                                                        onClick={() =>
+                                                            void toggleQueue(
+                                                                queue,
+                                                            )
+                                                        }
+                                                        className="rounded-md border border-slate-300 px-3 py-1.5 text-xs font-medium text-slate-700"
+                                                    >
+                                                        {disabled
+                                                            ? "تفعيل"
+                                                            : "تعطيل"}
+                                                    </button>
+
+                                                    <button
+                                                        type="button"
+                                                        onClick={() =>
+                                                            void deleteQueue(
+                                                                queue,
+                                                            )
+                                                        }
+                                                        className="rounded-md border border-red-200 px-3 py-1.5 text-xs font-medium text-red-700"
+                                                    >
+                                                        حذف
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
+                            </tbody>
+                        </table>
+                    </div>
+                )}
+            </Card>
+
+            {showForm && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 p-4">
+                    <div className="w-full max-w-2xl rounded-xl bg-white p-6 shadow-xl">
+                        <div className="mb-5 flex items-center justify-between">
+                            <div>
+                                <h2 className="text-lg font-semibold text-slate-900">
+                                    {editingName
+                                        ? "تعديل Queue"
+                                        : "إضافة Queue"}
+                                </h2>
+
+                                <p className="mt-1 text-sm text-slate-500">
+                                    {selectedDevice?.name ?? "MikroTik"}
+                                </p>
+                            </div>
+
+                            <button
+                                type="button"
+                                onClick={closeForm}
+                                className="text-xl text-slate-400 hover:text-slate-700"
+                            >
+                                ×
+                            </button>
+                        </div>
+
+                        <form
+                            onSubmit={submitForm}
+                            className="grid gap-4 md:grid-cols-2"
+                        >
+                            <div>
+                                <label className="mb-1 block text-sm font-medium text-slate-700">
+                                    Name
+                                </label>
+
+                                <input
+                                    value={form.name}
+                                    disabled={Boolean(editingName)}
+                                    onChange={(event) =>
+                                        setForm((current) => ({
+                                            ...current,
+                                            name: event.target.value,
+                                        }))
+                                    }
+                                    required
+                                    className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm disabled:bg-slate-100"
+                                />
+                            </div>
+
+                            <div>
+                                <label className="mb-1 block text-sm font-medium text-slate-700">
+                                    Target
+                                </label>
+
+                                <input
+                                    value={form.target}
+                                    disabled={Boolean(editingName)}
+                                    onChange={(event) =>
+                                        setForm((current) => ({
+                                            ...current,
+                                            target: event.target.value,
+                                        }))
+                                    }
+                                    required={!editingName}
+                                    placeholder="192.168.1.10/32"
+                                    className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm disabled:bg-slate-100"
+                                />
+                            </div>
+
+                            <div>
+                                <label className="mb-1 block text-sm font-medium text-slate-700">
+                                    Max Limit
+                                </label>
+
+                                <input
+                                    value={form.max_limit}
+                                    onChange={(event) =>
+                                        setForm((current) => ({
+                                            ...current,
+                                            max_limit: event.target.value,
+                                        }))
+                                    }
+                                    required
+                                    placeholder="10M/10M"
+                                    className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"
+                                />
+                            </div>
+
+                            <div>
+                                <label className="mb-1 block text-sm font-medium text-slate-700">
+                                    Limit At
+                                </label>
+
+                                <input
+                                    value={form.limit_at}
+                                    onChange={(event) =>
+                                        setForm((current) => ({
+                                            ...current,
+                                            limit_at: event.target.value,
+                                        }))
+                                    }
+                                    placeholder="1M/1M"
+                                    className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"
+                                />
+                            </div>
+
+                            <div>
+                                <label className="mb-1 block text-sm font-medium text-slate-700">
+                                    Priority
+                                </label>
+
+                                <input
+                                    type="number"
+                                    min="1"
+                                    max="8"
+                                    value={form.priority}
+                                    onChange={(event) =>
+                                        setForm((current) => ({
+                                            ...current,
+                                            priority: event.target.value,
+                                        }))
+                                    }
+                                    required
+                                    className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"
+                                />
+                            </div>
+
+                            <div>
+                                <label className="mb-1 block text-sm font-medium text-slate-700">
+                                    Comment
+                                </label>
+
+                                <input
+                                    value={form.comment}
+                                    onChange={(event) =>
+                                        setForm((current) => ({
+                                            ...current,
+                                            comment: event.target.value,
+                                        }))
+                                    }
+                                    className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"
+                                />
+                            </div>
+
+                            <div className="flex justify-end gap-2 md:col-span-2">
+                                <button
+                                    type="button"
+                                    onClick={closeForm}
+                                    disabled={saving}
+                                    className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700"
+                                >
+                                    إلغاء
+                                </button>
+
+                                <button
+                                    type="submit"
+                                    disabled={saving}
+                                    className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
+                                >
+                                    {saving ? "جاري الحفظ..." : "حفظ"}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+}

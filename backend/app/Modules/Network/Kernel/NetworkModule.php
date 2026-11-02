@@ -43,6 +43,7 @@ use App\Modules\Network\Application\Actions\ToggleQueueAction;
 use App\Modules\Network\Application\Actions\DeleteQueueAction;
 use App\Modules\Network\Application\Actions\SyncMikroTikUsersAction;
 use App\Modules\Network\Application\Actions\SyncHotspotUsersAction;
+use App\Modules\Network\Application\Actions\SyncMikroTikAction;
 use App\Modules\Network\Presentation\Console\Commands\SyncMikroTikCommand;
 use App\Modules\Network\Presentation\Console\Commands\SyncHotspotUsersCommand;
 use App\Modules\Network\Application\Listeners\SubscriptionNetworkLifecycleListener;
@@ -146,6 +147,7 @@ NetworkDeviceRepositoryInterface::class
 
                 SyncMikroTikUsersAction::class,
                 SyncHotspotUsersAction::class,
+                SyncMikroTikAction::class,
 
             ])
 
@@ -160,13 +162,6 @@ NetworkDeviceRepositoryInterface::class
 
 
             ->schedules(function ($schedule): void {
-
-                $schedule->command('mikrotik:sync-hotspot')
-
-                    ->everyFiveMinutes()
-
-                    ->withoutOverlapping();
-
 
                 $schedule->command('mikrotik:sync')
 

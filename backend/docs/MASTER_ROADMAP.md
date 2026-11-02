@@ -1,4 +1,4 @@
-﻿# EgyptNet â€” Master Project Completion Roadmap
+# EgyptNet â€” Master Project Completion Roadmap
 
 > **Status:** FROZEN FOR EXECUTION
 
@@ -5457,3 +5457,199 @@ Final Architecture Certification is GREEN.
 Then, and only then:
 
 EGYPTNET â€” PROJECT COMPLETE
+
+---
+
+# POST-ROADMAP FRONTEND EXECUTION RECORD — 2026-10-09
+
+**Purpose:** Record frontend work completed after the existing Phase 10 / Phase 11 readiness gates. This record supplements the existing execution history; it does not reopen completed phases.
+
+## Frontend Work Completed
+
+### 1. Subscriber Onboarding — Speed Field Contract
+
+**Status: DONE**
+
+- Corrected frontend field mapping from `speed_download` / `speed_upload` to the backend contract `download_speed` / `upload_speed`.
+- Frontend typecheck and build were reported GREEN.
+- Do not reopen this correction without new evidence of regression or a changed backend contract.
+
+### 2. English Digit Display — Arabic RTL UI
+
+**Status: DONE**
+
+- Added/reused `resources/js/utils/formatDigits.ts` to normalize Arabic-Indic and Eastern Arabic-Indic digits to English digits for display.
+- Updated visible number formatting while preserving Arabic text and RTL layout.
+- Kept internal identifiers, URL parameters, React keys, and form values in their raw form; display formatting must not alter application identity or request values.
+- Applied English-locale number formatting to the relevant frontend pages and dashboard metric component.
+
+### 3. Verification Evidence
+
+**Status: GREEN — for the recorded frontend scope**
+
+- `npm run typecheck`: passed.
+- `npm run build`: passed.
+- Visual browser checks were confirmed for:
+  - Dashboard
+  - Customers
+  - Invoices
+  - Packages
+  - Subscriptions
+  - Hotspot subscriptions
+- Visual confirmation covered English digits and preservation of RTL/UI behavior.
+
+**Evidence boundary:** This record does not claim a new full backend regression run. The recorded frontend checks must not be presented as evidence that unrelated backend suites were rerun.
+
+## Current Execution Position
+
+- Backend architecture completion and existing Phase 10 / Phase 11 closure decisions remain unchanged.
+- Subscriber Onboarding speed-field correction: DONE.
+- English digit display and the listed visual checks: DONE.
+- No CORS or API-boundary re-audit is authorized by this frontend work; the existing roadmap records those readiness gates as CLOSED / GREEN.
+- Next implementation scope: NOT SELECTED in this record. Select it only after reviewing the current frontend routes, product workflow priorities, and the latest execution evidence. Do not infer the next task from historical “Immediate next action” text alone.
+
+## Mandatory Roadmap Update Gate
+
+For every future implementation part, before starting the next part:
+
+1. Record the scope and its contract.
+2. Implement the minimal authorized change.
+3. Run the relevant targeted checks and required regression/runtime evidence.
+4. Record changed files, exact results, and any remaining gap here in the canonical roadmap.
+5. Verify the roadmap's current execution position matches the actual conversation and repository state.
+6. Mark the part DONE only when its required evidence is GREEN; otherwise record BLOCKED or GAP REMAINS.
+7. STOP after the Green Gate. Do not reopen completed work without new regression evidence or an explicit decision.
+
+`docs/MASTER_ROADMAP.md` remains the canonical execution roadmap. Historical records are evidence, not automatic instructions to repeat old work.
+
+
+---
+
+# POST-ROADMAP NETWORK QUEUE API CONTRACT — 2026-10-10
+
+**Purpose:** Record the targeted frontend/backend contract alignment for Network Queues without reopening completed architecture phases.
+
+## Scope and Contract
+
+**Status: API CONTRACT TESTS GREEN — ROUTER RUNTIME NOT VERIFIED**
+
+Files changed in this part:
+- `resources/js/pages/NetworkQueuesPage.tsx`
+- `tests/Feature/Http/Api/Network/NetworkControlApiTest.php`
+
+Frontend contract corrections:
+1. Queue creation now sends `form.comment` through `options.comment`.
+2. Queue updates send editable fields under the backend-required `data` object, alongside `device_id`.
+
+Backend contract evidence:
+- Active controller: `app/Http/Controllers/Api/Network/QueueApiController.php`.
+- Queue creation validates `options` as an optional array and passes it to the queue service.
+- Queue update validates a required `data` array and passes that array to the queue service.
+- Queue service contract: `app/Modules/Network/Domain/Contracts/Services/QueueServiceInterface.php`.
+
+## Targeted Verification
+
+**Status: GREEN**
+
+Command:
+`php artisan test tests/Feature/Http/Api/Network/NetworkControlApiTest.php`
+
+Latest reported result:
+- 12 tests passed.
+- 48 assertions.
+- 0 reported failures.
+- Duration: 51.92 seconds.
+
+The targeted tests verify:
+- Queue creation passes `options.comment` to the queue service.
+- Queue update passes the expected nested `data` payload to the queue service.
+- Existing route, permission, and device-validation tests in this class remain green.
+
+Frontend verification reported for the two UI changes:
+- `npm run typecheck`: passed.
+- `npm run build`: passed.
+- Build warning for the optional `fontaine` package was non-blocking.
+
+## Evidence Boundary / Remaining Work
+
+- These mocked Feature tests verify API-to-service payload contracts; they do not verify a real RouterOS connection or mutation.
+- No real MikroTik operational verification is claimed.
+- No new full backend regression is claimed in this record.
+- Keep operational verification open until a safe, authorized RouterOS test confirms queue creation and update behavior.
+- Do not reopen unrelated completed phases or perform speculative refactoring.
+
+## Execution Decision
+
+**API contract alignment: DONE for the tested payload paths.**
+
+**MikroTik runtime verification: GAP REMAINS.**
+
+Stop this part at the targeted Green Gate. Continue only with an explicitly authorized operational verification or new evidence of a contract regression.
+
+# POST-ROADMAP NETWORK DHCP API CONTRACT — 2026-10-11
+
+## Scope
+
+Focused DHCP UI/API and RouterOS field-contract correction. This entry
+supplements the existing roadmap and does not reopen completed phases.
+
+## Verified
+
+- `MikroTikDhcpService::update()` maps the application field `hostname`
+  to the RouterOS field `host-name`.
+- `mac_address` maps to `mac-address`.
+- Unit test:
+  `tests/Unit/Modules/Network/Infrastructure/Providers/MikroTik/MikroTikDhcpServiceTest.php`
+  — 1 passed, 5 assertions.
+- `tests/Feature/Http/Api/Network/NetworkControlApiTest.php`
+  — 14 passed, 52 assertions.
+- DHCP API create contract test verifies address, MAC address, hostname,
+  and options reach the DHCP service.
+- DHCP API update contract test verifies the lease ID and nested `data`
+  reach the DHCP service.
+- Existing network-control permission, device-validation, and Queue API
+  contract tests remain green.
+
+## Remaining Gaps
+
+- Live RouterOS/MikroTik verification: PASS. Runtime evidence: CONNECTED=true, LEASE_COUNT=752, JSON_ENCODE_OK=true, JSON_BYTES=252159.
+- Targeted regression suite: 21 passed, 75 assertions across NetworkControlApiTest, DHCPControllerTest, MikroTikDhcpServiceTest, and MikroTikQueryServiceTest.
+- Clearing a DHCP lease comment by sending `null` remains unresolved.
+  Do not claim comment clearing is supported until its contract and
+  RouterOS behavior are explicitly tested.
+
+## Status
+
+Application-level DHCP API contract and hostname field mapping: DONE
+Live MikroTik verification: DONE — connected successfully; 752 leases serialized to JSON.
+Null comment-clearing semantics: DEFERRED
+
+Stop here. Do not reopen unrelated completed phases or perform speculative
+refactoring.
+
+# POST-ROADMAP HOTSPOT SYNC RESULT SEMANTICS - 2026-10-14
+
+Status: DONE — targeted regression gate PASS.
+
+Scope:
+- Correct SyncHotspotUsersAction return semantics.
+- Preserve the existing mikrotik:sync-hotspot command exit-code mapping.
+
+Implementation:
+- Return true only when at least one device completes synchronization successfully.
+- Return false when no device completes synchronization successfully.
+- The command maps false to FAILURE and true to SUCCESS.
+- Failed connection/read safety behavior remains covered by tests.
+
+Verification:
+- SyncHotspotUsersActionTest.php: 5 passed (47 assertions).
+- SyncMikroTikActionTest.php: 2 passed (35 assertions).
+- SyncHotspotUsersCommandTest.php: 2 passed (6 assertions).
+- Combined targeted gate: 9 passed (88 assertions), 50.73 seconds.
+
+Evidence boundary:
+- Targeted automated tests passed.
+- No live MikroTik runtime verification is claimed.
+- No unrelated phases or completed audits are reopened.
+
+Stop here. Preserve the existing roadmap execution position and avoid unrelated refactoring.
