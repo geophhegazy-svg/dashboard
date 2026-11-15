@@ -5653,3 +5653,29 @@ Evidence boundary:
 - No unrelated phases or completed audits are reopened.
 
 Stop here. Preserve the existing roadmap execution position and avoid unrelated refactoring.
+
+# POST-ROADMAP DHCP LEASE DISPLAY NAMES - 2026-11-02
+
+Status: DONE - targeted contract gate PASS.
+
+Scope:
+- Prefer the DHCP lease comment as its display name.
+- If absent, resolve the name from the matching Hotspot user's non-empty comment using normalized MAC address.
+- Preserve hostname as the UI fallback when no display name is resolved.
+- Display-only behavior; no RouterOS comments or configuration are modified.
+- Hotspot lookup failure preserves the DHCP response.
+
+Verification:
+- NetworkControlApiTest.php: 16 passed, 61 assertions.
+- DHCP controller PHP syntax check passed after formatting.
+- NetworkControlApiTest.php PHP syntax check passed previously.
+- Frontend TypeScript typecheck passed.
+- Vite production build passed.
+- No full backend regression suite claimed.
+
+Evidence boundary:
+- Automated tests use mocks.
+- Live RouterOS verification for this display-name behavior was not performed.
+- Previous DHCP live evidence remains associated with its original roadmap checkpoint.
+
+Stop here. Do not reopen completed phases or perform unrelated refactoring.
